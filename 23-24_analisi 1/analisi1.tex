@@ -1,0 +1,1241 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+%\usepackage{layout} % per impostare il layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{amsthm} % per l'ambiente matematico (simbolo qed alla fine delle dimostrazioni)
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+\renewcommand\tabularxcolumn[1]{m{#1}}
+
+\newcommand\restr[2]{{% we make the whole thing an ordinary symbol
+	\left.\kern-\nulldelimiterspace % automatically resize the bar with \right
+	#1 % the function
+	\vphantom{\big|} % pretend it's a little taller at normal size
+	\right|_{#2} % this is the delimiter
+	}}
+
+\newcommand\dom{\text{dom}}
+\newcommand\settcosh{\text{settcosh}}
+\newcommand\settsinh{\text{settsinh}}
+\newcommand\setttanh{\text{setttanh}}
+
+\title{Appunti di analisi 1}
+\author{Giacomo Simonetto}
+\date{autunno 2023}
+
+\begin{document}
+
+% -------------------------------------- Copertina e indice ---------------------------------------
+\maketitle
+\begin{abstract}
+	Appunti del corso di Analisi 1 della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+% --------------------------------- Cenni di teoria degli insiemi ---------------------------------
+\section{Cenni di teoria degli insiemi}
+\subsection{Notazioni e definizioni di base}
+\begin{align*}
+	\mathbb{N} &= \left\{ \textit{ numeri naturali } \right\} = \left\{ \  0, \  1, \  2, \  3, \dots \right\} \\
+	\mathbb{Z} &= \left\{ \textit{ numeri interi } \right\} = \left\{ \  0, \  +1, \  -1, \  +2, \  -2, \dots \right\} \\
+	\mathbb{Q} &= \left\{ \textit{ numeri razionali } \right\} = \left\{ \  \frac{p}{q} \textit{ t.c. } p,q \in \mathbb{N}, \  q \neq 0 \right\} \\
+	\mathbb{R} &= \left\{ \textit{ numeri reali } \right\} \\
+	\mathbb{C} &= \left\{ \textit{ numeri complessi } \right\}
+\end{align*}
+
+\begin{center}
+	\begin{tabular}{c l}
+		\(a \in A\) & a (elemento) appartiene ad A (insieme) \\
+		\midrule
+		\(A \subseteq B\) & A è un sottoinsieme di B \\
+		\midrule
+		\multirow{2}{*}{\(A = B\)} & gli insiemi A e B hanno gli stessi elementi \\
+		& \(A = B \Leftrightarrow A \subseteq B \land B \subseteq A\)
+	\end{tabular}
+\end{center}
+
+
+\subsection{Operazioni}
+\begin{center}
+	\begin{tabularx}{\textwidth}{l c X}
+		\textbf{unione} & \(A \cup B\) & insieme costituito dagli elementi di A e dagli elementi di B \\
+		\midrule
+		\textbf{intersezione} & \(A \cap B\) & insieme costituito dagli elementi che appartengono sia ad A che a B \\
+		\midrule
+		\textbf{differenza} & \(A \ \backslash \  B\) & insieme costituito dagli elementi di A che non apaprtengono anche a B \\
+		\midrule
+		\multirow{2}{*}{\textbf{prodotto catesiano}} & 	\multirow{2}{*}{\(A \times B\)} & insieme delle coppie ordinate di elementi formate da un elmeento di A e da un elmeneto di B \\
+		& & \(A \times B = \{ (a, b) \textit{ t.c. } a \in A \land b \in B \}\)
+	\end{tabularx}
+\end{center}
+
+
+\subsection{Quantificatori}
+\begin{center}
+	\begin{tabular}{l c l}
+		\textbf{quantificatore universale} & \(\forall\) & per ogni \\
+		\midrule
+		\textbf{quantificatore esistenziale} & \(\exists\) & esiste \\
+		\midrule
+		\textbf{quantificatore esistenziale unico} & \(\exists!\) & esiste ed è unico
+	\end{tabular}
+\end{center}
+
+
+\subsection{Negazione di una proposizione}
+Data una proposizione \(R\), la sua negazione \(\urcorner R\) è una proposizione \(Q\) che è vera se e solo se \(R\) è falsa.
+
+\begin{center}
+	\begin{tabular}{c c}
+		proposizione \(R\) & proposizione \(Q = \urcorner R\) \\
+		\toprule
+		\(\forall x \in A : P(x)\) & \(\exists x \in A : \urcorner P(x)\) \\
+		\midrule
+		\(\exists x \in A : P(x)\) & \(\forall x \in A : \urcorner P(x)\) \\
+	\end{tabular}
+\end{center}
+
+\newpage
+
+% ------------------------------------------ Sommatorie -------------------------------------------
+\section{Sommatorie}
+\subsection{Definizione}
+\[\sum_{i = n_0} ^ {n} x_i \ \  := \ \  x_{n_0} + x_{n_0+1} + x_{n_0+2} + \dots + x_n\] per \(n_0, n \in \mathbb{Z}\) con \(n_0 \leq n\)
+
+
+\subsection{Proprietà}
+\begin{align*}
+	\text{proprietà 1 (distributiva)} \quad & c \cdot \sum_{i = n_0} ^ {n} x_i = \sum_{i = n_0} ^ {n} c \cdot x_i \ \ \  \forall c \in \mathbb{R} \\
+	\text{proprietà 2} \quad & \sum_{i = n_0} ^ {n} x_i + y_i = \sum_{i = n_0} ^ {n} x_i + \sum_{i = n_0} ^ {n} y_i \\
+	\text{proprietà 3.1} \quad & \sum_{i = n_0} ^ {n + m} x_i = \sum_{i = n_0} ^ {n} x_i + \sum_{i = n + 1} ^ {n + m} x_i \\
+	\text{proprietà 3.2 per \(m = 0\)} \quad & \sum_{i = n_0} ^ {n} x_i = \sum_{i = n_0} ^ {n-1} x_i + x_n \\
+	\text{proprietà 4 (sostituzione del pedice)} \quad & \sum_{i = n_0} ^ {n} x_i = \sum_{j = n_0 + m} ^ {n + m} x_j \\
+	\text{proprietà 5 (variable muta)} \quad & \sum_{i = n_0} ^ {n} x_i = \sum_{j = n_0} ^ {n} x_j = \sum_{k = n_0} ^ {n} x_k
+\end{align*}
+
+
+\subsection{Principio di induzione}
+\begin{itemize}
+	\item[P:] Siano:
+	\begin{itemize}
+		\item \(n, n_0 \in \mathbb{N} \  t.c. \  n \geq n_0\)
+		\item \(P(n)\) una proposizione ben definita
+	\end{itemize}
+	\item[H:] supponiamo che:
+	\begin{itemize}
+		\item \(P(n_0)\) sia vera
+		\item \(\forall n \geq n_0\), se \(P(n)\) è vera, allora lo è anche \(P(n-1)\)
+	\end{itemize}
+	\item[T:] allora \(P(n)\) è vera \(\forall n \geq n_0\)
+	\item[Dim:] Dimostrazione per assurdo \\
+	Supponiamo che la tesi sia falsa: \(\exists \overline{n} \geq n_0 \ \  t.c. \ \  P(n)\) è falsa
+	\begin{itemize}
+		\item Se \(\overline{n} = n_0\), per cui \(P(n_0)\) è falsa
+		\item Se \(\overline{n} > n_0\), per ipotesi anche \(P(\overline{n} - 1), P(\overline{n} - 2), P(\overline{n} - 3), \dots P(n_0)\) sono false
+	\end{itemize}
+	Questo va contro l'ipotesi iniziale che \(P(n_0)\) sia vera. \\
+	Per cui \(\nexists \overline{n} \geq n_0 \ \  t.c. \ \  P(n)\) sia falsa e \(P(n)\) è vera \(\forall n \geq n_0\) \qed
+\end{itemize}
+
+\newpage
+
+% ------------------------------------------ Fattoriali -------------------------------------------
+\section{Fattoriali}
+\subsection{Definizione}
+\begin{equation*}
+	n! :=
+	\begin{cases}
+		1 & n = 0 \\
+		n \cdot (n-1) \cdot (n-2) \cdot \  \dots \  \cdot 1 & n > 0 
+	\end{cases}
+\end{equation*}
+per \(n \in \mathbb{N}\) e \(n \geq 0\) \\
+Numero di riordinamenti di una famiglia di n elementi
+
+\subsection{Proprietà}
+\[(n + 1)! = n! \cdot (n + 1)\]
+
+% ------------------------------------ Coefficienti binomiali -------------------------------------
+\section{Coefficienti binomiali}
+\[\binom{n}{k} := \frac{n!}{k! \cdot (n - k)!}\]
+per \(n, k \in \mathbb{R}\) \\
+Significato geometrico \dots
+
+\subsection{Proprietà}
+\begin{align*}
+	\text{proprietà 1.1} \quad & \binom{n}{n} = 1 \\
+	\text{proprietà 1.2} \quad & \binom{n}{0} = 1 \\
+	\text{proprietà 2} \quad & \binom{n}{k} = \binom{n}{n-k} \\
+	\text{proprietà 3} \quad & \binom{n}{k} + \binom{n}{k+1} = \binom{n+1}{k+1} \\
+	\text{proprietà 4 (binomio di Newton)} \quad & (a + b) ^ n = \sum_{k = 0} ^ {n} \binom{n}{k} \cdot a ^ k \cdot b ^ {n - k}
+\end{align*}
+
+\subsection{Dimosrtrazione binomio di Newton}
+\dots
+
+\newpage
+
+% --------------------------------------- Numeri razionali ----------------------------------------
+\section{Numeri razionali}
+\subsection{Definizione}
+\[\mathbb{Q} = \left\{ \textit{ numeri razionali } \right\} = \left\{ \  \frac{p}{q} \textit{ t.c. } p,q \in \mathbb{N}, \  q \neq 0 \right\}\]
+
+\subsection{Proprietà di campo}
+Quando un insieme soddisfa le seguenti proprietà, è detto campo. L'insieme \(\mathbb{Q}\) è un campo.
+
+\subsubsection*{Proprietà della somma}
+\begin{itemize}
+	\item[S1] proprietà commutativa \(a + b =  b + a\)
+	\item[S2] proprietà associativa \((a + b) + c = a + (b + c)\)
+	\item[S3] \(\exists!\) elemento neutro indicato con \(0\) t.c. \(a + 0 = a\)
+	\item[S4] \(\exists\) elemento opposto indicato con \(-a\) t.c. \(a + (-a) = 0\)
+\end{itemize}
+
+\subsubsection*{Proprietà del prodotto}
+\begin{itemize}
+	\item[P1] proprietà commutativa \(a \cdot b =  b \cdot a\)
+	\item[P2] proprietà associativa \((a \cdot b) \cdot c = a \cdot (b \cdot c)\)
+	\item[P3] proprietà distributiva \((a + b) \cdot c  = a \cdot c + b \cdot c\)
+	\item[P4] \(\exists!\) elemento neutro indicato con \(1\) t.c. \(a \cdot 1 = a\)
+	\item[P5] \(\exists!\) elemento reciproco indicato con \(\displaystyle \frac{1}{a}\) o \(a ^ {-1}\) t.c. \(a \cdot \displaystyle \frac{1}{a} = 1\)
+\end{itemize}
+
+\subsection{Relazione d'ordine}
+Dato un insieme \(A\), una relazione d'ordine \((a, b)\) (es. \(a \leq b\)) su \(A\) è un sottoinsieme \(R = A \times A\) tale che:
+\begin{itemize}
+	\item[O1] \((a, a') \in R, \forall a \in A\)
+	\item[O2] Se \((a, a') \in R\) e \((a', a'') \in R\) allora \((a, a'') \in R\)
+	\item[O3] Se \((a, a') \in R\) e \((a', a) \in R\) allora \(a = a'\)
+	\item[O4] Se \(\forall a,a' \in A\) vale \((a, a') \in R\) o \((a', a) \in R\), ovvero quando presi due elementi è sempre possibile stabilire una relazione d'ordine valida 
+\end{itemize}
+Quando un campo soddisfa le prime tre condizioni, allora viene detto ordinato.
+Quando un campo soddisfa anche la quarta condizione, allora viene detto totalmente ordinato. \\
+L'insieme \(\mathbb{Q}\) è un campo totalmente ordinato, per cui è possibile rappresentarne gli elementi in una retta.
+
+
+\subsection{Discrezione dei numeri razionali}
+L'insieme \(\mathbb{Q}\) è discreto: data una retta, non tutti i punti di tale retta appartengono a \(\mathbb{Q}\).
+Ad esempio il punto \(\sqrt{2} \notin \mathbb{Q}\): \(\nexists x \in \mathbb{Q}\) t.c. \(x^2 = 2\).
+\begin{itemize}
+	\item[H: ] \(x \in \mathbb{Q}\) e \(\mathbb{Q}\) è l'insieme dei numeri razionali
+	\item[T: ] \(\nexists x\) t.c. \(x^2 = 2\)
+	\item[Dim: ] supponiamo per assurdo che \(\exists x \in \mathbb{Q}\) t.c. \(x^2 = 2\) per cui \(x = \displaystyle \frac{p}{q}\), \(p,q \in \mathbb{Z}, q \neq 0\) e \(p,q\) primi tra loro \\
+	per cui \(x^2 = 2 \Rightarrow \displaystyle \frac{p^2}{q^2} = 2 \Rightarrow p^2 = 2 \cdot q^2 \Rightarrow p\) è pari \(\Rightarrow \exists \overline{p}\) t.c. \(p = 2 \cdot \overline{p}\) \\
+	per cui \(2 = \displaystyle \frac{p^2}{q^2} = \frac{(2 \cdot \overline{p})^2}{q^2} = 4 \cdot \frac{p^2}{q^2} \Rightarrow q^2 = 2 \cdot \overline{p}^2 \Rightarrow q\) è pari \\
+	ma \(p\) e \(q\) sono stati assunti primi tra loro, per cui l'ipotesi che \(\exists x \in \mathbb{Q}\) t.c. \(x^2 = 2\) è errata \qed
+\end{itemize}
+
+\newpage
+
+% ----------------------------------------- Numeri reali ------------------------------------------
+\section{Numeri reali}
+\subsection{Definizione}
+L'insieme \(\mathbb{R}\) è composto da elementi (detti numeri reali) definiti come allineamenti decimali che possono essere: \\
+- limitati es. \(5,347\) \\
+- illimitati periodici es. \(6,\overline{2}\) \\
+- illimitati non periodici es. \(\pi\) o \(\sqrt{2}\) \\
+Questa estensione dell'insieme \(\mathbb{Q}\) serve per poter risolvere \(x^2 = 2\).
+
+
+\subsection{Proprietà}
+Su \(\mathbb{R}\) si possono estendere le proprietà di somma, prodotto e ordinamento di \(\mathbb{Q}\), per cui anche \(\mathbb{R}\) è un insieme totalmente ordinato.
+
+
+\subsection{Teorema di completezza pt.1}
+\begin{itemize}
+	\item[H: ] Dati \(A, B \subseteq \mathbb{R}\) tali che \(\forall a \in A\) e \(\forall b \in B\), \(a \leq b\)
+	\item[T: ] \(\exists c \in \mathbb{R}\) t.c. \(a \leq c \leq b, \forall a \in A\) e \(\forall b \in B\) dove \(c\) è detto elemento separatore di \(A\) e \(B\)
+\end{itemize}
+In altre parole, presi \(A, B \subseteq \mathbb{R}\) tali che \(\forall a \in A\) e \(\forall b \in B\), \(a \leq b\) è sempre possibile trovare l'elemento separatore tra i due insiemi. \\
+Questo teorema vale solo in \(\mathbb{R}\) e non in \(\mathbb{Q}\): \\
+dati \(A=\left\{ x \geq 0 \  t.c. \  x^2 \leq 2 \right\}\) e \(B=\left\{ x \geq 0 \  t.c. \  x^2 \geq 2 \right\}\), \(\exists c = \sqrt{2} \in \mathbb{R}\)
+
+
+\subsection{Intervalli}
+Dato che \(\mathbb{R}\) è un sistema completo, si può parlare di intervalli.
+\begin{itemize}
+	\item intervalli limitati
+	\begin{align*}
+		\left(a, b \right) &= \left]a, b \right[ = \left\{x \in R, a < x < b \right\} \\
+		\left(a, b \right] &= \left]a, b \right] = \left\{x \in R, a < x \leq b \right\} \\
+		\left[a, b \right) &= \left[a, b \right[ = \left\{x \in R, a \leq x < b \right\} \\
+		\left[a, b \right] &= \left[a, b \right] = \left\{x \in R, a \leq x \leq b \right\}
+	\end{align*}
+	\item intervalli illimitati
+	\begin{align*}
+		\left(a, +\infty \right) &= \left] a, +\infty \right[ = \left\{x \in R, x > a \right\} \\
+		\left[a, +\infty \right) &= \left[ a, +\infty \right[ = \left\{x \in R, x \geq a \right\} \\
+		\left(-\infty, b \right) &= \left] -\infty, b \right[ = \left\{x \in R, x < b \right\} \\
+		\left(-\infty, b \right] &= \left] -\infty, b \right] = \left\{x \in R, x \leq b \right\}
+	\end{align*}
+\end{itemize}
+Da notare che \(+\infty, -\infty \notin \mathbb{R}\), per cui è stato definito \(\mathbb{R}^*\) o \(\overline{\mathbb{R}} = \mathbb{R} \cup \left\{ -\infty, +\infty \right\}\)
+
+\newpage
+
+
+% -------------------------------------------- Modulo ---------------------------------------------
+\section{Modulo}
+\subsection{Definizione}
+\begin{equation*}
+	\left| a \right| :=
+	\begin{cases}
+		a & a \geq 0 \\
+		-a & a < 0
+	\end{cases}
+\end{equation*}
+per \(a \in \mathbb{R}\)
+
+\subsection{Proprietà}
+\begin{enumerate}
+	\item \(\left| a \right| \leq M \Leftrightarrow -M \leq a \leq M\) per \(m \geq 0\)
+	\item \(\left| a \right| \geq M \Leftrightarrow a \leq -M\) o \(a \geq M\) per \(m \geq 0\)
+	\item \(- \left| a \right| \leq a \leq \left| a \right|\)
+\end{enumerate}
+
+\subsection{Disuguaglianza triangolare pt.1}
+\begin{enumerate}
+	\item \(\left| a + b \right| \leq \left| a \right| + \left| b \right|\)
+	\item \(\left| \left| a \right| - \left| b \right| \right| \leq \left| a - b \right|\), cioè
+	\(- \left| a - b \right| \leq \left| a \right| - \left| b \right| \leq \left| a - b \right|\)
+\end{enumerate}
+blablabla
+
+\newpage
+
+% ------------------------ Insiemi limitati superiormente e inferiormente -------------------------
+\section{Insiemi limitati e illimitati}
+\subsection{Insiemi limitati e illimitati}
+Sia \(A \subseteq \mathbb{R}, A \neq \emptyset\): \\
+\(A\) è \textbf{limitato superiormente} se \(\exists M \in \mathbb{R}\) t.c. \(a \leq M, \forall a \in A\). \\
+\(A\) è \textbf{illimitato superiormente} se \(\nexists M \in \mathbb{R}\) t.c. \(a \leq M, \forall a \in A\). \\
+\(A\) è \textbf{limitato inferiormente} se \(\exists N \in \mathbb{R}\) t.c. \(a \geq n, \forall a \in A\). \\
+\(A\) è \textbf{illimitato inferiormente} se \(\nexists n \in \mathbb{R}\) t.c. \(a \geq n, \forall a \in A\). \\
+\(A\) è un insieme limitato se è limitato superiormente e inferiormente,\\cioè se \(\exists N \in \mathbb{R}\) t.c. \(a \leq \left| N \right|, \forall a \in A\).
+
+
+\subsection{Maggioranti e minoranti}
+Un tale numero \(M\) che limita \(A\) superiormente è detto \textbf{maggiorante} di \(A\). \\
+Se \(A\) non è limitato superiormente, non ha maggioranti. \\
+Un tale numero \(N\) che limita \(A\) inferiormente è detto \textbf{minorante} di \(A\). \\
+Se \(A\) non è limitato inferiormente, non ha minoranti.
+
+
+\subsection{Massimi e minimi}
+Sia \(m\) un maggiorante di \(A\), se \(m \in A\) allora \(m\) è detto \textbf{massimo} di \(A\). \\
+Sia \(n\) un minorante di \(A\), se \(n \in A\) allora \(n\) è detto \textbf{minimo} di \(A\).
+	
+
+\subsection{Estremi superiori e inferiori}
+Sia \(A \subset \mathbb{R}, A \neq \emptyset\) e \(A\) è superiormente limitato, un numero \(S\) detto \(\sup A\) è detto \textbf{estremo superiore} di \(A\) quando è il minimo dei maggioranti di \(A\).
+\begin{align*}
+	\tag{definizione}
+	S = \sup A &\text{ se } S = \min \left\{ \text{ maggioranti di } A \right\} \\
+	\tag{caratterizzazione}
+	S = \sup A &\text{ se }
+	\begin{cases}
+		S \text{ è maggiorante di } A \\
+		\forall \varepsilon > 0, \exists a \in A \text{ t.c. } a < S - \varepsilon \quad \left( \nexists \text{ maggiorante più piccolo} \right)
+	\end{cases}
+\end{align*}
+
+Sia \(A \subset \mathbb{R}, A \neq \emptyset\) e \(A\) è inferiormente limitato, un numero \(I\) detto \(\inf A\) è detto \textbf{estremo inferiore} di \(A\) quando è il massimo dei minoranti di \(A\).
+\begin{align*}
+	\tag{definizione}
+	I = \inf A &\text{ se } I = \max \left\{ \text{ minoranti di } A \right\} \\
+	\tag{caratterizzazione}
+	I = \inf A &\text{ se }
+	\begin{cases}
+		S \text{ è minorante di } A \\
+		\forall \varepsilon > 0, \exists a \in A \text{ t.c. } a < I + \varepsilon \quad \left( \nexists \text{ minorante più grande} \right)
+	\end{cases}
+\end{align*}
+
+
+\subsection{Teorema di unicità dell'esistenza di max, min, sup, inf}
+Se \(\max A\) esiste, allora è unico. (dim. per assurdo) \\
+Se \(\min A\) esiste, allora è unico. (dim. per assurdo) \\
+Se \(\sup A\) esiste, allora è unico. (dim. unicità del minimo dei maggioranti) \\
+Se \(\inf A\) esiste, allora è unico. (dim. unicità del massimo dei minoranti)
+
+
+\subsection{Corrispondenza tra sup e max, inf e min}
+Se \(\exists \sup A\) e \(\sup A \in A\), allora \(\exists \max A\) e \(\sup A = \max A\). \\
+Se \(\exists \inf A\) e \(\inf A \in A\), allora \(\exists \min A\) e \(\inf A = \min A\).
+
+
+\subsection{Teorema di completezza pt.2}
+Se \(A\) è superiormente limitato, allora \(A\) ammette un estremo superiore in \(\mathbb{R}\).
+Se \(A\) è inferiormente limitato, allora \(A\) ammette un estremo inferiore in \(\mathbb{R}\).
+
+
+\newpage
+
+% ---------------------------------- Potenze, radici, logaritmi -----------------------------------
+\section{Potenze, radici, logaritmi}
+\subsection{Potenze intere}
+Sia \(\alpha \in \mathbb{R}, p \in \mathbb{Z}\):
+\[ \alpha ^ p := 
+\begin{cases}
+	\alpha \cdot \alpha \cdot \  \dots \  \cdot \alpha \ \left( \text{per p volte} \right) & p > 0 \\
+	1 & p = 0, \alpha \neq 0 \\
+	\frac{1}{ \alpha \cdot \alpha \cdot \  \dots \  \cdot \alpha \ \left( \text{per -p volte} \right) } & p < 0, \alpha \neq 0 \\
+\end{cases}
+\]
+
+\subsection{Esistenza e unicità delle radici intere}
+Sia \(y \in \mathbb{R}, y \geq 0, n \in \mathbb{N} \  \backslash \left\{ 0 \right\} \), allora \(\exists! r \in \mathbb{R}\) t.c. \(r ^ n = y\).\\
+\(r = \sqrt[n]{y} \) è chiamata radice ennesima di y
+
+\subsection{Potenze razionali (o radici)}
+Sia \(a \in \mathbb{R}, p, q \in \mathbb{Z}, q > 0\):
+\[ a ^ \frac{p}{q} := 
+\begin{cases}
+	\sqrt[q]{a ^ p} = \left( a ^ p \right) ^ \frac{1}{q} & a \neq 0 \text{ o } p \neq 0 \\
+	1 & a \neq 0, p = 0 \\
+	0 & a = 0, p > 0
+\end{cases}
+\]
+
+\subsection{Potenze reali (o esponenziali)}
+Sia \(a,r \in \mathbb{R}, a \geq 0\):
+\[ a ^ r := 
+\begin{cases}
+	\sup  \left\{a ^ s \text{ t.c. } s \leq r, s \in \mathbb{Q} \right\} & a \neq 0, r > 0 \\
+	\frac{1}{a ^ {-r}} & a \neq 0, r < 0 \\
+	1 & a \neq 0, r = 0 \\
+	0 & a = 0, r \neq 0 \\
+\end{cases}
+\]
+
+\subsection{Logaritmi}
+Siano \(a,b \in \mathbb{R}, a > 0, a \neq 1, b > 0\), allora \(\exists!  x \in \mathbb{R}\) t.c. \(a ^ x = b\) con
+\[ x = \log_a b = 
+\begin{cases}
+	\sup  \left\{ r \in \mathbb{R} \text{ t.c. } a ^ r \leq b \right\} & a > 1 \\
+	\sup  \left\{ r \in \mathbb{R} \text{ t.c. } a ^ r \geq b \right\} & 0 < a < 1
+\end{cases}
+\]
+
+\subsection{Proprietà dei logaritmi}
+\begin{align*}
+	\text{proprietà 1} \quad & \log_a a = 1 \\
+	\text{proprietà 2} \quad & \log_a 1 = 0 \\
+	\text{proprietà 3} \quad & \log_a a^c = c \\
+	\text{proprietà 4} \quad & \log_a x \cdot y = \log_a x + \log_a y \\
+	\text{proprietà 5.1 (potenza)} \quad & \log_a x^\alpha = \alpha \cdot \log_a x\\
+	\text{proprietà 5.2 (caso \(\alpha = -1\))} \quad & \log_a \frac{1}{x} = - \log_a x \\
+	\text{proprietà 6} \quad & \log_a \frac{x}{y} = \log_a x - \log_a y\\
+	\text{proprietà 7.1 (cambio di base)} \quad & \log_a b = \log_a c \cdot \log_c b \\
+	\text{proprietà 7.2 (caso \(c = \frac{1}{a}\))} \quad & \log_a b = - \log_\frac{1}{a} b
+\end{align*}
+
+\newpage
+
+% --------------------------------------- Numeri complessi ----------------------------------------
+\section{Numeri complessi}
+\subsection{Definizione e forma algebrica}
+Per risolvere equazioni del tipo \(x^2 + 1  = 0\) è necessario introdurre un nuovo insieme definito con \(\mathbb{C}\) definito come
+\[\mathbb{C} = \left\{ x + i y \text{ t.c. } x,y \in \mathbb{R} \text{ con \(i =\) unità immaginaria} \right\}\]
+Sia \(z \in \mathbb{C}\):
+\begin{align*}
+	z = x + i y \quad & \text{forma algebrica di \(z \in \mathbb{C}\)} \\
+	x = \Re(z) \quad & \text{parte reale di z} \\
+	y = \Im(z) \quad & \text{parte immaginaria di z}
+\end{align*}
+Si osserva che se \(\Im(z) = 0 \Leftrightarrow y = 0 \Leftrightarrow z = x \Leftrightarrow z \in \mathbb{R}\) \\
+per cui \(\mathbb{R} \subset \mathbb{C}\) e \(\mathbb{R} = \left\{ z \in \mathbb{C} \text{ t.c. } \Im(z) = 0 \right\}\)
+
+
+\subsection{Proprietà}
+\begin{align*}
+	z_1 + z_2 &= (x_1 + x_2) + i (y_1 + y_2) \\
+	z_1 \cdot z_2 &= (x_1 \cdot x_2 - y_1 \cdot y_2) + i (x_1 \cdot y_2 + x_2 \cdot y_1)\\
+	0 + i0 &= 0 \text{ è l'elemento neutro della somma} \\
+	1 + i0 &= 1 \text{ è l'elemento unitario (neutro del prodotto)} \\
+	-z &= (-x)) + i(-y) \text{ opposto di } z = x + iy \\
+	z^{-1} = \frac{1}{z} &= \frac{x}{x^2 + y^2} - i \cdot \frac{y}{x^2 + y^2} \text{ inverso di } z
+\end{align*}
+Definite queste proprietà, l'insieme \(\mathbb{C}\) è un campo. Dato che non è possibile stabilire una relazione d'ordine \(\mathbb{C}\) non è un campo ordinato e tantomento totalmente ordinato.
+
+
+\subsection{Coniugato e proprietà}
+Sia \(z \in \mathbb{C}, z = x + i y\) con \(x,y \in \mathbb{R}\), il suo coniugato è \(\overline{z} = x - iy\).
+\begin{align*}
+	\text{parte reale} \quad & \Re(\overline{z}) = \Re(z) \\
+	\text{parte immaginaria} \quad & \Im(\overline{z}) = -\Im(z) \\
+	\text{coniugato in } \mathbb{R} \quad & z = \overline{z} \Leftrightarrow z \in \mathbb{R} \\
+	\text{somma} \quad & z_1 + \overline{z_1} = 2 x_1 \\
+	\text{differenza} \quad & z_1 - \overline{z_1} = 2 i y_1 \\
+	\\
+	\text{somma} \quad & \overline{z_1 + z_2} = \overline{z_1} + \overline{z_2} \\
+	\text{prodotto} \quad & \overline{z_1 \cdot z_2} = \overline{z_1} \cdot \overline{z_2} \\
+	\text{quoziente} \quad & \overline{\left( \frac{z_1}{z_2} \right)} = \frac{\overline{z_1}}{\overline{z_2}} \\
+	\text{doppio coniugato} \quad & \overline{\left( \overline{z} \right)} = z \\
+\end{align*}
+
+
+\subsection{Piano di Gauss}
+I numeri complessi possono essere rappresentati in un piano cartesiano, chiamato piano di Gauss, secondo le loro coordinate \(\left( x; y \right) = \left( \Re(z); \Im(z) \right)\). \\
+Se \(z \in \mathbb{R}\) il punto corrispondente sul piano giace sull'asse \(x\). \\
+Inoltre due numeri complessi coniugati sono simmetrici rispetto all'asse \(x\).
+
+
+\subsection{Modulo e proprietà}
+Il modulo di un numero complesso è la distanza del punto dall'origine sul piano di Gauss.
+\[ \left| z \right| = \sqrt{x^2 + y^2}\]
+\begin{align*}
+	\text{modulo in } \mathbb{R} \quad & \left| z \right| = \sqrt{x^2 + 0^2} = \left| x \right| \\
+	\text{rel. d'oridne} \quad & \left| z \right| \geq 0 \quad \\
+	\text{coniugato} \quad & \left| z \right| = \left| \overline{z} \right| \\
+	\text{prodotto} \quad & \left| z_1 \cdot z_2 \right| = \left| z_1 \right| \cdot \left| z_2 \right| \\
+	\text{inverso} \quad & \left| \frac{1}{z} \right| = \frac{1}{\left| z \right|} \\
+	\text{quoziente} \quad & \left| \frac{z_1}{z_2} \right| = \frac{\left| z_1 \right|}{\left| z_2 \right|} 
+\end{align*}
+
+
+\subsection{Disuguaglianza triangolare pt.2}
+\begin{align*}
+	\left| z_1 + z_2 \right| &\leq \left| z_1 \right| + \left| z_2 \right| \\
+	\left| \left| z_1 \right| - \left| z_2 \right| \right| &\leq \left| z_1 - z_2 \right|
+\end{align*}
+
+\(\left| z_1 + z_2 \right|\) corrisponde al "vettore" ottenuto dalla somma tra del "vettore" \(\left| z_1 \right|\) e il "vettore" \(\left| z_2 \right|\).
+Graficamente si forma un triangolo con lati \(z_1\), \(z_2\) e \(z_1 + z_2\), per cui la prima disuguaglianza "garantisce" che il triangolo non sia degenere.
+
+Analogamente per la seconda disuguaglianza, dove al posto della somma, c'è la differenza.
+
+Dimostrazione \dots si quadra e si sviluppa il modulo \dots per la seconda si impiega la prima \dots
+
+
+\subsection{Forma trigonometrica}
+Un numero complesso \(z\) può essere rappresentato secondo sue coordinate polari:
+\[z := \rho \cdot \left( \cos \vartheta + i \sin \vartheta \right)\]
+con
+\begin{align*}
+	\rho &= \text{ modulo di } z \text{, ovvero la distanza tra } z \text{ e l'origine} \\
+	&= \left| z \right| = \sqrt{x^2 + y^2} \\
+	\\
+	\vartheta &= \text{ argomento di } z \text{, ovvero l'angolo tra l'asse } x \text{ e il modulo di } z\\
+	&= \arg(z) = 
+	\begin{cases}
+		\cos \vartheta = \frac{x}{\rho} \\
+		\sin \vartheta = \frac{y}{\rho}
+	\end{cases}
+\end{align*}
+
+Si nota che l'argomento di un numero complesso è determinato anche per multipli di \(2 \pi\), per cui è definito argomento principale
+di \(z\): \(Arg(z)\) l'unico valore per \(\arg(z)\) nell'intervallo \(\left( -\pi; \pi \right]\). \\
+Inoltre \(\arg(z)\) non è definito per \(z = 0\).
+
+Il coniugato di \(z = \rho \left( \cos \vartheta + i \sin \vartheta \right)\) è \(\overline{z} = \rho \left( \cos \vartheta - i \sin \vartheta \right)\)
+
+
+\subsubsection*{Proprietà dell'argomento}
+Siano \(z_1, z_2 \in \mathbb{C} \  \backslash \left\{ 0 \right\}\):
+\begin{align*}
+	\arg \left( z_1 \cdot z_2 \right) &= \arg(z_1) + \arg(z_2) \\
+	\arg \left( \frac{z_1}{z_2} \right) &= \arg(z_1) - \arg(z_2)
+\end{align*}
+
+
+\subsubsection*{Formule di De Moivre e potenze con la forma trigonometrica}
+Siano \(z, z_1, z_2 \in \mathbb{C} \  \backslash \left\{ 0 \right\}\):
+\begin{align*}
+	z_1 \cdot z_2 &= 
+	\begin{cases}
+		\text{ modulo } = \left| z_1 \right| \cdot \left| z_2 \right| = \rho_1 \cdot \rho_2 \\
+		\text{ argomento } = \arg(z_1) + \arg(z_2) = \vartheta_1 + \vartheta_2
+	\end{cases} \\
+	\frac{z_1}{z_2} &= 
+	\begin{cases}
+		\text{ modulo } = \frac{\left| z_1 \right|}{\left| z_2 \right|} = \frac{\rho_1}{\rho_2}\\
+		\text{ argomento } = \arg(z_1) - \arg(z_2) = \vartheta_1 - \vartheta_2
+	\end{cases} \\
+	z ^ n &= 
+	\begin{cases}
+		\text{ modulo } = \left| z \right| ^ n = \rho ^ n \\
+		\text{ argomento } = \arg(z) \cdot n = n \vartheta
+	\end{cases}
+\end{align*}
+
+
+\subsection{Forma esponenziale}
+Un numero complesso \(z\) può essere rappresentato in forma esponenziale:
+\[z := \rho \cdot e ^ {i \vartheta}\]
+con
+\begin{align*}
+	\rho &= \text{ modulo di } z \\
+	e^{i\vartheta} &= \cos \vartheta + i \sin \vartheta \qquad \text{ (Fomula di Eulero) } \\
+	\\
+	\cos \vartheta &= \frac{e ^ {i \vartheta} + e ^ {-i \vartheta}}{2} \\
+	\sin \vartheta &= \frac{e ^ {i \vartheta} - e ^ {-i \vartheta}}{2i}
+\end{align*}
+Il coniugato di  \(z = \rho e ^ {i \vartheta}\) è \(\overline{z} = \rho e ^ {-i \vartheta}\) \\
+Se \(\vartheta = 0 \to e ^ i = 1\) \\
+Se \(\vartheta = \pi \to e ^ {i\pi} = -1\)
+
+\subsubsection*{Proprietà di \(e ^ {i \vartheta}\)}
+Siano \(z, z_1, z_2 \in \mathbb{C}\)
+\begin{align*}
+	e^z &=
+	\begin{cases}
+		\text{modulo } e^x \\
+		\text{argomento } y
+	\end{cases} \\
+	e ^ z &\neq 0 \quad \forall z \in \mathbb{C} \\
+	e ^ {z_1} \cdot e ^ {z_2} &= e ^ {z_1 + z_2} \\
+	\frac{e ^ {z_1}}{e ^ {z_2}} &= e ^ {z_1 - z_2}
+\end{align*}
+
+\subsubsection*{Prodotti, quozienti e potenze con la forma esponenziale}
+Siano \(z, z_1, z_2 \in \mathbb{C} \  \backslash \left\{ 0 \right\}\):
+\begin{align*}
+	z_1 \cdot z_2 &= \rho_1 \rho_2 \cdot e ^ {i \left( \vartheta_1 + \vartheta_2 \right)} \\
+	\frac{z_1}{z_2} &= \frac{\rho_1}{\rho_2} \cdot e ^ {i \left( \vartheta_1 + \vartheta_2 \right)} \\
+	z ^ n &= \rho ^ n \cdot e ^ {i n \vartheta}
+\end{align*}
+
+\newpage
+
+
+% --------------------------------- Equazioni e disequazioni in C ---------------------------------
+\section{Equazioni e disequazioni in C}
+%\subsection{Equazioni in C}
+%Alcuni consigli su come risolvere le equazioni in \(\mathbb{C}\) \dots
+
+\subsection{Teorema fondamentale dell'algebra}
+\subsubsection*{Teorema fondamentale dell'algebra}
+\begin{itemize}
+	\item[H: ] Sia \(n \in \mathbb{N} \  \backslash \left\{ 0 \right\}\) e \(P(z) = a_n z^n + a_{n-1} z^{n-1} + a_{n-2} z^{n-2} + \  \dots \  + a_0\) \\
+	con \(a_n \neq 0\), \(a_j \in \mathbb{C} \  \forall j \in \left[0; n\right]\) 
+	\item[T: ] Allora esiste almento una radice di \(P\), cioè una soluzione dell'equazione \(P(z) = 0\), con \(z \in \mathbb{C}\).
+	La soluzione \(z\) è chiamata zero di \(P\).
+\end{itemize}
+
+\subsubsection*{Molteplicità di una soluzione}
+\begin{itemize}
+	\item[H: ] Sia \(P(z)\) come sopra e \(z_0 \in \mathbb{C}\) t.c. \(P(z_0) = 0\)
+	\item[T: ] \(z_0\) è uno zero con molteplicità \(k \in \mathbb{N}\) se \(\exists Q(x)\) di grado \(n-k\) t.c. \\
+	\(P(z) = \left( z - z_0 \right) ^ k \cdot Q(z)\) e \(Q(z_0) \neq 0\)
+\end{itemize}
+
+\subsubsection*{Numero di soluzioni di un polinomio di grado \(n\)}
+\begin{itemize}
+	\item[H: ] Sia \(P(z)\) come sopra (di grado \(n\))
+	\item[T: ] \(P(z) = 0\) ha esattamente \(n\) soluzioni se contate con la propria molteplicità
+	\item[Dim: ] applicando il teorema fondamentale dell'algebra a \(P(z)\) si ottiene che \\
+	\(\exists z_0 \in \mathbb{C}\) t.c. \(P(z_0) = 0\), per cui \(\exists Q(z)\) t.c. \(P(z) = \left( z - z_0 \right) \cdot Q(z)\)\\
+	riapplicando il teorema \(n\) volte si ottiene che \\
+	\(P(z) = \left( z - z_0 \right) \cdot \left( z - z_1 \right) \cdot \left( z - z_2 \right) \cdot \ \dots \ \cdot \left( z - z_n \right)\) \\
+	sono state, così, trovate \(n\) soluzioni \(z_0, z_1, \dots, z_n\) di molteplicità 1 \qed
+\end{itemize}
+
+\subsubsection*{Soluzioni complesse coniugate per polinomi reali}
+\begin{itemize}
+	\item[P: ] Sia \(P(x)\) un polinomio di grado \(n\) a coefficienti reali
+	\item[H: ] se \(z_0 \in \mathbb{C}\) una soluzione di \(P(x)\)
+	\item[T: ] allora anche \(\overline{z_0}\) è una soluzione di \(P(x)\)
+	\item[Dim: ] Sia \(P(z_0) = 0\) con \(z_0 \in \mathbb{C}\)
+	\begin{align*}
+		P(\overline{z_0}) &= a_n \overline{z_0} ^ n + a_{n-1} \overline{z_0} ^ {n-1} + a_{n-2} \overline{z_0} ^ {n-2} + \  \dots \  + a_0 \\
+		&= a_n \overline{{z_0} ^ n} + a_{n-1} \overline{{z_0} ^ {n-1}} + a_{n-2} \overline{{z_0} ^ {n-2}} + \  \dots \  + a_0 \\
+		&= \overline{a_n} \overline{{z_0} ^ n} + \overline{a_{n-1}} \overline{{z_0} ^ {n-1}} + \overline{a_{n-2}} \overline{{z_0} ^ {n-2}} + \  \dots \  + \overline{a_0} \\
+		&= \overline{a_n {z_0} ^ n} + \overline{a_{n-1} {z_0} ^ {n-1}} + \overline{a_{n-2} {z_0} ^ {n-2}} + \  \dots \  + \overline{a_0} \\
+		&= \overline{a_n {z_0} ^ n + a_{n-1} {z_0} ^ {n-1} + a_{n-2} {z_0} ^ {n-2} + \  \dots \  + a_0} \\
+		&= \overline{P(z_0)} \\
+		&= \overline{0} \\
+		P(\overline{z_0}) &= 0
+	\end{align*}
+	\qed
+\end{itemize}
+
+\subsubsection*{Numero di soluzioni complesse e reali}
+\begin{itemize}
+	\item[H\(_1\): ] Sia \(P(x)\) un polinomio di grado \(n\) a coefficienti reali
+	\item[T\(_1\): ] Le radici con parte immaginaria non nulla sono pari e a due a due l'una coniugata dell'altra
+	\item[H\(_2\): ] Sia \(P(x)\) un polinomio di grado dispari a coefficienti reali
+	\item[T\(_2\): ] Il polinomio \(P(x)\) ha almeno una soluzione reale
+\end{itemize}
+
+\subsection{Teorema di decomposizione di polinomi}
+\begin{itemize}
+	\item[H: ] Sia \(P(x)\) un polinomio di grado \(n\) a coefficienti reali
+	\item[T: ] \(P\) può essre scomposto in:
+	\begin{multline*}
+		P(z) = \left( z - x_1 \right) ^ {k_1} \cdot \left( z - x_2 \right) ^ {k_2} \cdot \  \dots \  \left( z - x_l \right) ^ {k_l} \cdot \left( z^2 + A_1 z + B_1 \right) ^ {j_1} \cdot \\
+		\cdot \left( z^2 + A_2 z + B_2 \right) ^ {j_2} \cdot \  \dots \  \cdot \left( z^2 + A_m z + B_m \right) ^ {j_m} \cdot  C
+	\end{multline*}
+	con:
+	\begin{itemize}
+		\item \(x_1, x_2, \dots x_l \in \mathbb{R}\) radici reali del polinomio
+		\item \(k_1, k,2 \dots k_l \in \mathbb{N}\) molteplicità delle radici reali
+		\item \(\left( z^2 + A_m z + B_m \right) = \left( z - z_m \right) \cdot \left( z - \overline{z_m} \right)\) radici complesse coniugate
+		\item \(j_1, j,2 \dots j_l \in \mathbb{N}\) molteplicità delle radici complesse coniugate
+		\item \(A_1, A_2, \dots A_m, B_1, B_2, \dots B_m, C \in \mathbb{R}\)
+	\end{itemize}
+\end{itemize}
+
+\subsection{Radici n-esime}
+Siano \(z, w \in \mathbb{C}\) e \(n \in \mathbb{N}\) tali che \(z ^ n = w\)
+\begin{align*}
+	z ^ n = w &\Leftrightarrow \left( \rho e ^ {i \vartheta} \right) ^ n = r e ^ {i \varphi} \\
+	&\Leftrightarrow \rho ^ n e ^ {i n \vartheta} = r e ^ {i \varphi} \\
+	&\Leftrightarrow
+	\begin{cases}
+		\rho ^ n = r \\
+		n \vartheta = \varphi + 2 k \pi \quad \text{ con } k \in \left\{ 0, 1, \dots n-1 \right\}
+	\end{cases} \\
+	&\Leftrightarrow
+	\begin{cases}
+		\rho = \sqrt[n]{r} \\
+		\vartheta = \frac{\varphi + 2k\pi}{n} \quad \text{ con } k \in \left\{ 0, 1, \dots n-1 \right\}
+	\end{cases}
+\end{align*}
+
+In questo modo si ottengono \(n\) valori di \(\vartheta\) al variare di \(k\), ovvero \(n\) soluzioni come previsto dal teorema fondamentale dell'algebra.
+
+Le soluzioni rappresentate nel piano di Gauss vengono disposte in una circonferenza di raggio pari al modulo \(\rho = \sqrt[n]{r}\) distribuite
+a distanza angolare pari a \(\frac{2 \pi}{n}\) con un angolo di sfasamento rispetto all'asse \(x\) di \(\frac{\varphi}{n}\). 
+Congiungendo le soluzioni si ottiene un poligono regolare (es. 6 soluzioni \(\to\) esagono regolare).
+
+\newpage
+
+%\subsection{Equazioni di secondo grado in C}
+%\subsection{Disequazioni in C}
+%\newpage
+
+% ------------------------------------------- Funzioni --------------------------------------------
+\section{Funzioni}
+%\subsection{Definizioni}
+\begin{center}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		funzione & dati due insiemi \(X\), \(Y\) t.c. \(X,Y \neq \varnothing\), una funzione \(y = f(x)\) è una relazione che associa ad ogni elemento \(x \in X\) un unico elemento \(y \in Y\) \\
+		\midrule
+		dominio & insieme \(X\) \\
+		\midrule
+		codominio & insisme \(Y\) \\
+		\midrule
+		\multirow{2}{*}{immagine} & sottoinsieme di \(Y\) definito come \(Im(f) = f(A)\)\\
+		& \(f(A) = \left\{ y \in Y  \text{ t.c. } \exists x \in A \text{ con } f(x) = y, A \subseteq X \right\}\) \\
+		\midrule
+		\multirow{2}{*}{controimmagine} & sottoinsieme di \(X\) definito come \\
+		& \(f(B) ^ {-1} = \left\{ x \in X  \text{ t.c. } \exists y \in B \text{ con } f(x) = y, B \subseteq Y \right\}\) \\
+		\midrule
+		\multirow{2}{*}{grafico} & sottoinsieme di \(X \times Y\) definito come \\
+		& \(G(f) = \left\{ \left( x; y \right) \in X \times Y \text{ t.c. } y = f(x) \right\}\) \\
+		\bottomrule
+	\end{tabularx}
+\end{center}
+\begin{center}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\(f\) a variabili reali & se il dominio \(X \subseteq R\) \\
+		\midrule
+		\(f\) a valori reali & se il codominio \(Y \subseteq R\) \\
+		\midrule
+		\(f\) parte intera & \(f(x) = \left[ x \right]\) definta in \(\mathbb{R}\) come il più grande numero intero \(\leq x\) \\
+		\midrule
+		\(f\) parte frazionaria & \(f(x) = x- \left[ x \right]\)\\
+		\midrule
+		funzione di Dirichlet & \[f(x) = \begin{cases}
+			1 & x \in \mathbb{Q} \\
+			0 & x \in \mathbb{R} \  \backslash \  \mathbb{Q}
+		\end{cases}\] \\
+		\bottomrule
+	\end{tabularx}
+\end{center}
+\begin{center}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\(f\) pari & \(f\) è pari se \(\forall x \in \dom f\) e \(-x \in \dom f\), allora \(f(x) = f(-x)\) \\
+		\midrule
+		\(f\) dispari & \(f\) è dispari se \(\forall x \in \dom f\) e \(-x \in \dom f\), allora \(-f(x) = f(-x)\)\\
+		\midrule
+		\multirow{2}{*}{\(f\) iniettiva} & \(f:X \to Y\) è iniettiva se \(\forall y \in Y\) \(\exists\)al più un \(x \in X\) t.c. \(f(x) = y\), equivalentemente: \\
+		& \(x_1 \neq x_2 \Rightarrow f(x_1) \neq f(x_2)\) e \(f(x_1) = f(x_2) \Rightarrow x_1 = x_2\) \\
+		\midrule
+		\(f\) suriettiva & \(f:X \to Y\) è suriettiva se \(\forall y \in Y\) \(\exists x \in X\) t.c. \(f(x) = y\) \\
+		\midrule
+		\(f\) bigettiva & \(f:X \to Y\) è bigettiva se è sia iniettiva che suriettiva \\
+		\midrule
+		\(f\) invertibile & \(f:X \to Y\) è invertibile se è bigettiva \\
+		\midrule
+		\multirow{3}{*}{\(f\) inversa} & \(f ^ {-1}:f(X) \subseteq Y \to X\) t.c. \(y \mapsto f ^ {-1}\) ovvero l'unico \(x \in X\) t.c. \(f(x) = y\) \\
+		& alcune funzioni inverse \dots \\
+		& proprietà pari dispari delle inverse \dots \\
+		\midrule
+		\(f\) composta & siano \(f:X \to Y\), \(g:V \to Z\) con \(f(X) \cap V \neq \varnothing\)
+		e \(\overline{X} \subseteq X\) t.c. \(\overline{X} := \left\{ x \in X \text{ t.c. } f(x) \in V \right\}\),
+		la funzione composta di \(f\) con \(g\) è definita come \(g \circ f : \overline{X} \to Z; x \mapsto g(f(x))\) \\
+		\midrule
+		\(f\) ristretta & \(\restr{f}{A} = A \subseteq X \to Y\) t.c. \(x \mapsto f(x)\) \\
+		\midrule
+		\multirow{2}{*}{\(f\) periodica} & \(f\) è periodica se \(f(x+T) = f(x), \forall x \in \dom f\) \\
+		& per \(T \in R, T > 0, x + T \in \dom f\)\\
+		\bottomrule
+	\end{tabularx}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\(f\) monotona crescente & se \(\forall x_1, x_2 \in \dom f\), \(x_1 < x_2\) si ha \(f(x_1) \leq f(x_2)\) \\
+		\midrule
+		\(f\) monotona decrescente & se \(\forall x_1, x_2 \in \dom f\), \(x_1 < x_2\) si ha \(f(x_1) \geq f(x_2)\) \\
+		\midrule
+		\(f\) strett. crescente & se \(\forall x_1, x_2 \in \dom f\), \(x_1 < x_2\) si ha \(f(x_1) < f(x_2)\) \\
+		\midrule
+		\(f\) strett. decrescente & se \(\forall x_1, x_2 \in \dom f\), \(x_1 < x_2\) si ha \(f(x_1) > f(x_2)\) \\
+		\midrule
+		\(f\) limitata superiormente & se \(Imf\) è limitata superiormente, ovvero se \(\exists M \in \mathbb{R}\) t.c. \(f(x) \leq M\), \(\forall x \in \dom f\) \\
+		\midrule
+		\(f\) limitata inferiormente & se \(Imf\) è limitata inferiormente, ovvero se \(\exists m \in \mathbb{R}\) t.c. \(f(x) \geq m\), \(\forall x \in \dom f\) \\
+		\midrule
+		\(f\) limitata & se \(Imf\) è limitata superiormente e inferiormente: \(\exists m, M \in \mathbb{R}\) t.c. \(m \leq f(x) \leq M\), \(\forall x \in \dom f\) \\
+		\midrule
+		maggioranti, minoranti & un maggiorante, minorante, massimo, minimo, \\
+		massimi, minini, estemi & estremo inferiore, estremo superiore di \(f\) è \\
+		sup. e inf. di \(f\) & definito come magg\dots di \(Im f\) \\
+		\bottomrule
+	\end{tabularx}
+\end{center}
+%\subsection{Funzione inversa}
+
+\newpage
+
+% ------------------------------------- Funzioni Iperboliche --------------------------------------
+\section{Funzioni iperboliche}
+\subsection{Coseno iperbolico}
+\subsubsection*{Definizione}
+Il coseno iperbolico è una unzione definita come:
+\[\cosh : \quad
+\begin{aligned}
+	\mathbb{R} \quad &\to \quad \mathbb{R} \\
+	x \quad &\mapsto \quad \frac{e^x + e^-x}{2}
+\end{aligned}
+\]
+
+\subsubsection*{Proprietà}
+Il coseno iperbolico è pari, decrescente in \(\left( - \infty, 0 \right]\) e decrescente in \(\left[ 0, + \infty \right)\). Non è una funzione iniettiva. \\
+Somma: \(\cosh \left( x + y \right) = \cosh x \cosh y + \sinh x \sinh y\) \\
+Differenza: \(\cosh \left( x - y \right) = \cosh x \cosh y - \sinh x \sinh y\)
+
+\subsubsection*{Funzione inversa}
+La funzione inversa del coseno iperbolico, definita come settore coseno iperbolico, è definita come:
+\[\settcosh : \quad
+\begin{aligned}
+	\left[ 1, + \infty \right) \quad &\to \quad \left[ 0, + \infty \right) \\
+	x \quad &\mapsto \quad \ln \left( x + \sqrt{ x^2 - 1 } \right)
+\end{aligned}
+\]
+Da notare che siccome il \(\cosh\) non è invertibile, è necessario restringere la funzione a \(\restr{\cosh}{\left[ 0, + \infty \right)}\)
+che ha come dominio \(\dom = \left[ 0, + \infty \right)\) e come immagine \(Im = \cosh \left( \left[ 0, + \infty \right) \right) = \left[ 1, + \infty \right)\).
+
+\subsection{Seno iperbolico}
+\subsubsection*{Definizione}
+Il seno iperbolico è una unzione definita come:
+\[\sinh : \quad
+\begin{aligned}
+	\mathbb{R} \quad &\to \quad \mathbb{R} \\
+	x \quad &\mapsto \quad \frac{e^x - e^-x}{2}
+\end{aligned}
+\]
+
+\subsubsection*{Proprietà}
+Il seno iperbolico è dispari, sempre crescente, inoltre è una funzione iniettiva e suriettiva. \\
+Somma: \(\sinh \left( x + y \right) = \sinh x \cosh y + \sinh y \cosh x\) \\
+Differenza: \(\sinh \left( x - y \right) = \sinh x \cosh y - \sinh y \cosh x\)
+
+\subsubsection*{Funzione inversa}
+La funzione inversa del seno iperbolico, definita come settore seno iperbolico, è definita come:
+\[\settsinh : \quad
+\begin{aligned}
+	\mathbb{R} \quad &\to \quad \mathbb{R} \\
+	x \quad &\mapsto \quad \ln \left( x + \sqrt{ x^2 + 1 } \right)
+\end{aligned}
+\]
+
+\subsection{Relazione fondamentale}
+\[\cosh^2 x - \sinh^2 x = 1\]
+
+\subsection{Tangente iperbolica}
+\subsubsection*{Definizione}
+Il coseno iperbolico è una unzione definita come
+\[\tanh : \quad
+\begin{aligned}
+	\mathbb{R} \quad &\to \quad \mathbb{R} \\
+	x \quad &\mapsto \quad \frac{e^x - e^-x}{e^x + e^-x}
+\end{aligned}	
+\]
+
+\subsubsection*{Proprietà}
+La tangente iperbolica è dispari, sempre crescente, inoltre è sia iniettiva che suriettiva, con immagine \(\left( -1, 1 \right)\).
+
+\subsubsection*{Funzione inversa}
+La funzione inversa del coseno iperbolico, definita come settore coseno iperbolico, è definita come:
+\[\setttanh : \quad
+\begin{aligned}
+	\left( -1, 1 \right) \quad &\to \quad \mathbb{R} \\
+	x \quad &\mapsto \quad \frac{1}{2} \ln \left( \frac{1 + x}{1 - x} \right)
+\end{aligned}
+\]
+
+\newpage
+
+% -------------------------------------------- Limiti ---------------------------------------------
+\section{Limiti}
+\subsection{Intorni}
+\subsubsection*{Definizione}
+Sia \(r \in \mathbb{R}^*\), allora un intorno "sferico" centrato in \(r\) è un intervallo aperto definito come:
+\begin{align*}
+	\left( r - \varepsilon, r + \varepsilon \right) \quad & \text{ se } r \in \mathbb{R} \\
+	\left( M, +\infty \right) \quad & \text{ se } r = + \infty\\
+	\left( -\infty, N \right) \quad & \text{ se } r = - \infty
+\end{align*}
+
+\subsubsection*{Proprietà}
+\begin{itemize}
+	\item[P\(_1\): ] Sia \(r \in \mathbb{R}^*\) e siano \(U_1\) e \(U_2\) due intorni di \(r\), allora \(U_1 \cap U_2\) è ancora un intorno di \(r\).
+	\item[Dim\(_1\): ] consideriamo solo il caso per cui \(r \in \mathbb{R}\) (con \(r \neq \pm \infty\)) \\
+	Siano \(U_1 = \left( r - \varepsilon_1, r + \varepsilon_1 \right)\) con \(\varepsilon_1 > 0\) oppure \(U_1 = \mathbb{R}\) \\
+	e \(U_2 = \left( r - \varepsilon_2, r + \varepsilon_2 \right)\) con \(\varepsilon_2 > 0\) oppure \(U_2 = \mathbb{R}\) \\
+	Prendiamo \(\varepsilon = \min \left\{ \varepsilon_1 , \varepsilon_2 \right\}\) e abbiamo che \(U_1 \cap U_2 = \left( r - \varepsilon, r + \varepsilon \right)\) che è un intorno di \(r\). \qed
+	
+	\item[P\(_2\): ] \textbf{Proprietà di separazione}: \(\forall r_1, r_2 \in \mathbb{R}^*\) con \(r_1 \neq r_2\) esistono \(U_1\) e \(U_2\) intorni
+	rispettivamente di \(r_1\) e \(r_2\) tali che \(U_1 \cap U_2 = \varnothing\).
+	\item[Dim\(_2\): ] consideriamo solo il caso per cui \(r_1, r_2 \in \mathbb{R}\) (con \(r_1, r_2 \neq \pm \infty\)) \\
+	Assumiamo \(r_1 < r_2\) senza perdita di generalità (possono essere invertiti) e vogliamo dimostrare che esistono due intorni \(U_1, U_2\) t.c. \(U_1 \cap U_2 = \varnothing\) \\
+	Scegliamo \(\varepsilon_1 = \varepsilon_2 = \displaystyle \frac{r_2 - r_1}{2}\) \\
+	per cui \(\forall x_1 \in (r_1 - \varepsilon_1 , r_1 + \varepsilon_1)\) e \(\forall x_2 \in (r_2 - \varepsilon_2 , r_2 + \varepsilon_2)\) \\
+	per cui \(x_1 < r_1 + \displaystyle \frac{r_2 - r_1}{2} = \frac{r_2 + r_1}{2} = r_2 - \frac{r_2 - r_1}{2} < x_2\) \\
+	per cui \(\left( r_1 - \varepsilon_1, r_1 + \varepsilon_1 \right) \cap \left( r_2 - \varepsilon_2, r_2 + \varepsilon_2 \right) = \varnothing\) \qed
+\end{itemize}
+
+
+\subsection{Punti di accumulazione}
+Sia \(A \subseteq \mathbb{R}\) con \(A \neq \varnothing\), \(r \in \mathbb{R}^*\) è punto di accumulazione di \(A\) quando:
+\[\forall \text{ intorno } U \text{ di } r \text{ si ha che } A \cap U \  \backslash \left\{ r \right\} \neq \varnothing\]
+In altre parole ogni intorno di \(r\) deve contenere (almeno) un elemento di \(A\) che non sia \(r\) stesso. Un punto di accumulazione di \(A\) può non appartenere all'insieme \(A\).
+\begin{align*}
+	\text{ se } r \in \mathbb{R} \quad & \forall \varepsilon > 0 \  \exists x \in A, x \neq r \text{ t.c. } \left| x - r \right| < \varepsilon \text{ ovvero } x \in \left( r - \varepsilon, r + \varepsilon \right) \\
+	\text{ se } r = + \infty \quad & \forall M \in \mathbb{R} \  \exists x \in A \text{ t.c. } x > M \text{ ovvero che } A \text{ non è limitato superiormente } \\
+	\text{ se } r = - \infty \quad & \forall N \in \mathbb{R} \  \exists x \in A \text{ t.c. } x < N \text{ ovvero che } A \text{ non è limitato inferiormente }
+\end{align*}
+
+
+\subsection{Punti isolati}
+Sia \(A \subseteq \mathbb{R}\) con \(A \neq \varnothing\), \(r \in \mathbb{R}^*\) è punto isolato di \(A\) se non è un punto di accumulazione,
+ovvero se \(\exists\) un intorno \(U\) di \(r\) t.c. \(U \cap A = \left\{ r \right\}\). \\
+Un punto isolato di \(A\) deve necessariamente appartenere all'insieme \(A\), inolte \(\pm \infty\) non possono essere punti isolati, ma soltanto punti di accumulazione.
+
+\newpage
+
+
+\subsection{Intorni e proprietà vere definitivamente}
+Sia \(f: \dom f \to \mathbb{R}\), \(x_0 \in \mathbb{R}^*\) punto di accumulazione di \(\dom f\) e \(P\) proprietà definita sul \(\dom f\),
+allora \(f\) soddisfa \(P\) definitivamente per \(x \to x_0\) se \(\exists U\) intorno di \(x_0\) t.c. \(\forall x \in \dom f \cap U \  \backslash \left\{ x_0 \right\}\) \(f(x)\) verifica \(P\).
+\subsubsection*{Osservazioni}
+\begin{itemize}
+	\item[O1: ] Non è detto che \(P\) sia verificata in \(x_0\) (infatti \(x_0\) potrebbe \(\notin \dom f\)).
+	\item[O2: ] Basta che esista un intorno per cui \(P\) sia verificata, altrimenti se \(P\) è verificata per ogni intorno,
+	ovvero \(P\) vale \(f\forall x \in \dom f \  \backslash \left\{ x_0 \right\}\), non significa che \(P\) sia verificata vicino a \(x_0\).
+\end{itemize}
+
+
+\subsection{Limite di una funzione}
+\subsubsection*{Definizione}
+Sia \(f: \dom f \to \mathbb{R}\), \(x_0 \in \mathbb{R}^*\) punto di accumulazione di \(\dom f\) e \(l \in \mathbb{R}^*\), allora:
+\[\lim_{x \to x_0} f(x) = l \quad \text{quando}\]
+\begin{itemize}
+	\item[I: ] \(\forall U\) intorno di \(l\) \(\exists V\) intorno di \(x_0\) t.c. \(f(x) \in U, \forall x \in \dom f \cap V \  \backslash \left\{ x_0 \right\}\)
+	\item[II: ] \(\forall U\) intorno di \(l\) \(\exists V\) intorno di \(x_0\) t.c. \(\forall x \in \dom f \cap V \  \backslash \left\{ x_0 \right\} \Rightarrow f(x) \in U\)
+	\item[III: ] \(\forall U\) intorno di \(l\) \(f(x) \in U\) è verificata definitivamente per \(x \to x_0\)
+\end{itemize}
+Usando la definizione di intorno si ottiene che:
+%\begin{enumerate}
+%	\item \(x_0 \in \mathbb{R}\) e \(l \in \mathbb{R}\)
+%		\[\forall \varepsilon > 0 \  \exists \delta > 0 \text{ t.c. } \left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\}\]
+%	\item \(x_0 \in \mathbb{R}\) e \(l = - \infty\)
+%		\[\forall M \in \mathbb{R} \  \exists \delta > 0 \text{ t.c. } f(x) > M \  \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\}\]
+%	\item \(x_0 \in \mathbb{R}\) e \(l = + \infty\)
+%		\[\forall N \in \mathbb{R} \  \exists \delta > 0 \text{ t.c. } f(x) < N \  \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\}\]
+%	\item \(x_0 = + \infty\) e \(l \in \mathbb{R}\)
+%		\[\forall \varepsilon > 0 \  \exists M \text{ t.c. } \left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap \left( M, + \infty \right) \backslash \left\{ x_0 \right\}\]
+%	\item \(x_0 = + \infty\) e \(l = - \infty\)
+%		\[\forall M \in \mathbb{R} \  \exists \overline{M} \text{ t.c. } f(x) > M \  \forall x \in \dom f \cap \left( \overline{M}, + \infty \right) \backslash \left\{ x_0 \right\}\]
+%	\item \(x_0 = + \infty\) e \(l = + \infty\)
+%		\[\forall N \in \mathbb{R} \  \exists M \text{ t.c. } f(x) < N \  \forall x \in \dom f \cap \left( M, + \infty \right) \backslash \left\{ x_0 \right\}\]
+%	\item \(x_0 = - \infty\) e \(l \in \mathbb{R}\)
+%		\[\forall \varepsilon > 0 \  \exists N \text{ t.c. } \left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap \left( - \infty, N \right) \backslash \left\{ x_0 \right\}\]
+%	\item \(x_0 = - \infty\) e \(l = - \infty\)
+%		\[\forall M \in \mathbb{R} \  \exists N \text{ t.c. } f(x) > M \  \forall x \in \dom f \cap \left( - \infty, N \right) \backslash \left\{ x_0 \right\}\]
+%	\item \(x_0 = - \infty\) e \(l = + \infty\)
+%		\[\forall N \in \mathbb{R} \  \exists \overline{N} \text{ t.c. } f(x) < N \  \forall x \in \dom f \cap \left( - \infty, \overline{N} \right) \backslash \left\{ x_0 \right\}\]
+%\end{enumerate}
+\begin{align*}
+		\forall \varepsilon > 0 \  \exists \delta > 0 \text{ t.c. } \left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\} \quad & x_0, l \in \mathbb{R} \\
+		\forall M \in \mathbb{R} \  \exists \delta > 0 \text{ t.c. } f(x) > M \  \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\} \quad & x_0 \in \mathbb{R}, l = + \infty \\
+		\forall N \in \mathbb{R} \  \exists \delta > 0 \text{ t.c. } f(x) < N \  \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\} \quad & x_0 \in \mathbb{R}, l = - \infty \\
+		\\
+		\forall \varepsilon > 0 \  \exists M \text{ t.c. } \left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap \left( M, + \infty \right) \backslash \left\{ x_0 \right\} \quad & x_0 = + \infty, l \in \mathbb{R} \\
+		\forall M \in \mathbb{R} \  \exists \overline{M} \text{ t.c. } f(x) > M \  \forall x \in \dom f \cap \left( \overline{M}, + \infty \right) \backslash \left\{ x_0 \right\} \quad & x_0 = + \infty, l = + \infty \\
+		\forall N \in \mathbb{R} \  \exists M \text{ t.c. } f(x) < N \  \forall x \in \dom f \cap \left( M, + \infty \right) \backslash \left\{ x_0 \right\} \quad & x_0 = + \infty, l = - \infty \\
+		\\
+		\forall \varepsilon > 0 \  \exists N \text{ t.c. } \left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap \left( - \infty, N \right) \backslash \left\{ x_0 \right\} \quad & x_0 = - \infty, l \in \mathbb{R} \\
+		\forall M \in \mathbb{R} \  \exists N \text{ t.c. } f(x) > M \  \forall x \in \dom f \cap \left( - \infty, N \right) \backslash \left\{ x_0 \right\} \quad & x_0 = - \infty, l = + \infty \\
+		\forall N \in \mathbb{R} \  \exists \overline{N} \text{ t.c. } f(x) < N \  \forall x \in \dom f \cap \left( - \infty, \overline{N} \right) \backslash \left\{ x_0 \right\} \quad & x_0 = - \infty, l = - \infty
+\end{align*}
+
+
+\subsubsection*{Limiti definiti e indefiniti}
+Per \(\displaystyle \lim_{x \to x_0} f(x) = l\):
+\begin{center}
+	\begin{tabular}{l l}
+		se \(l \in \mathbb{R}\) & il limite esiste ed è finito \\
+		se \(l = \pm \infty\) & il limite esiste ed è infinito \\
+		se \(l = 0\) & la funzione è infinitesima \\
+		se \(l\) non è definibile & \multirow{2}{*}{il limite non esiste ed è indefinito} \\
+		univocamente &
+	\end{tabular}
+\end{center}
+
+
+\subsection*{Osservazioni}
+\(x_0\) punto di accumulazione di \(\dom f\) non assicura che \(x_0 \in \dom f\), infatti se \(x_0 \notin \dom f\) non ha senso \(f(x_0)\) e
+se \(x_0 \in \dom f\) il valore di \(f(x_0)\) non influenza il limite, in quanto si esclude il valore di \(x_0\).
+
+Graficamente, la definizione di limite significa scegliere un certo "errore" \(\varepsilon\) lungo l'asse \(y\) e trovare un intorno di \(x_0\) lungo l'asse \(x\) per cui
+preso qualsiasi punto nell'intervallo (escluso \(x_0\)), si ha che i valori assunti dalla funzione differiscono da un valore \(l\) al più di \(\varepsilon\).
+
+\newpage
+
+
+\subsection{Teorema di unicità del limite}
+Se il limite esiste, è unico.
+\begin{itemize}
+	\item[P: ] Dati \(f: \dom f \to \mathbb{R}\) e \(x_0\) punto di accumulazione di \(\dom f\),
+	\item[H: ] se valgono \(\displaystyle \lim_{x \to x_0} f(x) = l_1\) e \(\displaystyle \lim_{x \to x_0} f(x) = l_2\),
+	\item[T: ] allora \(l_1 = l_2\).
+	\item[Dim: ] Per assurdo supponiamo che \(l_1 \neq l_2\) \\
+	dalla proprietà di separazione degli intorni \(\exists V_1\) e \(V_2\) intorni di \(l_1\) e \(l_2\) tali che \(V_1 \cap V_2 = \varnothing\) \\
+	dalle definizioni: \(\lim_{x \to x_0} f(x) = l_1 \Rightarrow \exists U_1\) intorno di \(x_0\) t.c. \(f(x) \in V_1\) \(\forall x \in U_1 \cap \dom f \  \backslash \left\{ x_0 \right\}\) \\
+	\(\lim_{x \to x_0} f(x) = l_2 \Rightarrow \exists U_2\) intorno di \(x_0\) t.c. \(f(x) \in V_2\) \(\forall x \in U_2 \cap \dom f \  \backslash \left\{ x_0 \right\}\) \\
+	si considera \(U = U_1 \cap U_2\) per cui \(\forall x \in U \cap \dom f \  \backslash \left\{ x_0 \right\}\) vale \(f(x) \in V_1 \cap V_2 = \varnothing\) \\
+	cioè \(\nexists x \in U \cap \dom f \  \backslash \left\{ x_0 \right\}\) che è in contaddizione con il fatto che \(x_0\) è un punto di accumulazione di \(\dom f\),
+	per cui l'ipotesi che \(l_1 \neq l_2\) è sbagliata. \qed	
+\end{itemize}
+
+
+\subsection{Limite finito implica locale limitatezza}
+\begin{itemize}
+	\item[H: ] Se \(\displaystyle \lim_{x \to x_0} f(x) = l \in \mathbb{R}\), cioè \(l \neq \pm \infty\),
+	\item[T: ] allora \(\exists U\) intorno di \(x_0\) e \(N \in \mathbb{R}\) t.c. \(\forall x \in U \cap \dom f \  \backslash \left\{ x_0 \right\}\) vale \(\left| f(x) - l \right| \leq N\).
+	\item[Dim: ] Dalla definizione di limite con \(\varepsilon = 1\) abbiamo che \(\exists U\) intorno di \(x_0\) t.c. \(\forall x \in U \cap \dom f \  \backslash \left\{ x_0 \right\}\) vale: \\
+	\(\left| f(x) - l \right| < 1 \Rightarrow \left| f(x) \right| < \left| l \right| + 1\).	Scegliendo \(N = \left| f(x) \right| < \left| l \right| + 1\) si ottiene la tesi. \qed 
+\end{itemize}
+
+
+\subsection{Limite destro e limite sinistro}
+\subsubsection*{Punti di accumulazione destro e sinistro}
+Sia \(A \subset \mathbb{R}\), \(A = \varnothing\), un punto \(r \in \mathbb{R}\) è \textbf{punto di accumulazione destro} di \(A\) quando \(r\) è punto di accumulazione di \(A \cap \left( r, + \infty \right)\). \\
+Sia \(A \subset \mathbb{R}\), \(A = \varnothing\), un punto \(r \in \mathbb{R}\) è \textbf{punto di accumulazione sinistro} di \(A\) quando \(r\) è punto di accumulazione di \(A \cap \left( - \infty, r \right)\). \\
+Un punto di accumulazione destro o sinistro è necessariamente anche un punto di accumulazione,
+un punto di accumulazione è anche punto di accumulazione destro oppure sinistro, non è detto che sia entrambi.
+
+\subsubsection*{Intorni destro e sinistro}
+Un \textbf{intorno destro} di \(r \in \mathbb{R}\) è un insieme della forma \(\left( r, r + \delta \right)\). \\
+Un \textbf{intorno sinistro} di \(r \in \mathbb{R}\) è un insieme della forma \(\left( r - \delta, r \right)\).
+
+\subsubsection*{Limiti destro e sinistro}
+Sia \(f: \dom f \to \mathbb{R}\), \(x_0 \in \mathbb{R}^*\) punto di accumulazione destro di \(\dom f\) e \(l \in \mathbb{R}^*\), allora il \textbf{limite destro} è definito come:
+\[\lim_{x \to {x_0}^+} f(x) = l \quad \Leftrightarrow \quad \lim_{x \to {x_0}} \restr{f(x)}{\left( x_0, + \infty \right)} = l \quad \text{cioè quando:}\]
+\begin{itemize}
+	\item[I: ] \(\forall U\) intorno di \(l\) \(\exists V\) intorno destro di \(x_0\) t.c. \(f(x) \in U, \forall x \in \dom f \cap V\)
+	\item[II: ] \(\forall U\) intorno di \(l\) \(\exists \delta > 0\) t.c. \(\forall x \in \dom f \cap \left( x_0, x_0 + \delta \right) \Rightarrow f(x) \in U\)
+\end{itemize}
+
+Sia \(f: \dom f \to \mathbb{R}\), \(x_0 \in \mathbb{R}^*\) punto di accumulazione sinistro di \(\dom f\) e \(l \in \mathbb{R}^*\), allora il \textbf{limite sinistro} è definito come:
+\[\lim_{x \to {x_0}^-} f(x) = l \quad \Leftrightarrow \quad \lim_{x \to {x_0}} \restr{f(x)}{\left( - \infty, x_0 \right)} = l \quad \text{cioè quando:}\]
+\begin{itemize}
+	\item[I: ] \(\forall U\) intorno di \(l\) \(\exists V\) intorno sinistro di \(x_0\) t.c. \(f(x) \in U, \forall x \in \dom f \cap V\)
+	\item[II: ] \(\forall U\) intorno di \(l\) \(\exists \delta > 0\) t.c. \(\forall x \in \dom f \cap \left( x_0 - \delta, x_0 \right) \Rightarrow f(x) \in U\)
+\end{itemize}
+
+\subsubsection*{Teorema di unicità del limite destro e sinistro}
+Se il limite destro esiste, è unico. \\
+Se il limite sinistro esiste, è unico. 
+
+I due teoremi si dimostrano in quando limite destro e limite sinistro sono limiti di funzioni ristrette e in quanto limiti, se esistono sono unici. \qed
+
+\subsubsection*{Teorema della relazione tra limite e limiti destro e sinistro}
+\begin{itemize}
+	\item[P: ] Sia \(x_0\) punto di accumulazione sia destro che sinistro di \(\dom f\),
+	\item[H \(\Leftrightarrow\) T: ] \(\displaystyle \lim_{x \to x_0} f(x) = l \in \mathbb{R}^* \quad \Leftrightarrow \quad
+	\begin{cases}
+		\displaystyle \lim_{x \to {x_0}^+} f(x) = l \\
+		\displaystyle \lim_{x \to {x_0}^-} f(x) = l
+	\end{cases}
+	\)
+
+	\item[Dim \(\Rightarrow\): ] Dall'ipotesi si ha che \(\forall U\) intorno di \(l\) \(\exists V\) intorno di \(x_0\) t.c. \(\forall x \in V \cap \dom f \  \backslash \left\{ x_0 \right\} \Rightarrow \left| f(x) - l \right| < \varepsilon\) \\
+	Considero come intorno destro \(V+ = V \cap \left( x_0, + \infty \right) \) e come intorno sinistro \(V^- = V \cap \left( -\infty, x_0 \right)\), \\
+	per cui \(\forall U\) \(\exists V^+\) t.c. \(\forall x \in V^+ \cap \dom f \Rightarrow \left| f(x) - l \right| < \varepsilon\) è valida in quanto \(V^+ \subset V\) e anche \\
+	\(\forall U\) \(\exists V^-\) t.c. \(\forall x \in V^- \cap \dom f \Rightarrow \left| f(x) - l \right| < \varepsilon\) è valida in quanto \(V^- \subset V\), \\
+	ovvero \(\displaystyle \lim_{x \to {x_0}^+} f(x) = l\) e \(\displaystyle \lim_{x \to {x_0}^-} f(x) = l\)
+	
+	\item[Dim \(\Leftarrow\): ] Dall'ipotesi si ha che \(\forall U\) intorno di \(l\) \(\exists \delta_1 > 0\) t.c. \(\forall x \in \left( x_0, x_0 + \delta_1 \right) \cap \dom f \Rightarrow \left| f(x) - l \right| < \varepsilon\) \\
+	e che \(\forall U\) intorno di \(l\) \(\exists \delta_2 > 0\) t.c. \(\forall x \in \left( x_0 - \delta_2, x_0 \right) \cap \dom f \Rightarrow \left| f(x) - l \right| < \varepsilon\) \\
+	scelgo \(\delta = \min \left\{ \delta_1, \delta_2 \right\}\) per cui \(\forall U\) \(\exists \delta > 0\) t.c. \(\forall x \in \left( x_0 - \delta, x_0 + \delta \right) \cap \dom f \  \backslash \left\{ x_0 \right\} \Rightarrow \left| f(x) - l \right| < \varepsilon\), \\
+	ovvero \(\displaystyle \lim_{x \to x_0} f(x) = l\) \qed
+\end{itemize}
+Il teorema della relazione di unicità del limite destro e sinistro si utilizza per:
+\begin{itemize}
+	\item[I: ] dimostrare l'inesistenza di un limite, se \(\displaystyle \lim_{x \to {x_0}^- } f(x) \neq \lim_{x \to {x_0}^+} f(x)\)
+	\item[II: ] semplificare il calcolo del limite dove \(f\), funzione definita per casi, cambia forma
+\end{itemize}
+
+\subsection{Relazione tra limite e modulo}
+\begin{itemize}
+	\item[P: ] Sia \(x_0\) punto di accumulazione di \(\dom f\)
+	\item[H\(_1 \Leftrightarrow\) T\(_1\): ] \(\displaystyle \lim_{x \to x_0} f(x) = 0 \quad \Leftrightarrow \quad \lim_{x \to x_0} \left| f(x) \right| = 0\)
+	\item[Dim\(_1\): ] osservando che \(\left| f(x) - 0 \right| = \left| f(x) \right| = \left| \left| f(x) \right| - 0 \right|\) e che \(\dom \left| f \right| = \dom f\)
+	\begin{align*}
+		\lim_{x \to x_0} f(x) = 0 \quad &\Leftrightarrow \quad \forall \varepsilon > 0 \  \exists U \text{ intorno di } x_0 \text{ t.c. } \left| f(x) - 0 \right| < \varepsilon \  \forall x \in \dom f \cap U \  \backslash \left\{ x_0 \right\} \\
+		&\Leftrightarrow \quad \forall \varepsilon > 0 \  \exists U \text{ intorno di } x_0 \text{ t.c. } \left| \left| f(x) \right| - 0 \right| < \varepsilon \  \forall x \in \dom \left| f \right| \cap U \  \backslash \left\{ x_0 \right\} \\
+		&\Leftrightarrow \quad \lim_{x \to x_0} \left| f(x) \right| = 0
+	\end{align*} \qed
+	
+	\item[H\(_2 \Rightarrow\) - T\(_2\): ] \(\displaystyle \lim_{x \to x_0} f(x) = l \quad \Rightarrow \quad \lim_{x \to x_0} \left| f(x) \right| = \left| l \right|\)
+	\item[Dim\(_2\): ] Considerando il caso per cui \(l \in \mathbb{R}\) \\
+	Dall'ipotesi si ottiene che \(\forall \varepsilon > 0 \  \exists V\) intorno di \(x_0\) t.c. \(\left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap V \  \backslash \left\{ x_0 \right\}\) \\
+	si osserva che \(\left| \left| f(x) \right| - \left| l \right| \right| \leq \left| f(x) - l \right| < \varepsilon\) per la disuguaglianza triangolare \\
+	per cui per proprietà transitiva \(\left| \left| f(x) \right| - \left| l \right| \right| < \varepsilon\), inoltre \(\dom \left| f \right| = \dom f\)\\
+	per cui vale che \( \forall \varepsilon > 0 \  \exists \overline{V}\) intorno di \(x_0\) t.c. \(\left| \left| f(x) \right| - \left| l \right| \right| < \varepsilon \  \forall x \in \dom \left| f \right| \cap \overline{V} \  \backslash \left\{ x_0 \right\}\) \\
+	ovvero \(\displaystyle \lim_{x \to x_0} \left| f(x) \right| = \left| l \right|\) \qed
+\end{itemize}
+Si osserva che nel secondo teorema vale solo \(\Rightarrow\) e non anche \(\Leftarrow\), come nel primo (\(\Leftrightarrow\)). 
+\newpage
+
+
+\subsection{Teorema di permanenza del segno}
+\begin{itemize}
+	\item[P: ] Sia \(\displaystyle \lim_{x \to x_0} f(x) = l\) con \(x_0, l \in \mathbb{R}^*\)
+	\item[H\(_1\): ] se \(l \in \left( 0, + \infty \right)\)
+	\item[T\(_1\): ] allora \(f\) è definitivamente strettamente positiva per \(x \to x_0\)
+	\item[Dim\(_1\): ] Nel caso in cui \(l = + \infty\) si ottiene che \(\displaystyle \lim_{x \to x_0} f(x) = + \infty\) \\
+	Dalla def. di limite si ottiene che \(\forall M \in \mathbb{R}\) \(\exists U\) intorno di \(x_0\) t.c. \(f(x) > M\) \(\forall x \in \dom f \cap U \  \backslash \left\{ x_0 \right\}\) \\
+	scegiendo \(M = 0\) si ottiene che \(f(x) > 0\) \(\forall x \in \dom f \cap U \  \backslash \left\{ x_0 \right\}\)
+	\item[] Nel caso in cui \(l = \left( 0, + \infty \right)\) si ottiene che \(\displaystyle \lim_{x \to x_0} f(x) = l\) con \(l > 0\) \\
+	Dalla def. di limite si ottiene che \(\forall \varepsilon > 0\) \(\exists U\) intorno di \(x_0\) t.c. \(\left| f(x) - l \right| < \varepsilon\) \(\forall x \in \dom f \cap U \  \backslash \left\{ x_0 \right\}\) \\
+	scegiendo \(\varepsilon = l\) si ottiene che \(\left| f(x) - l \right| < l \quad \Leftrightarrow \quad -l < f(x) - l < l \quad \Leftrightarrow \quad 0 < f(x) < 2l \quad \Leftrightarrow \\
+	\Leftrightarrow f(x) > 0\) \(\forall x \in \dom f \cap U \  \backslash \left\{ x_0 \right\}\), ovvero la tesi. \qed
+
+	\item[H\(_2\): ] se \(l \in \left( - \infty, 0 \right)\)
+	\item[T\(_2\): ] allora \(f\) è definitivamente strettamente negativa per \(x \to x_0\)
+	\item[Dim\(_2\): ] analogamente alla Dim\(_1\). \qed
+\end{itemize}
+
+\subsubsection*{Corollario o II versione del teorema di permanenza del segno}
+\begin{itemize}
+	\item[P: ] Sia \(\displaystyle \lim_{x \to x_0} f(x) = l\) con \(x_0, l \in \mathbb{R}^*\)
+	\item[H\(_1\): ] se \(f\) è definitivamente positiva \(\left( \geq 0 \right)\) per \(x \to x_0\)
+	\item[T\(_1\): ] allora \(l \geq 0\)
+	\item[Dim\(_1\): ] Supponiamo per assurdo che \(l < 0\) \\
+	Per il teorema di permanenza del segno \(f(x) < 0\) definitivamente per \(x \to x_0\), ma questo è in contraddizione con l'ipotesi,
+	per cui \(l\) deve necessariamente essere \(\geq 0\). \qed
+
+	\item[H\(_2\): ] se \(f\) è definitivamente negativa \(\left( \leq 0 \right)\) per \(x \to x_0\)
+	\item[T\(_2\): ] allora \(l \leq 0\)
+	\item[Dim\(_2\): ] analogamente alla Dim\(_1\). \qed
+\end{itemize}
+Da osserva che il teorema diventa falso se si sostiuisce \(\geq\) o \(\leq\) al posto di \(>\) o \(<\), dato che quando se \(l = 0\) non è possibile dedurre nessuna delle due conclusioni del teorema. \\
+Inoltre il corollario diventa falso quando si sostiuisce \(>\) o \(<\) al posto di \(\geq\) o \(\leq\), per esempio \(f(x) = x^2 > 0\) definitivamente per \(x \to x_0 = 0\), ma \(\displaystyle \lim_{x \to 0} f(x) = l = 0 \ngtr 0\).
+
+\newpage
+
+
+\subsection{Teorema dei due carabinieri}
+\subsubsection*{Caso limitato con \(l \in \mathbb{R}\)}
+\begin{itemize}
+	\item[P: ] Siano \(f\), \(g\), \(h\), tre funzioni definite in \(X \subset \mathbb{R}\) e sia \(x_0\) punto di accumulazione di \(X\),
+	\item[H: ] se \(f(x) \leq g(x) \leq h(x)\) definitivamente per \(x \to x_0\) e \(\displaystyle \lim_{x \to x_0} f(x) = \lim_{x \to x_0} h(x) = l \in \mathbb{R}\)
+	\item[T: ] allora \(\displaystyle \lim_{x \to x_0} g(x) = l\)
+	\item[Dim:] Scelto un \(\varepsilon > 0\) arbitrario, applicato alle definizioni dei seguenti limiti \(\displaystyle \lim_{x \to x_0} f(x) = l\) e \(\displaystyle \lim_{x \to x_0} h(x) = l\) \\
+	si ottengono due intorni \(U_f\) e \(U_h\) per cui \(\begin{aligned}
+		\left| f(x) - l \right| < \varepsilon \quad &\forall x \in U_f \cap X \backslash \left\{ x_0 \right\} \\
+		\left| h(x) - l \right| < \varepsilon \quad &\forall x \in U_h \cap X \backslash \left\{ x_0 \right\}
+	\end{aligned}\), \\ 
+	mentre dalla prima ipotesi si ottiene che \(f(x) \leq g(x) \leq h(x)\) \(\forall x \in V\) intorno di \(x_0\) con \(V \subseteq X\) \\
+	Scelto un intorno \(U = U_f \cap U_h \cap V\) si ha che \(\forall x \in U \cap X \backslash \left\{ x_0 \right\}\) valgono \\
+	\(l - \varepsilon < f(x) \leq g(x) \leq h(x) < l + \varepsilon\), ovvero \(l - \varepsilon < g(x) < l + \varepsilon \Leftrightarrow \left| g(x) - l \right| < \varepsilon\) \(\forall x \in U \cap X \  \backslash \left\{ x_0 \right\}\)
+	cioè la definizione di \(\displaystyle \lim_{x \to x_0} g(x) = l\) \qed
+\end{itemize}
+
+\subsubsection*{Caso illimitato con \(l = \pm \infty\)}
+\begin{itemize}
+	\item[P: ] Siano \(f\), \(g\), due funzioni definite in \(X \subset \mathbb{R}\) e sia \(x_0\) punto di accumulazione di \(X\),
+	\item[H\(_1\): ] se \(f(x) \leq g(x)\) definitivamente per \(x \to x_0\) e \(\displaystyle \lim_{x \to x_0} f(x) = + \infty\)
+	\item[T\(_1\): ] allora \(\displaystyle \lim_{x \to x_0} g(x) = + \infty\)
+	\item[H\(_2\): ] se \(f(x) \geq g(x)\) definitivamente per \(x \to x_0\) e \(\displaystyle \lim_{x \to x_0} f(x) = - \infty\)
+	\item[T\(_2\): ] allora \(\displaystyle \lim_{x \to x_0} g(x) = - \infty\)
+	\item[Dim: ] Analoga a quella per il caso limitato\qed
+\end{itemize}
+
+Sia la dimostrazione per il caso limitato, sia quella per i casi illimitati, valgono anche per il limite destro e sinistro
+
+\subsubsection*{Disuguaglianze di funzioni trigonometriche}
+\begin{itemize}
+	\item[H\(_1\): ] per \(x \in \left( 0, \displaystyle \frac{\pi}{2} \right)\)
+	\item[T\(_1\): ] \(0 < \sin x \leq x \leq \tan x\)
+	\item[Dim\(_1\): ] Disegnando un arco di circonferenza di raggio \(r = 1\) con centro sull'origine \(O\) e chiamando \(P\) un punto sulla circonferenza, \(H\) la sua proiezione sull'asse \(x\),
+	\(Q\) il punto di intersezione del semiasse positivo \(x\) con la circonferenza e \(R\), l'interesezione tra la perpendicolare a \(x\) per \(Q\) e la retta \(OP\): \\
+	Si osserva che il tr. \(\overset{\triangle}{\text{OPH}}\) è contenuto nel settore circolare \(\overset{\smallfrown}{\text{OPQ}}\) che è contenuto nel tr. \(\overset{\triangle}{\text{ORQ}}\), per cui
+	\(0 < A_{\overset{\triangle}{\text{OPH}}} \leq A_{\overset{\smallfrown}{\text{OPQ}}} \leq A_{\overset{\triangle}{\text{ORQ}}} \quad \Leftrightarrow
+	\quad 0 < \frac{r \cdot \sin x}{2} \leq \frac{r ^ 2 \cdot x }{2} \leq \frac{r \cdot \tan x}{2} \quad \Leftrightarrow 0 < \sin x \leq x \leq \tan x \) \qed
+	
+	\item[H\(_2\): ] per \(x \in \left( \displaystyle - \frac{\pi}{2}, 0 \right)\)
+	\item[T\(_2\): ] \(0 > \sin x \geq x \geq \tan x\)
+	\item[Dim\(_2\): ] si parte dalla disuguaglianza precedente, dove al posto di \(x \in \left( \displaystyle - \frac{\pi}{2}, 0 \right)\) viene posto \(-x = \left( 0, \displaystyle + \frac{\pi}{2} \right)\): \\
+	\(0 < \sin \left( -x \right) \leq -x \leq \tan \left( -x \right) \;\; \Leftrightarrow \;\; 0 < -\sin x \leq -x \leq -\tan x \;\; \Leftrightarrow \;\; 0 > \sin x \geq x \geq \tan x\) \qed
+\end{itemize}
+
+\newpage
+
+
+\subsection{Teorema sull'algebra dei limiti}
+\subsubsection*{Caso limitato}
+premesse, ipotesi, tesi, dimostrazioni \dots
+
+\subsubsection*{Caso illimitato}
+premesse, ipotesi, tesi, dimostrazioni \dots
+
+\subsection{Teorema del confronto}
+premesse, ipotesi, tesi, dimostrazioni \dots
+
+\subsection{Limiti delle funzioni composte}
+premesse, ipotesi, tesi, dimostrazioni \dots
+
+\subsection{Limiti delle funzioni monotone}
+premesse, ipotesi, tesi, dimostrazioni \dots
+
+\subsection{Funzioni continue e continuità}
+premesse, ipotesi, tesi, dimostrazioni \dots
+
+\subsection{Gerarchie degli infiniti}
+premesse, ipotesi, tesi, dimostrazioni \dots
+
+%% inizio lezione 18
+
+\end{document}
