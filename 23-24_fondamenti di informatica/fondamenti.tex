@@ -1,5 +1,16 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{enumitem}
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+\renewcommand\tabularxcolumn[1]{m{#1}}
 
 \title{Appunti di Fondamenti di Informatica}
 \author{Giacomo Simonetto}
@@ -20,14 +31,100 @@
 \newpage
 
 % -------------------------------------------- Storia ---------------------------------------------
-\section{Storia}
+\section{Storia dell'informatica}
+I primi tentativi della ricerca di un linguaggio formale risalgono alla fine del 1800. Ci si chiede se la matematica
+sia un sistema formale completo e se esiste un procedimento meccanico (passo-passo, finito) per dimostrare se una
+proposizione sia vera o falsa.
 
-% ------------------------------------ Modello di Von Neumann -------------------------------------
+Il primo tentavo di \textit{"formalizzazione della matematica"} viene svolto da David Hilbert, con cui si scopre che
+la matematica possiede 23 problemi di formalizzazione chiamati \textit{"23 problemi di Hilbert"}.
+
+La risposta alla prima domanda risale al 1931 quando Goedel, con il \textit{"teorema di incompletezza"} conferma che
+la matematica non è un sistema formale.
+
+Nel 1936 Church, Turing e Kleene elaborano dei formalismi meccanici tra cui la \textit{Macchina di Turing} e la
+\textit{Tesi di Church-Turing} che sostiene che tutto ciò che è computabile è computabile dalla macchina di Turing
+universale.
+
+Nel 1943 si arriva a costruire l'\textit{ENIAC}, il primo computer (general purpose) della storia.
+
+La capacità computazionale tra una macchina di Turing e un computer odierno è la stessa (ecceto per il
+fatto che la macchina di Turing prevedeva uno spazio di archiviazione illimitato), cambia solo la velocità computazionale.
+Entrambe le macchine risolvono gli stessi problemi, ovvero tutti quelli che si possono risolvere con un algoritmo.
+
+
+% ------------------------------ Algoritmi e pensiero computazionale ------------------------------
+\section{Algoritmo}
+Un algoritmo è un metodo di risoluzione di un problema che:
+\begin{itemize}[topsep=5pt, itemsep=0pt]
+	\item[-] deve essere eseguibile
+	\item[-] non deve essere ambiguo
+	\item[-] deve concludersi in un numero finito di passi
+\end{itemize}
+
+\section{Computational Thinking}
+Per computational thinking, o pensiero computazionale, si intende l'insieme delle abilità che permettono di astrarre
+il problema e tradurlo in algoritmo. Comprende le tecniche di astrazione/risoluzione di problemi algoritmici tra
+cui la decomposizione di problemi complessi e la modularità.
+
+\newpage
+
+
+% ------------------------------- Computer e Modello di Von Neumann -------------------------------
+\section{Computer}
+Per computer, o calcolatore, si intende un sistema di elaborazione e memorizzazione di informazioni che opera sotto
+il controllo di un programma. È composto da hardware (parte fisica) e software (programmi e dati). I dati possono
+essre di diverso tipo (immagini, testi, audio, video, \dots) e sono rappresentati elettricamente in 0 e 1.
+
+Esistono diversi tipi di computer (workstation, smartphone, \dots) che possono svolgere diversi tipi di impieghi
+(elettrodomestici, giochi, fotografie, \dots).
+
+
 \section{Modello di Von Neumann}
-\subsection{Central Processing Unit}
+Il modello di Von Neumann è una rappresentazione dell'archietttura di un elaboratore. Prevede la presenza di 4 blocchi
+la CPU, la memoria primaria, la memoria secondaria e i dispositivi di I/O collegati insieme grazie al BUS.
+
+Inoltre sono presenti due diversi flussi di informazioni: quello di dati è bidirezionale, mentre quello degli indirizzi
+e dei segnali di controllo è unidirezionale con direzione CPU \(\rightarrow\) altri dispositivi.
+
+\subsection{Central Processing Unit o CPU}
+\subsubsection*{Compiti}
+La Central Processing Unit ha il compito di:
+\begin{itemize}[topsep=5pt, itemsep=0pt]
+	\item[-] individuare ed eseguire le istruzioni
+	\item[-] elaborare dati attraverso la ALU (Unità Logico Aritmetica)
+	\item[-] reperire dati di input e restituire dati di output
+\end{itemize}
+
+\subsubsection*{Blocchi}
+È costituita da tre blocchi:
+\begin{center}	
+	\begin{tabularx}{\textwidth}{r X}
+		\textbf{ALU}: & anche chiamata \textit{Arithmetic Logical Unit}, risolve le espressioni logico - algebriche \\
+		\midrule
+		\textbf{registri}: & memoria temporanea per dati che devono essere subito elaborati \\
+		\midrule
+		\textbf{unità di controllo}: & costituita dal \textbf{Program Counter}, o \textit{PC}, che memorizza l'indirizzo dell'istruzione successiva da eseguire e dall'\textbf{Instruction Register}, o \textit{IR}, ovvero il registro che memorizza l'istruzione in esecuzione
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Funzionamento}
+La CPU ha funzionamento ciclico che si divide in tre fasi. La velocità di una CPU è espressa in cicli al secondo (dell'ordine dei GHz).
+\begin{center}
+	\begin{tabularx}{\textwidth}{c c X}
+		1° fase & fetch & caricamento \dots \\
+		\midrule
+		2° fase & decode & decodifica \dots \\
+		\midrule
+		3° fase & execute & esecuzione \dots
+	\end{tabularx}
+\end{center}
+
+
 \subsection{Memoria primaria}
 \subsection{Memoria secondaria}
 \subsection{Dispositivi di I/O}
+
 
 % --------------------------------------- Sistemi operativi ---------------------------------------
 \section{Sistemi operativi}
