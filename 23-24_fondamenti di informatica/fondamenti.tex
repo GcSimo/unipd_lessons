@@ -100,49 +100,176 @@ La Central Processing Unit ha il compito di:
 È costituita da tre blocchi:
 \begin{center}	
 	\begin{tabularx}{\textwidth}{r X}
-		\textbf{ALU}: & anche chiamata \textit{Arithmetic Logical Unit}, risolve le espressioni logico - algebriche \\
+		\textbf{ALU}: & anche chiamata \textit{Arithmetic Logical Unit}, risolve le espressioni logico - algebriche come somma,
+		differenza, prodotto, divisione, and logico, or logico, \dots \\
 		\midrule
-		\textbf{registri}: & memoria temporanea per dati che devono essere subito elaborati \\
+		\textbf{Registri}: & memoria temporanea per dati che devono essere subito elaborati:
+		\begin{itemize}[topsep=3pt, itemsep=0pt]
+			\item[-] il \textbf{Memory Adress Register}, o \textit{MAR}, che memorizza l'indirizzo dell'istruzione da eseguire o del dato da utilizzare
+			\item[-] il \textbf{Memory Data Register},	o \textit{MDR}, che memorizza i dati/le istruzioni lette dalla memoria primaria
+			\item[-] l'\textbf{Accumulator}, o \textit{ACC}, che memorizza dati temporanemente per essere utilizzati nelle istruzioni successive
+		\end{itemize} \\
 		\midrule
-		\textbf{unità di controllo}: & costituita dal \textbf{Program Counter}, o \textit{PC}, che memorizza l'indirizzo dell'istruzione successiva da eseguire e dall'\textbf{Instruction Register}, o \textit{IR}, ovvero il registro che memorizza l'istruzione in esecuzione
+		\textbf{Control Unit}: & anche detta unità di controllo, è unità principale della CPU, è costituita da:
+		\begin{itemize}[topsep=3pt, itemsep=0pt]
+			\item[-] \textbf{Program Counter}, o \textit{PC}, che memorizza l'indirizzo dell'istruzione successiva da eseguire
+			\item[-] \textbf{Instruction Register}, o \textit{IR}, ovvero il registro che memorizza l'istruzione in esecuzione
+		\end{itemize}
 	\end{tabularx}
 \end{center}
+
+\newpage
 
 \subsubsection*{Funzionamento}
-La CPU ha funzionamento ciclico che si divide in tre fasi. La velocità di una CPU è espressa in cicli al secondo (dell'ordine dei GHz).
+La CPU ha funzionamento ciclico che si divide in tre fasi. La velocità di una CPU, chiamata frequenza di clock è espressa
+in cicli al secondo (dell'ordine dei GHz) ed è scandita dal \textit{Clock}. La velocità massima è dovuta ai limiti fisici
+della tecnologia disponibile.
+
 \begin{center}
 	\begin{tabularx}{\textwidth}{c c X}
-		1° fase & fetch & caricamento \dots \\
+		\toprule
+		1° fase & \textbf{fetch} &
+		\begin{itemize}[topsep=3pt, itemsep=0pt, leftmargin=5pt]
+			\item[-] viene letto l'indirizzo dell'istruzione da eseguire dal \textit{PC} e viene salvato nel \textit{MAR}
+			\item[-] viene incrementato il \textit{PC} in modo che punti all'istruzione successiva
+			\item[-] viene letta e caricata l'istruzione prima nel \textit{MDR} poi nell'\textit{IR}
+		\end{itemize} \\
 		\midrule
-		2° fase & decode & decodifica \dots \\
+		2° fase & \textbf{decode} &
+		\begin{itemize}[topsep=3pt, itemsep=0pt, leftmargin=5pt]
+			\item[-] la \textit{CU} decodifica l'istruzione salvata nell'\textit{IR}
+			\item[-] se necessario viene caricato nel \textit{MAR} l'indirrizzo del dato da elaborare o della posizione in cui scrivere il dato elaborato 
+		\end{itemize} \\
 		\midrule
-		3° fase & execute & esecuzione \dots
+		3° fase & \textbf{execute} &
+		\begin{itemize}[topsep=3pt, itemsep=0pt, leftmargin=5pt]
+			\item[-] viene eseguita l'istruzione:
+			\item[-] se necessario viene caricato nel \textit{MDR} il dato referenziato dal \textit{MAR}
+			\item[-] il dato può essere salvato nell'\textit{ACC} o impiegato in un'operazione logico-algebrica eseguita dalla \textit{ALU} 
+			\item[-] il risultato viene salvato nell'\textit{ACC}
+			\item[-] oppure il dato memorizzato nell'\textit{ACC} viene scritto nell'indirizzo di memoria contenuto nel \textit{MAR}
+		\end{itemize} \\
+		\bottomrule
 	\end{tabularx}
 \end{center}
 
+\subsubsection*{Limiti e parallelismo}
+I limiti della CPU sono principalmente due: la frequenza di clock e l'impossibilità di eseguire un'istruzione, finché
+non viene completata quella precedente. Per superare il secondo problema si sono cercate soluzioni come il parallelismo.
+Il parallelismo si divide in:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{parallellsimo a livello di istruzioni}: \\ 
+	detto anche pipeline o multiscalari, consiste nel suddividere il ciclo di un processore in 5 stadi (lettura, decodifica,
+	recupero operandi, caricamento, esecuzione, invio risultati) e di eseguire contemporaneamente più istruzioni su stadi
+	diversi. In questo modo non è necessario aspettare che l'esecuzione dell'istruzione	precedente termini per iniziare
+	quella della successiva, ma è sufficiente che sia completato il primo stadio. 
+	\item[-] \textbf{parallellismo a livello di processori}: \\
+	consiste nell'avere più processori che lavorano contemporaneamente in grado di eseguire più istruzioni nello stesso momento.
+	In base all'archietttura di distinguono in multiprocessori (se sono presenti più processori che condividono la stessa memoria)
+	o multicomputer (se sono più processori, ciascuno con la propria memoria dedicata, collegati tra loro).
+\end{itemize}
 
-\subsection{Memoria primaria}
-\subsection{Memoria secondaria}
+\subsection{Memoria primaria e secondaria}
+\subsubsection*{Compiti}
+La memoria ha il compito di memorizzare dati e programmi, sia in maniera temporanea, che permanente.
+
+\subsubsection*{Struttura}
+La memoria è composta da celle chiamate allocazioni di memoria. Ogni allocazione può contenere un preciso numero di bit.
+Un bit (abbreviazione di Binary Digit) è l'unità minima di dimensione della memoria e corrisponde allo spazio occupato da 0 o 1.
+Il bit è un sottomultiplo del byte, 1byte = 8bit. Il byte è l'unità minima di accesso singolo alla memoria ed è l'unità base 
+per la misura della dimensione dello spazio di archiviazione. I suoi multipli sono kilobyte (KB), megabyte (MB), gigabyte (GB),
+terabyte (TB), \dots
+
+\subsubsection*{Memoria primaria}
+La memoria primaria è la più veloce delle due, ma anche la più costosa. Ne esistono due tipi:
+\begin{center}
+	\begin{tabularx}{\textwidth}{c X}
+		\textbf{RAM} & o \textit{Random Access Memory}, memoria volatile, dotata della caratteristica di avere un tempo di accesso
+		ad una cella indipendente dal luogo in cui essa si trova (tempo di accesso "casuale"). Viene impiegata per salvare dati 
+		temporanei derivati dall'esecuzione di programmi. \\
+		\midrule
+		\textbf{ROM} & o \textit{Read Only Memory}, memoria permanente di sola lettura in cui vengono salvati i programmi necessari
+		all'avvio della macchina, es. BIOS (\textit{Basic Input Output System}) \\
+		\midrule
+		\textbf{Cache} & o \textit{memoria di località} memoria estremamente veloce che permette di memorizzare celle di memoria che
+		potenzialmente potrebbero tornare utili nelle future elaborazioni. Esistono due tipi di località:
+		\begin{itemize}[topsep=3pt, itemsep=0pt]
+			\item[-] località temporale: accedere alla stessa cella in tempi vicini
+			\item[-] località spaziale: accedere a celle limitrofe
+		\end{itemize}
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Memoria secondaria}
+Memoria non volatile, più lenta e molto meno costosa della memoria primaria. È riservata all'archiviazione di file, dati,
+programmi (tra cui anche il sistema operativo) che vengono trasferiti nella \textit{RAM} al momento dell'esecuzione.
+Esistono diversi supporti di archiviazione di memoria secondaria:
+\begin{itemize} [topsep=3pt, itemsep=0pt, leftmargin=5pt]
+	\item[-] \textit{HDD} o disco magnetico
+	\item[-] \textit{SSD} o disco a stato solido (solid state drive)
+	\item[-] dischi ottici come \textit{CD}, \textit{DVD}, \textit{Blue-Ray}
+	\item[-] chiavette USB
+	\item[-] nastri magnetici, impiegati per l'archiviazione di documenti, sono molto lenti, ma hanno costo molto basso ed
+	elevata capacità di archiviazione
+\end{itemize}
+
+\subsubsection*{Gerarchie di memoria}
+Maggiore è la dimensione, minore è la velocità ed il costo. In ordine crescente per velocità e costo e decrescente per dimensione:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] nastri magnetici
+	\item[-] dischi magnetici, ottici
+	\item[-] memoria centrale (\textit{RAM})
+	\item[-] cache
+	\item[-] registri del processore
+\end{itemize}
+
 \subsection{Dispositivi di I/O}
+Permettono l'interazione dell'essere umano con la macchina. Comprendono mouse, tastiera, touchpad, schermo, stampante, \dots
+Le operazioni relative ai dispositivi i I/O sono:
+\begin{center}
+	\begin{tabularx}{\textwidth}{c X}
+		\textbf{polling} & o controllo da programma, consiste nel ripetuto e periodico controllo dello stato dei dispositivi \\
+		\textbf{interrupt} & richiama l'attenzione della CPU attraverso un'interruzione del flusso di esecuzione \\
+		\textbf{DMA} & o \textit{Direct Memory Access}, dispositivo indipendente dalla CPU che gestisce il flusso di dati dei
+		dispositivi di I/O ed alleggerisce il carico della CPU (la CPU indica solo indirizzi e dati da spostare)
+	\end{tabularx}
+\end{center}
 
+\newpage
 
 % --------------------------------------- Sistemi operativi ---------------------------------------
 \section{Sistemi operativi}
 \subsection{Unix e Linux}
+\dots
 
 
 % ------------------------------ Rappresentazione delle informazioni ------------------------------
 \section{Rappresentazione delle informazioni nei calcolatori}
 \subsection{Sistema posizionale}
+
+\dots
+
 \subsection{Rappresentazione in modulo - segno}
+
+\dots
+
 \subsection{Rappresentazione in complemento a 2}
+\dots
+
+
 \subsection{Rappresentazione in virgola fissa}
+\dots
+
 \subsection{Rappresentazione in virgola mobile}
+\dots
 
 % ---------------------------------- Linguaggi di programmazione ----------------------------------
 \section{Linguaggi di programmazione}
+\dots
+
 
 % --------------------------------------------- Java ----------------------------------------------
 \section{Java}
+\dots
 
 \end{document}
