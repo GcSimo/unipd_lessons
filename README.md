@@ -1,5 +1,5 @@
 # Appunti delle lezioni
-File con appunti dei corsi svolti durante il corso di Ingnegneria Informatica svolto presso l'Università di Padova
+File con appunti dei corsi svolti durante la facoltà di Ingnegneria Informatica svolta presso l'Università di Padova
 
 ## Primo semestre 2023-24
 ### Analisi 1
