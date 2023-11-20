@@ -2,15 +2,55 @@
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel} % corretta sillabazione in italiano
 \usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
 \usepackage{enumitem}
 \usepackage{multirow} % per celle che si espandono su più righe
 \usepackage{tabularx} % per tabelle con larghezza flessibile
 \usepackage{booktabs} % per linee orizzontali tabelle
 \usepackage{hyperref} % per collegamenti
+\usepackage{graphicx} % per immagini
+\usepackage{listings} % per codice
+\usepackage{xcolor} % per colori nel codice
 
+% definizione colori
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% definizione stile
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+
+% utilizzo stile
+\lstset{style=mystyle}
+
+
+% per margini
 \geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
 
+% per centrare testo nelle tabelleX
 \renewcommand\tabularxcolumn[1]{m{#1}}
+
+% percorso delle immagini da inserire
+\graphicspath{ {./ } }
 
 \title{Appunti di Fondamenti di Informatica}
 \author{Giacomo Simonetto}
@@ -32,40 +72,97 @@
 
 % -------------------------------------------- Storia ---------------------------------------------
 \section{Storia dell'informatica}
-I primi tentativi della ricerca di un linguaggio formale risalgono alla fine del 1800. Ci si chiede se la matematica
-sia un sistema formale completo e se esiste un procedimento meccanico (passo-passo, finito) per dimostrare se una
-proposizione sia vera o falsa.
+\begin{center}
+	\begin{tabularx}{\textwidth}{c X}
+		fine 1800
+		& Si hanno i primi tentativi di \textbf{ricerca di un linguaggio formale}. La matematica è un sistema formale
+		completo? Esiste un procedimento meccanico (passo-passo, finito) per dimostrare se una proposizione sia vera
+		o falsa? Il primo tentavo di \textit{"formalizzazione della matematica"} viene svolto da David Hilbert, con
+		cui si scopre che la matematica possiede 23 problemi di formalizzazione chiamati \textit{"23 problemi di Hilbert"}.
+		La risposta alla prima domanda risale al 1931 quando Goedel, con il \textit{"teorema di incompletezza"}
+		conferma che la matematica non è un sistema formale. \\
+		\midrule
+		
+		1936
+		& Church, Turing e Kleene elaborano dei formalismi meccanici tra cui la \textbf{Macchina di Turing} e la
+		\textbf{Tesi di Church-Turing} che sostiene che tutto ciò che è computabile è computabile dalla macchina di
+		Turing universale. La capacità computazionale tra una macchina di Turing e un computer odierno è la stessa
+		(ecceto per il fatto che la macchina di Turing prevedeva uno spazio di archiviazione illimitato), cambia
+		solo la velocità computazionale. Entrambe le macchine risolvono gli stessi problemi, ovvero tutti quelli
+		che si possono risolvere con un algoritmo. \\
+		\midrule
+		
+		1943
+		& Si arriva a costruire l'\textbf{ENIAC}, il primo computer (general purpose) della storia. Si programmava
+		esclusivamente in binario, i circuiti si basavano sulle valvole termoioniche e occupava un palazzo di 5 piani. \\
+		\midrule
+		
+		1948
+		& Walter Brattain, John Bardeen e William Shockley creano il primo \textbf{transistor} (MOSFET) in grado di
+		sommare due bit. Grazie a ciò, durante gli anni '50 si riesce a ridurre le dimensioni dei computer a un piano. \\
+		\midrule
+		
+		1958
+		& John Backus della IBM sviluppa il primo linguaggio di programmazione di alto livello \textbf{Fortran} per
+		programmare uno dei computer sviluppati dall'IBM. Le novità erano quelle di poter programmare in un linguaggio
+		simile all'inglese e l'introduzione delle selezioni e dei cicli. \\
+		\midrule
 
-Il primo tentavo di \textit{"formalizzazione della matematica"} viene svolto da David Hilbert, con cui si scopre che
-la matematica possiede 23 problemi di formalizzazione chiamati \textit{"23 problemi di Hilbert"}.
+		1966
+		& Viene formulato il \textbf{Teorema di Jacopini-Bohm}: qualsiasi algoritmo è implementabile utilizzando le
+		strutture fondamentali di sequenza, selezione e ripetizione. In alrre parole ha senso investire nell'informatica 
+		come strumento per risolvere problemi di tipo algoritmico. \\
+		\midrule
+		
+		1969
+		& Viene inventato l'\textbf{Internet} (a carattere). \\
+		\midrule
 
-La risposta alla prima domanda risale al 1931 quando Goedel, con il \textit{"teorema di incompletezza"} conferma che
-la matematica non è un sistema formale.
+		1970-71
+		& Niklaus Wirth inventa il \textbf{PASCAL}, il primo linguaggio strutturato in cui scompaiono il go-to, ma a
+		differenza dei precedenti, non può essere usato per scrivere sistemi operativi. \\
+		\midrule
 
-Nel 1936 Church, Turing e Kleene elaborano dei formalismi meccanici tra cui la \textit{Macchina di Turing} e la
-\textit{Tesi di Church-Turing} che sostiene che tutto ciò che è computabile è computabile dalla macchina di Turing
-universale.
+		1970-71
+		& Federico Faggin sviluppa il \textbf{primo microprocessore}. \\
+		\midrule
+		
+		1973
+		& Dennis Ritchie inventa il linguaggio \textbf{C}, simile al Pascal, ma con la possibilità di impiegarlo per
+		sviluppare sistemi operativi. \\
+		\midrule
 
-Nel 1943 si arriva a costruire l'\textit{ENIAC}, il primo computer (general purpose) della storia.
+		1977
+		& Steve Jobs e la Apple inventano il \textbf{primo personal computer}. \\
+		\midrule
+		
+		1979
+		& Bjarne Stroustrup sviluppa il \textbf{C++}, ovvero il C con il paradigma a oggetti. \\
+		\midrule
+		
+		1979
+		& Come risposta alla Apple, la IBM crea il suo primo PC. Non credendo nei PC, non volendo perdere tempo e non
+		avendo un proprio sistema operativo, la IBM si rivolge alla Microsoft (nata nel 1974) chiedendole di sviluppare
+		un sistema operativo per microprocessori. La Microsoft sviluppa \textbf{MS-DOS} (Microsoft Disk Operating System)
+		chiedendo 50 euro per copia (praticamente nulla). Dopo 6 anni vengono vendute 300 milioni di copie e il ricavato
+		viene investito per sviluppare Windows. \\
+		\midrule
 
-La capacità computazionale tra una macchina di Turing e un computer odierno è la stessa (ecceto per il
-fatto che la macchina di Turing prevedeva uno spazio di archiviazione illimitato), cambia solo la velocità computazionale.
-Entrambe le macchine risolvono gli stessi problemi, ovvero tutti quelli che si possono risolvere con un algoritmo.
-
-
-% ------------------------------ Algoritmi e pensiero computazionale ------------------------------
-\section{Algoritmo}
-Un algoritmo è un metodo di risoluzione di un problema che:
-\begin{itemize}[topsep=5pt, itemsep=0pt]
-	\item[-] deve essere eseguibile
-	\item[-] non deve essere ambiguo
-	\item[-] deve concludersi in un numero finito di passi
-\end{itemize}
-
-\section{Computational Thinking}
-Per computational thinking, o pensiero computazionale, si intende l'insieme delle abilità che permettono di astrarre
-il problema e tradurlo in algoritmo. Comprende le tecniche di astrazione/risoluzione di problemi algoritmici tra
-cui la decomposizione di problemi complessi e la modularità.
+		1991
+		& Nasce \textbf{internet a interfaccia grafica} ed insieme ad esso c'è la necessità di avere programmi in grado di girare
+		indipendentemente dal sistema operativo (Win, Mac OS, Unix). Si sviluppano le prime \textbf{Virtual Machine} in grado di 
+		e codici in grado di girare su qualsiasi macchina, grazie alle Virtual Machine. \\
+		\midrule
+		
+		1994
+		& Linus Torvald pubblica la prima versione stabile del kernel \textbf{Linux} (creato nel 1991). \\
+		\midrule
+		
+		1995
+		& James Gosling nella Sun Microsystems sviluppa il linguaggio \textbf{Java}, dotato della particolarità di generare un codice
+		compilato in grado di essere eseguito su qualsiasi macchina grazie alla Java Virtual Machine.
+	\end{tabularx}
+\end{center}
 
 \newpage
 
@@ -81,14 +178,19 @@ Esistono diversi tipi di computer (workstation, smartphone, \dots) che possono s
 
 
 \section{Modello di Von Neumann}
-Il modello di Von Neumann è una rappresentazione dell'archietttura di un elaboratore. Prevede la presenza di 4 blocchi
+Il modello di Von Neumann è una rappresentazione dell'archietttura di un elaboratore. Prevede la presenza di 4 blocchi:
 la CPU, la memoria primaria, la memoria secondaria e i dispositivi di I/O collegati insieme grazie al BUS.
 
-Inoltre sono presenti due diversi flussi di informazioni: quello di dati è bidirezionale, mentre quello degli indirizzi
-e dei segnali di controllo è unidirezionale con direzione CPU \(\rightarrow\) altri dispositivi.
+Inoltre sono presenti due diversi flussi di informazioni: quello di dati è bidirezionale (nello schema è rappresetato
+dalle frecce arancioni), mentre quello degli indirizzi e dei segnali di controllo è unidirezionale con direzione CPU
+\(\rightarrow\) altri blocchi (nello schema è rappresentato dalle frecce blu).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{von-neumann-scheme.png}
+\end{figure}
 
 \subsection{Central Processing Unit o CPU}
-\subsubsection*{Compiti}
 La Central Processing Unit ha il compito di:
 \begin{itemize}[topsep=5pt, itemsep=0pt]
 	\item[-] individuare ed eseguire le istruzioni
@@ -96,29 +198,24 @@ La Central Processing Unit ha il compito di:
 	\item[-] reperire dati di input e restituire dati di output
 \end{itemize}
 
-\subsubsection*{Blocchi}
+\subsubsection*{Componenti}
 È costituita da tre blocchi:
 \begin{center}	
-	\begin{tabularx}{\textwidth}{r X}
-		\textbf{ALU}: & anche chiamata \textit{Arithmetic Logical Unit}, risolve le espressioni logico - algebriche come somma,
-		differenza, prodotto, divisione, and logico, or logico, \dots \\
+	\begin{tabularx}{\textwidth}{c X}
+		\textbf{Control Unit} & o \textit{CU}, gestisce l'esecuzione dei programmi e i flussi di dati \\
 		\midrule
-		\textbf{Registri}: & memoria temporanea per dati che devono essere subito elaborati:
-		\begin{itemize}[topsep=3pt, itemsep=0pt]
-			\item[-] il \textbf{Memory Adress Register}, o \textit{MAR}, che memorizza l'indirizzo dell'istruzione da eseguire o del dato da utilizzare
-			\item[-] il \textbf{Memory Data Register},	o \textit{MDR}, che memorizza i dati/le istruzioni lette dalla memoria primaria
-			\item[-] l'\textbf{Accumulator}, o \textit{ACC}, che memorizza dati temporanemente per essere utilizzati nelle istruzioni successive
-		\end{itemize} \\
+		\textbf{ALU} & o \textit{Arithmetic Logical Unit}, elabora le espressioni logiche e algebriche \\
 		\midrule
-		\textbf{Control Unit}: & anche detta unità di controllo, è unità principale della CPU, è costituita da:
+		\textbf{Registri} & memorie temporanee per dati che devono essere subito elaborati:
 		\begin{itemize}[topsep=3pt, itemsep=0pt]
-			\item[-] \textbf{Program Counter}, o \textit{PC}, che memorizza l'indirizzo dell'istruzione successiva da eseguire
-			\item[-] \textbf{Instruction Register}, o \textit{IR}, ovvero il registro che memorizza l'istruzione in esecuzione
+			\item[-] l'\textbf{Accumulator}, o \textit{ACC}, che memorizza i dati elaborati o che stanno per essere elaborati dalla \textit{ALU}
+			\item[-] il \textbf{Program Counter}, o \textit{PC}, che memorizza l'indirizzo di memoria dell'istruzione successiva da eseguire
+			\item[-] l'\textbf{Instruction Register}, o \textit{IR}, che memorizza l'istruzione da decodificare
+			\item[-] il \textbf{Memory Data Register},	o \textit{MDR}, che memorizza i dati/le istruzioni lette o che stanno per essere scritte nella memoria primaria
+			\item[-] il \textbf{Memory Adress Register}, o \textit{MAR}, che memorizza l'indirizzo di memoria dell'istruzione da eseguire o del dato da utilizzare
 		\end{itemize}
 	\end{tabularx}
 \end{center}
-
-\newpage
 
 \subsubsection*{Funzionamento}
 La CPU ha funzionamento ciclico che si divide in tre fasi. La velocità di una CPU, chiamata frequenza di clock è espressa
@@ -156,29 +253,27 @@ della tecnologia disponibile.
 \subsubsection*{Limiti e parallelismo}
 I limiti della CPU sono principalmente due: la frequenza di clock e l'impossibilità di eseguire un'istruzione, finché
 non viene completata quella precedente. Per superare il secondo problema si sono cercate soluzioni come il parallelismo.
-Il parallelismo si divide in:
+Esistono due tipi di parallelismo:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] \textbf{parallellsimo a livello di istruzioni}: \\ 
+	\item[-] \textbf{parallelismo a livello di istruzioni}: \\ 
 	detto anche pipeline o multiscalari, consiste nel suddividere il ciclo di un processore in 5 stadi (lettura, decodifica,
 	recupero operandi, caricamento, esecuzione, invio risultati) e di eseguire contemporaneamente più istruzioni su stadi
 	diversi. In questo modo non è necessario aspettare che l'esecuzione dell'istruzione	precedente termini per iniziare
 	quella della successiva, ma è sufficiente che sia completato il primo stadio. 
-	\item[-] \textbf{parallellismo a livello di processori}: \\
+	\item[-] \textbf{parallelismo a livello di processori}: \\
 	consiste nell'avere più processori che lavorano contemporaneamente in grado di eseguire più istruzioni nello stesso momento.
 	In base all'archietttura di distinguono in multiprocessori (se sono presenti più processori che condividono la stessa memoria)
 	o multicomputer (se sono più processori, ciascuno con la propria memoria dedicata, collegati tra loro).
 \end{itemize}
 
 \subsection{Memoria primaria e secondaria}
-\subsubsection*{Compiti}
 La memoria ha il compito di memorizzare dati e programmi, sia in maniera temporanea, che permanente.
 
 \subsubsection*{Struttura}
 La memoria è composta da celle chiamate allocazioni di memoria. Ogni allocazione può contenere un preciso numero di bit.
 Un bit (abbreviazione di Binary Digit) è l'unità minima di dimensione della memoria e corrisponde allo spazio occupato da 0 o 1.
 Il bit è un sottomultiplo del byte, 1byte = 8bit. Il byte è l'unità minima di accesso singolo alla memoria ed è l'unità base 
-per la misura della dimensione dello spazio di archiviazione. I suoi multipli sono kilobyte (KB), megabyte (MB), gigabyte (GB),
-terabyte (TB), \dots
+per la misura della dimensione dello spazio di archiviazione.
 
 \subsubsection*{Memoria primaria}
 La memoria primaria è la più veloce delle due, ma anche la più costosa. Ne esistono due tipi:
@@ -191,7 +286,7 @@ La memoria primaria è la più veloce delle due, ma anche la più costosa. Ne es
 		\textbf{ROM} & o \textit{Read Only Memory}, memoria permanente di sola lettura in cui vengono salvati i programmi necessari
 		all'avvio della macchina, es. BIOS (\textit{Basic Input Output System}) \\
 		\midrule
-		\textbf{Cache} & o \textit{memoria di località} memoria estremamente veloce che permette di memorizzare celle di memoria che
+		\textbf{Cache} & o \textit{memoria di località}, memoria estremamente veloce che permette di memorizzare celle di memoria che
 		potenzialmente potrebbero tornare utili nelle future elaborazioni. Esistono due tipi di località:
 		\begin{itemize}[topsep=3pt, itemsep=0pt]
 			\item[-] località temporale: accedere alla stessa cella in tempi vicini
@@ -214,14 +309,12 @@ Esistono diversi supporti di archiviazione di memoria secondaria:
 \end{itemize}
 
 \subsubsection*{Gerarchie di memoria}
-Maggiore è la dimensione, minore è la velocità ed il costo. In ordine crescente per velocità e costo e decrescente per dimensione:
-\begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] nastri magnetici
-	\item[-] dischi magnetici, ottici
-	\item[-] memoria centrale (\textit{RAM})
-	\item[-] cache
-	\item[-] registri del processore
-\end{itemize}
+Maggiore è la dimensione, minore è la velocità ed il costo.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=7cm]{gerarchie-di-memoria.png}
+\end{figure}
 
 \subsection{Dispositivi di I/O}
 Permettono l'interazione dell'essere umano con la macchina. Comprendono mouse, tastiera, touchpad, schermo, stampante, \dots
@@ -229,47 +322,490 @@ Le operazioni relative ai dispositivi i I/O sono:
 \begin{center}
 	\begin{tabularx}{\textwidth}{c X}
 		\textbf{polling} & o controllo da programma, consiste nel ripetuto e periodico controllo dello stato dei dispositivi \\
+		\midrule
 		\textbf{interrupt} & richiama l'attenzione della CPU attraverso un'interruzione del flusso di esecuzione \\
+		\midrule
 		\textbf{DMA} & o \textit{Direct Memory Access}, dispositivo indipendente dalla CPU che gestisce il flusso di dati dei
 		dispositivi di I/O ed alleggerisce il carico della CPU (la CPU indica solo indirizzi e dati da spostare)
 	\end{tabularx}
 \end{center}
 
+
 \newpage
 
 % --------------------------------------- Sistemi operativi ---------------------------------------
 \section{Sistemi operativi}
-\subsection{Unix e Linux}
-\dots
+\subsubsection*{Cos'è e a cosa serve}
+Un sistema operativo, abbreviato \textit{SO}, è un insieme di software che fornisce all'utente una serie di comandi
+e servizi per usufruire della potenza di calcolo di un elaboratore elettronico, inoltre garantisce l'operatività di
+base di un elaboratore, coordinando e gestendo le risorse hardware di elaborazione e memorizzazione, le periferiche,
+le risorse/attività software e facendo da interfaccia con l'utente, senza il quale quindi non sarebbe possibile
+l'utilizzo del computer stesso e dei programmi. Ogni sistema operativo è legato ad uno specifico hardware.
+
+\subsubsection*{Bootstrap}
+Il bootstrap è la fase in cui viene avviato il sistema operativo, generalmente all'avvio del computer.
+La procedura di bootstrap è memorizzata nella \textit{ROM}, all'avvio del computer:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] la CPU legge le istruzioni dalla ROM
+	\item[-] recupera il sistema operativo dal disco (memoria secondaria)
+	\item[-] carica il sistema operativo nella RAM
+	\item[-] avvia l'esecuzione dei programmi che ne permettono il funzionamento
+\end{itemize}
+
+\subsubsection*{Struttura a cipolla}
+Il sistema operativo è organizzato su più strati (come una cipolla), ciascuno con la caratteristica di poter interfacciarsi
+soltanto con quelli più interni. Questo garantisce modularità, flessibilità e più facile manutenzione.
+Gli strati, dal più interno sono:
+\begin{center}
+	\begin{tabularx}{\textwidth}{c X}
+		\textbf{nucleo o core} & gestisce le risorse fisiche, comunica con l'hardware ed è scritto in linguaggio macchina \\
+		\midrule
+		\textbf{gestore I/O} & gestisce i dispositivi di input e output e si occupa di trasferire i dati tra le diverse
+		memorie del computer \\
+		\midrule
+		\textbf{gestore memoria} & gestisce l'allocazione delle memorie durante l'esecuzione dei programmi \\
+		\midrule
+		\textbf{gestore archiviazione} & anche chiamato filesystem, organizza la struttura si archiviazione dei file \\
+		\midrule
+		\textbf{interfaccia utente} & permette all'utente di interagire con la macchina attraverso un'interfaccia grafica (GUI)
+		o a linea di comando (CLI) \\
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Comandi e linguaggi di controllo}
+Ogni sistema operativo possiede un linguaggio di controllo, ovvero un insieme di comandi che permette di interfacciarsi
+con il sistema operativo, eseguire operazioni o programmi, controllare le attività in corso e lo stato della macchina.
+I comandi sono impartiti dall'utente attraverso il terminale o attraverso l'interazione con l'interfaccia grafica.
+In Windows i comandi riprendono il vecchio sistema MS-DOS.
+
+\newpage
+
+
+\subsection{Unix - Linux}
+\subsubsection*{Introduzione}
+Linux è un sistema operativo sviluppato nel 1994 da Linus Torvald, basandosi su UNIX.
+Unix è un sistema operativo proprietaro, Linux è la corrispettiva versione di Unix, ma open source.
+
+\subsubsection*{Utenti e permessi}
+Da sempre Linux e Unix sono sistemi multiutente, ovvero ciascun file ha un utente proprietario e ogni utente più accedere
+e modificare solo dove è permesso. L'utente che non ha limitazioni è chiamato \verb|root|.
+
+\subsubsection*{Filesystem}
+Il filesystem è organizzato con una struttura ad albero capovolto, in cui la cartella, o \textit{directory}, principale,
+che contiente tutti i file e le directory del sistema, è chiamata \verb|root|. Ogni elemento nel filesystem è raggiungibile
+attraverso un percoso chiamato \textit{path}. Il percorso della cartella \verb|root| è \verb|\|.
+
+I path si distinguono in:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{percorso assoluto}: \\
+	ovvero il percorso che separa la cartella \verb|root| dal file in questione, inizia con \verb|\|, ovvero il simbolo della
+	cartella \verb|root|, cioè con \verb|/|, es. \verb|/user/nomeutente/home/desktop/file.txt|
+	\item[-] \textbf{persorso relativo}: \\
+	ovvero il percorso che separa una cartella diversa dalla \verb|root| dal file in questione, inizia con il nome della cartella
+	di partenza, es. \verb|desktop/file.txt| rispetto alla \verb|home|
+\end{itemize}
+Il percorso per accedere alla stessa cartella è \verb|./|, quello per accedere alla cartella di livello superiore è \verb|../|
+
+\subsubsection*{Shell o CLI}
+La Shell è l'interfaccia utente a linea di comando. In Linux/Unix sono presenti diverse shell: \textit{bash}, \textit{csh},
+\textit{ksb}, \textit{zsh}, in base alla distribuzione utilizzata (in Windows è quella di \textit{MS-DOS}).
+
+I comandi della CLI si dividono in \textit{builtin}, che sono presenti di default nell'OS, ed \textit{esterni} che possono
+essere installati in un secondo momento dall'utente.
+
+In Linux/Unix sono presenti dei metacaratteri come il simbolo \verb|*|, che rappresenta una sequenza di uno o più caratteri,
+e il simbolo \verb|?|, che rappresenta un singolo carattere.
+
+Alcuni comandi di Linux/Unix sono:
+\begin{center}
+	\begin{tabularx}{\textwidth}{c X}
+		\verb|cd| & change directory \\
+		\verb|ls| & list files and subdirectory of the current directory \\
+		\verb|cp| & copy file \\
+		\verb|mv| & move or rename file \\
+		\verb|rm| & remove file\\
+		\verb|mkdir| & make new directory \\
+		\verb|rmdir| & remove directory \\
+		\verb|kill| & end process \\
+		\verb|sudo| & per eseguire comandi dall'utente root \\
+		\verb|man| & manuale \\
+		\verb|appropos| & ricerca comandi \\
+		\verb|whatis| & descrizione comando
+	\end{tabularx}
+\end{center}
+
+\newpage
 
 
 % ------------------------------ Rappresentazione delle informazioni ------------------------------
 \section{Rappresentazione delle informazioni nei calcolatori}
-\subsection{Sistema posizionale}
+In un calcolatore elettonico, le informazioni sono memorizzate ed elaborate in formato binario (0 e 1). Bisogna convertire
+ciascun tipo di dato (testo, numeri, immagini, audio, video) in notazione binaria. Di seguito alcuni esempi:
+\begin{center}
+	\begin{tabularx}{\textwidth}{c X}
+		numeri naturali \(\mathbb{N}\) & rappresentazione secondo il sistema posizionale \\
+		\midrule
+		\multirow{2}{*}{numeri interi \(\mathbb{Z}\)} & rappresentazione modulo - segno \\
+		& rappresentazione in complemento a due \\
+		\midrule
+		\multirow{2}{*}{numeri reali \(\mathbb{R}\)} & rappresentazione in virgola fissa \\
+		& rappresentazione in virgola mobile (singola e doppia precisione) \\
+		\midrule
+		caratteri & tabella ASCII o Unicode
+	\end{tabularx}
+\end{center}
 
-\dots
+Dato che un computer può elaborare soltanto un numero finito di informazioni, mentre i numeri sono infiniti, significa che
+ci sarà un valore massimo e un valore minimo rappresentabile. Inoltre viene introdotto un errore dato dal fatto che non tutti
+i nmeri hanno un numero di cifre limitate (es. \(\pi\) o \(\sqrt{2}\)).
 
+% Rappresentazione in sistema posizionale
+\subsection{Rappresentazione in sistema posizionale}
+Sfrutta il principio che ogni cifra possiede un peso dato dalla posizione relativa nel numero. Nel sistema decimale ogni
+cifra ha, come peso, una potenza di 10, in quello binario si usano le potenze di 2.
+
+\subsubsection*{Rappresentazione}
+\begin{center}
+	\begin{tabularx}{\textwidth}{l r X}
+		DEC & \(234_{10}\) & \(= 2 \cdot 10 ^ 2 + 3 \cdot 10 ^ 1 + 4 \cdot 10 ^ 0 \) \\
+		\midrule
+		BIN & \(11101010_2\) & \(= 1 \cdot 2 ^ 7 + 1 \cdot 2 ^ 6 + 1 \cdot 2 ^ 5 + 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 2 + 1 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0\) \\
+		\midrule
+		base \(b\) & num con \(n\) cifre &
+		\[a_{n-1} a_{n-2} \dots a_0 = \sum_{k = 0}^{n-1} a_k \cdot b ^ k \quad \text{ con }
+		\begin{aligned}
+			a_k &= k \text{-esima cifra} \\
+			b^k &= \text{peso della } k \text{-esima cifra}
+		\end{aligned}\]
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Valori rappresentabili}
+Il range di valori rappresentabili è \(\left[ 0, 2^n - 1 \right]\).
+
+\subsubsection*{Conversione decimale - binario}
+Per eseguire la conversione dal sistema decimale a quello binario, bisogna usare l'algoritmo di conversione:
+\begin{lstlisting}[language=Java]
+	while (numero != 0)
+	resto[i] = numero % base
+	numero = numero / base
+\end{lstlisting}
+
+Il numero converito si ottiene giustapponendo i resti ottenuti al contrario, in modo che l'ultimo resto è la cifra più
+significativa e il primo resto è quella meno significativa.
+
+\subsubsection*{Conversione binario - decimale}
+Per convertire un numero dal sistema binario a quello decimale, basta associare ciascuna cifra al suo peso in potenza
+di 2 e sommare i valori ottenuti.
+\begin{align*}
+	11101010_2 &=  1 \cdot 2 ^ 7 + 1 \cdot 2 ^ 6 + 1 \cdot 2 ^ 5 + 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 2 + 1 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0 \\
+	&=  1 \cdot 128 + 1 \cdot 64 + 1 \cdot 32 + 0 \cdot 16 + 1 \cdot 8 + 0 \cdot 4 + 1 \cdot 2 + 0 \cdot 1 \\
+	&= 128 + 64 + 32 + 8 + 2 \\
+	&= 234_{10}
+\end{align*}
+
+\newpage
+
+
+% Rappresentazione in modulo - segno
 \subsection{Rappresentazione in modulo - segno}
+Con il sistema posizionale non è possibile rappresentare valori negativi, per cui viene introdotta la rappresentazione
+modulo-segno. Tale sistema prevede di riservare il primo bit al segno del numero ed i restanti per il modulo rappresentato
+con il sistema decimale. 
 
-\dots
+\subsubsection*{Rappresentazione}
+\begin{center}
+	\begin{tabularx}{\textwidth}{l X}
+		num \(\geq 0\) & \(+12_{10} = +1 \cdot 1100_2 = 0 + 1100_2 = 01100_{2MS}\) \\
+		\midrule
+		num \(< 0\) & \(-12_{10} = -1 \cdot 1100_2 = 1 + 1100_2 = 11100_{2MS}\)
+	\end{tabularx}
+\end{center}
 
+\subsubsection*{Valori rappresentabili}
+Il range di valori rappresentabili è \(\left[- \left(2^{n - 1} - 1\right); + \left(2^{n - 1} - 1\right) \right]\).
+Si osserva che lo \(0_{10}\) possiede due rappresentazioni: \(1 0000_{2MS}\) e \(0 0000_{2MS}\)  per \(n = 4\).
+		
+\subsubsection*{Conversioni}
+Per le conversioni da sistema decimale a binario e viceversa si ricorre al procedimento illustrato nel sistema porizionale,
+con l'unica particolarità di avere uno \verb|0| se il numero è positivo ed un \verb|1| se il numero è negativo.
+
+\subsubsection*{Criticità}
+Questo sistema di rappresentazione non viene utilizzato in quanto l'algoritmo per eseguire somme (e sottrazioni) è poco
+efficiente e complesso.
+
+\newpage
+
+
+% Rappresentazione in complemento a 2
 \subsection{Rappresentazione in complemento a 2}
-\dots
+Con la rappresentazione in complemento a 2 è possibile rappresentare numeri interi positivi e negativi, eliminando la
+doppia rappresentazione dello zero e semplificando l'algoritmo di somma (e differenza), avendo sempre i positivi e lo
+0 che inziano per \verb|0| e i negativi che iniziano per \verb|1|.
 
+\subsubsection*{Rappresentazione}
+\begin{center}
+	\begin{tabularx}{\textwidth}{l X}
+		num \(\geq 0\) & \(+12_{10} = 0 + 1100_2 = 01100_{C2}\) \\
+		\midrule
+		num \(< 0\) & \(-12_{10} = 10100_{C2} \quad \rightarrow \quad -12 + 32 = 20_{10} = 10100_{2}\)
+	\end{tabularx}
+\end{center}
 
+\subsubsection*{Valori rappresentabili}
+Il range di valori rappresentabili è \(\left[ - 2^{n - 1}; 2^{n - 1} - 1 \right]\).
+
+\subsubsection*{Conversione decimale - binario}
+Per i numeri positivi, compreso lo 0, si impiega il classico sistema posizionale (aggiungendo uno \verb|0| davanti al
+numero per il segno), mentre per i numeri negativi è necessario:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] sommare \(2^n\) con \(n\) numero di cifre in binario in modo da rendere il numero positivo
+	\item[2.] convertire il risultato secondo il sistema posizionale (se i conti sono giusti il numero inizierà per \verb|1|)
+\end{itemize}
+\begin{align*}
+	+12_{10} &= 0 + 1100_2 = 01100_{C2} \\
+	-12_{10} &\rightarrow -12 + 2^5 = 20_{10} = 10100_{2} \\
+	-12_{10} &= 11100_{C2}
+\end{align*}
+
+In alternativa se il numero è negativo
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] convertire il modulo secondo il sistema posizionale
+	\item[2.] aggiungerci uno \verb|0| davanti
+	\item[3.] invertire le cifre (gli \verb|0| diventano \verb|1| e gli \verb|1| diventano \verb|0|)
+	\item[4.] sommarci 1 (se i conti sono giusti il numero inizierà per \verb|1|)
+\end{itemize}
+\begin{align*}
+	-12_{10} &\rightarrow 1100_{2} \rightarrow 00011 \rightarrow 10011 \rightarrow 10011 + 1 \rightarrow 10100 \\
+	-12_{10} &= 10100_{C2}
+\end{align*}
+
+\subsubsection*{Conversione binario - decimale}
+Per i numeri che iniziano per \verb|0| basta eseguire la conversione per sistema posizionale, per quelli che inizano con
+\verb|1| bisogna converire il numero secondo il sistema posizionale e toglierci \(2^n\) con \(n =\) cifre del numero.
+
+\begin{align*}
+	01100_{C2} &= 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0 \\
+	&= 8 + 4 \\
+	&= 12_{10}
+\end{align*}
+\begin{align*}
+	10100_{C2} &= 1 \cdot 2 ^ 4 +  0 \cdot 2 ^ 3 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0 \quad - 2 ^ 5\\
+	&= 16 + 4 \quad - 32 \\
+	&= 28 - 32 \\
+	&= -12_{10}
+\end{align*}
+
+\newpage
+
+% Rappresentazione in virgola fissa
 \subsection{Rappresentazione in virgola fissa}
-\dots
+La rappresentazione in virgola fissa riprende il principio del sistema posizionale, usando potenze con esponenti negativi
+per le cifre dopo la virgola.
 
+\subsubsection*{Rappresentazione}
+\begin{center}
+	\begin{tabularx}{\textwidth}{l r X}
+		DEC & \(234,56_{10}\) & \(= 2 \cdot 10 ^ 2 + 3 \cdot 10 ^ 1 + 4 \cdot 10 ^ 0 + 5 \cdot 10 ^ -1 + 6 \cdot 10 ^ -2\) \\
+		\midrule
+		\multirow{2}{*}{BIN} & \multirow{2}{*}{\(11101010,1001_2\)} & \(= 1 \cdot 2 ^ 7 + 1 \cdot 2 ^ 6 + 1 \cdot 2 ^ 5 + 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 2 + 1 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0 +\) \\
+		& & \(+ 1 \cdot 2 ^ -1 + 0 \cdot 2 ^ -2 + 0 \cdot 2 ^ -3 + 1 \cdot 2 ^ -3\) \\
+		\midrule
+		base \(b\) & num con \(n,m\) cifre &
+		\[a_n a_{n-1} \dots a_0, a_1 a_2 \dots a_{m}  = \sum_{k = 0}^{n} a_k \cdot b ^ k + \sum_{k=1}^{m} a_k \cdot b ^ {-k}\]
+		con \(a_k = k\)-esima cifra, \(b^k, b^{-k} =\)peso della \(k\)-esima cifra
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Valori rappresentabili}
+Il range di valori rappresentabili è \(0 + \left[ 2^{-m}, 2^n - 1 \right]\), con \(n\) cifre intere, \(m\) cifre decimali.
+
+\subsubsection*{Conversione decimale - binario}
+Per eseguire la conversione dal sistema decimale a quello binario, è necessario dividere la parte intera da quella dopo
+la virgola. Per la prima basta convertirla con l'algoritmo visto per il sistema posizionale, mentre per la parte decimale
+è necessario applicare il seguente "algoritmo":
+\begin{lstlisting}[language=Java]
+while (numero != 0)
+	parteIntera[i] = parteIntera di numero 
+	numero = numero * base
+\end{lstlisting}
+Per ottenere il numero convertito è necessario prendere le parti intere in ordine (senza invertirli). Si osserva che il
+risultato potrebbe essere un numero illimitato.
+
+\subsubsection*{Conversione binario - decimale}
+Per convertire un numero dal sistema binario a quello decimale, basta associare ciascuna cifra al suo peso in potenza
+di 2 e sommare i valori ottenuti.
+\begin{align*}
+	11101010,1001_2 &= 1 \cdot 2 ^ 7 + 1 \cdot 2 ^ 6 + 1 \cdot 2 ^ 5 + 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 2 + 1 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0 + \\
+	&\;\;\;\; + 1 \cdot 2 ^{-1} + 0 \cdot 2 ^{-2} + 0 \cdot 2 ^{-3} + 1 \cdot 2 ^{-4} \\
+	&=  1 \cdot 128 + 1 \cdot 64 + 1 \cdot 32 + 0 \cdot 16 + 1 \cdot 8 + 0 \cdot 4 + 1 \cdot 2 + 0 \cdot 1 + \\
+	&\;\;\;\; + 1 \cdot \frac{1}{2} + 0 \cdot \frac{1}{4} + 0 \cdot \frac{1}{8} + 1 \cdot \frac{1}{16} \\
+	&= 128 + 64 + 32 + 8 + 2 + 0,5 + 0,0625\\
+	&= 234,5625_{10} \\
+	&\approx 234,56_{10}
+\end{align*}
+
+\subsubsection*{Criticità}
+Non tutti i numeri sono rappresentabili in un numero finito di cifre. Alcuni numeri che nel sistema decimale hanno un
+numero finito di cifre, nel sistema binario potrebbero essere illimitati, per cui la loro rappresentazione potrebbe
+essere un'approssimazione. Inoltre è poco efficiente in quando per rappresentare numeri molto grandi, la parte decimale
+sarebbe poco significativa e i bit riservati a tale parte si potrebbero usare per la parte intera. Viceversa per numeri
+prossimi allo 0.
+
+\newpage
+
+% Rappresentazione in virgola mobile
 \subsection{Rappresentazione in virgola mobile}
-\dots
+Utilizza la notazione esponenziale con mantissa ed esponente che permette maggiore flessibilità per numeri molto grandi
+e numeri prossimi allo 0. Lo standard \textit{IEEE 754} prevede due rappresentazioni: a singola e a doppia precisione.
+
+\subsubsection*{Rappresentazione}
+\begin{center}
+	\begin{tabularx}{\textwidth}{l r X}
+		DEC & \(234,56_{10}\) & \(= 0,23456 \cdot 10 ^ 4 \) \\
+		\midrule
+		BIN & \(11101010,1001_2\) & \(= 0,111010101001 \cdot 2 ^ 8\)
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Suddivisione in bit}
+Per lo standard a singola precisione, la suddivione dei bit in segno mantissa esponente 1 + 23 + 8. \\
+Per lo standard a doppia precisione, la suddivione dei bit in segno mantissa esponente 1 + 52 + 11.
+
+\subsubsection*{Valori rappresentabili}
+Il range di valori rappresentabili, sia a singola che a doppia precisione, sono molto ampi (\(\pm 2^{127}\) a singola),
+la precisione che si valuta è la distanza tra due numeri binari con la virgola adiacenti.
+
+Per la singola precisione, avere 23 bit di mantissa, significa che posso suddividere l'intervallo da \(0,0\dots1 \cdot 2^n,
+0,1\dots1 \cdot 2^n\) in \(2^{23}\) parti. Queste parti saranno èiù fitte per esponenti bassi e meno fitte per esponenti
+alti.
+
+Per lo standard a singola precisione si ha che la differenza tra due numeri adiacenti \(\delta = 2^{23} \cdot 2^E\), dove
+\(E\) è l'esponente binario dei numeri da rappresentare che varia da \(\left[ -127, +128\right]\).
+
+Per lo standard a singola precisione si ha che la differenza tra due numeri adiacenti \(\delta = 2^{52} \cdot 2^E\), dove
+\(E\) è l'esponente binario dei numeri da rappresentare che varia da \(\left[ -1023, +1024\right]\).
+
+\subsection*{Valori limite}
+Alcune combinazioni di mantissa ed esponente sono catalogate per valori particolari come:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[\(0\): ] esponente minimo, mantissa 0
+	\item[\(\infty\): ] esponente massimo, mantissa 0
+	\item[NaN: ] esponente massimo, mantissa 1 (\textit{Not A Number}) 
+\end{itemize}
+
+\subsubsection*{Criticità}
+Non tutti i numeri sono rappresentabili con un numero finito di cifre, ma vengono introdotte approssimazioni, come nel
+caso di 4,35 (che ha una rappresentazione binaria illimitata). Per questo motivo, quando si fanno confronti tra valori in virgola mobile è necessario introdurre un errore entro cui
+due numeri sono uguali.
+
+Inoltre nel caso in cui si lavora con numeri molto grandi a cui vengono sommati numeri molto piccoli, si rischia di
+non avere abbastanza precisione per eseguire correttamente la somma, rischiando di perdere il valore dell'addendo minore.
+Questo avviene soprattutto quando l'addendo più piccolo è minore della precisione del numero più grande.
+
+\subsection{Base esadecimale e ottale}
+\subsection{ASCII e UNICODE}
+
+\newpage
 
 % ---------------------------------- Linguaggi di programmazione ----------------------------------
-\section{Linguaggi di programmazione}
-\dots
+\section{Introduzione alla programmazione}
+
+\subsection{Algoritmo}
+Un algoritmo è un metodo di risoluzione di un problema che:
+\begin{itemize}[topsep=5pt, itemsep=0pt]
+	\item[-] deve essere eseguibile
+	\item[-] non deve essere ambiguo
+	\item[-] deve concludersi in un numero finito di passi
+\end{itemize}
+
+\subsection{Computational Thinking}
+Per computational thinking, o pensiero computazionale, si intende l'insieme delle abilità che permettono di astrarre
+il problema e tradurlo in algoritmo. Comprende le tecniche di astrazione/risoluzione di problemi algoritmici tra
+cui la decomposizione di problemi complessi e la modularità.
+
+\subsection{Programmazione}
+definizione, algortmo, errori, \dots
+
+\subsection{Linguaggi di programmazione}
+\subsubsection*{Linguaggio macchina}
+
+\subsubsection*{Linguaggi assembly e di basso livello}
+
+
+\subsubsection*{Linguaggi di alto livello}
+
+\newpage
 
 
 % --------------------------------------------- Java ----------------------------------------------
 \section{Java}
-\dots
+\subsection{Introduzione}
+portabilità, bytecode, memoria, JVM \dots
+
+\subsection{Struttura di un programma}
+classi, metodi, oggetti, librerie, pacchetti, commenti, variabili, literals, stringhe, costanti, strutture logiche, \dots
+
+\subsection{Variabili}
+\subsubsection*{Tipi di dato}
+char, byte, short, int, long, float, double
+\subsubsection*{Promozione e casting}
+promozione, casting esplicito, \dots
+
+\subsubsection*{Operazioni}
+assegnazione, somma, moltiplicazione, differenza, divisione, modulo, confronti, precedenze
+
+\subsubsection*{Costanti}
+final
+
+\subsubsection*{Literals}
+numeri, stringhe, interpretazione
+
+\subsection{Metodi}
+main, parametri, overloading
+
+\subsection{Classi e oggetti}
+\subsubsection*{Struttura}
+variabili d'istanza, metodi, riferimenti e allocazione, this
+metodi costruttori, di accesso, di modifica, \dots
+
+\subsubsection*{Incapsulamento}
+public, private, static, non-static
+incapsulamento e accessibilità
+
+\subsubsection*{Pacchetti e organizzazione}
+pacchetti, classi e import, documentazione API
+
+\subsection{Classe String}
+utilizzo, metodi, \dots
+
+\subsection{Classe Scanner}
+utilizzo, metodi, \dots
+
+\subsection{Selezioni}
+utilizzo, struttura, else if, annidamento, else sospeso, espressioni logiche, \dots
+switch case
+
+\subsection{Iterazioni}
+while, do-while, for, cicli annidati, break, continue
+
+% ---------------------------------------- Strutture dati -----------------------------------------
+\section{Strutture dati}
+adt, liste e array
+
+\subsection{Array}
+definione, struttura, creazione, passaggio come parametro
+
+\subsubsection*{Algoritmo di copia}
+copia di un array
+
+\subsubsection*{Algoritmo di ridimensionamento}
+ridimensionamento di un array
+
+\subsubsection*{Array riempiti a metà}
+dimensione logica vs dimensione relative
+
+\subsection{Matrici}
+array bidimensionali
 
 \end{document}
