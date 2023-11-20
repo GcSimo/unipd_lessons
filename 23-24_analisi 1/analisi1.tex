@@ -49,9 +49,9 @@
 \section{Cenni di teoria degli insiemi}
 \subsection{Notazioni e definizioni di base}
 \begin{align*}
-	\mathbb{N} &= \left\{ \textit{ numeri naturali } \right\} = \left\{ \  0, \  1, \  2, \  3, \dots \right\} \\
-	\mathbb{Z} &= \left\{ \textit{ numeri interi } \right\} = \left\{ \  0, \  +1, \  -1, \  +2, \  -2, \dots \right\} \\
-	\mathbb{Q} &= \left\{ \textit{ numeri razionali } \right\} = \left\{ \  \frac{p}{q} \textit{ t.c. } p,q \in \mathbb{N}, \  q \neq 0 \right\} \\
+	\mathbb{N} &= \left\{ \textit{ numeri naturali } \right\} = \left\{ \; 0, \; 1, \; 2, \; 3, \dots \right\} \\
+	\mathbb{Z} &= \left\{ \textit{ numeri interi } \right\} = \left\{ \; 0, \; +1, \; -1, \; +2, \; -2, \dots \right\} \\
+	\mathbb{Q} &= \left\{ \textit{ numeri razionali } \right\} = \left\{ \; \frac{p}{q} \textit{ t.c. } p,q \in \mathbb{N}, \; q \neq 0 \right\} \\
 	\mathbb{R} &= \left\{ \textit{ numeri reali } \right\} \\
 	\mathbb{C} &= \left\{ \textit{ numeri complessi } \right\}
 \end{align*}
@@ -75,7 +75,7 @@
 		\midrule
 		\textbf{intersezione} & \(A \cap B\) & insieme costituito dagli elementi che appartengono sia ad A che a B \\
 		\midrule
-		\textbf{differenza} & \(A \ \backslash \  B\) & insieme costituito dagli elementi di A che non apaprtengono anche a B \\
+		\textbf{differenza} & \(A \; \backslash \; B\) & insieme costituito dagli elementi di A che non apaprtengono anche a B \\
 		\midrule
 		\multirow{2}{*}{\textbf{prodotto catesiano}} & 	\multirow{2}{*}{\(A \times B\)} & insieme delle coppie ordinate di elementi formate da un elmeento di A e da un elmeneto di B \\
 		& & \(A \times B = \{ (a, b) \textit{ t.c. } a \in A \land b \in B \}\)
@@ -113,12 +113,12 @@ Data una proposizione \(R\), la sua negazione \(\urcorner R\) è una proposizion
 % ------------------------------------------ Sommatorie -------------------------------------------
 \section{Sommatorie}
 \subsection{Definizione}
-\[\sum_{i = n_0} ^ {n} x_i \ \  := \ \  x_{n_0} + x_{n_0+1} + x_{n_0+2} + \dots + x_n\] per \(n_0, n \in \mathbb{Z}\) con \(n_0 \leq n\)
+\[\sum_{i = n_0} ^ {n} x_i \;\; := \;\; x_{n_0} + x_{n_0+1} + x_{n_0+2} + \dots + x_n\] per \(n_0, n \in \mathbb{Z}\) con \(n_0 \leq n\)
 
 
 \subsection{Proprietà}
 \begin{align*}
-	\text{proprietà 1 (distributiva)} \quad & c \cdot \sum_{i = n_0} ^ {n} x_i = \sum_{i = n_0} ^ {n} c \cdot x_i \ \ \  \forall c \in \mathbb{R} \\
+	\text{proprietà 1 (distributiva)} \quad & c \cdot \sum_{i = n_0} ^ {n} x_i = \sum_{i = n_0} ^ {n} c \cdot x_i \;\; \; \forall c \in \mathbb{R} \\
 	\text{proprietà 2} \quad & \sum_{i = n_0} ^ {n} x_i + y_i = \sum_{i = n_0} ^ {n} x_i + \sum_{i = n_0} ^ {n} y_i \\
 	\text{proprietà 3.1} \quad & \sum_{i = n_0} ^ {n + m} x_i = \sum_{i = n_0} ^ {n} x_i + \sum_{i = n + 1} ^ {n + m} x_i \\
 	\text{proprietà 3.2 per \(m = 0\)} \quad & \sum_{i = n_0} ^ {n} x_i = \sum_{i = n_0} ^ {n-1} x_i + x_n \\
@@ -131,7 +131,7 @@ Data una proposizione \(R\), la sua negazione \(\urcorner R\) è una proposizion
 \begin{itemize}
 	\item[P:] Siano:
 	\begin{itemize}
-		\item \(n, n_0 \in \mathbb{N} \  t.c. \  n \geq n_0\)
+		\item \(n, n_0 \in \mathbb{N} \; t.c. \; n \geq n_0\)
 		\item \(P(n)\) una proposizione ben definita
 	\end{itemize}
 	\item[H:] supponiamo che:
@@ -141,13 +141,13 @@ Data una proposizione \(R\), la sua negazione \(\urcorner R\) è una proposizion
 	\end{itemize}
 	\item[T:] allora \(P(n)\) è vera \(\forall n \geq n_0\)
 	\item[Dim:] Dimostrazione per assurdo \\
-	Supponiamo che la tesi sia falsa: \(\exists \overline{n} \geq n_0 \ \  t.c. \ \  P(n)\) è falsa
+	Supponiamo che la tesi sia falsa: \(\exists \overline{n} \geq n_0 \;\; t.c. \;\; P(n)\) è falsa
 	\begin{itemize}
 		\item Se \(\overline{n} = n_0\), per cui \(P(n_0)\) è falsa
 		\item Se \(\overline{n} > n_0\), per ipotesi anche \(P(\overline{n} - 1), P(\overline{n} - 2), P(\overline{n} - 3), \dots P(n_0)\) sono false
 	\end{itemize}
 	Questo va contro l'ipotesi iniziale che \(P(n_0)\) sia vera. \\
-	Per cui \(\nexists \overline{n} \geq n_0 \ \  t.c. \ \  P(n)\) sia falsa e \(P(n)\) è vera \(\forall n \geq n_0\) \qed
+	Per cui \(\nexists \overline{n} \geq n_0 \;\; t.c. \;\; P(n)\) sia falsa e \(P(n)\) è vera \(\forall n \geq n_0\) \qed
 \end{itemize}
 
 \newpage
@@ -159,7 +159,7 @@ Data una proposizione \(R\), la sua negazione \(\urcorner R\) è una proposizion
 	n! :=
 	\begin{cases}
 		1 & n = 0 \\
-		n \cdot (n-1) \cdot (n-2) \cdot \  \dots \  \cdot 1 & n > 0 
+		n \cdot (n-1) \cdot (n-2) \cdot \; \dots \; \cdot 1 & n > 0 
 	\end{cases}
 \end{equation*}
 per \(n \in \mathbb{N}\) e \(n \geq 0\) \\
@@ -191,7 +191,7 @@ Significato geometrico \dots
 % --------------------------------------- Numeri razionali ----------------------------------------
 \section{Numeri razionali}
 \subsection{Definizione}
-\[\mathbb{Q} = \left\{ \textit{ numeri razionali } \right\} = \left\{ \  \frac{p}{q} \textit{ t.c. } p,q \in \mathbb{N}, \  q \neq 0 \right\}\]
+\[\mathbb{Q} = \left\{ \textit{ numeri razionali } \right\} = \left\{ \; \frac{p}{q} \textit{ t.c. } p,q \in \mathbb{N}, \; q \neq 0 \right\}\]
 
 \subsection{Proprietà di campo}
 Quando un insieme soddisfa le seguenti proprietà, è detto campo. L'insieme \(\mathbb{Q}\) è un campo.
@@ -230,9 +230,9 @@ L'insieme \(\mathbb{Q}\) è un campo totalmente ordinato, per cui è possibile r
 L'insieme \(\mathbb{Q}\) è discreto: data una retta, non tutti i punti di tale retta appartengono a \(\mathbb{Q}\).
 Ad esempio il punto \(\sqrt{2} \notin \mathbb{Q}\): \(\nexists x \in \mathbb{Q}\) t.c. \(x^2 = 2\).
 \begin{itemize}
-	\item[H: ] \(x \in \mathbb{Q}\) e \(\mathbb{Q}\) è l'insieme dei numeri razionali
-	\item[T: ] \(\nexists x\) t.c. \(x^2 = 2\)
-	\item[Dim: ] supponiamo per assurdo che \(\exists x \in \mathbb{Q}\) t.c. \(x^2 = 2\) per cui \(x = \displaystyle \frac{p}{q}\), \(p,q \in \mathbb{Z}, q \neq 0\) e \(p,q\) primi tra loro \\
+	\item[H:] \(x \in \mathbb{Q}\) e \(\mathbb{Q}\) è l'insieme dei numeri razionali
+	\item[T:] \(\nexists x\) t.c. \(x^2 = 2\)
+	\item[Dim:] supponiamo per assurdo che \(\exists x \in \mathbb{Q}\) t.c. \(x^2 = 2\) per cui \(x = \displaystyle \frac{p}{q}\), \(p,q \in \mathbb{Z}, q \neq 0\) e \(p,q\) primi tra loro \\
 	per cui \(x^2 = 2 \Rightarrow \displaystyle \frac{p^2}{q^2} = 2 \Rightarrow p^2 = 2 \cdot q^2 \Rightarrow p\) è pari \(\Rightarrow \exists \overline{p}\) t.c. \(p = 2 \cdot \overline{p}\) \\
 	per cui \(2 = \displaystyle \frac{p^2}{q^2} = \frac{(2 \cdot \overline{p})^2}{q^2} = 4 \cdot \frac{p^2}{q^2} \Rightarrow q^2 = 2 \cdot \overline{p}^2 \Rightarrow q\) è pari \\
 	ma \(p\) e \(q\) sono stati assunti primi tra loro, per cui l'ipotesi che \(\exists x \in \mathbb{Q}\) t.c. \(x^2 = 2\) è errata \qed
@@ -256,12 +256,12 @@ Su \(\mathbb{R}\) si possono estendere le proprietà di somma, prodotto e ordina
 
 \subsection{Teorema di completezza pt.1}
 \begin{itemize}
-	\item[H: ] Dati \(A, B \subseteq \mathbb{R}\) tali che \(\forall a \in A\) e \(\forall b \in B\), \(a \leq b\)
-	\item[T: ] \(\exists c \in \mathbb{R}\) t.c. \(a \leq c \leq b, \forall a \in A\) e \(\forall b \in B\) dove \(c\) è detto elemento separatore di \(A\) e \(B\)
+	\item[H:] Dati \(A, B \subseteq \mathbb{R}\) tali che \(\forall a \in A\) e \(\forall b \in B\), \(a \leq b\)
+	\item[T:] \(\exists c \in \mathbb{R}\) t.c. \(a \leq c \leq b, \forall a \in A\) e \(\forall b \in B\) dove \(c\) è detto elemento separatore di \(A\) e \(B\)
 \end{itemize}
 In altre parole, presi \(A, B \subseteq \mathbb{R}\) tali che \(\forall a \in A\) e \(\forall b \in B\), \(a \leq b\) è sempre possibile trovare l'elemento separatore tra i due insiemi. \\
 Questo teorema vale solo in \(\mathbb{R}\) e non in \(\mathbb{Q}\): \\
-dati \(A=\left\{ x \geq 0 \  t.c. \  x^2 \leq 2 \right\}\) e \(B=\left\{ x \geq 0 \  t.c. \  x^2 \geq 2 \right\}\), \(\exists c = \sqrt{2} \in \mathbb{R}\)
+dati \(A=\left\{ x \geq 0 \; t.c. \; x^2 \leq 2 \right\}\) e \(B=\left\{ x \geq 0 \; t.c. \; x^2 \geq 2 \right\}\), \(\exists c = \sqrt{2} \in \mathbb{R}\)
 
 
 \subsection{Intervalli}
@@ -390,14 +390,14 @@ Se \(A\) è inferiormente limitato, allora \(A\) ammette un estremo inferiore in
 Sia \(\alpha \in \mathbb{R}, p \in \mathbb{Z}\):
 \[ \alpha ^ p := 
 \begin{cases}
-	\alpha \cdot \alpha \cdot \  \dots \  \cdot \alpha \ \left( \text{per p volte} \right) & p > 0 \\
+	\alpha \cdot \alpha \cdot \; \dots \; \cdot \alpha \; \left( \text{per p volte} \right) & p > 0 \\
 	1 & p = 0, \alpha \neq 0 \\
-	\frac{1}{ \alpha \cdot \alpha \cdot \  \dots \  \cdot \alpha \ \left( \text{per -p volte} \right) } & p < 0, \alpha \neq 0 \\
+	\frac{1}{ \alpha \cdot \alpha \cdot \; \dots \; \cdot \alpha \; \left( \text{per -p volte} \right) } & p < 0, \alpha \neq 0 \\
 \end{cases}
 \]
 
 \subsection{Esistenza e unicità delle radici intere}
-Sia \(y \in \mathbb{R}, y \geq 0, n \in \mathbb{N} \  \backslash \left\{ 0 \right\} \), allora \(\exists! r \in \mathbb{R}\) t.c. \(r ^ n = y\).\\
+Sia \(y \in \mathbb{R}, y \geq 0, n \in \mathbb{N} \; \backslash \left\{ 0 \right\} \), allora \(\exists! r \in \mathbb{R}\) t.c. \(r ^ n = y\).\\
 \(r = \sqrt[n]{y} \) è chiamata radice ennesima di y
 
 \subsection{Potenze razionali (o radici)}
@@ -545,7 +545,7 @@ Il coniugato di \(z = \rho \left( \cos \vartheta + i \sin \vartheta \right)\) è
 
 
 \subsubsection*{Proprietà dell'argomento}
-Siano \(z_1, z_2 \in \mathbb{C} \  \backslash \left\{ 0 \right\}\):
+Siano \(z_1, z_2 \in \mathbb{C} \; \backslash \left\{ 0 \right\}\):
 \begin{align*}
 	\arg \left( z_1 \cdot z_2 \right) &= \arg(z_1) + \arg(z_2) \\
 	\arg \left( \frac{z_1}{z_2} \right) &= \arg(z_1) - \arg(z_2)
@@ -553,7 +553,7 @@ Siano \(z_1, z_2 \in \mathbb{C} \  \backslash \left\{ 0 \right\}\):
 
 
 \subsubsection*{Formule di De Moivre e potenze con la forma trigonometrica}
-Siano \(z, z_1, z_2 \in \mathbb{C} \  \backslash \left\{ 0 \right\}\):
+Siano \(z, z_1, z_2 \in \mathbb{C} \; \backslash \left\{ 0 \right\}\):
 \begin{align*}
 	z_1 \cdot z_2 &= 
 	\begin{cases}
@@ -602,7 +602,7 @@ Siano \(z, z_1, z_2 \in \mathbb{C}\)
 \end{align*}
 
 \subsubsection*{Prodotti, quozienti e potenze con la forma esponenziale}
-Siano \(z, z_1, z_2 \in \mathbb{C} \  \backslash \left\{ 0 \right\}\):
+Siano \(z, z_1, z_2 \in \mathbb{C} \; \backslash \left\{ 0 \right\}\):
 \begin{align*}
 	z_1 \cdot z_2 &= \rho_1 \rho_2 \cdot e ^ {i \left( \vartheta_1 + \vartheta_2 \right)} \\
 	\frac{z_1}{z_2} &= \frac{\rho_1}{\rho_2} \cdot e ^ {i \left( \vartheta_1 + \vartheta_2 \right)} \\
@@ -620,42 +620,42 @@ Siano \(z, z_1, z_2 \in \mathbb{C} \  \backslash \left\{ 0 \right\}\):
 \subsection{Teorema fondamentale dell'algebra}
 \subsubsection*{Teorema fondamentale dell'algebra}
 \begin{itemize}
-	\item[H: ] Sia \(n \in \mathbb{N} \  \backslash \left\{ 0 \right\}\) e \(P(z) = a_n z^n + a_{n-1} z^{n-1} + a_{n-2} z^{n-2} + \  \dots \  + a_0\) \\
-	con \(a_n \neq 0\), \(a_j \in \mathbb{C} \  \forall j \in \left[0; n\right]\) 
-	\item[T: ] Allora esiste almento una radice di \(P\), cioè una soluzione dell'equazione \(P(z) = 0\), con \(z \in \mathbb{C}\).
+	\item[H:] Sia \(n \in \mathbb{N} \; \backslash \left\{ 0 \right\}\) e \(P(z) = a_n z^n + a_{n-1} z^{n-1} + a_{n-2} z^{n-2} + \; \dots \; + a_0\) \\
+	con \(a_n \neq 0\), \(a_j \in \mathbb{C} \; \forall j \in \left[0; n\right]\) 
+	\item[T:] Allora esiste almento una radice di \(P\), cioè una soluzione dell'equazione \(P(z) = 0\), con \(z \in \mathbb{C}\).
 	La soluzione \(z\) è chiamata zero di \(P\).
 \end{itemize}
 
 \subsubsection*{Molteplicità di una soluzione}
 \begin{itemize}
-	\item[H: ] Sia \(P(z)\) come sopra e \(z_0 \in \mathbb{C}\) t.c. \(P(z_0) = 0\)
-	\item[T: ] \(z_0\) è uno zero con molteplicità \(k \in \mathbb{N}\) se \(\exists Q(x)\) di grado \(n-k\) t.c. \\
+	\item[H:] Sia \(P(z)\) come sopra e \(z_0 \in \mathbb{C}\) t.c. \(P(z_0) = 0\)
+	\item[T:] \(z_0\) è uno zero con molteplicità \(k \in \mathbb{N}\) se \(\exists Q(x)\) di grado \(n-k\) t.c. \\
 	\(P(z) = \left( z - z_0 \right) ^ k \cdot Q(z)\) e \(Q(z_0) \neq 0\)
 \end{itemize}
 
 \subsubsection*{Numero di soluzioni di un polinomio di grado \(n\)}
 \begin{itemize}
-	\item[H: ] Sia \(P(z)\) come sopra (di grado \(n\))
-	\item[T: ] \(P(z) = 0\) ha esattamente \(n\) soluzioni se contate con la propria molteplicità
-	\item[Dim: ] applicando il teorema fondamentale dell'algebra a \(P(z)\) si ottiene che \\
+	\item[H:] Sia \(P(z)\) come sopra (di grado \(n\))
+	\item[T:] \(P(z) = 0\) ha esattamente \(n\) soluzioni se contate con la propria molteplicità
+	\item[Dim:] applicando il teorema fondamentale dell'algebra a \(P(z)\) si ottiene che \\
 	\(\exists z_0 \in \mathbb{C}\) t.c. \(P(z_0) = 0\), per cui \(\exists Q(z)\) t.c. \(P(z) = \left( z - z_0 \right) \cdot Q(z)\)\\
 	riapplicando il teorema \(n\) volte si ottiene che \\
-	\(P(z) = \left( z - z_0 \right) \cdot \left( z - z_1 \right) \cdot \left( z - z_2 \right) \cdot \ \dots \ \cdot \left( z - z_n \right)\) \\
+	\(P(z) = \left( z - z_0 \right) \cdot \left( z - z_1 \right) \cdot \left( z - z_2 \right) \cdot \; \dots \; \cdot \left( z - z_n \right)\) \\
 	sono state, così, trovate \(n\) soluzioni \(z_0, z_1, \dots, z_n\) di molteplicità 1 \qed
 \end{itemize}
 
 \subsubsection*{Soluzioni complesse coniugate per polinomi reali}
 \begin{itemize}
-	\item[P: ] Sia \(P(x)\) un polinomio di grado \(n\) a coefficienti reali
-	\item[H: ] se \(z_0 \in \mathbb{C}\) una soluzione di \(P(x)\)
-	\item[T: ] allora anche \(\overline{z_0}\) è una soluzione di \(P(x)\)
-	\item[Dim: ] Sia \(P(z_0) = 0\) con \(z_0 \in \mathbb{C}\)
+	\item[P:] Sia \(P(x)\) un polinomio di grado \(n\) a coefficienti reali
+	\item[H:] se \(z_0 \in \mathbb{C}\) una soluzione di \(P(x)\)
+	\item[T:] allora anche \(\overline{z_0}\) è una soluzione di \(P(x)\)
+	\item[Dim:] Sia \(P(z_0) = 0\) con \(z_0 \in \mathbb{C}\)
 	\begin{align*}
-		P(\overline{z_0}) &= a_n \overline{z_0} ^ n + a_{n-1} \overline{z_0} ^ {n-1} + a_{n-2} \overline{z_0} ^ {n-2} + \  \dots \  + a_0 \\
-		&= a_n \overline{{z_0} ^ n} + a_{n-1} \overline{{z_0} ^ {n-1}} + a_{n-2} \overline{{z_0} ^ {n-2}} + \  \dots \  + a_0 \\
-		&= \overline{a_n} \overline{{z_0} ^ n} + \overline{a_{n-1}} \overline{{z_0} ^ {n-1}} + \overline{a_{n-2}} \overline{{z_0} ^ {n-2}} + \  \dots \  + \overline{a_0} \\
-		&= \overline{a_n {z_0} ^ n} + \overline{a_{n-1} {z_0} ^ {n-1}} + \overline{a_{n-2} {z_0} ^ {n-2}} + \  \dots \  + \overline{a_0} \\
-		&= \overline{a_n {z_0} ^ n + a_{n-1} {z_0} ^ {n-1} + a_{n-2} {z_0} ^ {n-2} + \  \dots \  + a_0} \\
+		P(\overline{z_0}) &= a_n \overline{z_0} ^ n + a_{n-1} \overline{z_0} ^ {n-1} + a_{n-2} \overline{z_0} ^ {n-2} + \; \dots \; + a_0 \\
+		&= a_n \overline{{z_0} ^ n} + a_{n-1} \overline{{z_0} ^ {n-1}} + a_{n-2} \overline{{z_0} ^ {n-2}} + \; \dots \; + a_0 \\
+		&= \overline{a_n} \overline{{z_0} ^ n} + \overline{a_{n-1}} \overline{{z_0} ^ {n-1}} + \overline{a_{n-2}} \overline{{z_0} ^ {n-2}} + \; \dots \; + \overline{a_0} \\
+		&= \overline{a_n {z_0} ^ n} + \overline{a_{n-1} {z_0} ^ {n-1}} + \overline{a_{n-2} {z_0} ^ {n-2}} + \; \dots \; + \overline{a_0} \\
+		&= \overline{a_n {z_0} ^ n + a_{n-1} {z_0} ^ {n-1} + a_{n-2} {z_0} ^ {n-2} + \; \dots \; + a_0} \\
 		&= \overline{P(z_0)} \\
 		&= \overline{0} \\
 		P(\overline{z_0}) &= 0
@@ -665,19 +665,19 @@ Siano \(z, z_1, z_2 \in \mathbb{C} \  \backslash \left\{ 0 \right\}\):
 
 \subsubsection*{Numero di soluzioni complesse e reali}
 \begin{itemize}
-	\item[H\(_1\): ] Sia \(P(x)\) un polinomio di grado \(n\) a coefficienti reali
-	\item[T\(_1\): ] Le radici con parte immaginaria non nulla sono pari e a due a due l'una coniugata dell'altra
-	\item[H\(_2\): ] Sia \(P(x)\) un polinomio di grado dispari a coefficienti reali
-	\item[T\(_2\): ] Il polinomio \(P(x)\) ha almeno una soluzione reale
+	\item[H\(_1\):] Sia \(P(x)\) un polinomio di grado \(n\) a coefficienti reali
+	\item[T\(_1\):] Le radici con parte immaginaria non nulla sono pari e a due a due l'una coniugata dell'altra
+	\item[H\(_2\):] Sia \(P(x)\) un polinomio di grado dispari a coefficienti reali
+	\item[T\(_2\):] Il polinomio \(P(x)\) ha almeno una soluzione reale
 \end{itemize}
 
 \subsection{Teorema di decomposizione di polinomi}
 \begin{itemize}
-	\item[H: ] Sia \(P(x)\) un polinomio di grado \(n\) a coefficienti reali
-	\item[T: ] \(P\) può essre scomposto in:
+	\item[H:] Sia \(P(x)\) un polinomio di grado \(n\) a coefficienti reali
+	\item[T:] \(P\) può essre scomposto in:
 	\begin{multline*}
-		P(z) = \left( z - x_1 \right) ^ {k_1} \cdot \left( z - x_2 \right) ^ {k_2} \cdot \  \dots \  \left( z - x_l \right) ^ {k_l} \cdot \left( z^2 + A_1 z + B_1 \right) ^ {j_1} \cdot \\
-		\cdot \left( z^2 + A_2 z + B_2 \right) ^ {j_2} \cdot \  \dots \  \cdot \left( z^2 + A_m z + B_m \right) ^ {j_m} \cdot  C
+		P(z) = \left( z - x_1 \right) ^ {k_1} \cdot \left( z - x_2 \right) ^ {k_2} \cdot \; \dots \; \left( z - x_l \right) ^ {k_l} \cdot \left( z^2 + A_1 z + B_1 \right) ^ {j_1} \cdot \\
+		\cdot \left( z^2 + A_2 z + B_2 \right) ^ {j_2} \cdot \; \dots \; \cdot \left( z^2 + A_m z + B_m \right) ^ {j_m} \cdot  C
 	\end{multline*}
 	con:
 	\begin{itemize}
@@ -754,7 +754,7 @@ Congiungendo le soluzioni si ottiene un poligono regolare (es. 6 soluzioni \(\to
 		\midrule
 		funzione di Dirichlet & \[f(x) = \begin{cases}
 			1 & x \in \mathbb{Q} \\
-			0 & x \in \mathbb{R} \  \backslash \  \mathbb{Q}
+			0 & x \in \mathbb{R} \; \backslash \; \mathbb{Q}
 		\end{cases}\] \\
 		\bottomrule
 	\end{tabularx}
@@ -907,15 +907,15 @@ Sia \(r \in \mathbb{R}^*\), allora un intorno "sferico" centrato in \(r\) è un 
 
 \subsubsection*{Proprietà}
 \begin{itemize}
-	\item[P\(_1\): ] Sia \(r \in \mathbb{R}^*\) e siano \(U_1\) e \(U_2\) due intorni di \(r\), allora \(U_1 \cap U_2\) è ancora un intorno di \(r\).
-	\item[Dim\(_1\): ] consideriamo solo il caso per cui \(r \in \mathbb{R}\) (con \(r \neq \pm \infty\)) \\
+	\item[P\(_1\):] Sia \(r \in \mathbb{R}^*\) e siano \(U_1\) e \(U_2\) due intorni di \(r\), allora \(U_1 \cap U_2\) è ancora un intorno di \(r\).
+	\item[Dim\(_1\):] consideriamo solo il caso per cui \(r \in \mathbb{R}\) (con \(r \neq \pm \infty\)) \\
 	Siano \(U_1 = \left( r - \varepsilon_1, r + \varepsilon_1 \right)\) con \(\varepsilon_1 > 0\) oppure \(U_1 = \mathbb{R}\) \\
 	e \(U_2 = \left( r - \varepsilon_2, r + \varepsilon_2 \right)\) con \(\varepsilon_2 > 0\) oppure \(U_2 = \mathbb{R}\) \\
 	Prendiamo \(\varepsilon = \min \left\{ \varepsilon_1 , \varepsilon_2 \right\}\) e abbiamo che \(U_1 \cap U_2 = \left( r - \varepsilon, r + \varepsilon \right)\) che è un intorno di \(r\). \qed
 	
-	\item[P\(_2\): ] \textbf{Proprietà di separazione}: \(\forall r_1, r_2 \in \mathbb{R}^*\) con \(r_1 \neq r_2\) esistono \(U_1\) e \(U_2\) intorni
+	\item[P\(_2\):] \textbf{Proprietà di separazione}: \(\forall r_1, r_2 \in \mathbb{R}^*\) con \(r_1 \neq r_2\) esistono \(U_1\) e \(U_2\) intorni
 	rispettivamente di \(r_1\) e \(r_2\) tali che \(U_1 \cap U_2 = \varnothing\).
-	\item[Dim\(_2\): ] consideriamo solo il caso per cui \(r_1, r_2 \in \mathbb{R}\) (con \(r_1, r_2 \neq \pm \infty\)) \\
+	\item[Dim\(_2\):] consideriamo solo il caso per cui \(r_1, r_2 \in \mathbb{R}\) (con \(r_1, r_2 \neq \pm \infty\)) \\
 	Assumiamo \(r_1 < r_2\) senza perdita di generalità (possono essere invertiti) e vogliamo dimostrare che esistono due intorni \(U_1, U_2\) t.c. \(U_1 \cap U_2 = \varnothing\) \\
 	Scegliamo \(\varepsilon_1 = \varepsilon_2 = \displaystyle \frac{r_2 - r_1}{2}\) \\
 	per cui \(\forall x_1 \in (r_1 - \varepsilon_1 , r_1 + \varepsilon_1)\) e \(\forall x_2 \in (r_2 - \varepsilon_2 , r_2 + \varepsilon_2)\) \\
@@ -926,12 +926,12 @@ Sia \(r \in \mathbb{R}^*\), allora un intorno "sferico" centrato in \(r\) è un 
 
 \subsection{Punti di accumulazione}
 Sia \(A \subseteq \mathbb{R}\) con \(A \neq \varnothing\), \(r \in \mathbb{R}^*\) è punto di accumulazione di \(A\) quando:
-\[\forall \text{ intorno } U \text{ di } r \text{ si ha che } A \cap U \  \backslash \left\{ r \right\} \neq \varnothing\]
+\[\forall \text{ intorno } U \text{ di } r \text{ si ha che } A \cap U \; \backslash \left\{ r \right\} \neq \varnothing\]
 In altre parole ogni intorno di \(r\) deve contenere (almeno) un elemento di \(A\) che non sia \(r\) stesso. Un punto di accumulazione di \(A\) può non appartenere all'insieme \(A\).
 \begin{align*}
-	\text{ se } r \in \mathbb{R} \quad & \forall \varepsilon > 0 \  \exists x \in A, x \neq r \text{ t.c. } \left| x - r \right| < \varepsilon \text{ ovvero } x \in \left( r - \varepsilon, r + \varepsilon \right) \\
-	\text{ se } r = + \infty \quad & \forall M \in \mathbb{R} \  \exists x \in A \text{ t.c. } x > M \text{ ovvero che } A \text{ non è limitato superiormente } \\
-	\text{ se } r = - \infty \quad & \forall N \in \mathbb{R} \  \exists x \in A \text{ t.c. } x < N \text{ ovvero che } A \text{ non è limitato inferiormente }
+	\text{ se } r \in \mathbb{R} \quad & \forall \varepsilon > 0 \; \exists x \in A, x \neq r \text{ t.c. } \left| x - r \right| < \varepsilon \text{ ovvero } x \in \left( r - \varepsilon, r + \varepsilon \right) \\
+	\text{ se } r = + \infty \quad & \forall M \in \mathbb{R} \; \exists x \in A \text{ t.c. } x > M \text{ ovvero che } A \text{ non è limitato superiormente } \\
+	\text{ se } r = - \infty \quad & \forall N \in \mathbb{R} \; \exists x \in A \text{ t.c. } x < N \text{ ovvero che } A \text{ non è limitato inferiormente }
 \end{align*}
 
 
@@ -945,12 +945,12 @@ Un punto isolato di \(A\) deve necessariamente appartenere all'insieme \(A\), in
 
 \subsection{Intorni e proprietà vere definitivamente}
 Sia \(f: \dom f \to \mathbb{R}\), \(x_0 \in \mathbb{R}^*\) punto di accumulazione di \(\dom f\) e \(P\) proprietà definita sul \(\dom f\),
-allora \(f\) soddisfa \(P\) definitivamente per \(x \to x_0\) se \(\exists U\) intorno di \(x_0\) t.c. \(\forall x \in \dom f \cap U \  \backslash \left\{ x_0 \right\}\) \(f(x)\) verifica \(P\).
+allora \(f\) soddisfa \(P\) definitivamente per \(x \to x_0\) se \(\exists U\) intorno di \(x_0\) t.c. \(\forall x \in \dom f \cap U \; \backslash \left\{ x_0 \right\}\) \(f(x)\) verifica \(P\).
 \subsubsection*{Osservazioni}
 \begin{itemize}
-	\item[O1: ] Non è detto che \(P\) sia verificata in \(x_0\) (infatti \(x_0\) potrebbe \(\notin \dom f\)).
-	\item[O2: ] Basta che esista un intorno per cui \(P\) sia verificata, altrimenti se \(P\) è verificata per ogni intorno,
-	ovvero \(P\) vale \(f\forall x \in \dom f \  \backslash \left\{ x_0 \right\}\), non significa che \(P\) sia verificata vicino a \(x_0\).
+	\item[O1:] Non è detto che \(P\) sia verificata in \(x_0\) (infatti \(x_0\) potrebbe \(\notin \dom f\)).
+	\item[O2:] Basta che esista un intorno per cui \(P\) sia verificata, altrimenti se \(P\) è verificata per ogni intorno,
+	ovvero \(P\) vale \(f\forall x \in \dom f \; \backslash \left\{ x_0 \right\}\), non significa che \(P\) sia verificata vicino a \(x_0\).
 \end{itemize}
 
 
@@ -959,43 +959,43 @@ allora \(f\) soddisfa \(P\) definitivamente per \(x \to x_0\) se \(\exists U\) i
 Sia \(f: \dom f \to \mathbb{R}\), \(x_0 \in \mathbb{R}^*\) punto di accumulazione di \(\dom f\) e \(l \in \mathbb{R}^*\), allora:
 \[\lim_{x \to x_0} f(x) = l \quad \text{quando}\]
 \begin{itemize}
-	\item[I: ] \(\forall U\) intorno di \(l\) \(\exists V\) intorno di \(x_0\) t.c. \(f(x) \in U, \forall x \in \dom f \cap V \  \backslash \left\{ x_0 \right\}\)
-	\item[II: ] \(\forall U\) intorno di \(l\) \(\exists V\) intorno di \(x_0\) t.c. \(\forall x \in \dom f \cap V \  \backslash \left\{ x_0 \right\} \Rightarrow f(x) \in U\)
-	\item[III: ] \(\forall U\) intorno di \(l\) \(f(x) \in U\) è verificata definitivamente per \(x \to x_0\)
+	\item[I:] \(\forall U\) intorno di \(l\) \(\exists V\) intorno di \(x_0\) t.c. \(f(x) \in U, \forall x \in \dom f \cap V \; \backslash \left\{ x_0 \right\}\)
+	\item[II:] \(\forall U\) intorno di \(l\) \(\exists V\) intorno di \(x_0\) t.c. \(\forall x \in \dom f \cap V \; \backslash \left\{ x_0 \right\} \Rightarrow f(x) \in U\)
+	\item[III:] \(\forall U\) intorno di \(l\) \(f(x) \in U\) è verificata definitivamente per \(x \to x_0\)
 \end{itemize}
 Usando la definizione di intorno si ottiene che:
 %\begin{enumerate}
 %	\item \(x_0 \in \mathbb{R}\) e \(l \in \mathbb{R}\)
-%		\[\forall \varepsilon > 0 \  \exists \delta > 0 \text{ t.c. } \left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\}\]
+%		\[\forall \varepsilon > 0 \; \exists \delta > 0 \text{ t.c. } \left| f(x) - l \right| < \varepsilon \; \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\}\]
 %	\item \(x_0 \in \mathbb{R}\) e \(l = - \infty\)
-%		\[\forall M \in \mathbb{R} \  \exists \delta > 0 \text{ t.c. } f(x) > M \  \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\}\]
+%		\[\forall M \in \mathbb{R} \; \exists \delta > 0 \text{ t.c. } f(x) > M \; \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\}\]
 %	\item \(x_0 \in \mathbb{R}\) e \(l = + \infty\)
-%		\[\forall N \in \mathbb{R} \  \exists \delta > 0 \text{ t.c. } f(x) < N \  \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\}\]
+%		\[\forall N \in \mathbb{R} \; \exists \delta > 0 \text{ t.c. } f(x) < N \; \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\}\]
 %	\item \(x_0 = + \infty\) e \(l \in \mathbb{R}\)
-%		\[\forall \varepsilon > 0 \  \exists M \text{ t.c. } \left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap \left( M, + \infty \right) \backslash \left\{ x_0 \right\}\]
+%		\[\forall \varepsilon > 0 \; \exists M \text{ t.c. } \left| f(x) - l \right| < \varepsilon \; \forall x \in \dom f \cap \left( M, + \infty \right) \backslash \left\{ x_0 \right\}\]
 %	\item \(x_0 = + \infty\) e \(l = - \infty\)
-%		\[\forall M \in \mathbb{R} \  \exists \overline{M} \text{ t.c. } f(x) > M \  \forall x \in \dom f \cap \left( \overline{M}, + \infty \right) \backslash \left\{ x_0 \right\}\]
+%		\[\forall M \in \mathbb{R} \; \exists \overline{M} \text{ t.c. } f(x) > M \; \forall x \in \dom f \cap \left( \overline{M}, + \infty \right) \backslash \left\{ x_0 \right\}\]
 %	\item \(x_0 = + \infty\) e \(l = + \infty\)
-%		\[\forall N \in \mathbb{R} \  \exists M \text{ t.c. } f(x) < N \  \forall x \in \dom f \cap \left( M, + \infty \right) \backslash \left\{ x_0 \right\}\]
+%		\[\forall N \in \mathbb{R} \; \exists M \text{ t.c. } f(x) < N \; \forall x \in \dom f \cap \left( M, + \infty \right) \backslash \left\{ x_0 \right\}\]
 %	\item \(x_0 = - \infty\) e \(l \in \mathbb{R}\)
-%		\[\forall \varepsilon > 0 \  \exists N \text{ t.c. } \left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap \left( - \infty, N \right) \backslash \left\{ x_0 \right\}\]
+%		\[\forall \varepsilon > 0 \; \exists N \text{ t.c. } \left| f(x) - l \right| < \varepsilon \; \forall x \in \dom f \cap \left( - \infty, N \right) \backslash \left\{ x_0 \right\}\]
 %	\item \(x_0 = - \infty\) e \(l = - \infty\)
-%		\[\forall M \in \mathbb{R} \  \exists N \text{ t.c. } f(x) > M \  \forall x \in \dom f \cap \left( - \infty, N \right) \backslash \left\{ x_0 \right\}\]
+%		\[\forall M \in \mathbb{R} \; \exists N \text{ t.c. } f(x) > M \; \forall x \in \dom f \cap \left( - \infty, N \right) \backslash \left\{ x_0 \right\}\]
 %	\item \(x_0 = - \infty\) e \(l = + \infty\)
-%		\[\forall N \in \mathbb{R} \  \exists \overline{N} \text{ t.c. } f(x) < N \  \forall x \in \dom f \cap \left( - \infty, \overline{N} \right) \backslash \left\{ x_0 \right\}\]
+%		\[\forall N \in \mathbb{R} \; \exists \overline{N} \text{ t.c. } f(x) < N \; \forall x \in \dom f \cap \left( - \infty, \overline{N} \right) \backslash \left\{ x_0 \right\}\]
 %\end{enumerate}
 \begin{align*}
-		\forall \varepsilon > 0 \  \exists \delta > 0 \text{ t.c. } \left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\} \quad & x_0, l \in \mathbb{R} \\
-		\forall M \in \mathbb{R} \  \exists \delta > 0 \text{ t.c. } f(x) > M \  \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\} \quad & x_0 \in \mathbb{R}, l = + \infty \\
-		\forall N \in \mathbb{R} \  \exists \delta > 0 \text{ t.c. } f(x) < N \  \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\} \quad & x_0 \in \mathbb{R}, l = - \infty \\
+		\forall \varepsilon > 0 \; \exists \delta > 0 \text{ t.c. } \left| f(x) - l \right| < \varepsilon \; \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\} \quad & x_0, l \in \mathbb{R} \\
+		\forall M \in \mathbb{R} \; \exists \delta > 0 \text{ t.c. } f(x) > M \; \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\} \quad & x_0 \in \mathbb{R}, l = + \infty \\
+		\forall N \in \mathbb{R} \; \exists \delta > 0 \text{ t.c. } f(x) < N \; \forall x \in \dom f \cap \left( x_0 - \delta, x_0 + \delta \right) \backslash \left\{ x_0 \right\} \quad & x_0 \in \mathbb{R}, l = - \infty \\
 		\\
-		\forall \varepsilon > 0 \  \exists M \text{ t.c. } \left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap \left( M, + \infty \right) \backslash \left\{ x_0 \right\} \quad & x_0 = + \infty, l \in \mathbb{R} \\
-		\forall M \in \mathbb{R} \  \exists \overline{M} \text{ t.c. } f(x) > M \  \forall x \in \dom f \cap \left( \overline{M}, + \infty \right) \backslash \left\{ x_0 \right\} \quad & x_0 = + \infty, l = + \infty \\
-		\forall N \in \mathbb{R} \  \exists M \text{ t.c. } f(x) < N \  \forall x \in \dom f \cap \left( M, + \infty \right) \backslash \left\{ x_0 \right\} \quad & x_0 = + \infty, l = - \infty \\
+		\forall \varepsilon > 0 \; \exists M \text{ t.c. } \left| f(x) - l \right| < \varepsilon \; \forall x \in \dom f \cap \left( M, + \infty \right) \backslash \left\{ x_0 \right\} \quad & x_0 = + \infty, l \in \mathbb{R} \\
+		\forall M \in \mathbb{R} \; \exists \overline{M} \text{ t.c. } f(x) > M \; \forall x \in \dom f \cap \left( \overline{M}, + \infty \right) \backslash \left\{ x_0 \right\} \quad & x_0 = + \infty, l = + \infty \\
+		\forall N \in \mathbb{R} \; \exists M \text{ t.c. } f(x) < N \; \forall x \in \dom f \cap \left( M, + \infty \right) \backslash \left\{ x_0 \right\} \quad & x_0 = + \infty, l = - \infty \\
 		\\
-		\forall \varepsilon > 0 \  \exists N \text{ t.c. } \left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap \left( - \infty, N \right) \backslash \left\{ x_0 \right\} \quad & x_0 = - \infty, l \in \mathbb{R} \\
-		\forall M \in \mathbb{R} \  \exists N \text{ t.c. } f(x) > M \  \forall x \in \dom f \cap \left( - \infty, N \right) \backslash \left\{ x_0 \right\} \quad & x_0 = - \infty, l = + \infty \\
-		\forall N \in \mathbb{R} \  \exists \overline{N} \text{ t.c. } f(x) < N \  \forall x \in \dom f \cap \left( - \infty, \overline{N} \right) \backslash \left\{ x_0 \right\} \quad & x_0 = - \infty, l = - \infty
+		\forall \varepsilon > 0 \; \exists N \text{ t.c. } \left| f(x) - l \right| < \varepsilon \; \forall x \in \dom f \cap \left( - \infty, N \right) \backslash \left\{ x_0 \right\} \quad & x_0 = - \infty, l \in \mathbb{R} \\
+		\forall M \in \mathbb{R} \; \exists N \text{ t.c. } f(x) > M \; \forall x \in \dom f \cap \left( - \infty, N \right) \backslash \left\{ x_0 \right\} \quad & x_0 = - \infty, l = + \infty \\
+		\forall N \in \mathbb{R} \; \exists \overline{N} \text{ t.c. } f(x) < N \; \forall x \in \dom f \cap \left( - \infty, \overline{N} \right) \backslash \left\{ x_0 \right\} \quad & x_0 = - \infty, l = - \infty
 \end{align*}
 
 
@@ -1025,24 +1025,24 @@ preso qualsiasi punto nell'intervallo (escluso \(x_0\)), si ha che i valori assu
 \subsection{Teorema di unicità del limite}
 Se il limite esiste, è unico.
 \begin{itemize}
-	\item[P: ] Dati \(f: \dom f \to \mathbb{R}\) e \(x_0\) punto di accumulazione di \(\dom f\),
-	\item[H: ] se valgono \(\displaystyle \lim_{x \to x_0} f(x) = l_1\) e \(\displaystyle \lim_{x \to x_0} f(x) = l_2\),
-	\item[T: ] allora \(l_1 = l_2\).
-	\item[Dim: ] Per assurdo supponiamo che \(l_1 \neq l_2\) \\
+	\item[P:] Dati \(f: \dom f \to \mathbb{R}\) e \(x_0\) punto di accumulazione di \(\dom f\),
+	\item[H:] se valgono \(\displaystyle \lim_{x \to x_0} f(x) = l_1\) e \(\displaystyle \lim_{x \to x_0} f(x) = l_2\),
+	\item[T:] allora \(l_1 = l_2\).
+	\item[Dim:] Per assurdo supponiamo che \(l_1 \neq l_2\) \\
 	dalla proprietà di separazione degli intorni \(\exists V_1\) e \(V_2\) intorni di \(l_1\) e \(l_2\) tali che \(V_1 \cap V_2 = \varnothing\) \\
-	dalle definizioni: \(\lim_{x \to x_0} f(x) = l_1 \Rightarrow \exists U_1\) intorno di \(x_0\) t.c. \(f(x) \in V_1\) \(\forall x \in U_1 \cap \dom f \  \backslash \left\{ x_0 \right\}\) \\
-	\(\lim_{x \to x_0} f(x) = l_2 \Rightarrow \exists U_2\) intorno di \(x_0\) t.c. \(f(x) \in V_2\) \(\forall x \in U_2 \cap \dom f \  \backslash \left\{ x_0 \right\}\) \\
-	si considera \(U = U_1 \cap U_2\) per cui \(\forall x \in U \cap \dom f \  \backslash \left\{ x_0 \right\}\) vale \(f(x) \in V_1 \cap V_2 = \varnothing\) \\
-	cioè \(\nexists x \in U \cap \dom f \  \backslash \left\{ x_0 \right\}\) che è in contaddizione con il fatto che \(x_0\) è un punto di accumulazione di \(\dom f\),
+	dalle definizioni: \(\lim_{x \to x_0} f(x) = l_1 \Rightarrow \exists U_1\) intorno di \(x_0\) t.c. \(f(x) \in V_1\) \(\forall x \in U_1 \cap \dom f \; \backslash \left\{ x_0 \right\}\) \\
+	\(\lim_{x \to x_0} f(x) = l_2 \Rightarrow \exists U_2\) intorno di \(x_0\) t.c. \(f(x) \in V_2\) \(\forall x \in U_2 \cap \dom f \; \backslash \left\{ x_0 \right\}\) \\
+	si considera \(U = U_1 \cap U_2\) per cui \(\forall x \in U \cap \dom f \; \backslash \left\{ x_0 \right\}\) vale \(f(x) \in V_1 \cap V_2 = \varnothing\) \\
+	cioè \(\nexists x \in U \cap \dom f \; \backslash \left\{ x_0 \right\}\) che è in contaddizione con il fatto che \(x_0\) è un punto di accumulazione di \(\dom f\),
 	per cui l'ipotesi che \(l_1 \neq l_2\) è sbagliata. \qed	
 \end{itemize}
 
 
 \subsection{Limite finito implica locale limitatezza}
 \begin{itemize}
-	\item[H: ] Se \(\displaystyle \lim_{x \to x_0} f(x) = l \in \mathbb{R}\), cioè \(l \neq \pm \infty\),
-	\item[T: ] allora \(\exists U\) intorno di \(x_0\) e \(N \in \mathbb{R}\) t.c. \(\forall x \in U \cap \dom f \  \backslash \left\{ x_0 \right\}\) vale \(\left| f(x) - l \right| \leq N\).
-	\item[Dim: ] Dalla definizione di limite con \(\varepsilon = 1\) abbiamo che \(\exists U\) intorno di \(x_0\) t.c. \(\forall x \in U \cap \dom f \  \backslash \left\{ x_0 \right\}\) vale: \\
+	\item[H:] Se \(\displaystyle \lim_{x \to x_0} f(x) = l \in \mathbb{R}\), cioè \(l \neq \pm \infty\),
+	\item[T:] allora \(\exists U\) intorno di \(x_0\) e \(N \in \mathbb{R}\) t.c. \(\forall x \in U \cap \dom f \; \backslash \left\{ x_0 \right\}\) vale \(\left| f(x) - l \right| \leq N\).
+	\item[Dim:] Dalla definizione di limite con \(\varepsilon = 1\) abbiamo che \(\exists U\) intorno di \(x_0\) t.c. \(\forall x \in U \cap \dom f \; \backslash \left\{ x_0 \right\}\) vale: \\
 	\(\left| f(x) - l \right| < 1 \Rightarrow \left| f(x) \right| < \left| l \right| + 1\).	Scegliendo \(N = \left| f(x) \right| < \left| l \right| + 1\) si ottiene la tesi. \qed 
 \end{itemize}
 
@@ -1062,15 +1062,15 @@ Un \textbf{intorno sinistro} di \(r \in \mathbb{R}\) è un insieme della forma \
 Sia \(f: \dom f \to \mathbb{R}\), \(x_0 \in \mathbb{R}^*\) punto di accumulazione destro di \(\dom f\) e \(l \in \mathbb{R}^*\), allora il \textbf{limite destro} è definito come:
 \[\lim_{x \to {x_0}^+} f(x) = l \quad \Leftrightarrow \quad \lim_{x \to {x_0}} \restr{f(x)}{\left( x_0, + \infty \right)} = l \quad \text{cioè quando:}\]
 \begin{itemize}
-	\item[I: ] \(\forall U\) intorno di \(l\) \(\exists V\) intorno destro di \(x_0\) t.c. \(f(x) \in U, \forall x \in \dom f \cap V\)
-	\item[II: ] \(\forall U\) intorno di \(l\) \(\exists \delta > 0\) t.c. \(\forall x \in \dom f \cap \left( x_0, x_0 + \delta \right) \Rightarrow f(x) \in U\)
+	\item[I:] \(\forall U\) intorno di \(l\) \(\exists V\) intorno destro di \(x_0\) t.c. \(f(x) \in U, \forall x \in \dom f \cap V\)
+	\item[II:] \(\forall U\) intorno di \(l\) \(\exists \delta > 0\) t.c. \(\forall x \in \dom f \cap \left( x_0, x_0 + \delta \right) \Rightarrow f(x) \in U\)
 \end{itemize}
 
 Sia \(f: \dom f \to \mathbb{R}\), \(x_0 \in \mathbb{R}^*\) punto di accumulazione sinistro di \(\dom f\) e \(l \in \mathbb{R}^*\), allora il \textbf{limite sinistro} è definito come:
 \[\lim_{x \to {x_0}^-} f(x) = l \quad \Leftrightarrow \quad \lim_{x \to {x_0}} \restr{f(x)}{\left( - \infty, x_0 \right)} = l \quad \text{cioè quando:}\]
 \begin{itemize}
-	\item[I: ] \(\forall U\) intorno di \(l\) \(\exists V\) intorno sinistro di \(x_0\) t.c. \(f(x) \in U, \forall x \in \dom f \cap V\)
-	\item[II: ] \(\forall U\) intorno di \(l\) \(\exists \delta > 0\) t.c. \(\forall x \in \dom f \cap \left( x_0 - \delta, x_0 \right) \Rightarrow f(x) \in U\)
+	\item[I:] \(\forall U\) intorno di \(l\) \(\exists V\) intorno sinistro di \(x_0\) t.c. \(f(x) \in U, \forall x \in \dom f \cap V\)
+	\item[II:] \(\forall U\) intorno di \(l\) \(\exists \delta > 0\) t.c. \(\forall x \in \dom f \cap \left( x_0 - \delta, x_0 \right) \Rightarrow f(x) \in U\)
 \end{itemize}
 
 \subsubsection*{Teorema di unicità del limite destro e sinistro}
@@ -1081,48 +1081,48 @@ I due teoremi si dimostrano in quando limite destro e limite sinistro sono limit
 
 \subsubsection*{Teorema della relazione tra limite e limiti destro e sinistro}
 \begin{itemize}
-	\item[P: ] Sia \(x_0\) punto di accumulazione sia destro che sinistro di \(\dom f\),
-	\item[H \(\Leftrightarrow\) T: ] \(\displaystyle \lim_{x \to x_0} f(x) = l \in \mathbb{R}^* \quad \Leftrightarrow \quad
+	\item[P:] Sia \(x_0\) punto di accumulazione sia destro che sinistro di \(\dom f\),
+	\item[H \(\Leftrightarrow\) T:] \(\displaystyle \lim_{x \to x_0} f(x) = l \in \mathbb{R}^* \quad \Leftrightarrow \quad
 	\begin{cases}
 		\displaystyle \lim_{x \to {x_0}^+} f(x) = l \\
 		\displaystyle \lim_{x \to {x_0}^-} f(x) = l
 	\end{cases}
 	\)
 
-	\item[Dim \(\Rightarrow\): ] Dall'ipotesi si ha che \(\forall U\) intorno di \(l\) \(\exists V\) intorno di \(x_0\) t.c. \(\forall x \in V \cap \dom f \  \backslash \left\{ x_0 \right\} \Rightarrow \left| f(x) - l \right| < \varepsilon\) \\
+	\item[Dim \(\Rightarrow\):] Dall'ipotesi si ha che \(\forall U\) intorno di \(l\) \(\exists V\) intorno di \(x_0\) t.c. \(\forall x \in V \cap \dom f \; \backslash \left\{ x_0 \right\} \Rightarrow \left| f(x) - l \right| < \varepsilon\) \\
 	Considero come intorno destro \(V+ = V \cap \left( x_0, + \infty \right) \) e come intorno sinistro \(V^- = V \cap \left( -\infty, x_0 \right)\), \\
 	per cui \(\forall U\) \(\exists V^+\) t.c. \(\forall x \in V^+ \cap \dom f \Rightarrow \left| f(x) - l \right| < \varepsilon\) è valida in quanto \(V^+ \subset V\) e anche \\
 	\(\forall U\) \(\exists V^-\) t.c. \(\forall x \in V^- \cap \dom f \Rightarrow \left| f(x) - l \right| < \varepsilon\) è valida in quanto \(V^- \subset V\), \\
 	ovvero \(\displaystyle \lim_{x \to {x_0}^+} f(x) = l\) e \(\displaystyle \lim_{x \to {x_0}^-} f(x) = l\)
 	
-	\item[Dim \(\Leftarrow\): ] Dall'ipotesi si ha che \(\forall U\) intorno di \(l\) \(\exists \delta_1 > 0\) t.c. \(\forall x \in \left( x_0, x_0 + \delta_1 \right) \cap \dom f \Rightarrow \left| f(x) - l \right| < \varepsilon\) \\
+	\item[Dim \(\Leftarrow\):] Dall'ipotesi si ha che \(\forall U\) intorno di \(l\) \(\exists \delta_1 > 0\) t.c. \(\forall x \in \left( x_0, x_0 + \delta_1 \right) \cap \dom f \Rightarrow \left| f(x) - l \right| < \varepsilon\) \\
 	e che \(\forall U\) intorno di \(l\) \(\exists \delta_2 > 0\) t.c. \(\forall x \in \left( x_0 - \delta_2, x_0 \right) \cap \dom f \Rightarrow \left| f(x) - l \right| < \varepsilon\) \\
-	scelgo \(\delta = \min \left\{ \delta_1, \delta_2 \right\}\) per cui \(\forall U\) \(\exists \delta > 0\) t.c. \(\forall x \in \left( x_0 - \delta, x_0 + \delta \right) \cap \dom f \  \backslash \left\{ x_0 \right\} \Rightarrow \left| f(x) - l \right| < \varepsilon\), \\
+	scelgo \(\delta = \min \left\{ \delta_1, \delta_2 \right\}\) per cui \(\forall U\) \(\exists \delta > 0\) t.c. \(\forall x \in \left( x_0 - \delta, x_0 + \delta \right) \cap \dom f \; \backslash \left\{ x_0 \right\} \Rightarrow \left| f(x) - l \right| < \varepsilon\), \\
 	ovvero \(\displaystyle \lim_{x \to x_0} f(x) = l\) \qed
 \end{itemize}
 Il teorema della relazione di unicità del limite destro e sinistro si utilizza per:
 \begin{itemize}
-	\item[I: ] dimostrare l'inesistenza di un limite, se \(\displaystyle \lim_{x \to {x_0}^- } f(x) \neq \lim_{x \to {x_0}^+} f(x)\)
-	\item[II: ] semplificare il calcolo del limite dove \(f\), funzione definita per casi, cambia forma
+	\item[I:] dimostrare l'inesistenza di un limite, se \(\displaystyle \lim_{x \to {x_0}^- } f(x) \neq \lim_{x \to {x_0}^+} f(x)\)
+	\item[II:] semplificare il calcolo del limite dove \(f\), funzione definita per casi, cambia forma
 \end{itemize}
 
 \subsection{Relazione tra limite e modulo}
 \begin{itemize}
-	\item[P: ] Sia \(x_0\) punto di accumulazione di \(\dom f\)
-	\item[H\(_1 \Leftrightarrow\) T\(_1\): ] \(\displaystyle \lim_{x \to x_0} f(x) = 0 \quad \Leftrightarrow \quad \lim_{x \to x_0} \left| f(x) \right| = 0\)
-	\item[Dim\(_1\): ] osservando che \(\left| f(x) - 0 \right| = \left| f(x) \right| = \left| \left| f(x) \right| - 0 \right|\) e che \(\dom \left| f \right| = \dom f\)
+	\item[P:] Sia \(x_0\) punto di accumulazione di \(\dom f\)
+	\item[H\(_1 \Leftrightarrow\) T\(_1\):] \(\displaystyle \lim_{x \to x_0} f(x) = 0 \quad \Leftrightarrow \quad \lim_{x \to x_0} \left| f(x) \right| = 0\)
+	\item[Dim\(_1\):] osservando che \(\left| f(x) - 0 \right| = \left| f(x) \right| = \left| \left| f(x) \right| - 0 \right|\) e che \(\dom \left| f \right| = \dom f\)
 	\begin{align*}
-		\lim_{x \to x_0} f(x) = 0 \quad &\Leftrightarrow \quad \forall \varepsilon > 0 \  \exists U \text{ intorno di } x_0 \text{ t.c. } \left| f(x) - 0 \right| < \varepsilon \  \forall x \in \dom f \cap U \  \backslash \left\{ x_0 \right\} \\
-		&\Leftrightarrow \quad \forall \varepsilon > 0 \  \exists U \text{ intorno di } x_0 \text{ t.c. } \left| \left| f(x) \right| - 0 \right| < \varepsilon \  \forall x \in \dom \left| f \right| \cap U \  \backslash \left\{ x_0 \right\} \\
+		\lim_{x \to x_0} f(x) = 0 \quad &\Leftrightarrow \quad \forall \varepsilon > 0 \; \exists U \text{ intorno di } x_0 \text{ t.c. } \left| f(x) - 0 \right| < \varepsilon \; \forall x \in \dom f \cap U \; \backslash \left\{ x_0 \right\} \\
+		&\Leftrightarrow \quad \forall \varepsilon > 0 \; \exists U \text{ intorno di } x_0 \text{ t.c. } \left| \left| f(x) \right| - 0 \right| < \varepsilon \; \forall x \in \dom \left| f \right| \cap U \; \backslash \left\{ x_0 \right\} \\
 		&\Leftrightarrow \quad \lim_{x \to x_0} \left| f(x) \right| = 0
 	\end{align*} \qed
 	
-	\item[H\(_2 \Rightarrow\) - T\(_2\): ] \(\displaystyle \lim_{x \to x_0} f(x) = l \quad \Rightarrow \quad \lim_{x \to x_0} \left| f(x) \right| = \left| l \right|\)
-	\item[Dim\(_2\): ] Considerando il caso per cui \(l \in \mathbb{R}\) \\
-	Dall'ipotesi si ottiene che \(\forall \varepsilon > 0 \  \exists V\) intorno di \(x_0\) t.c. \(\left| f(x) - l \right| < \varepsilon \  \forall x \in \dom f \cap V \  \backslash \left\{ x_0 \right\}\) \\
+	\item[H\(_2 \Rightarrow\) - T\(_2\):] \(\displaystyle \lim_{x \to x_0} f(x) = l \quad \Rightarrow \quad \lim_{x \to x_0} \left| f(x) \right| = \left| l \right|\)
+	\item[Dim\(_2\):] Considerando il caso per cui \(l \in \mathbb{R}\) \\
+	Dall'ipotesi si ottiene che \(\forall \varepsilon > 0 \; \exists V\) intorno di \(x_0\) t.c. \(\left| f(x) - l \right| < \varepsilon \; \forall x \in \dom f \cap V \; \backslash \left\{ x_0 \right\}\) \\
 	si osserva che \(\left| \left| f(x) \right| - \left| l \right| \right| \leq \left| f(x) - l \right| < \varepsilon\) per la disuguaglianza triangolare \\
 	per cui per proprietà transitiva \(\left| \left| f(x) \right| - \left| l \right| \right| < \varepsilon\), inoltre \(\dom \left| f \right| = \dom f\)\\
-	per cui vale che \( \forall \varepsilon > 0 \  \exists \overline{V}\) intorno di \(x_0\) t.c. \(\left| \left| f(x) \right| - \left| l \right| \right| < \varepsilon \  \forall x \in \dom \left| f \right| \cap \overline{V} \  \backslash \left\{ x_0 \right\}\) \\
+	per cui vale che \( \forall \varepsilon > 0 \; \exists \overline{V}\) intorno di \(x_0\) t.c. \(\left| \left| f(x) \right| - \left| l \right| \right| < \varepsilon \; \forall x \in \dom \left| f \right| \cap \overline{V} \; \backslash \left\{ x_0 \right\}\) \\
 	ovvero \(\displaystyle \lim_{x \to x_0} \left| f(x) \right| = \left| l \right|\) \qed
 \end{itemize}
 Si osserva che nel secondo teorema vale solo \(\Rightarrow\) e non anche \(\Leftarrow\), come nel primo (\(\Leftrightarrow\)). 
@@ -1131,34 +1131,34 @@ Si osserva che nel secondo teorema vale solo \(\Rightarrow\) e non anche \(\Left
 
 \subsection{Teorema di permanenza del segno}
 \begin{itemize}
-	\item[P: ] Sia \(\displaystyle \lim_{x \to x_0} f(x) = l\) con \(x_0, l \in \mathbb{R}^*\)
-	\item[H\(_1\): ] se \(l \in \left( 0, + \infty \right)\)
-	\item[T\(_1\): ] allora \(f\) è definitivamente strettamente positiva per \(x \to x_0\)
-	\item[Dim\(_1\): ] Nel caso in cui \(l = + \infty\) si ottiene che \(\displaystyle \lim_{x \to x_0} f(x) = + \infty\) \\
-	Dalla def. di limite si ottiene che \(\forall M \in \mathbb{R}\) \(\exists U\) intorno di \(x_0\) t.c. \(f(x) > M\) \(\forall x \in \dom f \cap U \  \backslash \left\{ x_0 \right\}\) \\
-	scegiendo \(M = 0\) si ottiene che \(f(x) > 0\) \(\forall x \in \dom f \cap U \  \backslash \left\{ x_0 \right\}\)
+	\item[P:] Sia \(\displaystyle \lim_{x \to x_0} f(x) = l\) con \(x_0, l \in \mathbb{R}^*\)
+	\item[H\(_1\):] se \(l \in \left( 0, + \infty \right)\)
+	\item[T\(_1\):] allora \(f\) è definitivamente strettamente positiva per \(x \to x_0\)
+	\item[Dim\(_1\):] Nel caso in cui \(l = + \infty\) si ottiene che \(\displaystyle \lim_{x \to x_0} f(x) = + \infty\) \\
+	Dalla def. di limite si ottiene che \(\forall M \in \mathbb{R}\) \(\exists U\) intorno di \(x_0\) t.c. \(f(x) > M\) \(\forall x \in \dom f \cap U \; \backslash \left\{ x_0 \right\}\) \\
+	scegiendo \(M = 0\) si ottiene che \(f(x) > 0\) \(\forall x \in \dom f \cap U \; \backslash \left\{ x_0 \right\}\)
 	\item[] Nel caso in cui \(l = \left( 0, + \infty \right)\) si ottiene che \(\displaystyle \lim_{x \to x_0} f(x) = l\) con \(l > 0\) \\
-	Dalla def. di limite si ottiene che \(\forall \varepsilon > 0\) \(\exists U\) intorno di \(x_0\) t.c. \(\left| f(x) - l \right| < \varepsilon\) \(\forall x \in \dom f \cap U \  \backslash \left\{ x_0 \right\}\) \\
+	Dalla def. di limite si ottiene che \(\forall \varepsilon > 0\) \(\exists U\) intorno di \(x_0\) t.c. \(\left| f(x) - l \right| < \varepsilon\) \(\forall x \in \dom f \cap U \; \backslash \left\{ x_0 \right\}\) \\
 	scegiendo \(\varepsilon = l\) si ottiene che \(\left| f(x) - l \right| < l \quad \Leftrightarrow \quad -l < f(x) - l < l \quad \Leftrightarrow \quad 0 < f(x) < 2l \quad \Leftrightarrow \\
-	\Leftrightarrow f(x) > 0\) \(\forall x \in \dom f \cap U \  \backslash \left\{ x_0 \right\}\), ovvero la tesi. \qed
+	\Leftrightarrow f(x) > 0\) \(\forall x \in \dom f \cap U \; \backslash \left\{ x_0 \right\}\), ovvero la tesi. \qed
 
-	\item[H\(_2\): ] se \(l \in \left( - \infty, 0 \right)\)
-	\item[T\(_2\): ] allora \(f\) è definitivamente strettamente negativa per \(x \to x_0\)
-	\item[Dim\(_2\): ] analogamente alla Dim\(_1\). \qed
+	\item[H\(_2\):] se \(l \in \left( - \infty, 0 \right)\)
+	\item[T\(_2\):] allora \(f\) è definitivamente strettamente negativa per \(x \to x_0\)
+	\item[Dim\(_2\):] analogamente alla Dim\(_1\). \qed
 \end{itemize}
 
 \subsubsection*{Corollario o II versione del teorema di permanenza del segno}
 \begin{itemize}
-	\item[P: ] Sia \(\displaystyle \lim_{x \to x_0} f(x) = l\) con \(x_0, l \in \mathbb{R}^*\)
-	\item[H\(_1\): ] se \(f\) è definitivamente positiva \(\left( \geq 0 \right)\) per \(x \to x_0\)
-	\item[T\(_1\): ] allora \(l \geq 0\)
-	\item[Dim\(_1\): ] Supponiamo per assurdo che \(l < 0\) \\
+	\item[P:] Sia \(\displaystyle \lim_{x \to x_0} f(x) = l\) con \(x_0, l \in \mathbb{R}^*\)
+	\item[H\(_1\):] se \(f\) è definitivamente positiva \(\left( \geq 0 \right)\) per \(x \to x_0\)
+	\item[T\(_1\):] allora \(l \geq 0\)
+	\item[Dim\(_1\):] Supponiamo per assurdo che \(l < 0\) \\
 	Per il teorema di permanenza del segno \(f(x) < 0\) definitivamente per \(x \to x_0\), ma questo è in contraddizione con l'ipotesi,
 	per cui \(l\) deve necessariamente essere \(\geq 0\). \qed
 
-	\item[H\(_2\): ] se \(f\) è definitivamente negativa \(\left( \leq 0 \right)\) per \(x \to x_0\)
-	\item[T\(_2\): ] allora \(l \leq 0\)
-	\item[Dim\(_2\): ] analogamente alla Dim\(_1\). \qed
+	\item[H\(_2\):] se \(f\) è definitivamente negativa \(\left( \leq 0 \right)\) per \(x \to x_0\)
+	\item[T\(_2\):] allora \(l \leq 0\)
+	\item[Dim\(_2\):] analogamente alla Dim\(_1\). \qed
 \end{itemize}
 Da osserva che il teorema diventa falso se si sostiuisce \(\geq\) o \(\leq\) al posto di \(>\) o \(<\), dato che quando se \(l = 0\) non è possibile dedurre nessuna delle due conclusioni del teorema. \\
 Inoltre il corollario diventa falso quando si sostiuisce \(>\) o \(<\) al posto di \(\geq\) o \(\leq\), per esempio \(f(x) = x^2 > 0\) definitivamente per \(x \to x_0 = 0\), ma \(\displaystyle \lim_{x \to 0} f(x) = l = 0 \ngtr 0\).
@@ -1169,9 +1169,9 @@ Inoltre il corollario diventa falso quando si sostiuisce \(>\) o \(<\) al posto 
 \subsection{Teorema dei due carabinieri}
 \subsubsection*{Caso limitato con \(l \in \mathbb{R}\)}
 \begin{itemize}
-	\item[P: ] Siano \(f\), \(g\), \(h\), tre funzioni definite in \(X \subset \mathbb{R}\) e sia \(x_0\) punto di accumulazione di \(X\),
-	\item[H: ] se \(f(x) \leq g(x) \leq h(x)\) definitivamente per \(x \to x_0\) e \(\displaystyle \lim_{x \to x_0} f(x) = \lim_{x \to x_0} h(x) = l \in \mathbb{R}\)
-	\item[T: ] allora \(\displaystyle \lim_{x \to x_0} g(x) = l\)
+	\item[P:] Siano \(f\), \(g\), \(h\), tre funzioni definite in \(X \subset \mathbb{R}\) e sia \(x_0\) punto di accumulazione di \(X\),
+	\item[H:] se \(f(x) \leq g(x) \leq h(x)\) definitivamente per \(x \to x_0\) e \(\displaystyle \lim_{x \to x_0} f(x) = \lim_{x \to x_0} h(x) = l \in \mathbb{R}\)
+	\item[T:] allora \(\displaystyle \lim_{x \to x_0} g(x) = l\)
 	\item[Dim:] Scelto un \(\varepsilon > 0\) arbitrario, applicato alle definizioni dei seguenti limiti \(\displaystyle \lim_{x \to x_0} f(x) = l\) e \(\displaystyle \lim_{x \to x_0} h(x) = l\) \\
 	si ottengono due intorni \(U_f\) e \(U_h\) per cui \(\begin{aligned}
 		\left| f(x) - l \right| < \varepsilon \quad &\forall x \in U_f \cap X \backslash \left\{ x_0 \right\} \\
@@ -1179,35 +1179,35 @@ Inoltre il corollario diventa falso quando si sostiuisce \(>\) o \(<\) al posto 
 	\end{aligned}\), \\ 
 	mentre dalla prima ipotesi si ottiene che \(f(x) \leq g(x) \leq h(x)\) \(\forall x \in V\) intorno di \(x_0\) con \(V \subseteq X\) \\
 	Scelto un intorno \(U = U_f \cap U_h \cap V\) si ha che \(\forall x \in U \cap X \backslash \left\{ x_0 \right\}\) valgono \\
-	\(l - \varepsilon < f(x) \leq g(x) \leq h(x) < l + \varepsilon\), ovvero \(l - \varepsilon < g(x) < l + \varepsilon \Leftrightarrow \left| g(x) - l \right| < \varepsilon\) \(\forall x \in U \cap X \  \backslash \left\{ x_0 \right\}\)
+	\(l - \varepsilon < f(x) \leq g(x) \leq h(x) < l + \varepsilon\), ovvero \(l - \varepsilon < g(x) < l + \varepsilon \Leftrightarrow \left| g(x) - l \right| < \varepsilon\) \(\forall x \in U \cap X \; \backslash \left\{ x_0 \right\}\)
 	cioè la definizione di \(\displaystyle \lim_{x \to x_0} g(x) = l\) \qed
 \end{itemize}
 
 \subsubsection*{Caso illimitato con \(l = \pm \infty\)}
 \begin{itemize}
-	\item[P: ] Siano \(f\), \(g\), due funzioni definite in \(X \subset \mathbb{R}\) e sia \(x_0\) punto di accumulazione di \(X\),
-	\item[H\(_1\): ] se \(f(x) \leq g(x)\) definitivamente per \(x \to x_0\) e \(\displaystyle \lim_{x \to x_0} f(x) = + \infty\)
-	\item[T\(_1\): ] allora \(\displaystyle \lim_{x \to x_0} g(x) = + \infty\)
-	\item[H\(_2\): ] se \(f(x) \geq g(x)\) definitivamente per \(x \to x_0\) e \(\displaystyle \lim_{x \to x_0} f(x) = - \infty\)
-	\item[T\(_2\): ] allora \(\displaystyle \lim_{x \to x_0} g(x) = - \infty\)
-	\item[Dim: ] Analoga a quella per il caso limitato\qed
+	\item[P:] Siano \(f\), \(g\), due funzioni definite in \(X \subset \mathbb{R}\) e sia \(x_0\) punto di accumulazione di \(X\),
+	\item[H\(_1\):] se \(f(x) \leq g(x)\) definitivamente per \(x \to x_0\) e \(\displaystyle \lim_{x \to x_0} f(x) = + \infty\)
+	\item[T\(_1\):] allora \(\displaystyle \lim_{x \to x_0} g(x) = + \infty\)
+	\item[H\(_2\):] se \(f(x) \geq g(x)\) definitivamente per \(x \to x_0\) e \(\displaystyle \lim_{x \to x_0} f(x) = - \infty\)
+	\item[T\(_2\):] allora \(\displaystyle \lim_{x \to x_0} g(x) = - \infty\)
+	\item[Dim:] Analoga a quella per il caso limitato\qed
 \end{itemize}
 
 Sia la dimostrazione per il caso limitato, sia quella per i casi illimitati, valgono anche per il limite destro e sinistro
 
 \subsubsection*{Disuguaglianze di funzioni trigonometriche}
 \begin{itemize}
-	\item[H\(_1\): ] per \(x \in \left( 0, \displaystyle \frac{\pi}{2} \right)\)
-	\item[T\(_1\): ] \(0 < \sin x \leq x \leq \tan x\)
-	\item[Dim\(_1\): ] Disegnando un arco di circonferenza di raggio \(r = 1\) con centro sull'origine \(O\) e chiamando \(P\) un punto sulla circonferenza, \(H\) la sua proiezione sull'asse \(x\),
+	\item[H\(_1\):] per \(x \in \left( 0, \displaystyle \frac{\pi}{2} \right)\)
+	\item[T\(_1\):] \(0 < \sin x \leq x \leq \tan x\)
+	\item[Dim\(_1\):] Disegnando un arco di circonferenza di raggio \(r = 1\) con centro sull'origine \(O\) e chiamando \(P\) un punto sulla circonferenza, \(H\) la sua proiezione sull'asse \(x\),
 	\(Q\) il punto di intersezione del semiasse positivo \(x\) con la circonferenza e \(R\), l'interesezione tra la perpendicolare a \(x\) per \(Q\) e la retta \(OP\): \\
 	Si osserva che il tr. \(\overset{\triangle}{\text{OPH}}\) è contenuto nel settore circolare \(\overset{\smallfrown}{\text{OPQ}}\) che è contenuto nel tr. \(\overset{\triangle}{\text{ORQ}}\), per cui
 	\(0 < A_{\overset{\triangle}{\text{OPH}}} \leq A_{\overset{\smallfrown}{\text{OPQ}}} \leq A_{\overset{\triangle}{\text{ORQ}}} \quad \Leftrightarrow
 	\quad 0 < \frac{r \cdot \sin x}{2} \leq \frac{r ^ 2 \cdot x }{2} \leq \frac{r \cdot \tan x}{2} \quad \Leftrightarrow 0 < \sin x \leq x \leq \tan x \) \qed
 	
-	\item[H\(_2\): ] per \(x \in \left( \displaystyle - \frac{\pi}{2}, 0 \right)\)
-	\item[T\(_2\): ] \(0 > \sin x \geq x \geq \tan x\)
-	\item[Dim\(_2\): ] si parte dalla disuguaglianza precedente, dove al posto di \(x \in \left( \displaystyle - \frac{\pi}{2}, 0 \right)\) viene posto \(-x = \left( 0, \displaystyle + \frac{\pi}{2} \right)\): \\
+	\item[H\(_2\):] per \(x \in \left( \displaystyle - \frac{\pi}{2}, 0 \right)\)
+	\item[T\(_2\):] \(0 > \sin x \geq x \geq \tan x\)
+	\item[Dim\(_2\):] si parte dalla disuguaglianza precedente, dove al posto di \(x \in \left( \displaystyle - \frac{\pi}{2}, 0 \right)\) viene posto \(-x = \left( 0, \displaystyle + \frac{\pi}{2} \right)\): \\
 	\(0 < \sin \left( -x \right) \leq -x \leq \tan \left( -x \right) \;\; \Leftrightarrow \;\; 0 < -\sin x \leq -x \leq -\tan x \;\; \Leftrightarrow \;\; 0 > \sin x \geq x \geq \tan x\) \qed
 \end{itemize}
 
@@ -1216,26 +1216,156 @@ Sia la dimostrazione per il caso limitato, sia quella per i casi illimitati, val
 
 \subsection{Teorema sull'algebra dei limiti}
 \subsubsection*{Caso limitato}
-premesse, ipotesi, tesi, dimostrazioni \dots
+\begin{itemize}
+	\item[P:] Siano \(f\), \(g\), due funzioni definite in \(X \subset \mathbb{R}\) e sia \(x_0\) punto di accumulazione di \(X\),
+	\item[H:] se \(\displaystyle \lim_{x \to x_0} f(x) = l_f \in \mathbb{R}\) e \(\displaystyle \lim_{x \to x_0} g(x) = l_g \in \mathbb{R}\)
+	\item[T\(_1\):] \(\displaystyle \lim_{x \to x_0} \left( f(x) \cdot g(x) \right) = l_f \cdot l_g\), ovvero limite del prodotto è il prodott dei limiti
+	\item[T\(_2\):] \(\forall \alpha, \beta \in \mathbb{R} \quad \displaystyle \lim_{x \to x_0} \alpha f(x) + \beta g(x) = \alpha l_f + \beta l_g\), ovvero limite della somma è la somma dei limiti
+	\item[T\(_3\):] \(\left( \text{se } l_g \neq 0 \right) \quad \displaystyle \lim_{x \to x_0} \frac{f(x)}{g(x)} = \frac{l_f}{l_g}\), ovvero limite del rapporto è il rapporto dei limiti
+	\item[Dim\(_1\):] La tesi vuole che \(\forall \varepsilon > 0\) \(\exists V\) intorno di \(x_0\) t.c. \(\left| f(x)g(x) - l_f l_g \right| < \varepsilon\) \(\forall x \in X \cap V \; \backslash \left\{ x_0 \right\}\)
+	\begin{align*}
+		\left| f(x) g(x) - l_f l_g \right| &= \left| f(x) g(x) -f(x) l_g - f(x) l_g - l_f l_g\right| \\
+		&= \left| f(x) \left( g(x) - l_g \right) - l_g \left( f(x) - l_f \right) \right| \\
+		& \leq \left| f(x) \right| \cdot \left| g(x) - l_g \right| + \left| l_g \right| \cdot \left| f(x) - l_f \right| \qquad \text{per disuguaglianza triangolare}
+	\end{align*}
+	Per il teorema \textit{Limite finito implica locale limitatezza} abbiamo che \(\exists V_f\) intorno di \(x_0\), \(\exists M > 0\) \\ 
+	t.c. \(\left| f(x) \right| < M\) \(\forall x \in X \cap V_f \; \backslash \left\{ x_0 \right\}\), per cui dato \(\overline{M} = \max \left\{ M, l_g \right\}\) abbiamo che:
+	\[\left| f(x) g(x) - l_f l_g \right| \leq \overline{M} \cdot \left| g(x) - l_g \right| + \overline{M} \cdot \left| f(x) - l_f \right|\]
+	per la def. di \(\displaystyle \lim_{x \to x_0} f(x) = l_f\), \(\forall \varepsilon_1 > 0\) \(\exists \overline{V_f}\) intorno di \(x_0\) t.c. \(\left| f(x) - l_f \right| < \varepsilon_1\) \(\forall x \in X \cap \overline{V_f} \; \backslash \left\{ x_0 \right\}\) \\
+	per la def. di \(\displaystyle \lim_{x \to x_0} g(x) = l_g\), \(\forall \varepsilon_2 > 0\) \(\exists V_g\) intorno di \(x_0\) t.c. \(\left| g(x) - l_g \right| < \varepsilon_2\) \(\forall x \in X \cap V_g \; \backslash \left\{ x_0 \right\}\) \\
+	scegliendo \(\varepsilon_1 = \varepsilon_2 = \frac{\varepsilon}{2 \overline{M}}\) si ha che:
+	\[\left| f(x) g(x) - l_f l_g \right| \leq \overline{M} \cdot \frac{\varepsilon}{2 \overline{M}} + \overline{M} \cdot \frac{\varepsilon}{2 \overline{M}} = \varepsilon\]
+	verificato \(\forall x \in X \cap V_f \cap \overline{V_f} \cap V_g\) \qed
+	\item[Dim\(_2\):] 
+	\begin{align*}
+		\lim_{x \to x_0} \alpha f(x) + \beta g(x) &= \lim_{x \to x_0} \alpha f(x) + \lim_{x \to x_0} \beta g(x) \\
+		&= \alpha \lim_{x \to x_0} f(x) + \beta \lim_{x \to x_0} g(x) \quad \text{ per T}_1 \\
+		&= \alpha l_f + \beta l_g \quad \text{per ipotesi}
+	\end{align*} \qed
+	\item[Dim\(_3\):] considerando \(h(x) = \frac{1}{g(x)}\), si ottiene la T\(_1\) \qed
+\end{itemize}
+
+\newpage
 
 \subsubsection*{Caso illimitato}
-premesse, ipotesi, tesi, dimostrazioni \dots
+\begin{itemize}
+	\item[P:] Siano \(f\), \(g\), due funzioni definite in \(X \subset \mathbb{R}\) e sia \(x_0\) punto di accumulazione di \(X\),
+	\item[H\(_1\):] se \(\displaystyle \lim_{x \to x_0} f(x) = 0\) e \(g(x)\) definitivamente limitata per \(x \to x_0\), \(\displaystyle \lim_{x \to x_0} g(x)\) potrebbe anche non esistere
+	\item[T\(_1\):] \(\displaystyle \lim_{x \to x_0} f(x) \cdot g(x) = 0\)
+	\item[H\(_{2}\):] se \(\displaystyle \lim_{x \to x_0} f(x) = + \infty\) e \(g(x)\) definitivamente limitata per \(x \to x_0\)
+	\item[T\(_{2}\):] \(\displaystyle \lim_{x \to x_0} f(x) + g(x) = + \infty\)
+	\item[H\(_{3}\):] se \(\displaystyle \lim_{x \to x_0} f(x) = + \infty\) e \(g(x)\) definitivamente strettamente positiva per \(x \to x_0\)
+	\item[T\(_{3}\):] \(\displaystyle \lim_{x \to x_0} f(x) \cdot g(x) = + \infty\)
+	\item[H\(_{4}\):] se \(\displaystyle \lim_{x \to x_0} f(x) = + \infty\) e \(g(x)\) strettamente positiva e superiormente limitata definitivamente per \(x \to x_0\)
+	\item[T\(_{4}\):] \(\displaystyle \lim_{x \to x_0} \frac{f(x)}{g(x)} = + \infty\)
+	\item[Dim:] saltata
+\end{itemize}
+Per i casi 2, 3 e 4 in cui \(f(x) = - \infty\), bisogna invertire il segno del risultato del limite. Analogamente quando \(g(x) < 0\) nei punti 3 e 4.
 
 \subsection{Teorema del confronto}
-premesse, ipotesi, tesi, dimostrazioni \dots
+\begin{itemize}
+	\item[P:] Siano \(f\), \(g\), due funzioni definite in \(X \subset \mathbb{R}\) e sia \(x_0\) punto di accumulazione di \(X\),
+	\item[H:] se \(\displaystyle \lim_{x \to x_0} f(x) = l_f \in \mathbb{R}^*\) e \(\displaystyle \lim_{x \to x_0} g(x) = l_g \in \mathbb{R}^*\) e \(f(x) \leq g(x)\) definitivamente per \(x \to x_0\)
+	\item[T:] \(l_f \leq l_g\) definitivamente per \(x \to x_0\)
+	\item[Dim:] per \(l_f = -\infty\), \(l_g = + \infty\), \(l_f = l_g = + \infty\), o per \(l_f = l_g = - \infty\) la tesi è verificata, negli altri casi: \\
+	definiamo \(h(x) = g(x) - f(x)\) t.c. \(h(x) \geq 0\) per ipotesi, definitivamente per \(x \to x_0\) \\
+	Per il teorema di permamenza del segno: \(\displaystyle 0 \leq \lim_{x \to x_0} h(x) = \lim_{x \to x_0} g(x) - \lim_{x \to x_0} f(x) = l_g - l_f\) \\
+	per cui \(0 \leq l_g - l_f\) ovvero la tesi \qed
+\end{itemize}
+Si osserva che il teorema vale soltanto con il \(leq\) e non con il \(<\), in quando se \(f(x) = 0\) e \(g(x) = x^2\),
+\(f(x) < g(x)\) è definitivamente verificata per \(x \to 0\), ma \(\displaystyle \lim_{x \to 0} f(x) \nless \lim_{x \to 0} g(x)\)
+
+\newpage
 
 \subsection{Limiti delle funzioni composte}
-premesse, ipotesi, tesi, dimostrazioni \dots
+\begin{itemize}
+	\item[P:] Siano \(f: \dom f \to \mathbb{R}\) e \(g: \dom g \to \mathbb{R}\) due funzioni, 
+	\(x_0\) punto di accumulazione di \(\dom f\) \\ e \(y_0 \in \mathbb{R}\) punto di accumulazione di \(\dom g\)
+	\item[H\(_1\):] Se \(f(\dom f) \subset \dom g\), ovvero \(g \circ f : \dom f \to \mathbb{R}\) è definita,
+	\item[H\(_2\):] \(\displaystyle \lim_{x \to x_0} f(x) = y_0\)
+	\item[H\(_3\):] \(\displaystyle \lim_{x \to x_0} g(y) = l \in \mathbb{R}\)
+	\item[H\(_4\):] \(f(x) \neq y_0\) per \(x \in \dom f\)
+	\item[T:] \(\displaystyle \lim_{x \to x_0} g(f(x)) = l\)
+	\item[Dim:] per H\(_2\): \(\forall \eta > 0\) \(\exists \delta > 0\) t.c. \(0 < \left| x - x_0 \right| < \delta \Rightarrow \left| f(x) - y_0 \right| < \eta\) \\
+	per H\(_3\): \(\forall \varepsilon > 0\) \(\exists \eta > 0\) t.c. \(0 < \left| y - y_0 \right| < \eta \Rightarrow \left| g(y) - l \right| < \varepsilon\) \\
+	per H\(_4\): \(\left| f(x) - y_0 \right| \neq 0 \) \\
+	concatendando H\(_2\) e H\(_3\): \(\forall \varepsilon > 0\) \(\exists \delta > 0\) t.c. \(0 < \left| x - x_0 \right| < \delta \Rightarrow \left| g(f(x)) - l \right| < \varepsilon\) \\
+	ovvero \(\displaystyle \lim_{x \to x_0} g(f(x)) = l\) \qed
+\end{itemize}
 
 \subsection{Limiti delle funzioni monotone}
-premesse, ipotesi, tesi, dimostrazioni \dots
+\begin{itemize}
+	\item[P:] Sia \(f: \left(a,b\right) \to \mathbb{R}\), con \(-\infty \leq a < b \leq + \infty\) e 
+	\(a, b\) punti di accumulazione sinistro e destro dell'intervallo \(\left(a,b\right)\)
+	\item[H\(_1\):] Se \(f\) è monotona crescente
+	\item[T\(_1\):] allora \(\displaystyle \lim_{x \to a^+} f(x)) = \inf f(x)\) e \(\displaystyle \lim_{x \to b^-} f(x)) = \sup f(x)\) con \(x \in \dom f\)
+	\item[H\(_2\):] Se \(f\) è monotona decrescente
+	\item[T\(_2\):] allora \(\displaystyle \lim_{x \to a^+} f(x)) = \sup f(x)\) e \(\displaystyle \lim_{x \to b^-} f(x)) = \inf f(x)\) con \(x \in \dom f\)
+	\item[Dim\(_1\):] supponiamo \(f(x)\) monotona crescente e limitata superiormente \\
+	dalla def. di \(\sup\): \(\forall \varepsilon > 0\) \(\exists \overline{x} \in \dom f\) t.c. \(L - \varepsilon < f(x)\) e \(f(x) \leq L\) \(\forall x \in \dom f\) dove \(L\) è il \(\sup\) di \(f\) \\
+	dalla def. di monotonia: \(\forall x, \overline{x} \in \dom f\) con \(x \geq \overline{x}\) si ha che \(f(x) \geq f(\overline{x})\) \\
+	unendo le due def.: \(\forall \varepsilon > 0\) \(\exists \overline{x} \in \dom f\) t.c. \(\forall x \geq \overline{x}\) ho \(L - \varepsilon \leq f(\overline{x}) \leq f(x) (\leq L + \varepsilon)\) \\
+	ovvero che \(\forall \varepsilon > 0\) \(\exists \overline{x} \in \dom f\) t.c. \(\forall x \in \left( \overline{x}, b \right)\) ho \(\left| f(x) - L \right| < \varepsilon\) \\
+	cioè \(\displaystyle \lim_{x \to b^-} f(x) = L = \sup f\) \\
+	Analogo per \(\inf f\) \qed
+	\item[Dim\(_2\):] analogo alla Dim\(_1\) \qed
+\end{itemize}
+
+\newpage
 
 \subsection{Funzioni continue e continuità}
-premesse, ipotesi, tesi, dimostrazioni \dots
+\subsubsection*{DEfinizione di continuità}
+Sia \(f: \dom f \to \mathbb{R}\), \(f(x)\) è continua in \(x_0 \in \dom f \Leftrightarrow \displaystyle \lim_{x \to x_0} f(x) = f(x_0)\). \\
+Si osserva che se \(f: \dom f \in \mathbb{R}\) e \(g: \dom f \to \mathbb{R}\) continue in \(x_0\) punto di accumulazione \(\dom f\) \\ 
+con \(\displaystyle \lim_{x \to x_0} f(x) = y_0\) e \(g \circ f\) è ben definita, allora \(\displaystyle \lim_{x \to x_0} g(f(x)) = g\left( \lim_{x \to x_0} f(x) \right) = g(y_0)\)
+
+\subsubsection*{Funzioni continue in ogni punto del dominio}
+\begin{enumerate}
+	\item \(x^n\) con \(n \in \mathbb{N}\) e \(\dom = \mathbb{R}\)
+	\item \(\left| x \right| ^ \alpha\) con \(\alpha \in \mathbb{R} \; \backslash \left\{ 0 \right\}\) e \(\dom = \mathbb{R}\)
+	\item \(a^x\) con \(a \in \mathbb{R}, a > 0\) e \(\dom = \mathbb{R}\)
+	\item \(\log_a n\) con \(a \in \mathbb{R}, a > 0, a \neq 1\) e \(\dom = \left(0, + \infty \right)\)
+	\item \(\sin x, \cos x\) con \(\dom = \mathbb{R}\)
+\end{enumerate}
+Per le dimostrazioni vedere gli appunti
+
+\subsection{Limiti a \(\pm \infty\)}
+\begin{enumerate}
+	\item \(\displaystyle \lim_{x \to + \infty} x ^ \alpha =
+	\begin{cases}
+		+ \infty & \text{se } \alpha > 0 \\
+		1 & \text{se } \alpha = 0 \\
+		0 & \text{se } \alpha < 0
+	\end{cases}\)
+	\item \(\displaystyle \lim_{x \to + \infty} a ^ x =
+	\begin{cases}
+		+ \infty & \text{se } a > 1 \\
+		1 & \text{se } a = 1 \\
+		0 & \text{se } 0 < a < 1
+	\end{cases}\)
+	\item \(\displaystyle \lim_{x \to + \infty} \log_a x =
+	\begin{cases}
+		+ \infty & \text{se } a > 1 \\
+		- \infty & \text{se } 0 < a < 1
+	\end{cases}\)
+	\item \(\displaystyle \lim_{x \to 0} \log_a x =
+	\begin{cases}
+		- \infty & \text{se } a > 1 \\
+		+ \infty & \text{se } 0 < a < 1
+	\end{cases}\)
+\end{enumerate}
+Per le dimostrazioni vedere gli appunti
 
 \subsection{Gerarchie degli infiniti}
-premesse, ipotesi, tesi, dimostrazioni \dots
+\begin{itemize}
+	\item[T\(_1\):] \(\displaystyle \lim_{x \to + \infty} \frac{a^x}{x^\alpha} = + \infty \qquad \forall a > 1, \alpha > 0\)
+	\item[T\(_2\):] \(\displaystyle \lim_{x \to + \infty} \frac{x^\alpha}{\left( \log_a x \right) ^ \beta} = + \infty \qquad \forall a > 1, \alpha > 0, \beta > 0\)
+	\item[Dim:] vedere appunti \qed
+\end{itemize}
 
-%% inizio lezione 18
+\newpage
+
+%% inizio lezione 23
+\subsection{Numero di Nepero}
 
 \end{document}
