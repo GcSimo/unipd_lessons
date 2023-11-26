@@ -696,15 +696,22 @@ Alcune combinazioni di mantissa ed esponente sono catalogate per valori particol
 
 \subsubsection*{Criticità}
 Non tutti i numeri sono rappresentabili con un numero finito di cifre, ma vengono introdotte approssimazioni, come nel
-caso di 4,35 (che ha una rappresentazione binaria illimitata). Per questo motivo, quando si fanno confronti tra valori in virgola mobile è necessario introdurre un errore entro cui
-due numeri sono uguali.
+caso di 4,35 (che ha una rappresentazione binaria illimitata). Per questo motivo, quando si fanno confronti tra valori
+in virgola mobile è necessario introdurre un errore entro cui due numeri sono uguali.
 
 Inoltre nel caso in cui si lavora con numeri molto grandi a cui vengono sommati numeri molto piccoli, si rischia di
 non avere abbastanza precisione per eseguire correttamente la somma, rischiando di perdere il valore dell'addendo minore.
 Questo avviene soprattutto quando l'addendo più piccolo è minore della precisione del numero più grande.
 
 \subsection{Base esadecimale e ottale}
+Le rappresentazioni in basi diverse da quella binaria o decimale si comportano allo stesso modo. Nella base ottale vengono
+impiegati i simboli da 0 a 7 (8 simboli), in quella esadecimale da 0 a F (15 simboli).
+
 \subsection{ASCII e UNICODE}
+Il codice ASCII e quello UNICODE sono sistemi che associano ad ogni simbolo (carattere) un numero senza segno. Nello
+standard ASCII vengono riservati 7 bit per ogni carattere per un massimo di 128 simboli (poi estesi a 256 con l'extended ASCII),
+mentre per l'UNICODE si impiegano 2 byte per un massimo di 65536 simboli rappresentabili. \\
+Il sistema UNICODE, ad oggi il più usato, comprende il vecchio codice ASCII.
 
 \newpage
 
@@ -725,44 +732,286 @@ il problema e tradurlo in algoritmo. Comprende le tecniche di astrazione/risoluz
 cui la decomposizione di problemi complessi e la modularità.
 
 \subsection{Programmazione}
-definizione, algortmo, errori, \dots
+Per programmazione si intende il processo di progettazione e codifica di programmi per calcolatori. \\
+Per programma si intende l'implementazione di algoritmi in un qualche linguaggio per calcolatore. \\
+Un programma è corretto se possiede correttezza semantica, correttezza sintattica e correttezza logica. \\
+Il teorema di Jacopini-Bohm sostiene che un programma/algoritmo è composto da istruzioni imperative, istruzioni condizionali,
+o decisioni, e iterazioni, o cicli.
 
 \subsection{Linguaggi di programmazione}
+Per linguaggio di programmazione si intende un sistema per la scrittura di programmi/algortimi eseguibili da un calcolatore.
+Deve essere rigoroso e non avere ambiguità.
+
 \subsubsection*{Linguaggio macchina}
+Il linguaggio macchina è il primo esempio di linguaggio di programmazione, è diverso per ogni tipo di processore e le
+istruzioni sono composte da sequenze di bit. Le istruzioni si dividono in tre categorie:
+\begin{itemize}[topsep=5pt, itemsep=0pt]
+	\item[-] trasferimento dati (es. \verb|LOAD| per registri, \verb|STORE| per memorie)
+	\item[-] operazioni aritmetiche e logiche (es. \verb|ADD|, \verb|SUB|, \verb|MUL|, \verb|DIV|, \verb|AND|, \verb|OR|, \verb|NOT|)
+	\item[-] salti (es. \verb|JUMP|, \verb|JZ| se \verb|== 0|, \verb|JGZ| se \verb|> 0|)
+\end{itemize}
 
 \subsubsection*{Linguaggi assembly e di basso livello}
-
+Permettono di scrivrere codice macchina attraverso codici mnemonici più simili al linguaggio umano, per cui più semplice
+da utilizzare. C'è una corrispondenza biunivoca tra l'Instruction set del processore e il linguaggio assembly (o basso
+livello), per cui è diverso per ogni processore. Le istruzioni sono convertite in linguaggio macchina da un assembler.
+Rimane sempre il problema della portabilità.
 
 \subsubsection*{Linguaggi di alto livello}
+Sono linguaggi formali (artificiali), espressivi, non ambigui, efficienti e molto più leggibili e versatili dei precedenti
+in quanto simili al linguaggio parlato. Posseggono precise regole grammaticali (lessicali, sintattiche e semantiche) definite
+dalla notazione EBNF (Extended Backus-Naur form). Sono convertiti in linguaggio macchina da un compilatore. Si dividono in:
+\begin{itemize}[topsep=5pt, itemsep=0pt]
+	\item[-] \textbf{linguaggi compilati}: \\
+	il programma (indipendente dalla CPU) è convertito in codice eseguibile (dipendente dalla CPU) da un compilatore,
+	garantisce alta velocità, ma bassa portabilità
+	\item[-] \textbf{linguaggi interpretati}: \\
+	le istruzioni tradotte in linguaggio macchina da un interprete durante l'esecuzione, garantisce alta portabilità,
+	ma lenta velocità di esecuzione
+\end{itemize}
 
-\newpage
+\subsubsection*{Breve storia sui linguaggi di programmazione}
+\begin{center}
+	\begin{tabularx}{\textwidth}{c X}
+		anni 50
+		& primi linguaggi di programmazione ad alto livello (\verb|FORTRAN|, \verb|BASIC|, \verb|COBOL|), viene coniato il
+		termine \textit{spaghetti code} per l'inappropriato uso delle istruzioni di salto (\verb|GOTO|) \\
+		\midrule
+		
+		anni 60-70
+		& programmazione strutturata con istruzioni imperative, selezioni e iterazioni, come previsto dal teorema di
+		Jacopini-Bohm (1966), compaiono nuovi linguaggi strutturati \verb|PASCAL| (1968) e \verb|C| (1970-75) \\
+		\midrule
+
+		anni 80-90
+		& si sviluppa il paradigma di programmazione ad oggetti con nuovi linguaggi come \verb|C++| (1979) e \verb|Java|
+		(1991) in grado di supportare la creazione di classi e oggetti
+	\end{tabularx}
+\end{center}
 
 
 % --------------------------------------------- Java ----------------------------------------------
 \section{Java}
 \subsection{Introduzione}
-portabilità, bytecode, memoria, JVM \dots
+\verb|Java| è un linguaggio di programmazione ad oggetti, sviluppato da James Gosling nel 1995. La sua particolarità è di
+essere un linguaggio fortemente tipizzato come il \verb|C| o \verb|C++|, ma più semplice e flessibile in quanto la gestione
+della memoria non deve essere fatta dal programmatore e presenta librerie standard molto ricche.
+
+Non è né un linguaggio interpretato, né un linguaggio compilato. Un file con un programma scritto in java si presenta con
+l'estensione \verb|.java|, viene pseudocompilato da un compilatore java e convertito in un file con estensione \verb|.bytecode|.
+Il file bytecode può essere eseguito da un computer con installata la Java Virtual Machine, o JVM, ovvero l'ambiente di
+esecuzione che funge da interprete del file bytecode.
+
+Per questo motivo è più veloce di un linguaggio interpretato, ma meno veloce di uno compilato e meno portabile di uno
+interpretato, ma più portabile di uno compilato.
+
+Per compilare un file java si utilizza il comando \verb|javac NomeFile.java|, per eseguire un file bytecode si usa
+\verb|java NomeFile|
+
 
 \subsection{Struttura di un programma}
-classi, metodi, oggetti, librerie, pacchetti, commenti, variabili, literals, stringhe, costanti, strutture logiche, \dots
+Un programma in java è composto da diversi elementi (introduzione):
+\begin{center}
+	\begin{tabularx}{\textwidth}{c X}
+		\textbf{classi}
+		& contenitori di metodi e variabili, possono essere eseguibili se contengono un metodo \verb|main|, come fabbriche
+		di oggetti o entrambe (anche se poco raccomandabile); le classi sono organizzabili in pacchetti e sono importabili
+		in file diversi da quello in cui sono implementate attraverso la parola chiave \verb|import| \\
+		\midrule
+		
+		\textbf{metodi}
+		& sequenze di istruzioni, chiamati anche funzioni o procedure in altri linguaggi; devono necessariamente essere
+		contenuti in una classe, il metodo principale \verb|main| viene eseguito all'avvio del programma \\
+		\midrule
+
+		\textbf{variabili}
+		& spazi di memoria riservati per memorizzare dati, ogni variabile può contenere solo un particolare tipo di dato
+		es. \verb|int|, \verb|double|, \verb|char|, \dots il valore di una variabile può essere modificato nel corso
+		dell'esecuzione del programma \\
+		\midrule
+		
+		\textbf{costanti}
+		& spazi di memoria riservati per memorizzare valori che rimangono costanti per tutta la durata del programma,
+		come le variabili, anche le costanti sono tipizzate \\
+		\midrule
+		
+		\textbf{literals}
+		& insieme di valori numerici e stringhe di testo che sono contenuti nel programma \\
+		\midrule
+		
+		\textbf{oggetti}
+		& istanze di una classe, sono variabili particolari in grado di avere dei metodi in grado di compiere operazioni
+		su di esse, es. stringhe, array, strutture dati \\
+		\midrule
+		
+		\textbf{commenti}
+		& parti di testo che vengono ignorate dal compilatore al momento della compilazione, si utilizzano per descrivere
+		la funzione di una determinata parte di codice \\
+		\midrule
+
+		\textbf{strutture logiche}
+		& insieme di costrutti che permettono di compiere selezioni e iterazioni, es. \verb|if|, \verb|else|, \verb|while|,
+		\verb|for|, \dots \\
+		\midrule
+
+		\textbf{parole chiave}
+		& insieme di parole riservate con una funzione logica ben precisa, es. le strutture logiche, tipi delle variabili,
+		\verb|import|, \verb|final|, \verb|private|, \verb|public|, \verb|new| \dots
+	\end{tabularx}
+\end{center}
+
 
 \subsection{Variabili}
+Una variabile è uno spazio di memoria riservato per memorizzare dati (numerici, logici o caratteri) che possono variare
+durante l'esecuzione del programma. Una variabile può contenere solo dati di specifico tipo indicato nella dichiarazione.
+
+\subsubsection*{Dichiarazione, inizializzazione e assegnazione}
+\begin{itemize}[topsep=5pt, itemsep=0pt]
+	\item[-] \textbf{dichiarazione}: \verb|int a;| \\
+	viene riservato uno spazio in memoria in grado di contenere valori del tipo indicato al posto di \verb|tipo|
+	\item[-] \textbf{inizializzazione}: \verb|int a = 0;| \\
+	viene dichiara una variabile e le viene assegnato un valore inziale
+	\item[-] \textbf{assegnazione}: \verb|a = 345;| \\
+	viene salvato un valore in una variabile
+\end{itemize}
+
 \subsubsection*{Tipi di dato}
-char, byte, short, int, long, float, double
+\begin{center}
+	\begin{tabularx}{\textwidth}{c c c c X}
+		\textbf{tipo} & \textbf{min} & \textbf{max} & \textbf{mem} & \textbf{descrizione} \\
+		\toprule
+
+		\textbf{byte}
+		& -128 & 127 & 8 bit & rappr. di numeri interi in complemento a due \\
+		\midrule
+		
+		\textbf{short}
+		& -32 768 & 32 767 & 16 bit & rappr. di numeri interi in complemento a due \\
+		\midrule
+
+		\textbf{int}
+		& \(-2,15 \cdot 10^9\) & \(2,15 \cdot 10^9\) & 32 bit & rappr. di numeri interi in complemento a due \\
+		\midrule
+		
+		\textbf{long}
+		& \(-9,22 \cdot 10^{18}\) & \(9,22 \cdot 10^{18}\) & 64 bit & rappr. di numeri interi in complemento a due \\
+		\midrule
+		
+		\textbf{float}
+		& \(1.18 \cdot 10^{-38}\) & \(3.40 \cdot 10^{38}\) & 32 bit & rappr. numeri decimali in singola precisione \\
+		\midrule
+		
+		\textbf{double}
+		& \(4.94 \cdot 10^{-324}\) & \(1.80 \cdot 10^{308}\) & 64 bit & rappr. numeri decimali in doppia precisione \\
+		\midrule
+		
+		\textbf{char}
+		& 0 & 65535 & 16 bit & rappr. numeri interi \(\geq 0\) per standard UNICODE \\
+		\midrule
+
+		\textbf{boolean}
+		& false & true & 1 bit & rappr. di valori booleani true, false
+	\end{tabularx}
+\end{center}
+
 \subsubsection*{Promozione e casting}
-promozione, casting esplicito, \dots
+Per convertire un valore di un determinato tipo di dato in un altro, esistono due operazioni:
+\begin{itemize}[topsep=5pt, itemsep=0pt]
+	\item[-] \textbf{promozione}: \verb|double a = 123| \\
+	sempre concesso e non genera errori, avviene quando si converte un numero con minore precisione in un formato con
+	maggiore precisione
+	\item[-] \textbf{casting}: \verb|int a = (int)123,45| \\
+	se non correttamente gestito può generare errori di perdita di precisione o overflow, avviene quando si converte
+	un numero con maggiore precisione in un formato con minore precisione, per eseguire il casting è necessario indicare
+	tra parentesi il nuovo tipo di dato, davanti al valore da convertire
+\end{itemize}
+
+\subsubsection*{Oveflow}
+L'overflow avviene 1uando si supera il valore massimo (o minimo) consentito da un determinato tipo di dato. Nei numeri
+interi, i valori hanno comportamento "ciclico" quando si supera il valore superiore, si ricomincia dal valore inferiore 
+e viceversa.
 
 \subsubsection*{Operazioni}
-assegnazione, somma, moltiplicazione, differenza, divisione, modulo, confronti, precedenze
+\begin{center}
+	\begin{tabularx}{\textwidth}{c c X}		
+		\multirow{2}{*}{\textbf{somma}}
+		& \verb|a + b| & viene eseguita la somma (possibile overflow) \\
+		& \verb|a++| & al variabile viene incrementata di uno \\
+		\midrule
+
+		\multirow{2}{*}{\textbf{differenza}}
+		& \verb|a - b| & viene eseguita la differenza \\
+		& \verb|a--| & la variabile viene decrementata di uno \\
+		\midrule
+		
+		\textbf{prodotto}
+		& \verb|a * b| & viene eseguito il prodotto \\
+		\midrule
+		
+		\textbf{divisione}
+		& \verb|a / b| & viene eseguita la divisione, se entrambe le variabili sono di tipo int viene eseguita la divisione
+		intera (tralasciando la parte decimale), se almeno una delle due è double, allora viene eseguita la divisione reale,
+		se b è 0 e le variabili sono intere, viene lanciata una \verb|ArithmeticException| \\
+		\midrule
+		
+		% non funziona il % in verb
+		\textbf{modulo}
+		& \verb|a| \% \verb|b| & calcola il resto della divisione tra a e b, se b è 0 e le variabili sono intere, viene
+		lanciata una \verb|ArithmeticException| \\
+		\midrule
+		
+		\multirow{3}{*}{\textbf{confronti}}
+		& \verb|a == b| & \multirow{3}{*}{confronta il valore contenuto nelle due variabili} \\
+		& \verb|a < b| -- \verb|a <= b| & \\
+		& \verb|a > b| -- \verb|a >= b| & \\
+		\midrule
+
+		\textbf{and}
+		& \verb|a && b| & restituisce \verb|true| se e solo se entrambi i membri sono \verb|true| \\
+		\midrule
+
+		% non funziona il || in verb
+		\textbf{or}
+		& \verb|a| \(||\) \verb|b| & restituisce \verb|true| se almeno uno dei due membri è \verb|true| \\
+		\midrule
+
+		\textbf{not}
+		& \verb|!a| & restituisce \verb|true| se \verb|a| è \verb|false| e viceversa
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Precedenze}
+In ordine di precedenza:
+\begin{enumerate}[topsep=5pt, itemsep=0pt]
+	\item operatori di incremento e decremento
+	\item operatore logico not
+	\item prodotto, divisione e modulo
+	\item somma e sottrazione
+	\item confronti
+	\item operatore logico and
+	\item operatore logico or
+	\item assegnazioni
+\end{enumerate}
 
 \subsubsection*{Costanti}
-final
+Le costanti sono un tipo particlare di variabili che contengono un valore fisso per tutta la durata dell'esecuzione.
+il valore è assegnato al momento della dichiarazione. In genere le costanti si indicano con lettere maiuscole.
+\verb|final double PI = 3,14...|
 
 \subsubsection*{Literals}
-numeri, stringhe, interpretazione
+I Literals sono l'insieme di numeri e stringhe che vengono utilizzate nel programma e che non sono contenuti in una variabile.
+Ad esempio i valori di inizializzazione delle variabili o i messaggi di testo da mandare in output.
+
+I numeri interi vengono interpretati di tipo \verb|int|, quelli decimali come \verb|double|, i caratteri racchiusi da singoli
+apici es. \verb|'c'| come \verb|char| e le sequenze di caratteri racchiuse tra doppi apici \verb|"text"| come oggetti della
+classe String.
+
+\newpage
+
 
 \subsection{Metodi}
 main, parametri, overloading
+
 
 \subsection{Classi e oggetti}
 \subsubsection*{Struttura}
@@ -776,11 +1025,34 @@ incapsulamento e accessibilità
 \subsubsection*{Pacchetti e organizzazione}
 pacchetti, classi e import, documentazione API
 
+
 \subsection{Classe String}
 utilizzo, metodi, \dots
 
+
 \subsection{Classe Scanner}
 utilizzo, metodi, \dots
+
+
+\subsection{Commenti e JavaDoc}
+I commenti sono parti di testo che il compilatore ignora. Si usano per descrivere quali operazioni vengono effettuate
+in una determinata parte del codice. Possono essere su una singola riga \verb|\\ commento| o su più righe \verb|/* commento */|.
+
+Esiste uno standard di commentazione che permette di creare una documentazione nello stesso stile di quella di java,
+con il  comando \verb|javadoc NomeFile.java|.Si prevede un commento su più righe posto prima di un metodo o una classe
+e in tale commento vengono descritti la funzione della classe, i parametri (preceduti da \verb|@param|), il valore di
+ritorno (preceduto da \verb|@return|) ed eventuali eccezioni che possono essere lanciate.
+
+\begin{lstlisting}[language=Java]
+	/**
+	 * Descrizione del metodo
+	 * 
+	 * @param p1 parametro 1
+	 * @param p2 parametro 2
+	 * @return valore che viene restituito
+	 */
+	public int metodo(int p1, double p2) { ...
+\end{lstlisting}
 
 \subsection{Selezioni}
 utilizzo, struttura, else if, annidamento, else sospeso, espressioni logiche, \dots
