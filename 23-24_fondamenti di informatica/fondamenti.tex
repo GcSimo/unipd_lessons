@@ -192,7 +192,7 @@ dalle frecce arancioni), mentre quello degli indirizzi e dei segnali di controll
 
 \subsection{Central Processing Unit o CPU}
 La Central Processing Unit ha il compito di:
-\begin{itemize}[topsep=5pt, itemsep=0pt]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] individuare ed eseguire le istruzioni
 	\item[-] elaborare dati attraverso la ALU (Unità Logico Aritmetica)
 	\item[-] reperire dati di input e restituire dati di output
@@ -486,7 +486,7 @@ Il range di valori rappresentabili è \(\left[ 0, 2^n - 1 \right]\).
 \subsubsection*{Conversione decimale - binario}
 Per eseguire la conversione dal sistema decimale a quello binario, bisogna usare l'algoritmo di conversione:
 \begin{lstlisting}[language=Java]
-	while (numero != 0)
+while (numero != 0)
 	resto[i] = numero % base
 	numero = numero / base
 \end{lstlisting}
@@ -720,7 +720,7 @@ Il sistema UNICODE, ad oggi il più usato, comprende il vecchio codice ASCII.
 
 \subsection{Algoritmo}
 Un algoritmo è un metodo di risoluzione di un problema che:
-\begin{itemize}[topsep=5pt, itemsep=0pt]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] deve essere eseguibile
 	\item[-] non deve essere ambiguo
 	\item[-] deve concludersi in un numero finito di passi
@@ -745,7 +745,7 @@ Deve essere rigoroso e non avere ambiguità.
 \subsubsection*{Linguaggio macchina}
 Il linguaggio macchina è il primo esempio di linguaggio di programmazione, è diverso per ogni tipo di processore e le
 istruzioni sono composte da sequenze di bit. Le istruzioni si dividono in tre categorie:
-\begin{itemize}[topsep=5pt, itemsep=0pt]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] trasferimento dati (es. \verb|LOAD| per registri, \verb|STORE| per memorie)
 	\item[-] operazioni aritmetiche e logiche (es. \verb|ADD|, \verb|SUB|, \verb|MUL|, \verb|DIV|, \verb|AND|, \verb|OR|, \verb|NOT|)
 	\item[-] salti (es. \verb|JUMP|, \verb|JZ| se \verb|== 0|, \verb|JGZ| se \verb|> 0|)
@@ -753,7 +753,7 @@ istruzioni sono composte da sequenze di bit. Le istruzioni si dividono in tre ca
 
 \subsubsection*{Linguaggi assembly e di basso livello}
 Permettono di scrivrere codice macchina attraverso codici mnemonici più simili al linguaggio umano, per cui più semplice
-da utilizzare. C'è una corrispondenza biunivoca tra l'Instruction set del processore e il linguaggio assembly (o basso
+da utilizzare. C'è una corrispondenza biunivoca tra l'instruction set del processore e il linguaggio assembly (o basso
 livello), per cui è diverso per ogni processore. Le istruzioni sono convertite in linguaggio macchina da un assembler.
 Rimane sempre il problema della portabilità.
 
@@ -761,7 +761,7 @@ Rimane sempre il problema della portabilità.
 Sono linguaggi formali (artificiali), espressivi, non ambigui, efficienti e molto più leggibili e versatili dei precedenti
 in quanto simili al linguaggio parlato. Posseggono precise regole grammaticali (lessicali, sintattiche e semantiche) definite
 dalla notazione EBNF (Extended Backus-Naur form). Sono convertiti in linguaggio macchina da un compilatore. Si dividono in:
-\begin{itemize}[topsep=5pt, itemsep=0pt]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \textbf{linguaggi compilati}: \\
 	il programma (indipendente dalla CPU) è convertito in codice eseguibile (dipendente dalla CPU) da un compilatore,
 	garantisce alta velocità, ma bassa portabilità
@@ -866,7 +866,7 @@ Una variabile è uno spazio di memoria riservato per memorizzare dati (numerici,
 durante l'esecuzione del programma. Una variabile può contenere solo dati di specifico tipo indicato nella dichiarazione.
 
 \subsubsection*{Dichiarazione, inizializzazione e assegnazione}
-\begin{itemize}[topsep=5pt, itemsep=0pt]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \textbf{dichiarazione}: \verb|int a;| \\
 	viene riservato uno spazio in memoria in grado di contenere valori del tipo indicato al posto di \verb|tipo|
 	\item[-] \textbf{inizializzazione}: \verb|int a = 0;| \\
@@ -874,6 +874,10 @@ durante l'esecuzione del programma. Una variabile può contenere solo dati di sp
 	\item[-] \textbf{assegnazione}: \verb|a = 345;| \\
 	viene salvato un valore in una variabile
 \end{itemize}
+
+\subsubsection*{Visibilità}
+Le variabili vengono create al momento della loro dichiarazione e vengono distrutte alla chiusura del blocco in cui sono
+state create. Inoltre sono accessibili solo all'intendo del blocco (e sottoblocchi) in cui sono state dichiarate.
 
 \subsubsection*{Tipi di dato}
 \begin{center}
@@ -916,7 +920,7 @@ durante l'esecuzione del programma. Una variabile può contenere solo dati di sp
 
 \subsubsection*{Promozione e casting}
 Per convertire un valore di un determinato tipo di dato in un altro, esistono due operazioni:
-\begin{itemize}[topsep=5pt, itemsep=0pt]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \textbf{promozione}: \verb|double a = 123| \\
 	sempre concesso e non genera errori, avviene quando si converte un numero con minore precisione in un formato con
 	maggiore precisione
@@ -962,8 +966,8 @@ e viceversa.
 		
 		\multirow{3}{*}{\textbf{confronti}}
 		& \verb|a == b| & \multirow{3}{*}{confronta il valore contenuto nelle due variabili} \\
-		& \verb|a < b| -- \verb|a <= b| & \\
-		& \verb|a > b| -- \verb|a >= b| & \\
+		& \verb|a < b| \(\;\;\) \verb|a <= b| & \\
+		& \verb|a > b| \(\;\;\) \verb|a >= b| & \\
 		\midrule
 
 		\textbf{and}
@@ -982,12 +986,11 @@ e viceversa.
 
 \subsubsection*{Precedenze}
 In ordine di precedenza:
-\begin{enumerate}[topsep=5pt, itemsep=0pt]
-	\item operatori di incremento e decremento
-	\item operatore logico not
+\begin{enumerate}[topsep=3pt, itemsep=0pt]
+	\item operatori unari: di incremento e decremento, not logico, byteshift, \dots
 	\item prodotto, divisione e modulo
 	\item somma e sottrazione
-	\item confronti
+	\item confronti con uguaglianza
 	\item operatore logico and
 	\item operatore logico or
 	\item assegnazioni
@@ -1010,29 +1013,167 @@ classe String.
 
 
 \subsection{Metodi}
-main, parametri, overloading
+I metodi sono blocchi di codice racchiusi da parentesi graffe che contengono istruzioni che risolvono un determinato problema.
+Un programma eseguibile deve necessariamente avere un metodo main defininto come \verb|public static void main(String[] args) { }|.
+
+\subsubsection*{Struttura}
+\begin{lstlisting}[language=Java]
+tipoRestituito nomeMetodo (parametriFormali) {
+	istruzioni;
+	return valoreRestituito;
+}
+\end{lstlisting}
+
+La prima riga del metodo viene chiamata firma
+
+Un metodo può ricevere in input dei parametri espliciti indicati tra le parentesi tonde e restituire in output un valore di ritorno
+il cui tipo è specicificato prima del nome del metodo e il valore viene indicato alla fine del metodo dopo la parola return.
+Se un metodo non restituisce nessun valore si utilizza \verb|void| al posto del tipoRestituito e il return viene omesso o 
+indicato senza specificare il valoreRestituito.
+
+\subsubsection*{Overloading}
+\dots
 
 
 \subsection{Classi e oggetti}
+Una classe è un contenitore di metodi e variabili. Sono alla base del paradigma di programmazione ad oggetti (OOP) e permettono
+un maggiore livello di astrazione per risolvere problemi complessi più facilmente.
+
+Ogni file Java deve contenere una classe pubblica con lo stesso nome del file. Questa classe può essere eseguibile se ha un metodo
+main, altrimenti viene detta non eseguibile.
+
+Una classe può essere istanziabile, ovvero è possibile crearne delle copie (più o meno indipendenti) che prendono il nome di oggetti
+o istanze della classe.
+
 \subsubsection*{Struttura}
-variabili d'istanza, metodi, riferimenti e allocazione, this
-metodi costruttori, di accesso, di modifica, \dots
+Una classe è composta da:
+\begin{center}
+	\begin{tabularx}{\textwidth}{c X}
+		\textbf{variabili d'istanza} & memorizzano le informazioni e lo stato di un oggetto \\
+		\midrule
+		\textbf{metodi costruttori} & contengono le istruzioni da eseguire alla creazione dell'oggetto, es. inizializzazione delle variabili \\
+		\midrule
+		\textbf{metodi di accesso} & servono per accedere alle variabili d'istanza, senza poterle modificare \\
+		\midrule
+		\textbf{metodi modificatori} & servono per modificare le variabili d'istanza secondo dei precisi criteri
+	\end{tabularx}
+\end{center}
 
 \subsubsection*{Incapsulamento}
-public, private, static, non-static
-incapsulamento e accessibilità
+Per evitare che l'oggetto venga messo in uno stato non valido (es. lati di una figura negativi), si sceglie di nascondere le variabili
+d'istanza, riducendone l'accessibilità, e creando dei metodi di accesso e di modifica. Questo principio di "nascondere" le variabili è chiamato incapsulamento e prevede i seguenti vantaggi:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] impedire che l'oggetto venga messo in uno stato inconsistente
+	\item[-] l'utilizzatore non deve preoccuparsi dei dettagli implementativi
+	\item[-] se si modifica l'implementazione di un metodo, non serve modificarne i programmi in cui è impiegato
+	\item[-] se c'è un errore nelle variabili d'istanza, va cercato nei metodi della classse o nelle loro invocazioni
+\end{itemize}
+
+\subsubsection*{Accessibilità}
+\begin{center}
+	\begin{tabularx}{\textwidth}{c X}
+		public & accessibile da qualsiasi classe \\
+		\midrule
+		package & (default) accessibile da qualsiasi classe contenuta nello stesso pacchetto \\
+		\midrule
+		protected & accessibile da qualsiasi sottoclasse della classe in cui è creato \\
+		\midrule
+		private & accessibile solo dalla classe in cui è stato creato
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Struttura base di una classe generatrice di oggetti}
+\begin{lstlisting}[language=Java]
+class NomeClasse {
+	// variabili d'istanza
+	private int variabileIstanza1;
+	...
+
+	// costruttore
+	public NomeClasse() {
+		variabileIstanza1 = 0;
+		...
+	}
+
+	// metodi di accesso
+	public getVariabileIstanza1(){
+		return variabileIstanza1;
+	}
+	...
+
+	// metodi di modifica
+	public setVariabileIstanza1(int v1) {
+		variabileIstanza1 = v1;
+	}
+	...
+}
+\end{lstlisting}
+
+\subsubsection*{Instanziamento di un oggetto e richiamo metodi}
+\begin{lstlisting}[language=Java]
+// istanziamento di un oggetto della classe NomeClasse
+NomeClasse nomeOggetto = new NomeClasse(parametri);
+
+// invocazione del metodo metodo1 dall'oggetto nomeOggetto
+nomeOggetto.metodo1(parametri);
+\end{lstlisting}
+
+\subsubsection*{Variabili statiche e non statiche}
+\begin{center}
+	\begin{tabularx}{\textwidth}{c X}
+		static & variabile unica comune a tutte le istanze di una classe, se viene modificata da un'istanza, si modifica per
+		tutte le istanze \\
+		\midrule
+		non-static & variabile propria di una specifica istanza, indipendente dalla corrispettiva in istanze diverse
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Metodi statici e non statici}
+\begin{center}
+	\begin{tabularx}{\textwidth}{c X}
+		static & non può accedere alle variabili d'istanza e non ha parametri impliciti, si invoca indicando
+		\verb|NomeClasse.nomeMetodo(parametri espliciti)| \\
+		\midrule
+		non-static & può accedere alle variabili d'istanza e ha come parametro implicito l'oggetto invocante
+		si invoca indicando \verb|nomeOggetto.nomeMetodo(parametri espliciti)|
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Riferimenti ad oggetti}
+Quando si dichiara un nuovo oggetto, si crea uno spazio in memoria in cui vengono salvati i dati dell'oggetto (es. variabili
+d'istanza e metodi) e viene creata una variabile riferimento che punta alla posizione in memoria dell'oggetto.
+
+Per cui se creo un oggetto \verb|A a = A();| e uno \verb|A b = a;|, le modifiche che faccio ad \verb|a| si riflettono anche
+su \verb|b| in quanto entrambi \verb|a| e \verb|b| puntano alla stessa posizione in memoria, per cui allo stesso oggetto.
+
+Quando viene passato un oggetto ad un metodo come parametro esplicito, le modifiche che vengono fatte all'oggetto all'interno
+del metodo, si riscontrano anche sull'oggetto nel metodo chiamante.
+
+\subsubsection*{Ereditarietà e polimorfismo}
+\dots
 
 \subsubsection*{Pacchetti e organizzazione}
-pacchetti, classi e import, documentazione API
+Più classi che svolgono compiti simili vengono raggiuppatte in pacchetti. Es. pacchetto \verb|java.lang| racchiude la classe
+\verb|System|, la classe \verb|String| e la classe \verb|Math|.
 
+Per utilizzare delle classi che si trovano in file diversi in cartelle diverse, bisogna inserire all'inizio del programma
+(fuori dalla classe) la parola chiave import seguita dal pacchetto che si vuole importare. Il pacchetto \verb|java.lang|
+è importato di default su ogni progetto.
 
-\subsection{Classe String}
+\subsection{Classe java.lang.String}
 utilizzo, metodi, \dots
 
-
-\subsection{Classe Scanner}
+\subsection{Classe java.util.Scanner}
 utilizzo, metodi, \dots
 
+\subsection{Classe java.io.FileReader}
+utilizzo, metodi, \dots
+
+\subsection{Classe java.io.PrintWriter}
+utilizzo, metodi, \dots
+
+\subsection{Classe java.util.Random}
+utilizzo, metodi, \dots
 
 \subsection{Commenti e JavaDoc}
 I commenti sono parti di testo che il compilatore ignora. Si usano per descrivere quali operazioni vengono effettuate
@@ -1044,15 +1185,32 @@ e in tale commento vengono descritti la funzione della classe, i parametri (prec
 ritorno (preceduto da \verb|@return|) ed eventuali eccezioni che possono essere lanciate.
 
 \begin{lstlisting}[language=Java]
-	/**
-	 * Descrizione del metodo
-	 * 
-	 * @param p1 parametro 1
-	 * @param p2 parametro 2
-	 * @return valore che viene restituito
-	 */
-	public int metodo(int p1, double p2) { ...
+/**
+ * Descrizione del metodo
+ * 
+ * @param p1 parametro 1
+ * @param p2 parametro 2
+ * @return valore che viene restituito
+ */
+public int metodo(int p1, double p2) { ...
 \end{lstlisting}
+
+% --------------------------------------- Strutture logiche ---------------------------------------
+\subsection{Operazioni logiche}
+\subsubsection*{Operazioni logiche}
+\dots
+
+\subsubsection*{Confronti tra double / float}
+\dots
+
+\subsubsection*{Confronti tra oggetti}
+\dots
+
+\subsubsection*{De Morgan}
+\dots
+
+\subsubsection*{Cortocircuito logico}
+\dots
 
 \subsection{Selezioni}
 utilizzo, struttura, else if, annidamento, else sospeso, espressioni logiche, \dots
@@ -1060,6 +1218,57 @@ switch case
 
 \subsection{Iterazioni}
 while, do-while, for, cicli annidati, break, continue
+
+
+% ---------------------------------- Note sulla memoria in Java -----------------------------------
+\subsection{Note sulla memoria in Java}
+\subsubsection*{Heap e Stack}
+\dots
+
+\subsubsection*{Record di attivazione}
+\dots
+
+% ------------------------------ Reindirizzamento del flusso di i/o -------------------------------
+\subsection{Reindirizzamento dei flussi i/o}
+\subsubsection*{Reindirizzamento del flusso di input}
+\dots
+
+\subsubsection*{Reindirizzamento del flusso di ouput}
+\dots
+
+\subsubsection*{Canalizzazioni o pipes}
+\dots
+
+% -------------------------------------- Eccezioni ed errori --------------------------------------
+\subsection{Eccezioni in Java}
+\subsubsection*{generale...}
+\dots
+
+\subsubsection*{Throw}
+\dots
+
+\subsubsection*{Try - catch}
+\dots
+
+\subsubsection*{Try with resources}
+\dots
+
+\subsubsection*{Eccezioni checked e unchecked}
+\dots
+
+% ------------------------------------------ Ricorsione -------------------------------------------
+\section{Ricorsione}
+\dots
+
+% ---------------------------------- Complessità computazionale -----------------------------------
+\section{Complessità computazionale}
+\dots
+
+\subsection{Complessità temporale}
+\dots
+
+\subsection{Complessità spaziale}
+\dots
 
 % ---------------------------------------- Strutture dati -----------------------------------------
 \section{Strutture dati}
@@ -1079,5 +1288,31 @@ dimensione logica vs dimensione relative
 
 \subsection{Matrici}
 array bidimensionali
+
+% ----------------------------------- Algoritmi di ordinamento ------------------------------------
+\section{Algoritmi di ordinamento}
+\dots
+
+\subsection{SelectionSort}
+\dots
+
+\subsection{MergeSort}
+\dots
+
+\subsection{InsertionSort}
+\dots
+
+\subsection{Confronto complessità}
+\dots
+
+% ------------------------------------- Algoritmi di ricerca --------------------------------------
+\section{Algoritmi di ricerca}
+\dots
+
+\subsection{Ricerca lineare}
+\dots
+
+\subsection{Ricerca binaria}
+\dots
 
 \end{document}
