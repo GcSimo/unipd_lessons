@@ -1368,7 +1368,7 @@ Per le dimostrazioni vedere gli appunti
 \subsection{Numero di Nepero e alcuni limiti notevoli}
 \subsubsection*{Definizione}
 Il numero di Nepero \(e\) è definito come \(\displaystyle e = \lim_{x \to \pm \infty} \left( 1 + \frac{1}{x} \right) ^ x\)
-con \(e = 2,71828\) ed \(e \in \mathbb{R} \backslash \mathbb{Q}\)
+con \(e = 2,71828\) ed \(e \in \mathbb{R} \; \backslash \mathbb{Q}\)
 
 \subsubsection*{Altri limiti notevoli derivati dalla definizione del numero di Nepero}
 \begin{enumerate}
@@ -1423,11 +1423,11 @@ Si osserva che se \(g(x) = 1 \; \forall x \in \mathbb{R}\) si ha che \(f(x) = o(
 \subsubsection*{Legame tra asintoticità e \(o\) piccoli}
 Siano \(f\) e \(g\) due funzioni definite su \(X \subseteq R\) e \(x_0\) punto di accumulazione di \(X\), \(f\), \(g\) definitivamente \(\neq 0\) per \(x \to x_0\), allora:
 \begin{align*}
-	lim_{x \to x_0} \frac{f(x)}{g(x)} = l \in \mathbb{R} \backslash 0 \quad &\Leftrightarrow \quad f(x) \sim l \cdot g(x) \text{ per } x \to x_0 \\
+	lim_{x \to x_0} \frac{f(x)}{g(x)} = l \in \mathbb{R} \; \backslash 0 \quad &\Leftrightarrow \quad f(x) \sim l \cdot g(x) \text{ per } x \to x_0 \\
 	&\Leftrightarrow \quad f(x) = l \cdot g(x) + o(g(x)) \text{ per } x \to x_0
 \end{align*}
 
-\subsubsection*{Cambio di variabili negli sviluppi}
+\subsubsection*{Teorema del cambio di variabili negli sviluppi}
 \begin{itemize}
 	\item[P:] Siano \(f\), \(\varphi\) e \(\varphi_1\) tre funzioni t.c. \(\varphi \circ f\) e \(\varphi_1 \circ f\) siano definite sullo stesso
 	insieme \(X \subseteq \mathbb{R}\) e sia \(x_0\) punto di accumulazione di \(X\), se:
@@ -1445,6 +1445,62 @@ Sappiamo che \(\sin y = y + o(y)\) per \(y \to y_0 = 0\)
 \begin{itemize}
 	\item per \(y = f(x) = x^2\), si osserva che \(\displaystyle \lim_{x \to 0} f(x) = 0 = y_0\) si ottiene che \\ \(\sin(x^2) = x^2 + o(x^2)\) per \(x \to 0\)
 	\item per \(y = f(x) = x^3 - 1\), si osserva che \(\displaystyle \lim_{x \to 1} f(x) = 0 = y_0\) si ottiene che \\ \(\sin(x^3 - 1) = x^3 - 1 + o(x^3 - 1)\) per \(x \to 1\)
+\end{itemize}
+
+\subsubsection*{Teorema di sostituzione degli infiniti e infinitesimi}
+\begin{itemize}
+	\item[P:] Siano \(f, f_1, g, g_1\) quattro funzioni definite in \(X \subseteq \mathbb{R}\) ed \(x_0\) un punto di accumulazione di \(X\),
+	assumiamo che le funzioni siano tutte \(\neq 0\) definitivamente per \(x \to x_0\)
+	\item[H:] se \(f(x) = f_1(x) + o(f_1(x))\) e \(g(x) = g_1(x) + o(g_1(x))\) per \(x \to x_0\)
+	\item[T:] allora \(\displaystyle \lim_{x \to x_0} \frac{f(x)}{g(x)}\) e \(\displaystyle \lim_{x \to x_0} \frac{f_1(x)}{g_1(x)}\) hanno lo stesso comportamento,
+	ovvero o non esistono entrambi, o esistono e sono coincidenti
+\end{itemize}
+Questo teorema si utilizza per risolvere i limiti in cui compaiono rapporti tra polinomi.
+
+\subsection{Ordini di infinito e infinitesimo}
+\subsubsection*{Ordini di infinito}
+Siano \(f\) e \(g\) due funzioni definite su \(X \subseteq R\) e \(x_0\) punto di accumulazione di \(X\), siano \(\displaystyle \lim_{x \to x_0} f(x) = \infty\)
+e \(\displaystyle \lim_{x \to x_0} g(x) = \infty\), consideriamo \(\displaystyle l := \lim_{x \to x_0} \frac{f(x)}{g(x)}\):
+\begin{itemize}
+	\item se il limite esiste e \(l \in \mathbb{R} \; \backslash 0\), allora \(f\) e \(g\) sono infiniti dello steso ordine per \(x \to x_0\)
+	\item se il limite esiste e \(l = 0\), allora \(f\) è un infinito di ordine minore di \(g\) per \(x \to x_0\)
+	\item se il limite esiste e \(l = \infty\), allora \(f\) è un infinito di ordine maggiore di \(g\) per \(x \to x_0\)
+	\item se il limite non esiste, \(f\) e \(g\) sono infiniti non confrontabili per \(x \to x_0\)
+\end{itemize}
+
+\subsubsection*{Ordini di infinitesimo}
+Siano \(f\) e \(g\) due funzioni definite su \(X \subseteq R\) e \(x_0\) punto di accumulazione di \(X\), siano \(\displaystyle \lim_{x \to x_0} f(x) = 0\)
+e \(\displaystyle \lim_{x \to x_0} g(x) = 0\), con \(f(x)\) e \(g(x)\) \(\neq 0\) definitivamente, consideriamo \(\displaystyle l := \lim_{x \to x_0} \frac{f(x)}{g(x)}\):
+\begin{itemize}
+	\item se il limite esiste e \(l \in \mathbb{R} \; \backslash 0\), allora \(f\) e \(g\) sono infinitesimi dello steso ordine per \(x \to x_0\)
+	\item se il limite esiste e \(l = 0\), allora \(f\) è un infinitesimo di ordine maggiore di \(g\) per \(x \to x_0\)
+	\item se il limite esiste e \(l = \infty\), allora \(f\) è un infinitesimo di ordine minore di \(g\) per \(x \to x_0\)
+	\item se il limite non esiste, \(f\) e \(g\) sono infinitesimi non confrontabili per \(x \to x_0\)
+\end{itemize}
+
+\subsubsection*{Definizione dell'ordine di infinito o infinitesimo}
+Per definire l'ordine di infinito/infinitesimo di una funzione, la si deve confrontare con una classe si funzioni campione definita
+come \(f(x) = \left| x - x_0 \right| ^ \alpha\), con \(\alpha \in \mathbb{R}\), se \(x_0 \in \mathbb{R}\)
+
+Si osserva che per \(x \to x_0\), se \(\alpha > 0\), allora \(f(x) \to 0\), mentre se \(\alpha < 0\), allora \(f(x) \to \infty\)
+
+\subsubsection*{Definizione dell'ordine di infinito}
+Sia \(f\) una funzione definita su \(X \subseteq \mathbb{R}\) ed \(x_0\) punto di accumulazione di \(X\), sia \(\displaystyle \lim_{x \to x_0} f(x) = \infty\), allora:
+\begin{itemize}
+	\item se \(x_0 \in \mathbb{R}\) e \(f\) è dello stesso ordine di infinito di \(\left| x - x_0 \right| ^ {-\alpha}\), con \(\alpha > 0\),
+	allora \(f\) è un infinito di ordine \(\alpha\)
+	\item se \(x_0 = \pm \infty\) e \(f\) è dello stesso ordine di infinito di \(\left| x \right| ^ \alpha\), con \(\alpha > 0\),
+	allora \(f\) è un infinito di ordine \(\alpha\)
+\end{itemize}
+
+\subsubsection*{Definizione dell'ordine di infinitesimo}
+Sia \(f\) una funzione definita su \(X \subseteq \mathbb{R}\) ed \(x_0\) punto di accumulazione di \(X\), sia \(\displaystyle \lim_{x \to x_0} f(x) = 0\)
+ed \(f \neq 0\) definitivamente per \(x \to x_0\), allora:
+\begin{itemize}
+	\item se \(x_0 \in \mathbb{R}\) e \(f\) è dello stesso ordine di infinitesimo di \(\left| x - x_0 \right| ^ \alpha\), con \(\alpha > 0\),
+	allora \(f\) è un infinitesimo di ordine \(\alpha\)
+	\item se \(x_0 = \pm \infty\) e \(f\) è dello stesso ordine di infinitesimo di \(\left| x \right| ^ {-\alpha}\), con \(\alpha > 0\),
+	allora \(f\) è un infinitesimo di ordine \(\alpha\)
 \end{itemize}
 
 
