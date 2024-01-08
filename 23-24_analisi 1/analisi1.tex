@@ -1405,7 +1405,7 @@ Siano \(f\) e \(g\) due funzioni definite su \(X \subseteq R\) e \(x_0\) punto d
 
 \newpage
 
-\subsection{Simboli di Landau - \(o\) piccoli}
+\subsection{Simboli di Landau - \textit{o} piccoli}
 Siano \(f\) e \(g\) due funzioni definite su \(X \subseteq R\) e \(x_0\) punto di accumulazione di \(X\), sia \(g\) definitivamente \(\neq 0\) per \(x \to x_0\),
 \(f(x) = o(g(x))\), ovvero \(f\) è un \(o\) piccolo di \(g\), quando \(\displaystyle \lim_{x \to x_0} \frac{f(x)}{g(x)} = 0\). \\
 Si osserva che se \(g(x) = 1 \; \forall x \in \mathbb{R}\) si ha che \(f(x) = o(1) \Leftrightarrow \displaystyle \lim_{x \to x_0} f(x) = 0\)
@@ -1502,6 +1502,190 @@ ed \(f \neq 0\) definitivamente per \(x \to x_0\), allora:
 	\item se \(x_0 = \pm \infty\) e \(f\) è dello stesso ordine di infinitesimo di \(\left| x \right| ^ {-\alpha}\), con \(\alpha > 0\),
 	allora \(f\) è un infinitesimo di ordine \(\alpha\)
 \end{itemize}
+
+\newpage
+
+
+\section{Succesioni}
+\subsubsection*{Definizione}
+Sia \(A \subseteq \mathbb{N}\) illimitato, una successione (a valori reali) è una funzione da \(A\) in \(\mathbb{R}\). \\
+Una successione \(a : A \to \mathbb{R}\) si indica come \(a_n\) o \(\left\{ a_n \right\}_{n \in A}\).
+
+\subsubsection*{Limiti di successioni}
+Dato che il dominio delle successioni è costituito da punti isolati, l'unico punto di accumulazione, di cui ha senso 
+calcolarne il limite è \(+\infty\). Quando si indica "definitivamente" riferito ad una successione, si intende "definitivamente
+per \(n \to +\infty\).
+
+\subsubsection*{Carattere di una successione}
+Data \(\left\{ a_n \right\}_{n \in \mathbb{N}}\) successione a valori reali con dominio \(\mathbb{N}\) e \(\displaystyle \lim_{n \to +\infty} a_n = l \in \mathbb{R}^*\), se:
+\begin{itemize}
+	\item \(\exists \; l \in \mathbb{R}\), la succesione \(a_n\) è convergente
+	\item \(\exists \; l = 0\), la succesione \(a_n\) è in particolare infinitesima
+	\item \(\exists \; l = \pm \infty\), la succesione \(a_n\) è divergente
+	\item \(\nexists \; l\), la succesione \(a_n\) è irregolare
+\end{itemize}
+
+\subsection{Sottosuccessioni}
+\subsubsection*{Definizione}
+Data \(\left\{ a_n \right\}_{n \in \mathbb{N}}\), una sottosuccesione (o successione estratta) di \(a_n\) è una successione della forma \(\left\{ a_{n_k} \right\}_{k \in \mathbb{N}}\)
+con \(n_k : \mathbb{N} \to \mathbb{N}\) successione strettamente crescente.
+
+\subsubsection*{Convergenza con sottosuccessioni}
+\begin{itemize}
+	\item[P:] Sia \(\left\{ a_n \right\}_{n \in \mathbb{N}}\) una successione
+	\item[H/T:] \(\displaystyle \lim_{n \to \infty} a_n = l \in \mathbb{R}^* \quad \Leftrightarrow \quad \forall \left\{ a_{n_k} \right\}_{k \in \mathbb{N}}\) si ha \(\displaystyle \lim_{k \to \infty} a_{n_k} = l\)
+\end{itemize}
+Una successione ha come limite \(l \in \mathbb{R}^*\), se ogni sottosuccessione ha come limite \(l\). \\
+Una successione è irregolare (non ha limite), se esistono due sottosuccessioni che hanno limite diverso.
+
+\subsubsection*{Teorema Bolzano - Weierstrass}
+Se una succesione \(\left\{ a_n \right\}_{n \in \mathbb{N}}\) è limitata, allora ha una sottosuccesione convergente.
+
+\subsubsection*{Teorema ponte}
+\begin{itemize}
+	\item[P:] Sia \(f: X \to \mathbb{R}\) una funzione con \(X \subseteq \mathbb{R}\) e sia \(x_0\) punto di accumulazione di \(X\)
+	\item[H/T:] \(\displaystyle \lim_{x \to x_0} f(x) = l \in \mathbb{R}^* \quad \Leftrightarrow \quad \forall \left\{ a_n \right\}_{n \in \mathbb{N}}\) con \(\displaystyle a_n \in X, \lim_{n \to +\infty} a_n \neq x_0 \;\) si ha \(\; \displaystyle \lim_{k \to \infty} f(a_n) = l\)
+\end{itemize}
+Il limite per \(x_0\) di una funzione vale \(l \in \mathbb{R}^*\) se e solo se per ogni successione, il limite della successione vale \(x_0\) e limite di \(f(a_n)\) è \(l\). \\
+Se esistono due successioni \(a_n\) e \(b_n\), per cui il limite di \(f(a_n)\) e quello di \(f(b_n)\) sono diversi, allora non esiste il limite per \(f(x_0)\).
+
+\subsection{Formula di Stirling per n!}
+\(\forall \; n \in \mathbb{N}, n \geq 1 \quad \; \exists \; a_n \in \left( 0, 1 \right)\) t.c. \(\displaystyle n! = \frac{n^n}{e^n} \cdot \sqrt{2 \pi n} \cdot e ^ {\frac{a_n}{12n}}\) \\
+per \(n \to \infty \quad \Leftrightarrow \quad n! \sim \frac{n^n}{e^n} \cdot \sqrt{2 \pi n}\)
+
+\section{Serie}
+\subsubsection*{Definizione}
+Data la successione \(a_k \in \mathbb{R}\), con \(k \in \mathbb{N}\), la somma parziale n-esima dei primi \(n\) termini della successione,
+definita come \(\displaystyle S_n = \sum_{k = 1}^{n} a_k = a_1 + a_2 + a_3 + \dots + a_n\).
+
+La successione delle somme parziali \(\left\{ S_n \right\}_{n \in \mathbb{N}}\) è chiamata serie di termine generale \(a_k\).
+
+\subsubsection*{Limiti di serie}
+Analogo discorso per le successioni, essendo il dominio costituito da punti isolati, l'unico punto di accumulazione è \(+ \infty\)
+
+\subsection{Studio della convergenza e divergenza}
+\subsubsection*{Carattere di una serie}
+Data una serie \(S_n\) di termine generale \(a_k\) e \(\displaystyle \lim_{n \to +\infty} S_n = l \in \mathbb{N}^*\), se:
+\begin{itemize}
+	\item \(\exists \; l \in \mathbb{R}\), la serie \(S_n\) è convergente
+	\item \(\exists \; l = + \infty\), la serie \(S_n\) è divergente a \(+ \infty\)
+	\item \(\exists \; l = - \infty\), la serie \(S_n\) è divergente a \(- \infty\)
+	\item \(\nexists \; l\), la serie \(s_n\) è irregolare
+\end{itemize}
+
+\subsubsection*{Comportamento primi termini}
+Il comportamento di una serie non dipende dai primi termini.
+
+\subsubsection*{Condizione necessaria per convergenza}
+Se una serie è convergente, allora l'ultimo elemento è 0, ovvero \(\displaystyle \lim_{k \to +\infty} a_k = 0\)
+
+\subsubsection*{Condizione sufficiente per convergenza / convergenza assoluta}
+Sia una serie \(\displaystyle S_n = \sum_{k = 0}^{n} a_k\), se \(\displaystyle S_n = \sum_{k = 0}^{n} \left| a_k \right|\) converge, allora la serie converge assolutamente. \\
+Se una serie converge assolutamente, converge anche semplicemente.
+
+\subsection{Serie a termini positivi (conv o diverge a \(+ \infty\))}
+Una serie è a termini positivi se ogni termine è \(\geq 0\) \\ 
+Una serie a termini postivi converge o doverge a \(+ \infty\)
+
+\subsubsection*{Confronto}
+Siano \(\displaystyle \sum_{k = 1}^{n} a_k\), \(\displaystyle \sum_{k = 1}^{n} b_k\) serie a termini positivi, se \(a_k < bk\) definitivamente, allora:
+\begin{itemize}
+	\item se \( \sum_{k = 1}^{n} b_k\) converge, converge anche \(\sum_{k = 1}^{n} a_k\)
+	\item se \(\sum_{k = 1}^{n} a_k\) diverge, diverge anche \(\sum_{k = 1}^{n} b_k\)
+\end{itemize}
+
+\subsubsection*{Confronto asintotico}
+Siano \(\displaystyle \sum_{k = 1}^{n} a_k\), \(\displaystyle \sum_{k = 1}^{n} b_k\) serie a termini positivi, e \(\displaystyle \lim_{k \to +\infty} \frac{a_k}{b_k} = l\), allora:
+\begin{itemize}
+	\item se \(l = \mathbb{R} \; \backslash 0\), sono asintotiche: se una converge, l'altra converge, se una diverge, l'altra diverge
+	\item se \(l = 0\), allora \(a_k < b_k\) definitivamente, allora se \(\sum_{k = 1}^{n} b_k\) converge, converge anche \(\sum_{k = 1}^{n} a_k\)
+	\item se \(l = +\infty\), allora \(a_k > b_k\), allora se \(\sum_{k = 1}^{n} b_k\) diverge, allora diverge anche \(\sum_{k = 1}^{n} a_k\)
+\end{itemize}
+
+\subsubsection*{Criterio condensazione}
+Sia \(S_n\) serie a termini positivi e \(a_k\) successione decrescente, allora \(S_{a_k}\) e \(\displaystyle S_{2^k \cdot a_{2^k}}\) hanno lo stesso comportamento
+
+\subsubsection*{Rapporto}
+Sia \(S_n\) serie a termini positivi:
+\begin{itemize}
+	\item se \(\displaystyle \frac{a_{k + 1}}{a_k} < 1\) definitivamente, la serie converge
+	\item se \(\displaystyle \frac{a_{k + 1}}{a_k} \geq 1\) definitivamente, la serie diverge a \(+ \infty\)
+\end{itemize}
+
+\subsubsection*{Rapporto asintotico}
+Sia \(S_n\) serie a termini positivi e \(\displaystyle \lim_{k \to +\infty} \frac{a_{k+1}}{a_k} = l \in \left[0, +\infty \right) \cup +\infty \)
+\begin{itemize}
+	\item se \(l < 1\) la serie converge
+	\item se \(l > 1\) la serie diverge
+	\item se \(l = 1\) non si può dire nulla
+\end{itemize}
+
+\subsubsection*{Criterio radice}
+Sia \(S_n\) serie a termini positivi:
+\begin{itemize}
+	\item se \(\sqrt[k]{a_k} < 1\) definitivamente, la serie converge
+	\item se \(\sqrt[k]{a_k} \geq 1\) definitivamente, la serie diverge a \(+ \infty\)
+\end{itemize}
+
+\subsubsection*{Criterio radice asintotica}
+Sia \(S_n\) serie a termini positivi e \(\displaystyle \lim_{k \to +\infty} \sqrt[k]{a_k} = l \in \left[0, +\infty \right) \cup +\infty \)
+\begin{itemize}
+	\item se \(l < 1\) la serie converge
+	\item se \(l > 1\) la serie diverge
+	\item se \(l = 1\) non si può dire nulla
+\end{itemize}
+
+\subsubsection*{Ponte tra criterio della radice e criterio del rapporto}
+Se esiste il limite del rapporto, esiste limite della radice e coincidono, ma non il viceversa, quindi:
+\begin{itemize}
+	\item se il lim del rapporto = 1, allora il lim della radice = 1 e non si può concludere nulla
+	\item se il lim della radice = 1, allora il lim del rapporto = 1 o non esiste e non si può concludere nulla
+\end{itemize}
+
+\newpage
+
+\subsection{Esempi di serie convergenti e divergenti}
+\subsubsection*{Serie geometrica}
+\(\displaystyle S_n = \sum_{k = 0}^{n} r ^ k = \frac{1-r^{n+1}}{1-r}\), con ragione \(r > 0\)
+\begin{itemize}
+	\item se \(0 < r < 1 \quad \rightarrow \quad\) convergente a \(\frac{1}{1-r}\)
+	\item se \(r \geq 1 \quad \rightarrow \quad\) divergente a \(+ \infty\)
+\end{itemize}
+
+\subsubsection*{Serie armonica}
+\(\displaystyle S_n = \sum_{k = 1}^{n} \frac{1}{k^a}\)
+\begin{itemize}
+	\item per \(a > 1\) la serie converge
+	\item per \(a \leq 1\) la serie diverge a \(+ \infty\)
+\end{itemize}
+
+\subsubsection*{Serie armonica generalizzata}
+\(\displaystyle S_n = \sum_{k = 1}^{n} \frac{1}{k^a \cdot \log^b k}\)
+\begin{itemize}
+	\item per \(a > 1\) la serie converge
+	\item per \(a < 1\) la serie diverge a \(+ \infty\)
+	\item per \(a = 1\), \(b > 1\) la serie converge
+	\item per \(a = 1\), \(b \leq 1\) diverge a \(+ \infty\)
+\end{itemize}
+
+\subsubsection*{Serie esponenziale}
+\(\displaystyle S_n = \sum_{k = 1}^{n} \frac{x^k}{k!}\) con parametro \(x \in \mathbb{R}\)
+\begin{itemize}
+	\item per \(x > 0\) la serie ha termini positivi
+	\item per \(x < 0\) la serie ha terminidi di segno alterni
+	\item per \(x = 0\) si ha la forma \(0^0\), da definire
+\end{itemize}
+La serie è assolutamente convergente e uguale a \(e^x\)
+
+\subsubsection*{Serie a segno alterno}
+\(\displaystyle S_n = \sum_{k = 1}^{n} (-1)^k * a_k\) con \(a_k > 0\)
+\begin{itemize}
+	\item per \(k\) pari, il teminine ha segno positivo
+	\item per \(k\) dispari, in termine ha negativo
+\end{itemize}
+
+\subsubsection*{Criterio di Leibniz}
+Se \(\displaystyle \lim_{k \to +\infty} a_k = 0\) (cond. necess.) e \(a_k\) definitivamente decrescente, la serie a segno alterno è convergente.
 
 
 \end{document}
