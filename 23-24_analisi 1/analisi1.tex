@@ -1365,8 +1365,87 @@ Per le dimostrazioni vedere gli appunti
 
 \newpage
 
-%% inizio lezione 23
-\subsection{Numero di Nepero}
+\subsection{Numero di Nepero e alcuni limiti notevoli}
+\subsubsection*{Definizione}
+Il numero di Nepero \(e\) è definito come \(\displaystyle e = \lim_{x \to \pm \infty} \left( 1 + \frac{1}{x} \right) ^ x\)
+con \(e = 2,71828\) ed \(e \in \mathbb{R} \backslash \mathbb{Q}\)
+
+\subsubsection*{Altri limiti notevoli derivati dalla definizione del numero di Nepero}
+\begin{enumerate}
+	\item \(\displaystyle \lim_{x \to \pm \infty} \left(1 + \frac{\alpha}{x} \right) ^ x = e ^ \alpha \quad \forall \alpha \in \mathbb{R}\)
+	\item \(\displaystyle \lim_{x \to 0} \left( 1 + \alpha x \right) ^ \frac{1}{x} = e ^ \alpha \quad \forall \alpha \in \mathbb{R}\)
+	\item \(\displaystyle \lim_{x \to 0} \frac{\log \left( 1 + x \right)}{x} = 1\)
+	\item \(\displaystyle \lim_{x \to 0} \frac{ e ^ x - 1 }{x} = 1\)
+	\item \(\displaystyle \lim_{x \to 0} \frac{\sinh x}{x} = 1\)
+\end{enumerate}
+
+\subsection{Confronti asintotici}
+Siano \(f\) e \(g\) due funzioni definite su \(X \subseteq R\) e \(x_0\) punto di accumulazione di \(X\). Le due funzioni sono asintotiche per \(x \to x_0\),
+\(f \sim g\) per \(x \to x_0\) quando:
+\begin{enumerate}
+	\item sono entrambe \(\neq 0\) definitivamente per \(x \to x_0\)
+	\item \(\displaystyle \lim_{x \to x_0} \frac{f(x)}{g(x)} = 1\)
+\end{enumerate}
+
+\subsubsection*{Proprietà}
+\begin{itemize}
+	\item[P1:] se \(f \sim g\) per \(x \to x_0\), allora \(\lim_{x \to x_0} f(x)\) e \(\lim_{x \to x_0} f(x)\) o non esistono o esistono e coincidono
+	\item[P2:] se \(f \sim g\) per \(x \to x_0\) e \(g \sim h\) per \(x \to x_0\), allora \(f \sim h\) per \(x \to x_0\)
+	\item[P3:] se \(f \sim f'\), \(g \sim g'\) e \(h \sim h'\) per \(x \to x_0\), allroa \(\displaystyle \frac{f \cdot g}{h} \sim \frac{f' \cdot g'}{h'}\) per \(x \to x_0\)
+\end{itemize}
+
+\subsubsection*{Esempi di funzioni asintotiche}
+\begin{enumerate}
+	\item \(\displaystyle \lim_{x \to 0} \frac{\sin x}{x} = 1 \quad \Rightarrow \quad \sin x \sim x \text{ per } x \to 0\)
+	\item \(\displaystyle \lim_{x \to 0} \frac{\tan x}{x} = 1 \quad \Rightarrow \quad \tan x \sim x \text{ per } x \to 0\)
+	\item \(\displaystyle \lim_{x \to 0} \frac{\log (1 + x)}{x} = 1 \quad \Rightarrow \quad \log (1 + x) \sim x \text{ per } x \to 0\)
+	\item \(\displaystyle \lim_{x \to 0} \frac{e ^ x - 1}{x} = 1 \quad \Rightarrow \quad e ^ x - 1 \sim x \text{ per } x \to 0\)
+	\item \(\displaystyle \lim_{x \to 0} \frac{1 - \cos x}{x^2} = \frac{1}{2} \quad \Rightarrow \quad 1 - \cos x \sim \frac{x^2}{2} \text{ per } x \to 0\)
+\end{enumerate}
+
+\newpage
+
+\subsection{Simboli di Landau - \(o\) piccoli}
+Siano \(f\) e \(g\) due funzioni definite su \(X \subseteq R\) e \(x_0\) punto di accumulazione di \(X\), sia \(g\) definitivamente \(\neq 0\) per \(x \to x_0\),
+\(f(x) = o(g(x))\), ovvero \(f\) è un \(o\) piccolo di \(g\), quando \(\displaystyle \lim_{x \to x_0} \frac{f(x)}{g(x)} = 0\). \\
+Si osserva che se \(g(x) = 1 \; \forall x \in \mathbb{R}\) si ha che \(f(x) = o(1) \Leftrightarrow \displaystyle \lim_{x \to x_0} f(x) = 0\)
+
+\subsubsection*{Proprietà degli \(o\) piccoli}
+\begin{itemize}
+	\item[P1:] \(o(g(x)) \pm o(g(x)) = o(g(x))\) per \(x \to x_0\)
+	\item[P2:] \(o(g(x)) \cdot o(g(x)) = o(g^2(x))\) per \(x \to x_0\)
+	\item[P3:] \(\varphi(x) \cdot o(g(x)) = o(\varphi (x) \cdot g(x))\) per \(x \to x_0\) e \(\varphi(x) \neq 0\) definitivamente
+	\item[P4.1:] \(\varphi(x) \cdot o(g(x)) = o(g(x))\) per \(x \to x_0\) e \(\varphi(x)\) è definitivamente limitata
+	\item[P4.2:] \(c \cdot o(g(x)) = o(g(x))\) per \(x \to x_0\)
+	\item[P5:] \(\left| o(g(x)) \right| ^ \alpha = o(\left| g(x) \right| ^ \alpha)\) per \(x \to x_0\)
+\end{itemize}
+
+\subsubsection*{Legame tra asintoticità e \(o\) piccoli}
+Siano \(f\) e \(g\) due funzioni definite su \(X \subseteq R\) e \(x_0\) punto di accumulazione di \(X\), \(f\), \(g\) definitivamente \(\neq 0\) per \(x \to x_0\), allora:
+\begin{align*}
+	lim_{x \to x_0} \frac{f(x)}{g(x)} = l \in \mathbb{R} \backslash 0 \quad &\Leftrightarrow \quad f(x) \sim l \cdot g(x) \text{ per } x \to x_0 \\
+	&\Leftrightarrow \quad f(x) = l \cdot g(x) + o(g(x)) \text{ per } x \to x_0
+\end{align*}
+
+\subsubsection*{Cambio di variabili negli sviluppi}
+\begin{itemize}
+	\item[P:] Siano \(f\), \(\varphi\) e \(\varphi_1\) tre funzioni t.c. \(\varphi \circ f\) e \(\varphi_1 \circ f\) siano definite sullo stesso
+	insieme \(X \subseteq \mathbb{R}\) e sia \(x_0\) punto di accumulazione di \(X\), se:
+	\item[H:]
+	\begin{enumerate}
+		\item \(\varphi(y) = \varphi_1(y) + o(\varphi_1(y))\) per \(y \to y_0\)
+		\item \(\displaystyle \lim_{x \to x_0} f(x) = y_0\)
+		\item \(f(x) \neq y_0\) per \(x \to x_0\) o \(\varphi(y_0) = \varphi_1(y_0)\)
+	\end{enumerate}
+	\item[T:] \(\varphi(f(x)) = \varphi_1(f(x)) + o(\varphi_1(f(x)))\) per \(x \to x_0\)
+\end{itemize}
+
+\subsubsection*{Esempi di cambio di variabile negli sviluppi}
+Sappiamo che \(\sin y = y + o(y)\) per \(y \to y_0 = 0\)
+\begin{itemize}
+	\item per \(y = f(x) = x^2\), si osserva che \(\displaystyle \lim_{x \to 0} f(x) = 0 = y_0\) si ottiene che \\ \(\sin(x^2) = x^2 + o(x^2)\) per \(x \to 0\)
+	\item per \(y = f(x) = x^3 - 1\), si osserva che \(\displaystyle \lim_{x \to 1} f(x) = 0 = y_0\) si ottiene che \\ \(\sin(x^3 - 1) = x^3 - 1 + o(x^3 - 1)\) per \(x \to 1\)
+\end{itemize}
 
 
 \end{document}
