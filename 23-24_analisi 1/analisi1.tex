@@ -3,6 +3,7 @@
 \usepackage[italian]{babel} % corretta sillabazione in italiano
 \usepackage{geometry} % per impostare margini e layout pagina
 %\usepackage{layout} % per impostare il layout pagina
+\usepackage{enumitem}
 \usepackage{amssymb} % per l'ambiente matematico
 \usepackage{amsmath} % per l'ambiente matematico
 \usepackage{amsthm} % per l'ambiente matematico (simbolo qed alla fine delle dimostrazioni)
@@ -26,6 +27,7 @@
 \newcommand\settcosh{\text{settcosh}}
 \newcommand\settsinh{\text{settsinh}}
 \newcommand\setttanh{\text{setttanh}}
+\newcommand\cont[2]{C^{#1} ({#2})}
 
 \title{Appunti di analisi 1}
 \author{Giacomo Simonetto}
@@ -748,7 +750,7 @@ Congiungendo le soluzioni si ottiene un poligono regolare (es. 6 soluzioni \(\to
 		\midrule
 		\(f\) a valori reali & se il codominio \(Y \subseteq R\) \\
 		\midrule
-		\(f\) parte intera & \(f(x) = \left[ x \right]\) definta in \(\mathbb{R}\) come il più grande numero intero \(\leq x\) \\
+		\(f\) parte intera & \(f(x) = \left[ x \right]\) definita in \(\mathbb{R}\) come il più grande numero intero \(\leq x\) \\
 		\midrule
 		\(f\) parte frazionaria & \(f(x) = x- \left[ x \right]\)\\
 		\midrule
@@ -1314,7 +1316,7 @@ Si osserva che il teorema vale soltanto con il \(leq\) e non con il \(<\), in qu
 \newpage
 
 \subsection{Funzioni continue e continuità}
-\subsubsection*{DEfinizione di continuità}
+\subsubsection*{Definizione di continuità}
 Sia \(f: \dom f \to \mathbb{R}\), \(f(x)\) è continua in \(x_0 \in \dom f \Leftrightarrow \displaystyle \lim_{x \to x_0} f(x) = f(x_0)\). \\
 Si osserva che se \(f: \dom f \in \mathbb{R}\) e \(g: \dom f \to \mathbb{R}\) continue in \(x_0\) punto di accumulazione \(\dom f\) \\ 
 con \(\displaystyle \lim_{x \to x_0} f(x) = y_0\) e \(g \circ f\) è ben definita, allora \(\displaystyle \lim_{x \to x_0} g(f(x)) = g\left( \lim_{x \to x_0} f(x) \right) = g(y_0)\)
@@ -1686,6 +1688,173 @@ La serie è assolutamente convergente e uguale a \(e^x\)
 
 \subsubsection*{Criterio di Leibniz}
 Se \(\displaystyle \lim_{k \to +\infty} a_k = 0\) (cond. necess.) e \(a_k\) definitivamente decrescente, la serie a segno alterno è convergente.
+
+\newpage
+
+
+\section{Funzioni continue}
+\subsection{Continuità}
+\subsubsection*{Definizione}
+Sia \(f:D \to \mathbb{R}\) e \(x_0 \in D\), \(f\) è continua in \(x_0\) se è verficata una delle seguenti proprietà:
+\begin{itemize}
+	\item[-] \(x_0\) è punto isolato di \(D\)
+	\item[-] \(x_0\) è punto di accumulazione di \(D\) ed \(\displaystyle \exists \lim_{x \to x_0} f(x) = f(x_0)\)
+\end{itemize}
+\(f\) è continua in \(D\), \(f \in \cont{0}{D}\) se è continua \(\forall x_0 \in D\)
+
+\subsubsection*{Punti di discontinuità}
+\begin{itemize}
+	\item[-] \textbf{discontinuità eliminabile} \\
+	se \(\displaystyle \exists \lim_{x \to x_0} f(x) = l \in \mathbb{R}\) e \(l \neq f(x_0)\)
+	\item[-] \textbf{discontinuità di prima specie} \\
+	se \(\displaystyle \exists \lim_{x \to x_0^+} f(x) = l_1 \in \mathbb{R} \quad\) e \(\displaystyle \quad \exists \lim_{x \to x_0^-} f(x) = l_2 \in \mathbb{R} \quad\) con \(\quad l_1 \neq l_2\)
+	\item[-] \textbf{discontinuità di seconda specie} \\
+	se \(\displaystyle \exists \lim_{x \to x_0^+} f(x) = l_1 = \pm \infty \quad\) o \(\displaystyle \quad \exists \lim_{x \to x_0^-} f(x) = l_2 \in \pm \infty \quad\) o se non esistono
+	
+\end{itemize}
+
+\subsubsection*{Prolungamento di continuità}
+Sia \(f\) funzione di dominio \(\dom f\) e \(x_0 \in \mathbb{R}\) punto di accumulazione di \(\dom f\) con \(x_0 \notin \dom f\)
+e assumiamo che \(\displaystyle \lim_{x \to x_0} f(x) = l \in \mathbb{R}\), allora \(f\) è prolungabile per continuità in \(x_0\)
+e viene definita una nuova funzione \(\widetilde{f}\): \\
+\(\displaystyle \widetilde{f}(x) = \begin{cases}
+	f(x) &\text{per } x \in \dom f \\
+	l &\text{per } x = x_0
+\end{cases} \quad\)
+in cui \(\dom \widetilde{f} = \dom f \cup \left\{ x_0 \right\}\)
+
+\subsubsection*{Algerba delle funzioni continue}
+Siano \(f\), \(g\) definite su \(D \subseteq \mathbb{R}\) e \(x_0 \in D\) tali che \(f\) e \(g\) sono continue in \(x_0\), allora:
+\begin{enumerate}
+	\item \(\alpha f(x) + \beta g(x)\) è continua in \(x_0\) \(\forall \alpha, \beta \in \mathbb{R}\)
+	\item \(f(x) \cdot g(x)\) è continua in \(x_0\)
+	\item \(\displaystyle \frac{f(x)}{g(x)}\) è continua in \(x_0\) se \(g(x_0) \neq 0\)
+\end{enumerate}
+
+\subsubsection*{Teorema di locale limitatezza}
+Se \(f\) è una funzione continua in \(x_0 \in \dom f\), allora \(f\) è localmente limitata definitivamente in \(x_0\), ovvero
+\(\exists U\) intorno di \(x_0\) t.c. \(\restr{f}{U \cap \dom f}\) è limitata.
+
+\subsubsection*{Teorema di permanenza del segno}
+Se \(f\) è continua in \(x_0\) e \(f(x_0) > 0\), allora \(f\) è definitivamente \(> 0\) per \(x \to x_0\) \\
+Se \(f\) è continua in \(x_0\) e \(f(x_0) < 0\), allora \(f\) è definitivamente \(< 0\) per \(x \to x_0\)
+
+\subsubsection*{Teorema del cambio di variabile - composizione di funzioni}
+Siano \(f\) e \(g\) due funzioni tali che \(g \circ f\) è definita su \(D \in \mathbb{R}\) e \(x_0 \in D\),
+se \(f\) è continua in \(x_0\) e \(g\) è continua in \(f(x_0)\), allora \(g \circ f\) è continua in \(x_0\)
+
+\subsubsection*{Teorema ponte per le funzioni continue}
+Sia \(f\) funzione con domino \(\dom f\) e \(x_0 \in \dom f\), \(f\) è continua in \(x_0\) se e solo se \(\forall\) successione \(\left\{a_n\right\}_n\)
+con \(a_n \in \dom f\) e \(\displaystyle \lim_{n \to +\infty} a_n = x_0\) si ha \(\displaystyle \lim_{n \to +\infty} f(a_n) = f(x_0)\)
+
+Per dimostrare che una funzione non è continua in \(x_0\) basta trovare due successioni che convergono a \(x_0\) tali per cui
+i limiti della funzione composta alle successioni diano due risultati distinti. Si può usare per dimostrare la non continuità
+della funzione di Dirichlet scegliendo come successioni \(a_n = x_0\) e \(b_n = x_0 + \frac{\sqrt{2}}{n}\), con \(x_0 \in \mathbb{Q}\).
+
+\subsubsection*{Continuità della funzione inversa}
+Se \(f\) è continua e invertibile sul suo dominio, in generale non è detto che la derivata sia continua in ogni suo punto,
+specialmente se il dominio della funzione non è un intervallo. \\
+Sia \(I\) un intervallo di \(\mathbb{R}\) e \(f \in \cont{0}{I}\), \(f\) è iniettiva se e solo se è strettamente monotona. \\
+Sia \(I\) un intervallo di \(\mathbb{R}, f \in \cont{0}{I}\) invertibile, allora \(f\) è strettamente monotona e \(f^{-1}\)
+è continua sul suo dominio \(f(I)\).
+
+\subsection{Teorema di Weierstrass}
+Sia \(f\) una funzione continua in \(\left[a, b\right]\) (chiuso e limitato) con \(a,b \in \mathbb{R}\), allora \(f\) ammette massimo e minimo,
+cioè \(f\) è limitata ed \(\exists \; x_m, x_M \in \left[a, b\right]\) t.c. \(\displaystyle f(x_m) = \min_{x \in \left[a, b\right]} f(x)\)
+e \(\displaystyle f(x_M) = \max_{x \in \left[a, b\right]} f(x)\)
+
+\subsection{Teorema di Bolzano - esistenza degli zeri}
+Sia \(f \in \cont{0}{\left[a, b\right]}\) tale che \(f(a) \cdot f(b) < 0\), cioè hanno segno opposto, allora \(\exists \; c \in \left(a, b\right)\)
+tale che \(f(c) = 0\)
+
+\subsubsection*{Dimosrtrazione}
+Viene impiegato il metodo di bisezione \\
+Cosidero \(f(a) > 0\) e \(f(b) < 0\) senza perdere generalità e \(\displaystyle c_1 = \frac{a + b}{2}\), distinguo tre casi:
+\begin{enumerate} [topsep=3pt, itemsep=0pt]
+	\item \(f(c_1) = 0 \quad \rightarrow \quad\) scelgo \(c = c_1\)
+	\item \(f(c_1) < 0 \quad \rightarrow \quad\) scelgo \(a_1 = c_1\) e \(b_1 = b\)
+	\item \(f(c_1) > 0 \quad \rightarrow \quad\) scelgo \(a_1 = a\) e \(b_1 = c_1\)
+\end{enumerate}
+Ripeto il procedimento ottenendo tre sequenze \(a_n\), \(b_n\) e \(c_n\) con: \\
+\(a_n < b_n, \quad b_n - a_n = \frac{b-a}{2^n}, \quad f(a_n) \cdot f(b_n) < 0 \quad\) definite come:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] \(c_{n+1} = \frac{a_n + b_n}{2}\)
+	\item[-] \(a_{n+1} = \begin{cases}
+		c_{n+1} &\text{se } f(c_{n+1}) > 0 \\
+		a_n & \text{se } f(c_{n+1}) < 0
+	\end{cases}\)
+	\item[-] \(b_{n+1} = \begin{cases}
+		b_n &\text{se } f(c_{n+1}) > 0 \\
+		b_{n+1} & \text{se } f(c_{n+1}) < 0
+	\end{cases}\)
+\end{itemize}
+nel caso in cui per uno specifico \(n\) vale \(f(c_n) = 0\), scelgo \(c = c_n\) e concludo, nel caso in cui non esista un \(n\)
+per cui è verificata la condizione sopra, ottengo due succesioni:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] \(a_n\) crescente e limitata superiormente
+	\item[-] \(b_n\) decrescente e limitata inferiormente
+\end{itemize}
+Dal teorema delle successioni monotone si ottiene che \(\displaystyle \exists \lim_{n \to +\infty} a_n = \overline{a} \in \left[a, b\right]\) e
+\(\displaystyle \exists \lim_{n \to +\infty} b_n = \overline{b} \in \left[a, b\right]\).\\
+Dal limite sopra: \(\displaystyle \lim_{n \to +\infty} b_n - a_n = \overline{b} - \overline{a} = \lim_{n \to +\infty} \frac{b - a}{2^n} = 0\),
+per cui \(\overline{a} = \overline{b}\). \\
+Chiamiamo \(c = \overline{a}\): \\
+\(f(a_n) > 0\) per perm. del segno e \(\displaystyle \lim_{n \to +\infty}f(a_n) = f(c)\) in quanto \(f \in \cont{0}{x_0}\) \(\displaystyle \Rightarrow \lim_{n \to +\infty} f(a_n) = f(c) \geq 0\) 
+Chiamiamo \(c = \overline{b}\): per ragionamento analogo \(f(c) \leq 0\) \\
+Per cui \(f(c) = 0\) \qed
+
+\subsubsection*{Corollario}
+Verificate le ipotesi del teorema di Bolzano, se \(f\) è anche strettamente monotona, allora \(\exists! \; c \in \left(a, b\right)\) tale che \(f(c) = 0\)
+
+\subsection{Teorema dei valori intermedi}
+Sia \(I\) intervallo e sia \(f \in \cont{0}{I}\), allora:
+\begin{enumerate}
+	\item \(f(I)\) è un intervallo
+	\item \(\displaystyle \left(\inf_I f, \sup_I f\right) \subseteq f(I) \subseteq \left[\inf_I f, \sup_I f\right]\)
+\end{enumerate}
+\begin{enumerate}
+	\item \(f(I)\) è un intervallo \(\Leftrightarrow \; \forall \; \alpha, \beta \in f(I)\) con \(\alpha < \beta\) si ha che \(\forall \; \gamma \in \left(\alpha, \beta\right)\) vale \(\gamma \in f(I)\). \\
+	Dati \(\alpha, \beta \in f(I) \; \exists \; a, b \in I \) tali che \(f(a) = \alpha, f(b) = \beta\) e assumiamo \(\alpha \leq \beta\): \\
+	se \(\alpha = \beta\) non serve dimostrare nulla, \\
+	se \(\alpha < \beta\) e \(\gamma \in \left(\alpha, \beta\right)\) consideriamo \(g(x) = f(x) - \gamma\) \\
+	in questo modo si ha \(g(a) < 0, g(b) > 0, g \in \cont{0}{\left[a, b\right]}\) \\
+	dal teorema di Bolzano \(\exists \; c \in I\) t.c. \(g(c) = 0\), ovvero \(f(c) = \gamma\) con \(\gamma \in f(I)\)
+	\item \dots \qed
+\end{enumerate}
+
+\subsubsection*{Corollario}
+Una funzione continua manda intervalli chiusi e limitati in intervalli chiusi e limitati: \\
+sia \(f \in \cont{0}{\left[a, b\right]}\) con \(a, b \in \mathbb{R}\)
+\begin{enumerate}
+	\item \(f\) ammette massimo e minimo
+	\item \(\displaystyle \text{Im}(f) = f(\left[a, b\right]) = \left[\min_{\left[a, b\right]} f, \max_{\left[a, b\right]} f\right]\)
+\end{enumerate}
+Dimostraione:
+\begin{enumerate}
+	\item per il teorema di Weierstrass
+	\item per il teorema dei valori intermedi applicato al punto 1.
+\end{enumerate}
+
+\newpage
+
+
+\section{Derivate}
+\subsubsection*{Definizione}
+\subsubsection*{Derivate fondamentali e regole di derivazione}
+\subsubsection*{Punti di non derivabilità}
+\subsubsection*{Concavità e convessità}
+\subsubsection*{Asintoti}
+
+\subsection{Teorema di Fermat}
+\subsection{Teorema di Rolle}
+\subsection{Teorema di Lagrange}
+\subsection{Teorema di Cauchy}
+\subsection{Teorema di De L'Hopital}
+
+\subsection{Polinomi di Taylor}
+\section{Calcolo Integrale}
+
+\section{Studio di funzione}
 
 
 \end{document}
