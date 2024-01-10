@@ -27,7 +27,7 @@
 \newcommand\settcosh{\text{settcosh}}
 \newcommand\settsinh{\text{settsinh}}
 \newcommand\setttanh{\text{setttanh}}
-\newcommand\cont[2]{C^{#1} ({#2})}
+\newcommand\cont[2]{C^{#1} \left({#2}\right)}
 
 \title{Appunti di analisi 1}
 \author{Giacomo Simonetto}
@@ -185,7 +185,7 @@ Significato geometrico \dots
 	\text{proprietà 4 (binomio di Newton)} \quad & (a + b) ^ n = \sum_{k = 0} ^ {n} \binom{n}{k} \cdot a ^ k \cdot b ^ {n - k}
 \end{align*}
 
-\subsection{Dimosrtrazione binomio di Newton}
+\subsection{Dimostrazione binomio di Newton}
 \dots
 
 \newpage
@@ -676,7 +676,7 @@ Siano \(z, z_1, z_2 \in \mathbb{C} \; \backslash \left\{ 0 \right\}\):
 \subsection{Teorema di decomposizione di polinomi}
 \begin{itemize}
 	\item[H:] Sia \(P(x)\) un polinomio di grado \(n\) a coefficienti reali
-	\item[T:] \(P\) può essre scomposto in:
+	\item[T:] \(P\) può essere scomposto in:
 	\begin{multline*}
 		P(z) = \left( z - x_1 \right) ^ {k_1} \cdot \left( z - x_2 \right) ^ {k_2} \cdot \; \dots \; \left( z - x_l \right) ^ {k_l} \cdot \left( z^2 + A_1 z + B_1 \right) ^ {j_1} \cdot \\
 		\cdot \left( z^2 + A_2 z + B_2 \right) ^ {j_2} \cdot \; \dots \; \cdot \left( z^2 + A_m z + B_m \right) ^ {j_m} \cdot  C
@@ -1425,7 +1425,7 @@ Si osserva che se \(g(x) = 1 \; \forall x \in \mathbb{R}\) si ha che \(f(x) = o(
 \subsubsection*{Legame tra asintoticità e \(o\) piccoli}
 Siano \(f\) e \(g\) due funzioni definite su \(X \subseteq R\) e \(x_0\) punto di accumulazione di \(X\), \(f\), \(g\) definitivamente \(\neq 0\) per \(x \to x_0\), allora:
 \begin{align*}
-	lim_{x \to x_0} \frac{f(x)}{g(x)} = l \in \mathbb{R} \; \backslash 0 \quad &\Leftrightarrow \quad f(x) \sim l \cdot g(x) \text{ per } x \to x_0 \\
+	lim_{x \to x_0} \frac{f(x)}{g(x)} = l \in \mathbb{R} \; \backslash \left\{0\right\} \quad &\Leftrightarrow \quad f(x) \sim l \cdot g(x) \text{ per } x \to x_0 \\
 	&\Leftrightarrow \quad f(x) = l \cdot g(x) + o(g(x)) \text{ per } x \to x_0
 \end{align*}
 
@@ -1464,7 +1464,7 @@ Questo teorema si utilizza per risolvere i limiti in cui compaiono rapporti tra 
 Siano \(f\) e \(g\) due funzioni definite su \(X \subseteq R\) e \(x_0\) punto di accumulazione di \(X\), siano \(\displaystyle \lim_{x \to x_0} f(x) = \infty\)
 e \(\displaystyle \lim_{x \to x_0} g(x) = \infty\), consideriamo \(\displaystyle l := \lim_{x \to x_0} \frac{f(x)}{g(x)}\):
 \begin{itemize}
-	\item se il limite esiste e \(l \in \mathbb{R} \; \backslash 0\), allora \(f\) e \(g\) sono infiniti dello steso ordine per \(x \to x_0\)
+	\item se il limite esiste e \(l \in \mathbb{R} \; \backslash \left\{0\right\}\), allora \(f\) e \(g\) sono infiniti dello steso ordine per \(x \to x_0\)
 	\item se il limite esiste e \(l = 0\), allora \(f\) è un infinito di ordine minore di \(g\) per \(x \to x_0\)
 	\item se il limite esiste e \(l = \infty\), allora \(f\) è un infinito di ordine maggiore di \(g\) per \(x \to x_0\)
 	\item se il limite non esiste, \(f\) e \(g\) sono infiniti non confrontabili per \(x \to x_0\)
@@ -1474,7 +1474,7 @@ e \(\displaystyle \lim_{x \to x_0} g(x) = \infty\), consideriamo \(\displaystyle
 Siano \(f\) e \(g\) due funzioni definite su \(X \subseteq R\) e \(x_0\) punto di accumulazione di \(X\), siano \(\displaystyle \lim_{x \to x_0} f(x) = 0\)
 e \(\displaystyle \lim_{x \to x_0} g(x) = 0\), con \(f(x)\) e \(g(x)\) \(\neq 0\) definitivamente, consideriamo \(\displaystyle l := \lim_{x \to x_0} \frac{f(x)}{g(x)}\):
 \begin{itemize}
-	\item se il limite esiste e \(l \in \mathbb{R} \; \backslash 0\), allora \(f\) e \(g\) sono infinitesimi dello steso ordine per \(x \to x_0\)
+	\item se il limite esiste e \(l \in \mathbb{R} \; \backslash \left\{0\right\}\), allora \(f\) e \(g\) sono infinitesimi dello steso ordine per \(x \to x_0\)
 	\item se il limite esiste e \(l = 0\), allora \(f\) è un infinitesimo di ordine maggiore di \(g\) per \(x \to x_0\)
 	\item se il limite esiste e \(l = \infty\), allora \(f\) è un infinitesimo di ordine minore di \(g\) per \(x \to x_0\)
 	\item se il limite non esiste, \(f\) e \(g\) sono infinitesimi non confrontabili per \(x \to x_0\)
@@ -1599,7 +1599,7 @@ Siano \(\displaystyle \sum_{k = 1}^{n} a_k\), \(\displaystyle \sum_{k = 1}^{n} b
 \subsubsection*{Confronto asintotico}
 Siano \(\displaystyle \sum_{k = 1}^{n} a_k\), \(\displaystyle \sum_{k = 1}^{n} b_k\) serie a termini positivi, e \(\displaystyle \lim_{k \to +\infty} \frac{a_k}{b_k} = l\), allora:
 \begin{itemize}
-	\item se \(l = \mathbb{R} \; \backslash 0\), sono asintotiche: se una converge, l'altra converge, se una diverge, l'altra diverge
+	\item se \(l = \mathbb{R} \; \backslash \left\{0\right\}\), sono asintotiche: se una converge, l'altra converge, se una diverge, l'altra diverge
 	\item se \(l = 0\), allora \(a_k < b_k\) definitivamente, allora se \(\sum_{k = 1}^{n} b_k\) converge, converge anche \(\sum_{k = 1}^{n} a_k\)
 	\item se \(l = +\infty\), allora \(a_k > b_k\), allora se \(\sum_{k = 1}^{n} b_k\) diverge, allora diverge anche \(\sum_{k = 1}^{n} a_k\)
 \end{itemize}
@@ -1723,7 +1723,7 @@ e viene definita una nuova funzione \(\widetilde{f}\): \\
 \end{cases} \quad\)
 in cui \(\dom \widetilde{f} = \dom f \cup \left\{ x_0 \right\}\)
 
-\subsubsection*{Algerba delle funzioni continue}
+\subsubsection*{Algebra delle funzioni continue}
 Siano \(f\), \(g\) definite su \(D \subseteq \mathbb{R}\) e \(x_0 \in D\) tali che \(f\) e \(g\) sono continue in \(x_0\), allora:
 \begin{enumerate}
 	\item \(\alpha f(x) + \beta g(x)\) è continua in \(x_0\) \(\forall \alpha, \beta \in \mathbb{R}\)
@@ -1767,7 +1767,7 @@ e \(\displaystyle f(x_M) = \max_{x \in \left[a, b\right]} f(x)\)
 Sia \(f \in \cont{0}{\left[a, b\right]}\) tale che \(f(a) \cdot f(b) < 0\), cioè hanno segno opposto, allora \(\exists \; c \in \left(a, b\right)\)
 tale che \(f(c) = 0\)
 
-\subsubsection*{Dimosrtrazione}
+\subsubsection*{Dimostrazione}
 Viene impiegato il metodo di bisezione \\
 Cosidero \(f(a) > 0\) e \(f(b) < 0\) senza perdere generalità e \(\displaystyle c_1 = \frac{a + b}{2}\), distinguo tre casi:
 \begin{enumerate} [topsep=3pt, itemsep=0pt]
@@ -1812,6 +1812,8 @@ Sia \(I\) intervallo e sia \(f \in \cont{0}{I}\), allora:
 	\item \(f(I)\) è un intervallo
 	\item \(\displaystyle \left(\inf_I f, \sup_I f\right) \subseteq f(I) \subseteq \left[\inf_I f, \sup_I f\right]\)
 \end{enumerate}
+
+\subsubsection*{Dimostrazione}
 \begin{enumerate}
 	\item \(f(I)\) è un intervallo \(\Leftrightarrow \; \forall \; \alpha, \beta \in f(I)\) con \(\alpha < \beta\) si ha che \(\forall \; \gamma \in \left(\alpha, \beta\right)\) vale \(\gamma \in f(I)\). \\
 	Dati \(\alpha, \beta \in f(I) \; \exists \; a, b \in I \) tali che \(f(a) = \alpha, f(b) = \beta\) e assumiamo \(\alpha \leq \beta\): \\
@@ -1829,10 +1831,11 @@ sia \(f \in \cont{0}{\left[a, b\right]}\) con \(a, b \in \mathbb{R}\)
 	\item \(f\) ammette massimo e minimo
 	\item \(\displaystyle \text{Im}(f) = f(\left[a, b\right]) = \left[\min_{\left[a, b\right]} f, \max_{\left[a, b\right]} f\right]\)
 \end{enumerate}
-Dimostraione:
+
+\subsubsection*{Dimostrazione}
 \begin{enumerate}
 	\item per il teorema di Weierstrass
-	\item per il teorema dei valori intermedi applicato al punto 1.
+	\item per il teorema dei valori intermedi applicato al punto 1. \qed
 \end{enumerate}
 
 \newpage
@@ -1840,21 +1843,415 @@ Dimostraione:
 
 \section{Derivate}
 \subsubsection*{Definizione}
-\subsubsection*{Derivate fondamentali e regole di derivazione}
-\subsubsection*{Punti di non derivabilità}
-\subsubsection*{Concavità e convessità}
-\subsubsection*{Asintoti}
+Sia \(f:D \to \mathbb{R}\) e \(x_0 \in D\) punto di accumulazione, la derivata di \(f\) in \(x_0\) è definita come:
+\[f'(x_0) \quad := \quad \lim_{x \to x_0} \frac{f(x) - f(x_0)}{x - x_0} = \lim_{h \to 0} \frac{f(x_0 + h) - f(x_0)}{h} \text{ con } x = x_0 + h\]
+La quantità \(\displaystyle \frac{f(x_0 + h) - f(x_0)}{h}\) è detta rapporto incrementale ed è il coefficiente angolare della secante tra
+\(\left(x_0, f(x_0)\right)\) e \(\left(x_0 + h, f(x_0 + h)\right)\), per \(h \to 0\) diventa il coefficiente della tangente in \(\left(x_0, f(x_0)\right)\).
 
-\subsection{Teorema di Fermat}
-\subsection{Teorema di Rolle}
-\subsection{Teorema di Lagrange}
-\subsection{Teorema di Cauchy}
-\subsection{Teorema di De L'Hopital}
+\subsubsection*{Derivate fondamentali}
+\begin{center}
+	\begin{tabular}{c c}
+		\begin{tabular}{c c}
+			\textbf{funzione} \(f(x)\) & \textbf{derivata} \(f'(x)\) \\
+			\toprule
+			\(c\) & \(0\) \\
+			\midrule
+			\(\alpha \; x\) & \(\alpha\) \\
+			\midrule
+			\(x^\alpha\) & \(\alpha \cdot x ^ {\alpha - 1}\) \\
+			\midrule
+			\(e^x\) & \(e^x\) \\
+			\midrule
+			\(\ln x\) & \(\displaystyle \frac{1}{x}\) \\
+			\midrule
+			\(\sin x\) & \(\cos x\) \\
+			\midrule
+			\(\cos x\) & \(- \sin x\) \\
+			\midrule
+			\(\tan x\) & \(\displaystyle \frac{1}{\cos^2 x} = 1 + \tan ^ 2 x\) \\
+			\midrule
+			\(\sinh x\) & \(\cosh x\) \\
+			\midrule
+			\(\cosh x\) & \(\sinh x\)
+		\end{tabular}
+		&
+		\begin{tabular}{c c}
+			\textbf{funzione} \(f(x)\) & \textbf{derivata} \(f'(x)\) \\
+			\toprule
+			\(\tanh x\) & \(\displaystyle \frac{1}{\cosh^2 x}\) \\
+			\midrule
+			\(\arcsin x\) & \(\displaystyle \frac{1}{\sqrt{1-x^2}}\) \\
+			\midrule
+			\(\arccos x\) & \(\displaystyle -\frac{1}{\sqrt{1-x^2}}\) \\
+			\midrule
+			\(\arctan x\) & \(\displaystyle \frac{1}{1+x^2}\) \\
+			\midrule
+			\(\settsinh x\) & \(\displaystyle \frac{1}{\sqrt{x^2-1}}\) \\
+			\midrule
+			\(\settcosh x\) & \(\displaystyle \frac{1}{\sqrt{x^2+1}}\) \\
+			\midrule
+			\(\setttanh x\) & \(\displaystyle \frac{1}{1-x^2}\)
+		\end{tabular}
+	\end{tabular}
+\end{center}
+
+\subsection{Derivabilità}
+Una funzione \(f\) è derivabile se e solo se \(f'_+(x_0)\) e \(f'_-(x_0)\) esistono finiti e coincidono, dove:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] \(f'_+(x_0) = \displaystyle \lim_{h \to 0^+} \frac{f(x_0 + h) - f(x_0)}{h}\)
+	\item[-] \(f'_-(x_0) = \displaystyle \lim_{h \to 0^-} \frac{f(x_0 + h) - f(x_0)}{h}\)
+\end{itemize}
+Inoltre se una funzione è derivabile in \(x_0\), allora è anche continua in \(x_0\). \\
+Se la derivata esiste, è unica, dal teorema di unicità del limite. 
+
+
+\subsubsection*{Punti di non derivabilità}
+\begin{itemize}
+	\item[-] \textbf{Flesso a tangente verticale} \\
+	se \(\displaystyle \lim_{h \to 0} \frac{f(x_0 + h) - f(x_0)}{h} = \pm \infty\)
+	\item[-] \textbf{Punto angoloso} \\
+	se \(f'_-(x_0)\) e \(f'_+(x_0)\) esistono, almeno uno dei due è finito, ma non coincidono
+	\item[-] \textbf{Cuspide} \\
+	se \(f'_-(x_0)\) e \(f'_+(x_0)\) esistono infiniti di segno opposto
+\end{itemize}
+
+\newpage
+
+\subsubsection*{Algebra delle derivate}
+Siano \(f\), \(g\) definite su \(D \subseteq \mathbb{R}\) e \(x_0 \in D\) tali che \(f\) e \(g\) sono derivabili in \(x_0\), allora:
+\begin{enumerate}
+	\item \(\alpha f(x) + \beta g(x)\) è derivabile in \(x_0\) \(\forall \alpha, \beta \in \mathbb{R}\) e vale \(\left(\alpha f(x_0) + \beta g(x_0)\right)' = \alpha f'(x_0) + \beta g'(x_0)\)
+	\item \(f(x_0) \cdot g(x_0)\) è derivabile in \(x_0\) e vale \(\left(f(x_0) \cdot g(x_0)\right)' = f'(x_0) \cdot g(x_0) + f(x_0) \cdot g'(x_0)\)
+	\item \(\displaystyle \frac{f(x_0)}{g(x_0)}\) è derivabile in \(x_0\) se \(g(x_0) \neq 0\) e vale \(\displaystyle \left(\frac{f(x_0)}{g(x_0)}\right)' = \frac{f'(x_0) \cdot g(x_0) - f(x_0) \cdot g'(x_0)}{g^2(x_0)}\)
+\end{enumerate}
+
+\subsubsection*{Derivata della funzione composta}
+Siano \(f\), \(g\) due funzioni tali che \(g \circ f\) sia definita su un intervallo \(I\), sia \(x_0 \in I\) con \(f\) derivabile in \(x_0\)
+e \(g\) derivabile in \(f(x_0)\), allora \(g \circ f\) è derivabile in \(x_0\) e vale \(\left(g \circ f\right)' = g'(f(x_0)) \cdot f'(x_0)\)
+
+\subsubsection*{Derivata della funzione inversa}
+Sia \(I\) intervallo e \(x_0 \in I\) con \(f:I \to \mathbb{R}\) continua e invertibile su \(I\) e derivabile in \(x_0\) con \(f'(x_0) \neq 0\),
+allora la funzione inversa \(f^-1(x)\) è derivabile in \(y_0 = f(x_0)\) e vale \(\displaystyle \left(f^{-1}(y_0)\right)' = \frac{1}{f'(x_0)}\)
+
+\begin{proof}
+	Dal teorema di continuità della funzione inversa si ottiene che:
+	\begin{itemize} [topsep=3pt, itemsep=0pt]
+		\item[-] \(f\) è strettamente monotona 
+		\item[-] \(f^{-1}\) è continua
+	\end{itemize}
+	\begin{align*}
+		\left(f^{-1}(y_0)\right)' &= \lim_{y \to y_0} \frac{f^{-1}(y) - f^{-1}(y_0)}{y - y_0} \\
+		&= \lim_{x \to x_0} \frac{x - x_0}{f(x) - f(x_0)} \qquad \text{cambio di variabile } x = f^{-1}(y), \; y \to y_0 \Rightarrow x \to x_0 \\
+		&= \frac{1}{f'(x_0)} \qquad \text{per algebra dei limiti}
+	\end{align*}
+\end{proof}
+
+\subsubsection*{Parità e disparità di una derivata}
+La derivata di una funzione pari è dispari e la derivata di una funzione dispari è pari.
+
+\subsection{Massimi, minimi e punti stazionari}
+\subsubsection*{Punti di massimo o minimo}
+Sia \(I\) un intervallo e \(x_0 \in I\), sia \(f:I \to \mathbb{R}\) una funzione, \(x_0\) è un punto di estremo (massimo o minimo) relativo
+per \(f\) quando \(\exists \; \delta > 0\) t.c. \(x_0\) è punto di estremo di \(f\) su \(\left(x_0 - \delta, x_0 + \delta\right) \cap \dom f\).
+Anche gli estemi dell'intervallo possono essere punti di estremo relativo.
+
+\subsubsection*{Teorema di Fermat}
+Sia \(f:\left(a, b\right) \to \mathbb{R}\) e \(x_0 \in \left(a, b\right)\) un punto di estremo locale per \(f\). Se \(f\) è derivabile in \(x_0\)
+allora la derivata vale \(f'(x_0 = 0)\)
+
+\subsubsection*{Dimostrazione}
+Consideriamo il caso in cui \(x_0\) è massimo locale (il caso in cui è minimo è analogo) \\
+Dalla definizione di masismo si ottiene che \(\exists \; \delta > 0\) t.c. \(f(x_0) \geq f(x)\) \(\forall x \in \left(x_0 - \delta, x_0 + \delta\right)\) \\
+Calcolando \(f_-'(x_0)\) e \(f_+'(x_0)\):
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] \(\displaystyle f'_-(x_0) = \lim_{h \to 0^-} \frac{f(x_0 + h) - f(x_0)}{h} \leq 0\) per teorema di permanenza del segno
+	\item[-] \(\displaystyle f'_+(x_0) = \lim_{h \to 0^+} \frac{f(x_0 + h) - f(x_0)}{h} \geq 0\) per teorema di permanenza del segno
+\end{itemize}
+Dalla definizione di funzione derivabile \(f'(x_0) = f'_-(x_0) = f'_+(x_0)\), per cui \(f'(x_0) = 0\)
+\qed
+
+\subsubsection*{Punti stazionari}
+\(x_0\) è punto stazionario, se \(f'(x_0) = 0\). I punti stazionari possono essere di tre tipi:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] punto di massimo (relativo o assoluto) per il teorema di Fermat
+	\item[-] punto di minimo (relativo o assoluto) per il teorema di Fermat
+	\item[-] punto a tangente orizzontale
+\end{itemize}
+
+\subsubsection*{Ricerca dei punti di massimo e minimo}
+Non è detto che un minimo/massimo debba necessariamente essere punto stazionario, i punti di massimo e minimo in cui la funzione non è derivabile
+non sono punti stazionari. \\
+I punti di massimo/minimo relativi e assoluti di una funzione definita in \(\left(a, b\right)\) vanno cercati tra:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] estremi dell'intervallo
+	\item[-] punti interni all'intervallo in cui \(f\) non è derivabile
+	\item[-] nei punti stazionari
+\end{itemize}
+
+\subsubsection*{Teorema di Rolle}
+Sia \(f \in \cont{0}{\left[a, b\right]} \; \cap \; \cont{1}{\left(a, b\right)}\), se \(f(a) = f(b)\), allora \(\exists \; x \in \left(a, b\right)\)
+tale che \(f(c) = 0\)
+
+\subsubsection*{Dimostrazione}
+Siccome \(f \in \cont{0}{\left[a, b\right]}\), per Weierstrass la funzione ammette massimi e minimi assoluti. \\
+Considero \(x_m\) punto di minimo:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] se \(x_m \in \left(a, b\right)\), per il teorema di Fermat \(f(x_m) = 0\), scegliendo \(c = x_m\) si conclude
+	\item[-] se \(a = x_m\) o \(b = x_m\) si considera il massimo
+\end{itemize}
+Considero \(x_M\) punto di massimo:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] se \(x_M \in \left(a, b\right)\), per il teorema di Fermat \(f(x_M) = 0\), scegliendo \(c = x_M\) si conclude
+	\item[-] se \(a = x_M\) o \(b = x_M\) si considera quanto segue
+\end{itemize}
+Se \(x_m\) e \(x_M\) coincidono con gli estremi, significa che la funzione è costante, per cui \(f(c) = 0 \; \forall c \in \left(a, b\right)\)
+\qed
+
+\subsubsection*{Teorema di Lagrange}
+Sia \(f \in \cont{0}{\left[a, b\right]} \; \cap \; \cont{1}{\left(a, b\right)}\), allora \(\exists \; x \in \left(a, b\right)\) tale
+che \(\displaystyle f(c) = \frac{f(b) - f(a)}{b - a}\)
+
+\subsubsection*{Dimostrazione}
+Consideriamo una funzione \(h(x) = f(x) - \frac{f(b) - f(a)}{b- a} \cdot \left(x - a\right)\), in questo modo \(h(a) = h(b) = f(a)\)
+ed è possibil applicare il teorema di Rolle, ovvero \(\exists \; c \in \left(a, b\right)\) t.c. \(h'(c) = 0\). \\
+\(\displaystyle h'(c) = f'(c) - \frac{f(b) - f(a)}{b - a} = 0\), ovvero \(\displaystyle f'(c) = \frac{f(b) - f(a)}{b - a}\)
+\qed
+
+\subsubsection*{Teorema di caratterizzazione delle costanti}
+Sia \(f:\left[a,b\right] \to \mathbb{R}\), allora \(\displaystyle f \text{ è costante } \quad \Leftrightarrow \quad
+\begin{cases}
+	\text{1.} &f \in \cont{0}{\left[a, b\right]} \; \cap \; \cont{1}{\left(a, b\right)} \\
+	\text{2.} &f'(x) = 0 \forall x \in \left(a, b\right)
+\end{cases}\)
+
+\subsubsection*{Dimostrazione}
+L'implicazione \(\Rightarrow\) è ovvia, per definizione di derivata \\
+Per dimostrare l'implicazione \(\Leftarrow\) si considera \(x \in \left(a, b\right]\) \\
+applicando Lagrange in \(\left[a, x\right]\) si ottiene che \(\exists \; c \in \left(a, x\right)\) t.c. \(\displaystyle f'(c) = \frac{f(x)- f(a)}{x-a}\) \\
+dato che \(f'(c) = 0\) per ipotesi, significa che \(f(x) = f(a) \; \forall x \in \left(a, b\right]\), ovvero che \(f\) è constante.
+\qed
+
+\subsubsection*{Teorema di caratterizzazione di funzioni monotone}
+Sia \(f \in \cont{0}{\left[a, b\right]} \; \cap \; \cont{1}{\left(a, b\right)}\), allora:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(f\) è crescente su \(\left[a, b\right] \quad \Leftrightarrow \quad f'(x) \geq 0 \; \forall x \in \left(a, b\right)\) 
+	\item[-] \(f\) è decrescente su \(\left[a, b\right] \quad \Leftrightarrow \quad f'(x) \leq 0 \; \forall x \in \left(a, b\right)\) 
+\end{itemize}
+
+\subsubsection*{Teorema di Cauchy}
+Siano \(f, g \in \cont{0}{\left[a, b\right]} \; \cap \; \cont{1}{\left(a, b\right)}\), allora \(\exists \; c \in \left(a, b\right)\) t.c. \(\left(g(b) - g(a)\right) \cdot f'(c) = \left(f(b) - f(a)\right) \cdot g'(c)\), \\
+in particolare se \(g(b) \neq g(a)\) e \(g'(x) \neq 0 \; \forall x \in \left(a, b\right)\), allora \(\displaystyle \frac{f'(c)}{g'(c)} = \frac{f(b) - f(a)}{g(b) - g(a)}\) \\
+Consigli sulla dimostrazione: considerare \(h(x) = \left(g(b) - g(a)\right) \cdot f(x) - \left(f(b) - f(a)\right) \cdot g(x)\).
+
+\subsubsection*{Teorema di De L'Hopital}
+Siano \(a, b \in \mathbb{R}^*\) con \(a < b\) e \(f, g \in \cont{1}{\left(a, b\right)}\) t.c.
+\begin{enumerate} [topsep=3pt, itemsep=0pt]
+	\item \(\displaystyle \lim_{x \to a} f(x) = \lim_{x \to a} g(x) = 0\) oppure \(\displaystyle \lim_{x \to a} f(x) = \pm \infty\) e \(\displaystyle \lim_{x \to a} g(x) = \pm \infty\)
+	\item \(g'(x) \neq 0 \; \forall x \in \left(a, b\right)\) o almeno intorno destro di \(a\)
+	\item \(\displaystyle \lim_{x \to a} \frac{f'(x)}{g'(x)} = l \in \mathbb{R}^*\)
+\end{enumerate}
+allora:
+\begin{enumerate} [topsep=3pt, itemsep=0pt]
+	\item \(g(x) \neq 0 \; \forall x \in \left(a, b\right)\) o almeno intorno destro di \(a\)
+	\item \(\displaystyle \exists \; \lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)} = l\)
+\end{enumerate}
+
+\subsubsection*{Dimostrazione}
+Verrà considerato solo il caso in cui \(a \in \mathbb{R}\): \\
+Estendendo \(f, g\) per continuità si ottengono le funzioni \(\widetilde{f}, \widetilde{g} \in \cont{0}{\left[a, b\right]}\) definite come: \\
+\(\displaystyle \widetilde{f} = \begin{cases}
+	f(x) &\text{se } x \in \left(a, b\right) \\
+	0 &\text{se } x = a
+\end{cases}
+\quad \widetilde{g} = \begin{cases}
+	g(x) &\text{se } x \in \left(a, b\right) \\
+	0 &\text{se } x = a
+\end{cases}\)
+\begin{enumerate}
+	\item Per assurdo supponiamo che \(\exists \; x \in \left(a, b\right)\) t.c. \(g(x) = 0\), allora \(\widetilde{g}(a) = \widetilde{g}(x) = 0\), \\
+	per il teorema di Rolle \(\exists \; c \in \left(a, x\right)\) t.c. \(\widetilde{g}'(c) = 0\), ma \(\widetilde{g}'(x) = g'(x) = 0\)
+	e questo contraddice l'ipotesi 2, per cui la funzione \(\displaystyle \frac{f(x)}{g(x)}\) è definita in \(\left(a, b\right)\).
+	\item Dato che \(\widetilde{f}(a) = \widetilde{g}(a) = 0\), allora: 
+	\(\displaystyle \lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{\widetilde{f}(x)-\widetilde{f}(a)}{\widetilde{g}(x)-\widetilde{g}(a)}\) \\
+	applicando Cauchy su \(\left[a, x\right]\) per \(\widetilde{f}, \widetilde{g} \Rightarrow \exists \; c_x \in \left(a, x\right)\) t.c.
+	\(\displaystyle \frac{\widetilde{f}(x)-\widetilde{f}(a)}{\widetilde{g}(x)-\widetilde{g}(a)} = \frac{\widetilde{f}'(c_x)}{\widetilde{g}'(c_x)}\) \\
+	per il teorema dei due carabinieri \(\lim_{x \to a} c_x = a\) e per il teorema del cambio di variabile nei limiti si ottiene che 
+	\(\displaystyle \lim_{x \to a} \frac{\widetilde{f}'(c_x)}{\widetilde{g}'(c_x)} = \lim_{x \to a} \frac{\widetilde{f}'(x)}{\widetilde{g}'(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}\),
+	ovvero \(\displaystyle \lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}\) 
+\end{enumerate}
+\qed
+
+Si osserva che il teorema di De L'Hopital è una condizione sufficiente, ma non necessaria per l'esistenza del limite. Se il limite che si ottiene dal rapporto
+tra le derivate non esiste, non vuol dire che il limite di partenza non esiste, ma soltanto che non si può applicare De L'Hopital. \\
+Esempio \(\displaystyle \lim_{x \to + \infty} \frac{3x + \sin x}{2x + \cos x} = \frac{3}{2}\), ma \(\displaystyle \stackrel{DLH}{=} \frac{3 + \cos x}{2 - \sin x} \; \nexists\)
+
+\newpage
+
+\subsubsection*{Relazione tra limite e derivata}
+Sia \(f \in \cont{0}{\left[a, b\right)} \; \cap \; \cont{1}{\left[a, b\right)}\) t.c. \(\exists \lim_{x \to a^+} f'(x)\), allora \(f\) ha derivata destra in \(a\) \\
+e vale \(f'_+(a) = \lim_{x \to a^+} f'(x)\)
+
+\subsubsection*{Dimostrazione}
+\[f'_+(a) = \lim_{h \to 0^+} \frac{f(a + h) - f(a)}{h} \; \stackrel{DLH}{=} \; \lim_{h \to 0^+} \frac{f'(a + h)}{1} \; = \; \lim_{x \to a^+} f'(x)\]
+\qed \\
+Si osserva che può esistere \(f'_+(a)\), ma non esisrere \(\lim_{x \to a^+} f(x)\)
+
+\subsection{Derivate superiori alla prima}
+\subsubsection*{Derivata seconda}
+Sia \(f:I \to \mathbb{R}\) derivabile in \(I\), allora è ben definita \(f':I \to \mathbb{R}\) t.c. \(x \mapsto f'(x)\). \\
+Se esiste finito \(\displaystyle \lim_{h \to 0} \frac{f'(x_0 + h) - f'(x_0)}{h}\), allora \(f'\) è derivabile in \(x_0\)
+e \(f\) è derivabile due volte in \(x_0\) e la derivata seconda in \(x_0\) è indicata come \(f''(x_0)\).
+
+\subsubsection*{Derivata n-esima}
+Una funzione derivabile \(n\) volte in \(x_0\), si indica \(f^n(x_0)\). Se una funzione \(f\) è derivabile \(n-1\) volte in \(x_0\)
+e la funzione \(f^{n-1}\) è derivabile in \(x_0\), allora \(f\) è derivabile \(n\) volte in \(x_0\).
+
+\subsection{Concavità e convessità}
+\subsubsection*{Definizione}
+Sia \(I\) un intervallo e \(f:I \to \mathbb{R}\), diremo che:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] \(f\) è convessa su \(I\) quando \(\forall x_1, x_2 \in I\) e \(\forall \lambda \in \left[0, 1\right]\) vale
+	\(f(\lambda x_1 + \left(1-\lambda\right) x_2) \leq \lambda f(x_1) + \left(1-\lambda\right)f(x_2)\)
+	\item[-] \(f\) è concava su \(I\) quando \(-f\) è convessa
+\end{itemize}
+Altra formulazione:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] \(f\) è convessa su \(I\) quando sta sotto la secante tra \(\left(x_1, f(x_1)\right)\) e \(\left(x_2, f(x_2)\right)\) per \(x \in \left[x_1, x_2\right]\)
+	\item[-] \(f\) è concava su \(I\) quando \(-f\) è convessa
+\end{itemize}
+
+\subsubsection*{Legame tra derivata seconda e convessità}
+Se \(f \in \cont{2}{\left(a, b\right)}\), allora \(f\) è convessa su \(\left(a, b\right) \quad \Leftrightarrow \quad f''(x) \geq 0 \; \forall x \in \left(a, b\right)\)
+
+\subsubsection*{Punti di flesso}
+Sia \(I\) un intervallo, \(x_0 \in I\) e \(f:I \to \mathbb{R}\) t.c. \(f\) è convessa (o concava) definitivamente per \(x_0\)
+e \(f\) è concava (o convessa) definitivamente per \(x_0\), allora \(x_0\) è punto di flesso di \(f\).
+\begin{itemize}
+	\item[-] se \(f'(x_0) = 0\) si dice punto di flesso a tangente orizzontale
+	\item[-] se \(f'(x_0) = \pm \infty\) si dice punto di flesso a tangente verticale
+\end{itemize}
+
+\subsubsection*{Condizione necessaria per esistenza}
+Se \(f \in \cont{2}{\left(a, b\right)}\) e \(x_0 \in \left(a, b\right)\) è un punto di flesso, allora \(f''(x_0) = 0\). Non è
+detto che un punto di flesso, necessariamente debba avere derivata seconda nulla. Esempio \(f(x) = x^4\)
+
+\subsubsection*{Punti di minimo e massimo in base alla derivata seconda}
+Se \(f'(x_0) = 0\) ed \(f\) è derivabile due volte in \(x_0\), allora:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] se \(f''(x_0) > 0\), allora \(x_0\) è punto di minimo locale
+	\item[-] se \(f''(x_0) < 0\), allora \(x_0\) è punto di massimo locale
+	\item[-] se \(f''(x_0) = 0\), non si può dire nulla
+\end{itemize}
+
+
+\subsection{Asintoti}
+\subsubsection*{Classificazione}
+\begin{itemize}
+	\item[-] se \(x_0 \in \mathbb{R}\) e \(\displaystyle \lim_{x \to x_0^-} f(x) = \pm \infty\), allora \(f\) ha un asintoto verticale sinistro in \(x_0\)
+	\item[-] se \(x_0 \in \mathbb{R}\) e \(\displaystyle \lim_{x \to x_0^+} f(x) = \pm \infty\), allora \(f\) ha un asintoto verticale destro in \(x_0\)
+	\item[-] se \(\displaystyle \lim_{x \to + \infty} f(x) = l \in \mathbb{R}\), allora \(f\) ha come asintoto orizzontale la retta \(y = l\) per \(x \to + \infty\)
+	\item[-] se \(\displaystyle \lim_{x \to - \infty} f(x) = l \in \mathbb{R}\), allora \(f\) ha come asintoto orizzontale la retta \(y = l\) per \(x \to - \infty\)
+	\item[-] data la retta \(y = ax + b\) con \(a,b \in \mathbb{R}\), se abbiamo \(\displaystyle \lim_{x \to + \infty} f(x) - \left(ax + b\right) = 0\), allora
+	\(f\) ha un asintoto obliquo di equazione \(y = ax + b\) per \(x \to + \infty\)
+	\item[-] data la retta \(y = ax + b\) con \(a,b \in \mathbb{R}\), se abbiamo \(\displaystyle \lim_{x \to - \infty} f(x) - \left(ax + b\right) = 0\), allora
+	\(f\) ha un asintoto obliquo di equazione \(y = ax + b\) per \(x \to - \infty\)
+\end{itemize}
+
+\subsubsection*{Trovare gli asintoti}
+\begin{itemize}
+	\item[-] Per trovare gli asintoti verticali bisogna cercare i punti \(x_0 \in \mathbb{R}\) per cui \(\displaystyle \lim_{x \to x_0^-} f(x)\) o
+	\(\)\(\displaystyle \lim_{x \to x_0^-} f(x)\) sono infiniti.
+	\item[-] Per trovare gli asintoti orizzontali si calcolano i limiti \(\displaystyle \lim_{x \to \pm \infty} f(x)\), se sono finiti.
+	\item[-] Se i limiti per \(x \to \pm \infty\) vengono infiniti, allora si cercano gli asintoti obliqui.
+\end{itemize}
+
+\subsubsection*{Caratterizzazione degli asintoti obliqui}
+La retta \(y = ax + b\) è asintoto obliquo per \(x \to \pm \infty \quad \Leftrightarrow \quad \begin{cases}
+	\text{1.} &\displaystyle \lim_{x \to \pm \infty} \frac{f(x)}{x} = a \\
+	\text{2.} &\displaystyle \lim_{x \to \pm \infty} f(x) - ax = b
+\end{cases}\)
+
+\newpage
+
 
 \subsection{Polinomi di Taylor}
+\subsubsection*{Definizione}
+Sia \(f\) derivabile \(n\) volte in \(x_0\), il polinomio
+\[T_{n,x_0}[f](x) := \sum_{k = 0}^{n} f^{(k)}(x_0) \cdot \frac{(x-x_0)^k}{k!}\]
+è detto polinomio di Taylor di \(f\) centrato in \(x_0\) di grado \(n\). \\
+Il caso in cui \(x_0 = 0\): \(\displaystyle T_{n,0}[f](x)\) è detto polinomio di MacLaurin.
+
+\subsubsection*{Proprietà}
+\begin{enumerate}
+	\item \(T_{n,x_0}[f](x_0) = f(x_0)\)
+	\item \(\left(T_{n,x_0}[f]\right)^{(k)}(x_0) = f^{(k)}(x_0) \qquad \forall k \in \mathbb{N} \; \backslash \left\{0\right\}\)
+	\item \(T_{n,x_0}[\alpha f + \beta g] = \alpha T_{n,x_0}[f](x) + \beta T_{n,x_0}[f](x)\)
+	\item \(\left(T_{n,x_0}[f]\right)'(x) = T_{n-1,x_0}[f'](x)\)
+\end{enumerate}
+
+\subsubsection*{Teorema di Peano - teorema del polinomio di Taylor con il resto di Peano}
+Sia \(f:\left(a, b\right) \to \mathbb{R}\) una funzione derivabile \(n\) volte in \(x_0 \in \left(a, b\right)\), allora:
+\begin{enumerate}
+	\item \(f(x) = T_{n,x_0}[f](x) + o(\left|x - x_0\right|^n)\) per \(x \to x_0\)
+	\item il polinomio di Taylor è l'unico polinomio di grado \(\leq n\) per cui vale la tesi 1
+\end{enumerate}
+
+\subsubsection*{Alcuni sviluppi centrati in 0}
+\begin{center}
+	\begin{tabular}{c c}
+		\textbf{funzione} \(f(x)\) & \textbf{sviluppo di MacLaurin} \(T_{n,0}[f](x)\) \\
+		\toprule
+		\(e^x\) & \(\displaystyle 1 + x + \frac{x^2}{2} + \dots + \frac{x^n}{n!} + o(x^n)\) \\
+		\midrule
+		\(\sin x\) & \(\displaystyle x - \frac{x^3}{6} + \frac{x^5}{5!} + \dots + (-1)^n \frac{x^{2n+1}}{(2n+1)!} + o(x^{2n+2})\) \\
+		\midrule
+		\(\cos x\) & \(\displaystyle 1 - \frac{x^2}{2} + \frac{x^4}{4!} + \dots + (-1)^n \frac{x^{2n}}{(2n)!} + o(x^{2n+1})\) \\
+		\midrule
+		\(\sinh x\) & \(\displaystyle x + \frac{x^3}{6} + \frac{x^5}{5!} + \dots + \frac{x^{2n+1}}{(2n+1)!} + o(x^{2n+2})\) \\
+		\midrule
+		\(\cosh x\) & \(\displaystyle 1 + \frac{x^2}{2} + \frac{x^4}{4!} + \dots + \frac{x^{2n}}{(2n)!} + o(x^{2n+1})\) \\
+		\midrule
+		\(\log (1 + x)\) & \(\displaystyle x - \frac{x^2}{2} + \frac{x^3}{3} + \dots + (-1)^{n+1} \frac{x^n}{n!} + o(x^n)\) \\
+		\midrule
+		\multirow{2}{*}{\((1+x)^a\)} & \(\displaystyle 1 + ax + \frac{a(a-1)}{2} x^2 + \frac{a(a-1)(a-2)}{3!} x^3 + \dots + \binom{a}{n} x^n + o(x^n)\) \\
+		& con \(\displaystyle \binom{a}{n} = \frac{a(a-1)(a-2) \dots (a - n + 1)}{n!}\) \\
+		\bottomrule
+		\end{tabular}
+\end{center}
+
+\newpage
+
+
 \section{Calcolo Integrale}
 
-\section{Studio di funzione}
+\newpage
 
+
+\section{Studio di funzione}
+\begin{itemize}
+	\item[1.1] \textbf{dominio} \\
+	intervalli in cui la funzione è definita
+	\item[1.2] \textbf{simmetrie} \\
+	si cerca se la funzione è pari \(f(-x) = f(x)\) o dispari \(f(x) = -f(-x)\)
+	\item[1.3] \textbf{periodicità} \\
+	si cerca se la funzione è periodica \(f(x) = f(x + T)\) con \(T \neq 0\)
+	\item[2.1] \textbf{limiti} \\
+	si calcolano i limiti agli estremi degli intervalli del dominio
+	\item[2.2] \textbf{asintoti} \\
+	si cercano eventuali asintoti verticali, orizzontali ed obliqui
+	\item[3] \textbf{segno della funzione} \\
+	si studia il segno della funzione ponendo \(f(x) > 0\)
+	\item[4] \textbf{punti di discontinuità} \\
+	si studiano i punti di discontinuità
+	\item[5] \textbf{derivabilità} \\
+	si calcola la derivata prima e si studiano i punti di non derivalibità
+	\item[6] \textbf{monotonia} \\
+	si studia il segno della derivata, cercando gli intervalli di monotonia ed eventuali
+	massimi relativi, minimi relativi e punti di flesso
+	\item[7] \textbf{derivata seconda} \\
+	si calcola la derivata seconda, si studia il segno per trovare gli intervalli di concavità
+	\item[8] \textbf{grafico} \\
+	si abbozza il grafico della funzione
+\end{itemize}
 
 \end{document}
