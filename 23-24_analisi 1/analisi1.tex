@@ -2252,7 +2252,66 @@ Sia \(f:\left(a, b\right) \to \mathbb{R}\) una funzione derivabile \(n\) volte i
 \newpage
 
 
+% lezioni 41 - 46 
 \section{Calcolo Integrale}
+\subsection{Integrali di Riemann}
+\subsubsection*{Partizionamento intervalli}
+Sia \(I = \left[a, b\right]\) un intervallo, la partizione di \(I\) è un insieme \(P\) definito come
+\(a = x_0 < x_1 < x_2 < \dots < x_n = b \) con \(n \in \mathbb{N}\). \\
+Definita \(\Delta x_i = x_i - x_{i-1}\) \(\forall i = 1, \dots n\), la norma della partizione è definita
+come \(\left|\left|P\right|\right| = \max \left\{\Delta x_i\right\}\).
+
+\subsubsection*{Somma inferiore e superiore di Riemann}
+Sia \(f:\left[a, b\right] \to \mathbb{R}\) funzione limitata e \(P\) una partizione di \(\left[a, b\right]\),
+\begin{itemize}
+	\item[-] la somma di Riemann inferiore è \(\displaystyle L(f, P) = \sum_{i=1}^{n} \inf_{\left[x_{i-1,x_i}\right]} f \cdot \Delta x_i\)
+	\item[-] la somma di Riemann superiore è \(\displaystyle U(f, P) = \sum_{i=1}^{n} \sup_{\left[x_{i-1,x_i}\right]} f \cdot \Delta x_i\)
+\end{itemize}
+Si osserva che \(\sup_{P} \left\{L(f,P)\right\} \leq \inf_{P} \left\{U(f,P)\right\}\)
+
+\subsubsection*{Funzioni Riemann integrabili}
+Sia \(f:\left[a, b\right] \to \mathbb{R}\) funzione limitata e \(P\) una partizione di \(\left[a, b\right]\),
+diremo che \(f\) è Riemann-integrabile quando \(\sup \left\{L(f,P)\right\} = \inf \left\{U(f,P)\right\}\) e
+il valore comune è definito come \(\displaystyle \int_{a}^{b} f(x) dx\).
+
+\subsubsection*{Condizione sufficiente per la Riemann-integrabilità}
+Sia \(f:\left[a, b\right] \to \mathbb{R}\) funzione limitata, allora \(f\) è R.I. se almeno una delle seguenti condizioni è verificata:
+\begin{enumerate}
+	\item \(f\) è continua in \(\left[a, b\right]\) a meno di un numero finito di punti dove può essere discontinua (es. per la funzione di Dirichlet questa non è verificata)
+	\item \(f\) è monotona su \(\left[a, b\right]\)
+\end{enumerate}
+Osservazione: se una funzione è continua su \(\left[a, b\right]\), allora è anche limitata per il teorema di Weierstrass e di conseguenza
+è anche integrabile su tale intervallo contenuto nel dominio.
+
+\subsection{Proprietà degli integrali}
+Siano \(f, g: \left[a, b\right] \to \mathbb{R}\) due funzioni R.I., allora:
+\begin{enumerate}
+	\item \(\forall \alpha, \beta \in \mathbb{R}, \quad \alpha f + \beta g\) è R.I. e vale \(\displaystyle \int_{a}^{b} \left(\alpha f(x) + \beta g(x)\right) dx = \alpha \int_{a}^{b} f(x) dx + \beta \int_{a}^{b} g(x) dx\)
+	\item \(f\) è R.I. su \(\left[a, b\right] \; \Leftrightarrow \; \forall c \in \left[a. b\right] \; f\) è R.I. su \(\left[a, c\right]\) e \(\left[c, b\right]\) e vale 
+	\(\displaystyle \int_{a}^{b} f(x) dx = \int_{a}^{c} f(x) dx + \int_{c}^{b} f(x) dx\)
+	\item se \(f \leq g\) su \(\left[a, b\right]\), allora \(\displaystyle \int_{a}^{b} f(x) dx \leq \int_{a}^{b} g(x) dx\)
+	\item per \(a < b\), \(\displaystyle \left| \int_{a}^{b} f(x) dx\right| \leq \int_{a}^{b} \left|f(x)\right| dx\)
+	\item[5.1] se \(f\) è pari e \(a > 0\), \(\int_{-a}^{a} f(x) dx = 2 \int_{0}^{a} f(x) dx = 2 \int_{-a}^{0} f(x) dx\)
+	\item[5.2] se \(f\) è dispari e \(a > 0\), \(\int_{-a}^{a} f(x) dx = 0\)
+\end{enumerate}
+
+\subsection{Teorema della media integrale}
+\subsection{Teorema fondamentale del calcolo integrale}
+\subsection{Strumenti per il calcolo integrale}
+\subsubsection*{Integrali immediati}
+\subsubsection*{Integrali per parti}
+\subsubsection*{Integrali per sostituzione}
+\subsubsection*{Sostituzioni canoniche}
+\subsubsection*{Integrazioni di funzioni razionali}
+\subsection{Integrali impropri}
+\subsection{Studio del carattere di un integrale}
+\subsubsection*{Integrabilità assoluta}
+\subsubsection*{Criterio del confronto tra integrali}
+\subsubsection*{Criterio del confronto asintotico}
+\subsubsection*{Funzioni campione}
+\subsection{Derivata di una funzione integrale}
+
+\subsection{Teorema del polinomio di Taylor con resto di Lagrange}
 
 
 \end{document}
