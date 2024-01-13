@@ -27,7 +27,7 @@
 \newcommand\settcosh{\text{settcosh}}
 \newcommand\settsinh{\text{settsinh}}
 \newcommand\setttanh{\text{setttanh}}
-\newcommand\cont[2]{C^{#1} \left({#2}\right)}
+\newcommand\cont[2]{C^{(#1)} \left({#2}\right)}
 
 \title{Appunti di analisi 1}
 \author{Giacomo Simonetto}
@@ -2198,6 +2198,14 @@ Sia \(f:\left(a, b\right) \to \mathbb{R}\) una funzione derivabile \(n\) volte i
 	\item il polinomio di Taylor è l'unico polinomio di grado \(\leq n\) per cui vale la tesi 1
 \end{enumerate}
 
+\subsubsection*{Teorema del polinomio di Taylor con il resto di Lagrange}
+Sia \(f: \left[a, b\right] \to \mathbb{R}\), sia \(x_0 \in \left(a, b\right)\) e sia \(f \in \cont{n+1}{\left[a, b\right]}\),
+allora \(\forall x \in \left(a, b\right) \; \exists c\) nell'intervallo tra \(x_0\) e \(x\) tale che
+\(\displaystyle f(x) = T_{n,x_0}[f](x) + \frac{f^{(n+1)}(c)}{(n+1)!} (x-x_0)^{n+1}\).
+
+Si osserva che per \(n = 0\) si ottiene il teorema di Lagrange. Questo teorema, a differenza del precedente, permette di calcolare una stima dell'errore commesso
+con l'approssimazione del polinomio di Taylor.
+
 \subsubsection*{Alcuni sviluppi centrati in 0}
 \begin{center}
 	\begin{tabular}{c c}
@@ -2479,12 +2487,58 @@ Se il valore del limite è finito, l'integrale è convergente, se è infinito, l
 
 \subsection{Studio del carattere di un integrale}
 \subsubsection*{Integrabilità assoluta}
-\subsubsection*{Criterio del confronto tra integrali}
-\subsubsection*{Criterio del confronto asintotico}
-\subsubsection*{Funzioni campione}
-\subsection{Derivata di una funzione integrale}
+Sia \(f:\left(a, b\right) \to \mathbb{R}\), \(f\) è assolutamente integrabile su \(\left(a, b\right)\) se \(\left|f\right|\) è integrabile in senso improprio su \(\left(a, b\right)\).
 
-\subsection{Teorema del polinomio di Taylor con resto di Lagrange}
+Sia \(f:\left(a, b\right) \to \mathbb{R}\) integrabile su ogni intervallo \(\left[c, d\right] \subset \left(a, b\right)\) e assolutamente integrabile su \(\left(a, b\right)\),
+allora è anche integrabile in senso improprio su \(\left(a, b\right)\), cioè se \(\displaystyle \int_{a}^{b} \left|f(x)\right| \; dx\) è CV, lo è anche \(\displaystyle \int_{a}^{b} f(x) \; dx\).
+
+\subsubsection*{Criterio del confronto tra integrali}
+Siano \(f, g\) due funzioni definite su \(\left(a, b\right)\) con \(0 \leq f(x) \leq g(x) \; \forall x \in \left(a, b\right)\) entrambe integrabili su ogni intervallo
+\(\left[c, d\right] \subset \left(a, b\right)\), allora:
+\begin{enumerate}
+	\item se \(\displaystyle \int_{a}^{b} g(x) \; dx\) converge, allora \(\displaystyle \int_{a}^{b} f(x)\) converge
+	\item se \(\displaystyle \int_{a}^{b} f(x) \; dx\) diverge, allora \(\displaystyle \int_{a}^{b} g(x)\) diverge
+\end{enumerate}
+
+\subsubsection*{Criterio del confronto asintotico}
+Siano \(a \in \mathbb{R} \cup \left\{- \infty\right\}\) e \(b \in \mathbb{R}\), siano \(f\), \(g\) due funzioni definite su \(\left(a, b\right]\) entrambe \(\geq 0\) e integrabili
+su ogni intervallo \(\left[c, d\right] \subset \left(a, b\right]\) e tali che \(\displaystyle \lim_{x \to a^+} \frac{f(x)}{g(x)} = l \in \mathbb{R}^*\), allora:
+\begin{enumerate}
+	\item se \(l \in \mathbb{R} \; \backslash \left\{0\right\}\), \(\displaystyle \int_{a}^{b} f(x) \; dx\) e \(\displaystyle \int_{a}^{b} g(x) \; dx\) hanno lo stesso comportamento
+	\item se \(l = 0\) e \(\displaystyle \int_{a}^{b} g(x) \; dx\) converge, allora \(\displaystyle \int_{a}^{b} f(x) \; dx\) converge
+	\item se \(l = +\infty\) e \(\displaystyle \int_{a}^{b} g(x) \; dx\) diverge, allora \(\displaystyle \int_{a}^{b} f(x) \; dx\) diverge
+\end{enumerate}
+
+\subsubsection*{Funzioni campione}
+Caso per \(x \to \pm \infty\): \\
+data \(\displaystyle g_{\alpha, \beta}(x) = \frac{1}{\left|x\right|^\alpha \cdot \left(\log \left|x\right|\right)^\beta}\) con \(\alpha, \beta \in \mathbb{R}\), l'integrale \(\displaystyle \int_{2}^{+\infty} g_{\alpha, \beta}(x) \; dx\)
+\begin{itemize}
+	\item per \(\alpha > 1\) converge
+	\item per \(\alpha < 1\) diverge a \(+ \infty\)
+	\item per \(\alpha = 1\), \(\beta > 1\) converge
+	\item per \(\alpha = 1\), \(\beta \leq 1\) diverge a \(+ \infty\)
+\end{itemize}
+Caso per \(x \to a\): \\
+data \(\displaystyle l_{\alpha, \beta}(x) = \frac{1}{\left|x-a\right|^\alpha \cdot \left|\log \left|x-a\right|\right|^\beta}\) con \(\alpha, \beta \in \mathbb{R}\), l'integrale \(\displaystyle \int_{a}^{a+\frac{1}{2}} l_{\alpha, \beta}(x) \; dx\)
+\begin{itemize}
+	\item per \(\alpha > 1\) diverge a \(+ \infty\)
+	\item per \(\alpha < 1\) converge
+	\item per \(\alpha = 1\), \(\beta > 1\) converge
+	\item per \(\alpha = 1\), \(\beta \leq 1\) diverge a \(+ \infty\)
+\end{itemize}
+
+Nel primo caso, se \(x \to + \infty\), i valori assoluti si possono omettere. L'estremo inferiore deve essere diverso da 0 e 1,
+altrimenti la funzione non è definita e si ricade nel secondo caso.
+
+Nel secondo caso, scegliendo \(\displaystyle t = \frac{1}{x - a}\) ci si riconduce al primo caso. L'estremo superiore deve essere
+un punto diverso da \(a\) e \(a+1\), altrimenti la funzione non è definita.
+
+\subsection{Derivata di una funzione integrale}
+Siano \(f\), \(g\), \(h\) funzioni derivabili, e \(\displaystyle G(x) = \int_{g(x)}^{h(x)} f(t) \; dt\), allora \(G\) è derivabile e vale
+\(G'(x) = f(h(x))h'(x) - f(g(x))g'(x)\).
+
+\subsubsection*{Dimostrazione}
+Sia \(F\) una primitiva di \(f\), allora \(G(x) = F(h(x)) - F(g(x))\), derivando si ha \(G'(x) = f(h(x))h'(x) - f(g(x))g'(x)\) \qed
 
 
 \end{document}
