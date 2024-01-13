@@ -1872,7 +1872,8 @@ La quantità \(\displaystyle \frac{f(x_0 + h) - f(x_0)}{h}\) è detta rapporto i
 			\midrule
 			\(\sinh x\) & \(\cosh x\) \\
 			\midrule
-			\(\cosh x\) & \(\sinh x\)
+			\(\cosh x\) & \(\sinh x\) \\
+			\bottomrule
 		\end{tabular}
 		&
 		\begin{tabular}{c c}
@@ -1890,7 +1891,8 @@ La quantità \(\displaystyle \frac{f(x_0 + h) - f(x_0)}{h}\) è detta rapporto i
 			\midrule
 			\(\settcosh x\) & \(\displaystyle \frac{1}{\sqrt{x^2+1}}\) \\
 			\midrule
-			\(\setttanh x\) & \(\displaystyle \frac{1}{1-x^2}\)
+			\(\setttanh x\) & \(\displaystyle \frac{1}{1-x^2}\) \\
+			\bottomrule
 		\end{tabular}
 	\end{tabular}
 \end{center}
@@ -2296,14 +2298,185 @@ Siano \(f, g: \left[a, b\right] \to \mathbb{R}\) due funzioni R.I., allora:
 \end{enumerate}
 
 \subsection{Teorema della media integrale}
+Sia \(f:\left[a, b\right] \to \mathbb{R}\) una funzione R.I. e \(\displaystyle m = \inf_{\left[a, b\right]} f\), \(\displaystyle M = \sup_{\left[a, b\right]} f\), allora
+\(\displaystyle m \leq \frac{1}{b - a} \int_{a}^{b} f(x) dx \leq M\). Inoltre se \(f \in \cont{0}{\left[a, b\right]}\), allora \(\exists c \in \left[a, b\right]\) tale che
+\(\displaystyle f(c) = \frac{1}{b-a} \int_{a}^{b} f(x) dx\) e la quantità \(f(c)\) è detta media integrale.
+\subsubsection*{Dimostrazione}
+Per dimostrare la prima disuguaglianza si considera la partizione \(P = \left\{x_0, x_1\right\} = \left\{a, b\right\}\), si ottiene che \\
+\(\displaystyle m \cdot (a - b) = L(f, P) \leq \int_{a}^{b} f(x) dx \leq U(f, P) = M \cdot (a-b)\) \\
+Dato che \(f\) è continua, per Weierstrass e per il teorema dei valori intermedi, assume tutti i valori nell'intervallo \(\left[m, M\right]\), per cui anche
+il valore \(\displaystyle \frac{1}{b-a} \int_{a}^{b} f(x) dx \in \left[m, M\right]\) \qed
+
 \subsection{Teorema fondamentale del calcolo integrale}
+Sia \(f:\left[a, b\right] \to \mathbb{R}\) una funzione R.I., si considera \(\displaystyle F(x) = \int_{a}^{b} f(t) dt\) per \(x \in \left[a, b\right]\),
+se \(f\) è continua in \(x_0 \in \left(a, b\right)\), allora \(F\) è derivabile in \(x_0\) e si ha \(F'(x_0) = f(x_0)\).
+
+\subsubsection*{Dimostrazione}
+Dato che \(f\) è continua in \(x_0\), dalla definizione di limite e continuità si ha che \(\forall \varepsilon > 0 \; \exists \delta > 0\)
+tale che \(\forall x \in \left(x_0 - \delta, x_0 + \delta\right)\) vale \(f(x_0) - \varepsilon < f(x) < f(x_0) + \varepsilon\) \\
+Dato che \(x \in \left(x_0 - \delta, x_0 + \delta\right)\), allora \(\displaystyle F(x) - F(x_0) = \int_{a}^{x} f(t) dt - \int_{a}^{x_0} f(t) dx = \int_{x}^{x_0} f(t) dt\) \\
+Dal teorema della media integrale \(\displaystyle \inf_{\left[x_0, x\right]} f \leq \frac{1}{x-x_0} \int_{x_0}^{x} f(t) dt \leq \sup_{\left[x_0, x\right]} f\), \\
+dalla definzione di continuità \(\displaystyle f(x_0) - \varepsilon \leq f(c) \leq f(x_0) + \varepsilon\) con \(c \in \left[x, x_0\right] \subset \left(x_0 - \delta, x_0 + \delta\right)\), \\
+considerando che \(\displaystyle f(c) = \frac{1}{x-x_0} \int_{x_0}^{x} f(t) dt\) ed unendo le due disuguaglianze sopra si ottiene: \\
+\(\displaystyle f(x_0) - \varepsilon \leq \inf_{\left[x_0, x\right]} f \leq \frac{1}{x-x_0} \int_{x_0}^{x} f(t) dt \leq \sup_{\left[x_0, x\right]} f \leq f(x_0) + \varepsilon\) \\
+\(\displaystyle f(x_0) - \varepsilon \leq \frac{1}{x-x_0} \int_{x_0}^{x} f(t) dt \leq f(x_0) + \varepsilon\) \\
+\(\displaystyle f(x_0) - \varepsilon \leq \frac{F(x) - F(x_0)}{x-x_0} \leq f(x_0) + \varepsilon\) \\
+Usando la definizione di limite, si ottiene che \(\displaystyle \lim_{x \to x_0^+} \frac{F(x) - F(x_0)}{x - x_0} = f(x_0)\), ovvero \(F'_+(x_0) = f(x_0)\) \\
+per ragionamento analogo si ottiene che \(F'_-(x_0) = f(x_0)\), per cui \(F\) è derivabile e \(F'(x_0) = f(x_0)\) \qed
+
+\subsubsection*{Corollario}
+Se \(f \in \cont{0}{\left[a, b\right]}\), allora \(\displaystyle F(x) = \int_{a}^{x} f(t) dt\) verifica:
+\begin{enumerate}
+	\item \(F \in \cont{0}{\left[a, b\right]} \cap \cont{1}{\left(a, b\right)}\)
+	\item \(F'(x) = f(x) \quad \forall x \in \left(a, b\right)\)
+	\item \(\forall c, d \in \left[a, b\right]\) vale \(\displaystyle \int_{c}^{d} f(t) dt = F(d) - F(c)\)
+\end{enumerate}
+
+\subsubsection*{Dimostrazione}
+\begin{enumerate}
+	\item segue dal teorema fondamentale
+	\item segue dal teorema fondamentale
+	\item segue dalla proprietà 2 degli integrali: \\
+	\(\displaystyle \int_{a}^{d} f(t) dt = \int_{a}^{c} f(t) dt + \int_{c}^{d} f(t) dt\), cioè \(\displaystyle F(d) = F(c) + \int_{c}^{d} f(t) dt\) \qed
+\end{enumerate}
+
+\subsection{Integrali indefiniti}
+\subsubsection*{Funzione primitiva e integrali indefiniti}
+Una funzione \(F\) tale che \(F' = f\) si dice primitiva di \(f\). \\
+L'integrale indefinito è l'insieme \(\displaystyle\left\{F : F \text{ è primitiva di } f\right\} := \int f(x) dx\)
+
+\subsubsection*{Teorema di "caratterizzazione" delle primitive}
+Siano \(I\) un intervallo di \(\mathbb{R}\), \(f:I \to \mathbb{R}\) e \(F, G\) primitive di \(f\), allora \(\exists c \in \mathbb{R}\)
+tale che \(F(x) = G(x) + c \; \forall x \in I\). 
+Per cui \(\displaystyle \int f(x) dx = \left\{F + c : c \in \mathbb{R}\right\}\) indicato con \(F(x) + c\)
+
+\subsubsection*{Dimostrazione}
+Sia \(H = F - G\), allora \(H'(x) = F'(x) - G'(x) = f(x) - f(x) = 0\), da cui si deduce che per il teorema di caratterizzazione delle costanti,
+\(H\) è una costante, che è indicata con \(c\) \qed
+
 \subsection{Strumenti per il calcolo integrale}
+\begin{enumerate}
+	\item tavola degli integrali di funzioni elementari ricavata da quella delle derivate, per il teorema fondamentale del calcolo di integrali
+	\item intergazione per parti, dalla regola di derivazione di un prodotto
+	\item integrazione per sostituzione, dalla regola di derivazione di funzioni composte
+\end{enumerate}
+
 \subsubsection*{Integrali immediati}
+\begin{center}
+	\begin{tabular}{c c}
+		\begin{tabular}{c c}
+			\textbf{integrale} \(\displaystyle \int f(x)\) & \textbf{primitiva} \(F(x)\) \\
+			\toprule
+			\(\displaystyle \int k \; dx\) & \(kx + c\) \\
+			\midrule
+			\(\displaystyle \int x^\alpha dx\) & \(\displaystyle \frac{x^{\alpha + 1}}{\alpha + 1} + c \quad \text{per }\alpha \neq -1\) \\
+			\midrule
+			\(\displaystyle \int \sqrt{x} dx\) & \(\displaystyle \frac{1}{2 \sqrt{x}}\) \\
+			\midrule
+			\(\displaystyle \int \frac{1}{x} dx\) & \(\log \left|x\right| + c\) \\
+			\midrule
+			\(\displaystyle \int e^x dx\) & \(e^x + c\) \\
+			\midrule
+			\(\displaystyle \int \sin x \; dx\) & \( -\cos x + c\) \\
+			\midrule
+			\(\displaystyle \int \cos x \; dx\) & \(\sin x + c\) \\
+			\midrule
+			\(\displaystyle \int \frac{1}{\cos^2 x} dx\) & \(\tan x + c\) \\
+			\bottomrule
+		\end{tabular}
+		&
+		\begin{tabular}{c c}
+			\textbf{integrale} \(\displaystyle \int f(x)\) & \textbf{primitiva} \(F(x)\) \\
+			\toprule
+			\(\displaystyle \int \sinh x \; dx\) & \( \cosh x + c\) \\
+			\midrule
+			\(\displaystyle \int \cosh x \; dx\) & \(\sinh x + c\) \\
+			\midrule
+			\(\displaystyle \int \frac{1}{\cosh^2 x} dx\) & \(\tanh x + c\) \\
+			\midrule
+			\(\displaystyle \int \frac{1}{\sqrt{1-x^2}} dx\) & \(\arcsin x + c\) \\
+			\midrule
+			\(\displaystyle \int \frac{1}{1 + x^2} dx\) & \(\arctan x + c\) \\
+			\midrule
+			\(\displaystyle \int \frac{1}{\sqrt{x^2 - 1}} dx\) & \(\settsinh x + c\) \\
+			\midrule
+			\(\displaystyle \int \frac{1}{\sqrt{x^2 + 1}} dx\) & \(\settcosh x + c\) \\
+			\midrule
+			\(\displaystyle \int \frac{1}{1 - x^2} dx\) & \(\setttanh x + c\) \\
+			\bottomrule
+		\end{tabular}
+	\end{tabular}
+\end{center}
+
 \subsubsection*{Integrali per parti}
+\[\int f(x) \cdot g'(x) \; dx = f(x) \cdot g(x) - \int f'(x) \cdot g(x) \; dx\]
+
+Dimostrazione: \\
+Partendo dalla derivata del prodotto \((f(x) \cdot g(x))' = f'(x) \cdot g(x) + f(x) \cdot g'(x)\), \\
+integrando si ottiene \(\displaystyle \int (f(x) \cdot g(x))' \; dx = \int f'(x) \cdot g(x) \; dx + \int f(x) \cdot g'(x) \; dx\), ovvero la tesi.
+
+Esempi:
+\begin{itemize}
+	\item[-] \(\displaystyle \int \ln x \; dx = \int 1 \cdot \ln x \; dx = x \cdot \ln x - x + c\)
+	\item[-] \(\displaystyle \int x \cdot e^x \; dx = x \cdot e^x - e^x + c\)
+\end{itemize}
+
 \subsubsection*{Integrali per sostituzione}
+\[\int f(\varphi(x)) \cdot \varphi'(x) \; dx \; = \; \stackrel{\text{solo formalmente}}{\binom{t = \varphi (x)}{dt = \varphi'(x)}} \; = \; \int f(t) \; dt \; = \; F(t) + c \; = \; F(\varphi(x) + c)\]
+\[\int_{\alpha}^{\beta} f(\varphi(x)) \cdot \varphi'(x) \; dx \; = \; \stackrel{\text{solo formalmente}}{\binom{t = \varphi (x)}{dt = \varphi'(x)}} \; = \; \int_{a = \varphi(\alpha)}^{b = \varphi(\beta)} f(t) \; dt \; = \; F(b) - F(a) \; = \; F(\varphi(\beta)) - F(\varphi(\alpha))\]
+
+Siano \(f \in \cont{0}{\left[a, b\right]}\), \(F:\left[a, b\right] \to \mathbb{R}\) una sua primitiva, \(\varphi:\left[c, d\right] \to \left[a, b\right]\) una funzione derivabile, \\
+allora \((F(\varphi(x)))' \; = \; F'(\varphi(x)) \cdot \varphi'(x) \; = \; f(\varphi(x)) \cdot \varphi'(x)\), ovvero \(F \circ \varphi\) è una primitiva di \(f(\varphi(x)) \cdot \varphi'(x)\), \\
+quindi \(\displaystyle \int f(\varphi(x)) \cdot \varphi'(x) \; dx = F(\varphi(x)) + c\)
+
 \subsubsection*{Sostituzioni canoniche}
+\begin{enumerate}
+	\item \(\displaystyle \int f(e^x) \; dx \quad \rightarrow \quad t = e^x\)
+	\item \(\displaystyle \int f(\sqrt{a^2 - x^2}) \; dx \quad \rightarrow \quad x = a \cdot \sin t\) \\
+	si sfrutta il fatto che \(\sqrt{1 - \sin^2 t} = \sqrt{\cos^2 x} = \left|\cos x\right|\)
+	\item \(\displaystyle \int f(\sqrt{a^2 + x^2}) \; dx \quad \rightarrow \quad x = a \cdot \sinh t\) \\
+	si sfrutta il fatto che \(\sqrt{1 + \sinh^2 t} = \sqrt{\cosh^2 x} = \left|\cosh x\right|\)
+	\item \(\displaystyle f(\sin x, \cos x, \tan x) \quad \rightarrow \quad \sin x = \frac{2 \cdot \tan \frac{x}{2}}{1 + \tan^2 \frac{x}{2}} \quad \cos x = \frac{1 - \tan^2 \frac{x}{2}}{1 + \tan^2 \frac{x}{2}} \quad \tan x = \frac{2 \cdot \tan \frac{x}{2}}{1 - \tan^2 \frac{x}{2}}\) \\
+	si esegue una seconda sostituzione \(t = \tan^2 \frac{x}{2}\)
+	\item \(\displaystyle \int f(x) \; dx\) con \(f\) funzione di \(\sqrt[\alpha]{x}, \sqrt[\beta]{x}, \dots\) con \(\alpha, \beta, \dots \in \mathbb{N} \quad \rightarrow \quad x = t^{m.c.m.(\alpha, \beta)}\) \\
+	si cerca di eliminare le radici es. \(\sqrt[3]{x} \cdot \sqrt{x} \; \rightarrow \; x = t^6 \; \rightarrow \; t^2 \cdot t^3\)
+	\item \(\displaystyle \int f(\sin^2 x, \cos^2 x) \; dx \quad \rightarrow \quad \cos 2x = \cos^2 x - \sin^2 x\)
+\end{enumerate}
+
+\newpage
+
+
 \subsubsection*{Integrazioni di funzioni razionali}
+Si cerca di ridursi ai casi \(\displaystyle \int \frac{1}{t} \; dt = \ln \left|x\right| + c, \quad \int \frac{1}{t^2} \; dt = - \frac{1}{t} + c, \quad \int \frac{1}{1+t^2} \; dt = \arctan x + c\)
+
+Passaggi:
+\begin{enumerate}
+	\item scomporre il denominatore per avere un polinomio di grado al massimo pari a 2
+	\item se il grado del numeratore è superiore o pari a quello del denominatore, si esegue la divisione tra polinomi
+	\item se il denominatore ha grado 1 \(\rightarrow\) ci si riconduce al caso \(\displaystyle \int \frac{1}{t} \; dt\)
+	\item se il denominatore ha grado 2 \(\rightarrow\): si scompone il denominatore
+	\begin{itemize}
+		\item se \(\Delta < 0 \quad \rightarrow \quad\) si ricorre al completamento dei quadrati e ci si riconduce a \(\displaystyle \int \frac{1}{1 + t^2} \; dt\)
+		\item se \(\Delta = 0 \quad \rightarrow \quad\) ci si riconduce al caso \(\displaystyle \int \frac{1}{t^2} \; dt\)
+		\item se \(\Delta > 0 \quad \rightarrow \quad\) si scompone in \((x-x_1)(x-x_2)\) e si spezza la frazione trovando \(\alpha, \beta \in \mathbb{R}\) per cui
+		\(\displaystyle \frac{\text{numeratore}}{(x-x_1)(x-x_2)} = \frac{\alpha}{x-x_1} + \frac{\beta}{x-x_2}\)
+	\end{itemize}
+\end{enumerate}
+
 \subsection{Integrali impropri}
+\begin{itemize}
+	\item[-] Sia \(a \in \mathbb{R} \cup \left\{-\infty\right\}\) e \(b \in \mathbb{R}\), sia \(f:\left(a, b\right] \to \mathbb{R}\) integrabile in \(\left[c, d\right] \; \forall c \in \left(a, b\right]\),
+	se \(\displaystyle \exists \lim_{c \to a^+} \int_{c}^{b} f(x) = l \in \mathbb{R}\), allora \(f\) è integrabile in senso improprio su \(\left(a, b\right]\) e il valore \(l\) del limite
+	è chiamato integrale generalizzato.
+	\item[-] Caso analogo per l'estremo superiore.
+	\item[-] Sia \(a \in \mathbb{R} \cup \left\{-\infty\right\}\) e \(b \in \mathbb{R} \cup \left\{+\infty\right\}\), \(f:\left(a, b\right) \to \mathbb{R}\) integrabile su \(\left[c, d\right] \subset \left(a, b\right)\)
+	\(f\) è integrabile in senso improprio su \(\left(a, b\right)\) se \(\exists x_0 \in \left(a, b\right)\) tale che \(f\) è integrabile in senso improprio su \(\left(a, x_0\right]\) e \(\left[x_0, b\right)\) per cui
+	\(\displaystyle \int_{a}^{b} f(x) \; dx = \int_{a}^{x_0} f(x) \; dx + \int_{x_0}^{b} f(x) \; dx\). \\
+	Se esiste un \(x_0\) come nella definizione, allora la definizione vale \(\forall x_0 \in \left(a, b\right)\) e il valore dell'integrale è indipendente da \(x_0\).
+\end{itemize}
+
+Se il valore del limite è finito, l'integrale è convergente, se è infinito, l'integrale è divergente.
+
 \subsection{Studio del carattere di un integrale}
 \subsubsection*{Integrabilità assoluta}
 \subsubsection*{Criterio del confronto tra integrali}
