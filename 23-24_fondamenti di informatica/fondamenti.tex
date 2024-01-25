@@ -12,6 +12,7 @@
 \usepackage{graphicx} % per immagini
 \usepackage{listings} % per codice
 \usepackage{xcolor} % per colori nel codice
+\usepackage{dirtytalk} % per le ""
 
 % definizione colori
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -77,9 +78,9 @@
 		fine 1800
 		& Si hanno i primi tentativi di \textbf{ricerca di un linguaggio formale}. La matematica è un sistema formale
 		completo? Esiste un procedimento meccanico (passo-passo, finito) per dimostrare se una proposizione sia vera
-		o falsa? Il primo tentavo di \textit{"formalizzazione della matematica"} viene svolto da David Hilbert, con
-		cui si scopre che la matematica possiede 23 problemi di formalizzazione chiamati \textit{"23 problemi di Hilbert"}.
-		La risposta alla prima domanda risale al 1931 quando Goedel, con il \textit{"teorema di incompletezza"}
+		o falsa? Il primo tentavo di \textit{\say{formalizzazione della matematica}} viene svolto da David Hilbert, con
+		cui si scopre che la matematica possiede 23 problemi di formalizzazione chiamati \textit{\say{23 problemi di Hilbert}}.
+		La risposta alla prima domanda risale al 1931 quando Goedel, con il \textit{\say{teorema di incompletezza}}
 		conferma che la matematica non è un sistema formale. \\
 		\midrule
 		
@@ -280,7 +281,7 @@ La memoria primaria è la più veloce delle due, ma anche la più costosa. Ne es
 \begin{center}
 	\begin{tabularx}{\textwidth}{c X}
 		\textbf{RAM} & o \textit{Random Access Memory}, memoria volatile, dotata della caratteristica di avere un tempo di accesso
-		ad una cella indipendente dal luogo in cui essa si trova (tempo di accesso "casuale"). Viene impiegata per salvare dati 
+		ad una cella indipendente dal luogo in cui essa si trova (tempo di accesso \say{casuale}). Viene impiegata per salvare dati 
 		temporanei derivati dall'esecuzione di programmi. \\
 		\midrule
 		\textbf{ROM} & o \textit{Read Only Memory}, memoria permanente di sola lettura in cui vengono salvati i programmi necessari
@@ -396,7 +397,7 @@ che contiente tutti i file e le directory del sistema, è chiamata \verb|root|. 
 attraverso un percoso chiamato \textit{path}. Il percorso della cartella \verb|root| è \verb|\|.
 
 I path si distinguono in:
-\begin{itemize}[topsep=3pt, itemsep=0pt]
+\begin{itemize} [topsep=3pt, itemsep=0pt]
 	\item[-] \textbf{percorso assoluto}: \\
 	ovvero il percorso che separa la cartella \verb|root| dal file in questione, inizia con \verb|\|, ovvero il simbolo della
 	cartella \verb|root|, cioè con \verb|/|, es. \verb|/user/nomeutente/home/desktop/file.txt|
@@ -439,10 +440,10 @@ Alcuni comandi di Linux/Unix sono:
 
 % ------------------------------ Rappresentazione delle informazioni ------------------------------
 \section{Rappresentazione delle informazioni nei calcolatori}
-In un calcolatore elettonico, le informazioni sono memorizzate ed elaborate in formato binario (0 e 1). Bisogna convertire
-ciascun tipo di dato (testo, numeri, immagini, audio, video) in notazione binaria. Di seguito alcuni esempi:
 \begin{center}
 	\begin{tabularx}{\textwidth}{c X}
+		\textbf{tipo di dato} & \textbf{rappresentazione} \\
+		\toprule
 		numeri naturali \(\mathbb{N}\) & rappresentazione secondo il sistema posizionale \\
 		\midrule
 		\multirow{2}{*}{numeri interi \(\mathbb{Z}\)} & rappresentazione modulo - segno \\
@@ -459,9 +460,24 @@ Dato che un computer può elaborare soltanto un numero finito di informazioni, m
 ci sarà un valore massimo e un valore minimo rappresentabile. Inoltre viene introdotto un errore dato dal fatto che non tutti
 i nmeri hanno un numero di cifre limitate (es. \(\pi\) o \(\sqrt{2}\)).
 
+\subsection{Base binaria, decimale, ottale ed esadecimale}
+La rappresentazione decimale utilizza le cifre da 0 a 9 (10 simboli), quella binaria solo 0 e 1 (2 simboli). Le altre
+rappresentazioni si comportano allo stesso modo. Nella base ottale vengono impiegate le cifre da 0 a 7 (8 simboli),
+in quella esadecimale da 0 a F (15 simboli). Verranno approfonditi soltanto i diversi sistemi di rappresentazione
+binaria e le conversioni con quella decimale.
+
+\subsection{ASCII e UNICODE}
+Il codice ASCII e quello UNICODE sono sistemi che associano ad ogni simbolo (carattere) un numero senza segno. Nello standard
+ASCII vengono riservati 7 bit per ogni carattere per un massimo di 128 simboli (poi estesi a 256 con l'extended ASCII), mentre
+per l'UNICODE si impiegano 2 byte per un massimo di 65536 simboli rappresentabili. Il sistema UNICODE, ad oggi il più usato,
+comprende il vecchio codice ASCII.
+
+\newpage
+
+
 % Rappresentazione in sistema posizionale
 \subsection{Rappresentazione in sistema posizionale}
-Sfrutta il principio che ogni cifra possiede un peso dato dalla posizione relativa nel numero. Nel sistema decimale ogni
+Si sfrutta il principio che ogni cifra possiede un peso dato dalla posizione relativa nel numero. Nel sistema decimale ogni
 cifra ha, come peso, una potenza di 10, in quello binario si usano le potenze di 2.
 
 \subsubsection*{Rappresentazione}
@@ -469,30 +485,23 @@ cifra ha, come peso, una potenza di 10, in quello binario si usano le potenze di
 	\begin{tabularx}{\textwidth}{l r X}
 		DEC & \(234_{10}\) & \(= 2 \cdot 10 ^ 2 + 3 \cdot 10 ^ 1 + 4 \cdot 10 ^ 0 \) \\
 		\midrule
-		BIN & \(11101010_2\) & \(= 1 \cdot 2 ^ 7 + 1 \cdot 2 ^ 6 + 1 \cdot 2 ^ 5 + 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 2 + 1 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0\) \\
-		\midrule
-		base \(b\) & num con \(n\) cifre &
-		\[a_{n-1} a_{n-2} \dots a_0 = \sum_{k = 0}^{n-1} a_k \cdot b ^ k \quad \text{ con }
-		\begin{aligned}
-			a_k &= k \text{-esima cifra} \\
-			b^k &= \text{peso della } k \text{-esima cifra}
-		\end{aligned}\]
+		BIN & \(11101010_2\) & \(= 1 \cdot 2 ^ 7 + 1 \cdot 2 ^ 6 + 1 \cdot 2 ^ 5 + 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 2 + 1 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0\)
 	\end{tabularx}
 \end{center}
 
 \subsubsection*{Valori rappresentabili}
-Il range di valori rappresentabili è \(\left[ 0, 2^n - 1 \right]\).
+Il range di valori rappresentabili con \(n\) cifre è \(\left[ 0, 2^n - 1 \right]\).
 
 \subsubsection*{Conversione decimale - binario}
 Per eseguire la conversione dal sistema decimale a quello binario, bisogna usare l'algoritmo di conversione:
 \begin{lstlisting}[language=Java]
 while (numero != 0)
-	resto[i] = numero % base
+	resto_nesimo = numero % base
 	numero = numero / base
 \end{lstlisting}
 
-Il numero converito si ottiene giustapponendo i resti ottenuti al contrario, in modo che l'ultimo resto è la cifra più
-significativa e il primo resto è quella meno significativa.
+Il numero converito si ottiene giustapponendo i resti ottenuti al contrario, in modo che l'ultimo resto diventi la cifra più
+significativa e il primo resto diventi quella meno significativa.
 
 \subsubsection*{Conversione binario - decimale}
 Per convertire un numero dal sistema binario a quello decimale, basta associare ciascuna cifra al suo peso in potenza
@@ -500,12 +509,8 @@ di 2 e sommare i valori ottenuti.
 \begin{align*}
 	11101010_2 &=  1 \cdot 2 ^ 7 + 1 \cdot 2 ^ 6 + 1 \cdot 2 ^ 5 + 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 2 + 1 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0 \\
 	&=  1 \cdot 128 + 1 \cdot 64 + 1 \cdot 32 + 0 \cdot 16 + 1 \cdot 8 + 0 \cdot 4 + 1 \cdot 2 + 0 \cdot 1 \\
-	&= 128 + 64 + 32 + 8 + 2 \\
 	&= 234_{10}
 \end{align*}
-
-\newpage
-
 
 % Rappresentazione in modulo - segno
 \subsection{Rappresentazione in modulo - segno}
@@ -516,19 +521,20 @@ con il sistema decimale.
 \subsubsection*{Rappresentazione}
 \begin{center}
 	\begin{tabularx}{\textwidth}{l X}
-		num \(\geq 0\) & \(+12_{10} = +1 \cdot 1100_2 = 0 + 1100_2 = 01100_{2MS}\) \\
+		numeri \(\geq 0\) & \(+12_{10} = +1 \cdot 1100_2 = 0 + 1100_2 = 01100_{2MS}\) \\
 		\midrule
-		num \(< 0\) & \(-12_{10} = -1 \cdot 1100_2 = 1 + 1100_2 = 11100_{2MS}\)
+		numeri \(\leq 0\) & \(-12_{10} = -1 \cdot 1100_2 = 1 + 1100_2 = 11100_{2MS}\)
 	\end{tabularx}
 \end{center}
 
 \subsubsection*{Valori rappresentabili}
-Il range di valori rappresentabili è \(\left[- \left(2^{n - 1} - 1\right); + \left(2^{n - 1} - 1\right) \right]\).
+Il range di valori rappresentabili con \(n\) cifre è \(\left[- \left(2^{n - 1} - 1\right); + \left(2^{n - 1} - 1\right) \right]\). \\
 Si osserva che lo \(0_{10}\) possiede due rappresentazioni: \(1 0000_{2MS}\) e \(0 0000_{2MS}\)  per \(n = 4\).
 		
 \subsubsection*{Conversioni}
-Per le conversioni da sistema decimale a binario e viceversa si ricorre al procedimento illustrato nel sistema porizionale,
-con l'unica particolarità di avere uno \verb|0| se il numero è positivo ed un \verb|1| se il numero è negativo.
+Per le conversioni da sistema decimale a binario e viceversa si ricorre al procedimento illustrato nel sistema posizionale,
+con l'unica particolarità di far corrispondere uno 0 davanti al numero binario se il numero decimale è positivo, oppure un 1
+se il numero decimale è negativo.
 
 \subsubsection*{Criticità}
 Questo sistema di rappresentazione non viene utilizzato in quanto l'algoritmo per eseguire somme (e sottrazioni) è poco
@@ -541,39 +547,39 @@ efficiente e complesso.
 \subsection{Rappresentazione in complemento a 2}
 Con la rappresentazione in complemento a 2 è possibile rappresentare numeri interi positivi e negativi, eliminando la
 doppia rappresentazione dello zero e semplificando l'algoritmo di somma (e differenza), avendo sempre i positivi e lo
-0 che inziano per \verb|0| e i negativi che iniziano per \verb|1|.
+0 che inziano per 0 e i negativi che iniziano per 1.
 
 \subsubsection*{Rappresentazione}
 \begin{center}
 	\begin{tabularx}{\textwidth}{l X}
-		num \(\geq 0\) & \(+12_{10} = 0 + 1100_2 = 01100_{C2}\) \\
+		numeri \(\geq 0\) & \(+12_{10} = 0 + 1100_2 = 01100_{C2}\) \\
 		\midrule
-		num \(< 0\) & \(-12_{10} = 10100_{C2} \quad \rightarrow \quad -12 + 32 = 20_{10} = 10100_{2}\)
+		numeri \(< 0\) & \(-12_{10} = 10100_{C2} \quad \rightarrow \quad -12 + 32 = 20_{10} = 10100_{2}\)
 	\end{tabularx}
 \end{center}
 
 \subsubsection*{Valori rappresentabili}
-Il range di valori rappresentabili è \(\left[ - 2^{n - 1}; 2^{n - 1} - 1 \right]\).
+Il range di valori rappresentabili con \(n\) cifre è \(\left[ - 2^{n - 1}; 2^{n - 1} - 1 \right]\).
 
 \subsubsection*{Conversione decimale - binario}
-Per i numeri positivi, compreso lo 0, si impiega il classico sistema posizionale (aggiungendo uno \verb|0| davanti al
+Per i numeri positivi, compreso lo 0, si impiega il classico sistema posizionale (aggiungendo uno 0 davanti al
 numero per il segno), mentre per i numeri negativi è necessario:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[1.] sommare \(2^n\) con \(n\) numero di cifre in binario in modo da rendere il numero positivo
-	\item[2.] convertire il risultato secondo il sistema posizionale (se i conti sono giusti il numero inizierà per \verb|1|)
+	\item[1.] sommare \(2^n\) con \(n\) numero di cifre in binario, in modo da rendere il numero positivo
+	\item[2.] convertire il risultato secondo il sistema posizionale (se i conti sono giusti il numero inizierà per 1)
 \end{itemize}
 \begin{align*}
 	+12_{10} &= 0 + 1100_2 = 01100_{C2} \\
 	-12_{10} &\rightarrow -12 + 2^5 = 20_{10} = 10100_{2} \\
-	-12_{10} &= 11100_{C2}
+	-12_{10} &= 10100_{C2}
 \end{align*}
 
 In alternativa se il numero è negativo
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[1.] convertire il modulo secondo il sistema posizionale
-	\item[2.] aggiungerci uno \verb|0| davanti
-	\item[3.] invertire le cifre (gli \verb|0| diventano \verb|1| e gli \verb|1| diventano \verb|0|)
-	\item[4.] sommarci 1 (se i conti sono giusti il numero inizierà per \verb|1|)
+	\item[2.] aggiungerci uno 0 davanti
+	\item[3.] invertire le cifre (gli 0 diventano 1 e gli 1 diventano 0)
+	\item[4.] sommarci 1 (se i conti sono giusti il numero inizierà per 1)
 \end{itemize}
 \begin{align*}
 	-12_{10} &\rightarrow 1100_{2} \rightarrow 00011 \rightarrow 10011 \rightarrow 10011 + 1 \rightarrow 10100 \\
@@ -581,8 +587,8 @@ In alternativa se il numero è negativo
 \end{align*}
 
 \subsubsection*{Conversione binario - decimale}
-Per i numeri che iniziano per \verb|0| basta eseguire la conversione per sistema posizionale, per quelli che inizano con
-\verb|1| bisogna converire il numero secondo il sistema posizionale e toglierci \(2^n\) con \(n =\) cifre del numero.
+Per i numeri che iniziano per 0 basta eseguire la conversione per sistema posizionale, per quelli che inizano con
+1 bisogna converire il numero secondo il sistema posizionale e toglierci \(2^n\) con \(n =\) cifre del numero.
 
 \begin{align*}
 	01100_{C2} &= 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0 \\
@@ -606,53 +612,50 @@ per le cifre dopo la virgola.
 \subsubsection*{Rappresentazione}
 \begin{center}
 	\begin{tabularx}{\textwidth}{l r X}
-		DEC & \(234,56_{10}\) & \(= 2 \cdot 10 ^ 2 + 3 \cdot 10 ^ 1 + 4 \cdot 10 ^ 0 + 5 \cdot 10 ^ -1 + 6 \cdot 10 ^ -2\) \\
+		DEC & \(234.56_{10}\) & \(= 2 \cdot 10 ^ 2 + 3 \cdot 10 ^ 1 + 4 \cdot 10 ^ 0 + 5 \cdot 10 ^ -1 + 6 \cdot 10 ^ -2\) \\
 		\midrule
-		\multirow{2}{*}{BIN} & \multirow{2}{*}{\(11101010,1001_2\)} & \(= 1 \cdot 2 ^ 7 + 1 \cdot 2 ^ 6 + 1 \cdot 2 ^ 5 + 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 2 + 1 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0 +\) \\
-		& & \(+ 1 \cdot 2 ^ -1 + 0 \cdot 2 ^ -2 + 0 \cdot 2 ^ -3 + 1 \cdot 2 ^ -3\) \\
-		\midrule
-		base \(b\) & num con \(n,m\) cifre &
-		\[a_n a_{n-1} \dots a_0, a_1 a_2 \dots a_{m}  = \sum_{k = 0}^{n} a_k \cdot b ^ k + \sum_{k=1}^{m} a_k \cdot b ^ {-k}\]
-		con \(a_k = k\)-esima cifra, \(b^k, b^{-k} =\)peso della \(k\)-esima cifra
+		\multirow{2}{*}{BIN} & \multirow{2}{*}{\(11101010.1001_2\)} & \(= 1 \cdot 2 ^ 7 + 1 \cdot 2 ^ 6 + 1 \cdot 2 ^ 5 + 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 2 + 1 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0 +\) \\
+		& & \(+ 1 \cdot 2 ^ -1 + 0 \cdot 2 ^ -2 + 0 \cdot 2 ^ -3 + 1 \cdot 2 ^ -3\)
 	\end{tabularx}
 \end{center}
 
 \subsubsection*{Valori rappresentabili}
-Il range di valori rappresentabili è \(0 + \left[ 2^{-m}, 2^n - 1 \right]\), con \(n\) cifre intere, \(m\) cifre decimali.
+Il range di valori rappresentabili è \(\left\{0\right\} \cup \left[ 2^{-m}, 2^n - 1 \right]\), con \(n\) cifre intere, \(m\) cifre decimali.
 
 \subsubsection*{Conversione decimale - binario}
 Per eseguire la conversione dal sistema decimale a quello binario, è necessario dividere la parte intera da quella dopo
 la virgola. Per la prima basta convertirla con l'algoritmo visto per il sistema posizionale, mentre per la parte decimale
-è necessario applicare il seguente "algoritmo":
+è necessario applicare il seguente \say{algoritmo}:
 \begin{lstlisting}[language=Java]
 while (numero != 0)
-	parteIntera[i] = parteIntera di numero 
-	numero = numero * base
+	parteIntera_n-esima = parteIntera(numero)
+	numero = parteDecimale(numero) * base
 \end{lstlisting}
-Per ottenere il numero convertito è necessario prendere le parti intere in ordine (senza invertirli). Si osserva che il
-risultato potrebbe essere un numero illimitato.
+Per ottenere il numero convertito è necessario prendere le parti intere in ordine (senza invertirle). Il risultato potrebbe
+essere un numero illimitato.
 
 \subsubsection*{Conversione binario - decimale}
 Per convertire un numero dal sistema binario a quello decimale, basta associare ciascuna cifra al suo peso in potenza
 di 2 e sommare i valori ottenuti.
 \begin{align*}
-	11101010,1001_2 &= 1 \cdot 2 ^ 7 + 1 \cdot 2 ^ 6 + 1 \cdot 2 ^ 5 + 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 2 + 1 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0 + \\
+	11101010.1001_2 &= 1 \cdot 2 ^ 7 + 1 \cdot 2 ^ 6 + 1 \cdot 2 ^ 5 + 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 2 + 1 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0 + \\
 	&\;\;\;\; + 1 \cdot 2 ^{-1} + 0 \cdot 2 ^{-2} + 0 \cdot 2 ^{-3} + 1 \cdot 2 ^{-4} \\
 	&=  1 \cdot 128 + 1 \cdot 64 + 1 \cdot 32 + 0 \cdot 16 + 1 \cdot 8 + 0 \cdot 4 + 1 \cdot 2 + 0 \cdot 1 + \\
 	&\;\;\;\; + 1 \cdot \frac{1}{2} + 0 \cdot \frac{1}{4} + 0 \cdot \frac{1}{8} + 1 \cdot \frac{1}{16} \\
-	&= 128 + 64 + 32 + 8 + 2 + 0,5 + 0,0625\\
-	&= 234,5625_{10} \\
-	&\approx 234,56_{10}
+	&= 128 + 64 + 32 + 8 + 2 + 0.5 + 0.0625\\
+	&= 234.5625_{10} \\
+	&\approx 234.56_{10}
 \end{align*}
 
 \subsubsection*{Criticità}
 Non tutti i numeri sono rappresentabili in un numero finito di cifre. Alcuni numeri che nel sistema decimale hanno un
 numero finito di cifre, nel sistema binario potrebbero essere illimitati, per cui la loro rappresentazione potrebbe
-essere un'approssimazione. Inoltre è poco efficiente in quando per rappresentare numeri molto grandi, la parte decimale
-sarebbe poco significativa e i bit riservati a tale parte si potrebbero usare per la parte intera. Viceversa per numeri
-prossimi allo 0.
+essere un'approssimazione, ad esempio \(4.35_{10} = 100.010\overline{1100}_2\). \\
+Inoltre è poco efficiente in quando per rappresentare numeri molto grandi, la parte decimale sarebbe poco significativa
+e i bit riservati a tale parte si potrebbero usare per la parte intera. Viceversa per numeri prossimi allo 0.
 
 \newpage
+
 
 % Rappresentazione in virgola mobile
 \subsection{Rappresentazione in virgola mobile}
@@ -664,31 +667,53 @@ e numeri prossimi allo 0. Lo standard \textit{IEEE 754} prevede due rappresentaz
 	\begin{tabularx}{\textwidth}{l r X}
 		DEC & \(234,56_{10}\) & \(= 0,23456 \cdot 10 ^ 4 \) \\
 		\midrule
-		BIN & \(11101010,1001_2\) & \(= 0,111010101001 \cdot 2 ^ 8\)
+		BIN & \(11101010,1001_2\) & \(= 0,111010101001 \cdot 2 ^ 8 \quad\) \\
 	\end{tabularx}
 \end{center}
+In Java un numero di virgola mobile è rappresentato nella forma \(s \cdot m \cdot 2^{(e - N + 1)}\) con:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] \(s\) segno, può assumere soltanto i valori \(-1, +1\)
+	\item[-] \(m\) mantissa nell'intervallo \(\left[0, 2^N - 1\right]\)
+	\item[-] \(e\) esponente nell'intervallo \(\left[-(2^{K-1}-2), 2^{K-1}-1\right]\)
+	\item[-] \(N\) numero di bit riservati alla base
+	\item[-] \(K\) numero di bit riservati all'esponente
+\end{itemize}
 
 \subsubsection*{Suddivisione in bit}
-Per lo standard a singola precisione, la suddivione dei bit in segno mantissa esponente 1 + 23 + 8. \\
-Per lo standard a doppia precisione, la suddivione dei bit in segno mantissa esponente 1 + 52 + 11.
+\begin{center}
+	\begin{tabular}{c c c c c}
+		\textbf{precisione} & \textbf{segno} & \textbf{mantissa} & \textbf{esponente} & \textbf{complessivo} \\
+		\toprule
+		singola & \say{1 bit} & 24 bit & 8 bit & 32 bit \\
+		\midrule
+		doppia & \say{1 bit} & 53 bit & 11 bit & 32 bit \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+\subsubsection*{Densità}
+La densità nel sistema in virgola mobile è la distanza tra due numeri adiacenti in formato binario.
+
+Per la singola precisione, avere 23 bit di mantissa, significa che posso suddividere l'intervallo da \(0.000\dots1_2 \cdot 2^n,0.111\dots1_2 \cdot 2^n\)
+in \(2^{23}\) parti. Queste parti saranno più fitte per esponenti bassi e meno fitte per esponenti alti. Per cui la densità
+è data dalla formula \(\delta = 2^{23} \cdot 2^E\), dove \(E\) è l'esponente binario dei numeri da rappresentare.
+
 
 \subsubsection*{Valori rappresentabili}
-Il range di valori rappresentabili, sia a singola che a doppia precisione, sono molto ampi (\(\pm 2^{127}\) a singola),
-la precisione che si valuta è la distanza tra due numeri binari con la virgola adiacenti.
-
-Per la singola precisione, avere 23 bit di mantissa, significa che posso suddividere l'intervallo da \(0,0\dots1 \cdot 2^n,
-0,1\dots1 \cdot 2^n\) in \(2^{23}\) parti. Queste parti saranno èiù fitte per esponenti bassi e meno fitte per esponenti
-alti.
-
-Per lo standard a singola precisione si ha che la differenza tra due numeri adiacenti \(\delta = 2^{23} \cdot 2^E\), dove
-\(E\) è l'esponente binario dei numeri da rappresentare che varia da \(\left[ -127, +128\right]\).
-
-Per lo standard a singola precisione si ha che la differenza tra due numeri adiacenti \(\delta = 2^{52} \cdot 2^E\), dove
-\(E\) è l'esponente binario dei numeri da rappresentare che varia da \(\left[ -1023, +1024\right]\).
+\begin{center}
+	\begin{tabular}{c c c c c c}
+		\textbf{precisione} & \textbf{mantissa} & \textbf{esponente} & \textbf{minimo} & \textbf{massimo} & \textbf{densità} \\
+		\toprule
+		singola & \(\left[0, 2^{24} - 1\right]\) & \(\left[-126, 127\right]\) & \(1.4 \cdot 10^{-45}\) & \(3.4 \cdot 10^{38}\) & \(\delta = 2^{23} \cdot 2^E \approx 8 \cdot 10^6 \cdot 2^E\) \\
+		\midrule
+		doppia & \(\left[0, 2^{53} - 1\right]\) & \(\left[-1022, 1023\right]\) & \(4.9 \cdot 10^{-324}\) & \(1.8 \cdot 10^{308}\) & \(\delta = 2^{52} \cdot 2^E \approx 4.5 \cdot 10^{15} \cdot 2^E\) \\
+		\bottomrule
+	\end{tabular}
+\end{center}
 
 \subsection*{Valori limite}
 Alcune combinazioni di mantissa ed esponente sono catalogate per valori particolari come:
-\begin{itemize}[topsep=3pt, itemsep=0pt]
+\begin{itemize} [topsep=3pt, itemsep=0pt]
 	\item[\(0\): ] esponente minimo, mantissa 0
 	\item[\(\infty\): ] esponente massimo, mantissa 0
 	\item[NaN: ] esponente massimo, mantissa 1 (\textit{Not A Number}) 
@@ -696,22 +721,12 @@ Alcune combinazioni di mantissa ed esponente sono catalogate per valori particol
 
 \subsubsection*{Criticità}
 Non tutti i numeri sono rappresentabili con un numero finito di cifre, ma vengono introdotte approssimazioni, come nel
-caso di 4,35 (che ha una rappresentazione binaria illimitata). Per questo motivo, quando si fanno confronti tra valori
-in virgola mobile è necessario introdurre un errore entro cui due numeri sono uguali.
+caso di 4.35 (come visto precedentemente). Per questo motivo, quando si fanno confronti tra valori in virgola mobile è
+necessario introdurre un errore entro cui due numeri sono uguali.
 
 Inoltre nel caso in cui si lavora con numeri molto grandi a cui vengono sommati numeri molto piccoli, si rischia di
 non avere abbastanza precisione per eseguire correttamente la somma, rischiando di perdere il valore dell'addendo minore.
 Questo avviene soprattutto quando l'addendo più piccolo è minore della precisione del numero più grande.
-
-\subsection{Base esadecimale e ottale}
-Le rappresentazioni in basi diverse da quella binaria o decimale si comportano allo stesso modo. Nella base ottale vengono
-impiegati i simboli da 0 a 7 (8 simboli), in quella esadecimale da 0 a F (15 simboli).
-
-\subsection{ASCII e UNICODE}
-Il codice ASCII e quello UNICODE sono sistemi che associano ad ogni simbolo (carattere) un numero senza segno. Nello
-standard ASCII vengono riservati 7 bit per ogni carattere per un massimo di 128 simboli (poi estesi a 256 con l'extended ASCII),
-mentre per l'UNICODE si impiegano 2 byte per un massimo di 65536 simboli rappresentabili. \\
-Il sistema UNICODE, ad oggi il più usato, comprende il vecchio codice ASCII.
 
 \newpage
 
@@ -774,17 +789,17 @@ dalla notazione EBNF (Extended Backus-Naur form). Sono convertiti in linguaggio 
 \begin{center}
 	\begin{tabularx}{\textwidth}{c X}
 		anni 50
-		& primi linguaggi di programmazione ad alto livello (\verb|FORTRAN|, \verb|BASIC|, \verb|COBOL|), viene coniato il
+		& primi linguaggi di programmazione ad alto livello (FORTRAN, BASIC, COBOL), viene coniato il
 		termine \textit{spaghetti code} per l'inappropriato uso delle istruzioni di salto (\verb|GOTO|) \\
 		\midrule
 		
 		anni 60-70
 		& programmazione strutturata con istruzioni imperative, selezioni e iterazioni, come previsto dal teorema di
-		Jacopini-Bohm (1966), compaiono nuovi linguaggi strutturati \verb|PASCAL| (1968) e \verb|C| (1970-75) \\
+		Jacopini-Bohm (1966), compaiono nuovi linguaggi strutturati PASCAL (1968) e C (1970-75) \\
 		\midrule
 
 		anni 80-90
-		& si sviluppa il paradigma di programmazione ad oggetti con nuovi linguaggi come \verb|C++| (1979) e \verb|Java|
+		& si sviluppa il paradigma di programmazione ad oggetti con nuovi linguaggi come C++ (1979) e Java
 		(1991) in grado di supportare la creazione di classi e oggetti
 	\end{tabularx}
 \end{center}
@@ -794,8 +809,8 @@ dalla notazione EBNF (Extended Backus-Naur form). Sono convertiti in linguaggio 
 \section{Java}
 \subsection{Introduzione}
 \verb|Java| è un linguaggio di programmazione ad oggetti, sviluppato da James Gosling nel 1995. La sua particolarità è di
-essere un linguaggio fortemente tipizzato come il \verb|C| o \verb|C++|, ma più semplice e flessibile in quanto la gestione
-della memoria non deve essere fatta dal programmatore e presenta librerie standard molto ricche.
+essere un linguaggio fortemente tipizzato come il C o C++, ma più semplice e flessibile in quanto la gestione
+della memoria non deve essere fatta dal programmatore, ma dal Garbage Collector e presenta librerie standard molto ricche.
 
 Non è né un linguaggio interpretato, né un linguaggio compilato. Un file con un programma scritto in java si presenta con
 l'estensione \verb|.java|, viene pseudocompilato da un compilatore java e convertito in un file con estensione \verb|.bytecode|.
@@ -886,35 +901,35 @@ state create. Inoltre sono accessibili solo all'intendo del blocco (e sottoblocc
 		\toprule
 
 		\textbf{byte}
-		& -128 & 127 & 8 bit & rappr. di numeri interi in complemento a due \\
+		& -128 & 127 & 8 bit & numeri interi in complemento a due \\
 		\midrule
 		
 		\textbf{short}
-		& -32 768 & 32 767 & 16 bit & rappr. di numeri interi in complemento a due \\
+		& -32 768 & 32 767 & 16 bit & numeri interi in complemento a due \\
 		\midrule
 
 		\textbf{int}
-		& \(-2,15 \cdot 10^9\) & \(2,15 \cdot 10^9\) & 32 bit & rappr. di numeri interi in complemento a due \\
+		& \(-2.15 \cdot 10^9\) & \(2.15 \cdot 10^9\) & 32 bit & numeri interi in complemento a due \\
 		\midrule
 		
 		\textbf{long}
-		& \(-9,22 \cdot 10^{18}\) & \(9,22 \cdot 10^{18}\) & 64 bit & rappr. di numeri interi in complemento a due \\
+		& \(-9.22 \cdot 10^{18}\) & \(9.22 \cdot 10^{18}\) & 64 bit & numeri interi in complemento a due \\
 		\midrule
 		
 		\textbf{float}
-		& \(1.18 \cdot 10^{-38}\) & \(3.40 \cdot 10^{38}\) & 32 bit & rappr. numeri decimali in singola precisione \\
+		& \(1.40 \cdot 10^{-45}\) & \(3.40 \cdot 10^{38}\) & 32 bit & numeri decimali in singola precisione \\
 		\midrule
 		
 		\textbf{double}
-		& \(4.94 \cdot 10^{-324}\) & \(1.80 \cdot 10^{308}\) & 64 bit & rappr. numeri decimali in doppia precisione \\
+		& \(4.94 \cdot 10^{-324}\) & \(1.80 \cdot 10^{308}\) & 64 bit & numeri decimali in doppia precisione \\
 		\midrule
 		
 		\textbf{char}
-		& 0 & 65535 & 16 bit & rappr. numeri interi \(\geq 0\) per standard UNICODE \\
+		& 0 & 65535 & 16 bit & numeri interi \(\geq 0\) per standard UNICODE \\
 		\midrule
 
 		\textbf{boolean}
-		& false & true & 1 bit & rappr. di valori booleani true, false
+		& false & true & 1 bit & valori booleani true, false
 	\end{tabularx}
 \end{center}
 
@@ -931,8 +946,8 @@ Per convertire un valore di un determinato tipo di dato in un altro, esistono du
 \end{itemize}
 
 \subsubsection*{Oveflow}
-L'overflow avviene 1uando si supera il valore massimo (o minimo) consentito da un determinato tipo di dato. Nei numeri
-interi, i valori hanno comportamento "ciclico" quando si supera il valore superiore, si ricomincia dal valore inferiore 
+L'overflow avviene quando si supera il valore massimo (o minimo) consentito da un determinato tipo di dato. Nei numeri
+interi, i valori hanno comportamento \say{ciclico} quando si supera il valore superiore, si ricomincia dal valore inferiore 
 e viceversa.
 
 \subsubsection*{Operazioni}
@@ -1006,7 +1021,7 @@ I Literals sono l'insieme di numeri e stringhe che vengono utilizzate nel progra
 Ad esempio i valori di inizializzazione delle variabili o i messaggi di testo da mandare in output.
 
 I numeri interi vengono interpretati di tipo \verb|int|, quelli decimali come \verb|double|, i caratteri racchiusi da singoli
-apici es. \verb|'c'| come \verb|char| e le sequenze di caratteri racchiuse tra doppi apici \verb|"text"| come oggetti della
+apici es. \verb|`c'| come \verb|char| e le sequenze di caratteri racchiuse tra doppi apici \verb|"text"| come oggetti della
 classe String.
 
 \newpage
@@ -1024,7 +1039,7 @@ tipoRestituito nomeMetodo (parametriFormali) {
 }
 \end{lstlisting}
 
-La prima riga del metodo viene chiamata firma
+La prima riga del metodo viene chiamata firma.
 
 Un metodo può ricevere in input dei parametri espliciti indicati tra le parentesi tonde e restituire in output un valore di ritorno
 il cui tipo è specicificato prima del nome del metodo e il valore viene indicato alla fine del metodo dopo la parola return.
@@ -1032,7 +1047,9 @@ Se un metodo non restituisce nessun valore si utilizza \verb|void| al posto del 
 indicato senza specificare il valoreRestituito.
 
 \subsubsection*{Overloading}
-\dots
+Due metodi possono avere lo stesso nome, ma avere parametri differenti (per tipo e per numero). Quando vengono richiamati, il
+compilatore riconosce il metodo corretto da utilizzare in base alla corrispondenza del tipo e del numero di parametri tra la chiamata
+e la firma del metodo.
 
 
 \subsection{Classi e oggetti}
@@ -1061,7 +1078,7 @@ Una classe è composta da:
 
 \subsubsection*{Incapsulamento}
 Per evitare che l'oggetto venga messo in uno stato non valido (es. lati di una figura negativi), si sceglie di nascondere le variabili
-d'istanza, riducendone l'accessibilità, e creando dei metodi di accesso e di modifica. Questo principio di "nascondere" le variabili è chiamato incapsulamento e prevede i seguenti vantaggi:
+d'istanza, riducendone l'accessibilità, e creando dei metodi di accesso e di modifica. Questo principio di \say{nascondere} le variabili è chiamato incapsulamento e prevede i seguenti vantaggi:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] impedire che l'oggetto venga messo in uno stato inconsistente
 	\item[-] l'utilizzatore non deve preoccuparsi dei dettagli implementativi
@@ -1081,42 +1098,6 @@ d'istanza, riducendone l'accessibilità, e creando dei metodi di accesso e di mo
 		private & accessibile solo dalla classe in cui è stato creato
 	\end{tabularx}
 \end{center}
-
-\subsubsection*{Struttura base di una classe generatrice di oggetti}
-\begin{lstlisting}[language=Java]
-class NomeClasse {
-	// variabili d'istanza
-	private int variabileIstanza1;
-	...
-
-	// costruttore
-	public NomeClasse() {
-		variabileIstanza1 = 0;
-		...
-	}
-
-	// metodi di accesso
-	public getVariabileIstanza1(){
-		return variabileIstanza1;
-	}
-	...
-
-	// metodi di modifica
-	public setVariabileIstanza1(int v1) {
-		variabileIstanza1 = v1;
-	}
-	...
-}
-\end{lstlisting}
-
-\subsubsection*{Instanziamento di un oggetto e richiamo metodi}
-\begin{lstlisting}[language=Java]
-// istanziamento di un oggetto della classe NomeClasse
-NomeClasse nomeOggetto = new NomeClasse(parametri);
-
-// invocazione del metodo metodo1 dall'oggetto nomeOggetto
-nomeOggetto.metodo1(parametri);
-\end{lstlisting}
 
 \subsubsection*{Variabili statiche e non statiche}
 \begin{center}
@@ -1139,6 +1120,51 @@ nomeOggetto.metodo1(parametri);
 	\end{tabularx}
 \end{center}
 
+\subsubsection*{Struttura base di una classe generatrice di oggetti}
+\begin{lstlisting}[language=Java]
+public class NomeClasse {
+	// variabili d'istanza
+	private int variabileIstanza1;
+	...
+
+	// costruttore
+	public NomeClasse() {
+		variabileIstanza1 = 0;
+		...
+	}
+
+	// metodi di accesso
+	public int getVariabileIstanza1(){
+		return variabileIstanza1;
+	}
+	...
+
+	// metodi di modifica
+	public void setVariabileIstanza1(int v1) {
+		variabileIstanza1 = v1;
+	}
+	...
+
+	// metodi statici
+	public static int metodoStatico(int a) {
+		return a;
+	}
+	...
+}
+\end{lstlisting}
+
+\subsubsection*{Instanziamento di un oggetto e richiamo metodi}
+\begin{lstlisting}[language=Java]
+// istanziamento di un oggetto della classe NomeClasse
+NomeClasse nomeOggetto = new NomeClasse(parametri);
+
+// invocazione del metodo metodo1 dall'oggetto nomeOggetto
+nomeOggetto.metodo1(parametri);
+
+// invocazione del metodo metodoStatico della classe NomeClasse
+NomeClasse.metodoStatico(parametri);
+\end{lstlisting}
+
 \subsubsection*{Riferimenti ad oggetti}
 Quando si dichiara un nuovo oggetto, si crea uno spazio in memoria in cui vengono salvati i dati dell'oggetto (es. variabili
 d'istanza e metodi) e viene creata una variabile riferimento che punta alla posizione in memoria dell'oggetto.
@@ -1149,31 +1175,217 @@ su \verb|b| in quanto entrambi \verb|a| e \verb|b| puntano alla stessa posizione
 Quando viene passato un oggetto ad un metodo come parametro esplicito, le modifiche che vengono fatte all'oggetto all'interno
 del metodo, si riscontrano anche sull'oggetto nel metodo chiamante.
 
-\subsubsection*{Ereditarietà e polimorfismo}
-\dots
+\subsubsection*{Ereditarietà}
+Tra diverse classi ci può essere un rapporto di madre-figlia (superclasse-sottoclasse), quando una classe (la sottoclasse)
+estende un'altra classe (la superclasse) ereditandone tutti i metodi e tutte le variabili d'istanza.
+Per realizzare una sottoclasse, è necessario aggiungere \verb|extends SuperClasse| nella firma della sottoclasse, dopo il nome
+della sottoclasse. Una sottoclasse ha un'unica superclasse, non è possibile estendere due classi contemporaneamente. \\
+All'interno dell'implementazione dei metodi della sottoclasse si può:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] chiamare il costruttore della superclasse, tramite il riferimento \verb|super|: \verb|super(parametri);|
+	\item[-] accedere ai metodi non private della superclasse (se ci sono overloading di metodi è necessario utilizzare
+	il riferimento \verb|super| per chiamare quelli della superclasse)
+	\item[-] accedere alle variabili non private della superclasse (se ci sono overloading di variabili è necessario
+	utilizzare il riferimento \verb|super| per indicare quelle della superclasse)
+	\item[-] aggiungere nuovi metodi statici e non ed in caso eseguire l'overloading di metodi della superclasse
+	\item[-] aggiungere nuove variabili, in caso con lo stesso nome di quelle della superclasse
+\end{itemize}
+Attraverso l'istanza della sottoclasse (oggetto della sottoclasse) è possibile chiamare i metodi della superclasse solo se
+non è stato fatto l'overloading. La superclasse non può accedere alle variabili e ai metodi della sottoclasse.
+
+Tutte le classi, in Java, sono sottoclassi della classe \verb|Object|, da cui ereditano i seguenti metodi (riportati solo quelli
+ritenuti più importanti):
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] \verb|protected Object clone()| crea e restituisce una copia dell'oggetto chiamante
+	\item[-] \verb|boolean equals(Object obj)| confronta i riferimenti dell'oggetto chiamante e di quello passato come parametro
+	\item[-] \verb|int hashCode()| restituisce il codice hash dell'oggetto chiamante
+	\item[-] \verb|String toString()| restituisce la rappresentazione in stringa dell'oggetto chiamante
+\end{itemize}
+È buona pratica eseguire l'overloading dei metodi ereditati dalla classe Object prima di utilizzarli, in modo da renderli
+più adatti all'oggetto chiamante (es. modificare toString in modo che non restituisca classe e indirizzo di memoria o modificare
+equals in modo che non confronti gli indirizzi, ma le variabili d'istanza).
+
+\subsubsection*{Casting tra oggetti}
+È sempre possibile eseguire il casting da una sottoclasse ad una sua superclasse, senza generare errori in compilazione o in esecuzione.
+Al contrario per eseguire il casting da una superclasse ad una sua sottoclasse è necessario esplicitare il tipo della sottoclasse tra
+parentesi tonde e, se non è possibile eseguire la conversione, viene lanciata \verb|ClassCastException| durante l'esecuzione.
+
+\newpage
+
+
+\subsubsection*{Polimorfismo}
+Quando viene eseguito il casting da una sottoclasse ad una superclasse, il \say{nuovo} riferimento permette di utilizzare solo i metodi
+definiti per la superclasse, pena un errore in compilazione. \\
+Se non è stato fatto l'overloading del metodo della superclasse, allora in fase di eseguzione verrà chiamato il metodo della superclasse.
+Se, invece, è stato eseguito l'overloading del metodo in qualche sottoclasse, in fase di esecuzione verrà chiamato il metodo oveloaded
+della sottoclasse più specifica.
+Es. se è stato fatto l'overloading di \verb|toString| e viene chiamato da un oggetto non Object dopo il cast ad Object, verrà chiamato
+l'overloading del \verb|toString| della classe originaria.
+
+Questo fenomeno è chiamato polimorfismo e deriva dal fatto che quando viene eseguito il casting da sottoclasse a superclasse, il nuovo
+riferimento del tipo superclasse punta sempre allo stesso oggetto della sottoclasse e, quando viene invocato un metodo della superclasse
+di cui è stato eseguito l'overloading, l'interprete (in fase di esecuzione) riconosce il tipo della sottoclasse ed invoca il metodo
+della sottoclasse.
+
+Questo è utile per creare dei metodi che eseguano operazioni generiche su diversi tipi di oggetti. Ad esempio il metodo \verb|println| riceve
+come parametro un oggetto (es. un String) a cui viene fatto un cast implicito a Object e invoca il metodo \verb|toString|. Se non è stato eseguito
+l'overloading del metodo, viene chiamato il \verb|toString| definito in Object (non è questo il caso), altrimenti viene chiamato l'overloading della
+sottoclasse (in questo caso definito in String).
+
+\subsubsection*{Classi interne}
+È possibile definire ed implementare una classe (classe interna) all'interno di un'altra classe (classe esterna), per cui la classe interna e
+quella esterna condividono un rapporto di \say{fiducia} in quanto possono reciprocamente accedere a tutti i metodi e tutte le variabili, anche
+se sono stati definiti private.
+
+Non è mai possibile creare nuove istanze della classe interna, se non nella classe esterna o nelle classi che la estendono, invece è sempre
+concesso restituire riferimenti di istanze di classe interna, indipendentemente se la classe interna sia public o private.
+
+In un metodo al di fuori della classe esterna (es. nel main), se la classe interna è public:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] è possibile chiamare i metodi public della classe interna su riferimenti di classe interna
+	\item[-] è possibile creare riferimenti di classe interna con \verb|ClasseEsterna.ClasseInterna nomeOggetto;|
+	\item[-] i nuovi riferimenti del tipo classe interna possono puntare a null o ad istanze della classe interna create nei metodi della classe
+	esterna o sue sottoclassi
+\end{itemize}
+
+Viceversa se la classe interna è private non è possibile fare nulla (non si possono creare riferimenti e non è possibile chiamare i metodi, anche
+se questi sono definiti public).
 
 \subsubsection*{Pacchetti e organizzazione}
-Più classi che svolgono compiti simili vengono raggiuppatte in pacchetti. Es. pacchetto \verb|java.lang| racchiude la classe
+Più classi che svolgono compiti simili vengono raggiuppatte in pacchetti. Ad esempio il pacchetto \verb|java.lang| racchiude la classe
 \verb|System|, la classe \verb|String| e la classe \verb|Math|.
 
-Per utilizzare delle classi che si trovano in file diversi in cartelle diverse, bisogna inserire all'inizio del programma
-(fuori dalla classe) la parola chiave import seguita dal pacchetto che si vuole importare. Il pacchetto \verb|java.lang|
+Per utilizzare delle classi che si trovano in file diversi in cartelle diverse, bisogna inserire all'inizio del programma (fuori dalle classi)
+la parola chiave \verb|import| seguita dalla classe che si vuole importare, precisandone il relativo pacchetto. Il pacchetto \verb|java.lang.*|
 è importato di default su ogni progetto.
 
-\subsection{Classe java.lang.String}
-utilizzo, metodi, \dots
+\newpage
 
-\subsection{Classe java.util.Scanner}
-utilizzo, metodi, \dots
 
-\subsection{Classe java.io.FileReader}
-utilizzo, metodi, \dots
+\subsubsection*{Classe java.lang.String}
+Classe che memorizza una stringa di testo e contiene i metodi per manipolarla. Ogni stringa di testo è un'istanza di \verb|String| e ogni istanza di
+\verb|String| è immutabile, ovvero non è possibile modificare la stringa memorizzata se non creando una nuova istanza.
 
-\subsection{Classe java.io.PrintWriter}
-utilizzo, metodi, \dots
+Alcuni metodi forniti dalla classe:
+\begin{center}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\verb|String()| & costruttore vuoto \\
+		\midrule
+		\verb|char charAt(int)| & restituisce il carattere all'indice passato come parametro \\
+		\midrule
+		\verb|int compareTo(String)| & restituisce 1 se il parametro esplicito precede quello esplicito, -1 se avviene l'oppposto e 0 se sono uguali \\
+		\midrule
+		\verb|boolean equals(Object)| & restituisce true se le due stringhe sono uguali, false altrimenti \\
+		\midrule
+		\verb|boolean equalsIgnoreCase(String)| & analogo al metodo prima, ingnorando maiuscole e minuscole \\
+		\midrule
+		\verb|int indexOf(char)| & restiuisce l'indice di un dato carattere/stringa nell'intervallo di indici specificato (se specificato) \\
+		\midrule
+		\verb|int length()| & restituisce la lunghezza della stringa \\
+		\midrule
+		\verb|String substring(int)| & restituisce la sottostringa dal primo indice (incluso) alla fine \\
+		\midrule
+		\verb|String substring(int, int)| & restituisce la sottostringa dal primo indice (incluso) al secondo indice (escluso) \\
+		\midrule
+		\verb|String toLowerCase()| & converte tutte le maiuscole in minuscole \\
+		\midrule
+		\verb|String toUpperCase()| & converte tutte le minuscole in maiuscole \\
+		\bottomrule
+	\end{tabularx}
+\end{center}
 
-\subsection{Classe java.util.Random}
-utilizzo, metodi, \dots
+\subsubsection*{Classe java.util.Scanner}
+Classe che permette di facilitare le operazioni di input, output, lettura da file e suddivisione di stringhe in token.
+
+Alcuni metodi forniti dalla classe:
+\begin{center}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\verb|Scanner(InputStream)| & scanner per leggere da standard input: \verb|new Scanner(System.in)| \\
+		\midrule
+		\verb|Scanner(String)| & scanner per leggere da una stringa \\
+		\midrule
+		\verb|Scanner(File)| & scanner per leggere da file \\
+		\midrule
+		\verb|boolean hasNext...()| & true se ci sono ancora dati da leggere, false altrimenti \\
+		\midrule
+		\verb|String next...()| & estrae e restituisce un dato dal buffer \\
+		\midrule
+		\verb|void close()| & metodo per chiudere lo scanner, dopo aver finito di utilizzarlo \\
+		\bottomrule
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Classe java.io.FileReader}
+Classe per leggere da file, utilizzabile come oggetto della classe \verb|File| per utilizzare lo scanner.
+
+Alcuni metodi forniti dalla classe:
+\begin{center}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\verb|FileReader(File)| & costruttore che riceve un oggetto file da cui leggere \\
+		\midrule
+		\verb|FileReader(String)| & costruttore che riceve il nome del file da cui leggere \\
+		\midrule
+		\verb|void close()| & metodo per chiudere il file di input, dopo aver finito di utilizzarlo \\
+		\bottomrule
+	\end{tabularx}
+\end{center}
+
+Siccome può lanciare \verb|IOException|, è necessario inserirlo in un try-with-resources (così viene chiuso in automatico).
+Questa struttura verrà approfondita più avanti.
+
+\newpage
+
+
+\subsubsection*{Classe java.io.PrintWriter}
+Classe per scrivre su file utilizzando i metodi normalmente impiegati per lo standard output.
+
+Alcuni metodi forniti dalla classe:
+\begin{center}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\verb|PrintWriter(File)| & costruttore che riceve un oggetto file su cui scrivere \\
+		\midrule
+		\verb|PrintWriter(String)| & costruttore che riceve il nome del file su cui scrivere \\
+		\midrule
+		\verb|void print(...)| & metodo che scrive quanto passato come parametro nel file \\
+		\midrule
+		\verb|void println(...)| & come il metodo precedente, alla fine va a capo \\
+		\midrule
+		\verb|void close()| & metodo per chiudere il file di input, dopo aver finito di utilizzarlo \\
+		\bottomrule
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Classe java.util.Random}
+Classe utilizzata per generare numeri pseudocasuali
+
+Alcuni metodi forniti dalla classe:
+\begin{center}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\verb|Random()| & istanzia un generatore di numeri casuali, il seme è preso dall'orologio del computer \\
+		\midrule
+		\verb|Random(long)| & istanzia un generatore di numeri casuali, il seme è passato come parametro \\
+		\midrule
+		\verb|int nextInt()| & restituisce un numero casuale intero nell'intervallo \(\left[0, 2^{32}\right)\) \\
+		\midrule
+		\verb|int nextDouble()| & restituisce un numero casuale decimale nell'intervallo \(\left[0, 1\right)\)\\
+		\midrule
+		\verb|int nextInt(int)| & restituisce un numero casuale nell'intervallo \(\left[0, x\right)\), con x passato come parametro \\
+		\bottomrule
+	\end{tabularx}
+\end{center}
+
+\subsection{Interfacce}
+Le interfacce sono dei particolari tipi di \say{classi} non istanziabili e non implementate, che contengono soltanto
+metodi pubblici (non serve specificare \verb|public|, dato che è implicito). Servono per indicare i metodi che devono
+avere determinate classi che implementano l'interfaccia.
+
+Una classe, per implementare l'interfaccia, deve contenere \verb|implements NomeInterfaccia| che segue il nome della
+classe nell'implementazione della classe stessa. Una classe può implementare diverse interfacce.
 
 \subsection{Commenti e JavaDoc}
 I commenti sono parti di testo che il compilatore ignora. Si usano per descrivere quali operazioni vengono effettuate
@@ -1191,9 +1403,15 @@ ritorno (preceduto da \verb|@return|) ed eventuali eccezioni che possono essere 
  * @param p1 parametro 1
  * @param p2 parametro 2
  * @return valore che viene restituito
+ * @throws Exception eccezione lanciata
  */
-public int metodo(int p1, double p2) { ...
+public int metodo(int p1, double p2) {
+	...
+}
 \end{lstlisting}
+
+\newpage
+
 
 % --------------------------------------- Strutture logiche ---------------------------------------
 \subsection{Operazioni logiche}
@@ -1270,9 +1488,11 @@ while, do-while, for, cicli annidati, break, continue
 \subsection{Complessità spaziale}
 \dots
 
+\newpage
+
 % ---------------------------------------- Strutture dati -----------------------------------------
 \section{Strutture dati}
-adt, liste e array
+liste e array
 
 \subsection{Array}
 definione, struttura, creazione, passaggio come parametro
@@ -1288,6 +1508,250 @@ dimensione logica vs dimensione relative
 
 \subsection{Matrici}
 array bidimensionali
+
+\subsection{Linked List o lista concatenata}
+Struttura dati che implementa il concetto di sequenza. È composta da nodi che contengono:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] il riferimento al dato associato
+	\item[-] il riferimento al nodo successivo
+\end{itemize}
+
+Il nodo di testa è chiamato header e ha \verb|null| come riferimento al nodo precedente. \\
+Il nodo di coda è chiamato tail e ha \verb|null| come riferimento al nodo successivo. \\
+Quando nodo di testa e nodo di coda coincidono, la lista è vuota.
+
+\subsubsection*{Implementazione nodo}
+\begin{lstlisting}[language=Java]
+public class ListNode {
+	private Object element;
+	private ListNode next;
+
+	public ListNode(Object elm, ListNode next);
+	public ListNode();
+
+	public Object getElement();
+	public ListNode getNext();
+
+	public void setElement(Object elm);
+	public void setNext(ListNode next);
+}
+\end{lstlisting}
+
+\subsubsection*{Implementazione lista}
+\begin{lstlisting}[language=Java]
+public class LinkedList {
+	private ListNode header;
+	private ListNode tail;
+
+	public LinkedList();
+
+	public boolean isEmpty();
+	public void makeEmpty();
+
+	public Object getFirst();
+	public Object getLast();
+
+	public void addFirst(Object elm);
+	public Object removeFirst();
+
+	public void addLast(Object elm);
+	public Object removeLast();
+
+	public ListIterator getIterator();
+}
+\end{lstlisting}
+
+\subsubsection*{Implementazione iteratore lista}
+\begin{lstlisting}[language=Java]
+private class LinkedListIterator {
+	private ListNode current;
+	private ListNode previous;
+
+	public Object next();
+	public boolean hasNext();
+	public void add(Object obj);
+	public void remove();
+}
+\end{lstlisting}
+La classe ListIterator è interna alla classe LinkedList ed è privata. \\
+Si immagini l'iteratore come il cursore in un editor di testo.
+
+\subsubsection*{Complessità}
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] getFirst O(1)
+	\item[-] getLast O(1)
+	\item[-] addFirst O(1)
+	\item[-] removeFirst O(1)
+	\item[-] addLast O(1)
+	\item[-] removeLast O(n)
+\end{itemize}
+
+\subsubsection*{Lista vs Array}
+\dots
+
+\newpage
+
+\subsection{ArrayList (no esame)}
+Classe in java.util, implementato con array riempito in parte e ridimensionabile.
+\subsubsection*{Inizializzazione}
+\verb|ArrayList<OggettiDaSalvare> nomeArray = new ArrayList<OggettiDaSalvare>();|
+
+\subsubsection*{Metodi}
+\verb|add(newObj)| aggiunta alla fine, inserimento costante secondo l'analisi ammortizzata \\
+\verb|remove(index)| rimozione elemento ad un dato indice \\
+\verb|get(index)| accesso ad un elemento dato l'indice \\
+\verb|set(index, newObj)| modifica di un elemento già presente \\
+\verb|getSize()| dimensione logica dell'array
+\newpage
+
+% ------------------------------------ Strutture dati astratte ------------------------------------
+\section{Strutture dati astratte - ADT}
+\subsection{Container}
+Struttura dati generica.
+\begin{lstlisting}[language=Java]
+/**
+ * Interfaccia che definsice i metodi di una struttura dati generica
+ */
+public interface Container {
+	/**
+	 * Metodo che verfica se la struttura dati e' vuota o no
+	 * @return true se la struttura dati e' vuota, false altrimenti
+	 */
+	public boolean isEmpty();
+
+	/**
+	 * Metodo che svuota la struttura dati
+	 */
+	public void makeEmpty();
+}
+\end{lstlisting}
+
+
+\subsection{Stack}
+Struttura dati Last-In-First-Out (LIFO).
+
+\begin{lstlisting}[language=Java]
+/**
+ * Interfaccia che definisce i metodi di una pila
+ */
+public interface Stack extends Container {
+	/**
+	 * Metodo che inserisce un nuovo elemento nella pila
+	 * @param obj oggetto da inserire alla pila
+	 * @throws FullStackException se la pila e' piena
+	 */
+	public void push(Object obj);
+
+	/**
+	 * Metodo che restituisce il prossimo elemento da estrarre
+	 * @return prossimo elemento da estrarre
+	 * @throws EmptyStackException se la pila e' vuota
+	 */
+	public Object top();
+	
+	/**
+	 * Metodo che rimuove un elemento dalla testa della pila
+	 * @return elemento rimosso
+	 * @throws EmptyStackException se la pila e' vuota
+	 */
+	public Object pop();
+}
+\end{lstlisting}
+
+Complessità computazionale:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] inserimento O(1)
+	\item[-] accesso O(1)
+	\item[-] rimozione O(1)
+\end{itemize}
+
+\newpage
+
+\subsection{Queue}
+Struttura dati First-In-First-Out (FIFO).
+\begin{lstlisting}[language=Java]
+/**
+ * Interfaccia che definisce i metodi di una coda
+ */
+public interface Queue extends Container {
+	/**
+	 * Metodo che inserisce un nuovo elemento nella coda
+	 * la condizione in cui la coda e' vuota e' front == back, siccome quella in
+	 * cui la coda e' piena sarebbe la stessa, per evitare problemi si sceglie
+	 * di scprecare un elemento e considereare la coda piena quando si ha un
+	 * solo elemento libero, ovvero se back+1 = front
+	 * @param obj oggetto da inserire alla coda
+	 * @throws FullQueueException se la coda e' piena
+	 */
+	public void enqueue(Object obj);
+
+	/**
+	 * Metodo che restituisce il prossimo elemento da estrarre
+	 * @return prossimo elemento da estrarre
+	 * @throws EmptyQueueException se la coda e' vuota
+	 */
+	public Object getFront();
+	
+	/**
+	 * Metodo che rimuove un elemento dalla testa della coda
+	 * @return elemento rimosso
+	 * @throws EmptyQueueException se la coda e' vuota
+	 */
+	public Object dequeue();
+}   
+\end{lstlisting}
+
+Complessità computazionale:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] inserimento O(1)
+	\item[-] accesso O(1)
+	\item[-] rimozione O(1)
+\end{itemize}
+
+
+\subsection{Map}
+\subsubsection*{Definizione}
+Struttura dati associativa che memorizza coppie di dati composte da chiave e valore.
+L'associazione chiave-valore è biunivoca (1 chiave - 1 valore)
+
+\subsubsection*{Metodi - interfaccia}
+
+\subsubsection*{Complessità computazionale}
+
+\subsection{Multimap - Dictionary}
+\subsubsection*{Definizione}
+Struttura dati associativa che memorizza coppie di dati composte da chiave e valore.
+Possono essere presenti più valori associati alla stessa chiave.
+
+\subsubsection*{Metodi - interfaccia}
+\subsubsection*{Complessità computazionale}
+
+\subsection{Set}
+Struttura 
+\subsubsection*{Definizione}
+\subsubsection*{Metodi - interfaccia}
+\subsubsection*{Complessità computazionale}
+
+\subsection{Table}
+\subsubsection*{Definizione}
+\subsubsection*{Metodi - interfaccia}
+\subsubsection*{Complessità computazionale}
+
+\subsection{Hash Table}
+\subsubsection*{Definizione}
+\subsubsection*{Metodi - interfaccia}
+\subsubsection*{Complessità computazionale}
+
+\newpage
+
+\subsection{Albero - no esame}
+Struttura dati in cui un elemento può avere più successori, se ogni elemento ha due successori, si dice albero binario.
+
+\subsection{Grafi - no esame}
+Struttura dati in cui un elmeento può avere più successori e più predecessori, creando delle reti di nodi.
+Si puù parlare di grafi diretti/indiretti, semplici/multigrafi, connessi/non connessi, pesati/non pesati, \dots
+
+\newpage
 
 % ----------------------------------- Algoritmi di ordinamento ------------------------------------
 \section{Algoritmi di ordinamento}
