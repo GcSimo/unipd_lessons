@@ -696,7 +696,7 @@ La densità nel sistema in virgola mobile è la distanza tra due numeri adiacent
 
 Per la singola precisione, avere 23 bit di mantissa, significa che posso suddividere l'intervallo da \(0.000\dots1_2 \cdot 2^n,0.111\dots1_2 \cdot 2^n\)
 in \(2^{23}\) parti. Queste parti saranno più fitte per esponenti bassi e meno fitte per esponenti alti. Per cui la densità
-è data dalla formula \(\delta = 2^{23} \cdot 2^E\), dove \(E\) è l'esponente binario dei numeri da rappresentare.
+è data dalla formula \(\delta = 2^{-23} \cdot 2^E\), dove \(E\) è l'esponente binario dei numeri da rappresentare.
 
 
 \subsubsection*{Valori rappresentabili}
@@ -704,9 +704,9 @@ in \(2^{23}\) parti. Queste parti saranno più fitte per esponenti bassi e meno 
 	\begin{tabular}{c c c c c c}
 		\textbf{precisione} & \textbf{mantissa} & \textbf{esponente} & \textbf{minimo} & \textbf{massimo} & \textbf{densità} \\
 		\toprule
-		singola & \(\left[0, 2^{24} - 1\right]\) & \(\left[-126, 127\right]\) & \(1.4 \cdot 10^{-45}\) & \(3.4 \cdot 10^{38}\) & \(\delta = 2^{23} \cdot 2^E \approx 8 \cdot 10^6 \cdot 2^E\) \\
+		singola & \(\left[0, 2^{24} - 1\right]\) & \(\left[-126, 127\right]\) & \(1.4 \cdot 10^{-45}\) & \(3.4 \cdot 10^{38}\) & \(\delta = 2^{-23} \cdot 2^E \approx 1.2 \cdot 10^{-7} \cdot 2^E\) \\
 		\midrule
-		doppia & \(\left[0, 2^{53} - 1\right]\) & \(\left[-1022, 1023\right]\) & \(4.9 \cdot 10^{-324}\) & \(1.8 \cdot 10^{308}\) & \(\delta = 2^{52} \cdot 2^E \approx 4.5 \cdot 10^{15} \cdot 2^E\) \\
+		doppia & \(\left[0, 2^{53} - 1\right]\) & \(\left[-1022, 1023\right]\) & \(4.9 \cdot 10^{-324}\) & \(1.8 \cdot 10^{308}\) & \(\delta = 2^{-52} \cdot 2^E \approx 2.2 \cdot 10^{-16} \cdot 2^E\) \\
 		\bottomrule
 	\end{tabular}
 \end{center}
@@ -1394,7 +1394,10 @@ in una determinata parte del codice. Possono essere su una singola riga \verb|\\
 Esiste uno standard di commentazione che permette di creare una documentazione nello stesso stile di quella di java,
 con il  comando \verb|javadoc NomeFile.java|.Si prevede un commento su più righe posto prima di un metodo o una classe
 e in tale commento vengono descritti la funzione della classe, i parametri (preceduti da \verb|@param|), il valore di
-ritorno (preceduto da \verb|@return|) ed eventuali eccezioni che possono essere lanciate.
+ritorno (preceduto da \verb|@return|) ed eventuali eccezioni (precedute da \verb|@throws|)) che possono essere lanciate.
+
+Per generare la documentazione basta eseguire il comando \verb|javadoc NomeFile.java| e verranno creati i file necessari
+per visualizzare la documentazione nello stesso stile di quella di Java.
 
 \begin{lstlisting}[language=Java]
 /**
@@ -1416,63 +1419,338 @@ public int metodo(int p1, double p2) {
 % --------------------------------------- Strutture logiche ---------------------------------------
 \subsection{Operazioni logiche}
 \subsubsection*{Operazioni logiche}
-\dots
+Le operazioni logiche sono particolari operazioni vengono eseguite tra tipi di dato boolean e danno risultato true o false.
+Le operazioni che restituiscono un boolean sono, ad esempio, le operazioni di confronto o di uguaglianza (\(>, \geq, <, \leq, =\))
+e le operazioni tra dati booleani sono l'and, l'or e il not.
+
+In Java le operazioni si traducono nel seguente modo:
+\begin{center}
+	\begin{tabular}{c | c | c | c}
+		\begin{tabular}{c c}
+			\(<\) & \verb|<| \\
+			\(\leq\) & \verb|<=|
+		\end{tabular}
+		&
+		\begin{tabular}{c c}
+			\(>\) & \verb|>| \\
+			\(\geq\) & \verb|>=|
+		\end{tabular}
+		&
+		\begin{tabular}{c c}
+			\(=\) & \verb|==| \\
+			\(\neq\) & \verb|!=|
+		\end{tabular}
+		&
+		\begin{tabular}{c c}
+			\verb|and| & \verb|&&| \\
+			\verb|or| & \verb=||= \\
+			\verb|not| & \verb|!|
+		\end{tabular}
+	\end{tabular}
+\end{center}
+
+Per calcolare i risultati delle operazioni si utilizzano le tabelle di verità, come le seguenti:
+\begin{center}
+	\begin{tabular}{c | c | c}
+		\begin{tabular}{c c c}
+			\verb|a| & \verb|b| & \verb|a and b| \\
+			\verb|true| & \verb|true| & \verb|true| \\
+			\verb|true| & \verb|false| & \verb|false| \\
+			\verb|false| & \verb|true| & \verb|false| \\
+			\verb|false| & \verb|false| & \verb|false|
+		\end{tabular}
+		&
+		\begin{tabular}{c c c}
+			\verb|a| & \verb|b| & \verb|a or b| \\
+			\verb|true| & \verb|true| & \verb|true| \\
+			\verb|true| & \verb|false| & \verb|true| \\
+			\verb|false| & \verb|true| & \verb|true| \\
+			\verb|false| & \verb|false| & \verb|false|
+		\end{tabular}
+		&
+		\begin{tabular}{c c}
+			\verb|a| & \verb|not a| \\
+			\verb|true| & \verb|false| \\
+			\verb|false| & \verb|true|
+		\end{tabular}
+	\end{tabular}
+\end{center}
 
 \subsubsection*{Confronti tra double / float}
-\dots
+Dato che nelle rappresentazioni a virgola mobile si introduce un certo errore dato dalla precisione e dalla limitatezza del
+sistema di rappresentazione, eseguire il confronto risulta essere particolarmente delicato.
+In Java \(2 \neq \sqrt{2}^2\) in quanto \(\sqrt{2}^2 = 2.0000000000000004 \neq 2\) e \(\sqrt{2}^2-2 = 4.440892098500626 \cdot 10^{-16} \neq 0\)
+
+Per questo motivo la verifica dell'uguaglianza tra due double deve prevedere un certo errore:
+\begin{center}
+	\verb|a == b| \(\quad \Leftrightarrow \quad\) \verb|Math.abs(a - b) <= Math.max(Math.abs(a), Math.abs(b)) * 1E-14|
+\end{center}
+
+Il valore \(10^{-14}\) deriva dal calcolo della \say{densità} della rappresentazione double: \(2^{-52} \approx 2.2 \cdot 10^{16} \approx 10^{14}\)
 
 \subsubsection*{Confronti tra oggetti}
-\dots
+Il confronto tra due oggetti usando il simbolo \verb|==|, confronta gli indirizzi, per cui per eseguire un corretto confronto tra
+oggetti, si utilizza il metodo \verb|boolean equals(Object obj)| (ereditato dalla classe Object) di cui spesso si fa l'overloading
+per adattarlo alla classe in cui viene utilizzato.
 
-\subsubsection*{De Morgan}
-\dots
+Per ordinare due oggetti si utlizza il metodo \verb|int compareTo(Comparable obj)|, che ogni classe che implementa l'interfaccia
+\verb|Comparable| deve avere.
+
+\subsubsection*{De Morgan e doppia negazione}
+Le leggi di De Morgan e della doppia negazione servono per eseguire semplificazioni in operazioni logiche:
+\begin{center}
+	\verb|!(a and b) = !a or !b| \(\qquad\) \verb|!(a or b) = !a and !b| \(\qquad\) \verb|!(!a) = a|
+\end{center}
 
 \subsubsection*{Cortocircuito logico}
-\dots
+Dato che l'operazione and è vera se e solo se entrambe le condizioni/variabili sono vere, se la prima è falsa, il risultato sarà
+sicuramente falso indipendentemente dal valore della seconda. Analogamente l'operazione or è vera se e solo se almeno una delle
+due condiozioni/variabili è vera, per cui se la prima è vera, il risultato sarà vero.
+
+L'elaboratore termina la valutazione dell'espressione logica non appena si ottiene il risultato, per cui nelle situazioni sopra,
+la seconda condizione/variabile non viene nemmeno controllata
+
+Questo permette di evitare il lancio di \verb|NullPointerException| o \verb|ArithmeticException|, ad esempio \verb|s != null && s.length() < 3|
+se \verb|s| punta a null, non è necessario eseguire la seconda condizione, che lancerebbe appunto l'eccezione sopra, caso analogo per \verb|n != 0 && 1/n == 0|.
+
+\newpage
+
 
 \subsection{Selezioni}
-utilizzo, struttura, else if, annidamento, else sospeso, espressioni logiche, \dots
-switch case
+Le selezioni sono delle strutture logiche composte da una condizione e una serie di istruzioni che vengono eseguite solo se la
+la condizione è verificata (\verb|if|). Opzionalmente è possibile aggiungere un secondo blocco di istruzioni da eseguire solo
+se la condizione non è verificata (\verb|else|).
+
+\subsubsection*{If - else}
+Struttura logica di selezione semplice
+\begin{lstlisting}[language=Java]
+if (condizione) {
+	// istruzioni eseguite se la condizione e' true
+	...
+}
+else {
+	// istruzioni eseguite se la condizione e' false
+	...
+}
+\end{lstlisting}
+È possibile annidare più if-else, uno dentro l'altro, creando selezioni annidate. È possibile omettere le parentesi graffe se il
+blocco contiene una singola istruzione.
+
+L'else fa riferimento sempre all'if immediatamente prima, per cui nel seguente caso, l'istruzione contenuta nell'else è eseguita
+se a è true e se b è false (è legata al secondo if). Questa situazione è chiamata problema dell'else sospeso.
+\begin{lstlisting}[language=Java]
+if (a)
+	if (b)
+		...
+else
+	...
+\end{lstlisting}
+
+\subsubsection*{If - else if - else}
+Struttura logica per creare condizioni mutualmente esclusivamente
+\begin{lstlisting}[language=Java]
+if (condizione) {
+	// istruzioni eseguite se la condizione1 e' true
+	...
+}
+else if( condizione2 ) {
+	// istruzioni eseguite se la condizione1 e' false e condizione2 e' true
+	...
+}
+else {
+	// istruzioni eseguite se entrambe le condizioni sono false
+	...
+}
+\end{lstlisting}
+
+
+\subsubsection*{Switch - case}
+Struttura logica che permette di eseguire blocchi di istruzioni in base al valore assunto da una variabile.
+\begin{lstlisting}[language=Java]
+switch (variabile) {
+	case a:
+		// istruzioni eseguite se variabile == a
+		...
+		break;
+	case b:
+		// istruzioni eseguite se variabile == b
+		...
+		break;
+	defalut:
+		// istruzioni eseguite in tutti gli altri casi
+		...
+		break;
+}
+\end{lstlisting}
+Se viene omesso il \verb|break;| viene eseguito anche il blocco di istruzioni successivo.
 
 \subsection{Iterazioni}
-while, do-while, for, cicli annidati, break, continue
+Le iterazioni sono strutture logiche composte da una condizione (il cui esito varia nel corso dell'esecuzione) e un blocco di
+istruzioni che vengono eseguite ripetutamente, finché la condizione risulta vera. Se la condizione rimane true, si parla di
+iterazione infinita ed è fonte di un possibile errore concettuale.
+
+\subsubsection*{While}
+Struttura di iterazione semplice, non a conteggio.
+\begin{lstlisting}[language=Java]
+while (condizione) {
+	// istruzioni eseguite finche' condizione e' true
+	...
+}
+\end{lstlisting}
+
+\subsubsection*{Do - while}
+Struttura di iterazione semplice, non a conteggio, con la particolarità che la prima volta il blocco di istruzioni viene eseguito
+almeno una volta a prescindere dal risultato della condizione.
+\begin{lstlisting}[language=Java]
+do {
+	// istruzioni eseguite almeno una volta e finche' condizione e' true
+	...
+} while (condizione);
+\end{lstlisting}
+
+\subsubsection*{For}
+Struttura di iterazione a conteggio che prevede l'inizializzazione (e l'eventuale dichiarazione) di una variabile contatore che
+viene incrementata di un certo valore (generamente 1). In questo modo si tiene traccia di quante iterazioni sono state svolte.
+\begin{lstlisting}[language=Java]
+for (dichiarazione e inizializzazione; condizione; incremento) {
+	// istruzioni eseguite finche' condizione e' true
+	...
+}
+\end{lstlisting}
+
+\subsubsection*{Break e continue}
+La parola chiave \verb|break| serve per interrompere un ciclo prima della valutazione della condizione. Se sono presenti due cicli annidati
+e break è presente sul ciclo più interno, viene interrotto solo quello più interno.
+
+La parola chiave \verb|continue| serve per interrompere l'esecuzione dell'iterazione e ritornare alla valutazione della condizione.
+
+Dato che le istruzioni \verb|break| e \verb|continue| interrompono il normale andamento dell'iterazione, è consigliato un uno moderato
+per evitare di incorrere in programmi in stile \say{spaghetti-code}. 
+
+\newpage
 
 
 % ---------------------------------- Note sulla memoria in Java -----------------------------------
 \subsection{Note sulla memoria in Java}
-\subsubsection*{Heap e Stack}
-\dots
+\subsubsection*{Stack e Heap}
+La memoria di esecuzione, in Java, si divide in due parti, lo stack e l'heap. Entrambi si trovano finisicamente nella RAM, lo stack
+si espande dalla posizione iniziale dello spazio riservato al programma verso la memoria alta con indirizzi crescenti, mentre l'heap
+si espande dalla posizione finale dello spazio riservato al programma verso la memoria bassa con indirizzi decrescenti.
+
+Quando lo stack e l'heap si incontrano, la memoria a disposizione del programma finisce e il programma termina con uno \verb|StackOverflowError|.
+
+Nello stack (o record di attivazione) vengono memorizzate le relative chiamate ali metodi, i riferimenti ai valori di ritorno dei
+metodi ed eventuali riferimenti ai parametri dei metodi. Nell'heap vengono memorizzati fisicamente i valori delle variabili e le
+istanze delle classi (gli oggetti), con le relative variabili.
+
+Quando una variabile o un'istanza di un oggetto non possiede più il riferimento nello stack, la relativa posizione occupata nell'heap
+viene liberata (marcata come disponibile) dal Garbage Collector.
 
 \subsubsection*{Record di attivazione}
-\dots
+Il record di attivazione è lo stack (pila, verrà approfondita nelle strutture dati) delle chiamate ai metodi.
+Alla base della pila si trova il record del metodo main, ad ogni chiamata di un nuovo metodo (durante l'esecuzione del main),
+si sospende il record relativo al main e se ne apre uno nuovo per il metodo chiamato. Questa azione si ripete ad ogni chiamata
+di un metodo.
+Quando un metodo termina, relativo record nello stack viene chiuso ed eliminato dalla pila e si riapre il record sottostante del
+metodo chiamante.
+In questo modo è possibile tenere traccia di tutte le chiamate dei vari metodi.
+
+Un record di un metodo è composto da indice dell'istruzione chiamante (punto di ritorno una volta che il metodo è terminato),
+i parametri espliciti ed impliciti del metodo, il valore di ritorno ed eventuali riferimenti a variabili e oggetti locali.
+
+Questo spiega il concetto di visibilità di variabili: una variabile è accessibile solo se il relativo riferimento è contenuto nel
+record di attivazione che al momento è \say{aperto}.
 
 % ------------------------------ Reindirizzamento del flusso di i/o -------------------------------
 \subsection{Reindirizzamento dei flussi i/o}
 \subsubsection*{Reindirizzamento del flusso di input}
-\dots
+È possibile reindirizzare il flusso di standar input in modo che i dati di ingresso non vengano forniti dall'utente, ma provengano
+da un file. Questo permette un risparmio di tempo in fase di debug nell'evitare di dover reinserire molte volte gli stessi dati.
+Per fare ciò è necessario eseguire il programma specificando il file da cui prendere i dati nel seguente modo:
+
+\verb|java NomeFile.java < FileDiInput.txt|
 
 \subsubsection*{Reindirizzamento del flusso di ouput}
-\dots
+Analogo discorso per il flusso di standard output, è possibile salvare i messaggi di output e i risultati di elaborazione in un file
+specificando il file in cui scrivere al momento dell'esecuzione:
+
+\verb|java NomeFile.java > FileDiOutput.txt|
+\\
+È possibile reindirizzare il flusso di input e quello di output contemporaneamente nel seguente modo:
+
+\verb|java NomeFile.java < FileDiInput.txt > FileDiOutput.txt|
+
 
 \subsubsection*{Canalizzazioni o pipes}
-\dots
+Le pipeline e le concatenazioni sono funzioni che possiedono i terminali dei sistemi operativi (NB su Windows PowerShell hanno un funzionamento
+differente e non è possibile reindirizzare il flusso di i/o come illustrato sopra). Servono per fare in modo che l'output di un programma sia 
+l'input di un altro programma:
+
+\verb=java Programma1.java < FileDiInput.txt | java Programma2.java > FileDiOutput.txt=
+\\
+che equivale a:
+
+\verb|java Programma1.java < FileDiInput.txt > temp.txt|
+
+\verb|java Programma2.java < temp.txt > FileDiOutput.txt|
+
+\newpage
+
 
 % -------------------------------------- Eccezioni ed errori --------------------------------------
 \subsection{Eccezioni in Java}
-\subsubsection*{generale...}
-\dots
+Le eccezioni sono uno strumento del linguaggio Java per gestire errori che possono incorrere durante l'esecuzione del programma.
+Vengono lanciate da un metodo di fronte un errore durante l'esecuzione di tale metodo. L'eccezione si propaga nello stack dei record
+di attivazione facendo terminare anticipatamente ogni metodo finché non viene catturata e gestita opportumanete.
+Se non viene catturata il programma termina l'esecuzione riportando l'eccezione lanciata.
 
 \subsubsection*{Throw}
-\dots
+Per lanciare un'eccezione, si utilizza la parola chiave \verb|throw| seguita dal costruttore dell'eccezione che si vuole lanciare
+ad esempio \verb|throw new IllegalArgumentException()|.
 
 \subsubsection*{Try - catch}
-\dots
+Per catturare un'eccezione è necessario inserire i metodi che possono lanciarla all'interno del blocco \verb|try-catch|
+definito come segue:
+\begin{lstlisting}[language=Java]
+try {
+	// metodi che possono lanciare un'eccezione
+	...
+} catch (NomeEccezioneDaCatturare e) {
+	// istruzioni da eseguire se viene lanciata l'eccezione indicata tra parentesi
+	...
+}
+\end{lstlisting}
 
 \subsubsection*{Try with resources}
-\dots
+Nel caso in cui vengono utilizzate delle \say{risorse} ovvero classi che devono essere chiuse (Scanner, FileReader, PrintWriter),
+è possibile utilizzare la struttura try-with-resources specificando le risorse tra le parentesi del try. Le risorse vengono chiuse
+in automatico al lancio di un'eccezione o al termine del try.
+\begin{lstlisting}[language=Java]
+try (/* dichiarazione delle risorse */ ... ) {
+	// metodi che possono lanciare un'eccezione e utilizzo delle risorse
+	...
+} catch (NomeEccezioneDaCatturare e) {
+	// istruzioni da eseguire se viene lanciata l'eccezione indicata tra parentesi
+	...
+}
+\end{lstlisting}
 
 \subsubsection*{Eccezioni checked e unchecked}
-\dots
+Le eccezioni sono classi che estendo la classe \verb|Exception| ed hanno una specifica struttra gerarchica. È possibile creare
+una eccezione personalizzata estendo \verb|RuntimeException|. Si dividono in tre categorie:
+\begin{enumerate} [topsep=3pt, itemsep=0pt]
+	\item \textbf{Errors}: lanciate in caso di problemi della JVM
+	\item \textbf{RuntimeException}: unchecked - lanciate per un errore nel codice dovuto al programmatore
+	\item \textbf{IOException}: checked - lanciate per un problema di risorse esterne al programma
+\end{enumerate}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=11cm]{eccezioni.png}
+\end{figure}
+
+\newpage
+
 
 % ------------------------------------------ Ricorsione -------------------------------------------
 \section{Ricorsione}
