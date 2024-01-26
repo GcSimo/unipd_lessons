@@ -1175,6 +1175,17 @@ su \verb|b| in quanto entrambi \verb|a| e \verb|b| puntano alla stessa posizione
 Quando viene passato un oggetto ad un metodo come parametro esplicito, le modifiche che vengono fatte all'oggetto all'interno
 del metodo, si riscontrano anche sull'oggetto nel metodo chiamante.
 
+\subsubsection*{Riferimento this}
+In una classe, il riferimento all'istanza della classe è contenuto nel parametro \verb|this|. Quando viene invocato un metodo
+non statico su un oggetto \verb|nomeOggetto.nomeMetodo(...)|, il riferimento dell'oggetto invocante, chiamato parametro implicito, 
+è contenuto nella parola chiave \verb|this|.
+
+Quando si deve chiamare un metodo costruttore da un altro costruttore (dello stesso oggetto), si utilizza \verb|this(...)|, in cui
+nelle tonde sono specificati i parametri richiesti dal costruttore.
+
+Quando avviene un \say{overloading} di variabili e una variabile locale del metodo nasconde quella della classe (perché hanno lo
+stesso nome), per utilizzare quella della classe, bisogna fare \verb|this.nomeVariabile|.
+
 \subsubsection*{Ereditarietà}
 Tra diverse classi ci può essere un rapporto di madre-figlia (superclasse-sottoclasse), quando una classe (la sottoclasse)
 estende un'altra classe (la superclasse) ereditandone tutti i metodi e tutte le variabili d'istanza.
@@ -1205,13 +1216,13 @@ ritenuti più importanti):
 più adatti all'oggetto chiamante (es. modificare toString in modo che non restituisca classe e indirizzo di memoria o modificare
 equals in modo che non confronti gli indirizzi, ma le variabili d'istanza).
 
+\newpage
+
+
 \subsubsection*{Casting tra oggetti}
 È sempre possibile eseguire il casting da una sottoclasse ad una sua superclasse, senza generare errori in compilazione o in esecuzione.
 Al contrario per eseguire il casting da una superclasse ad una sua sottoclasse è necessario esplicitare il tipo della sottoclasse tra
 parentesi tonde e, se non è possibile eseguire la conversione, viene lanciata \verb|ClassCastException| durante l'esecuzione.
-
-\newpage
-
 
 \subsubsection*{Polimorfismo}
 Quando viene eseguito il casting da una sottoclasse ad una superclasse, il \say{nuovo} riferimento permette di utilizzare solo i metodi
@@ -1485,8 +1496,7 @@ Per questo motivo la verifica dell'uguaglianza tra due double deve prevedere un 
 \begin{center}
 	\verb|a == b| \(\quad \Leftrightarrow \quad\) \verb|Math.abs(a - b) <= Math.max(Math.abs(a), Math.abs(b)) * 1E-14|
 \end{center}
-
-Il valore \(10^{-14}\) deriva dal calcolo della \say{densità} della rappresentazione double: \(2^{-52} \approx 2.2 \cdot 10^{16} \approx 10^{14}\)
+Il valore \(10^{-14}\) deriva dal calcolo della \say{densità} della rappresentazione double: \(2^{-52} \approx 2.2 \cdot 10^{-16} \approx 10^{-14}\)
 
 \subsubsection*{Confronti tra oggetti}
 Il confronto tra due oggetti usando il simbolo \verb|==|, confronta gli indirizzi, per cui per eseguire un corretto confronto tra
@@ -1754,19 +1764,114 @@ una eccezione personalizzata estendo \verb|RuntimeException|. Si dividono in tre
 
 % ------------------------------------------ Ricorsione -------------------------------------------
 \section{Ricorsione}
-\dots
+La ricorsione è una tecnica di programmazione che prevede la chiamata di un metodo durante l'esecuzione del metodo stesso, in modo
+da creare istanze multiple del metodo in questione, che prende il nome di metodo ricorsivo.
+
+Per risolvere un problema ricorsivamente è necessario individuare:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{caso base} \\
+	situazione in cui si sa già la soluzione al problema in quanto è immediata, è il momento in cui termina la ricorsione 
+	\item[-] \textbf{passo ricorsivo} \\
+	situazione in cui non è possibile ottenere la soluzione in maniera immediata, ma ci si riconduce ad un problema più semplice e
+	si richiama il metodo ricorsivamente per risolvere il caso più semplice; è importante che il caso più semplice converga, in un
+	numero finito di iterazioni, al caso base, altrimenti si genera una ricorsione infinita che termina con \verb|StackOverflowError|
+\end{itemize}
+
+Ci sono diverse tecniche di ricorsione:
+\begin{itemize}
+	\item[-] \textbf{ricorsione in coda} \\
+	quando la chiamata ricorsiva avviene come ultima operazione del metodo (es. nel \verb|return|)
+	\item[-] \textbf{ricorsione multipla} \\
+	quando sono presenti più chiamate ricorsive dello stesso metodo che avvengono contemporaneamente (es. Fibonacci), questo tipo di
+	ricorsione è estremamente lento
+	\item[-] \textbf{ricorsione strutturale} \\
+	quando la ricorsione è applicata ad una struttura dati (es. stringa o array)
+	\item[-] \textbf{ricorsione mutua} \\
+	quando ci sono due metodi ricorsivi che si chiamano a vicenda alternandosi (raramente usata)
+\end{itemize}
+
+Esempio di un metodo ricorsivo (Fibonacci):
+\begin{lstlisting}[language=Java]
+public int fibonacci(int n) {
+	if (n == 0) {
+		// istruzioni da eseguire nel caso base
+		return 1;
+	} else {
+		// istruzioni da eseguire nel passo ricorsivo
+		return fibonacci(n - 1) + fibonacci(n - 2);
+	}
+}
+\end{lstlisting}
+
 
 % ---------------------------------- Complessità computazionale -----------------------------------
 \section{Complessità computazionale}
-\dots
+La complessità computazionale è uno strumento di calcolo che permette di confrontare le prestazioni (asintotiche) di due programmi
+in modo da individuare quello più efficiente. Si divide in complessità temporale (relativa al tempo di esecuzione) e complessità
+spaziale (relativa alla memoria occupata). Si esprime come ordine di grandezza in funzione della dimensione dei dati di input.
+
+\subsubsection*{Analisi sperimentale e complessità asintotica}
+Per misurare la complessità di un programma si può procedere con un'analisi sperimentale, ovvero misurando il tempo di esecuzione
+medio e la memoria occupata dal programma (o di un metodo o parte di codice) in funzione del numero di dati in input, oppure con
+un'analisi teorica sul comportamento asintotico della complessità.
+
+L'analisi sperimentale è limitante in quanto bisogna già aver implementato l'algoritmo, dipende dal linguaggio di programmazione
+utilizzato, dalle condizioni di memoria e CPU dell'elaboratore e dal contenuto dell'input. Per questo motivo, si adotta la complessità
+asintotica che permette di calcolarla teoricamente (non è necessario aver implementato il programma, se non in pseudocodice) e
+il risultato (approssimato) è indipendente dal linguaggio, dalle condizioni della macchina e dal contenuto dell'input del programma.
+Inoltre è di più facile calcolo.
+
+La complessità asintotica (per \(n \to \infty\)) si indica con \(O(f(n))\), dove \(O\) è l'ordine di grandezza della funzione e
+\(f(n)\) è la funzione che indica la complessità teorica in funzione di \(n\) dimensione dell'input. \\ Per definizione matematica:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] \(f(n) \in O(g(n))\) se \(\exists c > 0, N > 0\) t.c. \(f(n) \leq c \cdot g(n)\) \(\forall n \geq N\)
+	\item[-] \(f(n) \in \Omega (g(n))\) se \(\exists c > 0, N > 0\) t.c. \(f(n) \geq c \cdot g(n)\) \(\forall n \geq N\)
+	\item[-] \(f(n) \in \Theta (g(n))\) se \(f(n) \in O(g(n))\) e \(f(n) \in \Omega (g(n))\)
+\end{itemize}
+
+Nei polinomi: \(O(1) \subset O(\log n) \subset O(n) \subset O(n \log n) \subset O(n^2) \subset O(n^3) \subset O(2^n) \subset O(n!) \subset O(n^n)\)
+
+Dato che si cerca la complessità asintotica per \(n \to \infty\), è possibile che per dimensione di input piccola, un algoritmo
+con complessità asintotica maggiore sia più rapido di uno con complessità asintotica minore.
+
+\subsubsection*{Classi di complessità}
+In base alla complessità asintotica di algoritmi, è possibile catalogarli in due classi:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] classe P: algoritmi di cui si conosce una soluzione polinomiale
+	\item[-] classe NP: algoritmi di cui non si conosce una soluzione polinomiale
+\end{itemize}
+In generale un buon algoritmo ha complessità inferiore a \(O(n^2)\).
+
+\subsubsection*{Esempi di algoritmi e relativa complessità (temporale) asintotica}
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] \(\log n\): ricerca binaria
+	\item[-] \(n\): scansione lineare di un Array
+	\item[-] \(n \log n\): mergeSort
+	\item[-] \(n^2\): selectionSort
+	\item[-] \(2^n\): torri di Hanoi (ricorsivo)
+	\item[-] \(n!\): anagrammi
+\end{itemize}
 
 \subsection{Complessità temporale}
-\dots
+La complessità temporale è la misura del tempo di esecuzione teorico di un programma. Per calcolarla è necessario definire delle
+istruzioni a tempo costante e calcolare il numero di tali istruzioni in base alla dimensione dell'input.
+Le istruzioni a tempo costante sono:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] dichiarazioni
+	\item[-] inizializzazioni
+	\item[-] operazioni algebriche e logiche
+	\item[-] confronti e selezioni
+	\item[-] accesso a variabili o celle dell'array
+\end{itemize}
 
 \subsection{Complessità spaziale}
-\dots
+La complessità spaziale è la misura della dimensione di memoria occupata da un programma. Per calcolarla è necessario definire
+delle istruzioni che occupano memoria in tempo costante e calcolare il numero di tali istruzioni in base alla dimensione dell'input.
+Le istruzioni a \say{memoria costante} sono le inizializzazioni di una variabile, un array di \(n\) elementi è considerato come
+inizalizzazione di \(n\) variabili.
 
 \newpage
+
 
 % ---------------------------------------- Strutture dati -----------------------------------------
 \section{Strutture dati}
