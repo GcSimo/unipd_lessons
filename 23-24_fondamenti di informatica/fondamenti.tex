@@ -991,7 +991,7 @@ e viceversa.
 
 		% non funziona il || in verb
 		\textbf{or}
-		& \verb|a| \(||\) \verb|b| & restituisce \verb|true| se almeno uno dei due membri è \verb|true| \\
+		& \verb=a || b= & restituisce \verb|true| se almeno uno dei due membri è \verb|true| \\
 		\midrule
 
 		\textbf{not}
@@ -1216,6 +1216,12 @@ ritenuti più importanti):
 più adatti all'oggetto chiamante (es. modificare toString in modo che non restituisca classe e indirizzo di memoria o modificare
 equals in modo che non confronti gli indirizzi, ma le variabili d'istanza).
 
+Una classe non estendibile ha attributo \verb|final| prima del nome della classe.
+
+Per sapre se una classe è un'istanza di una specifica classe o di una sua sottoclasse si utilizza la parola chiave \verb|instanceof|
+(usata nel seguente modo \verb|Classe1 instanceof Classe2|). L'espressione restituisce true se Classe1 è una classe dello stesso tipo di Classe2, o una sua
+sottoclasse, altrimenti restituisce false.
+
 \newpage
 
 
@@ -1223,6 +1229,7 @@ equals in modo che non confronti gli indirizzi, ma le variabili d'istanza).
 È sempre possibile eseguire il casting da una sottoclasse ad una sua superclasse, senza generare errori in compilazione o in esecuzione.
 Al contrario per eseguire il casting da una superclasse ad una sua sottoclasse è necessario esplicitare il tipo della sottoclasse tra
 parentesi tonde e, se non è possibile eseguire la conversione, viene lanciata \verb|ClassCastException| durante l'esecuzione.
+Prima di eseguire la conversione esplicita è raccomandato verficare che sia possibile utilzzando \verb|instanceof|.
 
 \subsubsection*{Polimorfismo}
 Quando viene eseguito il casting da una sottoclasse ad una superclasse, il \say{nuovo} riferimento permette di utilizzare solo i metodi
@@ -1390,13 +1397,56 @@ Alcuni metodi forniti dalla classe:
 	\end{tabularx}
 \end{center}
 
+\subsection*{Paradigma di programmazione ad oggetti - riassunto}
+\textbf{Obietti del OOP}
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] robustezza: gestire situazioni inattese
+	\item[-] adattabilità: possibilità di evolvere ed implementare nuove funzionalità e di avere portabilità
+	\item[-] riusabilità: creazione di componenti riusabili in altri programmi o applicazioni
+\end{itemize}
+\textbf{Principi del OOP}
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] astrazione: distillare concetti di un sistema o un oggetto
+	\item[-] information hiding: o incapsulamento, nascondere informazioni critiche per evitare di avere oggetti inconsistenti
+	\item[-] modularità: organizzazione del sistema in componenti funzionali separati
+\end{itemize}
+\textbf{Mezzi per l'implementazione}
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] classi, oggetti e incapsulamento: per information hiding
+	\item[-] ereditarietà: estensione e specializzazione di una classe
+	\item[-] polimorfismo: l tipo di una variabile non determina completamente il tipo dell'oggetto a cui essa si riferisce 
+\end{itemize}
+
+\newpage
+
+
 \subsection{Interfacce}
-Le interfacce sono dei particolari tipi di \say{classi} non istanziabili e non implementate, che contengono soltanto
-metodi pubblici (non serve specificare \verb|public|, dato che è implicito). Servono per indicare i metodi che devono
-avere determinate classi che implementano l'interfaccia.
+Le interfacce sono classi astratte non istanziabili e non implementate, che contengono soltanto metodi pubblici (non serve
+specificare \verb|public|, dato che è implicito). Servono per indicare i metodi che devono avere determinate classi che
+implementano l'interfaccia.
 
 Una classe, per implementare l'interfaccia, deve contenere \verb|implements NomeInterfaccia| che segue il nome della
 classe nell'implementazione della classe stessa. Una classe può implementare diverse interfacce.
+
+\subsubsection*{Struttura base di un'interfaccia}
+\begin{lstlisting}[language=Java]
+public interface NomeInterfaccia {
+	// metodi pubblici
+	void metodo1(parametri){
+		...
+	}
+
+	int metodo2(parametri){
+		...
+	}
+	...
+}
+\end{lstlisting}
+
+\subsubsection*{Interfaccia Comparable}
+L'interfaccia \verb|Comparable|, contenuta in \verb|java.lang|, definisce il metodo \verb|boolean compareTo(Object)|
+utilizzato per l'ordinamento di oggetti. Gli oggetti di una classe che implementa tale interfaccia sono ordinabili.
+Alcune classi che implementano \verb|Comparable| sono \verb|String|, \verb|Integer|, \verb|Double|.
 
 \subsection{Commenti e JavaDoc}
 I commenti sono parti di testo che il compilatore ignora. Si usano per descrivere quali operazioni vengono effettuate
@@ -1875,33 +1925,146 @@ inizalizzazione di \(n\) variabili.
 
 % ---------------------------------------- Strutture dati -----------------------------------------
 \section{Strutture dati}
-liste e array
+Le strutture dati sono concetti di programmazione che permettono di memorizzare e organizzare oggetti in maniera efficiente,
+permettendo di risparmiare sulla memoria occupata, sul tempo di implementazione e sul tempo di accesso. Dato che queste
+proprietà sono inversamente proporzionali (tanto più è efficiente una, tanto meno lo è l'altra), si avranno diverse strutture
+dati tra cui scegliere in base alla situazione. \\
+Le \textbf{strutture dati} si dividono in:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] strutture dati o (DT): strumenti di programmazione per la memorizzazione di dati
+	\item[-] strutture dati astratte (ADT): strutture dati con determinate proprietà e compromessi implementate con le DT
+\end{itemize}
+Le \textbf{strutture dati (DT)} si dividono in:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] lineari: ogni elemento può avere al massimo un elemento che lo precedere e un elemento che lo segue, ad esempio
+	array e liste concatenate
+	\item[-] non lineari: non esiste un vincolo nel numero di precedenti o successivi, ad esempio alberi e grafi
+\end{itemize}
+Le \textbf{strutture dati astratte (ADT)} si dividono in:
+\begin{itemize} [topsep=3pt, itemsep=0pt]
+	\item[-] pila
+	\item[-] coda
+	\item[-] mappa
+	\item[-] multimappa o dizionario
+	\item[-] tabelle e hashTable
+	\item[-] insiemi
+\end{itemize}
 
+% --------------------------------------------- Array ---------------------------------------------
 \subsection{Array}
-definione, struttura, creazione, passaggio come parametro
+Un array è una sequenza di celle di memoria di numero costante, ordinata in quanto si accede in base ad un indice e omogenea
+dato che i valori contenuti devono essere tutti dello stesso tipo. Per dichiarare un array è necessario specificare il tipo
+di dato da memorizzare e il numero di celle. Le celle sono numerate da \(0\) a \(n-1\) con \(n\) dimensione dell'array e per
+accedere ad una specifica cella è necessario indicarne l'indice racchiuso tra le parentesi quadre. Il tempo di accesso ad una
+cella di un array è di tempo costante (non dipende dalla posizione relativa della cella nll'array). La dimensione dell'array
+è contenuta nella variabile d'istanza (public final) \verb|length| ed essendo costante non può essere modificata.
+
+\begin{lstlisting}[language=Java]
+// dichiarazione di un array di interi di dimensione 10
+int[] vettore = new int[10];
+
+// assegnazione del valore 7 alla cella di indice 4
+vettore[4] = 7;
+
+// accesso e stampa del valore della cella di indice 4
+System.out.println(vettore[4]);
+
+// stampa del contenuto dell'array
+for (int i = 0; i < vettore.length; i++) {
+	System.out.println(vettore[i]);
+}
+\end{lstlisting}
+
+In Java un array è un oggetto, per cui quando viene passaggio come parametro, viene passato come riferimento, inoltre se ho due
+riferimenti allo stesso oggetto (anche con due nomi diversi), se lo modifico attraverso uno dei due, si modifica anche per l'altro. 
+
+Dato che è un oggetto, come tutti gli oggetti, alla sua creazione i valori delle celle sono inizializzati a 0 se il dato
+memorizzato è un tipo numerico (char, int, double, \dots), altrimenti \verb|null| se sono memorizzati riferimenti ad oggetti.
+
+Se l'indice per accedere ad un elemento è negativo o maggiore-uguale alla dimensione, viene lanciata l'eccezione
+\verb|ArrayIndexOutOfBoundException|. Se l'array viene solo dichiarato, ma non inizializzato (niente \verb|new ...|), viene
+lanciata l'eccezione \verb|NullPointerException|.
 
 \subsubsection*{Algoritmo di copia}
-copia di un array
+Dato che è un oggetto, non è sufficiente creare un nuovo riferimento e assegnargli il valore del riferimento vecchio, è necessario
+copiare i valori singolarmente. Si suppone che gli array abbiano la stessa dimensione. In alternativa si può utilizzare il metodo
+\verb|arraycopy| nella classe \verb|System|.
+
+\begin{lstlisting}[language=Java]
+// copia del contenuto dell'array v1 nell'array v2
+for (int i = 0; i < v1.length; i++) {
+	v2[i] = v1[i];
+}
+
+// metodo public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+System.arraycopy(v1, 0, v2, 0, v1.length);
+\end{lstlisting}
 
 \subsubsection*{Algoritmo di ridimensionamento}
-ridimensionamento di un array
+Dato che gli array sono a dimensione costante, per ridimensionare un array è necessario crearne uno nuovo di dimensione maggiore,
+copiarne i valori e assegnare il riferimento di quello ridimensionato al vecchio array. Per una migliore efficienza computazionale
+la nuova dimensione deve essere un multiplo di quella vecchia (ad esempio il doppio).
+
+\begin{lstlisting}[language=Java]
+// ridimensionamento dell'array di interi v1
+int[] v2 = new int[v1.length * 2];
+System.arraycopy(v1, 0, v2, 0, v1.length);
+v1 = v2;
+\end{lstlisting}
 
 \subsubsection*{Array riempiti a metà}
-dimensione logica vs dimensione relative
+In alcuni casi, per evitare continui ridimensionamenti e non avere celle vuote, viene creato un array con un numero sufficientemente
+grande di celle e si tiene traccia del numero di celle occupate (dimensione logica). Ogni volta che viene aggiunto un elemento
+all'array, viene incrementata la dimensione logica. Nel caso in cui è necessario passarlo come parametro, serve passare anche
+la dimensione logica.
 
+Questa tecnica è utile qunado è necessario memorizzare un numero indefinito di dati (es. input di numeri da parte dell'utente)
+di cui non si conosce a prescindere la quantità.
+
+\subsubsection*{Input da riga di comando}
+È possibile eeseguire l'input di dati direttamente da riga di comando inserendoli, separati da uno spazio, immediatamente dopo
+il nome della classe eseguibile: \verb|java NomeClasse param1 param2 param3 ...|
+
+I parametri vengono memorizzati nell'array di stringhe \verb|args| presente nella firma del main.
+
+% -------------------------------------------- Matrici --------------------------------------------
 \subsection{Matrici}
-array bidimensionali
+Le matrici sono array bidimensionali, rappresentabili con una scacchiera. Per accedere ad una cella è necessario utilizzare due
+indici distinti, uno per le righe, l'altro per le colonne.
 
+\begin{lstlisting}[language=Java]
+// dichiarazione di una matrice di interi di dimensione 5x6
+int[][] matrice = new int[5][6];
+
+// assegnazione del valore 7 alla cella in posizione (2,3)
+matrice[2][3] = 7;
+
+// accesso e stampa del valore della cella in posizione (2,3)
+System.out.println(matrice[2][3]);
+
+// stampa del contenuto della matrice
+for (int i = 0; i < matrice.length; i++) {
+	for (int j = 0; j < matrice[i].length; j++) {
+		System.out.print(matrice[i][j] + " ");
+	}
+	System.out.println();
+}
+\end{lstlisting}
+
+\newpage
+
+% --------------------------------------- Liste concatenate ---------------------------------------
 \subsection{Linked List o lista concatenata}
-Struttura dati che implementa il concetto di sequenza. È composta da nodi che contengono:
+Struttura dati che implementa il concetto di sequenza. Elimina il vincolo della dimensione fissa, ma rimane ordinata e omogenea.
+Il tempo di accesso non è costante, ma dipende dalla posizione relativa della cella nella lista. È composta da nodi che contengono:
 \begin{itemize} [topsep=3pt, itemsep=0pt]
 	\item[-] il riferimento al dato associato
 	\item[-] il riferimento al nodo successivo
 \end{itemize}
 
-Il nodo di testa è chiamato header e ha \verb|null| come riferimento al nodo precedente. \\
-Il nodo di coda è chiamato tail e ha \verb|null| come riferimento al nodo successivo. \\
-Quando nodo di testa e nodo di coda coincidono, la lista è vuota.
+Il nodo di testa è chiamato header, punta al nodo primo nodo della lista e ha \verb|null| come dato associato. Il nodo di coda è
+chiamato tail e ha \verb|null| come riferimento al nodo successivo e al dato associato. Quando nodo di testa e nodo di coda coincidono
+la lista è vuota.
 
 \subsubsection*{Implementazione nodo}
 \begin{lstlisting}[language=Java]
@@ -1972,25 +2135,71 @@ Si immagini l'iteratore come il cursore in un editor di testo.
 \subsubsection*{Lista vs Array}
 \dots
 
-\newpage
-
 \subsection{ArrayList (no esame)}
-Classe in java.util, implementato con array riempito in parte e ridimensionabile.
+Classe presente nel pacchetto \verb|java.util|, implementato con array riempito in parte e ridimensionabile.
+
 \subsubsection*{Inizializzazione}
 \verb|ArrayList<OggettiDaSalvare> nomeArray = new ArrayList<OggettiDaSalvare>();|
 
 \subsubsection*{Metodi}
-\verb|add(newObj)| aggiunta alla fine, inserimento costante secondo l'analisi ammortizzata \\
-\verb|remove(index)| rimozione elemento ad un dato indice \\
-\verb|get(index)| accesso ad un elemento dato l'indice \\
-\verb|set(index, newObj)| modifica di un elemento già presente \\
-\verb|getSize()| dimensione logica dell'array
+Alcuni dei metodi principali (\verb|T| è il tipo di oggetti da salvare specificato nella dichiatazione):
+
+\begin{center}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\verb|void add(T obj)| & aggiunta alla fine, tempo costante secondo l'analisi ammortizzata \\
+		\midrule
+		\verb|T remove(int index)| & rimozione elemento ad un dato indice \\
+		\midrule
+		\verb|T get(int index)| & accesso ad un elemento dato l'indice \\
+		\midrule
+		\verb|T set(int index, T obj)| & modifica di un elemento già presente \\
+		\midrule
+		\verb|int size()| & dimensione logica dell'array \\
+		\bottomrule
+	\end{tabularx}
+\end{center}
+
 \newpage
+
+
+% ----------------------------------- Algoritmi di ordinamento ------------------------------------
+\section{Algoritmi di ordinamento}
+\dots
+
+\subsection{SelectionSort}
+\dots
+
+\subsection{MergeSort}
+\dots
+
+\subsection{InsertionSort}
+\dots
+
+\subsection{Confronto complessità}
+\dots
+
+% ------------------------------------- Algoritmi di ricerca --------------------------------------
+\section{Algoritmi di ricerca}
+\dots
+
+\subsection{Ricerca lineare}
+\dots
+
+\subsection{Ricerca binaria}
+\dots
+
+\newpage
+
 
 % ------------------------------------ Strutture dati astratte ------------------------------------
 \section{Strutture dati astratte - ADT}
+Tutte le strutture dati astratte sono definite attraverso delle interfacce, che poi verranno implementate sfruttando array (riempiti
+in parte, a dimensione fissa, ridimensionabili, ...) e linked list.
+
 \subsection{Container}
 Struttura dati generica.
+
 \begin{lstlisting}[language=Java]
 /**
  * Interfaccia che definsice i metodi di una struttura dati generica
@@ -2010,7 +2219,7 @@ public interface Container {
 \end{lstlisting}
 
 
-\subsection{Stack}
+\subsection{Stack o pila}
 Struttura dati Last-In-First-Out (LIFO).
 
 \begin{lstlisting}[language=Java]
@@ -2050,7 +2259,7 @@ Complessità computazionale:
 
 \newpage
 
-\subsection{Queue}
+\subsection{Queue o coda}
 Struttura dati First-In-First-Out (FIFO).
 \begin{lstlisting}[language=Java]
 /**
@@ -2133,33 +2342,5 @@ Struttura dati in cui un elemento può avere più successori, se ogni elemento h
 \subsection{Grafi - no esame}
 Struttura dati in cui un elmeento può avere più successori e più predecessori, creando delle reti di nodi.
 Si puù parlare di grafi diretti/indiretti, semplici/multigrafi, connessi/non connessi, pesati/non pesati, \dots
-
-\newpage
-
-% ----------------------------------- Algoritmi di ordinamento ------------------------------------
-\section{Algoritmi di ordinamento}
-\dots
-
-\subsection{SelectionSort}
-\dots
-
-\subsection{MergeSort}
-\dots
-
-\subsection{InsertionSort}
-\dots
-
-\subsection{Confronto complessità}
-\dots
-
-% ------------------------------------- Algoritmi di ricerca --------------------------------------
-\section{Algoritmi di ricerca}
-\dots
-
-\subsection{Ricerca lineare}
-\dots
-
-\subsection{Ricerca binaria}
-\dots
 
 \end{document}
