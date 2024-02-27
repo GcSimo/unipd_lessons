@@ -161,7 +161,7 @@ Data una proposizione \(R\), la sua negazione \(\urcorner R\) è una proposizion
 
 % ------------------------------------------ Fattoriali -------------------------------------------
 \section{Fattoriali}
-\subsection{Definizione}
+\subsubsection*{Definizione}
 \begin{equation*}
 	n! :=
 	\begin{cases}
@@ -172,28 +172,57 @@ Data una proposizione \(R\), la sua negazione \(\urcorner R\) è una proposizion
 per \(n \in \mathbb{N}\) e \(n \geq 0\) \\
 Significato insiemistico: numero di riordinamenti di una famiglia di \(n\) elementi (permutazioni semplici).
 
-\subsection{Proprietà}
+\subsubsection*{Proprietà}
 \[(n + 1)! = n! \cdot (n + 1)\]
+\vspace{15pt}
 
 % ------------------------------------ Coefficienti binomiali -------------------------------------
 \section{Coefficienti binomiali}
+\subsubsection*{Definizione}
 \[\binom{n}{k} := \frac{n!}{k! \cdot (n - k)!}\]
 per \(n, k \in \mathbb{R}\) \\
 Significato insiemistico: numero di sottoinsiemi distiniti di \(k\) elementi che si possono formare
 in un insieme di \(n\) elementi.
 
-\subsection{Proprietà}
+\subsubsection*{Proprietà}
 \begin{enumerate}
 	\item \(\displaystyle \binom{n}{n} = \binom{n}{0} = 1\)
 	\item \(\displaystyle \binom{n}{k} = \binom{n}{n-k}\)
 	\item \(\displaystyle \binom{n}{k} + \binom{n}{k+1} = \binom{n+1}{k+1}\)
-	\item \(\displaystyle (a + b) ^ n = \sum_{k = 0} ^ {n} \binom{n}{k} \cdot a ^ k \cdot b ^ {n - k}\)
+	\item \(\displaystyle (a + b) ^ n = \sum_{k = 0} ^ {n} \binom{n}{k} \cdot a ^ k \cdot b ^ {n - k} \qquad\) Binomio di Newton
 \end{enumerate}
 
+\newpage
+
 \subsection{Dimostrazione binomio di Newton}
-Si dimostra per induzione \dots
+Si dimostra per induzione:
+\begin{itemize}
+	\item caso base per \(n_0 = 1\):
+	\begin{align*}
+		(a + b)^1 &= \sum_{k=0}^{1} \binom{1}{k} a^k b^{1-k} \\
+		&= \binom{1}{0} a^0 b^1 + \binom{1}{1} a^1 b^0 \\
+		&= b + a
+	\end{align*}
+	
+	\item passo induttivo per \(n \in \mathbb{N}\), con \(n \geq 1\): \\
+	si assume che valga \(\displaystyle (a + b)^n = \sum_{k=0}^{n} \binom{n}{k} a^k b^{n-k}\)
+	\begin{align*}
+		(a+b)^{n+1} &= (a+b)^n \cdot (a+b) \\
+		&= \left(\sum_{k=0}^{n} \binom{n}{k} a^k b^{n-k}\right) \cdot (a+b) \\
+		&= \sum_{k=0}^{n} \binom{n}{k} a^{k+1} b^{n-k} + \sum_{k=0}^{n} \binom{n}{k} a^k b^{n-k+1} \\
+		&= \sum_{k=0}^{n-1} \binom{n}{k} a^{k+1} b^{n-k} + \binom{n}{n} a^{n+1} b^0 + \sum_{k=1}^{n} \binom{n}{k} a^k b^{n-k+1} + \binom{n}{0} a^0 b^{n+1} \\
+		&= \sum_{k=0}^{n-1} \binom{n}{k} a^{k+1} b^{n-k} + \sum_{j=0}^{n-1} \binom{n}{j+1} a^{j+1} b^{n-j} + a^{n+1} + b^{n+1} &j = k-1 \\
+		&= \sum_{k=0}^{n-1} \binom{n}{k} a^{k+1} b^{n-k} + \sum_{k=0}^{n-1} \binom{n}{k+1} a^{k+1} b^{n-k} + a^{n+1} + b^{n+1} &k = j \\
+		&= \sum_{k=0}^{n-1} \left(\binom{n}{k} + \binom{n}{k+1}\right) a^{k+1} b^{n-k} + a^{n+1} + b^{n+1} \\
+		&= \sum_{k=0}^{n-1} \binom{n+1}{k+1} a^{k+1} b^{n-k} + a^{n+1} + b^{n+1} \\
+		&= \sum_{i=1}^{n} \binom{n+1}{i} a^i b^{n-i+1} + \binom{n+1}{n+1} a^{n+1} b^0 + \binom{n+1}{0} a^0 b^{n+1} & i = k+1 \\
+		&= \sum_{i=0}^{n+1} \binom{n+1}{i} a^i b^{n+1-i}
+	\end{align*}
+	\qed
+\end{itemize}
 
 \newpage
+
 
 % --------------------------------------- Numeri razionali ----------------------------------------
 \section{Numeri razionali}
