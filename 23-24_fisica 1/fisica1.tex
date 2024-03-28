@@ -1,0 +1,195 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+\usepackage{graphicx} % per immagini
+\usepackage{listings} % per codice
+\usepackage{xcolor} % per colori nel codice
+\usepackage{dirtytalk} % per le ""
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+
+% percorso delle immagini da inserire
+\graphicspath{ {./ } }
+
+\title{Appunti di Fisica 1}
+\author{Giacomo Simonetto}
+\date{Secondo semetre 2023-24}
+
+\begin{document}
+
+% -------------------------------------- Copertina e indice ---------------------------------------
+\maketitle
+\begin{abstract}
+	Appunti del corso di Fisica 1 - (Meccanica e termodinamica) della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+% ----------------------------------------- introduzione ------------------------------------------
+\section{Introduzione}
+\subsection{Interazioni fondamentali}
+Le interazioni (o forze) fondamentali sono:
+\begin{enumerate}[topsep=3pt, itemsep=0pt]
+	\item forza gravitazionale: scoperta per prima nel 1600 circa da Galileo
+	\item forza elettromagnetica: scoperta nel 1800
+	\item forza debole: legata ai costituenti degli atomi (radioattività)
+	\item forza forte: legata ai costituenti degli atomi (quark)
+\end{enumerate}
+Si sta cercando un legame tra la forza elettromagnetica e quella debole (forza elettrodebole) e una teoria che lega le forze
+elettromagnetica, debole e forte (teoria delle forze unificate). La forza gravitazione è considerata particolare in quanto:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] è molto meno intensa delle altre
+	\item[-] ha solo "carica" positiva (non esiste massa negativa)
+	\item[-] spazio e forza gravitazionale non possono essere sepatati
+	\item[-] non si è ancora riusciti a comprenderla quantisticamente
+\end{itemize}
+
+% ---------------------------------------- punto materiale ----------------------------------------
+\section{Il punto materiale}
+\subsection{Introduzione al punto materiale}
+È una finzione matematica in quanto non esiste nella realtà, ma serve come approssimazione. Non ha estensione, ma ha una massa
+\(m\) ed è possibile determinarne la posizione. In un sistema di riferimento (cartesiano con 3 assi), la posizione è data dal
+vettore \(\vec{r_0} = \left(x_0, y_0, z_0\right)\).
+
+\subsection{Grandezze elementari}
+
+massa: \(m\), l'unità di misura è \(\left[m\right] = kg\)
+
+posizione: \(\vec{r_0} = \left(x_0, y_0, z_0\right)\), con unità di misura \(\left[x_0\right] = \left[y_0\right] = \left[z_0\right] = m\)
+
+tempo: \(t\), con unità di misura \(\left[t\right] = s\)
+
+\newpage
+
+
+\subsection{Punto materiale in movimento - cinematica}
+\subsubsection*{Posizione}
+La posizione nello spazio di un punto sono le coordinate del punto un sistema di riferimeno cartesiano di 3 assi.
+\[\vec{r}(t) = \left(x_0(t), y_0(t), z_0(t)\right) \qquad \left[x_0\right] = \left[y_0\right] = \left[z_0\right] = m\]
+
+\subsubsection*{Velocità}
+La velocità è lo spazio percorso in un tempo piccolo. \[\vec{v}(t) = \frac{d}{dx} \vec{r}(t) \qquad \left[v\right] = \frac{m}{s}\]
+Per ottenere la posizione dalla velocità: \[\vec{r}(t) = \vec{r_0} + \int_{t0}^{t1} \vec{v}(\tau) \, d\tau\]
+
+\subsubsection*{Accelerazione}
+L'accelerazione è la variazione della velocità nel tempo. \[\vec{a}(t) = \frac{d}{dx} \vec{v}(t) = \frac{d^2}{dx^2} \vec{r}(t) \qquad \left[a\right] = \frac{m}{s^2}\]
+Per ottenere la velocità dall'accelerazione: \[\vec{v}(t) = \vec{v_0} + \int_{t0}^{t1} \vec{a}(\tau) \, d\tau\]
+Per ottenere la posizione dall'accelerazione: \[\vec{r}(t) = \vec{r_0} + \int_{t0}^{t1} \left( \vec{v_0}(\tau) + \int_{t0}^{t1} \vec{a}(\tau) \, d\tau \right) \, d\tau \quad \left(= \vec{r_0} + \vec{v_0}(t-t_0) + \iint_{t_0}^{t_1} \vec{a}(\tau) \, d\tau^2 \right)\]
+
+\subsubsection*{Moto uniformemente accelerato}
+Moto con accelerazione costante, le leggi orarie sono:
+\[ \begin{cases}
+	\vec{r}(t) = \vec{r_0} + \vec{v_0}(t-t_0) + \frac{1}{2}\vec{a}(t-t_0)^2 \\
+	\vec{v}(t) = \vec{v_0} + \vec{a}(t-t_0)
+\end{cases} \]
+Per convenzione si sceglie \(t_0 = 0\):
+\[ \begin{cases}
+	\vec{r}(t) = \vec{r_0} + \vec{v_0}t + \frac{1}{2}\vec{a}t^2 \\
+	\vec{v}(t) = \vec{v_0} + \vec{a}t
+\end{cases} \]
+
+Si osserva che per trovare \(\vec{r}(t)\) a partire dall'accelerazione è necessario conoscere i due dati iniziali \(\vec{r_0}\)
+(posizione) e \(\vec{v_0}\) (velocità), in quanto sono stati fatti due integrali nel calcolo.
+
+Ogni vettore \(\vec{r}(t)\), \(\vec{v}(t)\) e \(\vec{a}(t)\) può essere scomposto nelle tre componenti \(x, y, z\) degli assi cartesiani
+ottenendo tre equazioni del moto, una per ogni asse.
+
+Esempi di applicazioni:
+\begin{itemize}
+	\item[-] caduta di un grave (da fermo e con moto orizzontale)
+	\item[-] moto di due automobili sulla stessa retta
+	\item[-] moto di un proiettile (con angolo inziale \(\theta\) rispetto al suolo)
+\end{itemize}
+
+\newpage
+
+\subsection{Moto armonico semplice}
+\subsection{Moto circolare uniforme}
+
+\section{Funzioni goniometriche (ripasso e proprietà)}
+
+\section{Vettori e versori}
+\subsection{Introduzione}
+\subsection{Somma di vettori}
+\subsection{Prodotto per uno scalare}
+\subsection{Versori}
+\subsection{Prodotto scalare}
+\subsection{Prodotto vettore}
+\subsection{Derivata di vettore}
+
+\newpage
+
+
+\section{Dinamica del punto materiale}
+\subsection{Prima legge della dinamica}
+\subsection{Seconda legge della dinamica}
+\subsection{Terza legge della dinamica}
+\subsection{Sistemi di riferimento inerziali}
+\subsection{Forza gravitazionale universale}
+\subsection{Forza elastica}
+\subsection{Forza di reazione vincolare}
+\subsection{Forza di attrito radente}
+\subsection{Forza di attrito viscoso}
+
+\section{Trovare le equazioni del moto}
+\subsection{Piano inclinato}
+\subsection{Oscillatore armonico semplice}
+\subsection{Trovare le soluzioni del moto per una forza generica in 1D}
+\subsection{Oscillatore armonico con l'azione della forza peso}
+\subsection{Oscillatore armonico smorzato (con forza peso e attrito)}
+\subsection{Risonanza e oscillatore armonico}
+\subsection{Velocità limite}
+\subsection{Fili in tensione}
+\subsection{Pendolo semplice}
+\subsection{Pendolo conico}
+\subsection{Curve sopraelevate (paraboliche)}
+
+\section{Lavoro ed energia}
+\subsection{Introduzione}
+\subsection{Lavoro della forza peso}
+\subsection{Lavoro della forza peso}
+\subsection{Lavoro della forza elastica}
+\subsection{Lavoro della forza di reazione vincolare}
+\subsection{Lavoro della forza di attrito radente}
+\subsection{Segno del lavoro}
+
+\section{Forze conservative e non conservative}
+\subsection{Introduzione}
+\subsection{Energia potenziale}
+\subsubsection*{Potenziali da ricordare}
+\subsubsection*{Potenziali in 1D}
+\subsection{Teorema dell'energia cinetica}
+\subsection{Applicazioni del lavoro ed energia}
+\subsection{Potenza}
+\subsection{Gradiente di una forza}
+
+\section{Quantità conservate}
+\subsection{Lavoro}
+\subsection{Impulso}
+\subsection{Momento angolare}
+\subsection{Applicazioni del momento angolare}
+
+\section{Trasformazioni tra sistemi di riferimento}
+\subsection{Posizione}
+\subsection{Velocità}
+\subsection{Accelerazione}
+\subsection{Forze e forze apparenti}
+\subsection{Esperimento di Guglielmini}
+
+\end{document}
