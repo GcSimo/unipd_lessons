@@ -27,7 +27,11 @@
 \newcommand\Real{\text{Re}}
 \newcommand\Img{\text{Im}}
 
-%% modulo vettore
+% derivata
+\newcommand\dt{\frac{d}{dt}\,}
+\newcommand\dts{\frac{d^2}{dt^2}\,}
+
+% modulo vettore
 \newcommand\vmod[1]{\left|\left|{#1}\right|\right|}
 
 \title{Appunti di Fisica 1}
@@ -91,11 +95,11 @@ La posizione nello spazio di un punto sono le coordinate del punto un sistema di
 \[\vec{r}(t) = \left(x_0(t), y_0(t), z_0(t)\right) \qquad \left[x_0\right] = \left[y_0\right] = \left[z_0\right] = m\]
 
 \subsubsection*{Velocità}
-La velocità è lo spazio percorso in un tempo piccolo. \[\vec{v}(t) = \frac{d}{dx} \, \vec{r}(t) \qquad \left[v\right] = \frac{m}{s}\]
+La velocità è lo spazio percorso in un tempo piccolo. \[\vec{v}(t) = \dt \vec{r}(t) \qquad \left[v\right] = \frac{m}{s}\]
 Per ottenere la posizione dalla velocità: \[\vec{r}(t) = \vec{r_0} + \int_{t0}^{t1} \vec{v}(\tau) \, d\tau\]
 
 \subsubsection*{Accelerazione}
-L'accelerazione è la variazione della velocità nel tempo. \[\vec{a}(t) = \frac{d}{dx} \, \vec{v}(t) = \frac{d^2}{dx^2} \, \vec{r}(t) \qquad \left[a\right] = \frac{m}{s^2}\]
+L'accelerazione è la variazione della velocità nel tempo. \[\vec{a}(t) = \dt \vec{v}(t) = \frac{d^2}{dx^2} \, \vec{r}(t) \qquad \left[a\right] = \frac{m}{s^2}\]
 Per ottenere la velocità dall'accelerazione: \[\vec{v}(t) = \vec{v_0} + \int_{t0}^{t1} \vec{a}(\tau) \, d\tau\]
 Per ottenere la posizione dall'accelerazione: \[\vec{r}(t) = \vec{r_0} + \int_{t0}^{t1} \left( \vec{v_0}(\tau) + \int_{t0}^{t1} \vec{a}(\tau) \, d\tau \right) \, d\tau \quad \left(= \vec{r_0} + \vec{v_0}(t-t_0) + \iint_{t_0}^{t_1} \vec{a}(\tau) \, d\tau^2 \right)\]
 
@@ -154,8 +158,8 @@ Esempi di applicazioni:
 \subsection{Moto vario}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] la posizione è data da \(\vec{r}(t)\)
-	\item[-] la velocità è data da \(\displaystyle \vec{v}(t) = \lim_{\Delta t \to 0} \frac{\vec{r}(t+\Delta t) - \vec{r}(t)}{\Delta t} = \frac{d}{dt} \, \vec{r}(t)\)
-	\item[-] l'accelerazione è data da \(\displaystyle \vec{a}(t) = \lim_{\Delta t \to 0} \frac{\vec{v}(t+\Delta t) - \vec{v}(t)}{\Delta t} = \frac{d}{dt} \, \vec{v}(t) = \frac{d^2}{dt^2} \, \vec{r}(t)\)
+	\item[-] la velocità è data da \(\displaystyle \vec{v}(t) = \lim_{\Delta t \to 0} \frac{\vec{r}(t+\Delta t) - \vec{r}(t)}{\Delta t} = \dt \vec{r}(t)\)
+	\item[-] l'accelerazione è data da \(\displaystyle \vec{a}(t) = \lim_{\Delta t \to 0} \frac{\vec{v}(t+\Delta t) - \vec{v}(t)}{\Delta t} = \dt \vec{v}(t) = \dts \vec{r}(t)\)
 	\item[-] la velocità è tangente alla traiettoria, ma non è detto che sia perpendicolare al vettore \(\vec{r}\)
 \end{itemize}
 
@@ -274,22 +278,81 @@ con \(\vec{u_c}\) versore perpendicolare al piano di \(\vec{a}\) e \(\vec{b}\).
 \subsection{Derivata di vettore}
 \begin{itemize}
 	\item[-] Dato un vettore \(\vec{a}(t) = (a_x(t) \; \vec{u_x} + a_y(t) \; \vec{u_y} + a_z(t) \; \vec{u_z})\), la sua derivata è definita come \\
-	\(\displaystyle \frac{d}{dt} \, \vec{a}(t) = \left(\frac{d}{dt} \, a_x(t) \; \vec{u_x} + \frac{d}{dt} \, a_y(t) \; \vec{u_y} + \frac{d}{dt} \, a_z(t) \; \vec{u_z}\right)\)
-	\item[-] Dato un versore \(\vec{u}(t)\), la sua derivata è definita come \(\displaystyle \frac{d}{dt} \, \vec{u}(t) = \frac{d \, \theta(t)}{dt} \, \vec{u_\perp}(t)\)
+	\(\displaystyle \dt \vec{a}(t) = \left(\dt a_x(t) \; \vec{u_x} + \dt a_y(t) \; \vec{u_y} + \dt a_z(t) \; \vec{u_z}\right)\)
+	\item[-] Dato un versore \(\vec{u}(t)\), la sua derivata è definita come \(\displaystyle \dt \vec{u}(t) = \frac{d \, \theta(t)}{dt} \, \vec{u_\perp}(t)\)
 	con \(\vec{u_\perp}(t)\) versore perpendicolare a \(\vec{u}(t)\) e con \(\theta\) angolo spazzato da \(\vec{u}(t)\) in \(\Delta t\) piccolo.
 \end{itemize}
 Sia \(\vec{r}(t)\) vettore qualsiasi, la sua derivata è definita come
-\[\frac{d}{dt} \, \vec{r}(t) = \frac{d \vmod{\vec{r}(t)}}{dt} \; \vec{u_r}(t) + \vmod{\vec{r}(t)} \frac{d \, \theta(t)}{dt} \; \vec{u_\perp}(t)\]
+\[\dt \vec{r}(t) = \frac{d \vmod{\vec{r}(t)}}{dt} \; \vec{u_r}(t) + \vmod{\vec{r}(t)} \frac{d \, \theta(t)}{dt} \; \vec{u_\perp}(t)\]
 
 \newpage
 
 
 \section{Dinamica del punto materiale}
 \subsection{Prima legge della dinamica - principio di inerzia}
+Se su un corpo non agisce alcuna forza, allora questo si muove a velocità costante \(\vec{v}\).
+
 \subsection{Seconda legge della dinamica - legge di Newton}
+Definita \(\vec{p} = m \vec{v}\) la quantità di moto, ovvero la variazione della quantità di moto rispetto al tempo è pari alla
+risultante di tutte le forze che agiscono sul corpo:
+\[\vec{F}(t) = \dt \vec{p}(t) \quad \Rightarrow \quad \vec{F}(t) = m \, \vec{a}(t)\]
+
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] la quantità di moto ha unità di misura \(\displaystyle \left[\vec{p}\right] = kg \cdot \frac{m}{s}\)
+	\item[-] la forza ha come unità di misura \(\displaystyle \left[\vec{F}\right] = kg \cdot \frac{m}{s^2} = N\)
+	\item[-] se \(\vec{F} = \vec{0}\) allora \(m \, \vec{a} = 0 \; \Rightarrow \; \vec{a} = 0 \; \Rightarrow \; \vec{v}\) costante
+	\item[-] la massa rappresenta un ostacolo al moto (più precisamente alla variazione della velocità), per questo viene chiamata massa inerziale.
+	\item[-] la forza si ricava sperimentalmente e in generale ha la forma \(\vec{F}(t) = \vec{F}(\vec{r}(t), \vec{v}(t), t)\), ovvero può dipendere
+	dalla posizione, dalla velocità o dal tempo
+\end{itemize}
+
 \subsection{Terza legge della dinamica - principio di azione-reazione}
-\subsection{Sistemi di riferimento inerziali}
+Se un corpo \(A\) esercita una forza \(\vec{F}_{AB}\) su un corpo \(B\), allora \(B\) esercita una forza \(\vec{F}_{BA} = -\vec{F}_{AB}\) su \(A\)
+
+\subsection{Sistemi di riferimento}
+Dati due sistemi di riferimento \(O\) e \(O'\), le equazioni del moto di un punto \(P\) rispetto a \(O'\) sono:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\vec{r'}(t) = \vec{r}(t) + \vec{r}_{OO'}(t)\)
+	\item[-] \(\vec{v'}(t) = \vec{v}(t) + \dt \vec{r}_{OO'}(t)\)
+	\item[-] \(\vec{a'}(t) = \vec{a}(t) + \dts \vec{r}_{OO'}(t)\)
+\end{itemize}
+
+\subsubsection*{Sistemi di riferimento inerziali}
+Due sistemi di riferimento inerziali sono tali se si muovono con velocità costante (con accelerazione nulla) uno rispetto all'altro.
+Dati due sistemi di riferimento inerziali \(O\) e \(O'\) tali per cui in \(O\) vale \(\vec{F} = m \; \vec{a}\), in \(O'\) vale \(\vec{F'} = m \; \vec{a'}\)
+allora vale anche \(\vec{F} = \vec{F'}\) in quanto \(\vec{a} = \vec{a'}\), cioè \(\displaystyle \dts \vec{r}_{OO'}(t) = 0\).
+
+\newpage
+
+
 \subsection{Forza gravitazionale universale}
+La forza gravitazionale tra un corpo \(A\) di massa \(m_A\) e un corpo \(B\) di massa \(m_B\) vale:
+\[\vec{F}_{AB} = - G_N \frac{m_A \cdot m_B}{\vmod{\vec{r}_{AB}}^2} \, \vec{u}_{AB}\]
+
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] il segno \(-\) indica che è attrattiva
+	\item[-] \(\vmod{\vec{r}_{AB}}\) è la distanza tra i due corpi
+	\item[-] \(\displaystyle G_N \approx 6.67 \cdot 10^{-11} \; \frac{N \cdot m^2}{kg^2}\) è la costante di gravitazione universale di Newton
+\end{itemize}
+
+\subsubsection*{Massa gravitazionale}
+Le masse nella formula vengono dette masse gravitazionali in quanto sono considerate respondabili del moto di attrazione gravitazionale.
+Nel teorema della relatività generale verrà dimostrato che la massa inerziale e gravitazionale corrispondono.
+
+\subsubsection*{Accelerazione gravitazionale e forza peso}
+Per il corpo \(A\) vale \(\displaystyle \vmod{\vec{a}_A} = -G_N \frac{m_B}{\vmod{\vec{r}_{AB}}^2}\)
+%\begin{align*}
+%	m_A \, \vec{a}_A &= -G_N \frac{m_A \cdot m_B}{\vmod{\vec{r}_{AB}}^2} \, \vec{u}_{AB} \\
+%	m_A \, \vmod{\vec{a}_A} &= G_N \frac{m_A \cdot m_B}{\vmod{\vec{r}_{AB}}^2} \, \vmod{-\vec{u}_{AB}} \\
+%	\vmod{\vec{a}_A} &= -G_N \frac{m_B}{\vmod{\vec{r}_{AB}}^2}
+%\end{align*}
+
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] l'accelerazione gravitazionale dipende solo dalla massa del corpo che attrae
+	\item[-] sulla superficie terrestre vale \(\displaystyle g \approx 9.8 \; \frac{m}{s^2}\)
+	\item[-] la forza di attrazione che esercita la Terra su un oggetto di massa \(m\) è detta forza peso \(\vec{F}_p = m \, g \, \vec{u_z}\).
+\end{itemize}
+
 \subsection{Forza elastica}
 \subsection{Forza di reazione vincolare}
 \subsection{Forza di attrito radente}
