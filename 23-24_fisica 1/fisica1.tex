@@ -23,6 +23,10 @@
 % percorso delle immagini da inserire
 \graphicspath{ {./ } }
 
+% parte funzione reale e parte immaginaria
+\newcommand\Real{\text{Re}}
+\newcommand\Img{\text{Im}}
+
 \title{Appunti di Fisica 1}
 \author{Giacomo Simonetto}
 \date{Secondo semetre 2023-24}
@@ -119,16 +123,107 @@ Esempi di applicazioni:
 
 \newpage
 
-\subsection{Moto armonico semplice}
-\subsection{Moto circolare uniforme}
+\subsection{Moto armonico semplice in una dimensione}
+\begin{align*}
+	x(t) &= A \sin (\omega t + \varphi_0) = A \cdot \sin (\omega (t - t_0)) \qquad \text{con } -\omega t_0 = \varphi_0 \\
+	v(t) &= A \omega \cos (\omega t + \varphi_0) \\
+	a(t) &= -A \omega^2 \sin (\omega t + \varphi_0) = -\omega^2 x(t)
+\end{align*}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(A\) ampiezza del moto, \(\left[A\right] = m\)
+	\item[-] \(\omega\) velocità angolare, \(\left[\omega\right] = \frac{rad}{s}\)
+	\item[-] \(\varphi_0\) sfasamento iniziale, \(\left[\varphi_0\right] = rad\)
+	\item[-] si osserva che \(\left[A\right] = m\), \(\left[A\omega\right] = \frac{m}{s}\), \(\left[A\omega^2\right] = \frac{m}{s^2}\)
+\end{itemize}
+
+\subsection{Moto circolare uniforme sul piano xy}
+\begin{align*}
+	\vec{r}(t) &= \left(A \cos (\omega t + \varphi_0), \; A \sin (\omega t + \varphi_0), \; 0\right) \\
+	\vec{v}(t) &= \left(-A \omega \sin (\omega t + \varphi_0), \; A \omega \cos (\omega t + \varphi_0), \; 0 \right) \\
+	\vec{a}(t) &= \left(-A \omega^2 \cos (\omega t + \varphi_0), \; -A \omega^2 \sin (\omega t + \varphi_0), \; 0 \right) = -\omega^2 \vec{r}(t)
+\end{align*}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] il vettore velocità è tangente alla circonferenza e perpendicolare al raggio
+	\item[-] il vettore accelerazione è perpendicolare a \(\vec{v}\), opposto a \(\vec{r}\) e diretto verso il centro
+	\item[-] l'accelerazione del moto è chiamata accelerazione centripeta
+\end{itemize}
+
+\subsection{Moto vario}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] la posizione è data da \(\vec{r}(t)\)
+	\item[-] la velocità è data da \(\displaystyle \vec{v}(t) = \lim_{\Delta t \to 0} \frac{\vec{r}(t+\Delta t) - \vec{r}(t)}{\Delta t} = \frac{d}{dt} \vec{r}(t)\)
+	\item[-] l'accelerazione è data da \(\displaystyle \vec{a}(t) = \lim_{\Delta t \to 0} \frac{\vec{v}(t+\Delta t) - \vec{v}(t)}{\Delta t} = \frac{d}{dt} \vec{v}(t) = \frac{d^2}{dt^2} \vec{r}(t)\)
+	\item[-] la velocità è tangente alla traiettoria, ma non è detto che sia perpendicolare al vettore \(\vec{r}\)
+\end{itemize}
+
+\newpage
+
 
 \section{Funzioni goniometriche (ripasso e proprietà)}
+\subsection{Sviluppi di Taylor}
+\[\sin \theta = \theta - \frac{\theta^3}{3!} + o(\theta^5) \qquad \qquad \cos \theta = 1 - \frac{\theta^2}{2!} + o(\theta^4)\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] le formule valgono solo se \(\theta\) è un numero puro (non posso ad esempio sommare \(m\) e \(m^2\)).
+	\item[-] \(\left[\theta\right] = rad\), si misura in radianti (numero puro), un radiante è il rapporto tra la lunghezza dell'arco
+	di circonferenza che sottende un angolo \(\theta\) e il raggio della circonferenza.
+\end{itemize}
+
+\subsection{Formule di Eulero}
+\[\sin \theta = \frac{e^{i\theta}-e^{-i\theta}}{2i} \qquad \qquad \cos \theta = \frac{e^{i\theta}+e^{-i\theta}}{2}\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] le formule valgono solo se \(\Img (\sin \theta) = \Img (\cos \theta) = 0\) per \(\theta \in \mathbb{Q}\): \\
+	ricordando che \(\displaystyle \Real (z) = \frac{z + z^*}{2}\), \(\displaystyle \Img (z) = \frac{z - z^*}{2i}\), si ha: \\
+	\(\displaystyle \Img (\cos \theta) = \frac{1}{2i} \cdot \left(\frac{e^{i\theta}+e^{-i\theta}}{2} - \frac{e^{-i\theta}+e^{i\theta}}{2}\right) = \frac{0}{2i} = 0\) \\
+	\(\displaystyle \Img (\sin \theta) = \frac{1}{2i} \cdot \left(\frac{e^{i\theta}-e^{-i\theta}}{2i} - \frac{e^{-i\theta}-e^{i\theta}}{2i}\right) = \frac{0}{2i} = 0\)
+	\item[-] si osserva che \(\left|\cos \theta\right| \leq 1\), \(\left|\sin \theta\right| \leq 1\): \\
+	\(\displaystyle \left|\cos \theta\right| = \left|\frac{e^{i\theta)}+e^{-i\theta}}{2}\right| = \frac{1}{2}\left|e^{i\theta} + e^{-i\theta}\right| \leq \frac{1}{2}\left|1 \cdot e^{i\theta}\right| + \left|1 \cdot e^{-i\theta}\right|= \frac{1}{2} (1+1) = 1\) \\
+	\(\displaystyle \left|\sin \theta\right| = \dots\)
+\end{itemize}
+
+\subsection{Derivate}
+\[\frac{d}{d\theta} \sin \theta = \cos \theta \qquad \frac{d}{d\theta} \cos \theta = -\sin \theta\]
+\[\frac{d^2}{d\theta^2} \sin \theta = -\sin \theta \qquad \frac{d^2}{d\theta^2} \cos \theta = -\cos \theta\]
+
+\newpage
+
 
 \section{Vettori e versori}
-\subsection{Introduzione}
-\subsection{Somma di vettori}
+\subsection{Definizione}
+Un vettore è un \say{segmento orientato}, cioè definito da 3 proprietà: lunghezza, direzione e verso. Un vettore si indica con
+lettere minuscole come \(\vec{a}\), \(\vec{b}\), \dots Questa definizione ci permette di essere indipendenti dal sistema di 
+coordinate di riferimento.
+
+La lungheza di un vettore è chiamata norma o modulo e si indica \(\left|\left| \vec{a} \right|\right|\)
+
 \subsection{Prodotto per uno scalare}
+Dati \(\vec{a}\) vettore e \(\lambda\) scalare (numero reale), allora \(\vec{b} = \lambda \vec{a}\) è un vettore tale che:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] se \(\lambda > 0\), \(\vec{b}\) ha stessa direzione e verso di \(\vec{a}\), con lunghezza \(\lambda\) volte quella di \(\vec{a}\)
+	\item[-] se \(\lambda < 0\), \(\vec{b}\) ha stessa direzione e verso opposto di \(\vec{a}\), con lunghezza \(-\lambda\) volte quella di \(\vec{a}\)
+	\item[-] se \(\lambda = 0\), \(\vec{b}\) è vettore nullo \(\vec{0}\)
+\end{itemize}
+
+\subsection{Somma di vettori}
+Dati due vettori \(\vec{a}\), \(\vec{b}\) la loro somma è un vettore \(\vec{c} = \vec{a} + \vec{b}\) definita dalla regola del
+parallelogramma. La somma ha le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\vec{a} + \vec{b} = \vec{b} + \vec{a}\)
+	\item[-] \((\vec{a} + \vec{b}) + \vec{c} = \vec{a} + (\vec{b} + \vec{c})\)
+	\item[-] \(\lambda (\vec{a} + \vec{b}) = \lambda \vec{a} + \lambda \vec{b}\)
+	\item[-] \(\vec{a} (\lambda_1 + \lambda_2) = \vec{a} \lambda_1 + \vec{a} \lambda_2\)
+	\item[-] \(\vec{a} - \vec{b} = \vec{a} + (-1)\vec{b}\)
+	\item[-] \(\vec{a} - \vec{a} = \vec{a}(1-1) = \vec{0}\)
+\end{itemize}	
+
+
 \subsection{Versori}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] i versori sono vettori unitari (con lunghezza 1).
+	\item[-] sono definiti come \(\vec{u_a} = \frac{1}{\left|\left|\vec{a}\right|\right|} \cdot \vec{a}\).
+	\item[-] una terna di assi è definita da 3 versori \(\vec{u_x}\), \(\vec{u_y}\), \(\vec{u_z}\).
+	\item[-] dato un vettore \(\vec{a} = \left(a_x, a_y, a_z\right)\) si può esprimere come \(\vec{a} = a_x \vec{u_x} + a_y \vec{u_y} + a_z \vec{u_z}\)
+\end{itemize}
+
 \subsection{Prodotto scalare}
 \subsection{Prodotto vettore}
 \subsection{Derivata di vettore}
@@ -168,6 +263,8 @@ Esempi di applicazioni:
 \subsection{Lavoro della forza di reazione vincolare}
 \subsection{Lavoro della forza di attrito radente}
 \subsection{Segno del lavoro}
+
+\newpage
 
 \section{Forze conservative e non conservative}
 \subsection{Introduzione}
