@@ -27,6 +27,9 @@
 \newcommand\Real{\text{Re}}
 \newcommand\Img{\text{Im}}
 
+%% modulo vettore
+\newcommand\vmod[1]{\left|\left|{#1}\right|\right|}
+
 \title{Appunti di Fisica 1}
 \author{Giacomo Simonetto}
 \date{Secondo semetre 2023-24}
@@ -88,11 +91,11 @@ La posizione nello spazio di un punto sono le coordinate del punto un sistema di
 \[\vec{r}(t) = \left(x_0(t), y_0(t), z_0(t)\right) \qquad \left[x_0\right] = \left[y_0\right] = \left[z_0\right] = m\]
 
 \subsubsection*{Velocità}
-La velocità è lo spazio percorso in un tempo piccolo. \[\vec{v}(t) = \frac{d}{dx} \vec{r}(t) \qquad \left[v\right] = \frac{m}{s}\]
+La velocità è lo spazio percorso in un tempo piccolo. \[\vec{v}(t) = \frac{d}{dx} \, \vec{r}(t) \qquad \left[v\right] = \frac{m}{s}\]
 Per ottenere la posizione dalla velocità: \[\vec{r}(t) = \vec{r_0} + \int_{t0}^{t1} \vec{v}(\tau) \, d\tau\]
 
 \subsubsection*{Accelerazione}
-L'accelerazione è la variazione della velocità nel tempo. \[\vec{a}(t) = \frac{d}{dx} \vec{v}(t) = \frac{d^2}{dx^2} \vec{r}(t) \qquad \left[a\right] = \frac{m}{s^2}\]
+L'accelerazione è la variazione della velocità nel tempo. \[\vec{a}(t) = \frac{d}{dx} \, \vec{v}(t) = \frac{d^2}{dx^2} \, \vec{r}(t) \qquad \left[a\right] = \frac{m}{s^2}\]
 Per ottenere la velocità dall'accelerazione: \[\vec{v}(t) = \vec{v_0} + \int_{t0}^{t1} \vec{a}(\tau) \, d\tau\]
 Per ottenere la posizione dall'accelerazione: \[\vec{r}(t) = \vec{r_0} + \int_{t0}^{t1} \left( \vec{v_0}(\tau) + \int_{t0}^{t1} \vec{a}(\tau) \, d\tau \right) \, d\tau \quad \left(= \vec{r_0} + \vec{v_0}(t-t_0) + \iint_{t_0}^{t_1} \vec{a}(\tau) \, d\tau^2 \right)\]
 
@@ -151,8 +154,8 @@ Esempi di applicazioni:
 \subsection{Moto vario}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] la posizione è data da \(\vec{r}(t)\)
-	\item[-] la velocità è data da \(\displaystyle \vec{v}(t) = \lim_{\Delta t \to 0} \frac{\vec{r}(t+\Delta t) - \vec{r}(t)}{\Delta t} = \frac{d}{dt} \vec{r}(t)\)
-	\item[-] l'accelerazione è data da \(\displaystyle \vec{a}(t) = \lim_{\Delta t \to 0} \frac{\vec{v}(t+\Delta t) - \vec{v}(t)}{\Delta t} = \frac{d}{dt} \vec{v}(t) = \frac{d^2}{dt^2} \vec{r}(t)\)
+	\item[-] la velocità è data da \(\displaystyle \vec{v}(t) = \lim_{\Delta t \to 0} \frac{\vec{r}(t+\Delta t) - \vec{r}(t)}{\Delta t} = \frac{d}{dt} \, \vec{r}(t)\)
+	\item[-] l'accelerazione è data da \(\displaystyle \vec{a}(t) = \lim_{\Delta t \to 0} \frac{\vec{v}(t+\Delta t) - \vec{v}(t)}{\Delta t} = \frac{d}{dt} \, \vec{v}(t) = \frac{d^2}{dt^2} \, \vec{r}(t)\)
 	\item[-] la velocità è tangente alla traiettoria, ma non è detto che sia perpendicolare al vettore \(\vec{r}\)
 \end{itemize}
 
@@ -193,7 +196,7 @@ Un vettore è un \say{segmento orientato}, cioè definito da 3 proprietà: lungh
 lettere minuscole come \(\vec{a}\), \(\vec{b}\), \dots Questa definizione ci permette di essere indipendenti dal sistema di 
 coordinate di riferimento.
 
-La lungheza di un vettore è chiamata norma o modulo e si indica \(\left|\left| \vec{a} \right|\right|\)
+La lungheza di un vettore è chiamata norma o modulo e si indica \(\vmod{\vec{a}}\)
 
 \subsection{Prodotto per uno scalare}
 Dati \(\vec{a}\) vettore e \(\lambda\) scalare (numero reale), allora \(\vec{b} = \lambda \vec{a}\) è un vettore tale che:
@@ -219,22 +222,72 @@ parallelogramma. La somma ha le seguenti proprietà:
 \subsection{Versori}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] i versori sono vettori unitari (con lunghezza 1).
-	\item[-] sono definiti come \(\vec{u_a} = \frac{1}{\left|\left|\vec{a}\right|\right|} \cdot \vec{a}\).
+	\item[-] sono definiti come \(\vec{u_a} = \frac{1}{\vmod{\vec{a}}} \cdot \vec{a}\).
 	\item[-] una terna di assi è definita da 3 versori \(\vec{u_x}\), \(\vec{u_y}\), \(\vec{u_z}\).
 	\item[-] dato un vettore \(\vec{a} = \left(a_x, a_y, a_z\right)\) si può esprimere come \(\vec{a} = a_x \vec{u_x} + a_y \vec{u_y} + a_z \vec{u_z}\)
 \end{itemize}
 
 \subsection{Prodotto scalare}
+Dati due vettori \(\vec{a}\) e \(\vec{b}\) che formano un angolo \(\theta\) misurato in senso antiorario, il prodotto scalare tra
+due vettori è uno scalare definito come \(\vec{a} \cdot \vec{b} = \vmod{\vec{a}} \vmod{\vec{b}} \cos \theta\)
+con le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\vec{a} \cdot \vec{b} = \vec{a} \cdot \vec{b}\)
+	\item[-] \((\lambda \vec{a}) \cdot \vec{b} = \lambda (\vec{a} \cdot \vec{b})\)
+	\item[-] \((\vec{a} + \vec{b}) \cdot \vec{c} = \vec{a} \cdot \vec{c} + \vec{b} \cdot \vec{c}\)
+\end{itemize}
+
+\subsubsection*{Prodotto scalare tra versori}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\vec{u_x} \cdot \vec{u_x} = \vec{u_y} \cdot \vec{u_y} = \vec{u_z} \cdot \vec{u_z} = 1\)
+	\item[-] \(\vec{u_x} \cdot \vec{u_y} = \vec{u_y} \cdot \vec{u_z} = \vec{u_z} \cdot \vec{u_x} = 0\)
+\end{itemize}
+
+\subsubsection*{Prodotto scalare per componenti}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\vec{a} \cdot \vec{b} = \left(a_x \vec{u_x} + a_y \vec{u_y} + a_z \vec{u_z}\right) \cdot \left(b_x \vec{u_x} + b_y \vec{u_y} + b_z \vec{u_z}\right) = a_x b_x + a_y b_y + a_z b_z\)
+	\item[-] \(\vec{a} \cdot \vec{a} = \vmod{\vec{a}}^2 = a_x^2 + a_y^2 + a_z^2 \quad \Rightarrow \quad \vmod{\vec{a}} = \sqrt{a_x^2 + a_y^2 + a_z^2}\)
+\end{itemize}
+
 \subsection{Prodotto vettore}
+Dati due vettori \(\vec{a}\) e \(\vec{b}\) con angolo \(\theta\) misurato in senso antiorario, il prodotto vettore tra due vettori
+è un vettore definito come \(\vec{c} = \vec{a} \times \vec{b} = \vmod{\vec{a}} \vmod{\vec{b}} \sin \theta \; \vec{u_c}\)
+con \(\vec{u_c}\) versore perpendicolare al piano di \(\vec{a}\) e \(\vec{b}\).
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] se due vettori sono paralleli, \(\vec{a} \times \vec{b} = \vec{0}\)
+	\item[-] l'orientamento di \(\vec{u_c}\) è una scelta convenzionale secondo la \say{regola della mano destra}
+	\item[-] \(\vec{a} \times \vec{b} \neq \vec{b} \times \vec{a} \quad \Rightarrow \quad \vec{a} \times \vec{b} = - \vec{b} \times \vec{a}\)
+	\item[-] \((\lambda \vec{a}) \times \vec{b} = \lambda (\vec{a} \times \vec{b})\)
+	\item[-] \((\vec{a} + \vec{b}) \times \vec{c} = \vec{a} \times \vec{c} + \vec{b} \times \vec{c}\)
+	\item[-] \(\vec{c} \times (\vec{a} + \vec{b}) = \vec{c} \times \vec{a} + \vec{c} \times \vec{b}\)
+	\item[-] \((\vec{a} \times \vec{b}) \times \vec{c} \neq \vec{a} \times (\vec{b} \times \vec{c})\)
+\end{itemize}
+
+\subsubsection*{Prodotto vettore tra versori}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\vec{u_x} \times \vec{u_x} = \vec{u_y} \times \vec{u_y} = \vec{u_z} \times \vec{u_z} = 0\)
+	\item[-] \(\vec{u_x} \times \vec{u_y} = \vec{u_z}\)
+	\item[-] \(\vec{u_y} \times \vec{u_z} = \vec{u_x}\)
+	\item[-] \(\vec{u_z} \times \vec{u_x} = \vec{u_y}\)
+\end{itemize}
+
 \subsection{Derivata di vettore}
+\begin{itemize}
+	\item[-] Dato un vettore \(\vec{a}(t) = (a_x(t) \; \vec{u_x} + a_y(t) \; \vec{u_y} + a_z(t) \; \vec{u_z})\), la sua derivata è definita come \\
+	\(\displaystyle \frac{d}{dt} \, \vec{a}(t) = \left(\frac{d}{dt} \, a_x(t) \; \vec{u_x} + \frac{d}{dt} \, a_y(t) \; \vec{u_y} + \frac{d}{dt} \, a_z(t) \; \vec{u_z}\right)\)
+	\item[-] Dato un versore \(\vec{u}(t)\), la sua derivata è definita come \(\displaystyle \frac{d}{dt} \, \vec{u}(t) = \frac{d \, \theta(t)}{dt} \, \vec{u_\perp}(t)\)
+	con \(\vec{u_\perp}(t)\) versore perpendicolare a \(\vec{u}(t)\) e con \(\theta\) angolo spazzato da \(\vec{u}(t)\) in \(\Delta t\) piccolo.
+\end{itemize}
+Sia \(\vec{r}(t)\) vettore qualsiasi, la sua derivata è definita come
+\[\frac{d}{dt} \, \vec{r}(t) = \frac{d \vmod{\vec{r}(t)}}{dt} \; \vec{u_r}(t) + \vmod{\vec{r}(t)} \frac{d \, \theta(t)}{dt} \; \vec{u_\perp}(t)\]
 
 \newpage
 
 
 \section{Dinamica del punto materiale}
-\subsection{Prima legge della dinamica}
-\subsection{Seconda legge della dinamica}
-\subsection{Terza legge della dinamica}
+\subsection{Prima legge della dinamica - principio di inerzia}
+\subsection{Seconda legge della dinamica - legge di Newton}
+\subsection{Terza legge della dinamica - principio di azione-reazione}
 \subsection{Sistemi di riferimento inerziali}
 \subsection{Forza gravitazionale universale}
 \subsection{Forza elastica}
