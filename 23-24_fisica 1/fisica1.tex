@@ -27,6 +27,11 @@
 \newcommand\Real{\text{Re}}
 \newcommand\Img{\text{Im}}
 
+% versori
+\newcommand\ux{\vec{u}_x}
+\newcommand\uy{\vec{u}_y}
+\newcommand\uz{\vec{u}_z}
+
 % derivata
 \newcommand\dt{\frac{d}{dt}\,}
 \newcommand\dts{\frac{d^2}{dt^2}\,}
@@ -132,9 +137,9 @@ Esempi di applicazioni:
 
 \subsection{Moto armonico semplice in una dimensione}
 \begin{align*}
-	x(t) &= A \sin (\omega t + \varphi_0) = A \cdot \sin (\omega (t - t_0)) \qquad \text{con } -\omega t_0 = \varphi_0 \\
-	v(t) &= A \omega \cos (\omega t + \varphi_0) \\
-	a(t) &= -A \omega^2 \sin (\omega t + \varphi_0) = -\omega^2 x(t)
+	x(t) &= A \cos (\omega t + \varphi_0) = A \cos (\omega (t - t_0)) \qquad \text{con } -\omega t_0 = \varphi_0 \\
+	v(t) &= - A \omega \sin (\omega t + \varphi_0) \\
+	a(t) &= -A \omega^2 \cos (\omega t + \varphi_0) = -\omega^2 x(t)
 \end{align*}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(A\) ampiezza del moto, \(\left[A\right] = m\)
@@ -227,8 +232,8 @@ parallelogramma. La somma ha le seguenti proprietà:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] i versori sono vettori unitari (con lunghezza 1).
 	\item[-] sono definiti come \(\vec{u_a} = \frac{1}{\vmod{\vec{a}}} \cdot \vec{a}\).
-	\item[-] una terna di assi è definita da 3 versori \(\vec{u_x}\), \(\vec{u_y}\), \(\vec{u_z}\).
-	\item[-] dato un vettore \(\vec{a} = \left(a_x, a_y, a_z\right)\) si può esprimere come \(\vec{a} = a_x \vec{u_x} + a_y \vec{u_y} + a_z \vec{u_z}\)
+	\item[-] una terna di assi è definita da 3 versori \(\ux\), \(\uy\), \(\uz\).
+	\item[-] dato un vettore \(\vec{a} = \left(a_x, a_y, a_z\right)\) si può esprimere come \(\vec{a} = a_x \ux + a_y \uy + a_z \uz\)
 \end{itemize}
 
 \subsection{Prodotto scalare}
@@ -243,13 +248,13 @@ con le seguenti proprietà:
 
 \subsubsection*{Prodotto scalare tra versori}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] \(\vec{u_x} \cdot \vec{u_x} = \vec{u_y} \cdot \vec{u_y} = \vec{u_z} \cdot \vec{u_z} = 1\)
-	\item[-] \(\vec{u_x} \cdot \vec{u_y} = \vec{u_y} \cdot \vec{u_z} = \vec{u_z} \cdot \vec{u_x} = 0\)
+	\item[-] \(\ux \cdot \ux = \uy \cdot \uy = \uz \cdot \uz = 1\)
+	\item[-] \(\ux \cdot \uy = \uy \cdot \uz = \uz \cdot \ux = 0\)
 \end{itemize}
 
 \subsubsection*{Prodotto scalare per componenti}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] \(\vec{a} \cdot \vec{b} = \left(a_x \vec{u_x} + a_y \vec{u_y} + a_z \vec{u_z}\right) \cdot \left(b_x \vec{u_x} + b_y \vec{u_y} + b_z \vec{u_z}\right) = a_x b_x + a_y b_y + a_z b_z\)
+	\item[-] \(\vec{a} \cdot \vec{b} = \left(a_x \ux + a_y \uy + a_z \uz\right) \cdot \left(b_x \ux + b_y \uy + b_z \uz\right) = a_x b_x + a_y b_y + a_z b_z\)
 	\item[-] \(\vec{a} \cdot \vec{a} = \vmod{\vec{a}}^2 = a_x^2 + a_y^2 + a_z^2 \quad \Rightarrow \quad \vmod{\vec{a}} = \sqrt{a_x^2 + a_y^2 + a_z^2}\)
 \end{itemize}
 
@@ -269,16 +274,16 @@ con \(\vec{u_c}\) versore perpendicolare al piano di \(\vec{a}\) e \(\vec{b}\).
 
 \subsubsection*{Prodotto vettore tra versori}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] \(\vec{u_x} \times \vec{u_x} = \vec{u_y} \times \vec{u_y} = \vec{u_z} \times \vec{u_z} = 0\)
-	\item[-] \(\vec{u_x} \times \vec{u_y} = \vec{u_z}\)
-	\item[-] \(\vec{u_y} \times \vec{u_z} = \vec{u_x}\)
-	\item[-] \(\vec{u_z} \times \vec{u_x} = \vec{u_y}\)
+	\item[-] \(\ux \times \ux = \uy \times \uy = \uz \times \uz = 0\)
+	\item[-] \(\ux \times \uy = \uz\)
+	\item[-] \(\uy \times \uz = \ux\)
+	\item[-] \(\uz \times \ux = \uy\)
 \end{itemize}
 
 \subsection{Derivata di vettore}
 \begin{itemize}
-	\item[-] Dato un vettore \(\vec{a}(t) = (a_x(t) \; \vec{u_x} + a_y(t) \; \vec{u_y} + a_z(t) \; \vec{u_z})\), la sua derivata è definita come \\
-	\(\displaystyle \dt \vec{a}(t) = \left(\dt a_x(t) \; \vec{u_x} + \dt a_y(t) \; \vec{u_y} + \dt a_z(t) \; \vec{u_z}\right)\)
+	\item[-] Dato un vettore \(\vec{a}(t) = (a_x(t) \; \ux + a_y(t) \; \uy + a_z(t) \; \uz)\), la sua derivata è definita come \\
+	\(\displaystyle \dt \vec{a}(t) = \left(\dt a_x(t) \; \ux + \dt a_y(t) \; \uy + \dt a_z(t) \; \uz\right)\)
 	\item[-] Dato un versore \(\vec{u}(t)\), la sua derivata è definita come \(\displaystyle \dt \vec{u}(t) = \frac{d \, \theta(t)}{dt} \, \vec{u_\perp}(t)\)
 	con \(\vec{u_\perp}(t)\) versore perpendicolare a \(\vec{u}(t)\) e con \(\theta\) angolo spazzato da \(\vec{u}(t)\) in \(\Delta t\) piccolo.
 \end{itemize}
@@ -350,21 +355,202 @@ Per il corpo \(A\) vale \(\displaystyle \vmod{\vec{a}_A} = -G_N \frac{m_B}{\vmod
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] l'accelerazione gravitazionale dipende solo dalla massa del corpo che attrae
 	\item[-] sulla superficie terrestre vale \(\displaystyle g \approx 9.8 \; \frac{m}{s^2}\)
-	\item[-] la forza di attrazione che esercita la Terra su un oggetto di massa \(m\) è detta forza peso \(\vec{F}_p = m \, g \, \vec{u_z}\).
+	\item[-] la forza di attrazione che esercita la Terra su un oggetto di massa \(m\) è detta forza peso \(\vec{F}_p = m \, g \, \uz\).
 \end{itemize}
 
 \subsection{Forza elastica}
+La forza elastica esercita da una molla su un corpo di massa \(m\) è definita come:
+\[\vec{F}_{el} = -k \, \Delta x \, \ux\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] definendo \(x=0\) il punto in cui la molla è a riposo per cui \(\vec{F}_{el} = 0\), si ha \(\vec{F}_{el} = -k \, x \, \ux\)
+	\item[-] è una forza di richiamo: tende a riportare la molla alla posizione di riposo, infatti agisce in verso opposto al vettore
+	posizione per la presenza del segno \(-\)
+	\item[-] è una forza universale: non fa parte delle forze elementari, ma è la forma di tutte le forze di richiamo (localmente a \(x = 0\))
+\end{itemize}
+
 \subsection{Forza di reazione vincolare}
+La forza di reazoine vincolare è esercitata da una superfice su un corpo appoggiato ad essa. È perpendicolare alla superficie e
+opposta alla somma delle forze entranti, definita come:
+\[\vec{F}_\perp = \vmod{\vec{F}_{TOT,\perp}} \vec{u}_\perp = -\vec{F}_{TOT,\perp}\]
+
 \subsection{Forza di attrito radente}
+Forza di attrito esercitata dallo strisciamento di un corpo sulla superficie definita come:
+\[\vec{F}_\text{attrito radente} = \begin{cases}
+	-\vec{F}_{\parallel} &\text{se} \; \vmod{\vec{F}_\parallel} < \mu_s \vmod{\vec{F}_\perp}\\
+	-\mu_d \, \vmod{\vec{F}_\perp} \, \vec{u}_v &\text{altrimenti}
+\end{cases}\]
+
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\mu_s\) numero puro, coefficiente di attrito statico (per \(\vec{v}=0\))
+	\item[-] \(\mu_d\) numero puro, coefficiente di attrito dinamico
+	\item[-] \(\vec{u}_v\) versore con direzione e verso di \(\vec{v}\)
+	\item[-] generalmente \(\mu_d < \mu_s\)
+\end{itemize}
+
 \subsection{Forza di attrito viscoso}
+Forza di attrito esercitata da un fluido su un corpo in movimento, definita come:
+\[\vec{F}_\text{attrito viscoso} = - b \, \vec{v}\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(b\) coefficiente di attrito viscoso, \(\left[b\right] = \frac{kg}{s}\)
+	\item[-] direzione opposta alla velocità e modulo proporzionale ad essa
+	\item[-] in presenza di solo attrito viscoso lungo \(\ux\) le equazioni del moto diventano:
+	\[v_x(t) = v_0 \, e^{-\frac{b}{m}t} \qquad x(t) = x_0 + \frac{m \, v_0}{b} \, \left(1-e^{-\frac{b}{m}t}\right)\]
+	il grafico della velocità è un'esponenziale con esponente decrescente, quello della posizione è un'esponenziale capovolta con asintoto orizzontale \(x_{\infty} = x_0 + \frac{m \, v_0}{b}\)
+\end{itemize}
+
+\newpage
+
 
 \section{Trovare le equazioni del moto}
 \subsection{Piano inclinato}
-\subsection{Oscillatore armonico semplice}
+\subsubsection*{Piano inclinato liscio}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] le forze presenti sono \(\vec{F}_P = -m \, g \, \uz\) forza peso e \(\vec{F}_R = \vmod{\vec{F}_\perp} \vec{u}_\perp\) forza di reazione vincolare
+	\item[-] si scompongono le forze lungo la direzione \(\parallel\) e \(\perp\) al piano e si applica la seconda legge della dinamica
+	\item[-] lungo \(\vec{u}_\parallel\) si ha \(a_\parallel = 0\), lungo \(\vec{u}_\perp\) si ha \(a_\perp = g \, \sin \theta\)
+	\item[-] il moto è uniformemente accelerato con accelerazione minore di \(g\)
+\end{itemize}
+
+\subsubsection*{Piano inclinato scabro}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] le forze presenti sono \(\vec{F}_P = -m \, g \, \uz\), \(\vec{F}_R = \vmod{\vec{F}_\perp} \vec{u}_\perp\), \(\vec{F}_A\) forza di attrito
+	\item[-] si scompongono le forze lungo la direzione \(\parallel\) e \(\perp\) al piano e si applica la seconda legge della dinamica
+	\item[-] per \(\mu_s < \tan \theta\) il corpo non si muove
+	\item[-] lungo \(\vec{u}_\parallel\) si ha \(a_\parallel = 0\), lungo \(\vec{u}_\perp\) si ha \(a_\perp = g \, \sin \theta \, (1-\mu_d \cot \theta)\)
+	\item[-] il moto è uniformemente accelerato con accelerazione minore di \(g\)
+\end{itemize}
+
 \subsection{Trovare le soluzioni del moto per una forza generica in 1D}
+Data una generica forza \(\vec{F}_x\) lungo \(\ux\), l'equazione del moto dalla la seconda legge della dinamica è:
+\[m \, a_x(t) = F_x(x(t), v(t), t) = -k \, x(t) - b \, v_x(t) + f(t) \quad \Rightarrow \quad a_x(t) = -\frac{k \, x(t)}{m} - \frac{b \, v_x(t)}{m} + \frac{f(t)}{m}\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(-k \, x(t)\) è la componente dipendente dalla posizione con \(k\) costante elastica
+	\item[-] \(-b \, v_x(t)\) è la componente dipendente dalla velocità con \(b\) costante
+	\item[-] \(f(t)\) è la componente dipendente dal tempo, può essere costante (es. \(mg\)) o periodica (es. risonanza)
+\end{itemize}
+
+Dall'equazione sopra si deriva l'equazione differenzale \eqref{diff} e la sua omogenea associata \eqref{omog}:
+\begin{equation}
+	\label{diff}
+	\left(\dts + \frac{b}{m} \dt + \frac{k}{m}\right) x(t) = \frac{f(t)}{m}
+\end{equation}
+\begin{equation}
+	\label{omog}
+	\left(\dts + \frac{b}{m} \dt + \frac{k}{m}\right) x(t) = 0
+\end{equation}
+
+Le soluzioni di \eqref{diff} si scrivono nella forma:
+\[X(t) = \lambda_1 x_1(t) + \lambda_2 x_2(t) + x_s(t)\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(x_1(t)\) e \(x_2(t)\) sono soluzioni generiche della omogenea associata
+	\item[-] \(x_s(t)\) è una soluzione particolare della differenzale
+	\item[-] \(\lambda_1\) e \(\lambda_2\) sono parametri liberi da determinare in funzione delle condizioni iniziali
+\end{itemize}
+
+\newpage
+
+\subsection{Oscillatore armonico semplice}
+Moto di un corpo attaccatto all'estremità di una molla con costante elastica \(k\) che si muove lungo una direzione (\(\ux\)),
+con \(x=0\) posizione di riposo della molla. La forza che agisce sul corpo è la forza elastica e dipende solo dalla posizione:
+\[m \, a_x = -k \, x(t) \quad \Rightarrow \quad \dts x(t) + \frac{k}{m} x(t) = 0\]
+L'equazione del moto che soddisfa la differenziale sopra corrisponde a quella del moto armonico:
+\[x(t) = A \cos (\omega t + \varphi_0)\]
+%\[x(t) = A \cos (\omega t + \varphi_0) \qquad v(t) = -A \omega \sin (\omega t + \varphi_0) \qquad a(t) = -A \omega^2 \cos (\omega t + \varphi_0)\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(A\) ampiezza del moto, \(\left[A\right] = m\)
+	\item[-] \(\omega\) velocità angolare, \(\left[\omega\right] = \frac{rad}{s}\), \(\omega^2 = \frac{k}{m}\)
+	\item[-] \(\varphi_0\) sfasamento iniziale, \(\left[\varphi_0\right] = rad\)
+\end{itemize}
+
+L'equazione del moto dipende dai due parametri \(A\) e \(\varphi_0\) da definire in base alle condizioni iniziali, ad esempio
+si possono esprimere in funzione delle condizioni iniziali \(x_0\) e \(v_0\):
+\[x_0 = A \cos \varphi_0 \qquad v_0 = -A \omega \sin \varphi_0 \qquad \tan \varphi_0 = -\frac{v_0}{\omega \, x_0} \qquad A = \sqrt{{x_0}^2 + \left(\frac{v_0}{\omega}\right)^2}\]
+
+L'equazione si può riscrivere come composizione di funzioni goniometriche esplicitando i due parametri dipendenti dalle condizioni iniziali:
+\[x(t) = A_1 \cos (\omega t) + A_2 \sin (\omega t)\]
+%\[x(t) = A_1 \cos (\omega t) + A_2 \sin (\omega t) \quad v(t) = -A_1 \omega \sin (\omega t) + A_2 \omega \cos (\omega t) \quad a(t) = -A_1 \omega^2 \cos (\omega t) - A_2 \omega^2 \sin (\omega t)\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(A_1\) prima ampiezza del moto, \(\left[A_1\right] = m\), con \(A_1 = A \cos \varphi_0\)
+	\item[-] \(A_2\) seconda ampiezza del moto, \(\left[A_2\right] = m\), con \(A_2 = -A \sin \varphi_0\)
+\end{itemize}
+
 \subsection{Oscillatore armonico con l'azione della forza peso}
+Stessa situazione precedente, con moto lungo \(\uz\), considerando anche la forza peso del corpo. Le forze che agiscono sono
+quella elastica e la forza peso e dipendono ancora soltanto dalla posizione:
+\[m \, a_z = -k \, z(t) - m \, g \quad \Rightarrow \quad \dts z(t) + \frac{k}{m} z(t) = -g\]
+L'equazione del moto che soddisfa la differenziale sopra corrisponde a quella del moto armonico al netto di una costante
+dovuta alla presenza della forza peso:
+\[z(t) = A \cos (\omega t + \varphi_0) + \Delta l \qquad \Rightarrow \qquad \tilde{z}(t) = z(t) - \Delta l = A \cos (\omega t + \varphi_0)\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(A\) ampiezza del moto, \(\left[A\right] = m\)
+	\item[-] \(\omega\) velocità angolare, \(\left[\omega\right] = \frac{rad}{s}\)
+	\item[-] \(\varphi_0\) sfasamento iniziale, \(\left[\varphi_0\right] = rad\)
+	\item[-] \(\displaystyle \Delta l = - \frac{m \, g}{k}\) spostamento della posizione di equilibrio dovuta alla forza peso
+	\item[-] \(\tilde{z}(t) = z(t) - \Delta l\) equazione della posizione introdotta traslando il punto di riposo della molla di \(\Delta l\) affiché \(\tilde{z}(t) = 0\) per \(\displaystyle z(t) = -\frac{m \, g}{k}\)
+\end{itemize}
+
+\newpage
+
 \subsection{Oscillatore armonico smorzato (con forza peso e attrito)}
+Analoga situazione precedente, con l'introduzione della forza di attrito viscoso con coefficiente di attrito \(b\). L'equazione
+delle forze in gioco è:
+\begin{multline*}
+	m \, a_z = -k \, z(t) - m \, g - b \, v(t) \quad \Rightarrow \quad m \, a_z = -k \, \tilde{z}(t) - b \, v(t) \quad \Rightarrow \quad \dts \tilde{z}(t) + \frac{b}{m} \dt \tilde{z}(t) + \frac{k}{m} \tilde{z}(t) = 0 \\
+	\Rightarrow \quad \dts \tilde{z}(t) + 2 \gamma \dt \tilde{z}(t) + \omega^2 \tilde{z}(t) = 0
+\end{multline*}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\displaystyle 2 \gamma = \frac{b}{m} > 0\) fattore di smorzamento (approfondito dopo)
+	\item[-] \(\displaystyle \omega^2 = \frac{k}{m} > 0\) velocità oscillazione (approfondito dopo)
+\end{itemize}
+
+L'equazione che soddisfa la soluzione è del tipo \(z_0 \, e^{\lambda t}\) con \(\lambda_{1,2} = -\gamma \pm \sqrt{\gamma^2-\omega^2}\) ed
+in base alla condizione di esistenza della radice si considerano i casi \(\gamma > \omega\) (1) e \(\gamma < \omega\) (2), :
+\begin{enumerate}
+	\item per \(\gamma > \omega\) la radice esiste nei reali e si ha:
+	\[\tilde{z}(t) = z_1 \, e^{\left(-\gamma + \sqrt{\gamma^2 - \omega^2}\right) \, t} + z_2 \,  e^{\left(-\gamma - \sqrt{\gamma^2 - \omega^2}\right) \, t}\]
+	\begin{itemize}[topsep=3pt, itemsep=0pt]
+		\item[-] \(z_1, z_2\) parametri da determinare in base alla situazione iniziale, per \(t_0 = 0 \quad \Rightarrow \quad \tilde{z}(0) = z_1 + z_2\)
+		\item[-] la componente \(z_2 \, e^{\lambda_2 t}\) va a 0 più velocemente rispetto a \(z_1 \, e^{\lambda_1 t}\), per cui
+		il comportamento prevalente dipende dal secondo contributo
+		\item[-] il grafico spazio-tempo è un'esponenziale con esponenti negativi crescenti, può essere simmetrica rispetto
+		all'asse orizzontale in base al segno di \(\tilde{z}(0)\)
+	\end{itemize}
+	\item per \(\gamma < \omega\) la radice ha soluzioni complesse coniugate \(\lambda_{1,2} = -\gamma \pm i \, \sqrt{\left|\gamma^2 - \omega^2\right|}\):
+	\setcounter{equation}{0}
+	\begin{equation}
+		\label{eq1}
+		\tilde{z}(t) = z_1 \, e^{-\gamma t} \, e^{i \, \sqrt{\left|\gamma^2 - \omega^2\right|} \, t} + z_2 \, e^{-\gamma t} \, e^{-i \, \sqrt{\left|\gamma^2 - \omega^2\right|} \, t} =
+		e^{-\gamma t} \left(z_1 \, e^{i \, \sqrt{\left|\gamma^2 + \omega^2\right|}} + z_2 \, e^{-i \, \sqrt{\left|\gamma^2 + \omega^2\right|}}\right)
+	\end{equation}
+	\begin{equation}
+		\label{eq2}
+		\begin{cases}
+			\tilde{z}(t) = A \, e^{-\gamma t} \left( \frac{e^{i \, \sqrt{\left|\gamma^2 - \omega^2\right|} \, t} + e^{-i \, \sqrt{\left|\gamma^2 - \omega^2\right|} \, t}}{2}\right) = A \, e^{-\gamma t} \cos \left(\sqrt{\left|\gamma^2 + \omega^2\right|} \, t\right) &\text{per} \; z_1 = z_2 = \frac{A}{2} \\
+			\tilde{z}(t) = B \, e^{-\gamma t} \left( \frac{e^{i \, \sqrt{\left|\gamma^2 - \omega^2\right|} \, t} - e^{-i \, \sqrt{\left|\gamma^2 - \omega^2\right|} \, t}}{2i}\right) = B \, e^{-\gamma t} \sin \left(\sqrt{\left|\gamma^2 + \omega^2\right|} \, t\right) &\text{per} \; z_1 = - z_2 = \frac{B}{2}
+		\end{cases}
+	\end{equation}
+	\begin{align}
+		\label{eq3}	\tilde{z}(t) &= e^{-\gamma t} \left( A \cos \left(\sqrt{\left|\gamma^2 - \omega^2\right|} \, t\right) + B \sin \left( \sqrt{\left|\gamma^2 - \omega^2\right|} \, t \right) \right) &\text{per} \; z_1 = \frac{A}{2} + \frac{B}{2i}, \; \; z_2 = \frac{A}{2} - \frac{B}{2i} \\
+		\label{eq4}	\tilde{z}(t) &= e^{-\gamma t} \, C \cos \left(\sqrt{\left|\gamma^2 - \omega^2\right|} \, t\right) &\text{per} \; A = C \cos \varphi_0, \; \; B = C \sin \varphi_0
+	\end{align}
+	\begin{itemize}[topsep=3pt, itemsep=0pt]
+		\item[-] eq. \eqref{eq1} si ottiene sostituendo le soluzioni \(\gamma_{1,2}\) per i parametri \(z_{1,2}\)
+		\item[-] eq. \eqref{eq2} si ottiene in funzione dei parametri \(A\) e \(B\): gli esponenziali complessi si riconducono alle formule di Eulero per seni e coseni
+		\item[-] eq. \eqref{eq3} si uniscono le equazioni precedenti con \(A\) e \(B\) al posto di \(z_{1,2}\)
+		\item[-] eq. \eqref{eq4} si utilizza \(C\) e \(\varphi_0\) al posto di \(A\) e \(B\)
+		\item[-] si osserva che il moto è armonico, esponenzialmente smorzato, in quanto l'ampiezza di riduce esponenzialmente
+		\item[-] il periodo di oscillazione vale \(\displaystyle T = \frac{2 \pi}{\sqrt{\left|\gamma^2 - \omega^2\right|}}\)
+	\end{itemize}
+	\item il caso \(\gamma = \omega\) non viene trattato perché non capiterà mai nella realtà
+\end{enumerate}
+
+\newpage
+
+
 \subsection{Risonanza e oscillatore armonico}
+
+\newpage
+
 \subsection{Velocità limite}
 \subsection{Fili in tensione}
 \subsection{Pendolo semplice}
