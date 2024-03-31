@@ -31,6 +31,9 @@
 \newcommand\ux{\vec{u}_x}
 \newcommand\uy{\vec{u}_y}
 \newcommand\uz{\vec{u}_z}
+\newcommand\ur{\vec{u}_r}
+\newcommand\uper{\vec{u}_\perp}
+\newcommand\upar{\vec{u}_\parallel}
 
 % derivata
 \newcommand\dt{\frac{d}{dt}\,}
@@ -284,11 +287,11 @@ con \(\vec{u_c}\) versore perpendicolare al piano di \(\vec{a}\) e \(\vec{b}\).
 \begin{itemize}
 	\item[-] Dato un vettore \(\vec{a}(t) = (a_x(t) \; \ux + a_y(t) \; \uy + a_z(t) \; \uz)\), la sua derivata è definita come \\
 	\(\displaystyle \dt \vec{a}(t) = \left(\dt a_x(t) \; \ux + \dt a_y(t) \; \uy + \dt a_z(t) \; \uz\right)\)
-	\item[-] Dato un versore \(\vec{u}(t)\), la sua derivata è definita come \(\displaystyle \dt \vec{u}(t) = \frac{d \, \theta(t)}{dt} \, \vec{u_\perp}(t)\)
-	con \(\vec{u_\perp}(t)\) versore perpendicolare a \(\vec{u}(t)\) e con \(\theta\) angolo spazzato da \(\vec{u}(t)\) in \(\Delta t\) piccolo.
+	\item[-] Dato un versore \(\vec{u}(t)\), la sua derivata è definita come \(\displaystyle \dt \vec{u}(t) = \frac{d \, \theta(t)}{dt} \, \uper(t)\)
+	con \(\uper(t)\) versore perpendicolare a \(\vec{u}(t)\) e con \(\theta\) angolo spazzato da \(\vec{u}(t)\) in \(\Delta t\) piccolo.
 \end{itemize}
 Sia \(\vec{r}(t)\) vettore qualsiasi, la sua derivata è definita come
-\[\dt \vec{r}(t) = \frac{d \vmod{\vec{r}(t)}}{dt} \; \vec{u_r}(t) + \vmod{\vec{r}(t)} \frac{d \, \theta(t)}{dt} \; \vec{u_\perp}(t)\]
+\[\dt \vec{r}(t) = \frac{d \vmod{\vec{r}(t)}}{dt} \; \vec{u_r}(t) + \vmod{\vec{r}(t)} \frac{d \, \theta(t)}{dt} \; \uper(t)\]
 
 \newpage
 
@@ -369,9 +372,9 @@ La forza elastica esercita da una molla su un corpo di massa \(m\) è definita c
 \end{itemize}
 
 \subsection{Forza di reazione vincolare}
-La forza di reazoine vincolare è esercitata da una superfice su un corpo appoggiato ad essa. È perpendicolare alla superficie e
+La forza di reazione vincolare è esercitata da una superfice su un corpo appoggiato ad essa. È perpendicolare alla superficie e
 opposta alla somma delle forze entranti, definita come:
-\[\vec{F}_\perp = \vmod{\vec{F}_{TOT,\perp}} \vec{u}_\perp = -\vec{F}_{TOT,\perp}\]
+\[\vec{F}_\perp = \vmod{\vec{F}_{TOT,\perp}} \uper = -\vec{F}_{TOT,\perp}\]
 
 \subsection{Forza di attrito radente}
 Forza di attrito esercitata dallo strisciamento di un corpo sulla superficie definita come:
@@ -402,24 +405,6 @@ Forza di attrito esercitata da un fluido su un corpo in movimento, definita come
 
 
 \section{Trovare le equazioni del moto}
-\subsection{Piano inclinato}
-\subsubsection*{Piano inclinato liscio}
-\begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] le forze presenti sono \(\vec{F}_P = -m \, g \, \uz\) forza peso e \(\vec{F}_R = \vmod{\vec{F}_\perp} \vec{u}_\perp\) forza di reazione vincolare
-	\item[-] si scompongono le forze lungo la direzione \(\parallel\) e \(\perp\) al piano e si applica la seconda legge della dinamica
-	\item[-] lungo \(\vec{u}_\parallel\) si ha \(a_\parallel = 0\), lungo \(\vec{u}_\perp\) si ha \(a_\perp = g \, \sin \theta\)
-	\item[-] il moto è uniformemente accelerato con accelerazione minore di \(g\)
-\end{itemize}
-
-\subsubsection*{Piano inclinato scabro}
-\begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] le forze presenti sono \(\vec{F}_P = -m \, g \, \uz\), \(\vec{F}_R = \vmod{\vec{F}_\perp} \vec{u}_\perp\), \(\vec{F}_A\) forza di attrito
-	\item[-] si scompongono le forze lungo la direzione \(\parallel\) e \(\perp\) al piano e si applica la seconda legge della dinamica
-	\item[-] per \(\mu_s < \tan \theta\) il corpo non si muove
-	\item[-] lungo \(\vec{u}_\parallel\) si ha \(a_\parallel = 0\), lungo \(\vec{u}_\perp\) si ha \(a_\perp = g \, \sin \theta \, (1-\mu_d \cot \theta)\)
-	\item[-] il moto è uniformemente accelerato con accelerazione minore di \(g\)
-\end{itemize}
-
 \subsection{Trovare le soluzioni del moto per una forza generica in 1D}
 Data una generica forza \(\vec{F}_x\) lungo \(\ux\), l'equazione del moto dalla la seconda legge della dinamica è:
 \[m \, a_x(t) = F_x(x(t), v(t), t) = -k \, x(t) - b \, v_x(t) + f(t) \quad \Rightarrow \quad a_x(t) = -\frac{k \, x(t)}{m} - \frac{b \, v_x(t)}{m} + \frac{f(t)}{m}\]
@@ -447,6 +432,31 @@ Le soluzioni di \eqref{diff} si scrivono nella forma:
 	\item[-] \(\lambda_1\) e \(\lambda_2\) sono parametri liberi da determinare in funzione delle condizioni iniziali
 \end{itemize}
 
+\subsection{Piano inclinato}
+\subsubsection*{Piano inclinato liscio}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] le forze presenti sono \(\vec{F}_P = -m \, g \, \uz\) forza peso e \(\vec{F}_R = \vmod{\vec{F}_\perp} \vec{u}_\perp\) forza di reazione vincolare
+	\item[-] si scompongono le forze lungo la direzione \(\parallel\) e \(\perp\) al piano e si applica la seconda legge della dinamica
+	\item[-] lungo \(\vec{u}_\parallel\) si ha \(a_\parallel = 0\), lungo \(\vec{u}_\perp\) si ha \(a_\perp = g \, \sin \theta\)
+	\item[-] il moto è uniformemente accelerato con accelerazione minore di \(g\)
+	\item[-] per trovare le equazioni del moto in funzione dell'altezza si utilizza il teorema di conservazione dell'energia meccanica:
+	\(v(h_1) = \sqrt{{v_0}^2 + 2g(h_1 - h_0)})\)
+\end{itemize}
+
+\subsubsection*{Piano inclinato scabro}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] le forze presenti sono \(\vec{F}_P = -m \, g \, \uz\), \(\vec{F}_R = \vmod{\vec{F}_\perp} \vec{u}_\perp\), \(\vec{F}_A\) forza di attrito
+	\item[-] si scompongono le forze lungo la direzione \(\parallel\) e \(\perp\) al piano e si applica la seconda legge della dinamica
+	\item[-] per \(\mu_s < \tan \theta\) il corpo non si muove
+	\item[-] lungo \(\vec{u}_\parallel\) si ha \(a_\parallel = 0\), lungo \(\vec{u}_\perp\) si ha \(a_\perp = g \, \sin \theta \, (1-\mu_d \cot \theta)\)
+	\item[-] il moto è uniformemente accelerato con accelerazione minore di \(g\)
+	\item[-] per trovare le equazioni del moto in funzione dell'altezza si utilizza il teorema di conservazione dell'energia meccanica:
+	\(v(h_1) = \begin{cases}
+		\sqrt{{v_0}^2 + 2g(h_1 - h_0)(1-\mu_d \cot \theta)}) &\text{per la discesa} \\
+		\sqrt{{v_0}^2 + 2g(h_1 - h_0)(1+\mu_d \cot \theta)}) &\text{per la salita}
+	\end{cases}\)
+\end{itemize}
+
 \newpage
 
 \subsection{Oscillatore armonico semplice}
@@ -454,8 +464,7 @@ Moto di un corpo attaccatto all'estremità di una molla con costante elastica \(
 con \(x=0\) posizione di riposo della molla. La forza che agisce sul corpo è la forza elastica e dipende solo dalla posizione:
 \[m \, a_x = -k \, x(t) \quad \Rightarrow \quad \dts x(t) + \frac{k}{m} x(t) = 0\]
 L'equazione del moto che soddisfa la differenziale sopra corrisponde a quella del moto armonico:
-\[x(t) = A \cos (\omega t + \varphi_0)\]
-%\[x(t) = A \cos (\omega t + \varphi_0) \qquad v(t) = -A \omega \sin (\omega t + \varphi_0) \qquad a(t) = -A \omega^2 \cos (\omega t + \varphi_0)\]
+\[x(t) = A \cos (\omega t + \varphi_0) \qquad v(t) = -A \omega \sin (\omega t + \varphi_0) \qquad a(t) = -A \omega^2 \cos (\omega t + \varphi_0)\]
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(A\) ampiezza del moto, \(\left[A\right] = m\)
 	\item[-] \(\omega\) velocità angolare, \(\left[\omega\right] = \frac{rad}{s}\), \(\omega^2 = \frac{k}{m}\)
@@ -467,8 +476,7 @@ si possono esprimere in funzione delle condizioni iniziali \(x_0\) e \(v_0\):
 \[x_0 = A \cos \varphi_0 \qquad v_0 = -A \omega \sin \varphi_0 \qquad \tan \varphi_0 = -\frac{v_0}{\omega \, x_0} \qquad A = \sqrt{{x_0}^2 + \left(\frac{v_0}{\omega}\right)^2}\]
 
 L'equazione si può riscrivere come composizione di funzioni goniometriche esplicitando i due parametri dipendenti dalle condizioni iniziali:
-\[x(t) = A_1 \cos (\omega t) + A_2 \sin (\omega t)\]
-%\[x(t) = A_1 \cos (\omega t) + A_2 \sin (\omega t) \quad v(t) = -A_1 \omega \sin (\omega t) + A_2 \omega \cos (\omega t) \quad a(t) = -A_1 \omega^2 \cos (\omega t) - A_2 \omega^2 \sin (\omega t)\]
+\[x(t) = A_1 \cos (\omega t) + A_2 \sin (\omega t) \quad v(t) = -A_1 \omega \sin (\omega t) + A_2 \omega \cos (\omega t) \quad a(t) = -A_1 \omega^2 \cos (\omega t) - A_2 \omega^2 \sin (\omega t)\]
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(A_1\) prima ampiezza del moto, \(\left[A_1\right] = m\), con \(A_1 = A \cos \varphi_0\)
 	\item[-] \(A_2\) seconda ampiezza del moto, \(\left[A_2\right] = m\), con \(A_2 = -A \sin \varphi_0\)
@@ -548,17 +556,158 @@ in base alla condizione di esistenza della radice si considerano i casi \(\gamma
 
 
 \subsection{Risonanza e oscillatore armonico}
+È un fenomeno fisico per cui un corpo si muove con una specifica legge oraria (lungo una direzione) dovuta a:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] forza di richiamo (es. elastica) \(F_{el}(\tilde{z}(t)) = -k \, \tilde{z}(t)\)
+	\item[-] attrito o smorzamento \(F_{attr}(v(t)) = -b \, v(t)\)
+	\item[-] forza esterna periodica, detta forzante \(F_{ext}(t) = F_0 \sin (\Omega t)\)
+\end{itemize}
+La somma delle forze è \(F = -k \, \tilde{z}(t) - b \, v(t) + F_0 \sin (\Omega t)\) per cui:
+\[m \, a_z(t) = -k \, \tilde{z}(t) - b \, v(t) + F_0 \sin (\Omega t) \quad \Rightarrow \quad \left(\dts + 2\gamma \dt + \omega^2\right) \tilde{z}(t) = \frac{F_0}{m} \sin (\Omega t)\]
+La soluzione è una combinazione lineare di \(z_s(t) = A \sin (\omega t + \Phi)\) soluzione particolare e
+\(B \, e^{\lambda_1 t} + C \, e^{\lambda_2 t}\) soluzioni dell'omogenea associata:
+\[\tilde{z}(t) = A \sin (\Omega t + \Phi) + B \, e^{\lambda_1 t} + C \, e^{\lambda_2 t}\]
+\[\tan \Phi = - \frac{2 \, \gamma \, \Omega}{\omega^2 - \Omega^2} \qquad A = \frac{F_0}{m \, \sqrt{(\omega^2 + \Omega^2)^2 + 4 \gamma^2 \Omega^2}} \qquad \lambda_{1,2} = -\gamma \pm \sqrt{\gamma^2 - \omega^2} \qquad 2\gamma = \frac{b}{m} \quad \omega^2 = \frac{k}{m}\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(A, \Phi\) parametri fissati in termini di \(\omega^2\), \(\gamma\), \(\frac{F_0}{m}\), \(\Omega\)
+	\item[-] \(B, C\) determinati in funzione di \(z_0\) e \(v_0\)
+	\item[-] per \(\displaystyle \lim_{t \to +\infty} B \, e^{\lambda_1 t} + C \, e^{\lambda_2 t} = 0\) per cui il moto è determinato
+	soltanto da \(\tilde{z}(t) = A \sin (\Omega t + \Phi)\) e dipende solamente da \(A\) e \(\Phi\)
+	\item[-] studiando \(A\) per \(\frac{F_0}{m}\) fissato:
+	\begin{itemize}[topsep=3pt, itemsep=0pt]
+		\item[-] per \(\gamma\) (smorzamento) grande si ha \(\displaystyle A \approx \frac{F_0}{m (2 \gamma \Omega + \text{errore})}\)
+		per cui il grafico (\(A(\Omega)\) in funzione di \(\Omega\)) rappresenta un ramo di iperbole: se la frequeza del forzante
+		è bassa, lo sarà anche l'ampiezza del movimento, viceversa se la frequenza è alta, l'ampiezza sarà minore
+		\item[-] per \(\gamma\) piccolo si ha sempre un ramo di iperbole, con un punto di massimo quando \(\omega = \Omega\) ovvero
+		quando il denominatore è prossimo allo 0: se la frequenza del forzante è vicina a quella del moto armonico, il moto armonico
+		e il moto generato dal forzante vanno in interferenza costruttiva (risonanza) e \(\displaystyle A_{max} \approx \frac{F_0}{2 \, m \, \gamma \, \omega}\)
+	\end{itemize}
+	\item[-] studiando \(\Phi\):
+	\begin{itemize}[topsep=3pt, itemsep=0pt]
+		\item[-] se \(\Omega \approx \omega\) si ha \(\tan \Phi \approx \infty\) per cui \(\Phi \approx 90^\circ\), cioè quando la
+		frequenza del forzante e del moto armonico sono simili si ha ampiezza massima \(A_{max}\) e lo sfasamento tra il forzante e
+		il moto è di circa 90°, ovvero si ha quadratura di fase
+		\item[-] se \(\Omega \gg \omega\) si ha \(\tan \Phi \approx \frac{2 \gamma}{\Omega}\) per cui \(\Phi \approx 0^\circ\), cioè
+		quando la frequenza del forzante è maggiore di quella del moto, lo sfasamento tra forzante e moto è circa 0° e il moto si
+		dice in fase
+	\end{itemize}
+	\item[-] quando si parla di grandezze piccole, si indende trascurabili rispetto alle altre (per ordine di grandezza circa 10/100)
+\end{itemize}
 
 \newpage
 
 \subsection{Velocità limite}
+Corpo in caduta libera soggetto alla forza peso e alla forza di attrito viscoso con equazione delle forze:
+\[m \, a_z(t) = -m \, g -b \, v_z \qquad \Rightarrow \qquad \dt v_z(t) + \frac{b}{m} v_z(t) = -g\]
+Combinando la soluzione dell'omogenea \(\displaystyle v_z(t) = v_0 \, e^{- \frac{b}{m} t}\) e la soluzione particolare della
+differenziale \(\displaystyle {v_z}_s(t) = -\frac{m g}{b}\) (e integrandole per trovare la posizione) si ottengolo le equazioni:
+\begin{align*}
+	v_z(t) &= -\frac{mg}{b} + v_0 \, e^{-\frac{b}{m}t} \\
+	z(t) &= z_0 -\frac{mg}{b}t + v_0 \frac{m}{b} \left(1-e^{-\frac{b}{m}t}\right)
+\end{align*}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] studiando il moto per \(t \to +\infty\) si osserva che \(\displaystyle v_\infty(t) = v_\text{limite} = -\frac{mg}{b}\)
+	cioè si ha una velocità limite costante e la posizione diventa direttamente proporzionale al tempo \(\displaystyle z_\infty(t) = z_0 + v_0 \frac{m}{b} - \frac{mg}{b} t\)
+	\item[-] il tempo di arrivare a velocità prossime a quella limite è detto transiente
+\end{itemize}
+
 \subsection{Fili in tensione}
+Applicando una forza ad un filo ideale (inestensibile e di massa trascurabile), tale forza si propaga lungo il filo e si scarica
+sull'altra estremità del filo. Le forze possono cambiare direzione se il filo cambia direzione.
+\subsubsection*{Macchina di Atwood}
+Nell'esempio della macchina di Atwood (detta carrucola per gli amici) con due corpi \(A\) e \(B\) con masse \(m_1\) e \(m_2\)
+l'equazione delle forze lungo \(\uz\) sono:
+\[m_1 \, a_1(t) = -m_1 g + T \qquad m_2 \, a_2(t) = -m_2 g + T \]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(T\) è la tensione applicata al filo
+	\item[-] \(a_1(t) = -a_2(t) = a(t)\) è la stessa per entrambi i corpi (a meno di un segno) in quanto legati dal filo
+	\item[-] il	segno è dovuto al fatto che uno si muoverà verso l'alto, l'altro verso il basso ed è stato scelto per convenzione
+	positivo per il corpo \(A\)
+\end{itemize}
+Risolvendo le equazioni, si ottiene un moto uniformemente accelerato con accelerazione \(a(t)\) costante che vale
+\(\displaystyle a_z = g \, \frac{m_2 - m_1}{m_2 + m_1}\) per cui le accelerazioni \(a_1\), \(a_2\) e la tensione \(T\) valgono:
+\[a_1(t) = g \, \frac{m_2 - m_1}{m_2 + m_1} \; \uz \qquad a_2(t) = g \, \frac{m_1 - m_2}{m_2 + m_1} \; \uz \qquad T = 2g \, \frac{m_1 m_2}{m_1 + m_2}\]
+Si osserva le soluzioni sono simmetriche per i due corpi, infatti il problema è simmetrico anche nella realtà
+
+\subsubsection*{Moto circolare con filo}
+Dato un oggetto che si muove di moto circolare, vincolato al centro da un filo ideale, si hanno:
+\[\vec{r}(t) = R \; \ur(t) \quad \vec{v}(t) = R \, \omega(t) \; \uper(t) \quad \vec{a}(t) = R \, \alpha(t) \; \uper() - R \, \omega^2(t) \; \ur(t) \quad \; \omega(t) = \dt \theta(t), \; \alpha(t) = \dts \theta(t)\]
+La tensione del filo è data dal prodotto della massa per l'accelerazione centripeta:
+\[\vec{T} = m \, \vec{a}(t) = R \, \alpha(t) \; \uper(t) - R \, \omega^2(t) \; \ur(t) \qquad \text{per} \; \alpha(t) = 0 \quad \Rightarrow \quad \vec{T} = - m \, R \, \omega^2 \; \ur(t)\] 
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\alpha(t)\) accelerazione angolare, \(\omega(t)\) velocità angolare, \(R\) raggio del moto
+	\item[-] \(\ur\) versore con stesso orientamento di \(R\), \(\uper\) versore perpendicolare a \(\ur\)
+	\item[-] il segno \(-\) in \(\vec{T}\) è dato dal fatto che la tensione tiene l'oggetto vincolato al centro
+\end{itemize}
+\newpage
+
 \subsection{Pendolo semplice}
+Corpo di massa \(m\) attaccato ad un filo ideale che oscilla sul piano \(\ux - \uz\) ha equazioni del moto:
+\[m \, \vec{a}(t) = - mg \; \uz - T \; \ur(t) \quad \Rightarrow \quad \begin{cases}
+	\displaystyle mR  \, \dts \theta(t) = -mg \sin (\theta(t)) &\text{lungo} \; \uper(t) \\
+	\displaystyle -mR \, \omega^2 = mg \cos (\theta(t)) + T &\text{lungo} \; \ur(t)
+\end{cases}\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] la formula sopra usa (dal moto circolare) \(\vec{a}(t) = R \, \dts \theta(t) \; \uper(t) - R \, \omega^2 \; \ur(t)\)
+	\item[-] dalla seconda equazione si ottiene \(\vec{T} = -mg \cos \theta(t) \; \ur(t) - mR \, \omega^2 \; \ur(t)\)
+	\item[-] la risultante delle forze lungo \(\uper\) ha la forma di una forza di richiamo \(F = -k f(\theta(t))\), anche se non
+	dipende linearmente dall'angolo \(\theta\)
+	\item[-] per ottenere le equazioni del moto, è necessario risolvere la differenziale
+\end{itemize}
+Non è possibile risolvere la differenziale in termini di funzioni elementari, ma si osserva che per angoli piccoli (\(\theta < 1/4 \; \text{rad} \approx 15^\circ\)),
+dallo sviluppo di Taylor si ha \(\sin \theta(t) = \theta(t) + \!\) errore trascurabile, per cui:
+\[mR  \, \dts \theta(t) = -mg \sin (\theta(t)) \quad \stackrel{\theta \; \text{piccoli}}{\Rightarrow} \quad \dts \theta(t) = -\frac{g}{R} \theta(t) \quad \Rightarrow \quad \theta(t) = \theta_\text{max} \cos(\Omega t + \varphi_0)\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\theta_\text{max}\) ampiezza massima del moto
+	\item[-] \(\varphi_0\) è lo sfasamento iniziale delle oscillazioni
+	\item[-] \(\Omega\) frequenza delle piccole oscillazioni, \(\displaystyle \Omega^2 = \frac{g}{R}\)
+	\item[-] il periodo del pendolo delle piccole oscillazioni vale \(\displaystyle T = \frac{2\pi}{\Omega}\)
+	\item[-] \(\omega \; _\text{velocità angolare dal moto circolare} = \dt \theta(t) \neq \Omega \; _\text{frequenza piccole oscillazioni dal moto armonico} = \sqrt{\frac{g}{R}}\)
+\end{itemize}
+
 \subsection{Pendolo conico}
+Corpo appeso ad un filo ideale che si muove di moto circolare (pendolo lungo una circonferenza)
+\[m \, a_z(t) \; \uz + mR \dts \theta(t) \uper(t) - mR\left(\dt \theta(t)\right)^2 \; \ur(t) = - mg \, \uz + T \cos \alpha \, \uz - T \sin \alpha \; \ur(t) \]
+Scomponendo lungo le componenti si ha:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] lungo \(\uz\): \(\displaystyle \quad m \, a_z = -mg + T \cos \alpha \qquad \text{per ipotesi} \; v_z = a_z = 0 \quad \Rightarrow \quad T = \frac{mg}{\cos \alpha}\)
+	\item[-] lungo \(\uper\): \(\displaystyle \quad mR \, \dts \theta(t) = 0 \quad \Rightarrow \quad \dts \theta(t) = 0 \quad \Rightarrow \quad \text{il corpo ha velocità angolare costante}\)
+	\item[-] lungo \(\ur\): \(\displaystyle \quad -mR \omega^2 = -T \sin \alpha \quad \Rightarrow \quad \omega^2 = \frac{T \sin \alpha}{mR} = \frac{\tan \alpha}{R}\)
+\end{itemize}
+Il moto è circolare uniforme con velocità angolare costante \(\displaystyle \omega = \sqrt{\frac{T \sin \alpha}{mR}} = \sqrt{\frac{\tan \alpha}{R}}\) \\
+L'equazione della posizione è \(\displaystyle \vec{r}(t) = - l \cos \alpha \; \uz + R \cos (\omega t + \varphi_0) \; \ux + R \sin (\omega t + \varphi_0) \; \uy\)
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(l\) lunghezza del filo
+	\item[-] \(\alpha\) angolo tra il filo e la perpendicolare
+	\item[-] \(\omega\) velocità angolare
+	\item[-] \(R\) raggio del moto \(R = l \sin \alpha\)
+\end{itemize}
+
+\newpage
+
 \subsection{Curve sopraelevate (paraboliche)}
+Corpo che si muove in moto circolare su una guida circolare a parabolica con inclinazione \(\theta\) dall'orizzontale (il corpo
+non cambia quota durante il moto):
+\[m \, \vec{a} = \vec{F}_\text{peso} + \vec{F}_\text{vincolare} \quad \Rightarrow \quad - m \, a_\text{centripeta} \; \ur = - mg \; \uz + F_V \cos \theta \; \uz + F_V \sin \theta \; \ur\]
+Scomponendo lungo le componenti si ha:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] lungo \(\uz\): \(\displaystyle \quad 0 = - mg + F_V \cos \theta \quad \Rightarrow \quad F_V = \frac{mg}{\cos \theta}\)
+	\item[-] lungo \(\ur\): \(\displaystyle \quad m \, a_\text{centripeta} = F_V \sin \theta \quad a_\text{centripeta} = g \tan \theta\)
+\end{itemize}
+Dal moto circolare uniforme \(\displaystyle a_\text{centripeta} = \frac{m v^2}{R} \quad \Rightarrow \quad \tan \theta = \frac{v^2}{Rg}, \quad v = \sqrt{Rg \tan \theta}\)
+
+Un corpo, per procedere in moto circolare uniforme, deve avere una forza centripeta che lo fa rimanere in traiettoria e non lo fa
+partire per la tangente. Questa forza può essere (lista incompleta):
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] una tensione (dovuta ad un filo)
+	\item[-] la forza di attrito dell'oggetto con il suolo (ad esempio degli pneumatici con l'asfalto)
+	\item[-] la reazione vincolare del piano (se l'oggetto corre su una guida circolare)
+\end{itemize}
+
+\newpage
 
 \section{Lavoro ed energia}
-\subsection{Introduzione}
+\subsection{Definizione}
 \subsection{Lavoro della forza peso}
 \subsection{Lavoro della forza peso}
 \subsection{Lavoro della forza elastica}
