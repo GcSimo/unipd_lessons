@@ -37,6 +37,10 @@
 \newcommand\uper{\vec{u}_\perp}
 \newcommand\upar{\vec{u}_\parallel}
 
+% forza generica
+\newcommand\ft{\vec{F}\left(\vec{\gamma}(t), \; \dt \vec{\gamma}(t), \; t\right)}
+\newcommand\ftau{\vec{F}\left(\vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau\right)}
+
 % derivata
 \newcommand\dt{\frac{d}{dt}\,}
 \newcommand\dtau{\frac{d}{d\tau}\,}
@@ -377,7 +381,7 @@ La forza elastica esercita da una molla su un corpo di massa \(m\) è definita c
 \subsection{Forza di reazione vincolare}
 La forza di reazione vincolare è esercitata da una superfice su un corpo appoggiato ad essa. È perpendicolare alla superficie e
 opposta alla somma delle forze entranti, definita come:
-\[\vec{F}_\perp = \vmod{\vec{F}_{TOT,\perp}} \uper = -\vec{F}_{TOT,\perp}\]
+\[\vec{F}_\perp = \vmod{\vec{F}_{\text{tot},\perp}} \uper = -\vec{F}_{\text{tot},\perp}\]
 
 \subsection{Forza di attrito radente}
 Forza di attrito esercitata dallo strisciamento di un corpo sulla superficie definita come:
@@ -712,19 +716,19 @@ partire per la tangente. Questa forza può essere (lista incompleta):
 \section{Lavoro ed energia}
 \subsection{Definizione}
 Per un punto materiale che compie una traiettoria \(\Gamma = \left\{ \vec{\gamma}(\tau), \; \tau \in \left[ t_0, t_1 \right] \right\}\)
-soggetto ad una generica forza \(\displaystyle \vec{F} = \vec{F}\left( \vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau \right)\), il lavoro di \(\vec{F}\)
+soggetto ad una generica forza \(\displaystyle \vec{F} = \ftau\), il lavoro di \(\vec{F}\)
 lungo \(\Gamma\) è:
-\[W_{\vec{F}} [\Gamma] = \int_{t_0}^{t_1} \vec{F} \left( \vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau \right) \cdot \dtau \vec{\gamma}(\tau) \; d \tau\]
+\[W_{\vec{F}} [\Gamma] = \int_{t_0}^{t_1} \ftau \cdot \dtau \vec{\gamma}(\tau) \; d \tau\]
 Il lavoro ha le seguenti proprietà:
 \begin{enumerate}
 	\item[0.1.] il lavoro è un numero e non un vettore \(W_{\vec{F}} [\Gamma] \in \mathbb{R}\)
 	\item[0.2.] \(\vec{\gamma}(\tau)\) è una curva generica e non necessariamente la legge oraria del corpo per \(\vec{F}\), se
-	però vale che \(\displaystyle m \, \dts \vec{\gamma}(t) = \vec{F}\left( \vec{\gamma}(t), \; \dt \vec{\gamma}(t), \; t \right)\)
+	però vale che \(\displaystyle m \, \dts \vec{\gamma}(t) = \ft\)
 	allora \(\vec{\gamma}(t)\) è la legge oraria e la chiameremo \(\vec{r}(t)\)
 	\item Se una forza \(\vec{F}\) è la somma di due forze \(\vec{F}_1\) e \(\vec{F}_2\), allora \(W_{\vec{F}}[\Gamma] = W_{\vec{F}_1}[\Gamma] + W_{\vec{F}_2}[\Gamma]\)
 	\item Se la traiettoria \(\Gamma\) è concatenazione di curve \(\Gamma_1\) e \(\Gamma_2\) (\(\Gamma = \Gamma_2 \circ \Gamma_1\)),
 	allora \(W_{\vec{F}}[\Gamma] = W_{\vec{F}}[\Gamma_1] + W_{\vec{F}}[\Gamma_2]\)
-	\item Se \(\vec{F}\) non dipende dal tempo \(\displaystyle \vec{F} = \vec{F}\left( \vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau) \right)\),
+	\item Se \(\vec{F}\) non dipende dal tempo \(\displaystyle \vec{F} = \ftau\),
 	allora \(W_{\vec{F}}[\Gamma]\) dipende solo dalla traiettoria \(\left\{ \vec{\gamma}(\tau), \; \tau \in \left[ t_0, t_1 \right] \right\}\), ma
 	non dalla parametrizzazione della curva (ovvero dal modo di percorrenza come velocità, accelerazione, \dots)
 	\item Se \(\vec{\gamma}\) è la traiettoria \(\vec{r}(t)\), allora \(\displaystyle W_{\vec{F}}[{\vec{r}(t)}] = \Delta E_k = E_k(\vec{v}_1) - E_k(\vec{v}_0)\)
@@ -782,22 +786,107 @@ Se la forza dipende solo dalla posizione iniziale e finale, il lavoro diventa:
 \[W_{\vec{F}}[\Gamma] = W_{\vec{F}}[\Gamma_1] + W_{\vec{F}}[\Gamma_2] = \int_{t_0}^{t_1}f(\tau) d\tau + \int_{t_1}^{t_0}f(\tau) d\tau = 0\]
 
 Per indicare il lavoro lungo un circuito chiuso si utilizza l'integrale:
-\[W_{\vec{F}}[\Gamma_\text{chiuso}] = \oint \vec{F}\left(\vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau\right) \cdot \, \dtau \vec{\gamma}(\tau) \; d\tau\]
+\[W_{\vec{F}}[\Gamma_\text{chiuso}] = \oint \ftau \cdot \, \dtau \vec{\gamma}(\tau) \; d\tau\]
 
 Per le forze che dipendono solo dalla posizione iniziale e finale, si ha:
-\[W_{\vec{F}}[\Gamma_\text{chiuso}] = \oint \vec{F}\left(\vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau\right) \cdot \, \dtau \vec{\gamma}(\tau) \; d\tau = 0\]
+\[W_{\vec{F}}[\Gamma_\text{chiuso}] = \oint \ftau \cdot \, \dtau \vec{\gamma}(\tau) \; d\tau = 0\]
 
 \newpage
 
 \section{Forze conservative e non conservative}
 \subsection{Definizione}
+Una forza si dice conservativa se, per ogni circuito chiuso, il lavoro di tale forza calcolato lungo esso è nullo, cioè se vale:
+\[\oint \ftau \cdot \, \dtau \vec{\gamma}(\tau) \; d\tau = 0\]
+In altre parole, una forza è conservativa se non dipende dalla traiettoria, se non per la posizione iniziale e quella finale.
+
+
 \subsection{Energia potenziale}
+Se una forza è conservativa, si può definire l'energia potenziale della forza rispetto ad un punto \(\vec{r}_A\) come il lavoro
+compiuto dalla forza lungo il percorso \(\Gamma_{OA}\) da \(\vec{r}_0 = O\) (origine) a \(\vec{r}_A\):
+\[E_p(\vec{r}_A) = - W_{\vec{F}_C}[\Gamma_{OA}]\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] l'energia potenziale dipende dalla scelta dell'origine degli assi (punto \(\vec{r}_0 = O\))
+	\item[-] la differenza di energia potenziale non dipende dalla scelta dell'origine
+	\item[-] l'energia potenziale è definita a meno di una costante additiva che non dipende da \(\vec{r}_A\), bensì dalla scelta
+	dell'origine degli assi (punto \(\vec{r}_0 = O\))
+\end{itemize}
+
+\subsection{Conservazione dell'energia meccanica totale}
+Data una forza conservativa si ha che:
+\[W_{\vec{F}_C}[\Gamma_{AB}] = \begin{cases}
+	E_p(\vec{r}_A) - E_p(\vec{r}_B) &\text{dalla def. di} \; E_p \\
+	E_k(\vec{v}_B) - E_k(\vec{v}_A) &\text{se} \; \vec{\gamma}(t) = \vec{r}(t)
+\end{cases} \quad \Rightarrow \quad E_p(\vec{r}_A) + E_k(\vec{v}_A) = E_p(\vec{r}_B) + E_k(\vec{v}_B)\]
+La quantità \(E_\text{tot} = E_p(\vec{r}) + E_k(\vec{v})\) è chiamata energia meccanica totale e per una forza conservativa, rimane
+costante lungo il moto.
+
+\subsubsection*{Quando una forza è conservativa e quando no}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] una forza che dipende da velocità e tempo non è conservativa (es. forza di attrito)
+	\item[-] una forza che dipende dalla posizione si chiama posizionale, ma non tutte le forze posizionali sono conservative
+	\item[-] le forze posizionali che sono anche conservative si dividono in:
+	\begin{itemize}[topsep=3pt, itemsep=0pt]
+		\item[-] forze in una dimensione nella forma \(\vec{F}(\vec{r}) = f(x)\,\ux, \; f(y)\,\uy, \; f(z)\,\uz\) (es. forza peso)
+		\item[-] forze centrali nella forma \(\vec{F}(\vec{r}) = f(\vmod{\vec{r}}) \, \ur\) (es. forza elastica o forza gravitazionale)
+	\end{itemize}
+\end{itemize}
+
 \subsubsection*{Potenziali da ricordare}
+\begin{align*}
+	&\vec{F}_\text{peso}: E_p = mgz &E_p = 0 \; \text{per} \; z = 0 \\
+	&\vec{F}_\text{elastica}: E_\text{el} = \frac{1}{2} k \vmod{\vec{r}}^2 &E_\text{el} = 0 \; \text{per} \; \vec{r} = 0 \\
+	&\vec{F}_\text{gravitazionale}: E_G = -G \, \frac{m_1 \, m_2}{\vmod{\vec{r}}} &E_G = 0 \; \text{per} \; \vmod{\vec{r}} \to \infty
+\end{align*}
+
+\newpage
+
 \subsubsection*{Potenziali in 1D}
-\subsection{Teorema dell'energia cinetica}
-\subsection{Applicazioni del lavoro ed energia}
+Supponiamo di avere una forza \(\vec{F}(\vec{r}) = f(x) \, \ux\), con \(E_p(x) = -f(x) + \text{costante}\) (con \(-F(x) = \frac{d}{dx}\,E_p(x)\)).
+Inoltre sappiamo che \(E_\text{tot} = E_p(x) + E_k(v_x)\) si conserva.
+
+Supponiamo di avere un punto materiale in \(x_0\) con \(v_0 = 0\) soggetto alla forza \(\vec{F}\) definita prima, per un punto
+\(x\) generico vale \(E_p(x) + \frac{1}{2} \, mv^2 = E_p(x_0)\) da cui \(v^2 = \frac{2}{m} \, (E_p(x_0)-E_p(x_1))\).
+Dato che \(v^2 > 0\), allora \(E_\text{tot} = E_p(x_0) > E_p(x)\) per cui, se l'energia meccanica totale si conserva, l'energia
+potenziale per un generico punto \(x\) non può mai superare l'energia meccanica totale del sistema.
+
+Se il grafico dell'energia potenziale in funzione di \(x\) è una specie di parabola rivolta verso l'alto, il punto \(x\) sarà
+sempre compreso tra \(x_0\) e il corrispettivo punto \(x_0'\) sul ramo opposto alla stessa quota \(E_p\) di \(x_0\).
+In generale:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] se \(\displaystyle \lim_{x \to \pm \infty} E_p(x) = + \infty\) il moto sarà limitato in un intervallo \([x_\text{min}, x_\text{max}]\)
+	\item[-] se \(\displaystyle \lim_{x \to \pm \infty} E_p(x) = - \infty\) il moto sarà accelerato verso \(\pm \infty\) (repulsore armonico)
+	\item[-] se \(\displaystyle \lim_{x \to \pm \infty} E_p(x) = E_\infty > E_p(x_0)\) il moto sarà limitato
+	\item[-] se \(\displaystyle \lim_{x \to \pm \infty} E_p(x) = E_\infty < E_p(x_0)\) il moto andrà ad infinito a velocità costante \(v^2 = \frac{2}{m} \, (E_p(x_0) - E_\infty)\)
+\end{itemize}
+
+Dato che \(F(x) = -\frac{d}{dx} \, E_p(x)\), se si conosce il grafico di \(E_p(x)\) in funzione di \(x\), per trovare i valori
+della posizione per cui si ha maggiore forza agente, si devono cercare i punti in cui la retta tangente è più pendente, ovvero
+i punti in cui la derivata prima è maggiore (in valore assoluto). 
+
 \subsection{Potenza}
+La potenza \(P\) espressa da una forza \(\vec{F}\) in un tempo \(\Delta t\) è data dalla formula
+\[P_\text{media} = \frac{W_{\vec{F}}[\Gamma_\text{moto}]}{\Delta t} \qquad \qquad P_\text{istantanea} = \dt W_{\vec{F}}[\Gamma_\text{moto}]\]
+L'unità di misura è il watt: \(\displaystyle [P] = [P_\text{media}] = \frac{J}{s} = W\) \\
+Alcune volte si usa \(1 \; kWh = 1000 \; W \cdot 3600 \; sec = 3.6 \cdot 10^6 \; J\)
+
 \subsection{Gradiente di una forza}
+Sia \(\vec{F}(\vec{r})\) una forza conservativa, allora (per un'appropriata curva \(\Gamma\), per un'appropriata funzione \(E_p(\vec{r})\), per \(\vec{r}_0 = \vec{\gamma}(t_0)\) e per \(\vec{r}_1 = \vec{\gamma}(t_1)\)), si ha:
+\begin{align*}
+	W_{\vec{F}}[\Gamma] &= \int_{t_0}^{t_1} \vec{F}(\vec{\gamma}(\tau)) \cdot \, \dtau \vec{\gamma}(\tau) \; d\tau = E_p(\vec{r}_0) - E_p(\vec{r}_1) \\
+	&= \int_{t_0}^{t_1} -\dtau E_p(\vec{\gamma}(t)) \, d\tau = E_p(\vec{r}_0) - E_p(\vec{r}_1)
+\end{align*}
+Per definizione di derivate parziali e di gradiente, si ottiene che:
+\begin{align*}
+	\dtau E_p(\vec{\gamma}(\tau)) &= \frac{\partial}{\partial \gamma_x} E(\vec{\gamma}(\tau)) \cdot \dtau \gamma_x(\tau) + \frac{\partial}{\partial \gamma_y} E(\vec{\gamma}(\tau)) \cdot \dtau \gamma_y(\tau) + \frac{\partial}{\partial \gamma_z} E(\vec{\gamma}(\tau)) \cdot \dtau \gamma_z(\tau) = \\
+	&= \left( \frac{\partial}{\partial \gamma_x} E(\vec{\gamma}(\tau)) + \frac{\partial}{\partial \gamma_y} E(\vec{\gamma}(\tau)) + \frac{\partial}{\partial \gamma_z} E(\vec{\gamma}(\tau)) \right) \cdot \dtau \vec{\gamma}(\tau) = \\
+	&= \vec{\nabla} E_p(\vec{\gamma}(t)) \cdot \dtau \vec{\gamma}(\tau)
+\end{align*}
+Dato che \(\displaystyle W_{\vec{F}}[\Gamma] = \int_{t_0}^{t_1} -\dtau E_p(\vec{\gamma}(t)) \, d\tau = \int_{t_0}^{t_1} -\vec{\nabla} E_p(\vec{\gamma}(t)) \cdot \dtau \vec{\gamma}(\tau) = \int_{t_0}^{t_1} \vec{F}(\vec{\gamma}(\tau)) \cdot \, \dtau \vec{\gamma}(\tau) \; d\tau\) \\
+si ha che per tutte le forze conservative vale: \[\vec{F}(\vec{\gamma}(\tau)) = -\vec{\nabla} E_p(\vec{\gamma}(t))\]
+In questo modo se si conosce l'equazione dell'energia potenziale, si può risalire alla rispettiva forza conservativa eseguendo
+le derivate parziali per ogni componente (per \(\ux\), \(\uy\), \(\uz\)).
+
+\newpage
 
 \section{Quantità conservate}
 \subsection{Lavoro}
