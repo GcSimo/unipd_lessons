@@ -32,11 +32,14 @@
 \newcommand\uy{\vec{u}_y}
 \newcommand\uz{\vec{u}_z}
 \newcommand\ur{\vec{u}_r}
+\newcommand\uv{\vec{u}_v}
+\newcommand\ug{\vec{u}_\gamma}
 \newcommand\uper{\vec{u}_\perp}
 \newcommand\upar{\vec{u}_\parallel}
 
 % derivata
 \newcommand\dt{\frac{d}{dt}\,}
+\newcommand\dtau{\frac{d}{d\tau}\,}
 \newcommand\dts{\frac{d^2}{dt^2}\,}
 
 % modulo vettore
@@ -208,7 +211,7 @@ Un vettore è un \say{segmento orientato}, cioè definito da 3 proprietà: lungh
 lettere minuscole come \(\vec{a}\), \(\vec{b}\), \dots Questa definizione ci permette di essere indipendenti dal sistema di 
 coordinate di riferimento.
 
-La lungheza di un vettore è chiamata norma o modulo e si indica \(\vmod{\vec{a}}\)
+La lunghezza di un vettore è chiamata norma o modulo e si indica \(\vmod{\vec{a}}\)
 
 \subsection{Prodotto per uno scalare}
 Dati \(\vec{a}\) vettore e \(\lambda\) scalare (numero reale), allora \(\vec{b} = \lambda \vec{a}\) è un vettore tale che:
@@ -380,13 +383,13 @@ opposta alla somma delle forze entranti, definita come:
 Forza di attrito esercitata dallo strisciamento di un corpo sulla superficie definita come:
 \[\vec{F}_\text{attrito radente} = \begin{cases}
 	-\vec{F}_{\parallel} &\text{se} \; \vmod{\vec{F}_\parallel} < \mu_s \vmod{\vec{F}_\perp}\\
-	-\mu_d \, \vmod{\vec{F}_\perp} \, \vec{u}_v &\text{altrimenti}
+	-\mu_d \, \vmod{\vec{F}_\perp} \, \uv &\text{altrimenti}
 \end{cases}\]
 
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(\mu_s\) numero puro, coefficiente di attrito statico (per \(\vec{v}=0\))
 	\item[-] \(\mu_d\) numero puro, coefficiente di attrito dinamico
-	\item[-] \(\vec{u}_v\) versore con direzione e verso di \(\vec{v}\)
+	\item[-] \(\uv\) versore con direzione e verso di \(\vec{v}\)
 	\item[-] generalmente \(\mu_d < \mu_s\)
 \end{itemize}
 
@@ -435,9 +438,9 @@ Le soluzioni di \eqref{diff} si scrivono nella forma:
 \subsection{Piano inclinato}
 \subsubsection*{Piano inclinato liscio}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] le forze presenti sono \(\vec{F}_P = -m \, g \, \uz\) forza peso e \(\vec{F}_R = \vmod{\vec{F}_\perp} \vec{u}_\perp\) forza di reazione vincolare
+	\item[-] le forze presenti sono \(\vec{F}_P = -m \, g \, \uz\) forza peso e \(\vec{F}_R = \vmod{\vec{F}_\perp} \uper\) forza di reazione vincolare
 	\item[-] si scompongono le forze lungo la direzione \(\parallel\) e \(\perp\) al piano e si applica la seconda legge della dinamica
-	\item[-] lungo \(\vec{u}_\parallel\) si ha \(a_\parallel = 0\), lungo \(\vec{u}_\perp\) si ha \(a_\perp = g \, \sin \theta\)
+	\item[-] lungo \(\upar\) si ha \(a_\parallel = 0\), lungo \(\uper\) si ha \(a_\perp = g \, \sin \theta\)
 	\item[-] il moto è uniformemente accelerato con accelerazione minore di \(g\)
 	\item[-] per trovare le equazioni del moto in funzione dell'altezza si utilizza il teorema di conservazione dell'energia meccanica:
 	\(v(h_1) = \sqrt{{v_0}^2 + 2g(h_1 - h_0)})\)
@@ -445,10 +448,10 @@ Le soluzioni di \eqref{diff} si scrivono nella forma:
 
 \subsubsection*{Piano inclinato scabro}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] le forze presenti sono \(\vec{F}_P = -m \, g \, \uz\), \(\vec{F}_R = \vmod{\vec{F}_\perp} \vec{u}_\perp\), \(\vec{F}_A\) forza di attrito
+	\item[-] le forze presenti sono \(\vec{F}_P = -m \, g \, \uz\), \(\vec{F}_R = \vmod{\vec{F}_\perp} \uper\), \(\vec{F}_A\) forza di attrito
 	\item[-] si scompongono le forze lungo la direzione \(\parallel\) e \(\perp\) al piano e si applica la seconda legge della dinamica
 	\item[-] per \(\mu_s < \tan \theta\) il corpo non si muove
-	\item[-] lungo \(\vec{u}_\parallel\) si ha \(a_\parallel = 0\), lungo \(\vec{u}_\perp\) si ha \(a_\perp = g \, \sin \theta \, (1-\mu_d \cot \theta)\)
+	\item[-] lungo \(\upar\) si ha \(a_\parallel = 0\), lungo \(\uper\) si ha \(a_\perp = g \, \sin \theta \, (1-\mu_d \cot \theta)\)
 	\item[-] il moto è uniformemente accelerato con accelerazione minore di \(g\)
 	\item[-] per trovare le equazioni del moto in funzione dell'altezza si utilizza il teorema di conservazione dell'energia meccanica:
 	\(v(h_1) = \begin{cases}
@@ -708,17 +711,86 @@ partire per la tangente. Questa forza può essere (lista incompleta):
 
 \section{Lavoro ed energia}
 \subsection{Definizione}
+Per un punto materiale che compie una traiettoria \(\Gamma = \left\{ \vec{\gamma}(\tau), \; \tau \in \left[ t_0, t_1 \right] \right\}\)
+soggetto ad una generica forza \(\displaystyle \vec{F} = \vec{F}\left( \vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau \right)\), il lavoro di \(\vec{F}\)
+lungo \(\Gamma\) è:
+\[W_{\vec{F}} [\Gamma] = \int_{t_0}^{t_1} \vec{F} \left( \vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau \right) \cdot \dtau \vec{\gamma}(\tau) \; d \tau\]
+Il lavoro ha le seguenti proprietà:
+\begin{enumerate}
+	\item[0.1.] il lavoro è un numero e non un vettore \(W_{\vec{F}} [\Gamma] \in \mathbb{R}\)
+	\item[0.2.] \(\vec{\gamma}(\tau)\) è una curva generica e non necessariamente la legge oraria del corpo per \(\vec{F}\), se
+	però vale che \(\displaystyle m \, \dts \vec{\gamma}(t) = \vec{F}\left( \vec{\gamma}(t), \; \dt \vec{\gamma}(t), \; t \right)\)
+	allora \(\vec{\gamma}(t)\) è la legge oraria e la chiameremo \(\vec{r}(t)\)
+	\item Se una forza \(\vec{F}\) è la somma di due forze \(\vec{F}_1\) e \(\vec{F}_2\), allora \(W_{\vec{F}}[\Gamma] = W_{\vec{F}_1}[\Gamma] + W_{\vec{F}_2}[\Gamma]\)
+	\item Se la traiettoria \(\Gamma\) è concatenazione di curve \(\Gamma_1\) e \(\Gamma_2\) (\(\Gamma = \Gamma_2 \circ \Gamma_1\)),
+	allora \(W_{\vec{F}}[\Gamma] = W_{\vec{F}}[\Gamma_1] + W_{\vec{F}}[\Gamma_2]\)
+	\item Se \(\vec{F}\) non dipende dal tempo \(\displaystyle \vec{F} = \vec{F}\left( \vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau) \right)\),
+	allora \(W_{\vec{F}}[\Gamma]\) dipende solo dalla traiettoria \(\left\{ \vec{\gamma}(\tau), \; \tau \in \left[ t_0, t_1 \right] \right\}\), ma
+	non dalla parametrizzazione della curva (ovvero dal modo di percorrenza come velocità, accelerazione, \dots)
+	\item Se \(\vec{\gamma}\) è la traiettoria \(\vec{r}(t)\), allora \(\displaystyle W_{\vec{F}}[{\vec{r}(t)}] = \Delta E_k = E_k(\vec{v}_1) - E_k(\vec{v}_0)\)
+	con \(\displaystyle E_k = \frac{1}{2} m \vmod{\vec{v}}^2\), ovvero il lavoro è uguale alla variazione di energia cinetica \(E_k\)
+	\item il lavoro e l'energia cinetica si misurano in \([W] = [E_k] = N \cdot m = J\) (joule)
+\end{enumerate}
+
 \subsection{Lavoro della forza peso}
-\subsection{Lavoro della forza peso}
+Sia \(\vec{F}_P = -mg \; \uz\) e sia \(\vec{\gamma}(\tau)\) una curva da \(\vec{r}_0 = (x_0, y_0, z_0)\) a \(\vec{r}_1 = (x_1, y_1, z_1)\),
+il lavoro della forza peso lungo \(\Gamma\) è definito come:
+\[W_{\vec{F}_P}[\Gamma] = \int_{t_0}^{t_1} -mg \; \uz \cdot \dtau \vec{\gamma}(\tau) \; d\tau = - mg \int_{t_0}^{t_1} \dtau \gamma_z(\tau) \; d\tau = -mg \int_{z_0}^{z_1} d\gamma_z = -mg (z_1 - z_0)\]
+
 \subsection{Lavoro della forza elastica}
+Sia \(\vec{F}_{el} = - kr \ur\) (in generale \(\vec{F}_{el} = - k (r - r_0) \ur\)), il lavoro della forza elastica lungo \(\Gamma\) è:
+\begin{align*}
+	W_{\vec{F}_P}[\Gamma] &= \int_{t_0}^{t_1} -kr \; \ur(\tau) \cdot \dtau \vec{\gamma}(\tau) \; d\tau = - k \int_{t_0}^{t_1} \gamma_r \ur \cdot \left( \dtau \gamma_r(\tau) \; \ur + \gamma_r(\tau) \dtau \theta(\tau) \; \uper \right) \; d\tau = \\
+	&= -k \int_{t_0}^{t_1} \gamma_r(\tau) \, \dtau \gamma_r(\tau) \; d\tau = -k \int_{r_0}^{r_1} \gamma_r \; d\gamma_r = -k \left[ \frac{1}{2} \, {\gamma_r}^2 \right]_{r_0}^{r_1} = -\frac{k}{2} \; \left( {r_1}^2 - {r_0}^2 \right)
+\end{align*}
+Si osserva che \(\vec{r} = r \; \ur = \gamma_r \; \ur = \vec{\gamma}\) e che \(\displaystyle \dtau \vec{\gamma}(\tau) = \dtau \gamma_r(\tau) \; \ur + \gamma_r(\tau) \dtau \theta(\tau) \; \uper\)
+
+\newpage
+
 \subsection{Lavoro della forza di reazione vincolare}
+Sia \(\vec{F}_R = F_R \uz\) reazione vincolare su un piano \((x,y)\) e \(\vec{\gamma}(\tau) = \gamma_x(\tau) \ux + \gamma_y(\tau) \uy\),
+il lavoro della forza vincolare è:
+\[W_{\vec{F}_R}[\Gamma] = \int_{t_0}^{t_1} F_R \; \uz \cdot \left( \dtau \gamma_x(\tau) \; \ux + \dtau \gamma_y(\tau) \; \uy \right) = 0 \qquad \qquad (\uz \cdot \ux = \uz \cdot \uy = 0)\]
+
 \subsection{Lavoro della forza di attrito radente}
-\subsection{Segno del lavoro}
+Sia \(\vec{F}_A = -\mu_d F_\perp \; \uv\) forza di attrito dinamico, il lavoro compiuto dalla forza è:
+\begin{align*}
+	W_{\vec{F}_A}[\Gamma] &= \int_{t_0}^{t_1} -\mu_d F_\perp \; \uv \; \cdot \; \dtau \vec{\gamma}(\tau) \; d\tau = -\mu_d F_\perp \int_{t_0}^{t_1} \uv \; \cdot \; \dtau \vmod{\vec{\gamma}(\tau)} \; \uv \; d\tau = -\mu_d F_\perp \int_{t_0}^{t_1} \vmod{\vec{\gamma}(\tau)} d\tau = \\
+	&= -\mu_d F_\perp \mathcal{L}(\Gamma)
+\end{align*}
+Si osserva che \(\displaystyle \dtau \vec{\gamma}(\tau) = \vec{v}\), per cui \(\uv = \vec{u}_\frac{d \, \vec{\gamma}(\tau)}{d\tau}\),
+inoltre \(\mathcal{L}(\Gamma)\) è la lunghezza della curva \(\Gamma\), per cui il lavoro dipende dal percorso compiuto tra i due
+estremi \(r_0\) e \(r_1\).
+
+\subsection{Lavoro di una generica forza centrale}
+Data una forza centrale \(\vec{F}_C = - f(\vmod{\vec{\gamma}}) \ug\), (es. forza di gravitazione universale, forza elastica, \dots),
+il lavoro è definito come:
+\begin{align*}
+	W_{\vec{F}_C}[\Gamma] &= \int_{t_0}^{t_1} f(\vmod{\vec{\gamma}(\tau)}) \; \ug \; \cdot \; \left( \dtau \vmod{\vec{\gamma}(\tau)} \; \ug + \vmod{\vec{\gamma}(\tau)} \dt \theta(\tau) \; \uper \right) \; d\tau = \\
+	&= \int_{t_0}^{t_1} f(\vmod{\vec{\gamma}(\tau)}) \; \dtau \vmod{\vec{\gamma}(\tau)} \; d\tau = \int_{\vmod{\vec{\gamma}(t_0)}}^{\vmod{\vec{\gamma}(t_1)}} f(\vmod{\vec{\gamma}}) \; d\vmod{\vec{\gamma}} = \\
+	&= \left[ V(\vmod{\vec{\gamma}}) \right]_{\vmod{\vec{\gamma}_i}}^{\vmod{\vec{\gamma}_f}} = V(\vmod{\vec{\gamma}_f}) - V(\vmod{\vec{\gamma}_i})
+\end{align*}
+Per forza elastica \(\displaystyle V(\vmod{\vec{\gamma}}) = -\frac{k}{2} \vmod{\vec{\gamma}}^2\), per la forza gravitazionale
+\(\displaystyle V(\vmod{\vec{\gamma}}) = -G\frac{m_1 \, m_2}{\vmod{\vec{\gamma}}}\).
+
+\subsection{Lavoro lungo un circuito chiuso}
+Sia \(\Gamma\) un circuito chiuso costituito dalla concatenazione di due curve \(\Gamma_1\) e \(\Gamma_2\), il lavoro lungo il
+circuito chiuso di una forza \(\vec{F}\) vale:
+\[W_{\vec{F}}[\Gamma] = W_{\vec{F}}[\Gamma_1] + W_{\vec{F}}[\Gamma_2]\]
+
+Se la forza dipende solo dalla posizione iniziale e finale, il lavoro diventa:
+\[W_{\vec{F}}[\Gamma] = W_{\vec{F}}[\Gamma_1] + W_{\vec{F}}[\Gamma_2] = \int_{t_0}^{t_1}f(\tau) d\tau + \int_{t_1}^{t_0}f(\tau) d\tau = 0\]
+
+Per indicare il lavoro lungo un circuito chiuso si utilizza l'integrale:
+\[W_{\vec{F}}[\Gamma_\text{chiuso}] = \oint \vec{F}\left(\vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau\right) \cdot \, \dtau \vec{\gamma}(\tau) \; d\tau\]
+
+Per le forze che dipendono solo dalla posizione iniziale e finale, si ha:
+\[W_{\vec{F}}[\Gamma_\text{chiuso}] = \oint \vec{F}\left(\vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau\right) \cdot \, \dtau \vec{\gamma}(\tau) \; d\tau = 0\]
 
 \newpage
 
 \section{Forze conservative e non conservative}
-\subsection{Introduzione}
+\subsection{Definizione}
 \subsection{Energia potenziale}
 \subsubsection*{Potenziali da ricordare}
 \subsubsection*{Potenziali in 1D}
