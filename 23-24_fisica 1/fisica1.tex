@@ -31,6 +31,9 @@
 \newcommand\ux{\vec{u}_x}
 \newcommand\uy{\vec{u}_y}
 \newcommand\uz{\vec{u}_z}
+\newcommand\uxp{\vec{u}_{x'}}
+\newcommand\uyp{\vec{u}_{y'}}
+\newcommand\uzp{\vec{u}_{z'}}
 \newcommand\ur{\vec{u}_r}
 \newcommand\uv{\vec{u}_v}
 \newcommand\ug{\vec{u}_\gamma}
@@ -106,7 +109,7 @@ tempo: \(t\), con unità di misura \(\left[t\right] = s\)
 
 \subsection{Punto materiale in movimento - cinematica}
 \subsubsection*{Posizione}
-La posizione nello spazio di un punto sono le coordinate del punto un sistema di riferimeno cartesiano di 3 assi.
+La posizione nello spazio di un punto sono le coordinate del punto un sistema di riferimento cartesiano di 3 assi.
 \[\vec{r}(t) = \left(x_0(t), y_0(t), z_0(t)\right) \qquad \left[x_0\right] = \left[y_0\right] = \left[z_0\right] = m\]
 
 \subsubsection*{Velocità}
@@ -379,7 +382,7 @@ La forza elastica esercita da una molla su un corpo di massa \(m\) è definita c
 \end{itemize}
 
 \subsection{Forza di reazione vincolare}
-La forza di reazione vincolare è esercitata da una superfice su un corpo appoggiato ad essa. È perpendicolare alla superficie e
+La forza di reazione vincolare è esercitata da una superficie su un corpo appoggiato ad essa. È perpendicolare alla superficie e
 opposta alla somma delle forze entranti, definita come:
 \[\vec{F}_\perp = \vmod{\vec{F}_{\text{tot},\perp}} \uper = -\vec{F}_{\text{tot},\perp}\]
 
@@ -889,16 +892,171 @@ le derivate parziali per ogni componente (per \(\ux\), \(\uy\), \(\uz\)).
 \newpage
 
 \section{Quantità conservate}
-\subsection{Lavoro}
-\subsection{Impulso}
-\subsection{Momento angolare}
-\subsection{Applicazioni del momento angolare}
+Per definizione le quantità conservate sono quelle quantità, il cui integrale lungo il moto ci dà una variazione di una quantità semplice.
+
+\subsection{Lavoro - teorema dell'energia cinetica}
+Il lavoro (integrale della forza per la velocità rispetto al tempo) lungo il moto è pari alla variazione di energia cinetica.
+\[W_{\vec{F}}[\Gamma_\text{moto}] = \int_{t_0}^{t_1} \vec{F}(\vec{\gamma}(\tau)) \cdot \dtau \gamma(\tau) \; d\tau = \Delta E_k \qquad \qquad \dt E_k = \vec{F} \cdot \vec{v} = W\]
+
+\subsection{Impulso - teorema dell'impulso}
+L'impulso di una forza (integrale della forza rispetto al tempo) ci da la variazione della quantità di moto.
+\[\vec{I}_{\vec{F}}[\Gamma_\text{moto}] = \int_{t_0}^{t_1} \vec{F}(\vec{\gamma}(\tau)) \; d\tau = \Delta \vec{p} \qquad \qquad \quad \dt \vec{p} = \vec{F}\]
+
+\subsection{Momento angolare - teorema del momento angolare}
+L'integrale del momento di una forza rispetto al tempo ci da la variazione del momento angolare.
+\[\vec{\mathcal{M}}_{\vec{F}}[\Gamma_\text{moto}] = \int_{t_0}^{t_1} \vec{\gamma}(\tau) \times \vec{F}(\vec{\gamma}(\tau)) \; d\tau = \Delta \vec{L} = \Delta (\vec{r} \times m \vec{v}) \qquad \quad \dt \vec{L} = \vec{r} \times \vec{F} = M\]
+
+\subsection{Osservazioni sulla conservazione del momento angolare}
+\begin{itemize}
+	\item[-] per una forza centrale (elastica o gravitazionale universale) il momento angolare si conserva, ovvero \(\dt \vec{L} = 0\) (perché
+	\(\vec{r}\) e \(\vec{F}\) sono paralleli e il loro prodotto vettore è nullo).
+	\item[-] il moto di un punto materiale soggetto ad una forza centrale è sempre contenuto su un piano perché \(\vec{r}\) e \(\vec{v}\) sono
+	sempre sul piano perpendicolare a \(\vec{L}\), che non cambia.
+\end{itemize}
+
+
+\newpage
 
 \section{Trasformazioni tra sistemi di riferimento}
+Siano dati un punto \(P\) e due sistemi di riferimento:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(O\) con origine in \(O\) e assi \(\ux\), \(\uy\), \(\uz\)
+	\item[-] \(O'\) con origine in \(O'\) e assi \(\uxp(t)\), \(\uyp(t)\), \(\uzp(t)\)
+\end{itemize}
+
 \subsection{Posizione}
+L'equazione della posizione di \(P\) in \(O\) rispetto ad \(O'\) è data dall'equazione:
+\[\vec{r}(t) = \vec{r}_{OO'}(t) + \vec{r'}(t)\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\vec{r}(t)\) vettore posizione di \(P\) rispetto a \(O\)
+	\item[-] \(\vec{r'}(t)\) vettore posizione di \(P\) rispetto a \(O'\)
+	\item[-] \(\vec{r}_{OO'}(t)\) vettore posizione di \(O'\) rispetto ad \(O\)
+\end{itemize}
+
 \subsection{Velocità}
+L'equazione della velocità di \(P\) in \(O\) rispetto ad \(O'\) è data dall'equazione:
+\[\vec{v}(t) = \vec{v}_{OO'}(t) + \vec{v'}(t) + \vec{\omega}(t) \times \vec{r'}(t)\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\vec{v}(t)\) vettore velocità di \(P\) rispetto a \(O\)
+	\item[-] \(\vec{v'}(t)\) vettore velocità di \(P\) rispetto a \(O'\)
+	\item[-] \(\vec{v}_{OO'}(t)\) vettore velocità di \(O'\) rispetto ad \(O\)
+	\item[-] \(\vec{\omega}\) velocità angolare di \(O'\) rispetto a \(O\), vettore con modulo \(\vmod{\dt \theta(t)}\) ortogonale al piano di \(\ur\) e \(\uv\)
+\end{itemize}
+
 \subsection{Accelerazione}
+L'equazione della velocità di \(P\) in \(O\) rispetto ad \(O'\) è data dall'equazione:
+\[\vec{a}(t) = \vec{a}_{OO'}(t) + \vec{a'}(t) + 2 \, \vec{\omega}(t) \times \vec{v'}(t) + \vec{\alpha}(t) \times \vec{r'}(t) + \vec{\omega}(t) \times [\vec{\omega}(t) \times \vec{r'}(t)]\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\vec{a}(t)\) vettore velocità di \(P\) rispetto a \(O\)
+	\item[-] \(\vec{a'}(t)\) vettore velocità di \(P\) rispetto a \(O'\)
+	\item[-] \(\vec{a}_{OO'}(t)\) vettore velocità di \(O'\) rispetto ad \(O\)
+	\item[-] \(\vec{\alpha}\) accelerazione angolare di \(O'\) rispetto a \(O\), vettore definito come \(\vec{\alpha} = \dt \vec{\omega}(t)\)
+	\item[-] \(\vec{\alpha}(t) \times \vec{r'}(t) + \vec{\omega}(t) \times [\vec{\omega}(t) \times \vec{r'}(t)]\) è legato alla forza centripeta
+	\item[-] \(2 \, \vec{\omega}(t) \times \vec{v'}(t)\) è chiamato termine di Coriolis
+\end{itemize}
+
+\subsection{Sistemi inerziali e non inerziali}
+\begin{itemize}
+	\item[-] se \(O\) e \(O'\) sono sistemi inerziali, ovvero c'è solo traslazione con \(\vec{v}_{OO'}\) costante, si ha \(\vec{\omega} = \vec{\alpha} = 0\),
+	\(\vec{a}_{OO'} = 0\) per cui l'equazione per l'accelerazione diventa: \(\vec{a}(t) = \vec{a'}(t)\)
+	\item[-] se c'è solo traslazione tra \(O\) e \(O'\), si ha \(\vec{\omega} = \vec{\alpha} = 0\), \(\vec{a}_{OO'} = 0\) per cui
+	l'equazione per l'accelerazione diventa \(\vec{a}(t) = \vec{a}_{OO'}(t) + \vec{a'}(t)\)
+	\item[-] se c'è solo rotazione con \(\vec{\omega}\) costante tra \(O\) e \(O'\), si ha \(\vec{a}_{OO'} = \vec{\alpha} = 0\)
+	per cui l'equazione per l'accelerazione diventa: \(\vec{a}(t) = \vec{a'}(t) + 2 \, \vec{\omega}(t) \times \vec{v'}(t) + \vec{\omega}(t) \times [\vec{\omega}(t) \times \vec{r'}(t)]\)
+\end{itemize}
+
+\newpage
+
 \subsection{Forze e forze apparenti}
+Dati due sistemi di riferimento non inerziali \(\vec{a} \neq \vec{a'}\), in \(O'\) c'è una forza apparente che vale:
+\[\vec{F}_\text{apparente} = m \, (\vec{a'} - \vec{a}) \qquad \text{con} \; \vec{a'} - \vec{a} = - \vec{a}_{OO'}(t) - 2 \, \vec{\omega}(t) \times \vec{v'}(t) - \vec{\alpha}(t) \times \vec{r'}(t) - \vec{\omega}(t) \times [\vec{\omega}(t) \times \vec{r'}(t)]\]
+Il segno \(-\) delle componenti della differenza delle accelerazioni è data dal fatto che se un sistema accelera in una direzione,
+i corpi subiscono una forza apparente che agisce nel verso opposto.
+
+\subsubsection*{Componente forza centripeta}
+Per un moto circolare lungo il piano \(xy\) si ha che (per un dato istante):
+\[\vec{\omega} = \omega \, \uz \qquad \vec{r} = r \, \ux \qquad \vec{v} = r \dt \theta(t) \; \uy \quad \Rightarrow \quad \begin{cases}
+	\vec{v} &= r \, \omega \; \uz \times \ux = \omega \, \uz  \times r \, \ux = \vec{r} \times \vec{\omega} \\
+	\vec{a} &= \dt \vec{v} = \vec{\alpha} \times \vec{r} + \vec{\omega} \times [\vec{\omega} \times \vec{r}]
+\end{cases}\]
+
+\subsubsection*{Sistema di riferimento Terra - forza centrifuga - g efficace}
+Consideriamo due sistemi di riferimento \(O\) fisso (non rotante) con origine nel centro della Terra e \(O'\) con l'origine su un
+generico punto della superficie terrestre alla latitudine \(\theta\) con \(\uxp\) verso est, \(\uyp\) verso nord e \(\uzp\) verso
+il cielo. La forza apparente in \(O'\) vale
+\[\vec{F}_\text{app} = m \, (\vec{a'} - \vec{a}) = m \, (-\vec{\omega} \times (\vec{\omega} \times \vec{r'}))\]
+con \begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\vec{r'} = R \, \uzp\)
+	\item[-] \(\vec{\omega} = \omega \, \uz = \omega \sin \theta \; \uzp + \omega \cos \theta \; \uyp\)
+	\item[-] \(\vec{a}_{OO'} = 0\) perché il punto sulla superficie non trasla rispetto al centro della terra
+	\item[-] \(\vec{\alpha} = 0\) perché la velocità della Terra è costante
+	\item[-] \(\vec{v'} = 0\) perché il punto sulla superficie rimane fermo rispetto alla superficie
+\end{itemize}
+per cui:
+\begin{align*}
+	\vec{F} &= -m \, \vec{\omega} \times (\vec{\omega} \times \vec{r}) = - m \, \omega^2 R (\sin \theta \uzp + \cos \theta \uyp) \times [((\sin \theta \uzp + \cos \theta \uyp)) \times \uzp] = \\ 
+	&= -m \, \omega^2 R \sin \theta \cos \theta \; \uyp + m \, \omega^2 R {\cos \theta}^2 \; \uzp
+\end{align*}
+
+Si osserva è necessario correggere l'accelerazione di gravità per un vettore \(\Delta g\) dovuto alla rotazione terrestre per cui
+si definisce \(g_\text{eff}\) l'accelerazione terrestre corretta considerando anche la rotazione come:
+\[\vec{g}_\text{eff} = \vec{g} + \Delta \vec{g} = (0, -\omega^2 R \sin \theta \cos \theta, -g + \omega^2 R {\cos \theta}^2) \qquad \text{con} \; \Delta \vec{g} = (0, -\omega^2 R \sin \theta \cos \theta, \omega^2 R {\cos \theta}^2)\]
+
+Si osserva che:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] ai poli \(\cos \theta = 0\) l'accelerazione è 0
+	\item[-] all'equatore \(\cos \theta = 1\) l'accelerazione lungo \(\uzp\) è massima ed è nulla lungo \(\uyp\)
+	\item[-] a Padova \(\theta \approx 45^\circ\) si ha \(\Delta \vec{g} = (0, -\frac{1}{2}\omega^2 R, \frac{1}{2} \omega^2 R)\)
+\end{itemize}
+
+L'angolo \(\beta\) tra il vettore \(\vec{g} + \Delta \vec{g}\) e la verticale \(\uzp\) è dato dalla formula
+\[\beta \; \stackrel{\text{per } \beta \text{ piccoli}}{=} \; \tan \beta = \frac{-\omega^2 R \, \sin \theta \cos \theta}{-g + \omega^2 R \, {\cos \theta}^2}\]
+
+Per Padova l'angolo \(\beta\) vale: \(\beta = \frac{\omega^2 R}{2g} \cdot \frac{1}{1 - \frac{\omega^2 R}{2g}} \approx \frac{\omega^2 R}{2g} + \text{err. trascurabile} \approx 10^{-3} \; rad\) \\
+e la misura di \(g_\text{eff}\) vale: \(\vmod{g_\text{eff}} = \sqrt{\left( \frac{\omega^2 R}{2} \right)^2 + \left( g - \frac{\omega^2 R}{2} \right)^2} = g \sqrt{\left( \frac{\omega^2 R}{2g} \right)^2 + \left( 1 - \frac{\omega^2 R}{2g} \right)^2} = \) \\
+\(= g \sqrt{1- \frac{\omega^2 R}{g} + 2 \left( \frac{\omega^2 R}{2g} \right)^2} \approx g (1 - \frac{\omega^2 R}{2g}) = g - \frac{\omega^2 R}{2} = g - 0.017 \frac{m}{s^2}\) \\
+L'angolo rispetto alla verticale è trascurabile, mentre la variazione in modulo lo è un po' meno.
+
+\newpage
+
 \subsection{Esperimento di Guglielmini}
+Facendo cadere un grave dalla Torre degli Asinelli (\(h \approx 100 m\)), Guglielmini osserva che questo cade ad una distanza \(D\)
+rispetto al filo a piombo (alla verticale).
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] il filo a piombo ha come forza apparente \(\vec{F}_\text{app} = -m \, \vec{\omega}(t) \times [\vec{\omega}(t) \times \vec{r}(t)]\)
+	per cui l'equazione del moto diventa \(m \, \vec{a} = m \, \vec{g}_\text{eff}\)
+	\item[-] il grave ha come forza apparente \(\vec{F}_\text{app} = -m \, \vec{\omega}(t) \times [\vec{\omega}(t) \times \vec{r}(t)] + 2 \, \vec{\omega}(t) \times \vec{v'}(t)\)
+	con equazione del moto \(m \, \vec{a} = m \, \vec{g}_\text{eff} + 2 \, \vec{\omega}(t) \times \vec{v'}(t)\)
+\end{itemize}
+
+Analizzando le equazioni del moto per il grave si osserva che \(\vec{v'} \approx 0 \, \uxp + 0 \, \uyp + v_z \uzp\), ovvero la componente
+prevalente è lungo \(\uz\), mentre le altre sono trascurabili, per cui la componente \(2 \, \vec{\omega}(t) \times \vec{v'}(t)\)
+diventa: \(\vec{\omega}(t) \times \vec{v'}(t) \approx \omega(t)(\sin \theta \, \uzp + \cos \theta \, \uyp) \times v_{z'}(t) \, \uzp = \omega \, v_{z'} \cos \theta \; \uxp\)
+
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] lungo \(\uzp\) le equazioni del moto dipendono solo dalla forza peso e da quella centrifuga:
+	\[m \, \vec{a}_{z'} = m \, g_\text{eff} \quad \Rightarrow \quad \begin{cases}
+		a_{z'} = g_\text{eff} \\
+		v_{z'}(t) = -g_\text{eff} t \\
+		z'(t) = z_0 - \frac{1}{2} g_\text{eff} t^2
+	\end{cases}\]
+	\item[-] lungo \(\uxp\) le equazioni del moto dipendono anche dalla Forza di Coriolis:
+	\[m \, \vec{a}_{x'} = - 2 \, m \, \omega \, v_{z'} \cos \theta = 2 \, m \, \omega \, g_\text{eff} \cos \theta \, t \quad \Rightarrow \quad \begin{cases}
+		a_{x'}(t) = 2 \, \omega \, g_\text{eff} \cos \theta \, t \\
+		v_{x'}(t) = \omega \, g_\text{eff} \cos \theta \, t^2 \\
+		\displaystyle x'(t) = \omega \, g_\text{eff} \cos \theta \, \frac{t^3}{3}
+	\end{cases}\]
+\end{itemize}
+
+Si osserva che la deviazione dovuta alla forza di Coriolis lungo l'asse \(\uxp\) vale \(x'(t) = \omega \, g_\text{eff} \cos \theta \, \frac{t^3}{3}\)
+per il tempo \(t = \sqrt{\frac{2 h}{g_\text{eff}}}\) ottenuto dall'equazione di \(\vec{z'}(t)\), per cui si ha:
+\[\Delta = x'(t) = \frac{1}{3} \omega \, g_\text{eff} \cos \theta \, \left( \frac{2h}{g_\text{eff}} \right)^\frac{3}{2} = \frac{2}{3} \sqrt{\frac{2h^3}{g_\text{eff}}} \, \omega \cos \theta\]
+
+Per la Torre degli asinelli con \(h \approx 100 \; m\) e \(g_\text{eff} \approx 9.81 \; \frac{m}{s^2}\) vale \(\Delta \approx 0.015 \; m\)
+
+Se si considerano le velocità lineari del grave quando è in sommità della torre (\(\vmod{\vec{v}_1} = \omega (R + h)\)) e quando si trova
+al suolo (\(\vmod{\vec{v}_2} = \omega R)\)), si osserva che \(\vmod{\vec{v}_1} > \vmod{\vec{v}_2}\) e differiscono per una costante \(\omega h\) dipendente
+dall'altezza della torre. Cadendo, il grave mantiene la velocità che ha all'inizio (non ci sono forze frenanti) per cui arriva al suolo con
+una velocità maggiore che lo fa avanzare verso Est (ovvero verso il moto di rotazione terrestre).
 
 \end{document}
