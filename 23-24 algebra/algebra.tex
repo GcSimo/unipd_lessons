@@ -1,0 +1,225 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+\usepackage{graphicx} % per immagini
+\usepackage{listings} % per codice
+\usepackage{xcolor} % per colori nel codice
+\usepackage{dirtytalk} % per le ""
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+
+% percorso delle immagini da inserire
+\graphicspath{ {./ } }
+
+\title{Appunti di algebra lineare e geometria}
+\author{Giacomo Simonetto}
+\date{Secondo semetre 2023-24}
+
+\begin{document}
+
+% -------------------------------------- Copertina e indice ---------------------------------------
+\maketitle
+\begin{abstract}
+	Appunti del corso di algebra lineare e geometria della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+% ----------------------------------------- introduzione ------------------------------------------
+\section{Definizioni  di anello commutativo e campo e spazio vettoriale}
+\subsection{Anello commutativo}
+Un anello commutativo con unità è un insieme in cui sono definite due operazioni \(+\) e \(\times\) e che soddisfa le seguenti
+proprietà:
+\begin{itemize}
+	\item[-] per la somma \(+\):
+	\begin{enumerate}
+		\item proprietà associativa
+		\item proprietà commutativa
+		\item esistenza dell'elemento neutro
+		\item esistenza dell'elemento opposto
+	\end{enumerate}
+	\item[-] per il prodotto \(\times\):
+	\begin{enumerate}[resume]
+		\item proprietà associativa
+		\item proprietà commutativa
+		\item proprietà distributiva
+		\item esistenza dell'elemento neutro
+	\end{enumerate}
+\end{itemize}
+
+\subsection{Campo}
+Un campo \(k\) è un insieme in cui sono definite le due operazioni \(+\) e \(\times\), che soddisfa sia le 8 proprietà dell'anello
+commutativo, sia la seguente:
+\begin{enumerate}[topsep=3pt, itemsep=0pt] \setcounter{enumi}{8}
+	\item esistenza dell'elemento inverso: \(\forall a \in k \; \text{con} \; a \neq 0 \;\; \exists b \in k \; \text{tale che} \; a \cdot b =  b \cdot a = 1\)
+\end{enumerate}
+
+In un campo \(k\) valgono le seguenti proprietà:
+\begin{enumerate}[topsep=3pt, itemsep=0pt]
+	\item si possono risolvere equazioni di primo grado: \(ax + b = 0 \quad \Rightarrow \quad x = -b/a\)
+	\item per ogni elemento di \(k\) vale \(a \cdot 0 = 0\)
+\end{enumerate}
+
+\subsection{Spazio vettoriale}
+Uno spazio vettoriale \(V\) su un campo \(k\) è un insieme di vettori non vuoto dotato delle operazioni:
+\begin{enumerate}
+	\item somma \(+\): \(\qquad \qquad \qquad \qquad \qquad f : \begin{matrix}
+		V \times V &\to &V \\
+		(v, w) &\mapsto &v + w
+	\end{matrix}\)
+	\item prodotto per uno scalare \(\times\): \(\qquad \;\; f : \begin{matrix}
+		k \times V &\to &V \\
+		(\alpha, v) &\mapsto &\alpha \cdot w
+	\end{matrix}\)
+\end{enumerate}
+Inoltre devovo valere le 8 proprietà di anello commutativo.
+Gli elementi di uno spazio vettoriale si chiamano vettori.
+
+\subsubsection*{Proprietà dell'elemento neutro}
+Sia \(V\) uno spazio vettoriale su campo \(k\):
+\begin{enumerate}[topsep=3pt, itemsep=0pt]
+	\item \(0 \in k, \; v \in V \quad \Rightarrow \quad 0 \cdot v = \vec{0}\)
+	\item \(\alpha \in k, \; \vec{0} \in V \quad \Rightarrow \quad \alpha \cdot \vec{0} = \vec{0}\)
+\end{enumerate}
+
+\subsubsection*{Proprietà dell'opposto}
+Sia \(V\) uno spazio vettoriale su campo \(k\) e \(v \in V\), allora vale \(-1 \cdot v = -v\) e \(-v\) è l'opposto di \(v\). \\
+Sia \(A\) un anello commutativo di uno spazio vettoriale (spazio vettoriale), allora l'opposto è unico.
+
+\newpage
+
+
+\section{Spazi vettoriali, sottospazi e vettori}
+\subsection{Combinazione lineare di vettori}
+Sia \(V\) uno spazio vettoriale su campo \(k\), dati \(v_1, \dots v_n \in V\) vettori e \(\alpha_1, \dots \alpha_n \in k\) scalari
+allora possiamo costruire il vettore \(v = \alpha_1 v_1 + \alpha_2 v_2 + \dots + \alpha_n v_n\), chiamato combinazione lineare dei
+vettori \(v_1, \dots v_n\).
+
+\subsection{Vettori liearmente indipendenti}
+Siano \(v_1, \dots v_n\) vettori di uno spazio vettoriale \(V\), i vettori sono linearmente indipendenti se l'unica soluzione di
+\(\alpha_1 v_1 + \dots + \alpha_n v_n = \vec{0}\) è per \(\alpha_1 = \dots = \alpha_n = 0\).
+
+Quando dei vettori non sono linearmente indipendenti, si dicono linearmente dipendenti ed è possibile scriverne uno come combinazione
+lineare degli altri.
+
+Se tra i vettori è presente il vettore nullo \(\vec{0}\), allora i vettori saranno linearmente dipendenti.
+
+Se \(v_1, \dots v_n\) sono linearmente dipendenti e aggiungo altri vettori \(v_{n+1}, \dots v_m\), allora saranno ancora linearmente
+dipendenti.
+
+\subsection{Sottospazi vettoriali}
+Sia \(V\) uno spazio vettoriale su campo \(k\), un sottospazio vettoriale di \(V\) è un sottoinsieme \(W\) di \(V\) che è sempre
+sottospazio vettoriale secondo le stesse operazioni di \(V\).
+
+Sia \(W\) un sottoinsieme di uno spazio vettoriale \(V\) (\(W \subseteq V\)), \(W\) è sottospazio vettoriale di \(V\) (\(W \leq V\))
+se e solo se valgono le seguenti condizioni:
+\begin{enumerate}[topsep=3pt, itemsep=0pt]
+	\item \(W\) non è vuoto: \(W \neq \varnothing\)
+	\item \(W\) è chiuso per la somma: \(w_1, w_2 \in W \quad \Rightarrow \quad w_1 + w_2 = w_3 \in W\)
+	\item \(W\) è chiuso per il prodotto: \(\alpha \in k, \; w_1 \in W \quad \Rightarrow \quad \alpha w_1 = w_2 \in W\)
+\end{enumerate}
+
+Sia \(W \leq V\), allora \(\vec{0} \in W\), ovvero l'elemento nullo di \(V\) appartiene anche a \(W\).
+
+Ogni spazio vettoriale \(V\) ha almeno due sottospazi vettoriali, ovvero \(W_1 = \{ \vec{0} \}\) e \(W_2 = V\), per cui
+dato un generico sottospazio \(W\) di \(V\), vale \(\{ \vec{0} \} \leq W \leq V\).
+
+\subsubsection*{Unione, somma e intersezione tra sottospazi vettoriali}
+Siano \(U, W \leq V\) sottospazi di \(V\), spazio vettoriale su \(k\), vengono definite:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(U \cap W = \left\{ v \in U \land v \in W \right\}\) è l'intrsezione, si dimostra che \(U \cap W \leq V\)
+	\item[-] \(U \cup W = \left\{ v \in U \lor v \in W \right\}\) è l'unione, che si dimostra non essere sottospazi
+	\item[-] \(U + W = \left\{ u + w \; \text{t.c.} \; u \in U, \; w \in W\right\}\) è il più piccolo sottospazio vettoriale che
+	contiene \(U\) e \(W\)
+\end{itemize}
+
+\subsubsection*{Sottospazio generato da vettori generatori}
+Sia \(V\) uno spazio vettoriale su campo \(k\) e \(S \subseteq V\) un insieme di vettori di \(V\), allora il sottospazio vettoriale
+generato da \(S\) è definito come il più piccolo sottospazio di \(V\) che contiene \(S\) e si indica \(L(S)\) o \(<S>\).
+
+Sia \(S = \left\{ v_1, \dots v_n \right\}\), si dimostra che il sottospazio \(L(S) = \lambda_1 v_1 + \dots + \lambda_n v_n\) con
+\(\lambda_1, \dots \lambda_n \in k\) è dato dalla combinazione lineare dei vettori di \(S\) chiamati vettori generatori.
+
+Sia \(V\) spazio vettoriale su campo \(k\), un sottoinsieme \(S = \left\{ v_1, \dots v_n \right\}\) è detto insieme di generatori
+di \(V\) se \(L(S) = V\), per cui ogni vettore di \(V\) si può scrivere come combinazione lineare dei vettori di \(S\).
+
+\newpage
+
+\subsection{Base di uno spazio vettoriale}
+\begin{itemize}
+	\item[-] Sia \(V\) uno spazio vettoriale su \(k\), una base di \(V\) è un sottoinsieme \(B\) di vettori che sono contemporaneamente
+	generatori di \(V\) e linearmente indipendenti.
+	
+	\item[-] Uno stesso spazio vettoriale può avere più basi differenti.
+	
+	\item[-] Sia \(V\) spazio vettoriale con base \(\left\{ v_1, \dots v_n \right\}\), ogni vettore di \(V\) si scrive in modo
+	unico come combinazione lineare dei vettori \(v_1, \dots v_n\).
+	
+	\item[-] Sia \(V\) spazio vettoriale e \(S = \left\{ v_1, \dots v_n \right\}\) sottoinsieme di \(V\), \(S\) è base di \(V\)
+	se e solo se ogni vettore di \(V\) si scrive in modo unico come combinazione lineare dei vettori di \(S\).
+	
+	\item[-] Sia \(V\) spazio vettoriale con \(B = \left\{ v_1, \dots v_n \right\}\) base di \(V\) e sia \(v \in V\) vettore
+	esprimibile come combinazione lineare dei vettori della base: \(v = \alpha_1 v_1 + \dots + \alpha_n v_n = \left( \begin{smallmatrix} \alpha_1 \\ \vdots \\ \alpha_n \end{smallmatrix} \right)^B\),
+	con \(\alpha_1, \dots \alpha_n\) coordinate di \(v\) rispetto alla base \(B\).
+	
+	\item[-] Uno spazio vettoriale si dice finitamente generato se è generato da un numero finito di vettori.
+	
+	\item[-] Sia \(V\) spazio vettoriale con \(v_1, \dots v_n\) insieme di generatori di \(V\), sia \(w = \alpha_1 v_1 + \dots + \alpha_n v_n\)
+	vettore di \(V\), allora \(w, v_1, \dots v_{n-1}\) è insieme di generatori di \(V\).
+	
+	\item[-] Sia \(V\) spazio vettoriale \(\left\{ v_1, \dots v_n \right\}\) insieme di generatori di \(V\) e \(\left\{ w_1, \dots w_r \right\}\)
+	vettori linearmente indipendenti di \(V\), allora \(r \leq n\).
+	
+	\item[-] Tutte le basi di uno spazio vettoriale hanno lo stesso numero di elementi, per cui si definisce la dimensione di uno
+	spazio vettoriale come il numero di elementi di una sua base e si indica con \(\dim V\). Per convenzione \(V = \left\{ \vec{0} \right\}\)
+	ha base \(B = \varnothing\) e dimensione \(\dim V = 0\).
+	
+	\item[-] Sia \(V\) spazio vettoriale e \(S = \left\{ v_1 \dots v_n \right\}\) insieme di generatori, da \(S\) si può estrarre
+	una base di \(V\) (tenendo solo vettori linearmente indipendenti), e vale \(\dim V \leq S\).
+	
+	\item[-] Sia \(V\) spazio vettoriale con \(dim V = n\) e \(S = \left\{ v_1, \dots v_n \right\}\) vettori linearmente indipendenti,
+	allora \(S\) può essere completato ad una base di \(V\) (aggiungendo altri vettori linearmente indipendenti).
+	
+	\item[-] Sia \(V\) spazio vettoriale e siano \(R,S \subseteq V\), allora \(R \subseteq S \; \Rightarrow \; L(R) \leq L(S)\)
+	
+	\item[-] Sia \(V\) spazio vettoriale con \(\dim V = n\), allora le seguenti proprietà si implicano a vicenda:
+	\begin{enumerate}
+		\item \(v_1, \dots v_n\) sono linearmente indipendenti
+		\item \(v_1, \dots v_n\) generano \(V\)
+		\item \(\left\{ v_1, \dots v_n \right\}\) è base di \(V\)
+	\end{enumerate}
+	
+	\item[-] Sia \(V\) uno spazio vettoriale e \(U, W\) sottospazi di \(V\) con \(U \cap W\) e \(U + W\) sottospazi di \(V\), allora
+	\(\dim (U + W) = \dim U + \dim W - \dim (U \cap W)\) detta Formula di Grassmann. Nel caso particolare in cui \(U \cap W = \left\{ \vec{0} \right\}\)
+	si ha \(\dim (U \cap W) = 0\) e \(\dim (U + W) = \dim U + \dim W\) e i due sottospazi \(U\) e \(W\) si dicono in somma diretta
+	e si scrive \(U + W = U \oplus W\).
+
+	\item[-] Un vettore di \(U \oplus W\) si scrive in modo unico nella forma \(u + w\) con \(u \in U\) e \(w \in W\).
+\end{itemize}
+
+\newpage
+
+
+\section{Matrici}
+riprendere parte matrici 2x2 (lasciata indietro)
+
+\section{Funzioni e applicazioni lineari}
+\dots
+
+\end{document}
