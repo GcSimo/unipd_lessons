@@ -23,6 +23,19 @@
 % percorso delle immagini da inserire
 \graphicspath{ {./ } }
 
+% funzioni
+\newcommand\f[4]{\begin{smallmatrix} {#1} &\to &{#2} \\ {#3} &\mapsto &{#4} \end{smallmatrix}}
+\newcommand\m[2]{\text{M}_{\underline{#1}}^{\underline{#2}}}
+
+\newcommand\tc{\;\text{t.c.}\;} % tale che
+\newcommand\img{\text{Im}}		% immagine
+\newcommand\rg{\text{rg}} 		% rango
+\newcommand\nul{\text{null}}	% nullità
+\newcommand\tran{^{\mkern-1.5mu\mathsf{T}}} % trasposta
+
+% smallmatrix 3 x 1
+\newcommand\psmatrix[3]{\left( \begin{smallmatrix} {#1} \\ {#2} \\ {#3} \end{smallmatrix} \right)}
+
 \title{Appunti di algebra lineare e geometria}
 \author{Giacomo Simonetto}
 \date{Secondo semetre 2023-24}
@@ -79,14 +92,8 @@ In un campo \(k\) valgono le seguenti proprietà:
 \subsection{Spazio vettoriale}
 Uno spazio vettoriale \(V\) su un campo \(k\) è un insieme di vettori non vuoto dotato delle operazioni:
 \begin{enumerate}
-	\item somma \(+\): \(\qquad \qquad \qquad \qquad \qquad f : \begin{matrix}
-		V \times V &\to &V \\
-		(v, w) &\mapsto &v + w
-	\end{matrix}\)
-	\item prodotto per uno scalare \(\times\): \(\qquad \;\; f : \begin{matrix}
-		k \times V &\to &V \\
-		(\alpha, v) &\mapsto &\alpha \cdot w
-	\end{matrix}\)
+	\item somma \(+\): \(\qquad \qquad \qquad \qquad \qquad f : \f{V \times V}{V}{(v, w)}{v + w} \)
+	\item prodotto per uno scalare \(\times\): \(\qquad \;\; f : \f{k \times V}{V}{(\alpha, v)}{\alpha \cdot w}\)
 \end{enumerate}
 Inoltre devovo valere le 8 proprietà di anello commutativo.
 Gli elementi di uno spazio vettoriale si chiamano vettori.
@@ -145,7 +152,7 @@ Siano \(U, W \leq V\) sottospazi di \(V\), spazio vettoriale su \(k\), vengono d
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(U \cap W = \left\{ v \in U \land v \in W \right\}\) è l'intrsezione, si dimostra che \(U \cap W \leq V\)
 	\item[-] \(U \cup W = \left\{ v \in U \lor v \in W \right\}\) è l'unione, che si dimostra non essere sottospazi
-	\item[-] \(U + W = \left\{ u + w \; \text{t.c.} \; u \in U, \; w \in W\right\}\) è il più piccolo sottospazio vettoriale che
+	\item[-] \(U + W = \left\{ u + w \tc u \in U, \; w \in W\right\}\) è il più piccolo sottospazio vettoriale che
 	contiene \(U\) e \(W\)
 \end{itemize}
 
@@ -175,7 +182,7 @@ di \(V\) se \(L(S) = V\), per cui ogni vettore di \(V\) si può scrivere come co
 	se e solo se ogni vettore di \(V\) si scrive in modo unico come combinazione lineare dei vettori di \(S\).
 	
 	\item[-] Sia \(V\) spazio vettoriale con \(B = \left\{ v_1, \dots v_n \right\}\) base di \(V\) e sia \(v \in V\) vettore
-	esprimibile come combinazione lineare dei vettori della base: \(v = \alpha_1 v_1 + \dots + \alpha_n v_n = \left( \begin{smallmatrix} \alpha_1 \\ \vdots \\ \alpha_n \end{smallmatrix} \right)^B\),
+	esprimibile come combinazione lineare dei vettori della base: \(v = \alpha_1 v_1 + \dots + \alpha_n v_n = \psmatrix{\alpha_1}{\dots}{\alpha_n}^B\),
 	con \(\alpha_1, \dots \alpha_n\) coordinate di \(v\) rispetto alla base \(B\).
 	
 	\item[-] Uno spazio vettoriale si dice finitamente generato se è generato da un numero finito di vettori.
@@ -211,15 +218,268 @@ di \(V\) se \(L(S) = V\), per cui ogni vettore di \(V\) si può scrivere come co
 	e si scrive \(U + W = U \oplus W\).
 
 	\item[-] Un vettore di \(U \oplus W\) si scrive in modo unico nella forma \(u + w\) con \(u \in U\) e \(w \in W\).
+	
+	\item[()] Sia \(V = k^n\) spazio vettoriale su campo \(k\) e sia \(U = \left\{ (x_1, \dots x_n) \tc \alpha_1 x_1 + \dots + \alpha_n x_n = 0\right\}\)
+	per determinati \(\alpha_1, \dots \alpha_n \in k\) fissati, allora \(U \leq k^n\).
+\end{itemize}
+
+\newpage
+
+\section{Funzioni e applicazioni lineari}
+Siano \(V, W\) spazi vettoriali su campo \(k\), \(f: W \to W\) si dice lineare se valgono:
+\begin{enumerate}
+	\item \(f(v_1 + v_2) = f(v_1) + f(v_2) \qquad \qquad \;\; \forall v_1, v_2 \in V\)
+	\item \(f(\lambda v) = \lambda f(v) \qquad \qquad \qquad \qquad \qquad \forall v \in V, \; \forall \lambda \in k\)
+\end{enumerate}
+
+\begin{itemize}
+	\item[-] Sia \(V\) spazio vettoriale su \(k\) e \(f_1, \dots f_n : V \to k\) lineari, allora posso costruire la funzione
+	\(f\) lineare definita come \(f: \f{V}{k^n}{v}{\psmatrix{f_1(v)}{\dots}{f_n(v)}}\)
+
+	\item[-] Sia \(f: V \to W\) lineare, allora \(f(\vec{0}) = \vec{0}\)
+	
+	\item[-] Le funzioni lineari del tipo \(f: k^n \to k\) sono tutte e sole del tipo \(\f{k^n}{k}{\psmatrix{x_1}{\dots}{x_n}}{a_1 x_1 + \dots + a_n x_n}\)
+	con \(a_1, \dots a_n \in k\)
+\end{itemize}
+
+\subsection{Omorfismo e isomorfismo}
+Una funzione o applicazione lineare è chiamata omomorfismo. \\
+Una funzione lineare biiettiva è chiamata isomorfismo. \\
+Una funzione lineare che ha lo stesso spazio vettoriale sia nel dominio che nel codominio si dice endomorfismo.
+
+\begin{itemize}
+	\item[-] Sia \(f: V \to W\) isomorfismo (\(f\) biiettiva), allora \(f\) è invertibile ed esiste \(f^-1: W \to V\) lineare
+	inversa di \(f\).
+
+	\item[-] Tutti gli spazi vettoriali su campo \(k\) di dimensione \(n\) sono isomorfi a \(k^n\) e l'isomorfismo (la funzione)
+	dipende dalla base scelta negli spazi vettoriali.
+\end{itemize}
+
+\subsection{Nucleo e immagine di una funzione}
+Siano \(V, W\) spazi vettoriali sul campo \(k\) e sia \(f: V \to W\) una funzione lineare, si definiscono:
+\begin{enumerate}
+	\item nucleo di f: \(\qquad \quad \ker f = \{ v \in V \tc f(\vec{v}) = \vec{0}\} \; \subseteq V\)
+	\item immagine di f: \(\quad \;\;\;  \img f = \{ w \in W \tc \exists v \in V \; \text{per cui} \; f(v) = w\} \subseteq W\)
+\end{enumerate}
+Sia \(f: V \to W\) funzione lineare, allora:
+\begin{enumerate}
+	\item \(\ker f \leq V\) (è sottospazio)
+	\item \(\img f \leq W\) (è sottospazio)
+\end{enumerate}
+Sia \(f: V \to W\) funzione lineare, \(f\) è iniettiva se e solo se \(\ker f = \{\vec{0}\}\) \\
+Sia \(f: V \to W\) funzione lineare, \(f\) è suriettiva se e solo se \(\img f = W\) \\
+Sia \(f: V \to W\) lineare, allora \(\dim \ker f + \dim \img f = \dim V\) \\
+La nullità di \(f\) è \(\nul f = \dim \ker f\), il rango di \(f\) è \(\rg f = \dim \img f\), per cui vale che \(\nul f + \rg f = \dim V\)
+
+\subsection{Funzioni e vettori}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] In generale una funzione non manda vettori linearmente indipendenti in vettori linearmente indipendenti, ma: (due successive)
+	\item[-] Se \(f(v_1), \dots f(v_n)\) sono linearmente indipendenti, allora \(v_1, \dots v_n\) sono linearmente indipendenti.
+	\item[-] Se \(f\) è iniettiva: \(v_1, \dots v_n\) linearmente indipendenti \(\Leftrightarrow\) \(f(v_1), \dots f(v_n)\) linearmente indipendenti.
+	
+	\item[-] Sia \(f: V \to W\) lineare, \(\{v_1, \dots v_n\}\) generatori di \(V\), allora \(\{w_1 = f(v_1), \dots w_n = f(v_n)\}\)
+	sono generatori di \(W\).
+
+	\item[-] Sia \(f: V \to W\) lineare, sia \(\{v_1, \dots v_n\}\) base \(V\), \(f\) è univocamente determinata dalla conoscenza di
+	\(f(v_1), \dots f(v_n)\)
+
+	\item[-] Siano \(V, W\) spazi vettoriali sul campo \(k\), sia \(\{v_1, \dots v_n\}\) base di \(V\) siano \(w_1, \dots w_n\)
+	arbitrari vettori di \(W\), allora esiste ed è unica la funzione \(f: V \to W \tc f(v_1) = w_1, \dots f(v_n) = w_n\)
 \end{itemize}
 
 \newpage
 
 
 \section{Matrici}
-riprendere parte matrici 2x2 (lasciata indietro)
+Sia \(M_{m,n}(k)\) uno spazio vettoriale i cui vettori sono definiti come matrici \(m \times n\) (\(m\) righe, \(n\) colonne):
+\[M_{m,n}(k) = \left\{ \begin{pmatrix}
+	a_{11} & a_{12} & \dots & a_{1n} \\
+	a_{21} & a_{22} & \dots & a_{2n} \\
+	\vdots & \vdots & \ddots & \vdots \\
+	a_{m1} & a_{m2} & \dots & a_{mn}
+\end{pmatrix} = a(i,j) \qquad \text{con} \begin{matrix}
+	a_{11}, \dots a_{mn} \in k \\
+	i = 1,\dots m \\
+	j = 1,\dots n	
+\end{matrix} \right\}\]
 
-\section{Funzioni e applicazioni lineari}
-\dots
+\subsection{Operazioni}
+\subsubsection*{Somma tra matrici}
+\[\begin{pmatrix}
+	a_{11} & a_{12} & \dots & a_{1n} \\
+	a_{21} & a_{22} & \dots & a_{2n} \\
+	\vdots & \vdots & \ddots & \vdots \\
+	a_{m1} & a_{m2} & \dots & a_{mn}
+\end{pmatrix} + 
+\begin{pmatrix}
+	b_{11} & b_{12} & \dots & b_{1n} \\
+	b_{21} & b_{22} & \dots & b_{2n} \\
+	\vdots & \vdots & \ddots & \vdots \\
+	b_{m1} & b_{m2} & \dots & b_{mn}
+\end{pmatrix} = 
+\begin{pmatrix}
+	a_{11} + b_{11} & a_{12} + b_{12} & \dots & a_{1n} + b_{1n} \\
+	a_{21} + b_{21} & a_{22} + b_{22} & \dots & a_{2n} + b_{1n} \\
+	\vdots & \vdots & \ddots & \vdots \\
+	a_{m1} + b_{m1} & a_{m2} + b_{m2} & \dots & a_{mn} + b_{mn}
+\end{pmatrix}\]
+
+\subsubsection*{Prodotto per uno scalare}
+\[\lambda \cdot \begin{pmatrix}
+	a_{11} & a_{12} & \dots & a_{1n} \\
+	a_{21} & a_{22} & \dots & a_{2n} \\
+	\vdots & \vdots & \ddots & \vdots \\
+	a_{m1} & a_{m2} & \dots & a_{mn}
+\end{pmatrix} = 
+\begin{pmatrix}
+	\lambda \cdot a_{11} & \lambda \cdot a_{12} & \dots & \lambda \cdot a_{1n} \\
+	\lambda \cdot a_{21} & \lambda \cdot a_{22} & \dots & \lambda \cdot a_{2n} \\
+	\vdots & \vdots & \ddots & \vdots \\
+	\lambda \cdot a_{m1} & \lambda \cdot a_{m2} & \dots & \lambda \cdot a_{mn}
+\end{pmatrix}\]
+
+\subsubsection*{Prodotto righe per colonne tra matrici}
+Si può eseguire solo se le colonne della prima sono dello stesso numero delle righe della seconda.
+Siano \(A = (a_{ih}) \in M_{m,n}(k)\), \(B = (b_{hj}) \in M_{n,r}(k)\), \(C = (c_{ij}) \in M_{m,r}(k)\):
+\[A \cdot B = C \quad \longrightarrow \quad C = (c_{ij}) = \sum_{h=1}^{n} a_{ih} \cdot b_{hj} = a_{i1} \cdot b_{1j} + a_{i2} \cdot b_{2j} + \dots + a_{in} \cdot b_{nj}\]
+
+\subsubsection*{Proprietà del prodotto tra matrici}
+\begin{enumerate}
+	\item non vale la proprietà commutativa \(AB \neq BA\)
+	\item proprietà associativa: \((AB)C = A(BC)\)
+	\item proprietà distributiva: \((A+B)C = AC + BC\) e \(C(A+B) = CA + CB\)
+	\item prodotto per scalare: \((\lambda A)B = \lambda (AB) = A (\lambda B)\)
+	\item elemento neutro: \(I_n = \left( \begin{smallmatrix}
+		1 & 0 & \cdots & \cdots \\
+		0 & 1 & 0 & \cdots \\
+		\cdots & 0 & 1 & 0 \\
+		\cdots & \cdots & 0 & 1
+	\end{smallmatrix} \right)\) matrice identica \(n \times n\)
+\end{enumerate}
+
+\subsubsection*{Matrici trasposte}
+Sia \(A = (a_{ij}) \in M_{m,n}(k)\) la trasposta è \(A\tran = (a_{ji}) \in M_{n,m}(k)\), ovvero la matrice ottenuta scambiando le
+righe e le colonne di \(A\).
+
+\subsubsection*{Proprietà della trasposta}
+\begin{enumerate}
+	\item \((A\tran)\tran = A\)
+	\item \((A+B)\tran = A\tran + B\tran\)
+	\item \((AB)\tran = B\tran A\tran\)
+\end{enumerate}
+
+\subsubsection*{Matrice inversa}
+Una matrice si dice invertibile se esiste \(B\) tale che \(AB = BA = I_n\). \\
+Se \(B\) esiste, è la matrice inversa di \(A\) e si indica \(B^{-1}\).
+
+\subsubsection*{Matrici simili}
+Due matrici quadrate \(A\), \(A'\) \(\in M_n(k)\) si dicono simili se esiste una matrice \(P \in M_n(k)\) invertibile per cui
+\(A' = P \, A \, P^{-1}\).
+
+Due matrici sono simili se e solo se rappresentano lo stesso endomorfismo rispetto ad opportune basi (vedere
+\hyperlink{composizioneFunzioniCambiamentiDiBase}{composizione di funzioni lineari e funzioni di cambiamento di base}).
+
+\subsubsection*{Elementi (matrici) nilpotenti e divisori di 0}
+Una matrice quadrata non nulla \(A \in M_n(k) \, \backslash \, \{ \vec{0} \}\) si dice nilpotente se \(A^k = 0\) per un certo valore di \(k\). \\
+Due matrici non nulle \(A\), \(B\) sono divisori di \(0\) se \(A \cdot B = \vec{0}\).
+
+\newpage
+
+\subsection{Funzioni e matrici}
+\subsubsection*{Funzioni come spazio vettoriale}
+Siano \(f, g: V \to W\) funzioni lineari, definiamo:
+\begin{itemize}
+	\item[-] somma di funzioni: \(\qquad \qquad \qquad f + g: \f{V}{W}{v}{f(v) + g(v)}\)
+	\item[-] prodotto funzione per scalare: \(\qquad \; \lambda f: \f{V}{W}{v}{\lambda f(v)} \qquad \text{con} \; \lambda \in k\)
+\end{itemize}
+In questo modo è possibile definire uno spazio vettoriale dato dall'insieme \(\hom(V,W)\), di tutti gli omomorfismi \(f: V \to W\)
+
+\subsubsection*{Parallelismo funzioni matrici}
+Siano \(f, g: V \to W\) funzioni lineari, siano \(\underline{v} = \{ v_1, \dots v_n \}\) base di \(V\) con \(\dim V = n\) e
+\(\underline{w} = \{ w_1, \dots w_m \}\) base di \(W\) con \(\dim W = m\), si possono definire le matrici:
+\begin{itemize}
+	\item[-] \(A = (a_{ij}) = \m{v}{w}(f) \in M_{m,n}(k)\)
+	\item[-] \(B = (b_{ij}) = \m{v}{w}(g) \in M_{m,n}(k)\)
+\end{itemize}
+Inoltre le operazioni tra \(f\) e \(g\) si possono definire in termini di matrici:
+\begin{itemize}
+	\item[-] somma di funzioni: \(\qquad \qquad \qquad f + g = \m{v}{w}(f + g) = \m{v}{w}(f) + \m{v}{w}(g)\)
+	\item[-] prodotto funzione per scalare: \(\qquad \;\lambda f = \m{v}{w}(\lambda f) = \lambda \m{v}{w}(f)\)
+	\item[-] composizione di funzioni: \(\qquad \quad \; g \circ f = \m{v}{z}(g \circ f) = \m{w}{z}(g) \cdot \m{v}{w}(f)\)
+	\item[] definita con \(f: V \to W\), \(g: W \to Z\) e con \(\underline{v}\), \(\underline{w}\), \(\underline{z}\) basi di \(V, W, Z\)
+\end{itemize}
+
+\subsubsection*{Funzioni come prodotto matrice vettore}
+Sia \(f: V \to W\) funzione lineare, siano \(\underline{v} = \{ v_1, \dots v_n \}\) base di \(V\) con \(\dim V = n\) e
+\(\underline{w} = \{ w_1, \dots w_m \}\) base di \(W\) con \(\dim W = m\):
+\begin{itemize}
+	\item[-] definisco gli isomorfismi \(\text{iso}_1: \f{V}{k^n}{v}{\psmatrix{\lambda_1}{\dots}{\lambda_n}^{\underline{v}}}\) e \(\text{iso}_2: \f{W}{k^m}{w}{\psmatrix{\mu_1}{\dots}{\mu_2}^{\underline{w}}}\)
+	\item[-] definisco l'operazione \(L_A: \f{k^n}{k^m}{\psmatrix{\lambda_1}{\dots}{\lambda_n}^{\underline{v}}}{\psmatrix{\mu_1}{\dots}{\mu_2}^{\underline{w}}} \qquad \)
+	con \(A = \m{v}{w}(f) \in M_{m,n}(k), \quad \psmatrix{\mu_1}{\dots}{\mu_2}^{\underline{w}} = A \psmatrix{\lambda_1}{\dots}{\lambda_n}^{\underline{v}}\)
+\end{itemize}
+Per cui dato un vettore \(v = \lambda_1 v_1 + \dots + \lambda_n v_n \in V\) e \(w = \mu_1 w_1 + \dots + \mu_m w_m \in W\),
+vale che: \[w = f(v) \quad \Rightarrow \quad \psmatrix{\mu_1}{\dots}{\mu_2}^{\underline{w}} = \m{v}{w}(f) \cdot \psmatrix{\lambda_1}{\dots}{\lambda_n}^{\underline{v}}\]
+
+Ovvero ogni funzione, scelte una base del dominio e una del codominio, è possibile scriverla come matrice \(\dim W \times \dim V\),
+e per applicare la funzione ad un vettore, si moltiplica a sinistra il vettore dato dalle coordinate rispetto alla base del dominio
+per la matrice, ottnenedo le coordinate del vettore rispetto alla base del codominio.
+
+Per costruire la matrice relativa alla funzione si uniscono le coordinate dei vettori (verticali) dati dall'applicaione della funzione
+ai vettori della base del dominio come di seguito: \\
+sia \(f:V \to W\), \(\underline{v} = \{v_1, \dots v_n\}\) base di \(V\), \(\underline{w} = \{w_1, \dots w_m\}\) base di \(W\):
+\[f: \begin{matrix}
+	f(v_1) = a_1 w_1 + a_2 w_2 + \dots + a_m w_m \\
+	f(v_2) = b_1 w_1 + b_2 w_2 + \dots + b_m w_m \\
+	\dots \\
+	f(v_n) = z_1 w_1 + z_2 w_2 + \dots + z_m w_m
+\end{matrix} \quad \longrightarrow \quad A = \m{v}{w}(f) = \left( \begin{matrix}
+	a_1 & b_1 & \cdots & z_1 \\
+	a_2 & b_2 & \cdots & z_2 \\
+	\vdots & \vdots & \ddots & \vdots \\
+	a_m & b_m & \cdots & z_m
+\end{matrix} \right)\]
+
+\newpage
+
+\subsubsection*{Immagine di una funzione e rango di una matrice}
+Sia \(f:V \to W\) lineare, \(\underline{v} = \{v_1, \dots v_n\}\) base di \(V\), \(\underline{w} = \{w_1, \dots w_m\}\) base di \(W\),
+allora l'immagine di \(f\) è il sottospazio generato dalle colonne di \(A = \m{v}{w}(f)\), ovvero \(\img f = L(f(v_1), \dots f(v_n))\).
+
+Il rango di una matrice è la dimensione del sottospazio generato dalle colonne di essa o il massimo numero di colonne linearmente
+indipendenti di essa.
+
+\subsubsection*{Matrice del cambiamento di base}
+Sia \(V\) spazio vettoriale su \(k\) con basi \(\underline{v} = \{v_1, \dots v_n\}\) e \(\underline{v'} = \{v_1', \dots v_n'\}\).
+Un vettore \(v\) si può esprimere in due modi diversi secondo i due sistemi di coordinate:
+\[v \quad = \quad \lambda_1 v_1 + \dots + \lambda_n v_n = \begin{pmatrix} \lambda_1 \\ \cdots \\ \lambda_n \\ \end{pmatrix}^{\underline{v}}
+	\quad = \quad	\lambda_1' v_1' + \dots + \lambda_n' v_n' = \begin{pmatrix} \lambda_1' \\ \cdots \\ \lambda_n' \\ \end{pmatrix}^{\underline{v'}}\]
+Costriusco la funzione identità \(id: \f{V_{\underline{v}}}{V_{\underline{v'}}}{v}{v'}\) e la relativa matrice in cui le colonne
+sono le coordinate dei vettori della base \(\underline{v}\) rispetto alla base \(\underline{v'}\), come segue:
+\[f: \begin{matrix}
+	v_1 = a_1 v_1' + a_2 v_2' + \dots + a_m v_m' \\
+	v_2 = b_1 v_1' + b_2 v_2' + \dots + b_m v_m' \\
+	\dots \\
+	v_n = z_1 v_1' + z_2 v_2' + \dots + z_m v_m'
+\end{matrix} \quad \longrightarrow \quad A = \m{v}{v'}(f) = \left( \begin{matrix}
+	a_1 & b_1 & \cdots & z_1 \\
+	a_2 & b_2 & \cdots & z_2 \\
+	\vdots & \vdots & \ddots & \vdots \\
+	a_m & b_m & \cdots & z_m
+\end{matrix} \right)\]
+Per cui si ha che \(\begin{pmatrix} \lambda_1' \\ \cdots \\ \lambda_n' \\ \end{pmatrix}^{\underline{v'}} = \m{v}{v'} \cdot \begin{pmatrix} \lambda_1 \\ \cdots \\ \lambda_n \\ \end{pmatrix}^{\underline{v}}\)
+
+Le matrici del cambiamento di base (essendo isomorfismi), sono invertibili e la loro inversa si ottiene scambiando le basi utilizzate:
+\(\left( \m{v}{v'}(id) \right)^{-1} = \m{v'}{v}(id)\) e si ha che \(\m{v}{v'} \cdot \m{v'}{v} = I_n\)
+
+\hypertarget{composizioneFunzioniCambiamentiDiBase}{\subsubsection*{Composizione di funzioni lineari tra spazi vettoriali e di funzioni di cambiamento di base}}
+Siano \(V, W\) spazi vettoriali con \(\underline{v}\), \(\underline{v'}\) basi di \(V\) e \(\underline{w}\), \(\underline{w'}\)
+basi di \(W\) e \(f: V \to W\), si ha che:
+\begin{itemize}
+	\item[-] \(\text{id}_1: V_{\underline{v}} \to V_{\underline{v'}} \qquad P = \m{v}{v'} \quad P^{-1} = \m{v'}{v} \qquad \qquad \text{id}_2: W_{\underline{w}} \to W_{\underline{w'}} \qquad S = \m{w}{w'} \quad S^{-1} = \m{w'}{w}\)
+	\item[-] \(f: V_{\underline{v}} \to W_{\underline{w}} \qquad \; A = \m{v}{w} \qquad \qquad \qquad \qquad \qquad \;\; f': V_{\underline{v'}} \to W_{\underline{w'}} \qquad \;\; A' = \m{v'}{w'}\)
+	\item[-] \(f' = id_2 \circ f \circ {id_1}^{-1} \quad \Rightarrow \quad \m{v'}{w'} = \m{w}{w'} \cdot \m{v}{w} \cdot \m{v'}{v} \quad \Rightarrow \quad A' = S \, A \, P^{-1}\)
+\end{itemize}
+Se la funzione \(f\) è un endomorfismo (es. \(f: V \to V\)), si ottiene che \(S = P\), per cui \(A' = P \, A \, P^{-1}\), ovvero
+le matrici \(A\) e \(A'\) sono simili.
 
 \end{document}
