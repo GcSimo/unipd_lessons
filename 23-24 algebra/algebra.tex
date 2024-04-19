@@ -31,6 +31,7 @@
 \newcommand\img{\text{Im}}		% immagine
 \newcommand\rg{\text{rg}} 		% rango
 \newcommand\nul{\text{null}}	% nullità
+\newcommand\sol{\text{Sol}}		% soluzioni
 \newcommand\tran{^{\mkern-1.5mu\mathsf{T}}} % trasposta
 
 % smallmatrix 3 x 1
@@ -372,6 +373,10 @@ righe e le colonne di \(A\).
 Una matrice si dice invertibile se esiste \(B\) tale che \(AB = BA = I_n\). \\
 Se \(B\) esiste, è la matrice inversa di \(A\) e si indica \(B^{-1}\).
 
+Per calcolare l'inversa di \(A\), eseguo operazioni elementari sulle righe sulla matrice \((A|I_n)\) in modo da ricondurmi ad una
+matrice \((I_n|A^{-1})\), dove \(I_n\) è la matrice identica e \(A^{-1}\) è la matrice inversa. Questo avviene per come è definita
+la combinazione di matrici di operazioni elementari sulle righe (come spiegato dopo).
+
 \subsubsection*{Matrici simili}
 Due matrici quadrate \(A\), \(A'\) \(\in M_n(k)\) si dicono simili se esiste una matrice \(P \in M_n(k)\) invertibile per cui
 \(A' = P \, A \, P^{-1}\).
@@ -382,6 +387,79 @@ Due matrici sono simili se e solo se rappresentano lo stesso endomorfismo rispet
 \subsubsection*{Elementi (matrici) nilpotenti e divisori di 0}
 Una matrice quadrata non nulla \(A \in M_n(k) \, \backslash \, \{ \vec{0} \}\) si dice nilpotente se \(A^k = 0\) per un certo valore di \(k\). \\
 Due matrici non nulle \(A\), \(B\) sono divisori di \(0\) se \(A \cdot B = \vec{0}\).
+
+\subsection{Operazioni elementari sulle righe}
+Sia \(A\) una matrice in \(M_{m,n}(k)\), posso agire sulle righe senza modificare il sottospazio generato da esse e senza modificare
+il rango di \(A\) con le seguenti operazioni lineari:
+\begin{enumerate}[topsep=3pt, itemsep=0pt]
+	\item scambiando tra loro due righe \(R_i\) e \(R_j\)
+	\item moltiplicando la riga \(R_i\) per uno scalare \(\lambda \in k, \lambda \neq 0\)
+	\item nel posto di \(R_i\) scrivo \(R_i + \beta R_j\) con \(i \neq j, \beta \in k\)
+\end{enumerate}
+
+\subsubsection*{Rango di una matrice}
+Il rango di una matrice è la dimensione del sottospazio generato dalle colonne di essa o il massimo numero di colonne linearmente
+indipendenti di essa.
+
+\subsubsection*{Riduzione in forma a scala}
+La matrice \(A\) è in forma a scala se in ogni riga di \(C\) il primo coefficiente non nullo (detto pivot) si trova a destra di
+quello della riga precedente. (a meno che non sia la prima riga, o che la riga precedente sia tutta nulla).
+\[A \; \text{in forma a scala} \;  = \begin{pmatrix}
+	\cdots & 0 & * & \cdots & \cdots & \cdots \\
+	\cdots & \cdots & 0 & * & \cdots & \cdots \\
+	\cdots & \cdots & \cdots & 0 & * & \cdots \\
+	\cdots & \cdots & \cdots & \cdots & 0 & 0
+\end{pmatrix}\]
+Il rango di una matrice in forma a scala è il numero delle righe non nulle ed è anche il numero di pivot.
+
+\subsubsection*{Sottospazi generati dalle righe e colonne di una matrice ridotta a scala}
+Sia \(A'\) la matrice ridotta a scala di \(A\), siano \(R_1, \dots R_m\) le righe di \(A\), siano \(C_1, \dots C_n\) le colonne di \(A\)
+\begin{enumerate}
+	\item una base del sottospazio generato dalle righe di \(A\) è dato dalle righe non nulle di \(A'\)
+	\item una base del sottospazio generato dalle colonne di \(A\) è dato dalle colonne di \(A\) (NON \(A'\)) corrispondenti alle
+	colonne dei pivot di \(A'\)
+\end{enumerate}
+
+\subsubsection*{Metodo di eliminazione di Gauss}
+Il sistema \(S: AX = B\) ha le stesse soluzioni di un sistema \(S': CX = D\) dove \((C|D)\) è ottenuto mediante operazioni elementari
+sulla matrice completa \((A|B)\). Questo si utilizza per ricondursi a matrici più semplici da studiare (es. in forma a scala).
+
+\newpage
+
+\subsubsection*{Matrici elementari}
+Le matrici elementari sono matrici quadrate e invertibili ottenute dalle funzioni di operazioni lineari sulle righe delle matrici.
+\begin{enumerate}
+	\item la matrice per scambiare tra loro due righe si ottiene dalla matrice identica in cui sono state scambiate due righe
+	come nell'esempio seguente, scambiando le righe 1 e 2:
+	\[P(1,2) = \begin{pmatrix}
+		0 & 1 & 0 \\
+		1 & 0 & 0 \\
+		0 & 0 & 1
+	\end{pmatrix}\]
+	si osserva che \(\rg P(i,j) = \rg I_n = n\), \(P(i,j)^{-1} = P(i,j)\)
+	
+	\item la matrice per moltiplicare una riga per uno scalare \(\lambda\) si ottiene dalla matrice identica con \(\lambda\)
+	al posto dell'1, nella riga da moltiplicare, come nell'esempio moltiplicando la riga 2 per \(\pi\):
+	\[M(2,\pi) = \begin{pmatrix}
+		1 & 0 & 0 \\
+		0 & \pi & 0 \\
+		0 & 0 & 1
+	\end{pmatrix}\]
+	
+	\item la matrice per ottenere una composizione lineare di righe si ottiene inserendo il coefficiente \(\beta\) al posto
+	dello 0, nella riga da modificare, nella colonna con lo stesso indice della riga che si vuole sommare, come nell'esempio
+	con \(R_2 = R_2 + \lambda R_3\):
+	\[M(2, 3, \lambda) = \begin{pmatrix}
+		1 & 0 & 0 \\
+		0 & 1 & \lambda \\
+		0 & 0 & 1
+	\end{pmatrix}\]
+\end{enumerate}
+
+Per ottenere una generica matrice \(B\) che raggruppa più operazioni elementari eseguite su una matrice \(A\), ottenendo \(A'\)
+si può procedere come prodotto delle matrici delle diverse operazioni elemenatri eseguite (\hyperlink{composizioneFunzioniCambiamentiDiBase}{funzioni composte}),
+oppure si osserva che: \(B \cdot (A|I_n) = (BA | BI_n) = (A'|B)\). Quindi basta considerare la matrice \((A|I_n)\) e applicare
+le operazioni elementari per ottenere \(A'\) al posto di \(A\) e in questo modo si avrà \(B\) al posto di \(I_n\).
 
 \newpage
 
@@ -445,9 +523,6 @@ sia \(f:V \to W\), \(\underline{v} = \{v_1, \dots v_n\}\) base di \(V\), \(\unde
 Sia \(f:V \to W\) lineare, \(\underline{v} = \{v_1, \dots v_n\}\) base di \(V\), \(\underline{w} = \{w_1, \dots w_m\}\) base di \(W\),
 allora l'immagine di \(f\) è il sottospazio generato dalle colonne di \(A = \m{v}{w}(f)\), ovvero \(\img f = L(f(v_1), \dots f(v_n))\).
 
-Il rango di una matrice è la dimensione del sottospazio generato dalle colonne di essa o il massimo numero di colonne linearmente
-indipendenti di essa.
-
 \subsubsection*{Matrice del cambiamento di base}
 Sia \(V\) spazio vettoriale su \(k\) con basi \(\underline{v} = \{v_1, \dots v_n\}\) e \(\underline{v'} = \{v_1', \dots v_n'\}\).
 Un vettore \(v\) si può esprimere in due modi diversi secondo i due sistemi di coordinate:
@@ -481,5 +556,69 @@ basi di \(W\) e \(f: V \to W\), si ha che:
 \end{itemize}
 Se la funzione \(f\) è un endomorfismo (es. \(f: V \to V\)), si ottiene che \(S = P\), per cui \(A' = P \, A \, P^{-1}\), ovvero
 le matrici \(A\) e \(A'\) sono simili.
+
+\newpage
+
+\section{Sistemi di equazioni lineari}
+Un sistema lineare di equazioni lineari a coefficienti in campo \(k\) è un insieme \(S\) di equazioni del tipo:
+\[S \; : \; \begin{cases}
+	a_{11} x_1 + a_{12} x_2 + \dots + a_{1n} x_n = b_1 \\
+	a_{21} x_1 + a_{22} x_2 + \dots + a_{2n} x_n = b_2 \\
+	\dots \\
+	a_{m1} x_1 + a_{m2} x_2 + \dots + a_{mn} x_n = b_m
+\end{cases} \quad \Rightarrow \quad
+\begin{pmatrix}
+	a_{11} & a_{12} & \dots & a_{1n} \\
+	a_{21} & a_{22} & \dots & a_{2n} \\
+	\vdots & \vdots & \ddots & \vdots \\
+	a_{m1} & a_{m2} & \dots & a_{mn}
+\end{pmatrix} \cdot
+\begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix} =
+\begin{pmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{pmatrix}\]
+
+\subsubsection*{Matrici complete e incomplete}
+La matrice \(A\) si chiama matrice incompleta di \(S\): \(A = \begin{pmatrix}
+	a_{11} & a_{12} & \dots & a_{1n} \\
+	a_{21} & a_{22} & \dots & a_{2n} \\
+	\vdots & \vdots & \ddots & \vdots \\
+	a_{m1} & a_{m2} & \dots & a_{mn}
+\end{pmatrix}\) \\
+La matrice \((A|B)\) si chiama matrice completa di \(S\): \((A|B) = \begin{pmatrix}
+	a_{11} & a_{12} & \dots & a_{1n} & | & b_1 \\
+	a_{21} & a_{22} & \dots & a_{2n} & | & b_2 \\
+	\vdots & \vdots & \ddots & \vdots & | & \vdots \\
+	a_{m1} & a_{m2} & \dots & a_{mn} & | & b_n
+\end{pmatrix}\)
+
+\subsection{Soluzioni di un sistema lineare}
+\begin{itemize}
+	\item[-] L'insieme delle soluzioni di un sistema lineare \(S : AX = B\) è l'insieme dei vettori \(X\) delle incognite tali che
+	tutte le equazioni siano verificate contemporaneamente. Nel caso in cui \(A\) sia invertibile, il sistema ha un'unica soluzione
+	\(X = A^{-1} B\)
+	\item[-] Un sistema lineare ha soluzioni se e solo se \(B \in \img f\), con \(f: \f{k^n}{k^m}{X}{AX}\). Si osserva che \(\img f\)
+	corrisponde allo spazio vettoriale generato dalle colonne di \(A\), per cui \(B \in \img f \leftrightarrow B \in <A_1, A_2, \dots A_n>\) 
+\end{itemize}
+
+\subsubsection*{Sistemi lineari omogenei associati}
+\begin{itemize}
+	\item[-] Il sistema lineare \(S: AX = B\) si dice omogeneo se \(B = \vec{0}\) (\(S:AX = \vec{0}\)) e l'insieme delle soluzioni
+	è \(X = \ker f\), con \(f: \f{k^n}{k^m}{X}{AX}\).
+	\item[-] Il sistema lineare \(S: AX = B\) ha come soluzione uno spazio vettoriale se e solo se \(S\) è omogeneo.
+	\item[-] Sia \(S: AX = B\) un sistema lineare, \(S' : AX = \vec{0}\) si dice sistema omogeneo associato ad \(S\).
+	\item[-] Sia \(S: AX = B\) un sistema lineare, le soluzioni \(X\) del sistema sono tutte e sole della forma
+	\(\sol S = \left\{ \overline{x} + y \tc y \in \ker f \right\} = \overline{x} + \ker f\), dove \(\overline{x}\) è una soluzione
+	particolare di \(S\) e \(\ker f\) è la soluzione generale del sistema omogeneo associato ad \(S\).
+\end{itemize}
+
+\subsubsection*{Teorema di Rouché-Capelli}
+Sia \(S: AX = B\) un sistema lineare di \(n\) equazioni in \(n\) incognite, e \(A = M_{m,n}(k)\), allora:
+\begin{enumerate}
+	\item \(S\) ha soluzioni se e solo se \(\rg A = \rg (A|B)\)
+	\item se \(S\) ha soluzioni, \(\rg A = \rg (A|B) = r\) (eq. lin. indipendenti), \(n\) numero incognite allora:
+	\begin{itemize}
+		\item[-] se \(r = n\), \(S\) ha una sola soluzione
+		\item[-] se \(r < n\), si sono infinte (\(\infty^{r-n}\)) soluzioni che dipendono da \(n-r\) parametri
+	\end{itemize}
+\end{enumerate}
 
 \end{document}
