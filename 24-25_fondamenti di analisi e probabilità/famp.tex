@@ -1,0 +1,200 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+%\usepackage{amsthm} % per l'ambiente matematico (simbolo qed alla fine delle dimostrazioni)
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+%\usepackage{hyperref} % per collegamenti
+%\usepackage{dirtytalk} % per le ""
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+
+\newcommand\dom{\text{dom}}   % dominio
+\newcommand\dist{\text{dist}} % distanza
+\newcommand\intr{\text{int}}  % intorno
+\newcommand\cont[2]{C^{(#1)} \left({#2}\right)}
+\newcommand\R{\mathbb{R}}     % R
+\newcommand\Rd{\mathbb{R}^2}  % R^2
+\newcommand\Rt{\mathbb{R}^3}  % R^3
+\newcommand\Rn{\mathbb{R}^n}  % R^n
+\newcommand\tc{\text{t.c.}}   % tale che
+\newcommand\dt{\frac{d}{dt}}  % d/dt
+
+\title{Appunti di fondamenti di analisi e probabilità}
+\author{Giacomo Simonetto}
+\date{Primo semestre 2024-25}
+
+\begin{document}
+
+% -------------------------------------- Copertina e indice ---------------------------------------
+\maketitle
+\begin{abstract}
+	Appunti del corso di Fondamenti di analisi e probabilità della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+% --------------------------------------- Curve e sostegni ----------------------------------------
+\section{Curve e sostegni}
+\subsection{Introduzione sugli intorni}
+\subsubsection*{Definizioni su palle e cubi}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] Norma di un vettore: \(\left| x \right| := \sqrt{{x_1}^2 + {x_2}^2 + \dots + {x_n}^2}\)
+	\item[-] Distanza tra due punti: \(\dist(x,y) := \left| x-y \right|\)
+	\item[-] Disuguaglianza triangolare: \(\left| x-y \right| \leq \left| x \right| + \left| y \right|\)
+	\item[-] Disco o palla chiusa: \(B(p,r] := \left\{ x \in \Rn : \left| x-p \right| \leq r \right\}\)
+	\item[-] Disco o palla aperta: \(B(p,r[ \; := \left\{ x \in \Rn : \left| x-p \right| < r \right\}\)
+	\item[-] Bordo di una palla: \(\partial B(p,r] = \partial B(p,r[ \; := \left\{ x \in \Rn : \left| x-p \right| = r \right\}\)
+	\item[-] Quadrato o cubo chiuso: \(Q(p,r] := \left\{ \left( x_1, \dots, x_n \right) \in \Rn : \left| x_1-p_1 \right| \leq r, \dots, \left| x_n-p_n \right| \leq r \right\}\)
+	\item[-] Quadrato o cubo aperto: \(Q(p,r[ \; =: \left\{ \left( x_1, \dots, x_n \right) \in \Rn : \left| x_1-p_1 \right| < r, \dots, \left| x_n-p_n \right| < r \right\}\)
+	\item[-] Bordo di un quadrato: \(\partial Q(p,r] = \partial Q(p,r[ \;:= \left\{ \left( x_1, \dots, x_n \right) \in \Rn : \left| x_1-p_1 \right| = r, \dots, \left| x_n-p_n \right| = r \right\}\)
+\end{itemize}
+
+\subsubsection*{Teorema di inclusione tra palle e cubi}
+Ogni palla contiene un cubo di stesso centro e viceversa. \\
+Fissato \(p \in \Rn\) e \(r > 0\) vale \(B(p,r] \subseteq Q(p,r]\) e \(Q(p,r] \subseteq B(p,r\sqrt{n}]\)
+
+\subsubsection*{Definizione di intorno}
+Un intorno di \(p \in \Rn\) è un insieme che contiene una palla centrata in \(p\). Per il teorema precedente, la proposizione vale
+anche per i quadrati.
+
+\subsubsection*{Definizione di punto interno ad un insieme}
+Il punto \(p \in D\) è un punto interno all'insieme \(D\) se \(\exists \delta > 0 : B(p,\delta[ \; \subset D\). \\
+L'insieme dei punti interni di un insieme \(D\) si indica con \(\intr(D)\).
+
+\subsubsection*{Insieme aperto, chiuso, frontiera e chiusura}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] Un insieme è aperto se ogni suo punto è un punto interno: \(D = \intr(D)\)
+	\item[-] Un insieme è chiuso se il suo complementare è aperto
+	\item[] Osservazione: \(\varnothing\) e \(\Rn\) sono sia aperti che chiusi
+	\item[-] La frontiera \(\partial D\) è l'insieme dei punti tali che ogni loro intorno interseca sia \(D\), sia \(\Rn \backslash D\)
+	\item[-] La chiusura \(\overline{D}\) è il più piccolo insieme chiuso contente \(D\): \(\overline{D} = D \cup \partial D\)
+\end{itemize}
+
+\subsubsection*{Prodotto scalare}
+Il prodotto scalare tra due vettori \(x = \left( x_1, \dots, x_n \right)\) e \(y = \left( y_1, \dots, y_n \right)\) di \(\Rn\)
+è il numero reale definito come \(x \cdot y = x_1 y_1 + \dots + x_n y_n\). \\
+Due vettori sono ortogonali se il loro prodotto scalare è 0.
+
+\subsubsection*{Disuguaglianza di Cauchy-Schwarz}
+Siano \(x\), \(y \in \Rn\), allora \(\left| x \cdot y \right| \leq \left| x \right| \left| y \right|\). Si ha l'uguaglianza se
+solo se uno è multiplo dell'altro.
+
+%\subsubsection*{Esempi di insiemi notevoli}
+%\begin{itemize}[topsep=3pt, itemsep=0pt]
+%	\item[-] ellisse in \(\Rd\) con centro in \(a,b\) e semiassi \(A\) e \(B\) \[\left\{ \left(x, y\right) : \frac{\left(x - a\right)^2}{A^2} + \frac{\left(y - b\right)^2}{B^2} = 1 \right\}\]
+%	\item[-] retta in \(\Rd\) perpendicolare al vettore \(a,b\) \[ax + by + c = 0\]
+%	\item[-] piano in \(\Rt\) perpendicolare al vettore \(a,b,c\) \[ax + by + cz = 0\]
+%	\item[-] cilindro in \(\Rt\) di asse parallelo all'asse z passante per \(a,b,0\) \[\left(x-a\right)^2 + \left(y-b\right)^2 = r^2\]
+%\end{itemize}
+
+\newpage
+
+\subsection{Funzioni vettoriali e curve}
+\subsubsection*{Definizione di funzioni vettoriali, curve, sostegni di curve}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] Una funzione vettoriale è una funzione \(f: I_{intervallo} \subset \R \rightarrow \Rn, \; t \mapsto f(t) = \left(f_1(t), f_2(t), \dots f_n(t)\right)\)
+	\item[-] Una curva (parametrica) è una funzione vettoriale in cui \(f_1(t), \dots f_n(t)\) sono continue in \(I = \left[a,b\right]\)
+	\item[-] Il sostegno di una curva \(f\) è l'insieme immagine di \(f\): \(f\left(\left[a,b\right]\right) := \left\{f(t) : t \in \left[a,b\right]\right\} \subset \Rn\)
+	\item[-] Una curva si dice cartesiana se è della forma \(f(t) = \left(t, h(t)\right)\) o \(f(t) = \left(h(t),t\right), t \in \left[a,b\right]\)
+	\item[-] Una curva si dice chiusa se \(f(a) = f(b)\)
+	\item[-] Una curva si dice semplice se \(f(t_1) \neq f(t_2), \; \forall t_1,t_2\) con \(a < t_1 < t_2 \leq b\), ovvero se non si interseca mai ad eccezione degli estremi
+\end{itemize}
+
+\subsubsection*{Curve e sostegni}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] Data una curva \(f(t)\), per ottenere il sostegno di tale curva, bisogna eliminare il parametro \(t\), passando dalla
+	forma parametrica a quella cartesiana.
+	\item[-] Viceversa se, dato un sostegno, si vuole ottenere una curva, bisogna introdurre una parametrizzazione del sostegno,
+	passando dalla forma cartesiana a quella paremtrica.
+\end{itemize}
+
+\subsection{Limiti di funzioni vettoriali}
+\subsubsection*{Definizione di limite (finito) in una e più dimensioni}
+\begin{align*}
+	\lim_{t \to t_0} f(t) = \ell \in \Rn \quad &\Rightarrow \quad \forall V \; \text{intorno di} \; \ell \; \exists U \; \text{intorno di} \; p \; \tc \; x \in U \setminus \left\{p\right\} \Rightarrow f(x) \in V \\
+	&\Rightarrow \quad \forall \varepsilon > 0 \; \exists \delta > 0 \; \tc \; 0 < \left|t-t_0\right| < \delta \Rightarrow \left|f(t) - \ell\right| < \varepsilon
+\end{align*}
+\[\lim_{t \to t_0} (f_1(t), f_2(t), \dots f_n(t)) = (\ell_1, \ell_2, \dots \ell_n) \quad \Leftrightarrow \quad \lim_{t \to t_0} f_1(t) = \ell_1, \; \lim_{t \to t_0} f_2(t) = \ell_2, \dots \lim_{t \to t_0} f_n(t) = \ell_n\]
+
+\subsubsection*{Continuità}
+Una funzione è continua se \(\lim_{t \to t_0} f(t) = f(t_0)\). Nel caso di funzioni vettoriali, essa è continua se ogni sua componente
+è continua.
+
+\subsection{Derivate di funzioni vettoriali}
+\subsubsection*{Definizione di derivata in una e più dimensioni}
+Una funzione \(f\) è derivabile in \(t_0\) se esiste il limite finito del rapporto incrementale 
+\[f'(t_0) := \lim_{t \to t_0} \frac{f(t)-f(t_0)}{t-t_0} = \ell \in \Rn\]
+\[f(t) = \left(f_1(t), f_2(t), \dots f_n(t) \right) \quad \Leftrightarrow \quad f'(t_0) = \left( f_1'(t_0), f'_2(t_0), \dots f'_n(t_0)\right)\]
+
+\subsubsection*{Retta tangente ad una curva}
+Se \(f\) è derivabile in \(t_0\) e \(f'(t_0) \neq 0\):
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] il vettore tangente alla curva è \(f'(t_0)\)
+	\item[-] la retta tangente alla curva è \(\left\{ f(t_0) + f'(t_0) \lambda, \; \lambda \in \Rn \right\}\)
+\end{itemize}
+Si parla di tangenza alla curva e non al sostegno perché una funzione può passare per lo stesso punto in due momenti diversi. In
+questo caso si avrebbero due tangenti diverse per uno stesso punto del sostegno, quando invece sarebbero due tangeti associate a
+due valori diversi del parametro della curva.
+
+\subsubsection*{Funzioni o curve differenziabili e approssimazioni di primo ordine}
+Una funzione \(f(t)\) si dice differenziabile se vale (specialmente il limite):
+\[f(t) = f(t_0) + f'(t_0) (t-t_0) + R(t) \qquad \lim_{t \to t_0} \frac{R(t)}{t-t_0} = 0\]
+
+\subsubsection*{Regole di derivazione di curve}
+Siano \(f,g : \R \to \Rn\) curve derivabili, \(\varphi,u : \R \to \R\) funzioni derivabili, \(\alpha \in \R\), allora:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] \(\dt \; \left(\text{costante}\right) = 0\)
+	\item[2.] \(\dt \; \left(\alpha f\right) = \alpha f'\)
+	\item[3.] \(\dt \; \left(\varphi(t)f(t)\right) = \varphi'(t)f(t) + \varphi(t)f'(t)\)
+	\item[4.] \(\dt \; \left(f + g\right) = f' + g'\)
+	\item[5.] \(\dt \; \left(f \cdot g\right) = f' \cdot g + f \cdot g'\)
+	\item[6.] \(\dt \; \left(f \circ u\right) = f'(u)u'\)
+\end{itemize}
+
+\subsection{Derivate direzionali e derivate parziali}
+\subsubsection*{Definizione di derivata direzionale}
+\subsubsection*{Continuità e derivate direzionali}
+\subsubsection*{Proprietà delle derivate direzionali}
+\subsubsection*{Definizione di derivata parziale}
+
+\subsection{Gradiente}
+\subsubsection*{Definizione di gradiente}
+\subsubsection*{Proprietà del gradiente} % tra cui gradiente della norma
+\subsubsection*{Funzioni C1}
+\subsubsection*{Gradiente e derivate direzionali}
+\subsubsection*{Direzione di massima e minima crescita}
+
+\subsection{Spazio tangente e differenziabilità}
+\subsubsection*{Spazio tangente}
+\subsubsection*{Differenziabilità}
+\subsubsection*{Continuità di funzioni differenziabili}
+\subsubsection*{Gradiente di funzioni differenziabili}
+\subsubsection*{Regola della catena di derivate parziali}
+\subsubsection*{Gradiente e curve di livello}
+
+\subsection{Derivate seconde, matrice Hessiana}
+\subsubsection*{Derivate seconde}
+\subsubsection*{Matrice Hessiana}
+\subsubsection*{Teorema di Schwarz}
+
+\subsection{Massimi e minimi}
+\subsubsection*{Definizione di massimi, minimi e punti di sella}
+\subsubsection*{Regola di Fermat}
+\subsubsection*{Ricerca dei punti critici}
+\subsubsection*{Criterio dell'Hessiana}
+
+\end{document}
