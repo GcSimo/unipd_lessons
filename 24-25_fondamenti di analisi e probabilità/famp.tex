@@ -21,13 +21,14 @@
 \newcommand\dom{\text{dom}}   % dominio
 \newcommand\dist{\text{dist}} % distanza
 \newcommand\intr{\text{int}}  % intorno
-\newcommand\cont[2]{C^{(#1)} \left({#2}\right)}
 \newcommand\R{\mathbb{R}}     % R
 \newcommand\Rd{\mathbb{R}^2}  % R^2
 \newcommand\Rt{\mathbb{R}^3}  % R^3
 \newcommand\Rn{\mathbb{R}^n}  % R^n
 \newcommand\tc{\text{t.c.}}   % tale che
 \newcommand\dt{\frac{d}{dt}}  % d/dt
+\newcommand\dx{\frac{d}{dx}}  % d/dx
+\newcommand\dy{\frac{d}{dy}}  % d/dy
 
 \title{Appunti di fondamenti di analisi e probabilità}
 \author{Giacomo Simonetto}
@@ -136,7 +137,7 @@ Una funzione è continua se \(\lim_{t \to t_0} f(t) = f(t_0)\). Nel caso di funz
 
 \subsection{Derivate di funzioni vettoriali}
 \subsubsection*{Definizione di derivata in una e più dimensioni}
-Una funzione \(f\) è derivabile in \(t_0\) se esiste il limite finito del rapporto incrementale 
+Una funzione \(f\) è derivabile in \(t_0\) se esiste il limite finito del rapporto incrementale.
 \[f'(t_0) := \lim_{t \to t_0} \frac{f(t)-f(t_0)}{t-t_0} = \ell \in \Rn\]
 \[f(t) = \left(f_1(t), f_2(t), \dots f_n(t) \right) \quad \Leftrightarrow \quad f'(t_0) = \left( f_1'(t_0), f'_2(t_0), \dots f'_n(t_0)\right)\]
 
@@ -167,16 +168,73 @@ Siano \(f,g : \R \to \Rn\) curve derivabili, \(\varphi,u : \R \to \R\) funzioni 
 
 \subsection{Derivate direzionali e derivate parziali}
 \subsubsection*{Definizione di derivata direzionale}
-\subsubsection*{Continuità e derivate direzionali}
-\subsubsection*{Proprietà delle derivate direzionali}
+La derivata direzionale di \(f\) in un punto \(p\) lungo la direzione \(\vec{u}\) è definita come il limite, se esiste finito
+del rapporto incrementale.
+\begin{align*}
+	D_{\vec{u}} f(p) = \partial_{\vec{u}} f(p) &:= \lim_{t \to 0} \frac{f(p + t \vec{u}) - f(p)}{t} = \ell \in \R \\
+	&:= g'(0) \text{ con } g(t) = f(p + t\vec{u})
+\end{align*}
+Per trovare la derivata direzionale bisogna fare:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] trovare la funzione \(g(t) = f(p+t\vec{u})\)
+	\item[2.] calcolare la derivata \(g'(t)\)
+	\item[3.] valutare la derivata per \(t \to 0\)
+	\item[Oss] nel caso in cui la funzione \(f\) non sia continua in \(p\) e non è possibile definire esattamente \(g(t)\) e \(g'(t)\),
+	è consigliato usare la definizione per calcolare \(\displaystyle g'(0) = \lim_{t \to 0} \frac{g(t) - g(0)}{t} = \lim_{t \to 0} \frac{f(p + t \vec{u}) - f(p)}{t}\)
+\end{itemize}
+
 \subsubsection*{Definizione di derivata parziale}
+La i-esima derivata parziale di \(f\) in \(p\) è la derivata direzionale lungo \(\vec{e_i}\) di \(f(x_1, \dots x_n)\),
+\[\partial_{x_i} f(p) = D_{\vec{e_i}} f(p) = \frac{d}{d x_i} f(p) \qquad \text{casi particolari: } \begin{aligned}
+	\partial_x f(p) &= D_{(1,0)} f(p) = \dx f(p) \\
+	\partial_y f(p) &= D_{(0,1)} f(p) = \dy f(p)
+\end{aligned}\]
+
+\subsubsection*{Continuità e derivate direzionali}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] Una funzione può non essere continua in un punto \(p\), ma avere lo stesso derivate parziali e direzionali. In questo
+	caso si sfrutta la definzione di derivata per calcolarne il valore.
+\end{itemize}
+
+\subsubsection*{Proprietà delle derivate direzionali}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] \(D_u (f(p) + g(p)) = D_u f(p) + D_u f(p)\)
+	\item[2.] \(D_u (f(p)g(p)) = D_u f(p) \; g(p) + f(p) D_u g(p)\)
+	\item[3.] \(D_u (c f(p)) = c D_u f(p)\)
+	\item[4.] \(D_u (\varphi \circ p)(p)) = D_u \varphi(f(p)) = \varphi(f(p)) D_u f(p)\)
+\end{itemize}
 
 \subsection{Gradiente}
 \subsubsection*{Definizione di gradiente}
+\[\vec{\nabla} f(p) := \left( \partial_{x_1} f(p), \partial_{x_2} f(p), \dots \partial_{x_n} f(p)\right)\]
+
 \subsubsection*{Proprietà del gradiente} % tra cui gradiente della norma
-\subsubsection*{Funzioni C1}
-\subsubsection*{Gradiente e derivate direzionali}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] \(\vec{\nabla} (f(p) + g(p)) = \vec{\nabla} f(p) + \vec{\nabla} g(p)\)
+	\item[2.] \(\vec{\nabla} (f(p) g(p)) = \vec{\nabla} f(p) \; g(p) + f(p) \vec{\nabla} g(p)\)
+	\item[3.] \(\vec{\nabla} (c f(p)) = c \vec{\nabla} f(p)\)
+	\item[4.] \(\vec{\nabla} (\varphi \circ f)(p) = \vec{\nabla} (\varphi(f(p))) = \varphi'(f(p)) \vec{\nabla} f(p)\)
+	\item[5.] gradiente della norma: \(\displaystyle \vec{\nabla} \left|x\right| = \frac{x}{\left|x\right|}\)
+\end{itemize}
+
+\subsubsection*{Relazione tra gradiente e derivate direzionali in funzioni C1}
+Una funzione \(f\) è di classe \(C^1\) in un aperto se:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(f\) è continua
+	\item[-] \(f\) ha derivate parziali continue
+\end{itemize}
+In una funzione \(C^1\), le derivate direzionali e il gradiente hanno la seguente relazione:
+\[\forall u \in \Rn \qquad D_u f(p) = \vec{\nabla} f(p) \cdot \vec{u} = \partial_{x_1} f(p) u_1 + \partial_{x_2} f(p) u_2 + \dots \partial_{x_n} f(p) u_n\]
+Osservazione: se in una funzione generica la derivata parziale \(D_{(u_1, u_2)} f(p)\) non è esprimibile come combinazione
+lineare delle derivate parziali, allora non è \(C^1\). In altre parole se non vale l'equazione \(D_u f(p) = \vec{\nabla} f(p) \cdot \vec{u}\), allora \(f \notin C^1\).
+
 \subsubsection*{Direzione di massima e minima crescita}
+Se \(f\) è \(C^1\) in un intorno di \(p\), la direzione lungo cui si ha la massima pendenza è la direzione del vettore gradiente.
+Viceversa la direzione di minore crescita è opposta a quella di massima crescita.
+\begin{align*}
+	D_{u_{max}} f(p) &= \left| \vec{\nabla} f(p)\right| \qquad \quad \Leftrightarrow \qquad u_{max} = \frac{\vec{\nabla} f(p)}{\left| \vec{\nabla} f(p) \right|} \\
+	D_{u_{min}} f(p) &= -\left| \vec{\nabla} f(p)\right| \qquad \Leftrightarrow \qquad u_{min} = -\frac{\vec{\nabla} f(p)}{\left| \vec{\nabla} f(p) \right|}
+\end{align*}
 
 \subsection{Spazio tangente e differenziabilità}
 \subsubsection*{Spazio tangente}
