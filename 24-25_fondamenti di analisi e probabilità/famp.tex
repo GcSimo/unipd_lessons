@@ -135,6 +135,10 @@ solo se uno è multiplo dell'altro.
 Una funzione è continua se \(\lim_{t \to t_0} f(t) = f(t_0)\). Nel caso di funzioni vettoriali, essa è continua se ogni sua componente
 è continua.
 
+\newpage
+
+
+\section{Derivate, gradienti, tangenti, massimi e minimi}
 \subsection{Derivate di funzioni vettoriali}
 \subsubsection*{Definizione di derivata in una e più dimensioni}
 Una funzione \(f\) è derivabile in \(t_0\) se esiste il limite finito del rapporto incrementale.
@@ -238,21 +242,95 @@ Viceversa la direzione di minore crescita è opposta a quella di massima crescit
 
 \subsection{Spazio tangente e differenziabilità}
 \subsubsection*{Spazio tangente}
+Lo spazio tangente al grafico di una curva \(f(p)\) in un punto \(p\) è l'insieme dei punti: \\
+(n.b.: \(x\) è un punto sul piano, come lo è anche \(p\), non è una coordinata)
+\[\left\{ (x,z) \; \tc \; z = f(p) + \vec{\nabla} f(p) \cdot (x-p)\right\}\] 
+
 \subsubsection*{Differenziabilità}
+Una funzione è differenziabile in un punto \(p\) se la funzione \(f\) è approssimabile al piano tangente in \(p\) in un suo intorno
+con un errore trascurabile. \(L(x)\) è la funzione affine detta linearizzazione di \(f\) in \(p\)
+\begin{align*}
+	f(x) &=  f(p) + \vec{\nabla} f(p) \cdot (x-p) + R(x), \qquad \lim_{x \to p} \frac{R(x)}{\left|x-p\right| = 0} \\
+	L(x) &:= f(p) + \vec{\nabla} f(p) \cdot (x-p)
+\end{align*}
+Per sapere se una funzione è differenziabile bisogna controllare che il resto \(R(x) = o(\left|x-p\right|)\), cioè bisogna risolvere
+il limite per \(x \to p\) e verificare che faccia 0.
+
 \subsubsection*{Continuità di funzioni differenziabili}
+Una funzione differenziabile in \(p\) è anche continua in \(p\). Quindi valgono le seguenti inclusioni.
+\[\text{Funzioni con derivate parziali} \subset \text{Funzioni continue} \subset \text{Funzioni differenziabili} \subset \text{Funzioni } C^1\]
+
 \subsubsection*{Gradiente di funzioni differenziabili}
+Nelle funzioni differenziabili il gradiente vale:
+\[D_u f(p) = \vec{\nabla} f(p) \cdot u\]
+
 \subsubsection*{Regola della catena di derivate parziali}
+Per la regola della catena (con funzione a due variabili e in generale a \(n\) variabili):
+\begin{align*}
+	\dt f(x(t),y(t)) &= \partial_x f(x(t,y(t))) \cdot x'(t) + \partial_y f(x(t),y(t)) \cdot y'(t) = \vec{\nabla} f(x(t),y(t)) \cdot (x'(t), y'(t)) \\
+	\dt f(r(t)) &= \vec{\nabla} f(r(t)) \cdot r'(t) = \partial_{x_1} f(x(t)) {x_1}'(t) + \partial_{x_2} f(x(t)) {x_2}'(t) + \dots + \partial_{x_n} f(x(t)) {x_n}'(t)
+\end{align*}
+
 \subsubsection*{Gradiente e curve di livello}
+Il gradiente è perpendicolare alle curve di livello. Nelle curve di livello vale:
+\[f(r(t)) = \text{costante} \quad \Rightarrow \quad \dt f(r(t)) = 0 \quad \Rightarrow \quad \vec{\nabla} f(r(t)) \cdot r'(t) = 0 \quad \Rightarrow \quad \vec{\nabla} f(r(t)) \perp r'(t)\]
+con \(r'(t)\) un vettore con la stessa direzione della tangete alla curva di livello, per un certo \(t\).
+
+\newpage
 
 \subsection{Derivate seconde, matrice Hessiana}
 \subsubsection*{Derivate seconde}
+La derivata parziale di secondo ordine è definita come:
+\[\partial^2_{x_i,x_j} f(x) = \frac{\partial^2 f(x)}{\partial_{x_i} \partial_{x_j}} = \partial_{x_i} (\partial_{x_j} f(x))\]
+
 \subsubsection*{Matrice Hessiana}
+\[\text{Hess}f(x) := \left( \begin{matrix}
+	\partial^2_{{x_1}^2} f(x) & \cdots & \partial^2_{{x_1,x_n}} f(x) \\
+	\vdots & \ddots & \vdots \\
+	\partial^2_{{x_n,x_1}} f(x) & \cdots & \partial^2_{{x_n}^2} f(x) \\
+\end{matrix} \right) \]
+
 \subsubsection*{Teorema di Schwarz}
+Data una funzione \(f\) di classe \(C^2\) (ovvero con derivate parziali doppie continue), allora vale:
+\[\partial^2_{x_i,x_j} f(x) = \partial^2_{x_j,x_i} f(x) \qquad \forall i,j\]
+Per questo principio, la matrice hessiana di funzioni \(C^2\) è una matrice simmetrica.
 
 \subsection{Massimi e minimi}
 \subsubsection*{Definizione di massimi, minimi e punti di sella}
-\subsubsection*{Regola di Fermat}
-\subsubsection*{Ricerca dei punti critici}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] il punto \(p\) è punto di minimo assoluto se \(f(x) \geq f(p) \quad \forall x \in D\)
+	\item[-] il punto \(p\) è punto di massimo assoluto se \(f(x) \leq f(p) \quad \forall x \in D\)
+	\item[-] il punto \(p\) è punto di minimo relativo se \(\exists U_p \; \text{intorno di} \; p \; \tc \; f(x) \geq f(p) \quad \forall x \in U_p \cap D\)
+	\item[-] il punto \(p\) è punto di massimo relativo se \(\exists U_p \; \text{intorno di} \; p \; \tc \; f(x) \leq f(p) \quad \forall x \in U_p \cap D\)
+	\item[-] il punto \(p\) è punto di sella se \(\forall U_p \; \text{intorno di} \; p \; \exists x,y \in U_p \cap D \; \tc \; f(x) < f(p) < f(y)\)
+\end{itemize}
+
+\subsubsection*{Regola di Fermat e punti critici interni}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] Se \(f\) derivabile rispetto a \(\vec{u}\) in \(p\), con \(p\) punto di massimo o minimo locale \textbf{interno}
+	al dominio, allora vale che \(D_u f(p) = 0\), per cui \(\vec{\nabla} f(p) = 0\)
+	\item[-] I punti interni al dominio per cui \(\vec{\nabla} f(p) = 0\) si dicono punti critici e possono essere classificati
+	come punti di massimo locale, di minimo locale o punti di sella.
+	\item[-] Per trovare i punti critici \textbf{interni} al dominio, per definizione, bisogna risolvere \(\vec{\nabla} f(p) = 0\).
+\end{itemize}
+
 \subsubsection*{Criterio dell'Hessiana}
+Data una funzione \(f\) di classe \(C^2\) e \(p\) punto critico interno al dominio, allora:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] se \(\det H_f(p) > 0\) e \(\partial^2_{x,x}f(p) > 0\) allora \(p\) è minimo locale
+	\item[-] se \(\det H_f(p) > 0\) e \(\partial^2_{x,x}f(p) < 0\) allora \(p\) è massimo locale
+	\item[-] se \(\det H_f(p) < 0\) allora \(p\) è punto di sella
+	\item[-] se \(\det H_f(p) = 0\) allora non si può concludere nulla
+\end{itemize}
+
+\subsubsection*{Massimi e minimi assoluti su domini chiusi e limitati}
+Per Weierstrass una funzione continua in un dominio chiuso e limitato ammette massimo e minimo assoluto. Per trovare il massimo e minimo
+assoluto di una funzione bisogna controllare i punti critici interni al dominio \(D\) e i punti sul bordo del dominio \(\partial D\).
+
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\max f = \max \left\{ f(p) \; \tc \; p \in \left\{\text{punti di massimo interni a } D\right\} \cup \left\{\text{punti di massimo su } \partial D \right\} \right\}\)
+	\item[-] \(\min f = \min \left\{ f(p) \; \tc \; p \in \left\{\text{punti di minimo interni a } D\right\} \cup \left\{\text{punti di minimo su } \partial D \right\} \right\}\)
+\end{itemize}
+
 
 \end{document}
