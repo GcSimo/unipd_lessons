@@ -15,18 +15,18 @@ open .gitconfig file
 
 ## Manage directory
 ### Stage and commit files
-| Comand         | Description |
+| Command         | Description |
 | -----------    | ----------- |
 | ``git init``   |  create new git directory |
 | ``git status`` | see status tracked/untracked/commits/branchs of a directory |
 | ``git add filename.ext`` | track/stage filename.ext |
-| ``git add --all/-A/.`` | track/stage all files in directory |
-| ``git add -p/--patch filename.ext`` | same but you can choose what individual changes in the file you want to stage |
+| ``git add --all`` <br> ``git add -A`` <br> ``git add .`` | track/stage all files in the current directory |
+| ``git add -p filename.ext`` <br> ``git add --patch filename.ext``| same but you can choose what individual changes in the file you want to stage |
 | ``git diff`` | show file differences from last commit |
 | ``git diff BranchName`` | show file differences between BranchName and the main branch |
 | ``git commit -m "title" -m "description"`` | commit staged files with a commit title and description(optional)|
 | ``git commit -a -m "title"`` | commit all files and skip the staging step (only for modified files) |
-| ``git commit -m "correct title" -amend `` | to correct the last commit title |
+| ``git commit -m "correct title" -amend`` | to correct the last commit title |
 | ``git rm filename.ext`` | remove file |
 | ``git rm --cached filename.ext`` | unstage filename.ext file |
 | ``git restore filename.ext`` | restore a file to the last commited version |
@@ -56,7 +56,7 @@ In ``git add -p/--patch`` there are some extra actions:
 - ``?`` - print help
 
 ### Branch
-| Comand         | Description |
+| Command         | Description |
 | -----------    | ----------- |
 | ``git branch`` | list all branches with * on the currently used one |
 | ``git branch BranchName`` | create new branch called BranchName |
@@ -89,7 +89,7 @@ use # for comment lines in .gitignore file
 
 # GitHub
 ## Set new directory
-| Comand         | Description |
+| Command         | Description |
 | -----------    | ----------- |
 | ``git clone https://github.com/repoUrl LocalRepoName`` | clone a github repo in a LocalRepoName directory |
 | ``git remote add origin https://github.com/repoUrl`` | create a remote connection called origin to a github repo |
@@ -109,7 +109,7 @@ merge them to the main branch. It's possible to connect the pull request to an I
 on the left. When a pull request connected to the issue is merged, the connecte issue is automatically closed.
 
 ## Keep repos updated
-| Comand         | Description |
+| Command         | Description |
 | -----------    | ----------- |
 | ``git fetch`` | download all history from the github repo |
 | ``git merge`` | merge changes from the github repo to the local repo |
