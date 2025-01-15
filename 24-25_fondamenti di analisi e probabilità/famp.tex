@@ -29,6 +29,9 @@
 \newcommand\dt{\frac{d}{dt}}  % d/dt
 \newcommand\dx{\frac{d}{dx}}  % d/dx
 \newcommand\dy{\frac{d}{dy}}  % d/dy
+\newcommand\nab{\vec{\nabla}} % nabla
+\newcommand\rot{\text{rot}}   % rot
+\newcommand\diver{\text{div}} % div
 
 \title{Appunti di fondamenti di analisi e probabilità}
 \author{Giacomo Simonetto}
@@ -138,7 +141,7 @@ Una funzione è continua se \(\lim_{t \to t_0} f(t) = f(t_0)\). Nel caso di funz
 \newpage
 
 
-\section{Derivate, gradienti, tangenti, massimi e minimi}
+\section{ Derivate, gradienti, tangenti, massimi e minimi}
 \subsection{Derivate di funzioni vettoriali}
 \subsubsection*{Definizione di derivata in una e più dimensioni}
 Una funzione \(f\) è derivabile in \(t_0\) se esiste il limite finito del rapporto incrementale.
@@ -210,15 +213,15 @@ La i-esima derivata parziale di \(f\) in \(p\) è la derivata direzionale lungo 
 
 \subsection{Gradiente}
 \subsubsection*{Definizione di gradiente}
-\[\vec{\nabla} f(p) := \left( \partial_{x_1} f(p), \partial_{x_2} f(p), \dots \partial_{x_n} f(p)\right)\]
+\[\nab f(p) := \left( \partial_{x_1} f(p), \partial_{x_2} f(p), \dots \partial_{x_n} f(p)\right)\]
 
 \subsubsection*{Proprietà del gradiente} % tra cui gradiente della norma
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[1.] \(\vec{\nabla} (f(p) + g(p)) = \vec{\nabla} f(p) + \vec{\nabla} g(p)\)
-	\item[2.] \(\vec{\nabla} (f(p) g(p)) = \vec{\nabla} f(p) \; g(p) + f(p) \vec{\nabla} g(p)\)
-	\item[3.] \(\vec{\nabla} (c f(p)) = c \vec{\nabla} f(p)\)
-	\item[4.] \(\vec{\nabla} (\varphi \circ f)(p) = \vec{\nabla} (\varphi(f(p))) = \varphi'(f(p)) \vec{\nabla} f(p)\)
-	\item[5.] gradiente della norma: \(\displaystyle \vec{\nabla} \left|x\right| = \frac{x}{\left|x\right|}\)
+	\item[1.] \(\nab (f(p) + g(p)) = \nab f(p) + \nab g(p)\)
+	\item[2.] \(\nab (f(p) g(p)) = \nab f(p) \; g(p) + f(p) \nab g(p)\)
+	\item[3.] \(\nab (c f(p)) = c \nab f(p)\)
+	\item[4.] \(\nab (\varphi \circ f)(p) = \nab (\varphi(f(p))) = \varphi'(f(p)) \nab f(p)\)
+	\item[5.] gradiente della norma: \(\displaystyle \nab \left|x\right| = \frac{x}{\left|x\right|}\)
 \end{itemize}
 
 \subsubsection*{Relazione tra gradiente e derivate direzionali in funzioni C1}
@@ -228,30 +231,30 @@ Una funzione \(f\) è di classe \(C^1\) in un aperto se:
 	\item[-] \(f\) ha derivate parziali continue
 \end{itemize}
 In una funzione \(C^1\), le derivate direzionali e il gradiente hanno la seguente relazione:
-\[\forall u \in \Rn \qquad D_u f(p) = \vec{\nabla} f(p) \cdot \vec{u} = \partial_{x_1} f(p) u_1 + \partial_{x_2} f(p) u_2 + \dots \partial_{x_n} f(p) u_n\]
+\[\forall u \in \Rn \qquad D_u f(p) = \nab f(p) \cdot \vec{u} = \partial_{x_1} f(p) u_1 + \partial_{x_2} f(p) u_2 + \dots \partial_{x_n} f(p) u_n\]
 Osservazione: se in una funzione generica la derivata parziale \(D_{(u_1, u_2)} f(p)\) non è esprimibile come combinazione
-lineare delle derivate parziali, allora non è \(C^1\). In altre parole se non vale l'equazione \(D_u f(p) = \vec{\nabla} f(p) \cdot \vec{u}\), allora \(f \notin C^1\).
+lineare delle derivate parziali, allora non è \(C^1\). In altre parole se non vale l'equazione \(D_u f(p) = \nab f(p) \cdot \vec{u}\), allora \(f \notin C^1\).
 
 \subsubsection*{Direzione di massima e minima crescita}
 Se \(f\) è \(C^1\) in un intorno di \(p\), la direzione lungo cui si ha la massima pendenza è la direzione del vettore gradiente.
 Viceversa la direzione di minore crescita è opposta a quella di massima crescita.
 \begin{align*}
-	D_{u_{max}} f(p) &= \left| \vec{\nabla} f(p)\right| \qquad \quad \Leftrightarrow \qquad u_{max} = \frac{\vec{\nabla} f(p)}{\left| \vec{\nabla} f(p) \right|} \\
-	D_{u_{min}} f(p) &= -\left| \vec{\nabla} f(p)\right| \qquad \Leftrightarrow \qquad u_{min} = -\frac{\vec{\nabla} f(p)}{\left| \vec{\nabla} f(p) \right|}
+	D_{u_{max}} f(p) &= \left| \nab f(p)\right| \qquad \quad \Leftrightarrow \qquad u_{max} = \frac{\nab f(p)}{\left| \nab f(p) \right|} \\
+	D_{u_{min}} f(p) &= -\left| \nab f(p)\right| \qquad \Leftrightarrow \qquad u_{min} = -\frac{\nab f(p)}{\left| \nab f(p) \right|}
 \end{align*}
 
 \subsection{Spazio tangente e differenziabilità}
 \subsubsection*{Spazio tangente}
 Lo spazio tangente al grafico di una curva \(f(p)\) in un punto \(p\) è l'insieme dei punti: \\
 (n.b.: \(x\) è un punto sul piano, come lo è anche \(p\), non è una coordinata)
-\[\left\{ (x,z) \; \tc \; z = f(p) + \vec{\nabla} f(p) \cdot (x-p)\right\}\] 
+\[\left\{ (x,z) \; \tc \; z = f(p) + \nab f(p) \cdot (x-p)\right\}\] 
 
 \subsubsection*{Differenziabilità}
 Una funzione è differenziabile in un punto \(p\) se la funzione \(f\) è approssimabile al piano tangente in \(p\) in un suo intorno
 con un errore trascurabile. \(L(x)\) è la funzione affine detta linearizzazione di \(f\) in \(p\)
 \begin{align*}
-	f(x) &=  f(p) + \vec{\nabla} f(p) \cdot (x-p) + R(x), \qquad \lim_{x \to p} \frac{R(x)}{\left|x-p\right| = 0} \\
-	L(x) &:= f(p) + \vec{\nabla} f(p) \cdot (x-p)
+	f(x) &=  f(p) + \nab f(p) \cdot (x-p) + R(x), \qquad \lim_{x \to p} \frac{R(x)}{\left|x-p\right| = 0} \\
+	L(x) &:= f(p) + \nab f(p) \cdot (x-p)
 \end{align*}
 Per sapere se una funzione è differenziabile bisogna controllare che il resto \(R(x) = o(\left|x-p\right|)\), cioè bisogna risolvere
 il limite per \(x \to p\) e verificare che faccia 0.
@@ -262,18 +265,18 @@ Una funzione differenziabile in \(p\) è anche continua in \(p\). Quindi valgono
 
 \subsubsection*{Gradiente di funzioni differenziabili}
 Nelle funzioni differenziabili il gradiente vale:
-\[D_u f(p) = \vec{\nabla} f(p) \cdot u\]
+\[D_u f(p) = \nab f(p) \cdot u\]
 
 \subsubsection*{Regola della catena di derivate parziali}
 Per la regola della catena (con funzione a due variabili e in generale a \(n\) variabili):
 \begin{align*}
-	\dt f(x(t),y(t)) &= \partial_x f(x(t,y(t))) \cdot x'(t) + \partial_y f(x(t),y(t)) \cdot y'(t) = \vec{\nabla} f(x(t),y(t)) \cdot (x'(t), y'(t)) \\
-	\dt f(r(t)) &= \vec{\nabla} f(r(t)) \cdot r'(t) = \partial_{x_1} f(x(t)) {x_1}'(t) + \partial_{x_2} f(x(t)) {x_2}'(t) + \dots + \partial_{x_n} f(x(t)) {x_n}'(t)
+	\dt f(x(t),y(t)) &= \partial_x f(x(t,y(t))) \cdot x'(t) + \partial_y f(x(t),y(t)) \cdot y'(t) = \nab f(x(t),y(t)) \cdot (x'(t), y'(t)) \\
+	\dt f(r(t)) &= \nab f(r(t)) \cdot r'(t) = \partial_{x_1} f(x(t)) {x_1}'(t) + \partial_{x_2} f(x(t)) {x_2}'(t) + \dots + \partial_{x_n} f(x(t)) {x_n}'(t)
 \end{align*}
 
 \subsubsection*{Gradiente e curve di livello}
 Il gradiente è perpendicolare alle curve di livello. Nelle curve di livello vale:
-\[f(r(t)) = \text{costante} \quad \Rightarrow \quad \dt f(r(t)) = 0 \quad \Rightarrow \quad \vec{\nabla} f(r(t)) \cdot r'(t) = 0 \quad \Rightarrow \quad \vec{\nabla} f(r(t)) \perp r'(t)\]
+\[f(r(t)) = \text{costante} \quad \Rightarrow \quad \dt f(r(t)) = 0 \quad \Rightarrow \quad \nab f(r(t)) \cdot r'(t) = 0 \quad \Rightarrow \quad \nab f(r(t)) \perp r'(t)\]
 con \(r'(t)\) un vettore con la stessa direzione della tangete alla curva di livello, per un certo \(t\).
 
 \newpage
@@ -308,10 +311,10 @@ Per questo principio, la matrice hessiana di funzioni \(C^2\) è una matrice sim
 \subsubsection*{Regola di Fermat e punti critici interni}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] Se \(f\) derivabile rispetto a \(\vec{u}\) in \(p\), con \(p\) punto di massimo o minimo locale \textbf{interno}
-	al dominio, allora vale che \(D_u f(p) = 0\), per cui \(\vec{\nabla} f(p) = 0\)
-	\item[-] I punti interni al dominio per cui \(\vec{\nabla} f(p) = 0\) si dicono punti critici e possono essere classificati
+	al dominio, allora vale che \(D_u f(p) = 0\), per cui \(\nab f(p) = 0\)
+	\item[-] I punti interni al dominio per cui \(\nab f(p) = 0\) si dicono punti critici e possono essere classificati
 	come punti di massimo locale, di minimo locale o punti di sella.
-	\item[-] Per trovare i punti critici \textbf{interni} al dominio, per definizione, bisogna risolvere \(\vec{\nabla} f(p) = 0\).
+	\item[-] Per trovare i punti critici \textbf{interni} al dominio, per definizione, bisogna risolvere \(\nab f(p) = 0\).
 \end{itemize}
 
 \subsubsection*{Criterio dell'Hessiana}
@@ -335,14 +338,562 @@ assoluto di una funzione bisogna controllare i punti critici interni al dominio 
 \newpage
 
 
-%\section{Campi e integrali curvilinei}
-% da completare
-%\newpage
+\section{Campi e integrali curvilinei}
+\subsection{Integrali curvilinei di funzioni reali}
+\subsubsection*{Definizione}
+Data una funzione reale \(\mu(x)\) e una curva \(r(t)\) definita in un intervallo chiuso \([a,b]\), allora l'integrale curvilineo
+di \(\mu\) sulla curva \(r\) vale:
+\[\int_r \mu \; ds := \int_a^b \mu(r(t)) \cdot \left| r'(t) \right| \, dt\]
 
-\section{Combinatoria}
+\subsubsection*{Lunghezza di una curva}
+La lunghezza di una curva è l'integrale curvilineo con \(\mu = 1\):
+\[\text{Lunghezza} := \int_r \; ds = \int_a^b \left| r'(t) \right| \, dt\]
+
+\subsubsection*{Baricentro di una curva}
+Il baricentro di una curva \(r\) con densità \(\mu(x)\) è definito come:
+\[\text{Baricentro} := \frac{\displaystyle \int_{r} (x_1, x_2, \dots x_n) \mu(x) \; ds }{\displaystyle \int_r \mu \; ds} = \frac{\displaystyle \int_{r} x_1 \mu(x) \; ds + \int_{r} x_2 \mu(x) \; ds + \dots + \int_{r} x_n \mu(x) \; ds }{\displaystyle \int_r \mu \; ds}\]
+Per \(\mu = 1\) si ottiene il baricentro geometrico:
+\[\text{Baricentro geometrico} := \frac{\displaystyle \int_{r} (x_1, x_2, \dots x_n) \; ds }{\displaystyle \int_r \; ds} = \frac{\displaystyle \int_{r} x_1 \; ds + \int_{r} x_2 \; ds + \dots + \int_{r} x_n \; ds }{\text{Lunghezza(r)}}\]
+
+\subsubsection*{Proprietà dell'integrale curvilineo}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] \(\displaystyle \int_r (\mu(x) + \nu(x)) \; ds = \int_r \mu(x) \; ds + \int_r \nu(x) \; ds\)
+	\item[2.] se \(c =\) costante, allora \(\displaystyle \int_r c\mu(x) \; ds = c \int_r \mu(x) \; ds\)
+	\item[3.] se \(\mu \leq \nu\), allora \(\displaystyle \int_r \mu(x) \; ds \leq \int_r \nu(x) \; ds\)
+	\item[4.] cammino inverso: \(\displaystyle \int_{r^{-1}} \mu(x) \; ds = \int_r \mu(x) \; ds\)
+	\item[5.] giustapposizione di cammini: \(\displaystyle \int_{r_1,r_2} \mu(x) \; ds = \int_{r_1} \mu(x) \; ds + \int_{r_2} \mu(x) \; ds\) 
+\end{itemize}
+
+\newpage
+
+\subsection{Campi vettoriali}
+\subsubsection*{Definizione}
+Un campo vettoriale è una funzione \(F : \begin{matrix}
+	D \subseteq \Rn & \to & \Rn \\
+	x \in D & \mapsto & F(x)
+\end{matrix}\) con \(F(x) = (F_1(x), F_2(x), \dots F_n(x))\)
+
+\subsubsection*{Campi vettoriali radiali}
+Un campo vettoriale definito in \(\Rn \; \backslash \left\{0\right\}\) è detto radiale se ha la forma \(\displaystyle F(x) = g(x) \cdot \frac{x}{\left|x\right|}\) \\
+Esempi di campi radiali:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] campo gravitazionale \(\displaystyle F(r) = -\frac{G \cdot m}{\left|r^2\right|} \; \hat{r} = g(\left|r\right|) \; \frac{r}{\left|r\right|}\) nella forma \(\displaystyle F(x) = \frac{K}{\left|x^2\right|} \; \frac{x}{\left|x\right|}\)
+	\item[-] campo elettrico \(\displaystyle E(r) = \frac{q}{4 \pi \varepsilon_0 \left|r^2\right|} \; \hat{r} = g(\left|r\right|) \; \frac{r}{\left|r\right|}\) nella forma \(\displaystyle F(x) = \frac{K}{\left|x^2\right|} \; \frac{x}{\left|x\right|}\)
+	\item[-] campi della forma \(F(x) = h(\left|x\right|) \; x\), infatti per \(x \neq 0\) si ha \(\displaystyle F(x) = \left|x\right| \; g(\left|x\right|) \; \frac{x}{\left|x\right|}\)
+\end{itemize}
+
+\subsubsection*{Campi gradienti e potenziali}
+Un campo \(F\) è detto gradiente se esiste \(U:D \to \Rn \in C^1\) per cui \(F = \nab U\). \\
+Il potenziale, in fisica, è definito \(V := -U\)
+
+\subsubsection*{Gradienti da ricordare}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{campo radiale} della forma \(F(x) = h(x) \; \frac{x}{\left|x\right|}\) con primitiva \(g(x) = \int h(x) \; dx\)
+	\item[-] \textbf{campo gravitazionale} della forma \(F(x,y) = \frac{K}{x^2 + y^2} \; \frac{(x,y)}{\left|(x,y)\right|}\) con gradiente \(G(x,y) = -\frac{K}{\left|(x,y)\right|}\)
+	\item[-] \textbf{campi continui} della forma \(F(x_1, \dots x_n) = (f_1(x_1), \dots f_n(x_n))\)
+\end{itemize}
+
+\subsection{Integrali curvilinei di campi}
+Dato un campo \(F : \Rn \to \Rn\) e un cammino \(r : [a,b] \to \Rn \in C^1\) a tratti, allora l'integrale curvilineo del campo
+\(F\) lungo il cammino \(r\) vale:
+\[\int_{r} \vec{F} \cdot d \vec{r} = \int_{r} \vec{F}(x) \cdot d\vec{r} := \int_a^b \vec{F}(r(t)) \cdot \vec{r'}(t) \; dt\]
+
+\subsubsection*{Circuitazione}
+Se il cammino \(r\) è un percorso chiuso, l'integrale prende il nome di circuitazione di \(F\) su \(r\): \(\displaystyle \oint_r \vec{F} \cdot d\vec{r}\)
+
+\subsubsection*{Lavoro di una forza}
+Se \(F\) è una forza e \(r(t)\) è un cammino, il lavoro di \(F\) lungo \(r\) è: \(\displaystyle W = \int_r \vec{F} \cdot d\vec{r} = \int_a^b \vec{F}(\vec{r}(t)) \cdot \vec{r'}(t) \; dt\) \\
+Se la forza è costante e \(r(t) = P + t \overline{PQ}\) il lavoro diventa: \(\displaystyle W = \int_r \vec{F} \cdot d\vec{r} = \int_0^1 \vec{F} \cdot \overrightarrow{PQ} \; dt = F \cdot \overrightarrow{PQ}\)
+
+\subsubsection*{Notazioni alternative}
+\begin{itemize}
+	\item[1.] \(\displaystyle \int_r \vec{F} \cdot d\vec{r} = \int_r F_1(x,y) dx + F_2(x,y) dy\)
+	\item[2.] \(\displaystyle \int_r \vec{F} \cdot d\vec{r} = \int_r \vec{F} \cdot \vec{T} \; ds \quad\) con \(\displaystyle \vec{T}(x) = \vec{T}(\vec{r}(t)) := \frac{\vec{r'}(t)}{\left|\vec{r'}(t)\right|}\) detto campo dei vettori tangenti
+	\item[3.] \(\displaystyle \int_r \vec{F} \cdot d\vec{r} = \int_r (F_1(x), \dots F_n(x)) \cdot (dx_1, \dots dx_n) = \int_r F_1(x)dx_1 + \dots F_n(x) dx_n \quad\) not. termodinamica
+\end{itemize}
+%Dimostrazioni:
+%\begin{align*}
+%	\text{1.} \quad \int_r \vec{F} \cdot d\vec{r} &= \int_a^b \vec{F}(\vec{r}(t)) \cdot \vec{r'}(t) \; dt = \int_a^b \left(\begin{matrix} F_1(x(t),y(t)) \\ F_2(x(t),y(t)) \end{matrix}\right) \cdot \left(\begin{matrix} x'(t) \\ y'(t) \end{matrix}\right) \; dt = \\
+%	&= \int_a^b F_1(x(t),y(t)) x'(t) + F_2(x(t),y(t)) y'(t) \; dt = \int_r F_1(x,y) dx + F_2(x,y) dy \\
+%	\text{2.} \quad \int_r \vec{F} \cdot d\vec{r} &= \int_a^b \vec{F}(\vec{r}(t)) \cdot \vec{r'}(t) \; dt = \int_a^b \vec{F}(\vec{r}(t)) \cdot \frac{\vec{r'}(t)}{\left|\vec{r'}(t)\right|} \left|\vec{r'}(t)\right| \, dt = \int_r \vec{F} \cdot \vec{T} \; ds
+%\end{align*}
+
+\subsection{Campi conservativi}
+\subsubsection*{Definizione}
+Un campo \(F: \Rn \to \Rn\) è conservativo se \(\forall r_1, r_2\) cammini con stessi estremi o \(\forall r\) cammino chiuso, vale:
+\[\int_{r_1} \vec{F} \cdot d\vec{r_1} = \int_{r_2} \vec{F} \cdot d\vec{r_2} \qquad \Leftrightarrow \qquad \oint_r \vec{F} \cdot d\vec{r} = 0\]
+
+\subsubsection*{Teorema fondamentale dei campi gradienti}
+Sia \(F: \Rn \to \Rn\) un campo gradiente con \(\nab U = F\) e \(r: [a,b] \to \Rn\) un cammino, allora vale
+\[\int_r \vec{F} \cdot d\vec{r} = U(r(b)) - U(r(a))\]
+Siccome l'integrale è indipendente dal cammino, allora il campo è conservativo.
+\[\text{Dim} \quad \int_r \vec{F} \cdot d\vec{r} = \int_a^b \vec{F}(\vec{r}(t)) \cdot \vec{r'}(t) \; dt = \int_a^b \nab U(\vec{r}(t)) \cdot \vec{r'}(t) \; dt = \int_a^b \dt U(\vec{r}(t)) \; dt = U(r(b)) - U(r(a))\]
+
+\subsubsection*{Equivalenze campi conservativi, campi gradienti, circuitazione}
+campo conservativo \(\; \Leftrightarrow \;\) campo gradiente \(\;\;\Leftrightarrow \;\; \int_r \vec{F} \cdot d\vec{r}\) dipende solo da \(r(a)\) e \(r(b) \;\; \Leftrightarrow \;\; \oint_r \vec{F} \cdot d\vec{r} = 0\)
+
+\subsection{Campi irrotazionali}
+\subsubsection*{Definizione}
+Un campo \(F: \Rn \to \Rn\) è irrotazionale se e solo se \(\partial_{x_i} F_j = \partial_{x_j} F_i \;\; \forall i,j\)
+
+\subsubsection*{Rotore}
+Il rotore \(\rot(\vec{F}) : \vec{F} \to \vec{G}\) è un operatore che da un campo vettoriale, restituisce un altro campo vettoriale.
+Se si interpreta il campo \(\vec{F}\) come il moto di particelle di un fluido sullo spazio, il campo \(\rot(\vec{F})\) è un campo
+vettoriale i cui vettori hanno direzione e verso uguale all'asse di rotazione delle particelle attorno ad un punto \(x\) e modulo
+pari al doppio della velocità angolare delle particelle che si muovono lungo i vettori del campo \(F\).
+\[\rot(\vec{F}) = \nab \times \vec{F} = \det \left(\begin{matrix} x & y & x \\[2pt] \frac{\partial}{\partial_x} & \frac{\partial}{\partial_y} & \frac{\partial}{\partial_z} \\[4pt] F_x & F_y & F_z \end{matrix}\right) =
+\left( \frac{\partial F_z}{\partial y} - \frac{\partial F_y}{\partial z}, \; \frac{\partial F_x}{\partial z} - \frac{\partial F_z}{\partial x}, \; \frac{\partial F_y}{\partial x} - \frac{\partial F_x}{\partial y}\right)\]
+
+\subsubsection*{Campo conservativo + C1 implica campo irrotazionale}
+Se \(F: \Rn \to \Rn\) è un campo \(C^1\) e conservativo, allora è anche irrotazionale. \\
+Dimostrazione:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] \(F\) conservativo \(\;\; \Leftrightarrow \;\; \nab U = F \;\; \Leftrightarrow \;\; \partial_{x_i}U = F_i\)
+	\item[2.] \(F \in C^1 \;\; \Leftrightarrow \;\; \partial_{x_i} F_j = \partial_{x_j} F_i\) per Terorema di Schwarz
+	\item[3.] per 1. si ha \(\partial_{x_i} F_j = \partial_{x_i} \partial_{x_j} U \;\;\) e \(\;\;\partial_{x_j} F_i = \partial_{x_j} \partial_{x_i} U\)
+	\item[4.] per 2. si ha \(\partial_{x_i} F_j = \partial_{x_j} F_i\) ovvero che \(F\) è irrotazionale
+\end{itemize}
+Osservazione: tutti i campi conservativi e \(C^1\) sono irrotazionali, ma non tutti i campi irrotazionali sono conservativi e \(C^1\).
+
+\subsubsection*{Domini semplicemente connessi}
+Un dominio aperto \(D \subseteq \Rn\) è \textbf{connesso} se \(\forall x,y \in D \; \exists r:[a,b] \to D\) tale che \(r(a) = x, r(b) = y\) \\
+Un dominio aperto \(D \subseteq \Rn\) è \textbf{semplicemente connesso} se ogni circuito \(r:[a,b] \to D\) si può contrarre con continuità
+ad un punto in \(D\).
+
+\subsubsection*{Irrotazionali su domini semplicemente connessi}
+Se un campo \(F \in C^1\) è irrotazionale su un dominio semplicemente connesso, allora \(F\) è conservativo
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] campo conservativo e \(C^1 \; \Rightarrow \;\) campo irrotazionale
+	\item[-] campo conservativo e \(C^1\) su \(D\) sempl. connesso \(\; \Leftrightarrow \;\) campo irrotazionale e \(C^1\) su \(D\) sempl. connesso
+\end{itemize}
+Osservazione: se ho un campo irrotazionale su un dominio \(D\), posso restringere il dominio ad uno semplicemente connesso (es.
+un rettangolo o una palla centrata in un punto), per cui il campo diventa anche gradiente sul dominio ristretto.
+
+\subsection{Calcolo delle primitive con metodo delle integrazioni marginali}
+Sia \(F(x,y) = (F_x(x,y), F_y(x,y))\) campo vettoriale irrotazionale, gradiente, \(C^1\) su dominio semplicemente connesso. Si vuole trovare il potenziale \(U(x,y)\).
+\begin{itemize}
+	\item[1.] siccome è gradiente, vale \(\nab U = \vec{F}\):
+	\(\begin{cases}
+		\partial_x U(x,y) = F_x(x,y) \\
+		\partial_y U(x,y) = F_y(x,y)
+	\end{cases}\)
+
+	\item[2.] integro una delle due equazioni per ottenere \(U\): \\
+	\(\displaystyle \int \partial_x U(x,y) \; dx = \int F_x(x,y) \; dx \;\; \Rightarrow \;\; U(x,y) = U_\text{parziale}(x,y) + \varphi(y)\)
+
+	\item[3.] osservo che \(\varphi(y)\) è indipendente da \(x\) e vale \(\partial_x (U(x,y) - U_\text{parziale}(x,y)) = 0\)
+	
+	\item[4.] risolvo l'altra equazione sostituendo \(U(x,y) = U_\text{parziale}(x,y) + \varphi(y)\) e ottenendo \(\varphi(y)\): \\
+	\(\displaystyle \partial_y (U_\text{parziale}(x,y) + \varphi(y)) = F_y(x,y) \;\; \Rightarrow \;\; \varphi'(y) = g(y) + c \;\; \Rightarrow \;\; \varphi(y) = \int \varphi'(y) \; dy \)
+
+	\item[5.] a questo punto ho \(U_\text{parziale}(x,y)\) dal punto 2 e \(\varphi(y)\) dal punto 4, per cui posso ottenere il potenziale: \(U(x,y) = U_\text{parziale}(x,y) + \varphi(y)\)
+\end{itemize}
+Osservazioni:
+\begin{itemize}
+	\item[-] se nel punto 4 ottengo una espressione \(\varphi'(y)\) che dipende anche da \(x\), allora non sono verificate tutte
+	le condizioni del dominio e il campo potrebbe essere non gradiente o rotazionale.
+	\item[-] se ho un campo irrotazionale, ma il dominio non è semplicemente connesso, posso partizionare il dominio in rettangoli
+	(es. un rettangolo comprende le \(x > 0\) e un altro le \(x < 0\)) e trovare una primitiva per ogni rettangolo.
+\end{itemize}
+
+\newpage
 
 
-\section{probabilità}
+\section{Integrali doppi}
+\subsection{Integrali doppi su rettangoli}
+\subsubsection*{Integrali doppi alla Riemann}
+Data una funzione \(f:[a,b] \times [c,d] \to \R\), il volume del trapeziode sotteso dalla funzione è dato dalla somma di Riemann
+dei parallepipedi ottenuti dividendo il dominio in piccoli rettangoli con lato tendente a 0 e si indica:
+\[\int_{[a,b] \times [c,d]} f(x,y) \; dx \, dy\]
 
+\subsubsection*{Integrale iterato sui rettangoli}
+L'integrale doppio può essere scritto come integrale iterato:
+\[\int_{[a,b] \times [c,d]} f(x,y) \; dx \, dy = \int_{a}^{b} \int_{c}^{d} f(x,y) \; dy \, dx = \int_{c}^{d} \int_{a}^{b} f(x,y) \; dx \, dy\]
+
+\subsubsection*{Formula di riduzione sui rettangoli}
+Si osserva che è possibile ottere l'area di una fetta verticale lungo un asse integrando solo lungo \(x\) o \(y\):
+\[\int_{a}^{b} f(x,y) \; dx = {A(y)}_\text{area fetta \(\perp\) a y} \qquad \int_{c}^{d} f(x,y) \; dy = {A(x)}_\text{area fetta \(\perp\) a x}\]
+Quindi per risolvere l'integrale doppio posso prima risolverlo integrando per una variabile trovando l'area di una fetta verticale
+e successivamente integrare l'area trovata rispetto all'altra variabile.
+\[\int_{[a,b] \times [c,d]} f(x,y) \; dx \, dy \;\; = \;\; \begin{matrix}
+	\displaystyle \int_{a}^{b} \left\{ \int_{c}^{d} f(x,y) \; dy \right\} \, dx = \int_{a}^{b} {A(x)}_\text{area fetta \(\perp\) a x} \; dx \\[15pt]
+	\displaystyle \int_{c}^{d} \left\{ \int_{a}^{b} f(x,y) \; dx \right\} \, dy = \int_{c}^{d} {A(y)}_\text{area fetta \(\perp\) a y} \; dy
+\end{matrix}\]
+
+\subsubsection*{Integrale di un prodotto di funzioni}
+Se la funzione \(f(x,y)\) è a variabili separabili, ovvero se \(f(x,y) = g(x)h(y)\), allora l'integrale diventa:
+\[\int_{[a,b] \times [c,d]} f(x,y) \; dx \, dy = \int_{[a,b] \times [c,d]} g(x) h(y) \; dx \, dy = \left(\int_{a}^{b} g(x) \; dx\right) \left(\int_{c}^{d} h(y) \; dy\right)\]
+
+\newpage
+
+\subsection{Integrali doppi su domini limitati}
+\subsubsection*{Funzione integrabile}
+Una funzione \(f(x,y)\) è integrabile in un integrale doppio su un dominio \(D\) se \(f\) è continua e limitata e se \(D\) è 
+limitato e misurabile.
+
+\subsubsection*{Proprietà dell'integrale doppio}
+\begin{itemize}
+	\item[1.] \(\displaystyle \int_D c f(x,y) \; dx \, dy = c \int_D f(x,y) \; dx \, dy\)
+	\item[2.] \(\displaystyle \int_D f(x,y) + g(x,y) \; dx \, dy = \int_D f(x,y) \; dx \, dy + \int_D g(x,y) \; dx \, dy\)
+	\item[3.] se \(f \geq 0\) allora \(\displaystyle \int_D f(x,y) \; dx \, dy \geq 0\)
+	\item[4.] se \(D\) è sostegno di una curva, allora \(\displaystyle \int_D f(x,y) \; dx \, dy = 0\)
+	\item[5.] se \(D = D_1 \cup D_2\) con \(D_1 \cap D_2\) pari al più ad un'unione di sostegni di curve, allora si ha: \\
+	\(\displaystyle \int_D f(x,y) \; dx \, dy = \int_{D_1} f(x,y) \; dx \, dy + \int_{D_2} f(x,y) \; dx \, dy\)
+\end{itemize}
+
+\subsubsection*{Integrali su regioni semplici rispetto a x}
+Una regione \(D\) è semplice rispetto a \(x\) se \(D = \left\{ (x,y) : x \in [a,b], \alpha(x) \leq y \leq \beta(x) \right\}\). \\
+L'integrale iterato di \(f\) su \(D\) diventa:
+\[\int_D f(x,y) \; dx \, dy = \int_a^b \int_{\alpha(x)}^{\beta(x)} f(x,y) \; dy \, dx = \int_a^b \left\{\int_{\alpha(x)}^{\beta(x)} f(x,y) \; dy\right\} \; dx\]
+
+\subsubsection*{Integrali su regioni semplici rispetto a y}
+Una regione \(D\) è semplice rispetto a \(y\) se \(D = \left\{ (x,y) : y \in [c,d], \alpha(y) \leq x \leq \beta(y) \right\}\). \\
+L'integrale iterato di \(f\) su \(D\) diventa:
+\[\int_D f(x,y) \; dx \, dy = \int_c^d \int_{\alpha(x)}^{\beta(x)} f(x,y) \; dx \, dy = \int_c^d \left\{\int_{\alpha(y)}^{\beta(y)} f(x,y) \; dx\right\} \; dy\]
+
+\subsection{Cambiamento di variabile}
+\subsubsection*{La matrice Jacobiana per il cambio di variabili}
+La matrice Jacobiana di una funzione \(\varphi = (\varphi_1, \varphi_2)\) è definita come:
+\[\varphi'(u,v) = J_{\varphi} (u,v) := \left( \begin{matrix}
+	\partial_u \varphi_1 (u,v) & \partial_v \varphi_1 (u,v) \\
+	\partial_u \varphi_2 (u,v) & \partial_v \varphi_2 (u,v)
+\end{matrix} \right) = \left( \begin{matrix}
+	\nab \varphi_1 (u,v) \\
+	\nab \varphi_2 (u,v)
+\end{matrix} \right) \qquad \text{con} \; \left| \varphi'(u,v) \right| := \left| \det \varphi' (u,v)\right|\]
+
+\subsubsection*{Formula del cambiamento di variabili}
+Dato un integrale doppio di \(f(x,y)\) su \(D\) nelle variabili \(x\) e \(y\), è possibile riscriverlo in funzione delle variabili
+\(u\) e \(v\), attraverso \(\begin{matrix}
+	\varphi (u,v) = (x(u,v), \; y(u,v)) = (x,y) \\[2pt]
+	\varphi^{-1} (x,y) = (u(x,y), \; v(x,y)) = (u,v)
+\end{matrix}\), con \(\begin{matrix}
+	D = \varphi(E) \\[2pt]
+	E = \varphi^{-1}(D)
+\end{matrix}\) come segue:
+\[\int_D f(x,y) \; dx \, dy = \int_E f(\varphi(u,v)) \left| \varphi'(u,v) \right| \, du, \, dv\]
+
+\subsubsection*{Elemento d'area, dilatazioni e applicazioni lineari}
+Il fattore \(\left| \varphi'(u,v) \right|\) è detto elemento d'area ed è il coefficiente di proporzionalità tra le aree di \(D\) ed \(E\):
+\[\text{Aera}(D) = \left| \varphi'(u,v) \right| \text{Area}(E)\]
+
+\subsubsection*{Simmetrie}
+Se il dominio è simmetrico rispetto all'asse y (\((x,y) \in D \Leftrightarrow (-x,y) \in D\)) e la funzione è dispari, ovvero \(f(-x,y) = -f(x,y)\),
+allora \(\displaystyle \int_D f(x,y) \; dx \, dy = 0\) \\
+Se il dominio è simmetrico rispetto all'asse y (\((x,y) \in D \Leftrightarrow (-x,y) \in D\)) e la funzione è pari, ovvero \(f(-x,y) = f(x,y)\), 
+definito \(D^+ := \left\{(x,y) \in D : x > 0\right\}\) allora \(\displaystyle \int_D f(x,y) \; dx \, dy = 2 \int_{D^+} f(x,y) \; dx \, dy\)
+
+\subsubsection*{Baricentro in un piano}
+Dato un dominio \(D\), per calcolare il baricentro della regione \(D\):
+\[\text{Baricentro} = (x_D, y_D) := \left( \frac{\displaystyle \int_D x \; dx \, dy}{\displaystyle \int_D \, dx \, dy}, \;\; \frac{\displaystyle \int_D y \; dx \, dy}{\displaystyle \int_D dx \, dy} \right)\]
+
+\subsubsection*{Passaggio in coordinate polari}
+\begin{itemize}
+	\item[1.] Definiamo \(\begin{cases} x = \rho \cos t \\ y = \rho \sin t \end{cases}\) con \(\rho > 0\) e \(t \in [0, 2\pi]\), per cui \(\varphi(\rho,t) = (\rho \cos t, \rho \sin t)\)
+	\item[2.] Si ha che: \(\varphi'(\rho,t) = \left( \begin{matrix} \cos t & - \rho \sin t \\ \sin t & \rho \cos t \end{matrix} \right), \quad \left|\varphi'(\rho,t)\right| = \left|\det \varphi'(\rho,t)\right| = \rho, \quad E = \varphi^{-1}(D)\)
+	\item[3.] Inoltre \(f\) è integrabile in \(D\) se e solo se \(f(\rho \cos t, \rho \sin t) \; \rho\) è integrabile su \(E\) e si ha:
+	\[\displaystyle \int_D f(x,y) \; dx \, dy =  \int_E f(\rho \cos t, \rho \sin t) \; \rho \; d\rho \, dt\]
+\end{itemize}
+
+\newpage
+
+\subsection{Integrali doppi generalizzati su domini illimitati}
+\subsubsection*{Integrale doppio generalizzato e integrale iterato generalizzato}
+L'integrale doppio generalizzato ha la forma:
+\[\int_{\Rd} f(x,y) \; dx \, dy \;\; = \;\; \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} f(x,y) \; dx \, dy\]
+
+\subsubsection*{Criterio di integrabilità}
+La funzione \(f\) \textbf{positiva} (\(f: \Rd \to [0,+\infty[\)) è integrabile in senso generalizzato su \(\Rd\) se è verificata
+almeno una delle seguenti condizioni
+\begin{itemize}
+	\item[1.] \(\displaystyle \int_{-\infty}^{+\infty} f(x,y) \; dy\) e \(\displaystyle \int_{-\infty}^{+\infty} \left\{\int_{-\infty}^{+\infty} f(x,y) \; dy\right\} \, dx\) esistono finiti
+	\item[2.] \(\displaystyle \int_{-\infty}^{+\infty} f(x,y) \; dx\) e \(\displaystyle \int_{-\infty}^{+\infty} \left\{\int_{-\infty}^{+\infty} f(x,y) \; dx\right\} \, dy\) esistono finiti
+\end{itemize}
+Osservazione: se la funzione non è definita positiva o se il suo modulo non è integrabile, allora i processi risolutivi per
+integrali iterati, cambi di variabile,... potrebbero non valere più e dare risultati finiti, ma diversi. In particolare se
+scambio l'ordine delle variabili di integrazione ottengo due risultati diversi.
+
+\subsubsection*{Integrale di Gauss}
+L'integrale di Gauss, che normalmente non si può risolvere è \(\displaystyle \int_{-\infty}^{+\infty} e^{-t^2} \; dt = \sqrt{\pi}\)
+\begin{itemize}
+	\item[1.] risolvo \(\displaystyle \int_{\Rd} e^{-x^2-y^2} \; dx \, dy\) con formule di riduzione:
+	\begin{align*}
+		\int_{\Rd} e^{-x^2-y^2} \; dx \, dy &= \int_{\Rd} e^{-x^2} \cdot e^{-y^2} \; dx \, dy = \left(\int_{-\infty}^{+\infty} e^{-x^2} \; dx\right) \cdot \left(\int_{-\infty}^{+\infty} e^{-y^2} \; dy\right) \qquad \qquad \qquad \quad\\
+		&= (\text{Integrale di Gauss})^2
+	\end{align*}
+	\item[2.] risolvo \(\displaystyle \int_{\Rd} e^{-x^2-y^2} \; dx \, dy\) con coordinate polari:
+	\begin{align*}
+		\int_{\Rd} e^{-x^2-y^2} \; dx \, dy &= \int_{\rho = 0}^{+\infty} \int_{t = 0}^{2\pi} e^{-\rho^2} \rho \; dt \, d\rho = \left(\int_{0}^{+\infty} \rho e^{-\rho^2} \; d\rho\right) \cdot \left(\int_{0}^{2\pi} \; dt\right) = 2\pi \cdot \left[- \frac{e^{-\rho^2}}{2}\right]_0^{+\infty} \\
+		& = \pi
+	\end{align*}
+	\item[3.] unendo i risultati ottengo \( (\text{Integrale di Gauss})^2 = \pi \quad \Rightarrow \quad \text{Integrale di Gauss} = \sqrt{\pi}\)
+\end{itemize}
+
+\newpage
+
+
+\section{Superfici parametriche}
+\subsection{Notazioni}
+\subsubsection*{Definizione}
+Una superficie parametrica in \(\Rt\) su dominio chiuso e limitato \(D \subset \Rd\) è definita:
+\[p: D \subset \Rd \to \Rt, \quad p(u,v) = (p_1(u,v), p_2(u,v), p_3(u,v))\]
+
+\subsubsection*{Sostegno di una superficie parametrica}
+Il sostegno di una superficie \(p\) è \(p(D) \subset \Rt\), che è \(C^1\) se \(p_1, p_2, p_3\) sono \(C^1\) in \(D\).
+
+\subsubsection*{Superfici parametriche notevoli}
+\begin{itemize}
+	\item[-] \textbf{Superficie cartesiana}:
+	\[p(u,v) = (u,v,f(u,v)) \quad \text{con sostegno} \; \left\{(u,v,f(u,v)) : (u,v) \in D \subset \Rd\right\}\]
+	\item[-] \textbf{Nastro di Möbius}:
+	\[p(u,v) = ((R + v \cos (u/2) \cos u), \;\; (R + v \cos (u/2)) \sin u, \;\; v \sin (u/2))\]
+	\item[-] \textbf{Superficie sferica}:
+	\[\varphi(\rho, \phi, \theta) = (\rho \sin \phi \cos \theta, \rho \sin \phi \sin \theta, \rho \cos \phi) \quad \rho \in [0,+\infty[, \; \phi \in [0, \pi], \; \theta \in [0, 2\pi]\]
+\end{itemize}
+
+\subsection{Area di una superficie parametrica}
+\subsubsection*{Elemento d'area di una superficie parametrica}
+L'elemento d'area di una superficie parametrica \(p(u,v)\) è l'area del parallelogramma formato dai due vettori
+\(\vec{p_u}(u,v) := \partial_u p(u,v)\) e \(\vec{p_v}(u,v) := \partial_v p(u,v)\)
+\[\text{Elemento d'area}(p) := \left| \vec{p_u}(u,v) \times \vec{p_v}(u,v)\right| = \left| \partial_u p(u,v) \times \partial_v p(u,v) \right|\]
+Osservazioni:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] per \(\overline{u}\) e \(\overline{v}\) fissati, con \((\overline{u}, \overline{v}) \in D\): \\
+	\(\partial_u p(\overline{u},\overline{v}) := (\partial_u p_1(\overline{u}, \overline{v}), \; \partial_u p_2(\overline{u}, \overline{v}), \; \partial_u p_3(\overline{u}, \overline{v}))\)
+	è il vettore tangente alla curva \(u \mapsto p(u,\overline{v})\) in \(u = \overline{u}\) \\
+	\(\partial_v p(\overline{u},\overline{v}) := (\partial_v p_1(\overline{u}, \overline{v}), \; \partial_v p_2(\overline{u}, \overline{v}), \; \partial_v p_3(\overline{u}, \overline{v}))\)
+	è il vettore tangente alla curva \(v \mapsto p(\overline{u},v)\) in \(v = \overline{v}\)
+	\item[2.] l'area del parallelogramma formato da due vettori \(\vec{a}\) e \(\vec{b}\) è: \(\left| \vec{a} \times \vec{b}\right|\)
+\end{itemize}
+
+\subsubsection*{Area di una superficie parametrica}
+L'area di una superficie parametrica \(p\) è l'integrale su \(D\) dell'elemento d'area:
+\[\text{Area(p)} := \int_D \left|\vec{p_u} (u,v) \times \vec{p_v} (u,v)\right| \, dx \, dy\]
+
+\subsubsection*{Elementi d'area notevoli}
+\begin{itemize}
+	\item[-] elemento d'area di una superficie cartesiana \(p(x,y)\): \(\qquad \left| \vec{p_x} \times \vec{p_y} \right| = \sqrt{1 + \left| \nab f(x,y)\right|^2}\)
+	\item[-] elemento d'area di una superficie sferica \(p(\phi, \theta)\): \(\qquad \quad \;\;\:\! \left| \vec{p_\phi} \times \vec{p_\theta} \right| = R^2 \sin \phi\)
+\end{itemize}
+
+\newpage
+
+\subsection{Area di un trapezoide di una funzione sopra ad una curva}
+\subsubsection*{Trapeziode di una funzione su una curva}
+Definita \(r: [a,b] \to \R_x \times \R_y, \; r(t) = (r_1(t),r_2(t))\) una curva \(C^1\) sul piano \(x,y\) e \(h : r([a,b]) \to [0,+\infty[_z\)
+una funzione continua positiva che associa ad ogni punto della curva un certo valore lungo l'asse \(z\), si definisce il trapezoide
+definito come il sostegno della superficie \(p\) compresa tra la curva \(r\) e il sostegno della funzione \(h\):
+\begin{align*}
+	\text{Trap}_r(h) &:= \left\{(r(t),z) : t \in [a,b], 0 \leq z \leq h(r(t))\right\} \\
+	p(t,z) &= (r_1(t), r_2(t), z) \qquad (t,z) \in D, \; D = \left\{(t,z) : t \in [a,b], 0 \leq z \leq h(r(t))\right\}
+\end{align*}
+
+\subsubsection*{Area del trapezioide}
+L'area del trapezoide è definita come l'integrale della funzione \(h\) sulla curva \(r\):
+\[\text{Area}(\text{Trap}_r(h)) := \int_r h \; ds = \int_a^b h(r(t)) \left|r'(t)\right| \, dt\]
+
+\subsubsection*{Calcolo dell'elemento d'area della superficie del trapeziode}
+Se si parte da \(p(t,z) = (r_1(t), r_2(t), z)\) e si calcola l'elemento d'area \(\left|p_t \times p_z\right| = \sqrt{{r_1'}^2(t) + {r_2'}^2(t)} = \left|r'(t)\right|\),
+per cui per definizione di area di una superficie è:
+\[\int_D \left|p_t \times p_z\right| \, dt \, dz = \int_D \left|r'(t)\right| \, dt \, dz = \int_a^b \int_0^{h(r(t))} \left|r'(t)\right| \, dz \, dt = \int_a^b h(r(t)) \left|r'(t)\right| \, dt\]
+
+\subsection{Area di una superficie di rotazione}
+\subsubsection*{Superficie di rotazione}
+Data una curva \(r(t) = (r_1(t), r_2(t))\) sul piano \(xz\), la superficie di rotazione ottenuta facendo ruotare la curva attorno
+all'asse \(z\) è:
+\[p(t, \theta) = (r_1(t) \cos \theta, r_1(t) \sin \theta, r_2(t)) \qquad t \in [a,b], \;\; \theta \in [\theta_1, \theta_2]\]
+
+\subsubsection*{Elemento d'area}
+L'elemento d'area della superficie di rotazione è: \(\left|p_t \times p_\theta\right| = r_1(t) \left|r'(t)\right|\)
+\begin{align*}
+	\left|p_t \times p_\theta\right|^2 &= (r_1'(t) \cos \theta, \; r_1'(t) \sin \theta, \; r_2'(t)) \times (-r_1(t) \sin \theta, \; r_1(t) \cos \theta, \; 0) \\
+	&= (r_1'(t) \; r_1(t) \cos^2 \theta + r_1'(t) \; r_1(t) \sin^2 \theta)^2 + (-r_1(t) \; r_2'(t) \cos \theta)^2 + (-r_1(t) \; r_2'(t) \sin \theta)^2 \\
+	&= (r_1(t) \; r_1'(t))^2 + (r_1(t) \; r_2'(t))^2  = {r_1}^2(t) \; (r_1'(t) + r_2'(t))^2 \\
+	&= {r_1}^2(t) \left|r'(t)\right|^2 \\[5pt]
+	\left|p_t \times p_\theta\right| &= r_1(t) \left|r'(t)\right|
+\end{align*}
+
+\subsubsection*{Area della superficie di rotazione}
+L'area della superficie di rotazione è:
+\begin{align*}
+	\text{Area}(p) &= \int_D \left|p_t \times p_\theta\right| \, dt \, d\theta = \int_D r_1(t) \left|r'(t)\right| \, dt \, d\theta = \left(\int_{\theta_1}^{\theta_2} \; d\theta\right) \cdot \left( \int_a^b r_1(t) \left|r'(t)\right| \, dt \right) \\
+	&= (\theta_2 - \theta_1) \cdot \int_a^b r_1(t) \left|r'(t)\right| \, dt
+\end{align*}
+
+\subsubsection*{Teorema di Pappo - Guldino}
+Indicata con \(x_r\) la distanza tra il baricentro di r dall'asse di rotazione e Lunghezza\((r)\) la lunghezza della curva che viene
+fatta ruotare per generare \(p\):
+\[\text{Area}(p) = (\theta_2 - \theta_1) \cdot x_r \cdot \text{Lunghezza}(r)\]
+\begin{align*}
+	\text{osservando che} \; &1. \quad \int_a^b f(r_1(t),r_2(t)) \left|r'(t)\right| \, dt = \int_r f \; ds \\
+	&2. \quad \int_a^b r_1(t) \left|r'(t)\right| \, dt = \int_r x \; ds \;\; \text{per} \; r_1(t) = f_x(t) \\
+	&3. \quad x_\text{baricentro} = \frac{\int_r x \; ds}{\text{Lunghezza}} \quad \Rightarrow \quad \int_r x \; ds = x_\text{baricentro} \cdot \text{Lunghezza} \\
+	\text{si ottiene che} \; &(\theta_2 - \theta_1) \cdot \int_a^b r_1(t) \left|r'(t)\right| \, dt = (\theta_2 - \theta_1) \cdot \int_r x \; ds = (\theta_2 - \theta_1) \cdot x_r \cdot \text{Lunghezza}(r)
+\end{align*}
+
+\subsubsection*{Superficie di rotazione generata da una curva cartesiana}
+Sia \(z = h(x)\) una curva cartesiana, la superficie ottenuta ruotando \(h\) attorno all'asse \(z\) è una superficie cartesiana \(z = h(\sqrt{x^2+y^2})\)
+con \(\sqrt{x^2+y^2}\) la distanza del punto \((x,y)\) rispetto all'asse \(z\) e con elemento d'area \(\sqrt{ 1 + \left| \nab \; h \left(\sqrt{x^2 + y^2}\right)\right|}\)
+e area \(\displaystyle \int_D \sqrt{ 1 + \left| \nab \; h \left(\sqrt{x^2 + y^2}\right)\right|} \; dx \, dy\)
+
+\subsection{Integrale superficiale}
+\subsubsection*{Definizione}
+L'integrale di una funzione \(\mu(x,y,z)\) su una superficie \(p\) è:
+\[\int_p \mu \; d\sigma_p = \int_p \mu(x,y,z) \; d\sigma_p= \int_D \mu(p(u,v)) \left|p_u \times p_v\right| \, du \, dv\]
+
+\subsubsection*{Invarianza dell'integrale superficiale}
+Date due superfici equivalenti \(p_1\) e \(p_2\) e \(f\) una funzione continua, allora \(\displaystyle \int_{p_1} f \; d\sigma_{p_1} = \int_{p_2} f \; d\sigma_{p_2}\)
+
+\newpage
+
+
+\section{Teoremi della divergenza e di Green - Stokes}
+\subsection{Flusso di un campo}
+Dato un cammino \(r\) e un campo \(F\) continuo, il flusso di \(F\) attraverso \(r\) è:
+\[\text{Flusso} := \int_r \det \left(\begin{matrix} F_1 & dx \\ F_2 & dy \end{matrix}\right)\]
+\begin{align*}
+	\text{Flusso} := \; &1. \;\int_a^b \det \left(\begin{matrix} F_1(r(t)) & r_1'(t) \\[3pt] F_2(r(t)) & r_2'(t) \end{matrix}\right) \, dt = \int_a^b F_1(r(t)) \, r_2'(t) - F_2(r(t)) r_1'(t) \; dt \\
+	&2. \; \int_r \det \left(\begin{matrix} F_1(x,y) & dx \\[3pt] F_2(x,y) & dy \end{matrix}\right) = \int_r F_1(x,y) \; dy - F_2(x,y) \; dx \\
+	&3. \; \int_r \vec{F} \cdot \vec{N}_r \; ds, \quad \text{con} \; \vec{N}_\text{normale a \(p\)} = \frac{1}{\left|r'(t)\right|} \left(\begin{matrix} r_1'(t) \\ -r_2'(t) \end{matrix}\right)
+\end{align*}
+\begin{align*}
+	\text{Dimostrazione punto 3:} \qquad &\int_a^b F_1(r(t)) \, r_2'(t) - F_2(r(t)) r_1'(t) \; dt = \int_a^b \vec{F}(r(t)) \cdot \left(\begin{matrix} r_1'(t) \\ -r_2'(t) \end{matrix}\right) \, dt = \\
+	= &\int_a^b \vec{F}(r(t)) \cdot \frac{1}{\left|r'(t)\right|} \left(\begin{matrix} r_1'(t) \\ -r_2'(t) \end{matrix}\right) \left|r'(t)\right| \, dt = \int_a^b \vec{F}(r(t)) \cdot \vec{N}(r(t)) \left|r'(t)\right| \, dt = \\
+	= &\int_r \vec{F} \cdot \vec{N}_r \; ds
+\end{align*}
+
+\subsection{Domini Stokiani}
+\subsubsection*{Definizione}
+Un dominio \(D \subset \Rd\) si dice stokiano se:
+\begin{itemize}
+	\item attorno ad ogni punto del bordo di \(D\) c'è una separazione tra interno ed esterno di \(D\), ovvero non esistono punti
+	isolati o cammini "all'interno" di \(D\) che non fanno parte del dominio.
+	\item il bordo \(\partial D\) è l'unione di un numero finito di sostegni di curve chiuse regolari semplici \(r_1, \dots r_n\)
+	tali che il loro orientamento fa sì che il vettore normale \(\vec{N}\) punta sempre all'esterno del dominio; il bordo viene
+	detto bordo positivamente orientato e si indica con \(\partial^+D\)
+\end{itemize}
+
+\subsubsection*{Integrali su bordi positivamente orientati}
+Dato \(D\) aperto stokiano con \(\partial^+D\) bordo positivamente orientato e \(F = (F_1,F_2)\) campo continuo, l'integrale di \(G\)
+lungo il bordo di \(D\) è:
+\[\text{Circuitazione:} \quad \int_{\partial^+D} F_1 \, dx + F_2 \, dy = \int_{\partial^+D} \vec{F} \cdot \vec{T} \; ds := \int_{r_1} \vec{F} \cdot \vec{T} \; ds + \dots + \int_{r_n} \vec{F} \cdot \vec{T} \; ds\]
+
+\subsubsection*{Flusso di campi attraverso domini stokiani}
+Dato \(D\) aperto stokiano con \(\partial^+D\) bordo positivamente orientato e \(F = (F_1,f_2)\) campo continuo, il flusso di \(F\)
+lungo il bordo di \(D\) è:
+\[\text{Flusso:} \quad \int_{\partial^+D} \vec{F} \cdot \vec{N} \; ds := \int_{\partial^+D} F_1(x,y) \; dy - F_2(x,y) \; dx = \int_{\partial^+D} \det \left(\begin{matrix} F_1 & dx \\ F_2 & dy \end{matrix}\right)\]
+
+\newpage
+
+\subsection{Divergenza}
+\subsubsection*{Definizione}
+Dato un campo \(F = (F_1, F_2)\) di classe \(C^1\) su aperto \(D\), la divergenza di \(F\) è:
+\[\diver F(x,y) := \partial_x F_1(x,y) + \partial_y F_2(x,y) = \det \left(\begin{matrix} \partial_x & -F_2 \\ \partial_y & F_1 \end{matrix}\right)\]
+
+\subsubsection*{Teorema della divergenza}
+Il flusso di un campo \(F = (F_1, F_2)\) di classe \(C^1\) su aperto stokiano \(D\) è:
+\[\int_{\partial^+D} \vec{F} \cdot \vec{N} \; ds = \int_D \diver F \; dx \, dy\]
+
+\subsubsection*{Interpretazione}
+I punti in cui \(\diver F(x,y) < 0\) sono punti di compressione, ovvero dove il flusso di entrata è maggiore di quello in uscita.
+Quelli in cui \(\diver F(x,y) > 0\) sono punti di espansione, dove il flusso in uscita è maggiore di quello in entrata. Infine
+dove \(\diver F(x,y) = 0\) il flusso in entrata è pari a quello in uscita.
+
+\subsubsection*{Dimostrazione del Principio di Archimede}
+Ho un solido \(D\) immmerso in un fluido con densità costante \(\mu\). Il fluido agisce con una forza data dalla formula
+\(\mu g y \vec{N}\) sul bordo di \(D\). Si vuole calcolare la risultante di tutte le forze agenti sul bordo di \(D\). \\
+Il vettore \(\vec{N}\) è definito come segue \(\vec{N} := (N_1, N_2)\).
+\begin{align*}
+	\int_{\partial^+D} \mu g y \vec{N} \; ds &:= \left(\begin{matrix}
+		\displaystyle \int_{\partial^+D} \mu g y N_1 \; ds \\[10pt]
+		\displaystyle \int_{\partial^+D} \mu g y N_2 \; ds
+	\end{matrix}\right) = \left(\begin{matrix}
+		\displaystyle \int_{\partial^+D} (\mu g y, \; 0) \cdot \vec{N} \; ds \\[10pt]
+		\displaystyle \int_{\partial^+D} (0, \; \mu g y) \cdot \vec{N} \; ds
+	\end{matrix}\right) = \left(\begin{matrix}
+		\displaystyle \int_D \diver (\mu g y, \; 0) \; dx \, dy \\[10pt]
+		\displaystyle \int_D \diver (0, \; \mu g y) \; dx \, dy
+	\end{matrix}\right) = \\
+	&= \left(\begin{matrix}
+		\displaystyle \int_D 0 \; dx \, dy \\[10pt]
+		\displaystyle \int_D \mu g \; dx \, dy
+	\end{matrix}\right) = \left(\begin{matrix}
+		0 \\[10pt]
+		\mu g \text{Area}(D)
+	\end{matrix}\right) = \left(\begin{matrix}
+		0 \\[10pt]
+		\text{Peso}(D)
+	\end{matrix}\right)
+\end{align*}
+Si ottiene che la risultante delle forze agenti sul bordo è un vettore che ha direzione concorde all'asse \(y\) (è rivolto
+verticalmente) e modulo pari al peso dell'acqua che occuperebbe il "volume" di \(D\).
+
+\subsection{Formula di Green}
+\subsubsection*{Definizione}
+Dato un campo \(F = (F_1, F_2)\) di classe \(C^1\) su aperto \(D\), l'integrale di \(F\) lungo il bordo di \(D\) vale:
+\[\int_{\partial^+D} F_1(x,y) \; dx + F_2(x,y) \; dy = \int_D \partial_x F_2(x,y) - \partial_y F_1(x,y) \; dx \, dy = \int_D \rot(F) \cdot (0,0,1) \; dx \, dy\]
+\[\text{Circuitazione:} \quad \int_{\partial^+D} F_1 \, dx + F_2 \, dy = \int_D \det \left(\begin{matrix} \partial_x & F_1 \\ \partial_y & F_2 \end{matrix}\right) \, dx \, dy\]
+
+\subsubsection*{Calcolo delle aree con la formula di Green}
+Sia \(D\) un dominio stokiano, allora:
+\[\text{Area}(D) = \int_{\partial^+D} x \; dy = \int_{\partial^+D} -y \; dx = \frac{1}{2} \int_{\partial^+D} x \; dy - y \; dx =
+\frac{1}{2} \int_{\partial^+D} \det \left(\begin{matrix} x & dx \\ y & dy \end{matrix}\right)\]
+
+\newpage
+
+
+\section{Equazioni differenziali}
+\subsection{Problema di Cauchy ed esistenza e unicità della soluzione}
+\subsubsection*{Soluzione di un'equazione differenziale}
+Data \(f:D \subset \Rd \to \R\), una soluzione dell'equazione \(y' = f(t,y)\) è una funzione \(y I \subset \R \to \R\) \(C^1\) tale che
+\((t,y(t)) \in D\) e \(y'(t) = f(t, y(t))\). L'insieme delle soluzioni è detta soluzione generale dell'equazione differenziale.
+
+\subsubsection*{Problema di Cauchy}
+Data un'equazione differenziale, il problema di Cauchy di un'equazione differenziale è:
+\(\begin{cases}
+	y' = f(t,y) \\
+	y(t_0) = y_0
+\end{cases}\)
+La soluzione generale che risolve anche il problema di Cauchy è detta soluzione del problema di Cauchy,
+
+\subsubsection*{Esistenza e unicità della soluzione locale}
+Sia \(D = I \times \R\), \(f: D \to \R\) funzione continua, se valgono
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\partial_y f(t,y)\) esiste continua
+	\item[-] \(\partial_y f(t,y)\) limitata su ogni striscia \([\alpha', \beta'] \times \R\), con \([\alpha', \beta'] \subset I\)
+\end{itemize}
+Allora per ogni \((t_0,y_0) \in D\) esiste ed è unica la soluzione definita su tutto \(I\) del problema di Cauchy.
+
+\subsection{Equazione differenziale a variabili separabili}
+\subsubsection*{Definizione}
+Un'equazione differenziale \(y' = f(t,y)\) è detta a variabili separabili se \(f(t,y) = g(t) \, h(y)\)
+
+\subsubsection*{Soluzione caso h(y) = 0}
+Dato \(\begin{cases} y' = 0 \\ y(t_0) = y_0 \end{cases}\), la soluzione è \(y(t) = y_0\)
+
+\subsubsection*{Soluzione caso generale}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] si isolano le \(y\) da una parte e le \(t\) dall'altra parte: \(\frac{y'(t)}{h(y(t))} = g(t)\)
+	\item[2.] si integra da entrambe le parti: \(\int \frac{y'(t)}{h(y(t))} dt = \int \frac{1}{h(y)} dy := H(y)\) e \(\int g(t) dt := G(t)\)
+	\item[3.] si uniscono le soluzioni invertendo \(H(y)\) per ottenere \(y\): \(y(t) = H^{-1}(G(t)) + C\)
+	\item[4.] si determina \(C\) in base alla seconda condizione del sistema di Cauchy
+	\item[5.] si determina l'intervallo massimo di validità della soluzione
+\end{itemize}
+
+\subsection{Equazioni lineari del primo ordine}
+\subsubsection*{Definizione}
+Un'equazione differenziale \(y' = f(t,y)\) è detta lineare del primo ordine se \(f(t,y) = a(t)y + b(t)\)
+
+\subsubsection*{Soluzione}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] si osserva che \((y'-a(t)y)e^{-A(t)} = (y e^{-A(t)})'\) con \(A' = a\)
+	\item[2.] si sceglie una primitiva \(A\) tale che \(A' = a\), si sposta \(a(t)y\) dall'altra parte dell'uguaglianza e si
+	moltiplica per \(e^{-A(t)}\) in modo da avere \((y'-a(t)y) \, e^{-A(t)} = b(t) \, e^{-A(t)} \Rightarrow (y e^{-A(t)})' = b(t) e^{-A(t)}\)
+	\item[3.] si integra da tutte e due le parti e divido per \(e^{-A(t)}\) per ricondurmi alla forma \(y = \dots\)
+	\item[4.] si determina \(C\) in base alla seconda condizione del sistema di Cauchy
+	\item[5.] si determina l'intervallo massimo di validità della soluzione
+\end{itemize}
+
+\newpage
 
 \end{document}
