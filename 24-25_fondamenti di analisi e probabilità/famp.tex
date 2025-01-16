@@ -896,4 +896,99 @@ Un'equazione differenziale \(y' = f(t,y)\) è detta lineare del primo ordine se 
 
 \newpage
 
+\section{Combinatoria}
+\subsection{Cardinalità}
+\subsubsection*{Notazione}
+La cardinalità di un'insieme \(X\) finito è il numero dei suoi elementi distinti e si indica con \(|X|\) o \(\#X\)
+
+\subsubsection*{Prioprietà}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] se \(A\) e \(B\) sono disgiunti, ovvero \(A \cap B = \varnothing\), allora \(|A \cup B| = |A| + |B|\)
+	\item[2.] \(|A\cup B| = |A| + |B| - |A \cap B|\)
+	\item[3.] \(|A \times B| = |A| \times |B|\)
+	\item[4.] la cardinalità del complementare è \(|A^c| = |X|-|A|\)
+	\item[5.] principio di inclusione/esclusione: \\
+	\(|A \cup B \cup C| = |A| + |B| + |C| - |A \cap B| - |B \cap C| - |A \cap C| + |A \cap B \cap C|\)
+	\item[6.] principio di biiezione: \\
+	due insiemi hanno la stessa cardinalità se e solo se sono in corrispondenza biunivoca
+\end{itemize}
+
+\subsection{Sequenze}
+Una \(k\)-sequenza di \(I_n\) è una \(k\)-upla ordinata \((a_1, \dots a_k)\) di elementi non necessariamente distinti di \(I_n\),
+ovvero è un elemento del prodotto cartesiano \(\underbrace{I_n \times \dots \times I_n}_{k \; \text{volte}}\)
+
+\subsubsection*{Sequenze con ripetizione}
+Una sequenza è detta con ripetizione se non necessariamente tutti gli elementi sono distinti. Il numero delle \(k\)-sequenze con
+ripetizione di \(I_n\) è \(n^k\)
+
+\subsubsection*{Sequenze senza ripetizione}
+Una sequenza è detta senza ripetizione gli elementi sono tutti distinti. Il numero delle \(k\)-sequenze senza ripetizione di \(I_n\)
+è \(\displaystyle \frac{n!}{(n-k)!}\) per \(k \leq n\).
+
+\subsection{Permutazioni}
+Le permutazioni sono le \(k\)-sequenze ottenute riordinando gli elementi di una qualunque \(k\)-sequenza di \(I_n\).
+
+\subsubsection*{Permutazioni di sequenze senza ripetizione}
+Il numero di permutazioni di \(k\)-sequenze senza ripetizione è \(k!\). Si nota che esiste una corrispondenza biunivoca tra le
+\(k\)-sequenze senza ripetizione di \(I_k\) e le permutazioni di esse.
+
+\subsubsection*{Permutazioni di sequenze con ripetizione - anagrammi}
+Il numero di permutazioni di \(k\)-sequenze con ripetizione è \(\frac{k!}{m_1 \!! \, m_2\!! \dots m_k\!!}\) con \(m_1, m_2\dots\)
+il numero di ripetizioni/molteplicità degli elementi della sequenza. Si nota che se \(m_1 = m_2 = \dots = m_k = 1\), allora si
+ricade nel caso delle permutazioni senza ripetizione.
+
+\subsection{Spartizioni}
+Una \(n\)-spartizione è una \(n\)-upla ordinata \(C_1, \dots C_n\) di sottoinsiemi a due a due disgiuti di \(I_k\) eventualmente
+anche vuoti tali che \(C_1 \cup \dots \cup C_n = I_k\). Per la corrispondenza biiettiva tra spartizioni e sequenze con ripetizione
+illustrata sotto, il numero di \(n\)-sparizioni di \(I_k\) è pari al numero delle \(k\)-sequenze con ripetizione di \(I_n\), ovvero
+è \(n^k\).
+
+\subsubsection*{Corrispondenza biunivoca tra spartizioni e sequenze con ripetizione}
+Si nota che esiste una corrispondenza biunivoca tra le \(n\)-spartizioni di \(I_k\) e le \(k\)-sequenze con ripetizione di \(I_n\).
+Data una \(n\)-spartizione di \(I_k\), è possibile indicare il sottoinsieme di ciascun elemento di \(I_k\) associandogli un numero
+di \(I_n\), ottenendo così una \(k\)-sequenza con ripetizione di \(I_n\).
+
+\subsection{Sottoinsiemi}
+Un \(k\)-sottoinsieme di \(I_n\) è un sottoinsieme formato da \(k\) elementi distinti di \(I_n\). Il numero di \(k\)-sottoinsiemi
+di \(I_n\) si indica con \(\displaystyle C(n,k) = \binom{n}{k} = \frac{n!}{k! (n-k)!}\)
+
+\subsubsection*{Corrispondenza biunivoca tra sottoinsiemi, spartizioni e sequenze}
+Si osserva che esiste una corrispondenza biunivoca tra le \(2\)-spartizioni di \(I_n\) e i sottoinsiemi di \(I_n\). Infatti, data
+una sparzione \((C_1,C_2 = C_1^c)\) è possibile ottenere un sottoinsieme \(A \subseteq I_n\) tale che \(A = C_1\). Per cui il numero
+di sottoinsiemi di \(I_n\) è pari al numero delle \(2\)-spartizioni di \(I_n\). Siccome le \(2\)-spartizioni di \(I_n\) sono in 
+corrispondenza biunivoca con le \(n\)-sequenze di \(I_2\), allora: \\
+\(|\text{sottoinsiemi di } I_n| = |2\text{-spartizioni di } I_n| = |n\text{-sequenze di } I_2| = n^2\)
+
+\subsubsection*{Corrispondenza tra i sottoinsiemi e le sequenze senza ripetizione}
+Si osserva che ad ogni \(k\)-sottoinsieme di \(I_n\) corrispondono \(k!\) \(k\)-sequenze senza ripetizione di \(I_n\). Per cui
+
+\subsection{Principio di moltiplicazione}
+Supponiamo che gli elementi di un insieme \(X\) possano essere individuati con una procedura di \(n\) fasi dove:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] la prima fase ha \(m_1\) esiti possibili
+	\item[2.] la seconda fase ha \(m_2\) esiti possibili
+	\item[\dots] \dots
+	\item[n.] la \(n\)-esima fase ha \(m_n\) esiti possibili
+	\item[!] dato un elemento è possibile determinare univocamente la fase in cui è estratto
+\end{itemize}
+Allora \(|X| = m_1 \times m_2 \times \dots \times m_n\)
+
+\subsection{Principio di divisione}
+Siano \(X\), \(Y\) due insiemi finiti, se ad ogni elemento \(y\) di \(Y\) sono associati \(m\) elementi \(x_1, \dots x_m\) di \(X\),
+allora vale che \(|X| = |Y| \times m\).
+
+\subsection*{Fattoriale e formula di Stirling}
+\[n! = \begin{cases}
+	n \times (n-1)! & \text{per} \; n \geq 1 \\
+	1 & \text{per} \; n = 0
+\end{cases} \qquad \qquad n! \approx \sqrt{2 \pi n} \left(\frac{n}{e}\right)^n \;\; \text{per } n \to +\infty\]
+
+\subsection*{Binomiale}
+\[\binom{n}{k} = \frac{n!}{k! (n-k)!}\]
+\begin{itemize}
+	\item[1.] \(\displaystyle \binom{n}{0} = \binom{n}{n} = 1 \quad \binom{n}{1} = n \qquad \qquad \qquad \qquad \qquad \text{2.} \; \binom{n}{0} + \dots + \binom{n}{n} = n^2\)
+	\item[3.] \(\displaystyle \binom{n}{k} = \binom{n}{n-k} \qquad \qquad \qquad\qquad \qquad \qquad \qquad \quad \text{4.} \;\binom{n-1}{k-1} + \binom{n-1}{k} = \binom{n}{k}\)
+	\item[5.] \(\displaystyle (x+y)^n = \sum_{j=0}^n \binom{n}{j} x^j y^{n-j}\)
+\end{itemize}
+
 \end{document}
