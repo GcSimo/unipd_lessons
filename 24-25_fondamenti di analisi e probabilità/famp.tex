@@ -32,6 +32,8 @@
 \newcommand\nab{\vec{\nabla}} % nabla
 \newcommand\rot{\text{rot}}   % rot
 \newcommand\diver{\text{div}} % div
+\newcommand\var{\text{Var}}   % Var
+\newcommand\cov{\text{Cov}}   % Cov
 
 \title{Appunti di fondamenti di analisi e probabilità}
 \author{Giacomo Simonetto}
@@ -990,5 +992,440 @@ allora vale che \(|X| = |Y| \times m\).
 	\item[3.] \(\displaystyle \binom{n}{k} = \binom{n}{n-k} \qquad \qquad \qquad\qquad \qquad \qquad \qquad \quad \text{4.} \;\binom{n-1}{k-1} + \binom{n-1}{k} = \binom{n}{k}\)
 	\item[5.] \(\displaystyle (x+y)^n = \sum_{j=0}^n \binom{n}{j} x^j y^{n-j}\)
 \end{itemize}
+
+\newpage
+
+
+\section{Probabilità}
+\subsection{Definizione assiomatica di probabilità}
+\subsubsection*{Definizione}
+La probabilità su uno spazio campionario \(\Omega\) è la funzione
+\[\displaystyle P:\mathcal{P}(\Omega) \to [0,1], \quad P(A) = \frac{|A|}{|\Omega|}\]
+tale che:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(0 \leq P(A)\leq 1\)
+	\item[-] \(P(0) = 0, \quad P(\Omega) = 1\)
+	\item[-] dati \(A_1, \dots A_n \subseteq \Omega\) una famiglia numerabile di insiemi a due a due disgiunti, allora vale \\
+	\(\displaystyle P\left(\bigcup_{i=1}^{+\infty} A_i\right) = \lim_{n \to +\infty} (P(A_1) + \dots + P(A_n))\)
+\end{itemize}
+
+\subsubsection*{Proprietà}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] \(P(0) = 0, \quad P(\Omega) = 1\)
+	\item[2.] \(P(A^c) = 1-P(A)\)
+	\item[3.1] se \(A\) e \(B\) sono disgiunti \(A \cap B = \varnothing\), allora \(P(A \cup B) = P(A) + P(B)\)
+	\item[3.2] se \(A_1, \dots A_n\) a due a due disgiunti, \(P(A_1 \cup \dots \cup A_n) = P(A_1) + \dots + P(A_n)\)
+	\item[4.1] se \(E \subseteq F \subseteq \Omega\), allora \(P(E) \leq P(F)\)
+	\item[4.2] se \(E \subseteq F \subseteq \Omega\), allora \(P(F \backslash E) = P(F) - P(E)\)
+\end{itemize}
+
+\subsubsection*{Principio di inclusione / esclusione}
+\begin{itemize}
+	\item[1.] \(P(A_1 \cup A_2) = P(A_1) + P(A_2) - P(A_1 \cap A_2)\)
+	\item[2.] \(\displaystyle P(A_1 \cup A_2 \cup A_3) = \sum_{i=1}^3 P(A_i) - \sum_{1 \leq i < j \leq 3} P(A_i \cap A_j) + P(A_1 \cap A_2 \cap A_3)\)
+	\item[3.] \(\displaystyle P(A_1 \cup A_2 \cup A_3 \cup A_4) = \\ \sum_{i=1}^4 P(A_i) - \sum_{1 \leq i < j \leq 4} P(A_i \cap A_j) + \sum_{1 \leq i < j < k \leq 4} P(A_i \cap A_j \cap A_k) - P(A_1 \cap A_2 \cap A_3 \cap A_4).
+\)
+\end{itemize}
+
+\subsection{Probabilità uniforme}
+\subsubsection*{Definizione}
+La probabilità è uniforme su \(\Omega\) se per ogni elemento \(\omega\) di \(\Omega\) si ha: \[\displaystyle P(\omega) = \frac{1}{|\Omega|}\]
+
+\subsubsection*{Considerazioni per la risoluzione di esercizi}
+In una esrazione senza reimmissione, la probabilità di estrarre una pallina alla prima estrazione è uguale alla probabilità di
+estrarre la medesima pallina all'ultima estrazione.
+
+\newpage
+
+\subsection{Probabilità su insiemi finiti e infiniti numerabili e non numerabili}
+\subsubsection*{Probabilità su un insieme finito}
+Dato un insieme finito \(\Omega = \{x_1, \dots x_m\}\) e definite \(p_1, \dots p_m \geq 0\) tali che \(p_1 + \dots + p_m \geq 0\) e \\
+\(P(x_i) = p_i \;\; \forall i \in [1,m]\), la probabilità su un insieme \(A \subseteq \Omega\) è:
+\[P(A) = \sum_{k \; : \; x_k \in A} p_k\]
+
+\subsubsection*{Probabilità in un insieme infinito numerabile}
+Dato un insieme numerabile \(\Omega = \{x_1,x_2 \dots\}\) e definite \(p_1,p_2 \geq 0\) tali che \(\sum_{i=1}^{+\infty} p_i = 1\) e \\
+\(P(x_i) = p_i \;\; \forall i \in \mathbb{N}\) la probabilità su un insieme \(A \subseteq \Omega\) è:
+\[P(A) = \sum_{k \; : \; x_k \in A} p_k\]
+Osservazione: un insieme è numerabile può essere messo in corrispondenza biunivoca con \(\mathbb{N}\)
+
+\subsubsection*{Probabilità in un insieme infinito non numerabile - intervalli/aree}
+In un insieme infinito non numerabile, la probabilità di un singolo evento è \(P(x_i) = 0\), la probabilità su un intervallo \([a,b]\)
+è: \[P([a,b]) = P(]a,b[) = b-a\]
+
+\subsection{Continuità della probabilità}
+\subsubsection*{Probabilità di unione crescente}
+Siano \(E_1 \subseteq E_2 \subseteq \dots\) successione di sottoinsiemi di uno spazio campionario \(\Omega\), allora:
+\[P(\bigcup_{i=1}^{+\infty} E_i) = \lim_{i \to +\infty} P(E_i)\]
+
+\subsubsection*{Probabilità di unione decrescente}
+Siano \(E_1 \supseteq E_2 \supseteq \dots\) successione di sottoinsiemi di uno spazio campionario \(\Omega\), allora:
+\[P(\bigcap_{i=1}^{+\infty} E_i) = \lim_{i \to +\infty} P(E_i)\]
+
+\subsubsection*{Complementare di intersezione e unione}
+\[\left(\bigcap_{n \in \mathbb{N}} A_n\right)^c = \bigcup_{n \in \mathbb{N}} (A_n)^c \qquad \qquad \qquad \left(\bigcup_{n \in \mathbb{N}} A_n\right)^c = \bigcap_{n \in \mathbb{N}} (A_n)^c\]
+
+\newpage
+
+\subsection{Probabilità condizionata e indipendenza di eventi}
+\subsubsection*{Definizione}
+La probabilità condizionata di \(E\) ad \(F\), con \(E,F \subseteq \Omega\) e \(P(F) \neq 0\) è:
+\[P(E | F) = \frac{P(E \cap F)}{P(F)} = \frac{P(EF)}{P(F)}\]
+Si osserva che se \(P\) è uniforme su \(\Omega\), allora lo è anche \(P(\;.\;|F)\) su \(F\)
+
+\subsubsection*{Probabilità di una intersezione}
+\[P(E \cap F) = P(E | F) \cdot P(F) = P(F | E) \cdot P(E)\]
+
+\subsubsection*{Formula del prodotto}
+\[P(A_1 A_2 \dots A_n) = P(A_1) \cdot P(A_2 | A_1) \cdot P(A_3 | A_1 A_2) \; \dots \; P(A_n | A_1 A_2 \dots A_{n-1})\]
+
+\subsubsection*{Formula di inversione}
+\[P(F | E) = \frac{P(E|F) \cdot P(F)}{P(E)}\]
+
+\subsubsection*{Formula della partizione o della probabilità totale}
+Sia \(F_1, F_2 \dots F_n\) una \(n\)-partizione di \(\Omega\):
+\[P(E) = P(E|F_1) \cdot P(F_1) + P(E|F_2) \cdot P(F_2) + \dots + P(E|F_n) \cdot P(F_n)\]
+
+\subsubsection*{Formula di Bayes}
+Sia \(F_1, F_2 \dots F_n\) una \(n\)-partizione di \(\Omega\):
+\[P(F_1 | E) = \frac{P(E | F_1) \cdot P(F_1)}{P(E|F_1) \cdot P(F_1) + P(E|F_2) \cdot P(F_2) + \dots + P(E|F_n) \cdot P(F_n)}\]
+
+\subsubsection*{Indipendenza di due eventi}
+\[A \; \text{e} \; B \; \text{indipendenti} \quad \Leftrightarrow \quad P(A \cap B) = P(A) \cdot P(B) \quad \Leftrightarrow \quad P(A|B) = P(A), \; P(B|A) = P(B)\]
+
+\subsubsection*{Indipendenza di una famiglia di eventi}
+Indipendenza di eventi a due a due non implica l'indipendenza di tutti gli eventi:
+\[P(A|B) = P(A), \; P(B|C) = P(B), \; P(C|A) = P(C) \;\; \nRightarrow \;\; A, B, C \; \text{eventi indipendenti}\]
+\[(A_1, \dots A_n) \; \text{indipendenti} \quad \Leftrightarrow \quad P(A_1 A_2 \dots A_n) = P(A_1) \cdot P(A_2) \dots P(A_n)\]
+
+\subsubsection*{Indipendenza condizionata}
+\[A|F \; \text{e} \; B|F \; \text{indipendenti} \quad \Leftrightarrow \quad P(AB|F) = P(A|F) \cdot P(B|F)\]
+
+\newpage
+
+\subsection{Variabili aleatorie discrete}
+\subsubsection*{Definizione}
+Una variabile aleatoria definita su uno spazio campionario \(\Omega\) è una funzione \(X: \Omega \to \R\). \\
+Una variabile aleatoria è detta discreta se \(\text{Im}(X)\) è un insieme finito numerabile \(\{x_1, x_2, \dots\}\)
+
+\subsubsection*{Denistà di una variabile aleatoria discreta}
+La densità discreta di una variabile aletoria discreta è una funzione \[p_x : \R \to [0,1], \quad x \mapsto P(X = x)\]
+
+\subsubsection*{Proprietà della densità discreta}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\displaystyle \sum_k p_x(x_k) = 1\)
+	\item[-] \(\displaystyle P(X \in A) = \sum_{k : x_k \in A} p_x(x_k)\)
+\end{itemize}
+
+\subsubsection*{Distribuzione di una variabile aleatoria}
+La distribuzione discreta di una variabile aletoria discreta è una funzione \[F_X : \R \to [0,1], \quad x \mapsto P(X \leq x)\]
+
+\subsubsection*{Proprietà della distribuzione discreta}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(F_X\) è crescente
+	\item[-] \(\displaystyle \lim_{x \to -\infty} F_X(x) = 0\) e \(\displaystyle \lim_{x \to +\infty} F_X(x) = 1\)
+	\item[-] \(F_X\) è continua a destra: \(\displaystyle \lim_{x \to a^+} F_X(x) = F_X(a)\)
+	\item[-] \(P(X < a) = F_X(a^-) := \lim_{x \to a^-} F_X(x)\)
+	\item[-] \(P(X = a) = F_X(a) - F_X(a^-)\)
+\end{itemize}
+Osservazione: due variabili aleatorie \(X\) e \(Y\) con stesse distribuzioni \(F_X = F_Y\) assumono i valori con uguali probabilità:
+\(P(X \in A) = P(Y \in A)\)
+
+\subsection{Variabile di Bernoulli}
+\subsubsection*{Definizione}
+La variabile di Bernoulli con parametro \(p\) si indica con \(X \sim Be(p)\) e possiede le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\text{Im}(X) = \{0,1\}\)
+	\item[-] \(p_x(1) = p, \;\; p_x(0) = 1-p\)
+\end{itemize}
+
+\subsection{Variabile binomiale}
+\subsubsection*{Definizione}
+La variabile binomiale con parametri \(n\) e \(p\) si indica con \(X \sim B(n,p)\) e possiede le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\text{Im}(X) = \{0,1,\dots n\}\)
+	\item[-] \(\displaystyle p_x(k) = \binom{n}{k} \; p^{k} \; (1-p)^{n-k}\)
+\end{itemize}
+
+\subsubsection*{Binomiale come approssimazione di Bernoulli indipendenti}
+Siano \(X_1, X_2, \dots X_n \sim Be(p)\) Bernoulli indipendenti di parametro \(p\) e \(X = X_1 + X_2 + \dots + X_n\), allora
+\(X \sim B(n,k)\) è una binomiale di parametri \(n\), \(p\)
+
+\subsection{Variabile geometrica}
+\subsubsection*{Definizione}
+La variabile geometrica con parametro \(p\) si indica con \(X \sim Ge(p)\) e possiede le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\text{Im}(X) = \mathbb{N}_{\geq 1}\)
+	\item[-] \(p_x(1) = p \; (1-p)^{k-1}\)
+\end{itemize}
+
+\subsubsection*{Assenza di memoria di una variabile geometrica}
+\[P(X > k + m \;| \;X > k) = P( X > m)\]
+
+\subsection{Variabile di Poisson}
+\subsubsection*{Definizione}
+La variabile di Poisson con parametro \(\lambda\) si indica con \(X \sim Po(\lambda)\) e possiede le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\text{Im}(X) = \mathbb{N}\)
+	\item[-] \(\displaystyle p_x(k) = e^{-\lambda} \; \frac{\lambda^k}{k!}\)
+\end{itemize}
+
+\subsubsection*{Poisson come approssimazione di una binomiale}
+Siano \(X_n \sim B(n, \frac{\lambda}{n})\) e \(Y \sim Po(\lambda)\), allora \(\displaystyle \lim_{n \to \infty} P(X_n = k) = e^{-\lambda} \frac{\lambda^k}{k!} = P(Y = k)\) \\[5pt]
+In pratica \(X \sim B(n,p)\) si può approssimare con \(Y \sim Po(\lambda)\) se \(np \leq 10, \;\; n \geq 20, \;\; p \leq 0.05\)
+
+\subsubsection*{Somme di Poisson indipendenti}
+Siano \(X \sim Po(\lambda)\) e \(Y \sim Po(\mu)\) indipendenti, allora \(X + Y \sim Po(\lambda + \mu)\)
+
+\subsubsection*{Processo di Poisson}
+Un processo di Poisson di intensità \(\lambda\) è una famiglia di variabili aleatorie \(\{X_t : t > 0\}\) con:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(X_t \sim Po(\lambda t)\)
+	\item[-] \(X_{t+\tau} - X_t \sim Po(\lambda \tau)\)
+	\item[-] \(X_{t_1} - X_{t_0}, \; X_{t_2} - X_{t_1}, \; \dots \; X_{t_n} - X_{t_{n-1}}\) sono indipendenti
+\end{itemize}
+
+\subsection{Variabile aleatoria uniforme}
+\subsubsection*{Definizione}
+La variabile uniforme definita su un intervallo \([a,b]\) si indica con \(X \sim U([a,b])\) e possiede le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\displaystyle P(X \in [c,d]) = \frac{d-c}{b-a}\)
+	\item[-] \(\displaystyle f_X(x) = \begin{cases} \displaystyle \frac{1}{b-a} &\text{per} \; x \in ]a,b[ \\ 0 &\text{per} \; x < a \; \vee \; x > b \end{cases}\)
+	\item[-] \(\displaystyle F_X(x) = \begin{cases} 0 &\text{per} \; x < a \\ \displaystyle \frac{x-a}{b-a} &\text{per} \; x \in [a,b[ \\ 1 &\text{per} \; x \geq b \end{cases}\)
+\end{itemize}
+
+\subsection{Variabile aleatoria esponenziale}
+\subsubsection*{Definizione}
+La variabile esponenziale con parametro \(\lambda\) si indica con \(X \sim Exp(\lambda)\) e possiede le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\text{Im}(X) = \mathbb{N}\)
+	\item[-] \(F_X(t) = \begin{cases} 0 &\text{per} \; t < 0 \\ 1 - e^{-\lambda t} &\text{per} \; t \geq 0 \end{cases}\)
+	\item[-] \(f_X(t) = \begin{cases} 0 &\text{per} \; t < 0 \\ \lambda e^{-\lambda t} &\text{per} \; t \geq 0 \end{cases}\)
+\end{itemize}
+
+\subsubsection*{Variabile esponenziale e processo di Poisson}
+Dato un processo di Poisson di intensità \(\lambda\) si hanno le seguenti caratteristiche:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(T :=\) istante nel quale si verifica il primo fenomeno
+	\item[-] \(X_t \sim Po(\lambda t)\) numero di fenomeni verificati fino all'istante \(t\)
+	\item[1.] se \(t < 0\) allora \(F_T(t) = 0\)
+	\item[2.] se \(t \geq 0\) allora \(\{T > t\} = \{X_t = 0\}\), per cui \(P(T > t) = P(X_t = 0) = e^{-\lambda t}\) 
+\end{itemize}
+
+\subsubsection*{Assenza di memoria della esponenziale}
+\[P(T > t + s \;| \; t > s) = P(T > t)\]
+
+\subsection{Variabile normale o Gaussiana}
+\subsubsection*{Definizione variabile normale standard}
+La variabile normale standard \(Z\) si indica con \(Z \sim N(0,1)\) e possiede le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\displaystyle f_Z(x) = \frac{1}{\sqrt{2 \pi}} \; e^{-x^2/2}\)
+	\item[-] \(\displaystyle \int_{-\infty}^{+\infty} f_Z(x) \, dx = 1\)
+	\item[-] \(\Phi(x) := F_Z(x), \quad \Phi(-x) = 1 - \Phi(x)\)
+	\item[-] \(E[Z] = 0, \quad \var[Z] = 1\)
+\end{itemize}
+
+\subsubsection*{Definizione variabile normale o gaussiana}
+La variabile normale o gaussiana \(X\) si indica con \(X \sim N(\mu,\sigma^2)\) e possiede le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(X := \mu + \sigma Z \qquad Z \sim N(0,1)\)
+	\item[-] \(E[Z] = \mu, \quad \var[Z] = \sigma^2\)
+	\item[-] \(\displaystyle f_Z(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \; e^{-\frac{1}{2} \frac{(x-\mu)^2}{\sigma^2}}\)
+\end{itemize}
+Per calcolare la distribuzione di \(X \sim N(\mu,\sigma^2)\) ci si riconduce alla distribuzione \(\Phi(x)\) della normale standard \(Z\)
+attraverso la prima proprietà \(X = \mu + \sigma Z\): \(F_X(x) = P(\mu + \sigma Z \leq x) = \Phi(\frac{x - \mu}{\sigma})\)
+
+\subsubsection*{Variabili normalizzate}
+Una variabile aleatoria \(X\) si dice normalizzata se \(E[X] = 0\) e \(\var[X] = 1\). Per normalizzare una variabile non normalizzata
+si deve calcolare: \[ \overline{X} := \frac{X - E[X]}{\sigma_X}\]
+Una variabile normalizzata non coincide necessariamente con una variabile normale: vedere teorema del limite centrale per correlazione
+tra variabili indipendenti identicamente distribuite e variabili normali.
+
+\newpage
+
+\subsection{Valore atteso varianza e covarianza di variabili discrete}
+\subsubsection*{Valore atteso}
+Sia \(X\) una variabile aleatoria discreta, il valore atteso (o media) di \(X\) è:
+\[E[X] = := \sum_{i=1}^m x_i \, p_x(x_i) = \sum_{i=1}^m x_i \, P(X = x_i) = \sum_{x \in \text{Im}(X)} x \, P(X = x)\]
+Il valore atteso si dice finito se \(\displaystyle \sum_{x \in \text{Im}(X)} |x_i| \, p_x(x_i) < +\infty\)
+
+\subsubsection*{Algebra di valori attesi}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] combinazioni lineari: \(E[aX + b] := aE[x] + b\)
+	\item[-] somma di variabili aleatorie: \(E[X_1 + X_2 + \dots + X_n] = E[X_1] + E[X_2] + \dots + E[X_n]\)
+	\item[-] composte di una variabile: \(\displaystyle E[g \circ X] := E[g(x)] = \sum_{x \in \text{Im}(X)} g(x) \, p_x(x)\)
+	\item[-] composte di più variabili: \(\displaystyle E[g(X,Y)] := \sum_{x \in \text{Im}(X)} g(x,y) \, P(X = x, Y = y)\)
+	\item[-] prodotto di variabili: \(\displaystyle E[X \cdot Y] = \sum_{x \in \text{Im}(X)} x y \, P(X = x, Y = y)\)
+	\item[-] prodotto di v. indipendenti: \(E[X \cdot Y] = E[X] \cdot E[Y]\)
+\end{itemize}
+
+\subsubsection*{Valori attesi da ricordare}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(X \sim Be(p) \quad \rightarrow \quad E[X] = p\)
+	\item[-] \(X \sim B(n,p) \quad \rightarrow \quad E[X] = np\)
+	\item[-] \(X \sim Ge(p) \quad \rightarrow \quad E[X] = \frac{1}{p}\)
+	\item[-] \(X \sim Po(\lambda) \quad \rightarrow \quad E[X] = \lambda\)
+\end{itemize}
+
+\subsubsection*{Varianza e deviazione standard}
+Sia \(X\) una variabile aleatoria discreta, la varianza di \(X\) è:
+\[\var[X] := E[(X-\mu_x)^2] = E[X^2] - \mu_x^2 \qquad  \qquad \mu_x := E[X]\]
+Sia \(X\) una variabile aleatoria discreta, la deviazione standard di \(X\) è:
+\[\sigma_x := \sqrt{\var[X]}\]
+
+\subsubsection*{Algebra della varianza}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] combinazioni lineari: \(\var[aX + b] := a^2\var[x]\)
+	\item[-] variabili indipendenti: \(\var[X + Y] = \var[X] + \var[Y]\)
+\end{itemize}
+
+\subsubsection*{Varianze da ricordare}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(X \sim \text{costante} \quad \rightarrow \quad \var[X] = 0\)
+	\item[-] \(X \sim Be(p) \quad \rightarrow \quad \var[X] = p \, (1-p)\)
+	\item[-] \(X \sim B(n,p) \quad \rightarrow \quad \var[X] = n \, p \, (1-p)\)
+	\item[-] \(X \sim Ge(p) \quad \rightarrow \quad \var[X] = \displaystyle \frac{1-p}{p^2}\)
+	\item[-] \(X \sim Po(\lambda) \quad \rightarrow \quad \var[X] = \lambda\)
+\end{itemize}
+
+\subsubsection*{Covarianza}
+Sia \(X\) una variabile aleatoria discreta, la covarianza di \(X\) è:
+\[\cov[X,Y] := E[(X-\mu_x)(Y-\mu_y)] = E[XY] - \mu_x \mu_y, \qquad \qquad \mu_x := E[X] \;\; \mu_y := E[Y]\]
+
+\subsubsection*{Proprietà della covarianza}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\cov[X,Y] = \cov[Y,X]\)
+	\item[-] \(\cov[X,X] = \var[X]\)
+	\item[-] \(\cov[X,Y] = 0\) se \(X\) e \(Y\) sono indipendenti
+\end{itemize}
+
+\subsection{Valore atteso varianza e covarianza di variabili continue}
+\subsubsection*{Valore atteso}
+Sia \(X\) una variabile aleatoria continua, il valore atteso (o media) di \(X\) è:
+\[E[X] = \int_{-\infty}^{+\infty} x \; f_X(x) \, dx\]
+
+\subsubsection*{Algebra di valori attesi}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] se \(X \leq Y\), allora \(E[X] \leq E[Y]\)
+	\item[-] combinazioni lineari: \(E[aX + b] := aE[x] + b\)
+	\item[-] combinazioni lineari: \(E[aX + bY] := aE[x] + bE[Y]\)
+	\item[-] composte di una variabile: \(\displaystyle E[g \circ X] := E[g(x)] = \int_{-\infty}^{+\infty}  g(x) f_x(x) \, dx\)
+\end{itemize}
+
+\subsubsection*{Valori attesi da ricordare}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(X \sim U([a,b]) \quad \rightarrow \quad E[X] = \displaystyle\frac{a+b}{2}\)
+	\item[-] \(X \sim Exp(\lambda) \quad \rightarrow \quad E[X] = \displaystyle\frac{1}{\lambda}\)
+	\item[-] \(Z \sim N(0,1) \quad \rightarrow \quad E[X] = 0\)
+	\item[-] \(X \sim N(\mu,\sigma^2) \quad \rightarrow \quad E[X] = \mu\)
+\end{itemize}
+
+\subsubsection*{Varianza}
+Sia \(X\) una variabile aleatoria continua, la varianza di \(X\) è:
+\[\var[X] := E[(X-E[X])^2] = \int_{-\infty}^{+\infty} (x - E[X])^2 f_X(x) \, dx\]
+\[\var[X] = E[X^2] - E[X]^2 = \int_{-\infty}^{+\infty} x^2 f_X(x) \, dx - E[X]^2\]
+Sia \(X\) una variabile aleatoria continua, la deviazione standard di \(X\) è:
+\[\sigma_x := \sqrt{\var[X]}\]
+
+\subsubsection*{Algebra della varianza}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] combinazioni lineari: \(\var[aX + b] := a^2\var[x]\)
+	\item[-] variabili indipendenti: \(\var[X + Y] = \var[X] + \var[Y]\)
+\end{itemize}
+
+\subsubsection*{Varianze da ricordare}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(X \sim U([a,b]) \quad \rightarrow \quad \var[X] = \displaystyle\frac{(b-a)^2}{12}\)
+	\item[-] \(X \sim Exp(\lambda) \quad \rightarrow \quad \var[X] = \displaystyle\frac{1}{\lambda^2}\)
+	\item[-] \(Z \sim N(0,1) \quad \rightarrow \quad \var[X] = 1\)
+	\item[-] \(X \sim N(\mu,\sigma^2) \quad \rightarrow \quad \var[X] = \sigma^2\)
+\end{itemize}
+
+\subsection{Variabili identicamente distribuite}
+\subsubsection*{Definizione}
+Due variabili si dicono identicamente distribuite se hanno la stessa funzione di distribuzione \(F_X = F_Y\) e di conseguenza
+hanno \(E[X] = E[Y]\) e \(\var[X] = \var[Y]\).
+
+\subsubsection*{Composizione di variabili indipendenti identicamente distribuite}
+Siano \(X_1, X_2, \dots X_n\) famiglia numerabile di variabili indipendenti identicamente distribuite con \(E[X_i] = \mu\) e
+\(\var[X_i] = \sigma^2\), allora si ha che:
+\[E[X_1 + X_2 + \dots + X_n] = n \mu \qquad \qquad \var[X_1 + X_2 + \dots + X_n] = n \sigma^2\]
+
+\subsubsection*{Standardizzazione di variabili indipendenti identicamente distribuite}
+\[\overline{X_1 + X_2 + \dots + X_n} = \frac{X_1 + X_2 + \dots + X_n - n \mu}{\sqrt{n \sigma^2}}\]
+
+\subsection{Teorema del limite centrale}
+\subsubsection*{Enunciato}
+Siano \(X_1, X_2, \dots X_n\) famiglia numerabile di variabili indipendenti identicamente distribuite con \(E[X_i] = \mu\) e
+\(\var[X_i] = \sigma^2\), allora si ha che:
+\[P\left(\overline{X_1 + X_2 + \dots + X_n} \leq a\right) = P\left(\frac{X_1 + X_2 + \dots + X_n - n \mu}{\sqrt{n \sigma^2}} \leq a\right) \rightarrow \Phi(a) \; \text{per} \; n \to +\infty\]
+Ovvero è possibile approssimare la somma di variabili indipendenti identicamente distribuite con una variabile normale con 
+stesso valore atteso e stessa varianza:
+\[P(X_1 + X_2 + \dots + X_n \leq a) \approx P(n\mu + \sqrt{n \sigma^2} Z \leq a) \qquad n \to +\infty \;\; Z \sim N(0,1)\]
+
+\subsubsection*{Approssimazione della binomiale con una normale}
+\[P(B(n,p) \leq a) \approx P(N(np,np(1-p)) \leq a) = P(np + \sqrt{np(1-p)} Z \leq a) \qquad n \to +\infty\]
+Come valore di \(n\) sufficientemente grande si intende \(1/n << p << 1-1/n\)
+
+\subsubsection*{Approssimazione della Poisson con una normale}
+\[P(Po(\lambda) \leq a) \approx P(N(\lambda,\lambda) \leq a) = P(\lambda + \sqrt{\lambda} Z \leq a) \qquad n \to +\infty\]
+Come valore di \(n\) sufficientemente grande si intende \(1/n << p << 1-1/n\)
+
+\newpage
+
+\subsection{Variabili congiunte continue}
+\subsubsection*{Definzione}
+Una variabile congiunta continua è una coppia di variabili aleatorie \((X,Y) : \Omega \to \Rd\) tali per cui esiste la densità
+congiunta continua \[f_{X,Y} : \Rd \to [0, +\infty[ \qquad \qquad P((X,Y) \in A) = \int_A f_{X,Y} (x,y) \; dx \, dy\]
+Si osserva che \(f_{X,Y} \geq 0\) e \(\displaystyle \int_{\R \times \R} f_{X,Y}(x,y) \; dx \, dy = 1\)
+
+\subsubsection*{Variabile congiunta uniforme su un insieme}
+Sia \(C \subset \Rd\) con area finita, la variabile uniforme su \(C\) si indica con \((X,Y) \sim U(C)\):
+\[f_{X,Y}(x,y) := \begin{cases}
+	\displaystyle \frac{1}{\text{Area}(C)} &\text{per} \; (x,y) \in C \\
+	0 &\text{per} \; (x,y) \notin C
+\end{cases} \qquad \qquad P((x,y) \in A) := \int_A \frac{1}{\text{Area}(C)} \; dx \, dy = \frac{\text{Area}(A)}{\text{Area}(C)}\]
+
+\subsubsection*{Relazione tra densità e distribuzione}
+\[f_{X,Y}(x,y) = \partial_{x,y}^2 F_{X,Y}(x,y)\]
+
+\subsubsection*{densità marginali}
+\[f_X(x) = \int_{-\infty}^{+\infty} f_{X,Y}(x,y) \; dy \qquad \qquad f_Y(y) = \int_{-\infty}^{+\infty} f_{X,Y}(x,y) \; dx\]
+
+\subsubsection*{Valore atteso}
+\[E[g(X,Y)] = \int_{\R \times \R} g(x,y) f_{X,Y}(x,y) \; dx \, dy \qquad \qquad E[XY] = \int_{\R \times \R} xy f_{X,Y}(x,y) \; dx \, dy \]
+
+\subsubsection*{Covarianza}
+\[\cov[X,Y] := E[(X-\mu_X)(Y-\mu_Y)] = E[XY] - \mu_X \mu_Y\]
+
+\subsubsection*{Varianza di una somma}
+\begin{align*}
+	\var[X_1 + X_2 + \dots + X_n] &= \sum_{i,j} \cov[X_i,X_j] \\
+	&= \var[X_1] + \var[X_2] + \dots + \var[X_n] + \sum_{i \neq j} \cov[X_i,X_j] \\
+	&= \var[X_1] + \var[X_2] + \dots + \var[X_n] + 2\sum_{i < j} \cov[X_i,X_j]
+\end{align*}
+
+\subsubsection*{Indipendenza di variabili congiunte continue}
+Siano \(X,Y\) continue indipendenti, \(\forall (x,y) \in \Rd\) si ha:
+\[f_{X,Y}(x,y) = f_X(x) \cdot f_Y(y)\]
+\[P((x,y) \in A \times B) = \int_{A \times B} f_X(x) f_Y(y) \; dx \, dy = \left(\int_A f_X(x)\; dx\right) \cdot \left(\int_B f_Y(y) \; dy\right) = P(x \in A) \cdot P(y \in B)\]
+
+\subsubsection*{Criterio dell'indipendenza}
+Quando due variabili congiunte \((X,Y)\) sono indipendenti, l'insime dove \(f_{X,Y} \neq 0\) è un prodotto:
+\[C := \{(x,y) \in \Rd : f_{X,Y} \neq 0\} = \{x \in \R : f_X(x) \neq 0\} \cdot \{y \in \R :f_Y(y) \neq 0\}\]
+Non vale il vicecersa: se l'insieme dove \(f_{X,Y} \neq 0\) è un prodotto, non è detto che \((X,Y)\) siano indipendenti.
+
+\subsubsection*{Varianza di somme indipendenti}
+Siano \((X,Y)\) indipendenti
+\[\cov[X,Y] = 0 \qquad \var[X_1 + X_2 + \dots + X_n] = \var[X_1] + \var[X_2] + \dots + \var[X_n]\]
+
+\subsection{Legge dei grandi numeri}
+\subsubsection*{Legge debole dei grandi numeri}
+Siano \(X_1, X_2, \dots\) una famiglia numerabile di variabili aleatorie indipendenti e identicamente distribuite con \(E[X_i] = \mu\), allora:
+\[\lim_{x \to +\infty} P\left(\left|\frac{X_1 + X_2 + \dots + X_n}{n} - \mu\right| < \varepsilon\right) = 1\]
+
+\subsubsection*{Legge forte dei grandi numeri}
+Siano \(X_1, X_2, \dots\) una famiglia numerabile di variabili aleatorie indipendenti e identicamente distribuitecon \(E[X_i] = \mu\), allora:
+\[P\left(\lim_{x \to +\infty} \frac{X_1 + X_2 + \dots + X_n}{n} = \mu\right) = 1\]
 
 \end{document}
