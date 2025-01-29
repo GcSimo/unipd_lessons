@@ -1,0 +1,1313 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+\usepackage{graphicx} % per immagini
+\usepackage{listings} % per codice
+\usepackage{algorithm} % per codice
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{xcolor} % per colori nel codice
+\usepackage{dirtytalk} % per le ""
+
+% definizione colori
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% definizione stile
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+
+% utilizzo stile
+\lstset{style=mystyle}
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+
+% percorso delle immagini da inserire
+\graphicspath{ {./ } }
+
+% per algoritmi in pseudocodice
+\renewcommand{\algorithmicprocedure}{\textbf{Algoritmo:}\;}
+\renewcommand{\algorithmicrequire}{\qquad\textbf{Input:} \quad\;\;\,}
+\renewcommand{\algorithmicensure}{\qquad\textbf{Output:} \;\;\;}
+%\algnewcommand\algorithmicto{\textbf{to}}
+\algnewcommand\algorithmicin{\textbf{in}}
+%\algrenewtext{For}[3] {\algorithmicfor\ #1 \gets #2 \algorithmicto\ #3 \algorithmicdo}
+\algrenewtext{ForAll}[2] {\algorithmicforall\ #1 \algorithmicin\ #2 \algorithmicdo}
+
+\algnewcommand\algorithmicto{\textbf{to}}
+\algrenewtext{For}[2]{\algorithmicfor\ #1 \algorithmicto\ #2 \algorithmicdo}
+
+\newenvironment{algo}[4]{
+	\noindent\rule{\textwidth}{0.4pt}
+	\begin{algorithmic}[1]
+		\addtocounter{ALG@line}{-1}
+		\Procedure{#1}{#2}
+		\Require #3
+		\Ensure #4
+		\Statex }{
+		\EndProcedure
+	\end{algorithmic}
+	\rule{\textwidth}{0.4pt}}
+
+\title{Appunti di Dati e algoritmi}
+\author{Giacomo Simonetto}
+\date{Primo semetre 2024-25}
+
+\begin{document}
+
+% -------------------------------------- Copertina e indice ---------------------------------------
+\maketitle
+\begin{abstract}
+	Appunti del corso di Dati e algoritmi della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+% ----------------------------------------- Introduzione ------------------------------------------
+\section{Introduzione all'algoritmica}
+\subsection{Progettazione di un algoritmo}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] specifica del problema computazionale
+	\item[-] progetto dell'algoritmo (pseudocodice)
+	\item[-] analisi dell'efficacia e efficienza dell'algoritmo (correttezza e complessità)
+	\item[-] codifica programma (linguaggio di programmazione)
+\end{itemize}
+
+%\item[-] \textbf{algoritmo}: \\ istruzioni ad alto livello generiche, non scritte in un linguaggio di programmazione
+%\item[-] \textbf{programma}: \\ algoritmo scritto in un linguaggio di programmazione che può essere eseguito da un computer
+
+\subsection{Problema computazionale}
+Un problema computazionale è composto da tre componenti:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(I\) l'insieme delle istanze (input)
+	\item[-] \(S\) l'insieme delle soluzioni (output)
+	\item[-] \(\pi \subseteq I \times S\) una relazione che associa ad ogni elemento di \(I\) un corrispettivo elemento di \(S\).
+\end{itemize}
+Se esistono più soluzioni per una generica istanza, l'algorimto ne calcola una arbitraria
+
+\subsection{Algoritmo}
+Un algoritmo è una procedura computazionale che trasforma un dato input in un output eseguendo una sequenza di passi elementari.
+Sfrutta il modello di calcolo \(RAM\) (Random Access Machine) con le seguenti caratteristiche:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] è simile al modello di Von Neumann
+	\item[-] in memoria sono contenuti i dati di input, output e dati intermedi
+	\item[-] la CPU utilizza operazioni elementari per risolvere il problema
+\end{itemize}
+Il problema che risolve l'algoritmo è un problema computazionale, ovvero trova le soluzioni abbinate ad una determinata istanza.
+
+\subsubsection*{Pseudocodice}
+Per descrivere le azioni di un algoritmo si utilizza lo pseudocodice nella seguente struttura:
+
+\begin{algo}{MyAlgoritm}{parametri}{descrizione dell'input}{descrizione dell'output}
+	\State descrizione dell'algorimo in pseudocodice
+	\State \dots
+	\State \dots
+\end{algo}
+
+\subsection{Complessità - efficienza di un algoritmo}
+\subsubsection*{Taglia di un'istanza}
+La taglia di un'istanza è l'indice di misura della dimensione dei dati di input, scelto in base all'algoritmo.
+
+\subsubsection*{Complessità temporale}
+La complessità temporare indica una stima asintotica del numero di operazioni elementari eseguite dall'algoritmo per una certa
+istanza. Suggerisce una stima del tempo di esecuzione di un algoritmo per una certa istanza ed è utilizzata per confrontare
+algoritmi diversi in base alla loro efficienza computazionale.
+
+\subsubsection*{Caratteristiche}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] la complessità si esprime in maniera generale in funzione della taglia dell'istanza
+	\item[-] è indipendendete dall'implementazione e dal linguaggio usato
+	\item[-] non richiede di conoscere il tempo esatto di esecuzione, per cui non richiede l'implementazione dell'algoritmo in
+	un certo linguaggio di programmazione, ma basta lo pseudocodice
+\end{itemize}
+
+\subsubsection*{Notazione}
+Per indicare una complessità asintotica, si utilizzano gli ordini di grandezza e le notazioni \(\Omega\), \(\Theta\), \(O\).
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(f(n) \in O(g(n)) \quad \Rightarrow \quad \exists c > 0, n_0 \geq 1 \;\; \text{t.c.} \;\; f(n) \leq c \, g(n) \quad \forall n \geq n_0\)
+	\item[-] \(f(n) \in \Omega(g(n)) \quad \Rightarrow \quad \exists c > 0, n_0 \geq 1 \;\; \text{t.c.} \;\; f(n) \geq c \, g(n) \quad \forall n \geq n_0\)
+	\item[-] \(f(n) \in \Theta(g(n)) \quad \Rightarrow \quad f(n) \in O(g(n)) \;\; \text{e} \;\; f(n) \in \Omega(g(n))\)
+	\item[-] \(O(1) \; \; \leq \; \; O(\log n) \; \; \leq \; \; O(n) \; \; \leq \; \; O(n \log n) \; \; \leq \; \; O(n^2) \; \; \leq \; \; O(n^3) \; \; \leq \; \; O(2^n) \;\; \leq \;\; \dots\)
+\end{itemize}
+
+\subsubsection*{Calcolo}
+Per trovare la complessità asintotica al caso pessimo si effettuano le seguenti analisi:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] si cerca un upper-bound attraverso l'analisi del caso pessimo (in assoluto) e lo si esprime come \(O(f(n))\)
+	\item[2.] si cerca un lower-bound attraverso l'analisi di una istanza \say{cattiva} e lo si esprime come \(\Omega(g(n))\)
+	\item[3.] se \(f(n) = g(n)\) e la complessità dell'algoritmo \(\in O(f(n))\) e \(\in \Omega(g(n))\), allora si conclude che
+	l'algoritmo ha complessità al caso pessimo \(\in \Theta(f(n))\)
+\end{itemize}
+
+\subsubsection*{Osservazioni}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] un algoritmo ha complessità ottima se è \(O(\log n)\), buona se \(O(n)\) o \(O(n \log n)\), discreta se \(O(n^2)\),
+	pessima se \(O(2^n)\) o \(O(n^n)\)
+	\item[-] alcune volte il valore \(n_0\) è per istanze molto grandi e può capitare che un algoritmo di complessità \(\Theta(n^3)\)
+	sia più efficiente di uno di complessità \(\Theta(\log n)\)
+	\item[-] alcune volte, il caso pessimo si verifica per istanze patologiche che si verificano estremamente raramente, per cui
+	si ricorre all calcolo della complessità al caso medio
+\end{itemize}
+
+\subsection{Correttezza e invariante - efficacia di un algoritmo}
+\subsubsection*{Criteri di correttezza}
+Un algoritmo è corretto se:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] termina in un numero finito di passi
+	\item[-] restituisce una soluzione valida per il problema computazionale
+\end{itemize}
+
+\subsubsection*{Invariante}
+L'invariante è una proprietà costante espressa in funzione delle variabili dell'algoritmo e descrive lo stato ottenuto in ogni
+segmento dell'algoritmo stesso. Per avere senso, deve essere funzionale alla correttezza dell'algoritmo.
+L'invariante è spesso usato per verificare la correttezza di un ciclo o di una serie di chiamate ricorsive: lo si esprime
+in funzione delle variabili del ciclo o dei parametri della chiamata ricorsiva e si verifica che esso sia soddisfatto alla
+fine di ogni iterazione o chiamata ricorsiva.
+
+\subsubsection*{Verifica della correttezza in un ciclo}
+Per verificare la correttezza di un ciclo si utilizza un processo induttivo:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] si determina l'invariante per il ciclo
+	\item[2.] si dimostra che l'invariante vale per l'iterazione -1 (ovvero prima dell'inizio del ciclo)
+	\item[3.] si verifica che se vale per una certa iterazione \(i\), allora vale per l'iterazione \(i+1\)
+	\item[4.] si verifica che l'invariante alla fine del ciclo combacia con la condizion di correttezza della soluzione
+\end{itemize}
+
+\subsection{Algoritmi ricorsivi}
+\subsubsection*{Definizione}
+Un algoritmo si dice ricorsivo se richiama se stesso su istanze di minore dimensione fino ad arrivare ad un caso base in cui la
+soluzione è immediata.
+
+\subsubsection*{Esecuzione e stack}
+Ad ogni nuova chiamata ricorsiva, viene aggiunto un nuovo record di attivazione per tale chiamata nello stack. Nell'RDA sono
+contenute tutte le variabili e i riferimenti agli oggetti memorizzati nell'heap. Alla chiusura del metodo, si elimina l'RDA
+di tale metodo e si apre quello sottostante.
+
+\subsubsection*{Esecuzione e recursion tree}
+All'esecuzione di un algoritmo ricorsivo si associa un albero della ricorsione con le seguenti caratteristiche:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] ogni nodo corrisponde ad una chiamata ricorsiva
+	\item[-] la radice corrisponde alla prima chiamata ricorsiva
+	\item[-] i figli di un nodo corrispondono alle chiamate ricorsive effettuate nell'esecuzione della chiamata associata al nodo padre
+	\item[-] le foglie corrispondo ai casi base
+\end{itemize}
+
+\subsubsection*{Differenza tra algoritmo iterativo e algoritmo ricorsivo}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] un algoritmo iterativo, per definizione, deve contenere cicli al suo interno
+	\item[-] un algoritmo ricorsivo, per definizione, deve contenere almeno una chiamata a se stesso
+	\item[-] iterativo e ricorsivo sono mutualmente esclusivi: non esiste un algoritmo ricorsivo e iterativo
+	\item[-] un algoritmo ricorsivo può avere o non avere cicli, ma un algoritmo iterativo non ha chiamate ricorsive perché altrimenti
+	sarebbe un algoritmo ricorsivo
+\end{itemize}
+
+\subsubsection*{Complessità di algoritmi ricorsivi}
+Per determinare la complessità di un algoritmo ricorsivo si può procedere in vari modi:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] contare il numero di operazioni per livello e moltiplicarlo per il numero di livelli dell'albero della ricorsione, come
+	nel caso di mergesort
+	\item[-] contare tutte le operazioni eseguite ad ogni chiamata ricorsiva e sommarne i valori
+\end{itemize}
+
+\subsubsection*{Correttezza di algoritmi ricorsivi}
+Per determinare la correttezza di un algoritmo ricorsivo si procede con una dimostrazione per induzione:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] si dimostra che l'algoritmo risolve correttamente i casi base
+	\item[2.] si verifica che se l'algoritmo è corretto per una determinata istanza, allora vale anche un'istanza di taglia superiore
+\end{itemize}
+
+\newpage
+
+
+\section{Alberi}
+\subsection{Introduzione}
+\subsubsection*{Definizione di albero}
+Un albero radicato è una collezione di nodi vuota o con le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\exists \, r\) nodo detto radice
+	\item[-] se un generico nodo \(n \neq r\), allora deve avere un unico padre
+	\item[-] da ogni nodo, risalendo di padre in padre si arriva ad \(r\)
+\end{itemize}
+
+\subsubsection*{Altre definizioni}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{antenato}: \\
+	un nodo \(x\) è antenato di \(y\) se \(x = y\) o se \(x\) è antenato del padre di \(y\)
+	\item[-] \textbf{discendente}: \\
+	un nodo \(x\) è discendente di \(y\) se \(y\) è antenato di \(x\)
+	\item[-] \textbf{nodo interno}: \\
+	un nodo \(x\) è interno se ha dei figli
+	\item[-] \textbf{nodo esterno o foglia}: \\
+	un nodo \(x\) è esterno o una foglia se non ha figli
+	\item[-] \textbf{sottoalbero con radice v}: \\
+	indicato con \(T_v\) è un albero formato dai discendenti di \(v\)
+	\item[-] \textbf{albero ordinato}: \\
+	un albero si dice ordinato se è presente un ordinamento lineare tra i figli di un nodo
+	\item[-] \textbf{albero radicato}: \\
+	un albero si dice radicato se è composto da un nodo radice \(r\) che ha come figli, altri alberi radicati nei nodi figli di \(r\)
+	\item[-] \textbf{profondità di un nodo}: \\
+	la profondità di un nodo è la distanza tra il nodo e la radice
+	\item[-] \textbf{altezza di un nodo}: \\
+	l'altezza di un nodo è la distanza tra il nodo e la foglia più distante
+	\item[-] \textbf{livello}: \\
+	il livello \(i\) di un albero è l'insieme di nodi con profondità \(i\)
+	\item[-] \textbf{altezza di un albero}: \\
+	l'altezza di un albero è la massima profondità delle foglie
+\end{itemize}
+
+\newpage
+
+\subsection{Algoritmi base: profondità e altezza di un nodo}
+\subsubsection*{Profondità di un nodo - ricorsiva}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo calcola la distanza tra il nodo \(v\) e la radice, risalendo di padre in padre
+	\item[-] La complessità dell'algoritmo è \(\Theta(n)\), più precisamente \(\Theta(d_v)\), con \(d_v\) profondità del nodo \(v\).
+\end{itemize}
+
+\begin{algo}{depth\_ric}{$v$}{$v$ nodo dell'albero $T$}{profondità di $v$}
+	\If{(T.isRoot($v$))}
+		\State return 0
+	\Else
+		\State return 1 + depth(T.parent($v$))
+	\EndIf
+\end{algo}
+
+\subsubsection*{Profondità di un nodo - iterativa}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo calcola la distanza tra il nodo \(v\) e la radice, risalendo di padre in padre
+	\item[-] La complessità dell'algoritmo è \(\Theta(n)\), più precisamente \(\Theta(d_v)\), con \(d_v\) profondità del nodo \(v\).
+\end{itemize}
+
+\begin{algo}{depth\_iter}{$v$}{$v$ nodo dell'albero $T$}{profondità di $v$}
+	\State $d \gets 0$
+	\State $u \gets v$
+	\While{(!T.isRoot($u$))}
+		\State $u \gets $ T.parent($u$)
+		\State $d \gets d+1$
+	\EndWhile
+	\State return $d$
+\end{algo}
+
+\subsubsection*{Atezza di un nodo}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo calcola prima l'altezza dei discendenti di \(v\) e prosegue verso l'alto fino a \(v\)
+	\item[-] La complessità dell'algoritmo è \(\Theta(n)\), più precisamente \(\Theta(n_v)\), con \(n_v=\) \# nodi del sottoalbero \(T_v\).
+\end{itemize}
+
+\begin{algo}{height}{$v$}{$v$ nodo dell'albero $T$}{altezza di $v$}
+	\State $h \gets 0$
+	\State $w \gets v$
+	\ForAll{$w$}{T.children($v$)}
+		\State $h \gets \max\{h, 1 + \text{height}(w)\}$
+	\EndFor
+	\State return $d$
+\end{algo}
+
+\newpage
+
+\subsection{Visite: preorder e postorder}
+\subsubsection*{Visita in preorder}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo prevede di visitare prima il nodo \(v\) e successivamente i figli
+	\item[-] La complessità dell'algoritmo è \(\Theta\left(n + \displaystyle \sum_{v \in T}t_v\right)\), con \(t_v\) costo della visita di un nodo
+\end{itemize}
+
+\begin{algo}{preorder}{$v$}{$v$ nodo dell'albero $T$}{/}
+	\State visita $v$
+	\ForAll{$w$}{T.children($v$)}
+		\State preorder($w$)
+	\EndFor
+\end{algo}
+
+\subsubsection*{Visita in postorder}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo prevede di visitare prima i figli e successivamente il nodo \(v\)
+	\item[-] La complessità dell'algoritmo è \(\Theta\left(n + \displaystyle \sum_{v \in T}t_v\right)\), con \(t_v\) costo della visita di un nodo
+\end{itemize}
+
+\begin{algo}{postorder}{$v$}{$v$ nodo dell'albero $T$}{/}
+	\ForAll{$w$}{T.children($v$)}
+		\State postorder($w$)
+	\EndFor
+	\State visita $v$
+\end{algo}
+
+\newpage
+
+\section{Alberi binari}
+\subsection{Introduzione}
+\subsubsection*{Definzione di albero binario}
+Un albero binario è un albero ordinato in cui ogni nodo ha al più die figli. Ogni nodo è etichettato come figlio sinistro o figlio
+destro, in base alla posizione di ordinamento.
+
+\subsubsection*{Altre definizioni}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{albero binario proprio}: \\
+	un albero binario si dice proprio se ogni nodo ha esattamente due figli
+	\item[-] \textbf{albero binario proprio estremo}: \\
+	un albero binario proprio si dice estremo se nessun figlio destro (o sinistro) ha discendenti, ovvero se è molto sbilanciato
+	verso sinistra (o verso destra)
+	\item[-] \textbf{albero binario proprio perfettamente bilanciato}: \\
+	un albero binario proprio si dice perfettamente bilanciato se tutte le foglie sono allo stesso livello
+	\item[-] \textbf{albero binario completo}: \\
+	un albero binario con \(i\) livelli si dice completo se tutti i livelli da 0 a \(i-1\) sono completi (contengono \(2^i\) nodi)
+	e l'ultimo livello \(i\) è popolato a partire da sinistra (approfondito nella sezione heap).
+\end{itemize}
+
+\subsubsection*{Proprietà di un albero binario proprio}
+\begin{center}
+	\begin{tabularx}{\textwidth}{l c c X}
+		Dati: &\(n\) = numero di nodi in T & \(h\) = altezza di T \(\qquad\qquad\;\;\) &\\
+		& \(m\) = numero di foglie in T & \(n-m\) = numero di nodi interni in T &
+	\end{tabularx}
+\end{center}
+Un albero binario proprio ha le seguenti proprietà:
+\begin{center}
+	\begin{tabular}{c c c}
+		\textbf{binario generico} & \textbf{binario estremo} & \textbf{binario perf. bil.} \\
+		\toprule
+		\(m = n - m + 1\quad\) & \(\quad m = n - m + 1 \quad\) & \(\quad m = n - m + 1\) \\
+		\midrule
+		\(h+1 \leq m \leq 2^h\quad\) & \(\quad h+1 = m \quad\) & \(\quad m = 2^h\) \\
+		\midrule
+		\(h \leq n-m \leq 2^h-1\quad\) & \(\quad h = n-m \quad\) & \(\quad n-m = 2^h-1\) \\
+		\midrule
+		\(2h + 1 \leq n \leq 2^{h+1}-1\quad\) & \(\quad 2h + 1 = n \quad\) & \(\quad n = 2^{h+1}-1\) \\
+		\midrule
+		\(\log_2(n + 1)-1 \leq h \leq \frac{n-1}{2}\quad\) & \(\quad h = \frac{n-1}{2} \quad\) & \(\quad h = \log_2(n + 1)-1\) \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+Dall'ultima proprietà si osserva che la miglior stima dell'altezza \(h\) di un generico albero binario è \(O(n)\) e non è sempre
+detto che sia \(O(\log n)\).
+
+\subsection{Visite: inorder}
+\subsubsection*{Visita inorder}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo prevede di visitare prima il figlio sinistro, poi il nodo stesso e infine il figlio destro.
+	\item[-] La complessità dell'algoritmo è \(\Theta\left(n + \displaystyle \sum_{v \in T}t_v\right)\), con \(t_v\) costo della visita di un nodo
+\end{itemize}
+
+\begin{algo}{inorder}{$v$}{$v$ nodo dell'albero $T$}{/}
+	\If{(T.left(\(v\)) \(\neq\) null)}
+		\State inorder(T.left(\(v\)))
+	\EndIf
+	\State visita $v$
+	\If{(T.right(\(v\)) \(\neq\) null)}
+		\State inorder(T.right(\(v\)))
+	\EndIf
+\end{algo}
+
+\subsection{Parser Tree}
+\subsubsection*{Definizione}
+Il Parse Tree \(T\) associato ad una espressioe aritmetica \(E\) (con operatori solo binari) è un albero binario proprio in cui
+i nodi foglia contengono le variabili/costanti di \(E\) e i nodi interni contengono gli operatori di \(E\), in modo tale che:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] se \(E = a\), con \(a\) costante/variabile, allora \(T\) è costituito da un'unica foglia contenente \(a\)
+	\item[-] se \(E = E_1 op E_2\), la radice \(T\) contiene l'operatore \(op\) e ha come sottoalbero sinistro \(E_1\) e come
+	sottoalbero destro \(E_2\)
+\end{itemize}
+
+\subsubsection*{Notazione infissa}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo sfrutta la visita inorder degli alberi binari.
+	\item[-] La complessità dell'algoritmo è \(\Theta\left(n\right)\), in quanto \(t_v\) costo della visita di un nodo è \(\Theta(1)\).
+\end{itemize}
+\begin{algo}{infix}{$T$, $v$, $L$}{Parse Tree $T$, \(v \in T\), lista $L$}{$E_v$ in notazione infissa nella lista $L$}
+	\If{($T$.isExternal($v$))}
+		\State $L$.addLast($v$.getElement())
+	\Else
+		\State $L$.addLast(\say{(}))
+		\State infix($T$, $T$.left($v$), $L$)
+		\State $L$.addLast($v$.getElement())
+		\State infix($T$, $T$.right($v$), $L$)
+		\State $L$.addLast(\say{)})
+	\EndIf
+\end{algo}
+
+
+\subsubsection*{Notazione postfissa}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo sfrutta la visita in postorder applicata agli alberi binari.
+	\item[-] La complessità dell'algoritmo è \(\Theta\left(n\right)\), in quanto \(t_v\) costo della visita di un nodo è \(\Theta(1)\).
+\end{itemize}
+\begin{algo}{postfix}{$T$, $v$, $L$}{Parse Tree $T$, \(v \in T\), lista $L$}{$E_v$ in notazione postfissa nella lista $L$}
+	\If{($T$.isExternal($v$))}
+		\State $L$.addLast($v$.getElement())
+	\Else
+		\State postfix($T$, $T$.left($v$), $L$)
+		\State postfix($T$, $T$.right($v$), $L$)
+		\State $L$.addLast($v$.getElement())
+	\EndIf
+\end{algo}
+
+\newpage
+
+\subsection{Implementazione in Java}
+\subsubsection*{Interfaccia Iterator}
+\begin{lstlisting}[language=Java]
+// cursore che permette di muoversi tra gli elementi di una collezione
+public interface Iterator<E> {
+	/** Returns true if the scan of the collection is not over */
+	boolean hasNext();
+	/** Returns the next element in the collection */
+	E next();
+}
+\end{lstlisting}
+
+\subsubsection*{Interfaccia Iterable}
+\begin{lstlisting}[language=Java]
+// struttura dati iterabile
+public interface Iterable<E> {
+	/** Returns an iterator of the collection */
+	Iterator<E> iterator()
+}
+\end{lstlisting}
+
+\subsubsection*{Interfaccia Tree}
+\begin{lstlisting}[language=Java]
+// Albero
+public interface Tree<E> extends Iterable {
+	/** Returns the number of positions in the tree */
+	int size();
+	/** Returns true if the tree contains no positions */
+	boolean isEmpty();
+	/** Returns the Position of the root (or null if empty)*/
+	Position<E> root();
+	/** Returns the Position of p's parent (or null if p is the root) */
+	Position<E> parent(Position<E> p);
+	/** Returns an iterable containing p's children */
+	Iterable<Position<E>> children(Position<E> p);
+	/** Returns the number of children of p */
+	int numChildren(Position<E> p);
+	/** Returns true if p is internal */
+	boolean isInternal(Position<E> p);
+	/** Returns true if p is external */
+	boolean isExternal(Position<E> p);
+	/** Returns true if p is root */
+	boolean isRoot(Position<E> p);
+	/** Returns an iterator to all element in the tree */
+	Iterator<E> iterator();
+	/** Returns an iterable containing all positions in the tree */
+	Iterable<Position<E>> positions();
+}
+\end{lstlisting}
+
+\subsubsection*{Interfaccia BinaryTree}
+\begin{lstlisting}[language=Java]
+// Albero binario
+public interface BinaryTree<E> extends Tree<E> {
+	/** Returns the Position of p's left child(or null if empty)*/
+	public Position<E> left(Position<E> p);
+	/** Returns the Position of p's right child(or null if empty)*/
+	public Position<E> right(Position<E> p);
+	/** Returns the Position of p's sibling (or null p is an only child)*/
+	public Position<E> sibling(Position<E> p);
+}
+\end{lstlisting}
+
+\newpage
+
+\section{Priority Queue}
+\subsection{Introduzione}
+\subsubsection*{Definizione}
+Una priority queue è una collezione di entry in cui le chiavi rappresentano una priorità e provengono da un insieme totalmente
+ordinato. Minore è il valore della chiave, maggiore è la priorità.
+
+\subsubsection*{Metodi e interfaccia priority queue}
+\begin{lstlisting}[language=Java]
+// Priority queue
+public interface PriorityQueue<k,v> {
+	int size();
+	boolean isEmpty();
+	/** Inserts and returns a new entry (key,value) */
+	Entry<K,V> insert(K key, V value);
+	/** Returns an entry with min key, without removing it */
+	Entry<K,V> min();
+	/** Returns and removes an entry with min key */
+	Entry<K,V> removeMin();
+}
+\end{lstlisting}
+
+\subsection{Implementazioni e relativa complessità}
+\begin{center}
+	\begin{tabular}{c | c | c | c}
+		\textbf{metodo} & \textbf{unordered list} & \textbf{ordered list} & \textbf{heap} \\
+		\toprule
+		\verb|min| & \(O(n)\) & \(O(1)\) & \(O(1)\) \\
+		\midrule
+		\verb|removeMin| & \(O(n)\) & \(O(1)\) & \(O(\log(n))\) \\
+		\midrule
+		\verb|insert| & \(O(1)\) & \(O(n)\) & \(O(\log(n))\) \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+Nell'implementazione con la \textbf{lista non ordinata}, l'inserimento impiega tempo costante, ma per l'accesso alla chiave minima
+e di conseguenza la relativa rimozione è necessario applicare un algoritmo di ricerca che impiega tempo lineare.
+
+Nell'implementazione con la \textbf{lista ordinata}, l'accesso alla chiave minima e la relativa rimozione impiegano tempo costante,
+ma per l'inserimento è necessario applicare l'algoritmo di \verb|insertionsort| che impiega tempo lineare.
+
+Nell'implementazione con lo \textbf{heap}, l'inserimento e la rimozione impiegno un tempo logaritmico, per come definiti i metodi
+di inserimento e rimozione nell'heap (up heap bubbling e down heap bubbling), mentre l'accesso alla chiave minima impiega tempo
+costante. Quest'ultima implementazione offre una migliore efficienza computazionale e anche una migliore efficienza spaziale (se
+l'heap è implementato efficientemente con un array).
+
+\newpage
+
+\section{Heap}
+\subsection{Introduzione}
+\subsubsection*{Definizione}
+Lo heap (mucchio in italiano) è un albero binario completo in cui i nodi contengono delle entry \(<k,v>\) e soddisfano una proprietà
+chiamata heap order property: siano \(<k_2,v>\) e \(<k_3,v>\) figli di \(<k_1,v>\), allora vale \(k_1 \leq \min \{k_2, k_3\}\).
+
+\subsubsection*{Proprietà}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] un albero binario completo ha altezza \(h = \lfloor \log n \rfloor\)
+	\item[-] esiste ed è unico, l'albero binario completo di \(n\) entry
+	\item[-] le chiavi lungo un cammino dalla radice alle foglie formano una sequenza non decrescente
+	\item[-] per qualsiasi figlio \(u\) di \(v\) vale \(v\).getKey() \(\leq\) \(u\).getKey()
+	\item[-] la radice contiene la entry con chiave minima
+	\item[-] se le entry sono tutte distinte, la entry con chiave massima si trova in una foglia
+\end{itemize}
+
+\subsubsection*{Level numbering e rappresentazione tramite array}
+La rappresentazione Level numbering permette di assegnare un indice a ciascun nodo dello heap secondo le seguenti regole:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] la radice ha indice 0 e si trova in \(P[0]\)
+	\item[2.] i figli di \(P[i]\) hanno indici \(2i+1\) e \(2i+2\), si trovano in \(P[2i+1]\) e \(P[2i+2]\)
+	\item[3.] il padre di \(p[i]\) ha indice \(\lfloor (i-1)/2 \rfloor\) e si trova in posizione \(P[\lfloor (i-1)/2 \rfloor]\)
+\end{itemize}
+Si osserva che i nodi di ciascun livello hanno indici crescenti da sinistra verso destra. In questo modo è possibile rappresentare
+uno heap su un array, ottenuto giustapponendo i nodi di ogni livello mantenendo le posizioni recicproche dei nodi da sinistra verso
+destra. Tale rappresentazione è space efficient perché c'è corrispondenza 1:1 tra un albero binario completo e un array.
+
+\subsubsection*{Nodo Last}
+Per praticità, il nodo più a destra dell'ultimo livello è chiamato nodo Last e nella rappresentazione tramite array e level
+numbering si trova nell'ultima cella dell'array con indice \(\lfloor n-1 \rfloor\).
+
+\newpage
+
+\subsection{Algoritmi base: getmin, insert e remove}
+\subsubsection*{Accesso alla entry con chiave minima}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo restituisce la entry contenuta nella radice dell'heap
+	\item[-] La complessità dell'algoritmo è \(O(1)\)
+\end{itemize}
+\begin{algo}{getmin}{$ $}{riferimento implicito all'heap rappresentato tramite array}{entry con chiave minima}
+	\State return P[0]
+\end{algo}
+
+\subsubsection*{Inserimento di una nuova entry}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo inserisce una nuova entry attraverso uno up-heap bubbling.
+	\item[-] La complessità dell'algoritmo è \(\Theta(\log n)\), proporzionale all'altezza dell'heap.
+\end{itemize}
+\begin{algo}{insert}{$k$, $v$}{entry da inserire e riferimento implicito all'heap $P[]$}{/}
+	\State $e \gets (k,v)$
+	\State $P[++last] \gets e$
+	\State $i \gets last$
+	\While{($i > 0$ and $P[\lfloor (i-1)/2\rfloor]$.getKey() $\geq$ $P[i]$.getKey())} \Comment{up-heap bubbling}
+		\State swap($P[i]$, $P[\lfloor (i-1)/2\rfloor]$)
+		\State $i \gets \lfloor (i-1)/2\rfloor$
+	\EndWhile
+	\State return $e$
+\end{algo}
+
+\subsubsection*{Rimozione della entry con chiave minima}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo rimuove la radice dell'heap attraverso un down-heap bubbling.
+	\item[-] La complessità dell'algoritmo è \(\Theta(\log n)\), proporzionale all'altezza dell'heap.
+\end{itemize}
+\begin{algo}{removemin}{$ $}{riferimento implicito all'heap $P[]$}{entry con chiave minima rimossa}
+	\State $minEntry \gets P[0]$
+	\State $P[0] \gets P[last--]$
+	\State $i \gets 0$
+	\State $j \gets$ indexMinChild($P$, $i$)
+	\While{($j \neq$ null and $P[i]$.getKey() $>$ $P[j]$.getKey())} \Comment{down-heap bubbling}
+		\State swap($P[i]$, $P[j]$)
+		\State $i \gets j$
+		\State $j \gets$ indexMinChild($P$, $i$)
+	\EndWhile
+	\State return $minEntry$
+\end{algo}
+
+\newpage
+
+\subsubsection*{Rimozione di una generica entry}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo rimuove una generica entry dell'heap e ripristino la heap order property con un down-heap bubbling e
+	un up-heap bubbling.
+	\item[-] La complessità dell'algoritmo è \(\Theta(\log n)\), proporzionale all'altezza dell'heap.
+\end{itemize}
+\begin{algo}{remove}{$l$}{indice della entry da rimuovere e riferimento implicito all'heap $P[]$}{entry rimossa}
+	\State $retValue \gets P[l]$
+	\State $P[l] \gets P[last--]$
+	\State $i \gets l$
+	\State $j \gets$ indexMinChild($P$, $i$)
+	\While{($j \neq$ null and $P[i]$.getKey() $>$ $P[j]$.getKey())} \Comment{down-heap bubbling}
+		\State swap($P[i]$, $P[j]$)
+		\State $i \gets j$
+		\State $j \gets$ indexMinChild($P$, $i$)
+	\EndWhile
+	\While{($i > 0$ and $P[\lfloor (i-1)/2\rfloor]$.getKey() $\geq$ $P[i]$.getKey())} \Comment{up-heap bubbling}
+		\State swap($P[i]$, $P[\lfloor (i-1)/2\rfloor]$)
+		\State $i \gets \lfloor (i-1)/2\rfloor$
+	\EndWhile
+	\State return $retValue$
+\end{algo}
+
+\vspace{30pt}
+
+\subsection{Costruzione di un heap inplace}
+\subsubsection*{Costruzione di un heap da un array, con approccio Top-Down}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo inserisce le chiavi una ad una, incrementanto \(j\) e costruisce l'heap con un up-heap bubbling per
+	ogni chiave inserita
+	\item[-] La complessità dell'algoritmo è \(\Theta(n \log n)\), ovvero la ripetizione di \(n\) volte dell'up-heap bubbling
+	con complessità \(\Theta(\log n)\)
+\end{itemize}
+\begin{algo}{makeHeap\_TopDown}{$ $}{riferimento implicito all'heap $P[]$}{entry con chiave minima rimossa}
+	\For{$j \gets 1$}{$n-1$}
+		\State $i \gets j$
+		\State // up-heap bubbling
+		\While{($i > 0$ and $P[\lfloor (i-1)/2\rfloor]$.getKey() $\geq$ $P[i]$.getKey())}
+			\State swap($P[i]$, $P[\lfloor (i-1)/2\rfloor]$)
+			\State $i \gets \lfloor (i-1)/2\rfloor$
+		\EndWhile
+	\EndFor
+\end{algo}
+
+\newpage
+
+\subsubsection*{Costruzione di un heap da un array, con approccio Bottom-Up}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo costruisce tanti sottoheap che si sviluppano dal livello \(i\) fino alla base. Ad ogni iterazione del
+	for i sottoheap si uniranno a due a due con l'inserimento della entry dal livello \(i-1\) con un down-heap bubbling.
+	\item[-] La complessità dell'algoritmo è \(\Theta(n)\), più vantaggioso rispetto al precedente approccio top-down.
+\end{itemize}
+\begin{algo}{makeHeap\_BottomUp}{$ $}{riferimento implicito all'heap $P[]$}{entry con chiave minima rimossa}
+	\For{$j \gets \lfloor (n-2)/2 \rfloor$}{0} \Comment{$P[\lfloor (n-2)/2 \rfloor]$ nodo più a dx nel penultimo livello}
+		\State $i \gets j$
+		\State $k \gets$ indexMinChild($P$,$i$)
+		\State // down-heap bubbling
+		\While{($k \neq$ null and $P[i]$.getKey() $>$ $P[k]$.getKey())}
+			\State swap($P[i]$, $P[k]$)
+			\State $i \gets k$
+			\State $k \gets$ indexMinChild($P$,$i$)
+		\EndWhile
+	\EndFor
+\end{algo}
+
+\subsection{HeapSort}
+\subsubsection*{Ordinamento di un array attraverso una priority queue implementata come heap su array}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo si sviluppa in due fasi:
+	\subitem fase1: creazione di un max-heap inplace con approcco bottom-up, con complessità \(\Theta(n)\)
+	\subitem fase2: estrazione delle chiavi inplace con leggere modifiche, con complessità \(\Theta(n \log n)\)
+	\item[-] La complessità dell'algoritmo è \(\Theta(n \log n)\),
+\end{itemize}
+\begin{algo}{heapSort}{$P$}{array $P$ con chiavi da riordinare}{array $P$ con chiavi ordinate}
+	\Comment 1. Creazione del max-heap con approccio bottom-up
+	\For{$j \gets \lfloor (n-2)/2 \rfloor$}{0}
+		\State $i \gets j$
+		\State $k \gets$ indexMaxChild($P$, $i$) \Comment NB: max-heap: uso indexMaxChild()
+		\While{($k \neq$ null AND $P[i]$.getKey() $<$ $P[k]$.getKey())} \Comment NB: max-heap: $P[i] < P[k]$
+			\State swap($P[i]$, $P[k]$)
+			\State $i \gets k$
+			\State $k \gets$ indexMaxChild($P$, $i$) \Comment NB: max-heap: uso indexMaxChild()
+		\EndWhile
+	\EndFor
+	\Comment 2. Estrazione delle entry e down-heap bubbling
+	\State $last \gets n-1$
+	\For{$j \gets 1$}{0}
+		\State swap($P[0]$, $P[last]$) \Comment sposto chiave massima in fondo
+		\State $last \gets n-j-1$ \Comment escludo la chiave massima appena spostata
+		\State $i \gets 0$ \Comment down-heap bubbling di $P[0]$
+		\State $k \gets$ indexMaxChild($P$, $i$)
+		\While{($k \neq$ null AND $P[i]$.getKey() $<$ $P[k]$.getKey())}
+			\State swap($P[i]$, $P[k]$)
+			\State $i \gets k$
+			\State $k \gets$ indexMaxChild($P$, $i$) \Comment NB: max-heap: uso indexMaxChild()
+		\EndWhile
+	\EndFor
+\end{algo}
+
+\newpage
+
+\section{Mappe}
+\subsection{Introduzione}
+\subsubsection*{Definizione}
+Una mappa è una collezione di entry con chiavi distinte da un insieme \(U\) per cui è definito l'operatore \(=\). La mappa
+implementa l'accesso, l'inserimento e la rimozione delle entry attraverso le chiavi.
+
+\subsubsection*{Metodi e interfaccia in Java}
+\begin{lstlisting}[language=Java]
+public interface Map<K,V>{
+	int size();
+	boolean isEmpty();
+	/** Returns the value of the entry (k,v) with k = key if exists, otherwise null */
+	V get (K key);
+	/** If there is an entry (k,v) with k = key then update the value of that entry and returns the old value, otherwise inserts a new entry (key, value) and returns null */
+	V put (K key, V value);
+	/** Removes the entry (k,v) with k = key and returns the value of the entry, otherwise return null*/
+	V remove (K key);
+	Iterable<K> keySet();
+	Iterable<V> values();
+	Iterable<Entry<K,V>> entrySet();
+}
+\end{lstlisting}
+
+\subsection{Implementazioni e relativa complessità}
+\begin{center}
+	\begin{tabular}{c | c | c | c | c}
+		\textbf{metodo} & \textbf{position-based list} & \textbf{array} & \textbf{tabella hash} & \textbf{MWST, (2,4)-Treee, RB-Tree} \\
+		\toprule
+		\verb|get| & \(O(n)\) & \(O(1)\) & \(O(1 + \lambda)\) & \(O(\log n)\) \\
+		\midrule
+		\verb|put| & \(O(n)\) & \(O(1)\) & \(O(1 + \lambda)\) & \(O(\log n)\) \\
+		\midrule
+		\verb|remove| & \(O(n)\) & \(O(1)\) & \(O(1 + \lambda)\) & \(O(\log n)\) \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+\subsubsection*{Implementazione con position-based list}
+L'implementazione con una position-based list è efficiente dal punto di vista spaziale, in quanto lo spazio occupato in memoria
+è proporzionale al numero di entry, ma è molto svantaggiosa dal punto di vista computazionale in quanto i metodi utilizzano la
+ricerca in una lista che impiega complessità \(O(n)\).
+
+\subsubsection*{Implementazione con array}
+Si suppone di poter creare un array con gli indici \([0, |U|-1]\) e di disporre di un mapping 1:1 tra l'insieme delle chiavi
+e l'indice dell'array. È possibile riservare una cella dell'array ad ogni possibile entry della mappa. In questo modo i vari
+metodi hanno complessità costante, ma nel caso in cui \(|U| \gg \#\) entry, la struttura diventa molto svantaggiosa dal punto
+di vista della memoria occupata.
+
+\subsubsection*{Implementazione con tabella hash}
+Simile all'implementazione precedente, ma utilizzando le hash table e le funzioni hash è possibile ridurre notevolmente la memoria
+occupata a discapito di una lievemente peggiore complessità computazionale. La complessità dipende dal load factor \(\lambda\)
+o indice di riempimento medio della tabella hash. Il load factor \(\lambda\) rappresenta un trade-off tra lo spazio occupato in
+memoria e la complessità computazionale, per \(\lambda\) grandi si avrà migliore complessità spaziale e peggiore complessità
+computazionale, vicecersa per \(\lambda\) piccoli si avrà il contrario. In genere si sceglie \(\lambda < 0.9\) e se
+\(\lambda \in O(1)\), la complessità finale è \(O(1)\). 
+
+\subsubsection*{Implementazione con alberi binari di ricerca}
+Supponendo che le chiavi provengano da un insieme totalmente ordinato, è possibile implementare la mappa attraverso particolari
+alberi binari di ricerca (2,4-Tree o Red-Black Tree) in cui la ricerca e i tre metodi hanno complessità \(O(\log n)\).
+
+\newpage
+
+\section{Hash Table}
+\subsection{Introduzione}
+\subsubsection*{Definizione}
+Una tabella hash è una struttura che possiede i seguenti elementi:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[1.] una funzione di hash \(h : \{\text{chiavi}\} \to [0,N-1]\)
+	\item[2.] un bucket array \(A\) con capacità \(N\), in cui ogni bucket \(A[i]\) sono memorizzate tutte le entry \(<k,v>\) per
+	cui \(h(k) = i\), con \(0 \leq i < N\)
+	\item[3.] un metodo di risoluzione delle collisioni (chiavi distinte associate allo stesso bucket)
+\end{itemize}
+
+\subsubsection*{Funzione di hash}
+Una buona funione di Hash deve essere il più possibile un processo random:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(P[h(k) = i] = 1/N\), ovvero la distribuzione delle chiavi dei bucket deve tendere all'uniforme
+	\item[-] \(P[h(k) = i \; | \;  h(k') = j] = P[h(k) = i]\), ovvero gli assegnamenti devono essere indipendenti tra loro
+\end{itemize}
+Esempi di funzioni Hash per tipi built-in di Java:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \verb|byte|, \verb|short|, \verb|char|, \verb|int|: \(k \mapsto (\text{int})k\)
+	\item[-] \verb|float| (32 bit): \(k \mapsto \text{Float.floatToIntBits}(k)\)
+	\item[-] \verb|long| (64 bit): \(k \mapsto (\text{int})(k \gg 32 + (\text{int})k)\)
+	\item[-] \verb|double| (64 bits): \(k \mapsto ((\text{int})(k \gg 32 + (\text{int})k)) \circ (\text{Double.doubleToIntBits}(k))\)
+	\item[-] \verb|string|: due possibilità:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] Polinomial hash code: \(h(S) = \sum_{i=0}^{k-1} s_i \cdot a^{k-i-1}\) con \(a = 31, 33, 37, 39, 41\), Java usa \(a=31\)
+		\item[-] Cyclic Shift: somma carattere per carattere e dopo ogni somma si esegue una rotazione a sinistra di 5 posizioni
+		(più facile implementazione rispetto al calcolo delle potenze di \(a\))
+	\end{itemize}
+\end{itemize}
+
+\subsubsection*{Funzione di compressione}
+Per convertire un generico numero \(\in \mathbb{N}\) generato dalla funzione di hash in un intero valido per accedere alla sequenza,
+si utilizzano due funzioni di compressione:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{Division Method}: \(i \mapsto i \mod N\) \\
+	è bene scegliere \(N\) primo e distante da potenze di \(2\): se \(N = 2^p\) è come considerare solo i \(p\) bit meno
+	significativi, se \(N = 10^p\) è come considerare solo le \(p\) cifre meno significative in base 10.
+	\item[-] \textbf{Multiply-Add-Divide MAD}: \(i \mapsto [(ai+b) \mod p] \mod N\) \\
+	con \(p\) primo, \(p > N\), \(a,b \in [0,p-1]\) scelti a caso, \(a > 0\), più costoso ma con migliore distribuzione
+\end{itemize}
+
+\subsubsection*{Risoluzione delle collisioni}
+Per la risoluzione delle collisioni ricorre a due metodi:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{Separate Chaining}: ogni bucket è visto come una \(Map\) più piccola implementata come lista
+	\item[-] \textbf{Open Adressing}: consiste nel salvare le entry direttamente nelle celle del bucket array, senza far ricorso
+	a strutture aggiuntive, ma si complica la loro gestione; non affrontato a lezione
+\end{itemize}
+
+\newpage
+
+\subsection{Algoritmi base: get, put, remove}
+\subsubsection*{Accesso ad un elemento - get}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo si basa sulla ricerca della chiave nei bucket con funzione di hash e sulla ricerca nella lista concatenata
+	associata al bucket in questione.
+	\item[-] La complessità dell'algoritmo al caso medio è \(\Theta(1+\lambda)\).
+\end{itemize}
+\begin{algo}{get}{$k$}{chiave $k$ dell'elemento cercato e riferimento implicito al bucket array $A$}{valore della entry con chiave $k$}
+	\If{($\exists$ entry $(k,x) \in A[h(k)]$))}
+		\State return $x$
+	\Else
+		\State return null
+	\EndIf
+\end{algo}
+
+\subsubsection*{Inserimento di un elemento - put}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo si basa sulla ricerca della chiave nei bucket con funzione di hash e sulla ricerca nella lista concatenata
+	associata al bucket in questione.
+	\item[-] La complessità dell'algoritmo al caso medio è \(\Theta(1+\lambda)\).
+\end{itemize}
+\begin{algo}{put}{$k$, $v$}{entry $(k,v)$ da inserire e riferimento implicito al bucket array $A$}{vecchio valore della entry $(k,v)$ se presente}
+	\If{($\exists$ entry $(k,x) \in A[h(k)]$))}
+		\State sostituisci $x$ con $v$
+		\State return $x$
+	\Else
+		\State inserisci $(k,v)$ in coda al bucket $A[h(k)]$
+		\State incrementa di 1 la $size$ della hashTable
+		\State return null
+	\EndIf
+\end{algo}
+
+\subsubsection*{Rimozione di un elemento - remove}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo si basa sulla ricerca della chiave nei bucket con funzione di hash e sulla ricerca nella lista concatenata
+	associata al bucket in questione.
+	\item[-] La complessità dell'algoritmo al caso medio è \(\Theta(1+\lambda)\).
+\end{itemize}
+\begin{algo}{get}{$k$}{chiave $k$ dell'elemento cercato e riferimento implicito al bucket array $A$}{valore della entry con chiave $k$}
+	\If{($\exists$ entry $(k,x) \in A[h(k)]$))}
+		\State rimuovi $(k,x)$ da \(A[h(k)]\)
+		\State decrementa di 1 la $size$ della hashTable
+		\State return $x$
+	\Else
+		\State return null
+	\EndIf
+\end{algo}
+
+\subsection{Load Factor e complessità}
+\subsubsection*{Load Factor}
+Per una tabella hash di capacità \(N\), con \(n\) entry memorizzate, il load factor è \(\lambda := \displaystyle\frac{n}{N}\). \\ 
+Rappresenta la lunghezza media delle liste nei bucket.
+
+\subsubsection*{Complessità al caso pessimo}
+Si osserva che per una tabella hash di capacità \(N\), con \(n\) entry memorizzate, la complessità dei tre metodi al caso pessimo
+è \(\Theta(n)\). Se tutte le entry fossero contenute nello stesso bucket la ricerca (prevista da ogni metodo) di una chiave in una
+lista è \(\Theta(n)\). Il risultato di \(n\) inserimenti nella tabella diventerà \(\Theta(n^2)\).
+
+\subsubsection*{Complessità al caso medio}
+Al caso medio, il costo di un inserimento si ottene considerando il costo della ricerca della chiave \(k\) in nella lista \(i\)
+contenente \(n_i\) entry, ovvero \(O(n_i + 1)\). Si ha, quindi:
+\[O\left(\frac{1}{N} \sum_{i=0}^{N-1} (n_i + 1)\right) = O\left(\frac{1}{N} \sum_{i=0}^{N-1} n_i + \frac{1}{N} \sum_{i=0}^{N-1} 1\right) = O(\lambda + 1)\]
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] se \(\lambda \in O(1)\), allora la complessità finale sarà \(\Theta(1)\)
+	\item[-] in generale si mantiene \(\lambda < 0.9\), in Java \(\lambda \leq 0.75\)
+	\item[-] il load factor \(\lambda\) rappresenta un trade-off tra lo spazio occupato in memoria e la complessità computazionale,
+	per \(\lambda\) grandi si avrà migliore complessità spaziale e peggiore complessità computazionale, vicecersa per \(\lambda\)
+	piccoli si avrà migliore complessità computazionale, ma peggiore complessità spaziale.
+\end{itemize}
+
+\subsection{Rehashing}
+\subsubsection*{Funzionamento}
+Con il popolamento della hashTable, il load factor cresce e si rischia di superare la soglia impostata. Per mantenere un load
+factor accettabile, è necessario eseguire un ridimensionamento del bucket array e di conseguenza è necessario eseguire un rehashing
+delle entry. Per ottenere un buon rehash è bene scegliere la nuova dimensione \(N' > 2N\) con \(N'\) numero primo.
+
+\subsubsection*{Complessità}
+Siccome so già che le chiavi in una hash table sono distinte, quando le inserisco nel nuovo bucket array ridimensionato non ho
+bisogno di eseguire la ricerca per verificare se esiste già una entry con la stessa chiave. Questo bypass mi permette di eseguire
+gli \(n\) inserimenti individualmente in tempo costante e complessivamente il rehash ha una complessità di \(\Theta(n)\).
+
+Il rehash viene eseguito solo dopo \(n\) inserimenti con load factor ottimale che possiedono un costo aggregato di \(\Theta(n \lambda)
+= \Theta(n)\). Il costo del rehash (\(\Theta(n)\)) viene, ammortizzato da quello aggregato dei precedenti \(n\) inserimenti.
+
+\newpage
+
+\section{Alberi binari di ricerca}
+\subsection{Alberi binari di ricerca in generale}
+\subsubsection*{Definizione}
+Un albero binario di ricerca è un albero binario in cui i nodi interni memorizzano entry con chiavi provenienti da un universo
+ordinato e per ogni nodo \(v\) con chiave \(k\), le chiavi di \(T\).left(\(v\)) sono \(< k\), mentre le chiavi di
+\(T\).right(\(v\)) sono \(> k\). Le foglie sono sentinelle e non contengono entry.
+
+\subsubsection*{Algoritmo di ricerca}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo si basa sull'ordinamento reciproco dei nodi all'interno dell'albero ed esegue una discesa dalla radice
+	fino al nodo che contiene la entry cercata o alla foglia dove inserirla.
+	\item[-] La complessità dell'algoritmo è \(\Theta(h)\), che può diventare \(\Theta(n)\) se l'albero è molto sbilanciato.
+\end{itemize}
+\begin{algo}{TreeSearch}{$k$, $v$}{chiave $k$ della entry cercata, nodo $v$ da cui cercare e riferimento implicito all'ABR $T$}{nodo in $T_v$ dove è presente la entry con chiave $k$ o dove va inserita}
+	\If{($T$.isExternal($v$) OR $v$.getElement().getKey() = $k$)}
+		\State return $v$
+	\EndIf
+	\If{($k < v$.getElement().getKey())}
+		\State return TreeSearch($k$,$T$.left($v$))
+	\Else
+		\State return TreeSearch($k$,$T$.right($v$))
+	\EndIf
+\end{algo}
+
+\subsubsection*{Limiti degli alberi binari di ricerca in generale}
+Il problema degli alberi binari di ricerca è che la complessità dei vari metodi varia tra \(\Theta(\log n)\) se l'albero è
+perfettamente bilanciato e \(\Theta(n)\) se l'albero è fortemente sbilanciato. In quest'ultimo caso l'ABR non migliora le
+prestazioni di una comune lista concatena. Le possibili soluzioni sono:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] ribilanciare l'albero quando lo sbilanciamento supera una soglia prefissata (AVL o Red-Black Tree)
+	\item[-] rendere i nodi più capienti per assorbire meglio gli effetti di inserimento e rimozione (MW Search Tree o (2,4)-Tree)
+\end{itemize}
+
+\subsubsection*{Algortimo di accesso - get}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo si basa sulla ricerca vista sopra.
+	\item[-] La complessità dell'algoritmo è \(\Theta(h)\), che può diventare \(\Theta(n)\) se l'albero è molto sbilanciato.
+\end{itemize}
+\begin{algo}{get}{$k$}{chiave $k$ della entry cercata e riferimento implicito all'ABR $T$}{valore della entry con chiave $k$}
+	\State $w \gets$ TreeSearch($k$, $T$.root())
+	\If{($T$.isInternal($w$))}
+		\State return $w$.getElement().getValue()
+	\Else
+		\State return null
+	\EndIf
+\end{algo}
+
+\subsubsection*{Algortimo di inserimento - insert}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo si basa sulla ricerca vista sopra.
+	\item[-] La complessità dell'algoritmo è \(\Theta(h)\), che può diventare \(\Theta(n)\) se l'albero è molto sbilanciato.
+\end{itemize}
+\begin{algo}{put}{$k$, $v$}{entry $(k,v)$ da inserire e riferimento implicito all'ABR $T$}{vecchio valore della entry $(k,v)$ se presente}
+	\State $w \gets$ TreeSearch($k$, $T$.root())
+	\If{($T$.isInternal($w$))}
+		\State $x \gets w$.getElement().getKey()
+		\State sostituisci $v$ con $x$ nella entry $w$.getElement()
+		\State return $x$
+	\Else
+		\State expandExternal($w$,$(k,v)$)
+		\State incrementa di 1 il numero di entry di $T$
+		\State return null
+	\EndIf
+\end{algo}
+
+\subsubsection*{Algortimo di rimozione - remove}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo si sviluppa in due casi:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[1.] se il nodo da rimuovere ha una foglia come figlio, faccio salire l'altro figlio
+		\item[2.] se il nodo da rimuovere non ha foglie come figli, sostituisco il nodo da rimuovere \(w\) con il precedente nella
+		visita inorder \(y\) (che avrà una foglia come figlio destro) e sposto il sottoalbero sinistro di \(y\) al posto di \(y\)
+	\end{itemize}
+	\item[-] La complessità dell'algoritmo è \(\Theta(h)\), ottenuta dalla complessità aggregata di TreeSearch (\(\Theta(h)\)),
+	del caso 1 (\(\Theta(1)\)) e del caso 2 (\(\Theta(h)\)), più altre operazioni (\(\Theta(1)\)).
+\end{itemize}
+\begin{algo}{remove}{$k$}{chiave $k$ della entry da rimuovere e riferimento implicito all'ABR $T$}{valore della entry rimossa}
+	\State $w \gets$ TreeSearch($k$, $T$.root())
+	\If{($T$.isInternal($w$))}
+		\State $avlue \gets w$.getElement().getValue()
+		\State decrementa di 1 il numero di entry di $T$
+		\State \Comment Caso 1: $w$ interno con almento un figlio foglia
+		\If{($T$.isExternal($T$.left($w$)) OR $T$.isExternal($T$.right($w$)))}
+			\State $u_L \gets T$.left($w$) $\;\; - \;\;$ $u_R \gets T$.right($w$)
+			\If{$T$.isExternal($u_L$)} \Comment Caso 1.1: la foglia è il figlo sinistro
+				\State cancella $w$ e $u_L$
+				\State fai salire $u_R$ al posto di $w$
+			\Else \Comment Caso 1.2: la foglia è il figlo destro
+				\State cancella $w$ e $u_R$
+				\State fai salire $u_L$ al posto di $w$
+			\EndIf
+		\Else \Comment Caso 2: $w$ interno con due figli
+			\State $y \gets$ nodo con chiave massima del sottoalbero di sinistra
+			\State sposta il figlio sinistro di $y$ al posto di $y$
+			\State sostituisci il nodo $w$ da rimuovere con il nodo $y$
+		\EndIf
+		\State return $value$
+	\Else
+		\State return null
+	\EndIf
+\end{algo}
+
+\newpage
+
+\subsection{Multi-Way Search Tree - MWST}
+\subsubsection*{Definzinione}
+Un  Multi-Way Search Tree è un albero ordinato tale che ogni nodo interno ha \(d \geq\) 2 figli (\(v_1, v_2, \dots v_d\)) detto
+\(d-node\) che soddisfa le seguenti caratteristiche:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] memorizza \(d-1\) entry \((k_1,x_1), (k_2,x_2), \dots (k_{d-1}, x_{d-1})\) con \(k_1 < k_2 < \dots < k_{d-1}\)
+	\item[-] la chiave di ogni entry \(e \in T_{v_i}\) soddisfa \(k_{i-1} < e.\text{getKey}() < k_{i+1}\), supponendo \(k_0 = 0\), \(k_d = +\infty\)
+\end{itemize}
+
+\subsubsection*{Proprietà}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] per ogni nodo \(v\) con ad esempio 3 entry \((k_1, x_1), (k_2, x_2), (k_3, x_3)\) e 4 figli \(v_1, v_2, v_3, v_4\),
+	le chiavi sono ordinate da sinistra verso destra nel seguente modo:
+	\subitem \(0 < \{\text{chiavi} \in T_{v_1}\} < k_1 < \{\text{chiavi} \in T_{v_2}\} < k_2 < \{\text{chiavi} \in T_{v_3}\} < k_3 < \{\text{chiavi} \in T_{v_4}\} < +\infty\)
+	\item[-] un MWST con \(n\) entry ha \(n+1\) foglie
+	\item[-] se tutti i nodi fossero dei \(d-\)node, allora l'albero viene detto \(d\)-ario, con:
+	\subitem \# nodi interni = \(x\), \(\qquad\) \# entry = \((d-1)x\), \(\qquad\) \# foglie = \((d-1)x + 1\)
+\end{itemize}
+
+\subsubsection*{Algoritmo di ricerca}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo si basa sull'ordinamento reciproco dei nodi all'interno dell'albero ed esegue una discesa dalla radice
+	fino al nodo che contiene la entry cercata o alla foglia dove inserirla.
+	\item[-] La complessità dell'algoritmo è \(\Theta(h \cdot d_{max})\), con \(d_{max} = \) massimo valore di \(d\) in \(T_v\)  
+\end{itemize}
+\begin{algo}{MWTreeSearch}{$k$, $v$}{chiave $k$ della entry cercata, nodo $v$ da cui cercare e riferimento implicito al MWST $T$}{nodo in $T_v$ dove è presente la entry con chiave $k$ o dove va inserita}
+	\If{($T$.isExternal($v$))}
+		\State return $v$
+	\EndIf
+	\State trova $i$ tale che $k_{i-1} < k \leq k_i$ con $k_0 = 0, k_d = +\infty$
+	\If{($k = k_i$)}
+		\State return v
+	\Else
+		\State return MWTreeSearch($k$,$v_i$)
+	\EndIf
+\end{algo}
+
+\subsubsection*{Algortimo di accesso - get}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo si basa sulla ricerca vista sopra.
+	\item[-] La complessità dell'algoritmo è \(\Theta(h \cdot d_{max})\).
+\end{itemize}
+\begin{algo}{get}{$k$}{chiave $k$ della entry cercata e riferimento implicito al MWST $T$}{valore della entry con chiave $k$}
+	\State $w \gets$ MWTreeSearch($k$, $T$.root())
+	\If{($T$.isInternal($w$))}
+		\State trova $e \in w$ tale che $e$.getKey() = $k$
+		\State return $e$.getValue()
+	\Else
+		\State return null
+	\EndIf
+\end{algo}
+
+\newpage
+
+\subsection{(2,4)-Tree}
+\subsubsection*{Definzinione}
+Un (2,4)-Tree è un MWS-Tree tale che:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] ogni nodo interno è un \(d\)-node con \(2 \leq d \leq 4\) con \(d\) figli e \(d-1\) entry
+	\item[-] tutte le foglie hanno la stessa profondità
+\end{itemize}
+
+\subsubsection*{Proprietà}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] l'altezza di un (2,4)-Tree con \(n>0\) entry è \(\Theta(\log n)\)
+	\item[-] la complessità dei metodi di ricerca e di accesso è \(\Theta(\log n)\)
+\end{itemize}
+
+\subsubsection*{Algoritmo di inserimento - put}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo si basa sulla ricerca vista sopra e sul fatto che un nodo più contenete più entry
+	\item[-] La complessità dell'algoritmo è \(\Theta(\log n)\) data dalla MWTreeSearch (\(\Theta(\log n)\)) e dallo split (\(\Theta(\log n)\))
+\end{itemize}
+\begin{algo}{put}{$k$, $x$}{entry $(k,x)$ da inserire e riferimento implicito al (2,4)-Tree $T$}{valore della entry con chiave $k$}
+	\State $w \gets$ MWTreeSearch($k$, $T$.root())
+	\If{($T$.isInternal($w$))} \Comment Caso 1: se esiste già una entry con chiave $k$
+		\State $e \gets $ entry in $w$ con $e$.getKey() = $k$
+		\State $y \gets e$.getValue()
+		\State sostituisci $x$ con $y$ in $e$.value()
+		\State return $y$
+	\Else \Comment Caso 2: bisogna inserire una nuova entry
+		\State $e \gets (k,x)$
+		\If{($T$.isRoot($w$))} \Comment Caso 2.1: l'albero è vuoto $\rightarrow$ creo radice e due figli
+			\State expandExternal($w$,$e$)
+		\Else \Comment Caso 2.2: lo inserisco nel padre
+			\State $u \gets T$.parent($w$)
+			\State inserisci $e$ in $u$ aggiungendo una foglia $w'$
+			\If{$u$ è un 5-node} \Comment se c'è overflow, invoco split
+				\State split($u$)
+			\EndIf	
+		\EndIf
+		\State incrementa di 1 il numero delle entry in $T$
+		\State return null
+	\EndIf
+\end{algo}
+
+\newpage
+
+\subsubsection*{Algoritmo di split}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo propaga l'overflow verso l'alto e se serve aumenta l'altezza dell'albero:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[1.] se ho la radice in overflow, spezzo la radice in due nodi: \((e1, e_2, e_3, e_4) \rightarrow (e_1,e_2), (e_4)\)
+		e creo una nuova radice con la entry \say{centrale} \((e_3)\) e con i due nodi \((e_1,e_2), (e_4)\) come figli
+		\item[2.] altrimenti spezzo il nodo in due \((e1, e_2, e_3, e_4) \rightarrow (e_1,e_2), (e_4)\) e inserisco la entry
+		\say{centrale} \((e_3)\) nel padre; se il padre è in overflow, invoco lo split sul padre
+	\end{itemize}
+	\item[-] La complessità dell'algoritmo è \(\Theta(\log n)\) in quanto ogni invocazione ha costo \(O(1)\) e \# incocazioni
+	è proporzionale all'altezza dell'albero \(\Theta(\log n)\)
+\end{itemize}
+\begin{algo}{split}{$u$}{nodo in overflow e riferimento implicito al (2,4)-Tree $T$}{albero senza nodi in overflow}
+	\State sia $u = (e1, e_2, e_3, e_4)$ con figli $u_1, u_2, u_3, u_4, u_5$
+	\State creo due nodi $u' = (e_1, e_2)$ con figli $u_1, u_2, u_3$ e $u'' = (e_4)$ con figli $u_4, u_5$
+	\If{($T$.isRoot($u$))} \Comment se ho la radice in overflow
+		\State crea una nuova radice contenente $e_3$ e con figli $u'$ e $u''$ e cancella $u$
+	\Else \Comment se ho un generico nodo in overflow
+		\State $v \gets T$.parent($u$)
+		\State inserisci $e_3$ in $v$ con figli $u'$ e $u''$ e cancella $u$
+		\If{($v$ è un 5-node)} \Comment se il padre è in overflow
+			\State split($u$)
+		\EndIf
+	\EndIf
+\end{algo}
+
+\subsubsection*{Algortimo di rimozione - remove}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo si basa sulla ricerca vista sopra e sul fatto che un nodo più contenete più entry
+	\item[-] La complessità dell'algoritmo è \(\Theta(\log n)\) data dalla MWTreeSearch (\(\Theta(\log n)\)) e dal delete (\(\Theta(\log n)\))
+\end{itemize}
+\begin{algo}{remove}{$k$}{chiave $k$ della entry da rimuovere e riferimento implicito al (2,4)-Tree $T$}{valore della entry rimossa}
+	\State $w \gets$ MWTreeSearch($k$, $T$.root())
+	\If{($T$.isInternal($w$))} \Comment Caso 1: se esiste la entry con chiave $k$
+		\State $e \gets $ entry in $w$ con $e$.getKey() = $k$
+		\State $y \gets e$.getValue()
+		\If{(height($w$) = 1)} \Comment Caso 1.1: se la entry si trova alla base (non ha nodi figli)
+			\State delete($e$, $w$)
+		\Else \Comment Caso 1.2: se la entry ha nodi figli
+			\State $v \gets$ figlio di $w$ a sx di $e$
+			\State $e' \gets$ entry con chiave massima in $T_v$
+			\State $z \gets$ nodo contenente $e'$
+			\State copia $e'$ al posto di $e$ in $w$ \Comment sostituisco il nodo da eliminare
+			\State delete($e'$,$z$) \Comment elimino il sostituito dalla sua posizione originale
+		\EndIf
+		\State decrementa di 1 il numero delle entry in $T$
+		\State return $y$
+	\Else \Comment Caso 2: se la entry non esiste
+		\State return null
+	\EndIf
+\end{algo}
+
+\newpage
+
+\subsubsection*{Algoritmo di delete}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo propaga l'underflow verso l'alto e se serve diminuisce l'altezza dell'albero:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[1.] se ho la radice in underflow: imposto come nuova radice il nodo non foglia
+		\item[2.] se il nodo in underflow ha un fratello con \(d = 3,4\): vado in prestito di una entry dal fratello ed eseguo
+		una rotazione delle entry fratello \(\rightarrow\) padre \(\rightarrow\) nodo in underflow
+		\item[3.] se il nodo in underflow ha un fratello con \(d = 2\): vado in prestito dal padre e sposto la entry che lega i
+		due fratelli dal padre al fratello,	aggiungo il sottoalbero del nodo in underflow al fratello e richiamo ricorsivamente
+		delete sul padre per la entry spostata
+	\end{itemize}
+	\item[-] La complessità dell'algoritmo è \(\Theta(\log n)\) in quanto ogni invocazione ha costo \(O(1)\) e \# incocazioni
+	è proporzionale all'altezza dell'albero \(\Theta(\log n)\)
+\end{itemize}
+\begin{algo}{delete}{$u$, $e$}{nodo $u$, entry $e \in u$ da rimuovere e riferimento implicito al (2,4)-Tree $T$}{albero senza nodi in underflow}
+	\State rimuove $e$ da $u$ e figlio vuoto o foglia discriminata da $e$
+	\State applico i casi visti sopra
+\end{algo}
+
+\vspace{4em}
+
+\subsection{Red-Black Tree}
+\subsubsection*{Definzinione}
+Un Red-Black Tree (RB-Tree) è un albero binario di ricerca i cui nodi hanno un colore rosso o nero e in cui valgono le seguenti
+proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textit{Root Property}: la radice è nera
+	\item[-] \textit{External Property}: le foglie sono nere
+	\item[-] \textit{Red Property}: i figli di un nodo rosso sono necessario
+	\item[-] \textit{Depth Property}: tutte le foglie hanno la stessa Black Depth
+\end{itemize}
+
+\subsubsection*{Correlazione tra (2,4)-Tree e Red-Black Tree}
+Si osseerva che è possibile trasformare un (2,4)-Tree in un Red-Black Tree e viceversa:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] se ho un solo nodo nero e due foglie \(\rightarrow\) 2-nodo con una entry e due foglie
+	\item[-] se ho un nodo nero con un figlio rosso e tre foglie totali \(\rightarrow\) 3-nodo con due entry e 3 foglie
+	\item[-] se ho un nodo nero con due figli rossi e quattro foglie totali \(\rightarrow\) 4-nodo con tre entry e 4 foglie
+\end{itemize}
+
+\newpage
+
+\section{Multimappe}
+\subsection{Introduzione}
+\subsubsection*{Definizione}
+Una multimappa è una mappa che elimina il vincolo di unicità delle chiavi
+
+\subsubsection*{Metodi e interfaccia in Java}
+\begin{lstlisting}[language=Java]
+public interface Map<K,V>{
+	int size();
+	boolean isEmpty();
+	/** Returns a collection of all the values of the entrys (k,*) with k = key */
+	Iterable<V> get (K key);
+	/** Inserts a new entry (key, value) */
+	void put (K key, V value);
+	/** Removes the entry (k,v) with k = key and returns true if an entry is removed, otherwise false */
+	boolean remove (K key, V value);
+	Iterable<K> keySet();
+	Iterable<V> values();
+	Iterable<Entry<K,V>> entrySet();
+}
+\end{lstlisting}
+
+\subsubsection*{Indice primario e secondario}
+Nei database, l'accesso ai dati è reso efficiente attraverso l'accesso ad un indice primario realizzato tramite una mappa e
+in parallelo attraverso un indice secondario realizzato tramite una multimappa.
+
+\subsection{Implementazione e relativa complessità}
+\subsubsection*{Implementazione}
+È possibile implementare una multimappa tramite una mappa in cui le entry sono coppie \((k, L_k)\) con \(k\) chiave e \(L_k\) una
+lista che memorizza i valori associati alla chiave. Nel caso in cui si vuole inserire più entry uguali (stessa chiave e valore),
+si può decidere se bloccare l'inserimento della seconda o memorizzarle entrambe. In quest'ultimo caso, al momento della rimozione
+si può decidee se rimuoverne solo una o tutte le entry uguali.
+
+\subsubsection*{Complessità}
+Per migliore praticità si definisce \(n =\) \# chiavi distinte e \(s = \max_k |L_k|\) massima lunghezza delle liste associate
+alle chiavi. Di seguito i metodi e le relative complessità:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] get(k) ha complessità \(\Theta(\log n)\) (come quella della mappa, utlizzando la nuova definizione di \(n\))
+	\item[-] put(k,v) ha complessità \(\Theta(\log n)\) (come quella della mappa, utlizzando la nuova definizione di \(n\))
+	\item[-] remove(k,v) ha complessità \(\Theta(\log n + s)\)
+\end{itemize}
+
+\end{document}
