@@ -1778,4 +1778,95 @@ In funzione del valore di \(m\) si potrà scegliere l'una o l'altra implementazi
 Nota: usando un Fibonacci Heap è possibile implementare una priority queue e avere come complessità complessiva di ShortestPaths
 \(\Theta(m + n \log n)\)
 
+\newpage
+
+\subsection{Grafi diretti}
+\subsubsection*{Definizioni}
+Un grafo diretto è un grafo in cui ogni arco in \(E\) è costituito da una coppia orientata di vertici.
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{archi uscenti} da \(v\) sono gli archi della forma \((v,u)\)
+	\item[-] \textbf{archi entranti} in \(v\) sono gli archi della forma \((u,v)\)
+	\item[-] \textbf{grado uscente} di \(v\) outdegree(\(v\)) è la somma degli archi uscenti da \(v\)
+	\item[-] \textbf{grado entrante} di \(v\) indegree(\(v\)) è la somma degli archi entranti in \(v\)
+	\item[-] \(\displaystyle \sum_{v \in V} \text{outdegree}(v) = \sum_{v \in V} \text{indegree}(v) = |E|\)
+	\item[-] cammino, ciclo, distanza sono analoghi ai grafi non diretti
+	\item[-] \textbf{reachable(\(v\))} è l'insieme di tutti i vertici raggiungibili da \(v\) con un cammino diretto
+	\item[-] \textbf{fortemente connesso} se per ogni coppia ordinata \((u,v)\) di vertici, esiste un cammino da \(u\) a \(v\)
+	\item[-] \textbf{debolmente connesso} se esiste una coppia ordinata \((u,v)\) di vertici, per cui non esiste un cammino da \(u\) a \(v\)
+\end{itemize}
+
+\subsubsection*{Rappresentazione e implementazioni}
+Per rappresentare gli archi uscenti ed entranti attraverso le liste di adiacenza, si può salvare nelle liste di adiacenza solo
+gli archi uscenti da ogni vertice. Inoltre incidentEdges(\(v\)) restituisce una lista solo agli archi uscenti da \(v\).
+
+\subsubsection*{BFS su grafi diretti}
+Simile a quella per grafi non diretti, soltanto che gli archi vengono etichettati \verb|DISCOVERY EDGE| o \verb|ALTRO|. La
+complessità non viene alterata.
+
+\subsubsection*{DFS su grafi diretti}
+Simile a quella per grafi non diretti, solo che un arco \((u,v)\) non \verb|DISCOVERY EDGE| può essere etichettato:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \verb|BACK EDGE| se \(v\) è antenato di \(u\) nel DFS Tree
+	\item[-] \verb|ALTRO| negli altri casi (se \(v\) è discendente di \(u\) o se collega due rami dell'albero)
+\end{itemize}
+Per impostare correttamente un arco \verb|BACK EDGE| o \verb|ALTRO|, creo un nuovo tag per i vertici \(v.ON\) che inizialmente è
+impostato per tutti a 0. All'inizio dell'esecuzione di DFS(\(G\),\(v\)), si setta \(v.ON = 1\) e alla fine dell'esecuzione lo si
+reimposta \(v.ON = 0\). In questo modo, ad un certo istante, tutti i vertici avranno \(v.ON = 0\) tranne quelli per cui la chiamata
+ricorsiva è aperta e saranno tutti antenati del vertice visitato con l'ultima chiamata in esecuzione. Posso quindi inserire un
+controllo: se l'arco non \verb|DISCOVERY| insiste su un vertice con \(v.ON = 1\), allora è un \verb|BACK EDGE|, altrimenti verrà
+marcato come \verb|ALTRO|. Questa modifica non altera la complessità del DFS.
+
+\subsubsection*{Confronto tra BFS e DFS su grafi diretti}
+Definiti \(R_s = \) reachable(\(s\)) e \(m_s = \sum_{v \in R_s} \text{outdegree}(v)\):
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{in comune}:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] hanno la stessa complessità \(\Theta(m_s)\)
+		\item[-] possono essere usati indipendentemente per determinare \(R_s\) in \(\Theta(m_s)\)
+	\end{itemize}
+	\item[-] \textbf{vantaggi del BFS}:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] permette di trovare i cammini minimi (Dijkstra) in \(\Theta(m_s)\)
+	\end{itemize}
+	\item[-] \textbf{vantaggi del DFS}:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] usato per determinare se \(G\) è fortemente connesso in \(\Theta(|V|+|E|)\)
+		\item[-] usato per determinare cicli diretti in \(\Theta(|V|+|E|)\)
+	\end{itemize}
+\end{itemize}
+
+\newpage
+
+\subsection{Grafi diretti senza cicli - DAG}
+\subsubsection*{Definizione}
+Un grafo diretto aciclico o (DAG) è un grafo diretto privo di cicli diretti (può avere cicli se gli archi fossero non orientati,
+l'importante è che non abbia cicli considerando l'orientamento degli archi).
+
+\subsubsection*{Ordinamento topologico}
+Un ordinamento topologico per un DAG \(G = (V,E)\) è un ordinamento dei vertici \(v_1, v_2, \dots v_n \in V\) tale che per ogni
+arco \((v_i, v_j) \in E\) si ha che \(i < j\). Di seguito l'algoritmo:
+
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] si utilizza una lista \(S\) con i vertici con indegree = 0; si estraggono i vertici da \(L\), si inseriscono in
+	una coda \(L\) e si riducono gli indegree dei vertici adiacenti. Quando un vertice ha indegree(\(v\)) = 0 viene inserito
+	in \(S\) pronto per una nuova estrazione.
+	\item[-] La complessità dell'algoritmo è \(\Theta(|E|+|V|)\): il popolamento iniziale di \(L\) è fatto in \(\Theta(|E|+|V|)\)
+	e il resto delle operazioni è proporzionale linearmente alla taglia del grafico.
+\end{itemize}
+\begin{algo}{TopologicalSort}{$G$}{DAG $G$}{coda \(L\) con vertici ordinati topologicamente}
+	\State \(L \gets\) coda vuota
+	\State \(S \gets\) lista con vertici con \(v.indeg = 0\)
+	\While{(!$S$.isEmpty())}
+		\State \(v \gets S\).first().getElement() e \(S\).remove(\(S\).first())
+		\State \(L\).addLast(\(v\))
+		\ForAll{$e$}{$G$.incidentEdges($v$)}
+			\State \(u \gets G\).opposite(\(v\),\(e\))
+			\State \(u.indeg \gets u.indeg - 1\)
+			\If{(\(u.indeg = 0\))} \(S\).addLast(\(u\))
+			\EndIf
+		\EndFor
+	\EndWhile
+	\State return \(L\)
+\end{algo}
+
 \end{document}
