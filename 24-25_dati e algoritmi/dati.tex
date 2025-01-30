@@ -59,13 +59,11 @@
 \renewcommand{\algorithmicprocedure}{\textbf{Algoritmo:}\;}
 \renewcommand{\algorithmicrequire}{\qquad\textbf{Input:} \quad\;\;\,}
 \renewcommand{\algorithmicensure}{\qquad\textbf{Output:} \;\;\;}
-%\algnewcommand\algorithmicto{\textbf{to}}
 \algnewcommand\algorithmicin{\textbf{in}}
-%\algrenewtext{For}[3] {\algorithmicfor\ #1 \gets #2 \algorithmicto\ #3 \algorithmicdo}
-\algrenewtext{ForAll}[2] {\algorithmicforall\ #1 \algorithmicin\ #2 \algorithmicdo}
-
 \algnewcommand\algorithmicto{\textbf{to}}
+%\algrenewtext{For}[3] {\algorithmicfor\ #1 \gets #2 \algorithmicto\ #3 \algorithmicdo}
 \algrenewtext{For}[2]{\algorithmicfor\ #1 \algorithmicto\ #2 \algorithmicdo}
+\algrenewtext{ForAll}[2] {\algorithmicforall\ #1 \algorithmicin\ #2 \algorithmicdo}
 
 \newenvironment{algo}[4]{
 	\noindent\rule{\textwidth}{0.4pt}
@@ -150,7 +148,7 @@ algoritmi diversi in base alla loro efficienza computazionale.
 \subsubsection*{Caratteristiche}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] la complessità si esprime in maniera generale in funzione della taglia dell'istanza
-	\item[-] è indipendendete dall'implementazione e dal linguaggio usato
+	\item[-] è indipendente dall'implementazione e dal linguaggio usato
 	\item[-] non richiede di conoscere il tempo esatto di esecuzione, per cui non richiede l'implementazione dell'algoritmo in
 	un certo linguaggio di programmazione, ma basta lo pseudocodice
 \end{itemize}
@@ -1309,5 +1307,475 @@ alle chiavi. Di seguito i metodi e le relative complessità:
 	\item[-] put(k,v) ha complessità \(\Theta(\log n)\) (come quella della mappa, utlizzando la nuova definizione di \(n\))
 	\item[-] remove(k,v) ha complessità \(\Theta(\log n + s)\)
 \end{itemize}
+
+\newpage
+
+\section{Grafi}
+\subsection{Introduzione}
+\subsubsection*{Definizione}
+Un grafo \(G\) è definito come una coppia di insiemi (o collezioni se esistono elementi duplicati) \((V, E)\) tali che \(V\)
+è l'insieme di vertici e \(E\) è una collezione di archi (o coppie di vertici). 
+
+\subsubsection*{Altre definizioni - concetti fondamentali}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{arco orientato}: un arco \((u,v) \in E\) si dice orientato se è stato definito un orientamento \((u \to v)\)
+	tra i vertici su cui insiste
+	\item[-] \textbf{arco multiplo}: un arco si dice multiplo se compare più volte nell'insieme \(E\)
+	\item[-] \textbf{self loop}: un arco si dice self loop se insisiste su un unico vertice, ad esempio \((u,u) \in E\)
+	\item[-] \textbf{vertici adiacenti}: due vertici \(u\), \(v\) si dicono adiacenti se esiste un arco \((u,v) \in E\) che li collega
+	\item[-] \textbf{vicini di un vertice}: i vicini di un vertice \(v\) sono tutti i vertici \(u\) tali che \((u,v) \in E\)
+	\item[-] \textbf{grado di un vertice}: il grado di un vertice \(v \in V\), degree(\(v\)), è il numero di archi incidenti su \(v\)
+	\item[-] \textbf{grafo diretto}: un grafo si dice diretto se ogni arco in \(E\) è orientato
+	\item[-] \textbf{grafo non diretto}: un grafo si dice non diretto se nessun arco in \(E\) è orientato
+	\item[-] \textbf{grafo semplice}: un grafo si dice semplice se non ha archi multipli o self loop
+	\vspace{1em}
+	\item[-] \textbf{cammino}: il cammino è una sequenza ordinata di vertici adiacenti \(u_1, u_2, \dots u_k\) con \((u_i, u_{i+1}) \in E\)
+	\item[-] \textbf{lunghezza di un cammino}: la lunghezza di un cammino è il numero di archi \((u_i, u_{i+1})\) o la somma dei
+	pesi degli archi nel caso di archi pesati
+	\item[-] \textbf{cammino semplice}: un cammino si dice semplice se non ha vertici ripetuti
+	\item[-] \textbf{cammino minimo}: un cammino tra \(x\) e \(y\) si dice minimo se la sua lunghezza è la minima possibile
+	\item[-] \textbf{distanza tra vertici}: dati due vertici \(x\), \(y\) la loro distanta distanza(\(x\),\(y\)) è pari alla lunghezza
+	del cammino minimo che li congiunge, se non esiste cammino minimo, distanza(\(x\),\(y\)) = \(+\infty\)
+	\item[-] \textbf{ciclo}: un ciclo è un cammino in cui \(u_1 = u_k\), la lunghezza del ciclo è analoga a prima
+	\item[-] \textbf{ciclo semplice}: un ciclo si dice semplice se non ha vertici ripetuti ad eccezione degli estremi
+	\vspace{1em}
+	\item[-] \textbf{sottografo}: un sottografo di \(G\) è definito come \(G' = (V',E')\) tali che \(V' \subseteq V\),  \(E' \subseteq E\)
+	\item[-] \textbf{sottografo di copertura}: un sottografo si dice di copertura (o spanning subgraph) se \(V' = V\)
+	\item[-] \textbf{grafo connesso}: un grafo si dice connesso se \(\forall u,v \in V \; \exists\)cammino da \(u\) a \(v\)
+	\item[-] \textbf{grafo disconnesso}: un grafo si dice disconnesso se \(\exists u,v \in V\) tali che distanza(\(u\),\(v\)) \(= +\infty\)
+	\item[-] \textbf{componenti connesse}: le componenti connesse di un grafo \(G = (V,E)\) sono i sottografi connessi massimali
+	di \(G\), ovvero i sottografi \(G_i = (V_i, E_i)\) con \(1 \leq i \leq k\) tali che:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] \(G_i = (V_i,E_i)\) è sottografo connesso
+		\item[-] \(V = V_1 \cup V_2 \cup \dots \cup V_k\) con \(V_i \cap V_j = \varnothing\)
+		\item[-] \(E = E_1 \cup E_2 \cup \dots \cup E_k\) con \(E_i \cap E_j = \varnothing\)
+		\item[-] \(\forall i \neq j\) non esisto archi \(\in E\) tra \(V_i\) e \(V_j\)
+	\end{itemize}
+	\item[] Si osserva che se \(G\) è connesso, \(k = 1\), inoltre la partizione in componenti connesse è univoca
+	\item[-] \textbf{albero (libero)}: un albero (libero) è un grafo \(G = (V,E)\) connesso e senza cicli
+	\item[-] \textbf{albero radicato}: un albero radicato è un grafo \(G = (V,E)\) connesso e senza cicli tale che:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] esiste un vertice \(r \in V\) detto radice
+		\item[-] per ogni \(u \in V \backslash \{r\}\) esiste un unico padre \(p(u) \in V\) e vale \(E = \{(u,p(u)) : u \in V \backslash \{r\}\}\)
+		\item[-] per ogni \(u \in V\), risalendo di padre in padre si arriva a \(r\)
+	\end{itemize}
+	\item[] Si osserva che un albero radicato è un albero libero e un albero libero si può trasformare in radicato scegliendo
+	un opportuno vertice come radice
+	\item[-] \textbf{foresta}: una foresta è un grafo \(G\) non connesso, ovvero un insieme di alberi liberi disgiunti; si
+	osserva che un albero è una foresta, ma una foresta non è un albero
+	\item[-] \textbf{spanning tree}: uno spanning tree di un grafo \(G\) è uno spanning subgraph connesso e senza cicli
+	\item[-] \textbf{spanning forest}: una spanning forest di un grafo \(G\) è uno spanning subgraph senza cicli
+\end{itemize}
+
+\subsubsection*{Primitive}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{traversal}: esplorazione del grafo (es. crawling)
+	\item[-] \textbf{connettività}: verifica se un grafo è connesso (es. reti wireless)
+	\item[-] \textbf{identificazione componenti connesse}: (es. reti wireless)
+	\item[-] \textbf{ricerca cammini minimi}: (es. navigatore)
+	\item[-] \textbf{ricerca minimum spanning tree}: (es. broadcast efficiente)
+	\item[-] \textbf{stima sulla distanza media/massima}: (es. social network)
+\end{itemize}
+
+\subsubsection*{Proprietà}
+Sia \(G = (V,E)\) grafo semplice non diretto con \(|V| = n\) e \(|E| = n\), allora valgono le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \(\displaystyle \sum_{v \in V} \text{degree}(v) = 2m\)
+	\item[-] \(m \leq \binom{n}{2}\), ovvero \(m \in O(n^2)\)
+	\item[-] se \(G\) è albero, allora \(m = n - 1\)
+	\item[-] se \(G\) è connesso, allora \(m \geq n-1\)
+	\item[-] se \(G\) è senza cicli (foresta), allora \(m \leq n-1\)
+\end{itemize}
+
+\subsubsection*{Implementazione / rappresentazioni}
+Un grafo può essere rappresentato/implementato in tre modi:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{struttre base}: \\
+	utilizzo due liste \(L_V\) e \(L_E\) per rappresentare rispettivamente vertici e archi; questo metodo risulta scomodo negli
+	algoritmi in cui è necessario esplorare i vertici adiacenti, per cui non viene molto utilizzata
+	\item[-] \textbf{liste di adiacenza}: \\
+	per ogni vertice \(v \in V\) ho una lista \(L(v)\) con i puntatori agli archi incidenti su \(v\) o ai vertici raggiungibili
+	da \(v\); questa rappresentazione occupa spazio lineare nella taglia del grafo \(\Theta(n+m)\) e consente l'accesso sequenziale
+	ai vertici adiacenti in tempo lineare al grado di \(v\)
+	\item[-] \textbf{matrice di adiacenza}: \\
+	matrice \(n \times n\) in cui le righe e le colonne sono in corrispondenza 1:1 con i vertici e ogni cella è popolata secondo
+	\(A[i_1,i_2] := \begin{cases} null & \text{se} \; (i_1, i_2) \notin E \\ \text{puntatore a } e = (i_1, i_2) \in E & \text{se}\; \; (i_1, i_2) \in E \end{cases}\).
+	Si osserva che in un grafo non diretto la matrice è simmetrica. Inoltre permette l'accesso ad un arco in tempo costante, ma
+	richiede che i vertici siano rappresentati come interi. Inoltre occupa uno spazio \(\Theta(n^2)\), superlineare nella taglia
+	del grafo che risulta vantaggiosa solo nel caso di grafi densi o per grafi con pochi vertici.
+	\item[-] \textbf{mappe di adiacenza}: \\
+	una via di mezzo tra le liste e la matrice di adiacenza, per ogni vertice gli archi incidenti su tale vertice sono memorizzati
+	in una mappa (con tabella hash) per cui si ha un tempo di accesso medio lineare \(O(1)\) e occupa uno spazio lineare nella
+	taglia del grafo.
+\end{itemize}
+
+\newpage
+
+\subsection{Breadth First Search - BFS}
+\subsubsection*{Algoritmo}
+L'algoritmo di Breath First Search o BFS prevede che:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] prima si visitano tutti i vertici adiacenti e infine si passa ai vicini dei vicini
+	\item[-] ogni vertice ha un campo \(I\!D\) che vale 1 se è stato visitato, 0 altrimenti
+	\item[-] ogni arco ha un campo \(e.label\) per memorizzare una opportuna etichetta o null altrimenti
+	\item[-] incidentEdges(\(v\)) resituisce un iteratore agli archi incidenti su \(v\)
+	\item[-] opposite(\(v\), \(e\)), con \(e = (v,w)\) arco insistente su \(v\), resituisce \(w\)
+\end{itemize}
+Durante l'esecuzione della BFS,
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] vengono visitati tutti i vertici in \(C_s\) componente connessa che contiene \(s\)
+	\item[-] ogni arco in \(C_s\) viene etichettato come \verb|DISCOVERY EDGE| o \verb|CROSS EDGE|:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[] \verb|DISCOVERY EDGE| se l'arco è utilizzato per scoprire un nuovo vertice
+		\item[] \verb|CROSS EDGE| se l'arco porta ad un vertice già visitato
+	\end{itemize}
+	\item[-] partiziona \(C_s\) in livelli \(L_i\) in base alla distanza \(i\) dei vertici rispetto a \(s\)
+\end{itemize}
+
+\begin{algo}{BFS}{$G$, $s$}{grafo $G = (V,E)$, $s \in C_s$, vertici con \(v.I\!D = 0\), archi con \(e.label = null\)}{etichetta opportunamente ogni vertice e arco in \(C_s\)}
+	\State visita \(s\) e \(s.I\!D \gets 1\)
+	\State \(L_0 \gets s\) (lista che contiene \(s\))
+	\State \(i \gets 0\)
+	\While{(! \(L_i\).isEmpty())}
+		\State crea una lista \(L_{i+1}\) vuota
+		\ForAll{\(v\)}{\(L_i\)}
+			\ForAll{\(e\)}{\(G\).incidentEdges(\(v\))}
+				\If{(\(e.label =\) null)} \Comment se trovo un arco non ancora visitato
+					\State \(w \gets G\).opposite(\(v\), \(e\)) \Comment leggo il vertice opposto
+					\If{(\(w.I\!D = 0\))} \Comment se vertice ancora da visitare
+						\State \(e.label \gets\) \verb|DISCOVERY EDGE| \Comment \(e = (v,w)\) diventa DISCOVERY
+						\State visita vertice \(w\) e \(w.I\!D = 1\) \Comment visito \(w\)
+						\State inserisci \(w\) in \(L_{i+1}\) \Comment inserico \(w\) nella rispettiva lista
+					\Else \Comment se vertice già visitato
+						\State \(e.label \gets\) \verb|DISCOVERY EDGE|
+					\EndIf
+				\EndIf
+			\EndFor
+		\EndFor
+		\State \(i \gets i+1\) \Comment passo al livello successivo
+	\EndWhile
+\end{algo}
+
+\subsubsection*{Correttezza e risultati}
+Alla fine dell'esecuzione della BFS su una componente connessa \(C_s\) si ottiene:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] quanto previsto di base dall'algoritmo (vedi sopra)
+	\item[-] i \verb|DISCOVERY EDGE| formano uno spanning tree di \(C_s\) radicato in \(s\) chiamato BFS tree
+	\item[-] se un arco marcato \verb|CROSS EDGE| separa vertici i cui indici di livello differiscono al più di 1
+	\item[-] se un vertice \(v\) appartiene alla lista \(L_i\), allora \(d(s,v) = i\)
+\end{itemize}
+
+\subsubsection*{Complessità}
+La complessità di BFS è proporzionale al numero di archi della componente connessa \(C_s\):
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] se il grafo non è connesso, allora la complessità è \(\Theta(m_s)\), con \(m_s = \) \# archi di \(C_s\)
+	\item[-] se il grafo è connesso, allora la complessità è \(\Theta(|E|)\)
+\end{itemize}
+
+\subsubsection*{Generalizzazione su tutto il grafo}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo generalizza la BFS per visitare totalmente un grafo non connesso
+	\item[-] La complessità dell'algoritmo è \(\Theta(|E| + |V|)\), supponendo di poter accedere agli elementi di \(V\) e \(E\)
+	in tempo lineare.
+\end{itemize}
+\begin{algo}{BFSComplete}{$G$}{grafo $G = (V,E)$}{etichetta opportunamente ogni vertice e arco in \(G\)}
+	\ForAll{$v$}{$V$}
+		\State \(v.I\!D \gets 0\)
+	\EndFor
+	\ForAll{$e$}{$E$}
+		\State \(e.label \gets null\)
+	\EndFor
+	\ForAll{$v$}{$V$}
+		\If{\(v.I\!D = 0\)}
+			\State BFS(\(G\), \(v\))
+		\EndIf
+	\EndFor
+\end{algo}
+
+\subsubsection*{Connettività}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo utilizza BFS modificato per contare le componenti connesse di un grafo \(G\)
+	\item[-] La complessità dell'algoritmo è \(\Theta(|E| + |V|)\), come per BFSComplete.
+	\item[-] Si usa la BFS modificata, che accetta un terzo parametro \(ID\) utilizzato per marcare i vertici visitati
+\end{itemize}
+\begin{algo}{Connettività}{$G$}{grafo $G = (V,E)$}{restituisce \# componenti connesse ed etichetta i vertici con \(I\!D\) distinti}
+	\ForAll{$v$}{$V$}
+		\State \(v.I\!D \gets 0\)
+	\EndFor
+	\ForAll{$e$}{$E$}
+		\State \(e.label \gets null\)
+	\EndFor
+	\State \(i \gets 0\)
+	\ForAll{$v$}{$V$}
+		\If{\(v.I\!D = 0\)}
+			\State \(i \gets i+1\)
+			\State BFS(\(G\), \(v\), \(i\))
+		\EndIf
+	\EndFor
+	\State return \(i\)
+\end{algo}
+
+\subsubsection*{Spanning Tree}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo utilizza la BFS per ottenere lo spanning tree di un grafo connesso
+	\item[-] La complessità dell'algoritmo è \(\Theta(|E|)\), come per BFS normale.
+	\item[-] Si usa la BFS modificata, che accetta (e restituisce) una lista \(L\) dove salvare i \(\verb|DISCOVERY EDGES|\)
+\end{itemize}
+\begin{algo}{SpanningTree}{$G$, $s$}{grafo $G = (V,E)$ connesso, $s \in V$}{lista $L$ con gli archi marcati come $\texttt{DISCOVERY EDGES}$}
+	\State \(L \gets\) lista vuota, \(s \gets\) vertice qualsiasi di \(V\) 
+	\State return BFS(\(G\),\(s\),\(L\))
+\end{algo}
+
+\subsubsection*{Cammini minimi}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo utilizza la BFS per ottenere un cammino minimo tra due vertici
+	\item[-] La complessità dell'algoritmo è \(\Theta(|E| + |V|)\), come per BFSComplete
+	\item[-] Si usa la BFS modificata che per ogni vertice usa \(v.parent\) per il padre e \(v.edge\) per l'arco al padre
+\end{itemize}
+\begin{algo}{}{$G$, $s$, $t$}{grafo $G = (V,E)$ connesso, $s,t \in V$}{lista $L$ con gli archi del cammino minimo da \(t\) a \(s\)}
+	\ForAll{$v$}{$V$}  \(v.I\!D \gets 0, \quad v.parent \gets \text{null}, \quad v.edge \gets \text{null}\)
+	\EndFor
+	\ForAll{$e$}{$E$} \(e.label \gets \text{null}\)
+	\EndFor
+	\State BFS(\(G\),\(s\))
+	\If{(\(t.I\!D = 0\))} return null
+	\Else
+		\State \(L \gets\) lista vuota, e \(w \gets t\)
+		\While{(\(w \neq s\)))}
+			\State aggiungi \(w.edge\) a \(L\)
+			\State \(w \gets w.parent\)
+		\EndWhile
+		\State return \(L\)
+	\EndIf
+\end{algo}
+
+\subsubsection*{Ciclicità}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo utilizza la BFS per ottenere un ciclo del grafo, se esiste
+	\item[-] La complessità dell'algoritmo è \(\Theta(|E| + |V|)\), come per BFSComplete
+	\item[-] Si usa la BFS modificata che:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] per ogni vertice usa \(v.parent\) per il padre e \(v.edge\) per l'arco al padre
+		\item[-] negli \(I\!D\) di ciascun vertice salvo il livello/distanza dal vertice di partenza
+		\item[-] restituisce un cross edge appena lo trova, altrimenti restituisce null
+	\end{itemize}
+\end{itemize}
+\begin{algo}{}{$G$}{grafo $G = (V,E)$ connesso}{lista $L$ con gli archi di un ciclo in \(G\)}
+	\ForAll{$v$}{$V$} \(v.I\!D \gets 0, \quad v.parent \gets \text{null}, \quad v.edge \gets \text{null}\)
+	\EndFor
+	\ForAll{$e$}{$E$} \(e.label \gets \text{null}\)
+	\EndFor
+	\State \(crossEdge \gets\) BFS(\(G\),\(s\)), con \(s\) vertice generico in \(V\)
+	\If{(\(crossEdge =\) null)} return null
+	\Else
+		\State \(L \gets\) lista con \(crossEdge\)
+		\State \(u,v \gets\) vertici di \(crossEdge\)
+		\If{(\(u.I\!D > v.I\!D\))} \Comment riporto i vertici allo stesso livello
+			\State aggiungi \(u.edge\) a \(L, \quad u \gets u.parent\)
+		\ElsIf{(\(u.I\!D < v.I\!D\))}
+			\State aggiungi \(v.edge\) a \(L, \quad v \gets v.parent\)
+		\EndIf
+		\While{(\(u \neq v\)))} \Comment algoritmo modificato per LowestCommonAncestor
+			\State aggiungi \(u.edge\) a \(L, \quad u \gets u.parent\)
+			\State aggiungi \(v.edge\) a \(L, \quad v \gets v.parent\)
+		\EndWhile
+		\State return \(L\)
+	\EndIf
+\end{algo}
+
+\newpage
+
+\subsection{Depth First Search - DFS}
+\subsubsection*{Algoritmo}
+L'algoritmo di Depth First Search o DFS prevede che:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] prima viene visitato un vertice e ricorsivamente i suoi discendenti e infine si passa ai vertici adiacenti
+	\item[-] ogni vertice ha un campo \(I\!D\) che vale 1 se È stato visitato, 0 altrimenti
+	\item[-] ogni arco ha un campo \(e.label\) per memorizzare una opportuna etichetta o null altrimenti
+	\item[-] incidentEdges(\(v\)) resituisce un iteratore agli archi incidenti su \(v\)
+	\item[-] opposite(\(v\), \(e\)), con \(e = (v,w)\) arco insistente su \(v\), resituisce \(w\)
+\end{itemize}
+Durante l'esecuzione della DFS,
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] vengono visitati tutti i vertici in \(C_s\) componente connessa che contiene \(s\)
+	\item[-] ogni arco in \(C_s\) viene etichettato come \verb|DISCOVERY EDGE| o \verb|BACK EDGE|:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[] \verb|DISCOVERY EDGE| se l'arco è utilizzato per scoprire un nuovo vertice
+		\item[] \verb|BACK EDGE| se l'arco porta ad un vertice già visitato
+	\end{itemize}
+\end{itemize}
+
+\begin{algo}{DFS}{$G$,$s$}{grafo $G = (V,E)$, $s \in C_s$, vertici con \(v.I\!D = 0\), archi con \(e.label = null\)}{etichetta opportunamente ogni vertice e arco in \(C_s\)}
+	\State visita \(s\) e imposta \(s.I\!D = 1\)
+	\ForAll{$e$}{$G$.incidentEdges($v$)}
+		\If{(\(e.label =\) null)}
+			\State \(w \gets G\).opposite(\(v\),\(e\))
+			\If{(\(w.I\!D = 0\))}
+				\State \(e.label \gets\) \verb|DISCOVERY EDGE|
+				\State DFS(\(G\),\(w\))
+			\Else
+				\State \(e.label \gets\) \verb|BACK EDGE|
+			\EndIf
+		\EndIf
+	\EndFor
+\end{algo}
+
+\subsubsection*{Correttezza e risultati}
+Alla fine dell'esecuzione della DFS su una componente connessa \(C_s\) si ottiene:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] quanto previsto di base dall'algoritmo (vedi sopra)
+	\item[-] i \verb|DISCOVERY EDGE| formano uno spanning tree di \(C_s\) radicato in \(s\), chiamato DFS Tree, con uno sviluppo
+	prevalentemente in altezza (e non in larghezza)
+	\item[-] se un arco è marcato \verb|BACK EDGE|, allora collega il vertice ad un suo antenato (nel DFS tree)
+\end{itemize}
+
+\subsubsection*{Complessità}
+La complessità di DFS è proporzionale al numero di archi della componente connessa \(C_s\):
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] se il grafo non è connesso, allora la complessità è \(\Theta(m_s)\), con \(m_s = \) \# archi di \(C_s\)
+	\item[-] se il grafo è connesso, allora la complessità è \(\Theta(|E|)\)
+\end{itemize}
+
+\newpage
+
+\subsubsection*{Generalizzazione su tutto il grafo}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] L'algoritmo generalizza la DFS per visitare totalmente un grafo non connesso
+	\item[-] La complessità dell'algoritmo è \(\Theta(|E| + |V|)\), supponendo di poter accedere agli elementi di \(V\) e \(E\)
+	in tempo lineare.
+\end{itemize}
+\begin{algo}{DFSComplete}{$G$}{grafo $G = (V,E)$}{etichetta opportunamente ogni vertice e arco in \(G\)}
+	\ForAll{$v$}{$V$}
+		\State \(v.I\!D \gets 0\)
+	\EndFor
+	\ForAll{$e$}{$E$}
+		\State \(e.label \gets null\)
+	\EndFor
+	\ForAll{$v$}{$V$}
+		\If{\(v.I\!D = 0\)}
+			\State DFS(\(G\), \(v\))
+		\EndIf
+	\EndFor
+\end{algo}
+
+\subsection{Confronto tra BFS e DFS}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{in comune}:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] su grafi non connessi, hanno la stessa complessità
+		\item[-] possono essere usati indipendentemente per trovare connettività, spanning tree e cicli
+	\end{itemize}
+	\item[-] \textbf{vantaggi del BFS}:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] permette di trovare i cammini minimi
+	\end{itemize}
+	\item[-] \textbf{vantaggi del DFS}:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] è più space efficient in quanto richiede spazio proporzionale all'altezza dell'albero della ricorsione (ogni istanza richiede spazio costante)
+		\item[-] è più efficiente per trovare un cammino tra due vertici lontani tra loro
+		\item[-] viene usato per trovare cicli nei grafi diretti
+	\end{itemize}
+\end{itemize}
+
+\newpage
+
+\subsection{Cammini minimi su grafi pesati - Dijkstra}
+\subsubsection*{Definizione di grafi pesati}
+\begin{itemize}
+	\item[-] Un grafo pesato è un normale grafo \(G = (V,E,w)\) con l'aggiunta di una funzione \(w: E \to \mathbb{R}_0^+\) tale
+	che associa a ciascun arco di \(E\) un peso reale non negativo.
+	\item[-] La lunghezza di un cammino \(u_1, u_2, \dots u_k\) è data dalla somma del peso degli archi \(\displaystyle \sum_{i=1}^{k-1} w(u_i,u_{i+1})\)
+\end{itemize}
+
+\subsubsection*{Algoritmo}
+L'algoritmo di Single-Source Shortest Path o (SSSP):
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] determina le distanze tra \(s\) e gli altri vertici di \(V\) e i relativi cammini minimi
+	\item[-] suppone che non esistano cicli e in generale archi con peso negativo
+	\item[-] generalizza la BFS per grafi pesati
+	\item[-] ogni vertice ha un campo \(v.D\) per la distanza da \(s\) e un campo \(v.parent\) per il vertice padre
+	\item[-] utilizza una priority queue \(Q\) con \(Q\).decreaseKey(\(v.D\),\(v\)) che aggiorna la chiave \(v.D\)
+\end{itemize}
+Durante l'esecuzione dell'algoritmo SSSP:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] vengono visitati tutti i vertici in \(C_s\) componente connessa che contiene \(s\)
+	\item[-] ad ogni vertice vengono impostati:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] il campo \(v.D\) con la distanza da \(s\) (\(v.D = +\infty\) se non esiste cammino tra \(s\) e \(v\))
+		\item[-] il campo \(v.parent\) con il riferimento al vertice padre nel \say{SSSP Tree}
+	\end{itemize}
+\end{itemize}
+
+\begin{algo}{ShortestPaths}{$G$,$s$}{grafo $G = (V,E)$, $s \in C_s$}{etichetta opportunamente ogni vertice in \(C_s\)}
+	\State \(s.D \gets 0\) \Comment inizializza vertice di partenza
+	\State \(s.parent \gets\) null
+	\ForAll{$v$}{$V \backslash \{s\}$} \Comment inizializza altri vertici
+		\State \(v.D \gets +\infty\)
+		\State \(v.parent \gets\) null
+	\EndFor
+	\State \(Q \gets\) priority queue con entry \((v.D, v)\) per ogni \(v \in V\)
+	\While{(!$Q$.isEmpty())} \Comment finché ci sono nodi da visitare
+		\State \((u.D, u) \gets Q\).removeMin()
+		\ForAll{$(u,v)$}{$G$.incidentEdges($u$)} \Comment aggiorna la distanza dei vicini
+			\If{($u.D + w(u,v) < v.D$)} \Comment edge relaxation
+				\State \(v.D \gets u.D + w(u,v)\)
+				\State \(v.parent \gets u\)
+				\State \(Q\).decreaseKey(\(v.D\), \(v\))
+			\EndIf
+		\EndFor
+	\EndWhile
+\end{algo}
+
+\subsubsection*{Correttezza e risultati}
+Alla fine dell'esecuzione dell'algoritmo di Dijkstra su una componente connessa \(C_s\) si ottiene:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] quanto previsto di base dall'algoritmo (vedi sopra)
+	\item[-] se \(v.D = +\infty\), allora \(v.parent = \) null \(\rightarrow\) se \(v \notin C_s\) la sua distanza è \(+\infty\)
+	e non ha vertici \say{scopritori}
+	\item[-] se \(v.D < +\infty\), il cammino ottenuto risalendo di padre in padre da \(v\) è il cammino minimo da \(s\) a \(v\),
+	con \(d(s,v) = v.D\)
+	\item[-] (nota invariante del for:) al momento dell'estrazione di una entry \((u.D, u)\), il campo \(u.D = d(s,u)\)
+\end{itemize}
+
+\subsubsection*{Complessità}
+La complessità dell'algoritmo di Dijkstra è dominata dai metodi della priority queue. La loro complessità dipende dall'implementazione
+della priority queue attraverso heap o linked-list:
+\begin{center}
+	\begin{tabular}{l | c | c | c}
+		\textbf{metodo} & \textbf{heap} & \textbf{linked-list} \\
+		\toprule
+		1. costruzione iniziale & \(\Theta(n)\) & \(\Theta(n)\) \\
+		\midrule
+		2. removeMin & \(\Theta(\log n)\) & \(\Theta(n)\) \\
+		\midrule
+		3. decreaseKey & \(\Theta(\log n)\) & \(\Theta(1)\) \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+Complessivamente si hanno \(n\) removeMin() e \(\leq m\) edge relaxations, ovvero al più \(m\) decreaseKey():
+\begin{center}
+	\begin{tabular}{l | c | c | c}
+		\textbf{metodo} & \textbf{heap} & \textbf{linked-list} \\
+		\toprule
+		costruzione iniziale & \(\Theta(n)\) & \(\Theta(n)\) \\
+		\midrule
+		\(n\) removeMin & \(\Theta(n \log n)\) & \(\Theta(n^2)\) \\
+		\midrule
+		\(m\) decreaseKey & \(\Theta(m \log n)\) & \(\Theta(m)\) \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+Per cui in torale si avrà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] con l'heap la complessità è \(\Theta(n+m) \log n\)
+	\item[-] con la lista la complessità è \(\Theta(n^2)\)
+\end{itemize}
+In funzione del valore di \(m\) si potrà scegliere l'una o l'altra implementazione:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] con \(m \leq n^2 / \log n \;\; \rightarrow \;\;\) heap
+	\item[-] con \(m > n^2 / \log n \;\; \rightarrow \;\;\) linked list
+\end{itemize}
+Nota: usando un Fibonacci Heap è possibile implementare una priority queue e avere come complessità complessiva di ShortestPaths
+\(\Theta(m + n \log n)\)
 
 \end{document}
