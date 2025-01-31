@@ -1869,4 +1869,180 @@ arco \((v_i, v_j) \in E\) si ha che \(i < j\). Di seguito l'algoritmo:
 	\State return \(L\)
 \end{algo}
 
+\newpage
+
+
+\section{Ordinamenti}
+\subsection{Descrizione del problema}
+Si vuole riordinare in ordine non decrescente una sequenza di chiavi provenienti da un universo totalmente ordinato, le specifiche
+generali sono le seguenti:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{input}: sequenza \(S\) con \(n\) chiavi da ordinare
+	\item[-] \textbf{output}: sequenza \(S\) ordinata in senso non decrescente
+\end{itemize}
+Gli algoritmi si raggiuppano in due categorie:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] \textbf{metodi basati sul confronto}: \\
+	I metodi studiati basati sul confronto sono MergeSort, HeapSort, QuickSort, RandomizedQuickSort e InsertionSort. Si può dimostrare
+	che, per una istanza generica hanno complessità \(\Omega(n \log n)\). Per questa proprietà, il MergeSort, l'HeapSort e il RandomizedQuickSort
+	hanno complessità ottima.
+	\item[-] \textbf{metodi non basati sul confronto}: \\
+	I metodi studiati non basati sul confronto sono BucketSort e RadixSort. Questi hanno complessità computazionale migliore di
+	quelli precedenti, ma a differenza dei primi, non possono essere implementati inplace e richiedono maggiore complessità spaziale.
+\end{itemize}
+
+\subsection{MergeSort}
+\subsubsection*{Algoritmo}
+\begin{algo}{MergeSort}{$S$}{come da specifica}{come da specifica}
+	\If{(\(n \leq 1\))} return
+	\Else
+		\State \(S_1, S_2\) sequenze vuote \Comment Divide
+		\For{\(i \gets 0\)}{\(\lceil n/2 \rceil - 1\)} \(S_1[i] \gets S[i]\)
+		\EndFor
+		\For{\(i \gets \lceil n/2 \rceil\)}{\(n-1\)} \(S_2[i-\lceil n/2 \rceil] \gets S[i]\)
+		\EndFor
+		\State MergeSort(\(S_1\)) \Comment Conquer
+		\State MergeSort(\(S_2\))
+		\State Merge(\(S_1\),\(S_2\),\(S\)) \Comment Combine
+	\EndIf
+\end{algo}
+
+\begin{algo}{Merge}{$S_1$, $S_2$, $S$}{sequenze ordinate \(S_1\) e \(S_2\), sequenza vuota \(S\)}{sequenza ordinata \(S= S_1 \cup S_2\)}
+	\State \(i \gets 0, \quad j \gets 0, \quad k \gets 0\)
+	\While{(\(i < S_1.\text{size}()\) AND \(j < S_2.\text{size}()\))}
+		\If{(\(S_1[i] < S_2[j]\))} \(S[k++] = S_1[i++]\)
+		\Else \(S[k++] = S_2[j++]\)
+		\EndIf
+	\EndWhile
+	\While{(\(i < S_1.\text{size}()\))} \(S[k++] = S_1[i++]\)
+	\EndWhile
+	\While{(\(j < S_2.\text{size}()\))} \(S[k++] = S_2[j++]\)
+	\EndWhile
+\end{algo}
+
+\subsubsection*{Analisi}
+L'algoritmo si basa sul design pattern divide-et-impera. La complessità del metodo Merge è \(\Theta(n)\). Analizzando l'albero
+della ricorsione si osserva che ad ogni livello la taglia aggregata di tutte le chiamate ricorsive è \(n\), per cui ogni livello
+ha complessità aggregata \(\Theta(n)\). L'albero della ricorsione è un albero binario completo con altezza \(\Theta(\log n)\),
+per cui la complessità complessiva è \(\Theta(n \log n)\).
+
+\newpage
+
+\subsection{QuickSort}
+\subsubsection*{Algoritmo}
+\begin{algo}{QuickSort}{$S$, $a$, $b$}{come da specifica, indici \(0 \leq a,b \leq n-1\)}{come da specifica}
+	\If{(\(a \geq b\))} return
+	\Else
+		\State \(l \gets \) Partition(\(S\), \(a\), \(b\))
+		\State QuickSort(\(S\), \(a\), \(l\))
+		\State QuickSort(\(S\), \(l+1\), \(b\))
+	\EndIf
+\end{algo}
+
+\begin{algo}{Partition}{$S$, $a$, $b$}{sequenza \(S\), indici \(0 \leq a,b \leq n-1\)}{indice \(l\) e sequenza \(S\) tale che \(S[i] \leq S[l] \leq S[j]\) per \(a \leq i < l < j \leq b\)}
+	\State \(p \gets S[b], \quad l \gets a, \quad r \gets b-1\)
+	\While{(\(l \leq r\))}
+		\While{(\(l \leq r\) AND \(S[l] \leq p\))} \(l \gets l+1\)
+		\EndWhile
+		\While{(\(l \leq r\) AND \(S[l] \geq p\))} \(r \gets r-1\)
+		\EndWhile
+		\If{(\(l \leq r\))} swap(\(S[l]\),\(S[r]\))
+		\EndIf
+	\EndWhile
+	\State swap(\(S[l]\),\(S[b]\))
+	\State return \(l\)
+\end{algo}
+
+\subsubsection*{Analisi}
+L'algoritmo si basa sul design patter divode-et-impera. La complessità del metodo Partition è \(\Theta(b-a+1)\). Analizzando
+l'albero della ricorsione si oserva che nel caso peggiore una chiave viene sempre sistemata, per cui la taglia aggregata
+diminuisce di 1 ad ogni livello. In totale ci saranno \(n\) livelli con taglia aggregata del livello \(i\) di \(n-i\), per
+cui complessivamente si ha una complessità complessiva di \(\Theta(n^2)\).
+
+\subsection{Randomized QuickSort}
+Il RandomizedQuickSort riprende quasi totalmente il QuickSort, solo che il valore sentinella \(p\) viene scelto in maniera casuale.
+In questo modo si ha maggiore probabilità di partizionare la sequenza a metà. Cambia solo il metodo Partition come segue:
+
+\noindent\rule{\textwidth}{0.4pt}
+\begin{algorithmic}[1]
+	\State \(p \gets S[b] \dots\) \Comment versione deterministica
+	\Statex
+	\addtocounter{ALG@line}{-1}
+	\State \(i \gets \textbf{intero random in} \; [a,b]\) \Comment versione randomized
+	\State swap(\(S[i],S[b]\))
+	\State \(p \gets S[b] \dots\)
+\end{algorithmic}
+\rule{\textwidth}{0.4pt}
+In questo modo si ha, per un'istanza \(t_i\), una complessità media \(E[t_{i,RQS}] \in \Theta(n \log n)\) con probabilità
+\(P(t_{i,RQS} \in \Theta(n \log n)) \geq 1 - 1/n\). Questo tipo di complessità viene definito complessità con alta probabilità.
+
+\newpage
+
+\subsection{InsertionSort}
+\subsubsection*{Algoritmo}
+\begin{algo}{InsertionSort}{$S$}{come da specifica}{come da specifica}
+	\For{\(i \gets 1\)}{\(n-1\)}
+		\State \(curr \gets S[i]\)
+		\State \(j \gets i-1\)
+		\While{(\(j \geq 0\) AND \(S[j] \geq curr\))}
+			\State \(S[j+1] \gets S[j]\)
+			\State \(j \gets j-1\)
+		\EndWhile
+		\State \(S[j+1] \gets curr\)
+	\EndFor
+\end{algo}
+
+\subsubsection*{Analisi}
+In prima approssimazione si nota che l'algoritmo ha complessità al caso pessimo \(\Theta(n^2)\). Secondo un'analisi più attenta,
+dopo aver definito \(K\) il numero di inversioni, la complessità è \(\Theta(n + K)\). In questo modo si osserva che se il numero
+delle inversioni è lineare nella taglia dei dati, allora l'algoritmo performa con complessità \(\Theta(n)\). Questa situazione
+si verifica nel caso in cui la sequenza di input è quasi ordinata (es. inserimento di una chiave in una seq. ordinata).
+
+Una inversione rispetto all'ordinamento crescente è una coppia di indici \((i,j)\) con \(0 \leq j < i \leq n-1\) tale che \(S[j] > S[i]\).
+
+\subsection{BucketSort}
+\subsubsection*{Algoritmo}
+\begin{algo}{BucketSort}{$S$}{sequenza $S$ con chiavi intere in \([0,N-1]\)}{come da specifica}
+	\State crea un array \(B\) di \(N\) code \(B[0], B[1], \dots B[N-1]\)
+	\For{\(i \gets 0\)}{\(n-1\)}
+		\State \(k \gets S[i]\).getKey()
+		\State \(B[k]\).enqueue(\(S[i]\))
+	\EndFor
+	\State \(i \gets 0\)
+	\For{\(k \gets 0\)}{\(n-1\)}
+		\While{(!\(B[k]\).isEmpty())}
+			\State \(S[i++] \gets (B[k]\).dequeue()
+		\EndWhile
+		\State \(k \gets k+1\)
+	\EndFor
+\end{algo}
+
+\subsubsection*{Analisi}
+La complessità di BucketSort è data dalla complessità dei due for: la prima scansione ha complessità \(\Theta(n)\), la seconda
+\(\Theta(N)\). La complessità complessiva è \(\Theta(n + N)\). L'algoritmo è più vantaggioso dei precedenti algoritmi basati 
+su confronti se \(N \in O(n \log n)\). Il problema è che se \(N\) è molto grande, si potrebbe avere grande svantaggio sia dal
+punto di vista computazionale, che da quello spaziale.
+
+\subsection{RadixSort}
+\subsubsection*{Algoritmo}
+\begin{algo}{RadixSort}{$S$}{sequenza $S$ con chiavi \((c_{d-1}, c_{d-2}, \dots c_1, c_0) \in [0,N^d-1]\) con \(c_i \in [0,N-1]\)}{come da specifica}
+	\For{\(i \gets 0\)}{\(d-1\)}
+		\State BucketSortMod(\(S\),\(c_i\)) \Comment significa ordina in modo stabile rispetto alla cifra \(c_i\)
+	\EndFor
+\end{algo}
+
+\subsubsection*{Analisi}
+Ordinando in modo stabile, si avrà che alla fine di una generica iterazione \(i\), le chiavi saranno ordinate secondo le \(i\)-esime
+cifre meno significative. Come algoritmo di ordinamento stabile si utilizza BucketSort modficato. La complessità risulterà, quindi,
+\(\Theta(d(N+n))\), dove \(d\) è il numero delle cifre di una chiave, \(N\) è la base delle cifre delle chiavi e \(n\) è il numero
+di chiavi.
+
+Se \(d = 1\) si avrebbe la stessa complessità e i problemi del BucketSort, se invece si sfrutta la possibilità di ordinare per più
+cifre (es. ordino per \(4\) cifre alla volta), allora si avrebbe che la complessità diminuisce parecchio, specialmente per \(n\)
+molto grandi.
+
+Ad esempio se io avessi un array con \(n\) chiavi con \(c\) cifre in \([0,n^c-1]\), con BucketSort avrei complessità di
+\(\Theta(n^d)\), svantaggiosa. Se scegliessi un certo \(N\) e \(d\) per cui \(N^d-1 \geq n^c-1\), avrei complessità lineare.
+Per \(d = c\), si avrebbe che \(N = n\) e di conseguenza la complessità sarà \(\Theta(c n)\), ovvero lineare.
+
 \end{document}
