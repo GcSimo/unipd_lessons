@@ -1,0 +1,569 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+\usepackage{graphicx} % per immagini
+\usepackage{listings} % per codice
+\usepackage{xcolor} % per colori nel codice
+\usepackage{dirtytalk} % per le ""
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+
+% percorso delle immagini da inserire
+\graphicspath{ {./ } }
+
+% parte funzione reale e parte immaginaria
+\newcommand\Real{\text{Re}}
+\newcommand\Img{\text{Im}}
+
+% versori
+\newcommand\ux{\vec{u}_x}
+\newcommand\uy{\vec{u}_y}
+\newcommand\uz{\vec{u}_z}
+\newcommand\uxp{\vec{u}_{x'}}
+\newcommand\uyp{\vec{u}_{y'}}
+\newcommand\uzp{\vec{u}_{z'}}
+\newcommand\ur{\vec{u}_r}
+\newcommand\uv{\vec{u}_v}
+\newcommand\un{\vec{u}_n}
+\newcommand\ug{\vec{u}_\gamma}
+\newcommand\uper{\vec{u}_\perp}
+\newcommand\upar{\vec{u}_\parallel}
+\newcommand\nab{\vec{\nabla}} % nabla
+
+% forza generica
+\newcommand\ft{\vec{F}\left(\vec{\gamma}(t), \; \dt \vec{\gamma}(t), \; t\right)}
+\newcommand\ftau{\vec{F}\left(\vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau\right)}
+
+% derivata
+\newcommand\dt{\frac{d}{dt}\,}
+\newcommand\dtau{\frac{d}{d\tau}\,}
+\newcommand\dts{\frac{d^2}{dt^2}\,}
+
+% modulo vettore
+\newcommand\vmod[1]{\left|\left|{#1}\right|\right|}
+
+\title{Appunti di Elementi di Fisica 2}
+\author{Giacomo Simonetto}
+\date{Secondo semetre 2023-24}
+
+\begin{document}
+
+% -------------------------------------- Copertina e indice ---------------------------------------
+\maketitle
+\begin{abstract}
+	Appunti del corso di Elementi di Fisica 2 - (Elettromagnetismo) della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Elettromagnetismo}
+\subsection{Introduzione}
+L'elettromagnetismo è una teoria descrittiva costruita su solide basi sperimentali, ovvero non si utilizzano principi primi, ma
+si parte dalle osservazioni di fenomeni. I principali scienziati che si sono occupati del fenomeno sono Coulomb, Ampère, Faraday
+e Maxwell. La teoria classica dell'elettromagnetismo è stata usata come base per la relatività e le correzioni quantistiche sono
+inssignificanti per distanze inferiori a \(10^{-12} \; m\), ovvero 100 volte più piccole dell'atomo.
+
+\subsection{Carica elettrica}
+\subsubsection*{Definizione}
+La carica elettrica è una grandezza fisica collegata al bilanciamento di elettroni e protoni nella materia. Si misura in Coulomb
+e ha la proprietà poter essere sia positiva che negativa. Corpi di cariche con segno opposto si attraggono, corpi di cariche con
+stesso segno si respingono.
+
+\subsubsection*{Legge di conservazione della carica}
+In un sistema isolato, la carica totale non cambia.Nei decadimenti radioattivi, quando viene emesso un elettrone, si emette anche
+un positrone (per bilanciare la carica). L'universo appare come una miscela bilanciata di cariche elettriche.
+
+\subsubsection*{Quantizzazione della carica}
+La misura della carica è costituita da multipli della carica elementare \(e = 1.6022 \cdot 10^{-19} C\). Le particelle elementari
+cariche hanno tutte la stessa carica \(e\):
+\begin{center}
+	\begin{tabular}{c c c}
+		\textbf{Particella} & \textbf{Carica} & \textbf{Massa} \\
+		\toprule
+		Elettrone & \(-1.6022 \cdot 10^{-19} C\) & \(9.1094 \cdot 10^{-31} kg\) \\
+		\midrule
+		Protone & \(1.6022 \cdot 10^{-19} C\) & \(1.6726 \cdot 10^{27} kg\) \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+\subsection{Legge di Coulomb}
+Due cariche elettriche si respingono con una forza proporzionale al prodotto delle intensità delle cariche e inversamente
+proporzionale al quadrato della loro distanza.
+\[\vec{F}_{21} = \frac{1}{4 \pi \varepsilon_0} \cdot \frac{q_1 \, q_2}{r^2} \cdot \hat{r}_{2,1} \qquad \qquad \begin{matrix}
+	\vec{F}_{21} \rightarrow \vec{F}_\text{ della particella 1 sulla particella 2}  \qquad \qquad \qquad \qquad \qquad \;\;\;\; \\
+	\varepsilon_0 \rightarrow \text{costante dielettrica nel vuoto}, \varepsilon_0 = 8,854 \cdot 10^{-12} \frac{C^2}{Nm ^2}
+\end{matrix}\]
+La forza è newtoniana \(\vec{F}_{21} = -\vec{F}_{12}\) ed è additiva \(\vec{F}_{tot} = \sum_{i=2}^{\# \textbf{cariche}} \vec{F}_{1i}\). \\
+In un atomo, la forza di Coulomb tra elettroni e protoni è molto più forte della forza gravitazionale, per cui quest'ultima è
+trascurabile. Nell'universo, invece, si ha prevalentemente forza gravitazionale siccome i corpi celesti sono genericamente neutri.
+
+\subsection{Esperimenti di elettrostatica}
+\subsubsection*{Primo esperimento: bacchette di plexiglass e ebanite}
+Caricando per strofinio le bacchette di ebanite e di plexiglass, si nota che due bacchette di uno stesso materiale si respingono,
+mentre due bacchette di uno stesso materiale si attraggono. Il plexiglass si carica negativamente, l'ebanite si carica positivamente.
+
+\subsubsection*{Secondo esperimento: elettroscopio a foglie}
+Quando si avvicina una bacchetta carica al pomello dell'elettroscopio, le foglie si allontanano per fenomeno dell'induzione
+elettrostatica, ovvero si verifica una redistribuzione delle cariche all'interno di un conduttore in presenza di un altro corpo
+carico nelle vicinanze.
+
+\subsection{Campo elettrico}
+\subsubsection*{Definizione}
+Il campo elettrico si definisce come \(\vec{E} := \vec{F}_{tot,0}/q_0\) dove \(q_0\) è detta carica di prova e \(\vec{F}_0\) è
+la forza totale agente sulla carica di prova.
+\[\vec{E}(x,y,z) = \sum_{i} \frac{1}{4 \pi \varepsilon_0} \; \frac{q_i}{r_{0i}^2} \; \hat{r}_{0i} \qquad \qquad \vec{E} = \vec{F}_{tot,0}/q_0 \qquad \vec{F}_{tot,0} = q_0 \vec{E} \qquad \qquad \vec{E} = \left[ \frac{N}{C} \right] = \left[ \frac{V}{M} \right]\]
+Siccome la forza è additiva, anche il campo elettrico è additivo.
+
+\subsubsection*{Linee del campo elettrostatico}
+Le linee del campo elettrostatico permettono una rappresentazione grafica complessiva del campo elettrico nello spazio. Le linee
+di campo sono curve con le seguenti caratteristiche:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] in ogni punto sono tangenti ai vettori del campo
+	\item[-] il campo è più intenso dove c'è maggiore densità
+	\item[-] le linee non si incrociano mai
+	\item[-] si originano dalle cariche positive e si chiudono nelle cariche negative, se è presente solo una carica, si chiudono
+	all'infinito.
+\end{itemize}
+
+\subsection{Distribuzione continua di carica}
+\subsubsection*{Tipologie di distribuzione}
+Il campo elettrico generato da una distribuzione continua di cariche vale:
+\[\vec{E}(x,y,z) = \frac{1}{4 \pi \varepsilon_0} \int \limits_\text{distribuzione} \frac{dq}{r^2} \; \hat{u}\]
+\begin{itemize}[topsep=3pt, itemsep=-7pt]
+	\item[-] \textbf{Distribuzione lineare}: descritta da \(\lambda\) che descrive la carica per unità di lunghezza \(dl\).
+	\[dq = \lambda dl \quad \rightarrow \quad \vec{E}(x,y,z) = \frac{1}{4 \pi \varepsilon_0} \int_L \frac{\lambda dl}{r^2} \; \hat{u}\]
+	\item[-] \textbf{Distribuzione superficiale}: descritta da \(\sigma\) che descrive la carica per unità di superficie \(d\Sigma\).
+	\[dq = \sigma d\Sigma \quad \rightarrow \quad \vec{E}(x,y,z) = \frac{1}{4 \pi \varepsilon_0} \int_\Sigma \frac{\sigma d\Sigma}{r^2} \; \hat{u}\]
+	\item[-] \textbf{Distribuzione volumetrica}: descritta da \(\rho\) che descrive la carica per unità di volume \(d\tau\).
+	\[dq = \rho d\tau \quad \rightarrow \quad \vec{E}(x,y,z) = \frac{1}{4 \pi \varepsilon_0} \int_V \frac{\rho d\tau}{r^2} \; \hat{u}\]
+\end{itemize}
+
+\subsubsection*{Distribuzioni da sapere}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] campo generato lungo l'asse di un anello di raggio \(R\) con carica \(q\) uniformemente distribuita ad una distanza
+	\(x\) dal centro dell'anello: \(\displaystyle \vec{E} = \frac{\lambda}{2 \varepsilon_0} \; \frac{R \, x}{(R^2 + x^2)^{3/2}} \ux\)
+	\item[-] campo generato lungo l'asse di un disco di raggio \(R\) con carica \(q\) uniformemente distribuita ad una distanza
+	\(x\) dal centro del disco: \(\displaystyle \vec{E} = \pm \frac{\sigma}{2 \varepsilon_0} \; \left(1- \frac{|x|}{\sqrt{R^2 + x^2}}\right) \ux\)
+	\item[-] campo generato da un piano infinito con carica uniformemente distribuita con fattore \(\sigma\) ad una distanza \(x\):
+	\(\displaystyle \vec{E} = \pm \frac{\sigma}{2 \varepsilon_0}\ux\)
+\end{itemize}
+
+\newpage
+
+\subsection{Lavoro della forza elettrostatica}
+Il lavoro compiuto dalla forza elettrostatica lungo un cammino \(AB\) è:
+\[W_{AB} = \int_A^B \vec{F} \cdot d\vec{s} = \int_A^B q \vec{E} \cdot d\vec{s} = q \int_A^B \vec{E} \cdot d\vec{s} \quad (= - q (V_B - V_A))\]
+Si osserva che la forza è conservativa, ovvero è indipendente dal cammino svolto e dipende solo dal punto iniziale \(A\) e dal
+punto finale \(B\). La circuitazione del campo elettrostatico è sempre 0: \(\displaystyle \oint \vec{E} \cdot d\vec{s} = 0\)
+
+\subsection{Potenziale elettrostatico ed energia potenziale elettrostatica}
+\subsubsection*{Potenziale elettrostatico}
+Siccome la forza è conservativa è possibile definire un potenziale elettrostatico:
+\[V_B - V_A = - \int_A^B \vec{E} \cdot d\vec{s} \qquad \qquad V(r) = -\int_{+\infty}^r \vec{E} \cdot d\vec{s}, \text{ con } V(\infty) = 0 \qquad \qquad V = \left[V\right] = \left[ \frac{J}{C} \right]\]
+
+\begin{itemize}
+	\item[-] Il lavoro della forza elettrostatica diventa \(\displaystyle W_{AB} = q \int_A^B \vec{E} \cdot d\vec{s} = - q (V_B - V_A)\)
+	\item[-] Il potenziale e il campo elettrico sono legati dalla relazione: \(\displaystyle E = - \nab V\)
+\end{itemize}
+
+\subsubsection*{Energia potenziale elettrostatica}
+\begin{itemize}
+	\item[-] L'energia potenziale elettrostatica di una carica \(q\) è definita come il lavoro compiuto dal campo elettrico \(E\) per spostare
+	la carica da un punto \(r\) all'infinito: \(\displaystyle U_e = - W_{\infty,r} =  q \int_r^{\infty} \vec{E} \cdot d\vec{s} = qV\)
+	
+	\item[-] L'energia potenziale di una composizione di cariche è la somma dei lavori compiuti per spostare le varie cariche da \(+\infty\)
+	alla loro rispettiva posizione: \(\displaystyle U_e = W_{ext} = \sum_{j>i} \frac{1}{4 \pi \varepsilon_0} \; \frac{q_i q_j}{r_{ij}} = \frac{1}{2} \sum_{i \neq j} \frac{1}{4 \pi \varepsilon_0} \; \frac{q_i q_j}{r_{ij}}\)
+\end{itemize}
+
+\subsubsection*{Legge di conservazione dell'energia}
+Durante il moto di una partricella l'energia totale si conserva:
+\[E_{TOT} = E_K + U_g + U_e = \frac{1}{2} mv^2 + mgh + qV = \text{costante}\]
+
+\subsubsection*{Potenziali da sapere}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] potenziale generato da una distribuzione è \(\displaystyle V_{tot}(r) = -\int_{\infty}^r \vec{E} \cdot d\vec{s} = \frac{1}{4 \pi \varepsilon_0} \int \limits_\text{distribuzione} \frac{dq}{r}\)
+	\item[-] potenziale generato da una carica ad una distanza \(r\) è \(\displaystyle V(r) = \frac{1}{4 \pi \varepsilon_0} \frac{q}{r}\)
+	\item[-] potenziale lungo l'asse di un anello di raggio \(R\) con carica \(q\) uniformemente distribuita ad una distanza
+	\(x\) dal centro dell'anello: \(\displaystyle V(x) = \frac{\lambda R}{2 \varepsilon_0 \; \sqrt{R^2 + x^2}}\)
+	\item[-] potenziale lungo l'asse di un disco di raggio \(R\) con carica \(q\) uniformemente distribuita ad una distanza
+	\(x\) dal centro del disco: \(\displaystyle V(x) = \pm \frac{\sigma}{2 \varepsilon_0} \; \left(\sqrt{R^2 + x^2} - x\right) \ux\)
+	\item[-] potenziale generato da un piano infinito con carica uniformemente distribuita con fattore \(\sigma\) ad una distanza \(x\):
+	\(\displaystyle V(x) = \pm \frac{\sigma}{2 \varepsilon_0} x\)
+\end{itemize}
+
+\subsection{Superfici equipotenziali}
+Le superfici potenziali sono gli insiemi di punti in cui il potenziale è costante. Vengono utilizzate per dare una rappresentazione
+grafica al potenziale in ogni punto del piano. Non forniscono l'intensità del campo, per un punto passa un'unica superficie e le
+linee di forza sono ortogonali alle superfici.
+
+\subsection{Dipolo elettrico}
+\subsubsection*{Potenziale}
+Il dipolo elettrico è costituito da due cariche puntiformi \(+q\) e \(-q\) a distanza \(a\). Il potenziale in un generico punto
+\(P\) a distanza \(r_1\) da \(+q\) e \(r_2\) da \(-q\) vale 
+\[V(P) = \frac{q}{4 \pi \varepsilon_0} \left(\frac{1}{r_1} - \frac{1}{r_2}\right) = \frac{q}{4 \pi \varepsilon_0} \frac{r_2 - r_1}{r_1 r_2}\]
+Per \(r \gg a\) e definito l'angolo \(\theta\) tra \(\vec{r}\) e \(\vec{a}\) con \(\vec{a}\) diretto da \(-q\) a \(+q\) si ha:
+\[V(P) = \frac{q \, a \cos\theta}{4 \pi \varepsilon_0 \, r^2} = \frac{q \, \vec{a} \cdot \hat{r}}{4 \pi \varepsilon_0 \, r^2}\]
+
+\subsubsection*{Momento del dipolo elettrico}
+Viene definito il momento del dipolo elettrico:
+\[\vec{p} = q \, \vec{a} \qquad \rightarrow \qquad V(P) = \frac{\vec{p} \cdot \hat{r}}{4 \pi \varepsilon_0 \, r^2}\]
+
+\subsubsection*{Campo elettrico generato da un dipolo}
+Applicando la relazione \(E = - \nab V\) si ha che il campo generato da un dipolo è: 
+\[\vec{E} = \frac{p}{4 \pi \varepsilon_0 \, r^3} (2 \cos \theta \; \hat{r} + \sin \theta \; \hat{\theta})\]
+
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] lungo l'asse del dipolo (\(\theta = 0, \pi\)) il campo è \(\displaystyle \vec{E} = \frac{2 \vec{p}}{4 \pi \varepsilon_0 r^3}\)
+	\item[-] lungo la perpendicolare all'asse del dipolo (\(\theta = \pi/2, 3\pi/2\)) il campo è \(\displaystyle \vec{E} = -\frac{\vec{p}}{4 \pi \varepsilon_0 r^3}\)
+\end{itemize}
+
+\subsubsection*{Dinamica del dipolo magnetico}
+Si considera un dipolo immerso in un campo elettrico:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] sulle cariche agiscono due forze uguali e opposte \(\vec{F}_1 = -q\vec{E}\) e \(\vec{F}_2 = q\vec{E}\), la risultante
+	delle forze è nulla per cui il centro di massa non si muove
+	\item[-] il momento delle forze è \(\vec{M} = \vec{p} \times \vec{E} = -p E \sin \theta \hat{z}\), il dipolo ruota sotto azione
+	del campo elettrico in modo da allineare il suo asse con l'orientamento del campo elettrico
+\end{itemize}
+
+\subsubsection*{Multipolo}
+Generalizzando una distribuzione di cariche complessivamente neutra, si ha che il potenziale in un punto a distanza \(r\) con per
+\(r \gg a\) dalla distribuzione è:
+\[V(r) = \frac{q}{4 \pi \varepsilon_0 r} + \frac{\vec{p} \cdot \hat{r}}{4 \pi \varepsilon_0 r^2} + \frac{\hat{r} \cdot Q \hat{r}}{4 \pi \varepsilon_0 r^3} + \dots\]
+\[\frac{q}{4 \pi \varepsilon_0 r} \rightarrow \text{carica singola} \qquad \frac{\vec{p} \cdot \hat{r}}{4 \pi \varepsilon_0 r^2} \rightarrow \text{dipolo} \qquad \frac{\hat{r} \cdot Q \hat{r}}{4 \pi \varepsilon_0 r^3} \rightarrow \text{quadrupolo} \qquad \dots\]
+
+\newpage
+
+\subsection{Flusso del campo elettrostatico}
+Il flusso del campo elettrico attraverso una superficie infinitesima \(d\Sigma\) con vettore normale \(\un\) è:
+\[d\Phi(\vec{E}) := \vec{E} \cdot \un \, d\Sigma\]
+Si definisce quindi il flusso attraverso una superficie chiusa \(\Sigma\):
+\[\Phi(\vec{E}) := \oint \vec{E} \cdot \un \, d\Sigma\]
+Se il flusso è positivo, si dice che il flusso è uscente, se il flusso è negativo, il flusso è entrante.
+
+\subsection{Teorema di Gauss}
+\subsubsection*{Enunciato}
+Il teorema di Gauss enuncia che il flusso del campo elettrico attraverso una superficie chiusa è pari al rapporto tra la carica
+totale interna alla superficie e la costante \(\varepsilon_0\).
+\[\Phi(\vec{E}) := \oint \vec{E} \cdot \un \, d\Sigma = \frac{q_\text{tot interna}}{\varepsilon_0}\]
+
+\subsubsection*{Applicazioni}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] sfera di raggio \(R\) e densità superficiale uniforme \(\sigma\): \(\displaystyle \vec{E}_\text{ext} = \frac{R^2 \, \sigma}{r^2 \, \varepsilon_0} \; \hat{r} \qquad \vec{E}_\text{int} = 0\)
+	\item[-] sfera di raggio \(R\) e densità volumetrica uniforme \(\tau\): \(\displaystyle \vec{E}_\text{ext} = \frac{R^3 \, \sigma}{3 r^2 \, \varepsilon_0} \; \hat{r} \qquad \vec{E}_\text{int} = \frac{\sigma \, r}{3 \, \varepsilon_0}\)
+	\item[-] piano infinito con densità superficiale uniforme \(\sigma\): \(\displaystyle \vec{E} = \pm \frac{\sigma}{2 \varepsilon_0} \un\)
+	\item[-] filo rettilineo con carica uniforme \(\lambda\): \(\displaystyle \vec{E} = \frac{\lambda}{2 \pi r \varepsilon_0} \hat{r}\)
+\end{itemize}
+
+\subsection{Forme integrali, forme differenziali, equazione di Poisson}
+\begin{center}
+	\def\arraystretch{2.5}
+	\begin{tabular}{c c c}
+		& \textbf{forme integrali} & \textbf{forme differenziabili} \\
+		\toprule
+		\textbf{potenziale} & \(\displaystyle \qquad V(r) = - \int_\infty^r \vec{E} \cdot d\vec{s} \qquad\) & \(\displaystyle \vec{E} = - \nab V\) \\[7pt]
+		\hline
+		\textbf{flusso} & \(\displaystyle \qquad \Phi(\vec{E}) = \oint \vec{E} \cdot d\vec{\Sigma} \qquad\) & \(\displaystyle \text{div} \, \vec{E} = \nab \cdot \vec{E} = \frac{\rho}{\varepsilon_0}\) \\[7pt]
+		\hline
+		\textbf{circuitazione} & \(\displaystyle \qquad \oint \vec{E} \cdot d\vec{s} \qquad\) & \(\displaystyle \text{rot} \, \vec{E} = \nab \times \vec{E} = \vec{0}\) \\[7pt]
+		\bottomrule
+		\bottomrule
+		\textbf{eq. di Poisson} & \multicolumn{2}{c}{\(\displaystyle \nab^2 V = \nab \cdot \nab V = - \frac{\rho}{\varepsilon_0}\)} \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+Le seguenti tre proprietà sono equivalenti:
+\[\vec{E} \; \text{capmo conservativo} \quad \Leftrightarrow \quad \int_C \vec{E} \cdot d\vec{s} \; \text{indipendente da} \; s \quad \Leftrightarrow \quad \vec{E} = - \nab V \quad \Leftrightarrow \quad \nab \times \vec{E} = \vec{0}\]
+
+\newpage
+
+\subsection{Conduttori in equilibrio}
+\subsubsection*{Definizione}
+I conduttori sono materiali con determinate proprietà che permettono la mobilità dei portatori di carica (il moto delle cariche
+che li costituiscono).
+
+\subsubsection*{Campo elettrico all'interno del conduttore}
+In condizioni statiche e di equilibrio, non c'è movimento delle cariche e si ha che \(\vec{E} = 0\), ovvero non c'è forza che
+mette in moto le cariche. Per questo motivo all'interno del conduttore (se non c'è movimento di cariche), il campo elettrico
+interno è nullo \(\vec{E}_\text{int} = 0\) indipendentemente dal campo esterno. Questo implica che:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] l'eccesso di carica si trova solo sulla superficie del conduttore
+	\item[-] il potenziale è costante sul conduttore (è una superficie equipotenziale)
+	\item[-] il campo elettrico nelle vicinanze della superficie è \(\vec{E} = \sigma / \varepsilon_0 \; \un\)
+	\item[-] la densità di carica superficiale è maggiore dove il raggio di curvatura è minore (effetto ago)
+\end{itemize}
+
+\subsubsection*{Conduttore cavo}
+Un conduttore cavo è un coduttore al cui interno è presente una cavità. Valgono le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] il campo all'interno della cavità è nullo (T. di Gauss)
+	\item[-] il campo all'interno del conduttore è nullo (proprietà conduttore)
+	\item[-] sulle pareti delle cavità non ci sono cariche elettriche (altrimenti ci si contraddice con i punti sopra)
+	\item[-] la carica si distribuisce solo e soltanto sulla superficie esterna (conseguenza)
+	\item[-] il campo all'interno del conduttore e delle cavità è nullo (conseguenza)
+	\item[-] il potenziale è costante all'interno del conduttore e delle cavità (conseguenza)
+	\item[-] il conduttore cavo costituisce uno schermo elettrostatico perfetto
+\end{itemize}
+
+\subsubsection*{Induzione completa}
+Un conduttore carico si trova all'interno della cavità di un conduttore cavo. Si hanno le seguenti proprietà:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] all'interno del conduttore interno e del conduttore esterno il campo è nullo, nella cavità il campo è generato dalla
+	carica superficiale del conduttore interno
+	\item[-] la carica del conduttore interno induce la presenza di una carica uguale e opposta sulla superficie della cavità nel
+	conduttore esterno che a sua volta induce una carica uguale alla prima sulla superficie esterna del conduttore esterno
+	\item[-] l'oggetto si comporta come se ci fosse soltalto la carica distribuita sulla superficie esterna del conduttore esterno,
+	ovvero si ha un perfetto schermo elettrostatico.
+\end{itemize}
+
+\newpage
+
+\subsection{Condensatori}
+\subsubsection*{Struttura}
+Il condensatore è un componente elettronico costituito da due conduttori (armature) separati da un mezzo isolante (dielettrico).
+È in grado di immagazzinare energia elettrostatica attraverso l'accumulo delle cariche sulle armature e di rilasciarla. Si
+definisce la capacità di un condensatore come il rapporto tra la carica sulle armature e la differenza di potenziale:
+\[C = \frac{q}{\Delta V} \qquad \qquad q = C \, \Delta V \qquad \qquad \Delta V = \frac{q}{C} \qquad \qquad [C] = \frac{C_\text{oulomb}}{V_\text{olt}} = F_\text{araday}\]
+
+\subsubsection*{Condensatore sferico}
+Un condesatore sferico è costituito da una sfera di raggio \(R_1\) contenuta all'interno della cavità di una sfera cava con raggio
+della cavità \(R_2\). Le due sfere costituiscono le due armature con distanza \(h = R_2 - R_1\). Nello spazio tra le armature si ha:
+\[\vec{E}(r) = \frac{q}{4 \pi \varepsilon_0 \, r^2} \; \hat{r} \qquad \quad \Delta V = \frac{q}{4 \pi \varepsilon_0} \, \left(\frac{1}{R_1} - \frac{1}{R_2}\right) \qquad C = \varepsilon_0 \, \frac{4 \pi R_1 R_2}{h} \quad C_{R_2 \approx R_1} \approx \varepsilon_0 \, \frac{4 \pi R^2}{h} = \frac{\varepsilon_0 \, \Sigma}{h}\]
+
+\subsubsection*{Condensatore cilindrico}
+Un condensatore cilindrico è costituito da un cilindro interno di raggio \(R_1\) circondato da un cilindro cavo esterno con raggio
+della cavità \(R_2\). Le armature sono costituite dai due cilindri concentrici con \(h = R_2 - R_1\) e altezza \(d\). Tra le armature vale:
+\[\vec{E} = \frac{q}{2 \pi r d \, \varepsilon_0} \; \hat{r} \qquad \quad \Delta V = \frac{q}{2 \pi d \, \varepsilon_0} \, \log \left(\frac{R_2}{R_1}\right) \qquad C = \varepsilon_0 \, \frac{2 \pi d}{\log \left(R_2 / R_1\right)} \quad C_{R_2 \approx R_1} \approx \varepsilon_0 \, \frac{2 \pi d R}{h} = \frac{\varepsilon_0 \, \Sigma}{h}\]
+
+\subsubsection*{Condensatore piano}
+Un condensatore piano è costituito da due piani (infiniti) che costituiscono le due armature ad una distanza costante \(h\). Tra le armature si ha:
+\[\vec{E} = \frac{\sigma}{\varepsilon_0} \; \un \qquad \qquad \Delta V = \frac{\sigma \, h}{\varepsilon_0} \qquad \qquad C = - \frac{\varepsilon_0 \, \Sigma}{h}\]
+
+\subsubsection*{Condensatori in serie}
+La carica sulle armature è costante per tutti i condensatori \(q_\text{tot} = q_1 = q_2 = \dots = q_n\) \\
+La differenza di potenziale totale è la somma delle ddp di ogni condensatore \(\Delta V_\text{tot} = \Delta V_1 + \Delta V_2 + \dots + \Delta V_n\) \\
+La capacità complessiva di \(n\) condensatori collegati in serie è:
+\[\frac{1}{C_\text{tot}} = \frac{1}{C_1} + \frac{1}{C_2} + \dots + \frac{1}{C_n}\]
+
+\subsubsection*{Condensatori in parallelo}
+La differenza di potenziale è costante per tutti i condensatori \(\Delta V_\text{tot} = \Delta V_1 = \Delta V_2 = \dots = \Delta V_n\) \\
+La carica totale è la somma delle cariche di ogni condensatore \(q_\text{tot} = q_1 + q_2 + \dots + q_n\) \\
+La capacità complessiva di \(n\) condensatori collegati in parallelo è:
+\[C_\text{tot} = C_1 + C_2 + \dots + C_n\]
+
+\newpage
+
+\subsection{Energia del campo elettrostatico}
+\subsubsection*{Definizione}
+L'energia del campo elettrostatico (generato da un condensatore) è pari al lavoro necessario a caricare il condensatore che genera
+il campo:
+\begin{align*}
+	dW &= \Delta V dq = \frac{q}{C} dq \quad \rightarrow \quad W = \int_0^{q} \frac{q'}{C} \; dq' = \frac{1}{2} \frac{q^2}{C} = \frac{1}{2} C \Delta V^2 = \frac{1}{2} q \Delta V \\
+	U_e &= W = \frac{1}{2} C \Delta V^2 = \frac{\varepsilon_0}{2} \, E^2 \, \Sigma \, h = \frac{\varepsilon_0}{2} \, E^2 \, \tau \quad \text{con} \; C = \frac{\varepsilon_0 \, \Sigma}{h}, \; \Delta V = E \, h, \; \tau = \Sigma \, h
+\end{align*}
+Si ottiene che l'energia del campo elettrostatico è:
+\[dU_e = \frac{\varepsilon_0}{2} \, E^2 \, d\tau \qquad U_e = \frac{\varepsilon_0}{2} \int \limits_\text{distribuzione} E^2 \; d\tau\]
+
+\subsection{Dielettrici}
+\subsubsection*{Definizione}
+Un dielettrico è un materiale isolante.
+
+\subsubsection*{Condensatore di Epino e costante dielettrica}
+Il condensatore di Epino è un condensatore in cui è possibile modificare la distanza tra le armature e inserire materiali
+dielettrici tra le armature. Si osserva che:
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] allontanando le armature, aumenta la differenza di potenziale e diminuisce la capacità, viceversa avvicinando le
+	armature diminuisce la differenza di potenziale e aumenta la capacità
+	\item[-] se viene inserito un conduttore tra le armature:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] si ha induzione eletrostatica completa
+		\item[-] il campo all'interno del conduttore è nullo
+		\item[-] il potenziale si riduce, come se lo spessore del conduttore fa ridurre l'\(h\) e di conseguenza diminuisce
+		il potenziale e aumenta la capacità
+	\end{itemize}
+	\item[-] se viene inserito un dielettrico tra le armature:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] si ha un fenomeno di polarizzazione del dielettrico
+		\item[-] il potenziale si riduce perché varia la costate dielettrica del mezzo
+	\end{itemize}
+\end{itemize}
+
+\subsubsection*{Costante dielettrica relativa}
+Viene definita la costante dielettrica relativa \(\kappa\) del dielettrico come il rapporto tra la differenza di potenziale in
+assenza e  in presenza del dielettrico tra le armature. Si definisce anche la suscettività elettrica del dielettrico \(\chi\):
+\[\kappa := \frac{V_0}{V_\kappa} > 1 \qquad \qquad \chi = \kappa - 1 > 0\]
+Si ha che:
+\[E_\kappa = \frac{V_\kappa}{h} = \frac{V_0}{\kappa h} = \frac{E_0}{\kappa} = \frac{\sigma_0}{\kappa \varepsilon_0} = \frac{\sigma_0}{\varepsilon_\kappa} = \frac{\sigma_0}{\varepsilon_0} - \frac{\sigma_p}{\varepsilon_0} = \frac{\sigma_0}{\varepsilon_0} - \frac{\chi \sigma_0}{\kappa \varepsilon_0} \quad
+\text{con} \; \sigma_p = \frac{\kappa-1}{\kappa} \sigma_0 = \frac{\chi}{\chi+1}\sigma_0\]
+Si osserva all'interno del dielettrico si crea un campo con modulo \(\displaystyle E_\text{int} = \frac{\chi \sigma_0}{\kappa \varepsilon_0}\)
+che si oppone al campo esterno. Questo è dovuto alla polarizzazione del dielettrico che fa \say{accumulare} cariche alle estremità
+del materiale isolante. \\[10pt]
+La costante dielettrica del mezzo (\(\neq\) vuoto) diventa: \[\varepsilon_\kappa = \kappa \,  \varepsilon_0 > \varepsilon_0\]
+
+\subsubsection*{Polarizzazione del dielettrico}
+In presenza di un campo elettrico esterno, all'interno del dielettrico il nucleo degli atomi si sposta in direzione concorde
+con il campo elettrico, mentre gli elettroni si concentrano nella parte opposta. In questo modo di formano tanti dipoli con
+momento \(p_a = Z_\text{\# protoni} \cdot e_\text{carica elem.} \cdot \chi_\text{spostamento del nucleo}\), come nei materiali
+costituiti da molecole polari (es. acqua). Si definisce il vettore di polarizzazione:
+\[\vec{p} = \varepsilon_0 \, \chi_\text{suscettività} \, \vec{E} \qquad \qquad \vec{p} = \frac{\vec{p}_\text{tot}}{\tau} = \frac{N}{\tau} \langle \vec{p} \rangle  = n \langle \vec{p} \rangle  \qquad n = \text{\# dipoli per volume}\]
+In assenza di campo elettrico esterno, il momento di dipolo totale è nullo. In presenza di un campo elettrico esterno, i momenti
+si allineano e formano un momento totale risultante non nullo e concorde con il campo esterno. Lungo 
+
+\subsubsection*{Capacità di condensatori con dielettrico}
+La formula della capacità di condensatori con un dielettrico tra le armature aumenta di un fattore \(\kappa\):
+\[C_\kappa = \frac{q}{\Delta V_\kappa} = \kappa \, \frac{q}{\Delta V_0} = \kappa \, C_0\]
+
+\subsection{Materiali conduttori, modello di Drude e corrente elettrica}
+\subsubsection*{Moto degli elettroni - elettroni liberi}
+Nei materiali conduttori, la presenza di elettroni liberi permette la formazione di correnti di elettroni che si spostano da una
+zona con potenziale minore ad un'altra con potenziale maggiore (verso opposto al campo elettrico).
+
+\subsubsection*{Modello di Drude}
+Nel modello di Drude di immagina che gli elettroni liberi viaggino in moto disordinato rimbalzando tra i cationi del conduttore.
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] In assenza di campo elettrico, la direzione dopo gli urti è causale e la velocità media degli elettroni è nulla
+	\(v_m = \frac{1}{N} \, \sum v_i = 0\), con \(\tau\) tempo medio tra gli urti
+	\item[-] In presenza di un campo elettrico, gli elettroni subiscono una accelerazione dovuta alla forza elettrica
+	\(\vec{a} = \frac{\vec{F}}{m} = - \frac{e \vec{E}}{m}\) per cui avranno una velocità di deriva \(v_d = v_m + a t = - e \, \vec{E} \, \tau / m \approx \text{costante}\)
+\end{itemize}
+
+\subsubsection*{Corrente elettrica e densità di corrente elettrica}
+È possibile definire la corrente elettrica come la quantità di carica che attraversa una determinata superficie in un'unità di tempo:
+\[i = \lim_{\Delta t \to 0} \frac{\Delta q}{\Delta t} = \frac{dq}{dt}\]
+Sapendo che \(\Delta q = n \, (-e) \, v_d \, \Delta t \, \Sigma \cos \Theta\) con \(n =\) \# elettroni per unità di volume, si ha
+\(di = n \, v_d \, d\Sigma \cos \theta\).
+Si può definire la densità di corrente (corrente per unità di superficie):
+\[\vec{j} = n (-e) \vec{v_d} \qquad \qquad i = j \Sigma, \quad j = i / \Sigma\]
+
+\newpage
+
+\subsection{Legge di Ohm}
+Unendo le formule della densità di corrente \(\vec{j}\) e della velocità di deriva \(v_d\) si ha:
+\[\vec{j} = \frac{n e^2 \tau}{m} \vec{E} \quad \rightarrow \quad \begin{matrix}
+	\vec{j} = \sigma \vec{E} \;\; \text{con} \; \sigma = \frac{n e^2 \tau}{m} \;\; \text{conduttività del materiale} \\[10pt]
+	\vec{E} = \rho \vec{j} \;\; \text{con} \; \rho = \frac{1}{\sigma} \;\; \text{resistività del materiale} \qquad \quad \,\,
+\end{matrix}\]
+In situazioni stazionarie la corrente è costante in ogni sezione del conduttore, per cui è possibile riscrivere la formula sopra
+in funzione della corrente \(i\):
+\[\vec{E} = \rho \vec{j} \quad \rightarrow \quad \vec{E} = \frac{\rho}{\Sigma} \vec{i}\]
+Riscrivendo il campo attraverso il potenziale \(V = E \, h\) si ottiene
+\[\vec{E} = \frac{\rho}{\Sigma} \vec{i} \quad \rightarrow \quad V = \frac{\rho \, h}{\Sigma} i  \quad \rightarrow \quad V = R \, i \;\; \text{con} \; R = \frac{\rho \, h}{\Sigma} \;\; \text{resistenza del materiale}\]
+
+\subsection{Resistenze}
+La resistenza è un componente elettronico costituito da un materiale in grado di ostacolare/attenuare l'intensità della corrente
+che circola in un circuito. La relazione tra \(i\), \(V\), \(R\) è data dalla legge di Ohm \[V = R \, i\]
+Il valore della resistenza varia in base alla temperatura seconodo la legge: \(R = R_{20} (1 + \alpha \Delta T)\), con la costante
+\(\alpha\) propria di ogni materiale.
+
+\subsubsection*{Resistenze in serie}
+L'intensità di corrente è costante su tutte le resistenze \(i_{tot} = i_1 = i_2 = \dots = i_n\) \\
+La differenza di potenziale totale è la somma delle ddp \(\Delta V_\text{tot} = \Delta V_1 + \Delta V_2 + \dots + \Delta V_n\) \\
+La resistenza complessiva di \(n\) resistenze collegate in serie è:
+\[R_\text{tot} = R_1 + R_2 + \dots + R_n\]
+
+\subsubsection*{Resistenze in parallelo}
+L'intensità di corrente è è la somma delle correnti di ogni resistenza \(i_{tot} = i_1 + i_2 + \dots + i_n\) \\
+La differenza di potenziale è costante per tutte le resistenze \(\Delta V_\text{tot} = \Delta V_1 = \Delta V_2 = \dots = \Delta V_n\) \\
+La resistenza complessiva di \(n\) resistenze collegate in parallelo è:
+\[\frac{1}{R_\text{tot}} = \frac{1}{R_1}+ \frac{1}{R_2} + \dots + \frac{1}{R_n}\]
+
+\subsubsection*{Potenza dissipata da una resistenza}
+La potenza dissipata da una resistenza sottoforma di calore per effetto Joule è:
+\[P_\text{dissipata} = R \, i^2 = V \, i = \frac{V^2}{R}\]
+
+\newpage
+
+\subsection{Generatori di forza elettromotrice}
+\subsubsection*{Definizione}
+Un generatore di forza elettromotrice è un dispositivo in grado di mantenere una differenza di potenziale costante per un determinato
+periodo di tempo. Il primo generatore inventato è stato la pila di Alessandro Volta (pila voltaica) che trasforma energia chimica in
+energia elettrica.
+
+\subsubsection*{Forza elettromotrice}
+In un circuito con corrente che circola, il campo elettrico è costituito da un campo conservativo \(E\) e da un altro non conservativo
+\(E*\) originato da un generatore (generatore chimico, induzione elettromagnetica). La circuitazione sul circuito è pari alla
+differenza di potenziale creata dal generatore di forza elettromotrice:
+\[\mathcal{E}_\text{FEM} := \oint \vec{E} \cdot d\vec{s} = V_A - V_B = \Delta V = R \, i\]
+Nei generatori reali è presente una resistenza interna \(r\) al generatore, per cui si ha:
+\[\mathcal{E} - r \, i = R \, i \quad \rightarrow \quad \Delta V = (R + r) i\]
+
+\subsubsection*{Potenza erogata - dissipata}
+La potenza erogata da un generatore è: \(\qquad P_\text{erogata} = \mathcal{E} i\) \\
+Sostituendo \(\mathcal{E} = (R + r) \, i\) si ottiene che la potenza erogata viene interamente dissipata dalla resistenza:
+\[P_\text{erogata} = \mathcal{E} i = R_\text{tot} i^2 = P_\text{dissipata}\]
+
+\subsection{Circuiti e leggi di Kirchhoff}
+\subsubsection*{Leggi di Kirchhoff}
+\begin{itemize}
+	\item[-] \textbf{Legge dei nodi}: \\
+	La somma algebrica delle correnti che confluiscono in un nodo è nulla, le correnti entranti hanno segno	positivo, le correnti
+	uscenti hanno segno negativo, \[\sum_k i_k = 0\]
+	\item[-] \textbf{Legge delle maglie}: \\
+	La soma algebrica delle forze elettromotrici presenti nei rami è uguale alla somma dei prodotti delle differenze di potenziale
+	ai capi dei resistori nei rami. Fissato un verso di percorrenza della maglia, se la corrente è concorde avrà segno positivo
+	altrimenti ha segno negativo. La sorgente di FEM ha segno positivo se è percorsa da polo negativo al positivo, altrimenti avrà
+	segno negativo. \[\sum_k \mathcal{E}_k = \sum_k R_k i_k\]
+\end{itemize}
+
+\newpage
+
+\subsubsection*{Circuito RC in carica}
+\begin{itemize}
+	\item[-] in un circuito RC aperto con condensatore carico si ha che il condensatore ha immagazzinato \(U_e = {q_0}^2 / 2C\) e
+	ha una differenza di potenziale tra le armature \(V_0 = q_0/C\)
+	\item[-] alla chiusura del circuito inizia a circolare corrente \(i = - dq/dt\) per annullare le cariche presenti nelle armature
+	del condensatore
+	\item[-] dalle equazioni sopra e dalle leggi di Kirchhoff si ottiene che:
+	\begin{align*}
+		&1. \quad V_C = \frac{q}{C} = V_R = R \, i \;\;\rightarrow\;\; i = \frac{q}{RC} \\
+		&2. \quad i = - \frac{dq}{dt} = \frac{q}{RC} \;\;\rightarrow\;\; \frac{dq}{q} = \frac{dt}{RC} \\
+		&3. \quad \int_q^0 \frac{dq}{q} = - \int_0^t \frac{dt}{RC} \;\;\rightarrow\;\; \ln(q/q_0) = -\frac{t}{RC} \;\;\stackrel{\tau = RC}{\rightarrow}\;\; q(t) = q_0 \, e^{-t/\tau} \\
+		&4. \quad V(t) = \frac{q(t)}{C} = \frac{q_0}{C} e^{-t/\tau} = V_0 \, e^{t/\tau} = V_\text{max} \, e^{t/\tau} \\
+		&5. \quad i(t) = -\frac{dq}{dt} = \frac{q_0}{RC}e^{-t/\tau} = i_\text{max} \, e^{-t/\tau} \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+	\end{align*}
+	\item[-] per cui in un condensatore in scarica si hanno le seguenti equazioni
+	\[q(t) = q_0 \, e^{-t/\tau} \qquad \qquad V(t) = V_0 \, e^{-t/\tau} \qquad \qquad i(t) = \frac{q_0}{RC} \, e^{-t/\tau} \qquad \qquad \tau = RC\]
+	\item[-] l'energia immgazzinata dal condensatore viene tutta dissipata dalla resistenza
+\end{itemize}
+
+\subsubsection*{Circuito RC in scarica}
+\begin{itemize}
+	\item[-] in un circuito RC aperto con condensatore scarico e con un generatore di FEM, l'energia immagazinata dal
+	condensatore è nulla
+	\item[-] alla chiusura del circuito inizia a circolare corrente \(i = dq/dt\) che deposita cariche sulle armature del
+	condensatore, accumulando energia, fino a \(q_0 = C \mathcal{E}\)
+	\item[-] dalle equazioni sopra e dalle leggi di Kirchhoff si ottiene che:
+	\begin{align*}
+		&1. \quad \mathcal{E} = V_R(t) + V_C(t) \;\;\rightarrow\;\; \mathcal{E} = Ri(t) + \frac{q(t)}{C} \\
+		&2. \quad i = \frac{dq}{dt} \;\;\rightarrow\;\; R \frac{dq}{dt} = \mathcal{E} -\frac{q}{C} \;\;\rightarrow\;\; \frac{dq}{q - C\mathcal{E}} = - \frac{dt}{RC} \\
+		&3. \quad \frac{dq}{q - C\mathcal{E}} = - \frac{dt}{RC} \;\;\rightarrow\;\; \int_0^q \frac{dq}{q - C\mathcal{E}} = -\int_0^t \frac{dt}{RC} \;\;\rightarrow\;\; \ln \frac{q - C\mathcal{E}}{-C\mathcal{E}} = -\frac{t}{RC} \\
+		&4. \quad \ln \frac{q - C\mathcal{E}}{-C\mathcal{E}} = -\frac{t}{RC}  \;\;\rightarrow\;\; q(t) = C \mathcal{E} (1-e^{-t/\tau}) = q_\text{tot} (1-e^{-t/\tau}) \\
+		&5. \quad V(t) = \frac{q(t)}{C} = \mathcal{E} (1-e^{-t/\tau}) =  V_\text{max} (1-e^{-t/\tau}) \\
+		&6. \quad i = \frac{dq}{dt} = \frac{\mathcal{E}}{R} (1-e^{-t/\tau}) = i_\text{max} (1-e^{-t/\tau}) \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+	\end{align*}
+	\item[-] per cui in un condensatore in scarica si hanno le seguenti equazioni
+	\[q(t) = C \mathcal{E} \, (1-e^{-t/\tau}) \qquad \qquad V(t) = \mathcal{E} \, (1-e^{-t/\tau}) \qquad \qquad i(t) = \frac{\mathcal{E}}{R} \, (1-e^{-t/\tau}) \qquad \qquad \tau = RC\]
+	\item[-] l'energia fornita dal generatore viene per metà immagazzinata nel condensatore e per metà dissipata nella resistenza
+	\item[-] si immagina che esista una corrente di spostamento tra le armature del condenstore, oltre a quella di conduzione che
+	circola all'interno del circuito:
+	\[i_\text{spostamento} = \varepsilon_0 \dt \Phi(E) \qquad i = i_\text{conduzione} + i_\text{spostamento} = i_\text{conduzione} + \varepsilon_0 \dt \Phi(E)\]
+\end{itemize}
+
+\end{document}
