@@ -772,4 +772,313 @@ Si studia il flusso del campo magnetico attraverso una superficie chiusa \(\Sigm
 entra in una superficie, prima o poi deve uscire, per cui si ha flusso nullo.
 \[\Phi(\vec{B}) = \oint_\Sigma \vec{B} \cdot \un d\Sigma = 0 \qquad \qquad \nab \cdot \vec{B} = 0\]
 
+\newpage
+
+\section{Elettromagnetismo}
+\subsection{Equazioni di Maxwell (senza variazione temporale)}
+\begin{align*}
+	&\oint \vec{E} \cdot d\vec{s} = 0 \qquad \nab \times \vec{E} = 0 &&\oint \vec{B} \cdot d\vec{s} = \mu_0 \; i \qquad \nab \times \vec{B} = \mu_0 \; \vec{j} \\[10pt]
+	&\oint \vec{E} \cdot d\vec{\Sigma} = \frac{q_\text{int}}{\varepsilon_0} \qquad \nab \cdot \vec{E} = \frac{\rho_\text{int}}{\varepsilon_0} &&\oint \vec{B} \cdot d\vec{\Sigma} = 0 \qquad \nab \cdot \vec{B} = 0
+\end{align*}
+
+\subsection{Legge di Faraday-Neumann-Lenz}
+Si osserva che in un circuito chiuso con amperometro a 0 centrale, quando si avvicina un magnete, circola corrente, quando si
+ferma il magnete, la corrente smette di circolare. Si conclude che la corrente circola solo se c'è variazione di campo magnetico
+e si osserva che il verso è opposto a quello della corrente che indurrebbe il campo: la corrente si oppone alla variazione di
+flusso.
+\[\mathcal{E}_\text{FEM indotta} = -\frac{d \Phi(\vec{B})}{dt} \qquad \rightarrow \qquad \oint_\mathcal{L} \vec{E}_i \cdot d\vec{s} = -\frac{\partial}{\partial t}\int_\Sigma \vec{B} \cdot d\vec{\Sigma} \qquad\qquad \nab \times \vec{E} = -\frac{d\vec{B}}{dt}\]
+
+\subsubsection*{Correnti parassite - di Foucault - di eddy}
+In un conduttore immerso in un campo magnetico variabile nel tempo, si formano delle correnti indotte all'interno di esso. Queste
+correnti dissipano energia sotto forma di calore e vengono chiamate correnti parassite o correnti di Foucault o correnti di eddy
+(vortice).
+
+\subsection{Correnti alternate}
+\subsubsection*{Alternatore}
+Un alternatore è composto da una spira (bobina) circolare immersa in un campo magnetico che viene fatta ruotare con un momento
+fornito dall'esterno con velocità angolare \(\omega\). Variando l'angolo tra il campo \(B\) e la normale alla superficie si ha
+una variazione di flusso che induce una corrente indotta nella spira.
+\begin{align*}
+	&\quad \mathcal{E}_\text{FEM indotta} = - \frac{\partial \Phi(\vec{B})}{\partial t} = - B \Sigma \omega \sin (\omega t) = - \mathcal{E}_\text{ind max} \sin(\omega t) \qquad \mathcal{E}_\text{ind max} = B \Sigma \omega \\
+	&\quad i_\text{indotta} = \frac{\mathcal{E}_\text{indotta}}{R} = i_\text{ind max} \sin(\omega t) \qquad i_\text{ind max} = \frac{B \Sigma \omega}{R} \\
+	&\quad P_\text{otenza} = R \cdot i^2 = \frac{\mathcal{E}_\text{ind max}}{R} \sin (\omega t) \qquad P_\text{media} = \frac{1}{2} R \cdot {i_\text{ind max}}^2 \\
+	&\quad \mathcal{E}_\text{eff} = \mathcal{E}_\text{ind max} \frac{\sqrt{2}}{2} \qquad i_\text{eff} = i_\text{ind max} \frac{\sqrt{2}}{2} \quad \rightarrow \quad P_\text{media} = \frac{{\mathcal{E}_\text{eff}}^2}{R} =  R {i_\text{eff}}^2
+\end{align*}
+Si osserva che forza elettromotrice e corrente sono in fase tra loro (\(\Delta\phi = 0\)). Per assorbire l'\(1/2\) della potenza
+media si definisce la forza elettromotrice efficace e la corrente efficace.
+
+\subsubsection*{Legge di Felici}
+La carica che circola nel circuito tra due istanti \(t_1\) e \(t_2\) è pari a:
+\[q = \frac{\Phi_{t_1}(\vec{B}) - \Phi_{t_2}(\vec{B})}{R}\]
+
+\newpage
+
+\subsection{Induttanza}
+\subsubsection*{Induttanza}
+Un'induttanza è un componente elettronico formato da una bobina su cui scorre corrente elettrica. In questa bobina possono avere
+fenomeni di autoinduzione e di mutua induzione.
+
+\subsubsection*{Autoinduzione}
+Avviene quando un circuito genera un campo magnetico che induce una corrente indotta su sé stesso.
+\[\vec{B} = \frac{\mu_0 \, i}{4 \pi} \oint \frac{d\vec{s} \times \ur}{r^2} \; \text{per Ampère-Laplace}, \quad \Phi(\vec{B}) = \int \vec{B} \cdot d\vec{\Sigma} \quad \rightarrow \quad \Phi(\vec{B}) = \int \left(\frac{\mu_0 \, i}{4 \pi} \oint \frac{d\vec{s} \times \ur}{r^2}\right) \cdot d\vec{\Sigma}\]
+\[\Phi(\vec{B}) = L \, i \qquad\qquad L = \int \left(\frac{\mu_0}{4 \pi} \oint \frac{d\vec{s} \times \ur}{r^2}\right) \cdot d\vec{\Sigma}\]
+Si definisce il coefficiente di autoinduzione (o autoinduttanza) \(L\) con unità di misura \(H_\text{enry}\). Siccome il fenomeno
+genera correnti indotte, si ha che l'intensità di corrente che circola sul circuito dipenderà dal tempo ed è data dalla soluzione
+di un'equazione differenziale.
+\[\mathcal{E}_i = -\frac{d\Phi(\vec{B})}{dt} = -\frac{d(Li)}{dt} = -L \frac{di}{dt} \quad \rightarrow \quad i(t) = \frac{\mathcal{E}}{R} - \frac{A}{R} \; e^{-\frac{R}{L} t}\]
+
+\subsubsection*{Extracorrenti di chiusura}
+Nel caso di chiusura di un circuito RL all'istante \(t = 0\) si ha che \(i_0 = 0\) con \(i_{>0}\) crescente:
+\[i(0) = 0 \quad\rightarrow\quad \frac{\mathcal{E}}{R} - \frac{A}{R} \; e^{-\frac{R}{L} \cdot\, 0} = 0 \quad\rightarrow\quad A = \mathcal{E}\]
+Per cui alla chiusura del circuito si ha che l'intensità di corrente che circola è:
+\[i(t) = \frac{\mathcal{E}}{R} (1-e^{-t/\tau}) = \frac{\mathcal{E}}{R} - \frac{\mathcal{E}}{R} e^{-t/\tau} \qquad \tau=\frac{L}{R} \leftarrow \text{t. caratteristico} \quad - \frac{\mathcal{E}}{R} e^{-t/\tau} \leftarrow \text{extracorrente di chiusura}\]
+
+\subsubsection*{Extracorrenti di apertura}
+Nel caso di apertura di un circuito RL all'istante \(t = 0\) si immagina d'inserire una resistenza \(R' \gg R\) in modo da poter
+immaginare che si possa avere ancora corrente di scorrimento, ma allo stesso tempo si ha praticamente un circuito aperto per
+l'alto valore della resistenza.
+\[i(t) = \frac{1}{R + R'} \left(\mathcal{E} - A \; e^{-\frac{R+R'}{L} \, t}\right) = \frac{1}{R'} \left(\mathcal{E} - A \; e^{-\frac{R'}{L} \, t}\right) \qquad i(0) = \frac{\mathcal{E}}{R} \quad \rightarrow \quad A = \mathcal{E}\,\frac{R - R'}{R} \approx \mathcal{E} - \frac{R'}{R}\]
+Per cui all'apertura del circuito si ha che l'intensità di corrente che circola è:
+\[i(t) = \frac{\mathcal{E}}{R'}  + \frac{\mathcal{E}}{R} \; e^{-t/\tau'} \approx \frac{\mathcal{E}}{R} \, e^{-t/\tau'} \qquad \tau' = \frac{L}{R'} \leftarrow \text{t. caratteristico} \quad \frac{\mathcal{E}}{R} \, e^{-t/\tau'} \leftarrow \text{extracorrente di apertura}\]
+L'extracorrente di apertura è quella che genera la scintilla quando si stacca la spina.
+
+\subsubsection*{Autoinduttanze in solenoidi}
+In un solenoide toroidale a sezione rettangolare di lati \(a\), \(b\) con \(N\) spire, il valore di autoinduttanza è
+\[L = \frac{\mu_0 N^2 a}{2 \pi} \ln \left( 1+ \frac{b}{R} \right)\]
+
+In un solenoide infinito di passo \(\lambda\), il valore di autoinduttanza per unità di lunghezza è:
+\[L_{/l} = \mu_0 \lambda^2 \Sigma\]
+
+\subsubsection*{Energia magnetica immagazzinata all'interno di un'induttanza}
+È possibile definire l'energia magnetica immagazzinata all'interno di un'induttanza come il lavoro compiuto dal generatore nel
+momento di chiusura e l'energia dissipata al momento di apertura del circuito.
+Definendo il lavoro \(dW = \mathcal{E} dq = \mathcal{E} i \, dt = (R i + L \, di / dt) \, i \, dt = R i^2 dt + L i \, di\) si ha
+che il lavoro complessivo al momento di chiusura del circuito è pari a:
+\[W_\text{tot} = \frac{1}{2} Li^2 + R \, i_\infty^2 \, t_\infty \qquad \begin{matrix}
+	^1\!/_2 \; Li^2 \leftarrow \text{energia immagazzinata nell'induttanza}\\[5pt]
+	R \, i_\infty^2 \, t_\infty \leftarrow \text{energia dissipata dalla resistenza} \qquad\quad
+\end{matrix}\]
+Il l'energia dissipata al momento di apertura del circuito (puramente resistivo con \(R_{eq} = R'\)) è pari a:
+\[W_\text{tot} = \frac{1}{2} Li^2 \quad \leftarrow \text{solamente energia immagazzinata nell'induttanza}\]
+Si osserva, quindi, che l'induttanza immagazzina un'energia \(U_L\) ed è possibile definire l'energia del campo magnetico
+(sostituendo per un opportuno \(L\)):
+\[ \quad U_L = \frac{1}{2} Li^2 \qquad\qquad U_B = \frac{1}{2\mu_0} B^2 \tau \qquad \left(U_e = \frac{1}{2}\varepsilon_0 E^2 \tau\right)\]
+
+\subsubsection*{Mutua induzione}
+Si immagina di avere due circuiti RC tali per cui il campo generato dall'induttanza di un circuito investe completamente
+l'induttanza dell'altro circuito e viceversa.
+\[\begin{matrix}
+	\Phi_{12} = \Phi_2(\vec{B}_1) = M_{12} \; i_1 \leftarrow \text{flusso del campo del circuito 1 agente sul circuito 2} \\
+	\Phi_{21} = \Phi_1(\vec{B}_2) = M_{21} \; i_2 \leftarrow \text{flusso del campo del circuito 2 agente sul circuito 1}
+\end{matrix}\]
+Si dimostra che \(M_{12} = M_{21} = M\) ed è chiamato coefficiente di mutua induzione.\\
+Si definisce l'energia immagazzinata dalla mutua induzione come il lavoro compiuto dal generatore di uno dei due circuiti
+sull'altro, ottenendo:
+\[W_m = U_m = M i_1 i_2 + \frac{1}{2} L_1 {i_1}^2 + \frac{1}{2} L_2 {i_2}^2 \qquad M i_1 i_2 \leftarrow \text{lavoro di mutua induzione} \]
+
+\subsection{Circuiti a corrente alternata}
+\subsubsection*{Circuito LC}
+In un circuito LC si ha un condensatore carico, una induttanza e un interruttore inizialmente aperto. Alla chiusura del circuito,
+il condensatore si scarica creando una corrente \(i\) e l'induttanza crea autoinduttanza.
+\[q(t) = q_0 \cos (\omega t) \qquad i(t) = \omega \, q_0 \sin(\omega t) \qquad V_C(t) = \frac{q_0}{C} \cos(\omega t) \qquad V_L(t) =  -V_C(t) \qquad \omega = \frac{1}{\sqrt{LC}}\]
+L'energia totale si conserva nel tempo e si distribuisce tra il condensatore e l'induttanza.
+\[U_\text{tot} = U_C(t) + U_L(t) = \frac{1}{2} \frac{{q_0}^2}{C} \cos^2(\omega t) + \frac{1}{2} \frac{{q_0}^2}{C} \sin^2(\omega t)\]
+
+\subsubsection*{Circuito RLC senza generatori}
+Un circuito RLC senza generatore si comporta come un circuito LC con la presenza di un fattore di smorzamento.
+\[i(t) = A e^{-\gamma t} \cos(\omega t + \theta) \qquad T_\text{pseudoperiodo} = \frac{2\pi}{\omega} = \frac{2\pi}{\sqrt{\omega_0^2 - \gamma^2}} \qquad \omega = \sqrt{\omega_0^2 - \gamma^2} \qquad \gamma \leftarrow \text{smorzamento}\]
+
+\subsubsection*{Circuito R + AC}
+In un circuito formato da una resistenza e un generatore di corrente alternata si ha che la corrente e la tensione sono in fase
+tra di loro:
+\[\mathcal{E}(t) = \mathcal{E}_0 \cos(\omega t) \qquad i(t) = \frac{\mathcal{E}(t)}{R} = \frac{\mathcal{E}_0}{R} \cos(\omega t) \qquad V_R(t) = R i_0 \cos(\omega t)\]
+
+\subsubsection*{Circuito L + AC}
+In un circuito formato da una induttanza e un generatore di corrente alternata si ha che la corrente e la tensione sono in ritardo
+di \(\pi/2\) rispetto alla forza elettromotrice, ovvero c'è uno sfasamento di \(\pi/2\)
+\[\mathcal{E}(t) = \mathcal{E}_0 \cos(\omega t) \qquad \mathcal{E} = L \frac{di}{dt} \;\;\rightarrow\;\; i(t) = \frac{\mathcal{E}_0}{L\omega} \cos \left( \omega t + \frac{\pi}{2} \right) \qquad V_L(t) = L \omega i_0 \cos \left( \omega t + \frac{\pi}{2} \right)\]
+È possibile definire la reattanza dell'induttanza, ovvero la resistenza associata all'induttanza come \(Z_L\):
+\[Z_L = L\omega \qquad i(t) = \frac{\mathcal{E}_0}{Z_L} \cos \left( \omega t + \frac{\pi}{2} \right) \qquad V_L(t) = Z_L i_0 \cos(\omega t + \frac{1}{2})\]
+
+\subsubsection*{Circuito C + AC}
+In un circuito formato da un condensatore e un generatore di corrente alternata si ha che la corrente e la tensione sono in
+anticipo di \(\pi/2\) rispetto alla forza elettromotrice, per cui c'è uno sfasamento di \(\pi/2\)
+\[\mathcal{E} = \mathcal{E}_0 \cos(\omega t) \qquad q = C \mathcal{E} \;\;\rightarrow\;\; i(t) = \frac{dq}{dt} = C \omega \mathcal{E}_0 \cos \left( \omega t + \frac{\pi}{2} \right) \qquad V_C(t) = \frac{q(t)}{C} = \frac{i_0}{\omega C} \cos \left( \omega t + \frac{\pi}{2} \right)\]
+È possibile definire la reattanza del condensatore \(Z_C\):
+\[Z_C = \frac{1}{C \omega} \qquad i(t) = \frac{\mathcal{E}}{Z_C} \cos \left( \omega t + \frac{\pi}{2} \right) \qquad V_C(t) = Z_C i_0 \cos \left( \omega t + \frac{\pi}{2} \right)\]
+
+\subsubsection*{Circuito RL + AC}
+In un circuito formato da una resistenza, un'induttanza e un alternatore si ha uno sfasamento \(\theta\) che dipende dai valori
+di \(R\) e \(L\) e si definisce la reattanza del circuito \(Z_{RL}\)
+\[Z_{RL} = \sqrt{R^2 + {Z_L}^2} = \sqrt{R^2 + \omega^2 L^2} \qquad \tan \theta = \frac{Z_L}{R} = \frac{\omega L}{R}\]
+
+\subsubsection*{Circuito RC + AC}
+In un circuito formato da una resistenza, un condensatore e un alternatore si ha uno sfasamento \(\theta\) che dipende dai valori
+di \(R\) e \(C\) e si definisce la reattanza del circuito \(Z_{RC}\)
+\[Z_{RC} = \sqrt{R^2 + {Z_C}^2} = \sqrt{R^2 + \frac{1}{\omega^2 C^2}} \qquad \tan \theta = -\frac{Z_C}{R} = -\frac{1}{RC\omega}\]
+
+\subsubsection*{Circuito RLC con generatore}
+In un circuito formato da una resistenza, un'induttanza un condensatore e un alternatore si ha uno sfasamento \(\theta\) che
+dipende dai valori di \(R\), \(L\) e \(C\) e si definisce la reattanza del circuito \(Z\)
+\[Z = \sqrt{R^2 + (Z_L-Z_C)^2} = \sqrt{R^2 + \left( \omega L - \frac{1}{\omega C} \right)^2} \qquad \tan \theta = \frac{Z_L - Z_C}{R} = \frac{\omega L - \frac{1}{\omega C}}{R}\]
+Definendo \(\omega_0\) la pulsazione del circuito LC e \(\omega\) la pulsazione dell'alternatore, si ha risonanza per \(\omega = \omega_0\)
+in particolare lo sfasamento è nullo. Si definisce l'ampiezza della risonanza \(\Delta \omega\) e il fattore di merito \(Q\).
+\begin{align*}
+	&\omega_0 = \frac{1}{\sqrt{LC}} \quad \omega = \omega_{res} = \omega_0 = \frac{1}{\sqrt{LC}} \;\; \rightarrow \;\; \tan \theta = 0 \\
+	&\Delta \omega = \omega_2 - \omega_1 = \frac{R}{L} \quad \text{con} \; i_0(\omega_1) = i_0(\omega_2) = \frac{i_0(\omega_{res})}{\sqrt{2}}
+	&Q := \frac{\omega_0}{\Delta \omega} = \omega_0 \frac{L}{R}
+\end{align*}
+L'energia del generatore è completamente dissipata dalla resistenza.
+
+\newpage
+
+\section{Onde elettromagnetiche}
+\subsection{Legge di Ampère-Maxwell}
+Dalla legge di Ampère sulla circuitazione del campo magnetico si ha:
+\[\oint \vec{B} \cdot d\vec{s} = \mu_0(i_\text{conduzione} + i_\text{spostamento})\]
+Immaginando di applicare il teorema per una circonferenza tra le armature del condensatore, si ottiene che:
+\[i_\text{spost} = \frac{dq}{dt} = \dt CV = \dt \left(\frac{\varepsilon_0 \Sigma}{h} \; V\right) = \dt (\varepsilon_0 E \Sigma) = \varepsilon_0 \dt (\Sigma E) = \varepsilon_0 \frac{d \Phi(\vec{E})}{dt}\]
+Per cui l'equazione di Ampère con la correzione di Maxwell diventa:
+\[\oint \vec{B} \cdot d\vec{s} = \mu_0 \left( i_\text{conduzione} + \varepsilon_0 \frac{d \Phi(\vec{E})}{dt} \right)\]
+
+\subsection{Leggi di Maxwell}
+\subsubsection*{Equazioni di Maxwell}
+Le equazioni di circuitazione e flusso dei campi \(\vec{E}\) e \(\vec{B}\) prendono il nome di equazioni di Maxwell:
+\begin{align*}
+	&1. \quad \Phi_\Sigma(\vec{E}) = \oint_\Sigma \vec{E} \cdot d\vec{\Sigma} = \frac{q}{\varepsilon_0} 
+	&& \nab \cdot \vec{E} = \frac{\rho}{\varepsilon_0} \\
+	&2. \quad \Phi_\Sigma(\vec{B}) = \oint_\Sigma \vec{B} \cdot d \vec{\Sigma} = 0 
+	&& \nab \cdot \vec{B} = 0 \\
+	&3. \quad \Gamma_\mathcal{L}(\vec{E}) = \oint_\mathcal{L} \vec{E} \cdot d\vec{s} = - \frac{d\Phi_\Sigma \vec{B}}{dt}
+	&& \nab \times \vec{E} = - \frac{\partial \vec{B}}{\partial t} \\
+	&4. \quad \Gamma_\mathcal{L}(\vec{B}) = \oint_\mathcal{L} \vec{B} \cdot d\vec{s} = \mu_0 (i_\text{concatenata} + \varepsilon_0 \frac{d \Phi_\Sigma \vec{E}}{dt})
+	&& \nab \times \vec{B} = \mu_0 \vec{j} + \mu_0 \, \varepsilon_0 \frac{\partial \vec{E}}{\partial t}
+\end{align*}
+
+\subsubsection*{Equazioni di Maxwell in assenza di conduttori}
+In assenza di conduttori, si hanno le seguenti due equazioni:
+\begin{align*}
+	&1. \quad \Phi_\Sigma(\vec{E}) = \oint_\Sigma \vec{E} \cdot d\vec{\Sigma} = 0
+	&& \nab \cdot \vec{E} = 0\\
+	&2. \quad \Phi_\Sigma(\vec{B}) = \oint_\Sigma \vec{B} \cdot d \vec{\Sigma} = 0 
+	&& \nab \cdot \vec{B} = 0 \\
+	&3. \quad \Gamma_\mathcal{L}(\vec{E}) = \oint_\mathcal{L} \vec{E} \cdot d\vec{s} = - \frac{d\Phi_\Sigma \vec{B}}{dt}
+	&& \nab \times \vec{E} = - \frac{\partial \vec{B}}{\partial t} \\
+	&4. \quad \Gamma_\mathcal{L}(\vec{B}) = \oint_\mathcal{L} \vec{B} \cdot d\vec{s} = \mu_0 \, \varepsilon_0 \frac{d \Phi_\Sigma \vec{E}}{dt} \qquad\qquad\qquad\;
+	&& \nab \times \vec{B} = \mu_0 \, \varepsilon_0 \frac{\partial \vec{E}}{\partial t} \qquad\;\;\;
+\end{align*}
+
+\subsubsection*{Conseguenze delle equazioni di Maxwell}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] dalla prima si ottiene che esiste il monopolo elettrico, ovvero esistono cariche puntiformi
+	\item[-] dalla seconda si ottiene che non esiste il monopolo magnetico
+	\item[-] dalle forme locali si ottiene che \(\nab \cdot \vec{j} = - \partial \rho / \partial t\), ovvero che in assenza di
+	densità di correnti (e di correnti) la carica si conserva
+\end{itemize}
+
+\newpage
+
+\subsection{Onde piane}
+\subsubsection*{Definizione}
+Un'onda è la propagazione dell'energia e della quantità di moto in un mezzo o nel vuoto. Le onde meccaniche si propagano in un
+mezzo (suono, vibrazione corda, onde mare, \dots), mentre le onde elettromagnetiche si propagano anche nel vuoto. 
+
+\subsubsection*{Equazioni delle onde}
+\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] l'equazione di un'onda generica è: \(f(\vec{s}, \vec{t}) = f(x,y,z,t)\)
+	\item[-] l'equazione di un'onda piana che si propaga in un'unica direzione è: \(f(\vec{s}, \vec{t}) = f(z,t)\)
+	\item[-] un'onda è descritta dall'equazione \(\displaystyle \frac{\partial^2 f}{\partial z^2} = \frac{1}{v^2} \, \frac{\partial^2 f}{\partial t^2}\)
+	con \(v\) è la velocità di propagazione dell'onda
+	\item[-] le onde piane armoniche sono onde del tipo \(f(z,t) = f_0 \sin(k(z-vt))\) o \(f(z,t) = f_0 \cos(k(z-vt))\) con:
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] \(k = 2\pi/\lambda\) costante per convertire i metri in radianti, onde per unità di spazio
+		\item[-] \(\lambda = 2 \pi / k\) lunghezza d'onda
+		\item[-] \(\omega = 2 \pi v / \lambda\) velocità angolare
+		\item[-] \(f = \omega / 2 \pi\) frequenza 
+		\item[-] \(T = 1/f\) periodo
+		\item[-] vale la relazione \(\lambda f = v\) tra lunghezza d'onda, frequenza e velocità
+	\end{itemize}
+\end{itemize}
+
+\subsection{Onde elettromagnetiche piane}
+Le onde elettromagnetiche sono onde piane del tipo:
+\[\vec{E}(z,t) = \left(\begin{matrix} E_{0x} \cos (kz - \omega t) \\ E_{0y} \cos (kz - \omega t) \\ E_{0z} \cos (kz - \omega t) \end{matrix}\right) \qquad \qquad
+\vec{B}(z,t) = \left(\begin{matrix} B_{0x} \cos (kz - \omega t) \\ B_{0y} \cos (kz - \omega t) \\ B_{0z} \cos (kz - \omega t) \end{matrix}\right)\]
+Dalle equazioni di Maxwell si ottiene che le onde si propagano solo in piani \(xy\) perpendicolari alla direzione di
+propagazione \(z\), ovvero si ha che \(\vec{E}_z = \vec{B}_z = 0\):
+\[\vec{E}(z,t) = \left(\begin{matrix} E_{0x} \cos (kz - \omega t) \\ E_{0y} \cos (kz - \omega t) \\ 0 \end{matrix}\right) \qquad \qquad
+\vec{B}(z,t) = \left(\begin{matrix} B_{0x} \cos (kz - \omega t) \\ B_{0y} \cos (kz - \omega t) \\ 0 \end{matrix}\right)\]
+
+\subsection{Velocità della luce}
+Dalle equazioni di Maxwell e dalla equazione generale delle onde si ottiene che la velocità di propagazione è pari alla costante 
+\(c\) identificata come velocità della luce:
+\[v = c = \frac{1}{\mu_0 \, \varepsilon_0} \approx 3 \cdot 10^5 km/s\]
+In un mezzo diverso dal vuoto si ha una velocità inferiore a \(c\) per un fattore dipendente dalla costante dielettrica del mezzo:
+\[v_\kappa = \frac{1}{\kappa \, \mu_0 \, \varepsilon_0} = \frac{c}{\sqrt{\kappa}}\]
+
+\newpage
+
+\subsection{Proprietà delle onde elettromagnetiche piane}
+\subsubsection*{Perpendicolarità tra campi}
+Si osserva che dalle equazioni di Maxwell è possibile definire una relazione tra le onde del campo elettrico e magnetico:
+\[\frac{\partial E_y}{\partial z} = \frac{\partial B_x}{\partial t} \qquad \frac{\partial E_x}{\partial z} = - \frac{\partial B_y}{ \partial t} \qquad\qquad
+\frac{\partial E_x}{\partial t} = -\frac{1}{\mu_0 \, \varepsilon_0} \frac{\partial B_y}{\partial z} \qquad \frac{\partial E_y}{\partial t} = \frac{1}{\mu_0 \varepsilon_0} \frac{\partial B_y}{\partial z}\]
+da cui si ottiene che i due campi sono perpendicolari tra di loro
+\[B = \frac{E}{c} \qquad\qquad \vec{E} \cdot \vec{B} = 0 \qquad\qquad \vec{E} \times \vec{B} = \left( \begin{matrix} 0 \\ 0 \\ E^2/c \end{matrix} \right) = \left( \begin{matrix} 0 \\ 0 \\ cB^2 \end{matrix} \right)\]
+
+\subsubsection*{Energia delle onde elettromagnetiche}
+L'energia trasportata delle onde elettromagnetiche vale:
+\[U_e = \frac{1}{2} \varepsilon_0 E^2 \quad U_m = \frac{1}{2\mu_0} B^2 \qquad U_\text{onda} = U_e + U_m = \frac{1}{2} \varepsilon_0 E^2 + \frac{1}{2\mu_0} B^2 = \varepsilon_0 E^2 = \frac{B^2}{\mu_0}\]
+
+\subsubsection*{Vettore di Poynting}
+Si definisce il vettore di Poynting \(\vec{S}\) tale per cui la potenza trasportata dall'onda è il flusso di tale vettore.
+\[\vec{S} = \frac{1}{\mu_0} \vec{E} \times \vec{B} \qquad \qquad P_\text{otenza} = \int_\Sigma \vec{S} \cdot d\vec{\Sigma}\]
+
+\subsubsection*{Intensità dell'onda}
+Si definisce l'intensità dell'onda elettromagnetica \(I\) e l'ampiezza efficace \(E_{eff}\):
+\[I := S_\text{medio nel tempo} = \frac{1}{2} \, \varepsilon_0 \, c \, {E_0}^2 = \varepsilon_0 \, c \, E_{eff}^2 \qquad\qquad E_{eff} = \frac{E_0}{\sqrt{2}}\]
+
+\subsubsection*{Pressione di radiazione}
+Si definisce la pressione di radiazione di un'onda elettromagnetica:
+\[P = I/c = \frac{1}{2} \varepsilon_0 E^2 = \varepsilon_0 {E_{eff}}^2\]
+Definendo \(\vec{p}\) la quantità di moto associata all'onda e \(\eta\) l'indice di riflessione dell'onda su una superficie
+\(\Sigma\), la variazione totale di quantità di moto è: \(\Delta \vec{p} = -(1+\eta) \vec{p}\). La pressione di radiazione
+esercitata su una superficie \(\Sigma\) da un'onda con riflessione \(\eta\) è:
+\[P = (1 + \eta)I/c = (1+\eta) \varepsilon_0 \, {E_\text{eff}}^2\]
+
+\subsection{Onde sferiche}
+Per le onde sferiche si ha che \(E_0(r) \propto 1/r\), ovvero l'ampiezza dei campi è inversamente proporzionale al raggio della
+distanza dalla sorgente. Valgono quindi:
+\[E(r,t) = \frac{E_0}{r} \cos (kr -\omega t) \qquad B(r,t) = \frac{B_0}{r} \cos (kr -\omega t) \qquad S_m = I = \frac{1}{2} \, c \, \varepsilon_0 \, \frac{{E_0}^2}{r^2} \]
+
+\subsection{Polarizzazione}
+Si definisce la polarizzazione delle onde elettromagnetico usando il campo \(\vec{E}\) (il campo \(\vec{B}\) è \(\perp\)):
+\begin{align*}
+	&1. \quad \text{onda polarizzata linearmente}: &&\vec{E}(z,t) = \left(\begin{matrix} E_0 \cos (kz - \omega t) \cos \theta \\ E_0 \cos (kz - \omega t) \sin \theta \\ 0 \end{matrix}\right) \\
+	&2. \quad \text{onda polarizzata circolarmente}: &&\vec{E}(z,t) = \left(\begin{matrix} E_0 \cos (kz - \omega t) \\ E_0 \cos (kz - \omega t) \\ 0 \end{matrix}\right) \\
+	&3. \quad \text{onda polarizzata ellitticamente}: &&\vec{E}(z,t) = \left(\begin{matrix} E_0 \cos (kz - \omega t) \\ E_0 \cos (kz - \omega t) \\ 0 \end{matrix}\right) \qquad\qquad\qquad\qquad
+\end{align*}
+
+\subsection{Spettro elettromagnetico}
+In base alla lunghezza d'onda, le onde elettromagnetiche si dividono in:
+\begin{center}
+	\begin{tabular}{l | c | c}
+		\toprule
+		Onde radio & \(\leq 250 \cdot 10^6\) Hz & 10 km - 10 cm \\
+		\midrule
+		Microonde & \(3 \cdot 10^9\) Hz - \(300 \cdot 10^9\) Hz & 10 cm - 1 mm \\
+		\midrule
+		Infrarossi & \(300 \cdot 10^9\) Hz - \(428 \cdot 10^{12}\) Hz & 1 mm - 700 nm \\
+		\midrule
+		Luce visibile & \(428 \cdot 10^{12}\) Hz - \(729\cdot 10^{12}\) Hz & 700 nm - 400 nm \\
+		\midrule
+		Ultravioletto & \(729\cdot 10^{12}\) Hz - \(30 \cdot 10^{15}\) Hz & 400 nm - 10 nm \\
+		\midrule
+		Raggi X & \(30 \cdot 10^{15}\) Hz - \(300 \cdot 10^{18}\) Hz & 10 nm - 1 pm \\
+		\midrule
+		Raggi gamma & \(\geq 300 \cdot 10^{15}\) Hz & \(\leq\) 1 pm \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
 \end{document}
