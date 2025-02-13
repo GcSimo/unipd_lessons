@@ -1,0 +1,523 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+\usepackage{graphicx} % per immagini
+\usepackage{listings} % per codice
+\usepackage{xcolor} % per colori nel codice
+\usepackage{dirtytalk} % per le ""
+
+% definizione colori
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% definizione stile codice
+\lstdefinestyle{mystyle}{
+	language=C++,
+	morekeywords={constexpr, string, C_style_cast, noexcept, alignof},
+	emph={int,char,double,float,unsigned,string},
+	backgroundcolor=\color{backcolour},    % sfondo
+	commentstyle=\color{codegreen},        % commenti
+	keywordstyle=\color{magenta},          % keywords
+	identifierstyle=\color{blue},          % variabili
+	stringstyle=\color{codepurple},        % stringhe
+	directivestyle={\color{purple}},       % direttive
+	emphstyle={\color{magenta}},           % tipi
+	numberstyle=\tiny\color{codegray},     % numeri
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=4
+}
+
+% utilizzo stile codice
+\lstset{style=mystyle}
+\lstset{literate={~} {{\raisebox{0.4ex}{\texttildelow}}}{1}}
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per elenci puntati
+\setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+
+% abbreviazioni
+\newcommand{\cpp}{\texttt{C++} } % C++
+\newcommand{\cppel}{\texttt{C++11} } % C++11
+
+\title{Appunti di Laboratorio di Programmazione}
+\author{Giacomo Simonetto}
+\date{Primo semestre 2023-24}
+
+\begin{document}
+
+% -------------------------------------- Copertina e indice ---------------------------------------
+\maketitle
+\begin{abstract}
+	Appunti del corso di Laboratorio di Programmazione della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\vspace{12em}
+\begin{center}
+	\large \textbf{\say{Il codice è professionale se altri lo possono riutilizzare}}
+\end{center}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+% --------------------------------------------- Testo ---------------------------------------------
+
+
+
+\section{Variabili}
+\subsection*{Definizione}
+\begin{itemize}
+	\item Un oggetto è un contenitore di dati, situato in memoria in grado di memorizzare valori che possono	essere letti e
+	modificati durante l'esecuzione di un programma.
+	\item Una variabile è un oggetto identificato con un nome (\textit{named object}).
+\end{itemize}
+In \cpp le variabili sono tipizzate, ovvero sono caratterizzate  da un tipo che rimane costante per tutta l'esistenza della
+variabile.
+
+\subsection{Tipo di una variabile}
+\subsubsection*{Introduzione}
+Il tipo di una variabile definisce la natura di tale variabile, ovvero un range di valori che può assumere e un insieme di
+operazioni che possono essere eseguite. Specifica anche la dimensione in byte dell'area riservata in memoria. Il tipo può
+essere:
+\begin{itemize}
+	\item \textbf{built-in}: tipi primitivi del linguaggio e inclusi nello standard
+	\item \textbf{user-defined-type o UDT}: tipi definiti dall'utente in base alle esigenze del programma
+\end{itemize}
+Esistono delle funzioni di conversione tra tipi (casting) approfondite nel paragrafo \ref{casting}.
+
+\subsubsection*{Tipi built-in in \cpp}
+\begin{center}
+	\begin{tabular}{c | c | c | c}
+		\textbf{keyword} & \textbf{size} & \textbf{min} & \textbf{max} \\
+		\toprule
+		\verb|bool| & \verb|1 bit| & \verb|0| & \verb|1| \\
+		\midrule
+		\verb|char| & \verb|8 bit| & \verb|-128| & \verb|127| \\
+		\midrule
+		\verb|unisgned char| & \verb|8 bit| & \verb|0| & \verb|255| \\
+		\midrule
+		\verb|short| & \verb|16 bit| & \verb|-32768| & \verb|32767| \\
+		\midrule
+		\verb|unsigned short| & \verb|16 bit| & \verb|0| & \verb|65535| \\
+		\midrule
+		\verb|int| & \verb|32 bit| & \verb|-2147483648| & \verb|2147483647| \\
+		\midrule
+		\verb|unsigned int| & \verb|32 bit| & \verb|0| & \verb|4294967295| \\
+		\midrule
+		\verb|long int| & \verb|64 bit| & \verb|-9223372036854775808| & \verb|9223372036854775807| \\
+		\midrule
+		\verb|unsigned long int| & \verb|64 bit| & \verb|0| & \verb|18446744073709551615| \\
+		\midrule
+		\verb|long long int| & \verb|64 bit| & \verb|-9223372036854775808| & \verb|9223372036854775807| \\
+		\midrule
+		\verb|unsigned long long int| & \verb|64 bit| & \verb|0| & \verb|18446744073709551615| \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+\begin{center}
+	\begin{tabular}{c | c | c | c | c | c}
+		\textbf{keyword} & \textbf{size} & \textbf{min} & \textbf{nearest to zero} & \textbf{max} & \textbf{epsilon} \\
+		\toprule
+		\verb|float| & \verb|32 bit| & \verb|-3.40282e+38| & \verb|1.17549e-38| & \verb|3.40282e+38| & \verb|1.19209e-07| \\
+		\midrule
+		\verb|double| & \verb|64 bit| & \verb|-1.79769e+308| & \verb|2.22507e-308| & \verb|1.79769e+308| & \verb|2.22045e-16| \\
+		\midrule
+		\verb|long double| & \verb|64 bit| & \verb|-1.79769e+308| & \verb|2.22507e-308| & \verb|1.79769e+308| & \verb|2.22045e-16| \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+\newpage
+
+\subsection{Nome variabile}
+Il nome di una variabile permette di richiamarla durante il programma in maniera univoca. Non ci possono essere più variabili con
+lo stesso nome. Alcune buone pratiche per nominare una variabile:
+\begin{itemize}
+	\item evitare nomi troppo corti corti (eccetto per situazioni particolari es. contatori cicli)
+	\item evitare acronimi difficili da interpretare
+	\item usare nomi brevi che esplicitano il ruolo della variabile nel codice
+\end{itemize}
+
+\subsection{Costanti}
+Le costanti sono particolari variabili il cui valore non può essere modificato durante l'esecuzione di un programma. Sono molto
+utili per identificare con un nome i valori costanti usati nel programma ed evitare di usare \say{magic numbers} di cui si
+potrebbe non comprenderne il significato. In base a come viene calcolato il valore, possono essere di due tipi:
+\begin{itemize}
+	\item \verb|const| se il valore assegnato è noto solo in fase di esecuzione
+	\item \verb|constexpr| se il valore assegnato è noto a tempo di compilazione
+\end{itemize}
+Esiste un terzo \say{caso} che utilizza la direttiva al preprocessore \verb|#define|, solo che non è una vera variabile. Prima
+della fase di compilazione il preprocessore sostituisce tutte le occorrenze con il valore (o espressione) associato e, non avendo
+un vero tipo, non c'è type-safety.
+\begin{lstlisting}[numbers=none]
+	const int i = a + b;           // valore noto a tempo di esecuzione
+	constexpr double pi = 3.14159; // valore noto a tempo di compilazione
+	#define w 12                   // direttiva al preprocessore
+\end{lstlisting}
+
+\subsection{Literal}
+I literal sono particolari variabili costanti senza nome, contenute all'interno delle istruzioni del codice. Sono valori
+immediati utilizzati solo una volta. Un esempio le stringhe di testo da mandare in output o i valor i con cui le variabili
+sono inizializzate. I literal hanno un tipo definito automaticamente dal compilatore.
+\begin{lstlisting}[numbers=none]
+	constexpr double pi = 3.14159; // 3.14159 e' literal di tipo float
+	string str = "Hello World";    // "Hello World" e' literal di tipo const char*
+\end{lstlisting}
+
+\newpage
+
+\section{Istruzioni o statement}
+Le istruzioni o statement sono segmenti di codice che specificano un'azione che l'elaboratore dovrà eseguire al momento
+dell'esecuzione del programma. In genere terminano con \verb|;| o con \verb|{...}| (nel caso di istruzioni composte).
+Le direttive al preprocessore non sono istruzioni in quanto vengono risolte in fase di compilazione e non compaiono
+sull'eseguibile finale. Le istruzioni principali in \cpp sono:
+\begin{itemize}
+	\item expression statements: espressioni da valutare
+	\item compound statements: istruzioni composte, in genere seguite da un blocco \verb|{...}|
+	\item selection statements: selezioni (\verb|if-else|, \verb|switch-case|, \dots)
+	\item iteration statements: iterazioni (\verb|for|, \verb|while|, \verb|do-while|, \dots)
+	\item declaration statements: dichiarazioni, inizializzazioni, definizioni
+	\item try blocks: blocchi \verb|try-catch|
+\end{itemize}
+
+\subsection{Dichiarazioni, inizializzazioni, definizioni}
+\subsubsection*{Dichiarazioni}
+La dichiarazione è un'istruzione che introduce un nome in uno scope ne specifica il tipo. Le dichiarazioni possono essere di
+variabili o di funzioni. Non tutte le dichiarazioni hanno effetto sulla memoria (es. le dichiarazioni di funzioni non alterano
+la memoria).
+\begin{lstlisting}[numbers=none]
+	extern int a; // dichiarazione di una variabile
+	int somma(int a, int b); // dichiarazione di una funzione
+\end{lstlisting}
+
+\subsubsection*{Definizioni}
+La definizione è un'istruzione che specifica completamente l'entità introdotta. Viene specificato il nome, il tipo, eventuali
+valori di inizializzazione e dettagli implementativi.
+\begin{lstlisting}[numbers=none]
+	int a = 1; // definizione di una variabile
+	int somma(int a, int b) { // definizione di una funzione
+		return a + b;
+	}
+\end{lstlisting}
+
+\subsubsection*{Inizializzazioni}
+L'inizializzazione di una variabile è una parte dell'istruzione di dichiarazione o definizione che assegna un valore iniziale
+alla variabile appena introdotta. È sempre opportuno inizializzare le variabili al momento della loro dichiarazione, altrimenti
+si potrebbe andare incontro a \say{bug oscuri}.
+\begin{lstlisting}[numbers=none]
+	int a; // dichiarazione di una variabile
+	int a = 1; // dichiarazione di una variabile con inizializzazione
+\end{lstlisting}
+
+\subsubsection*{Differenza tra dichiarazione e definizione}
+Nella dichiarazione si introduce soltanto il nome di un'entità all'interno di uno scope, ma questo risulta inutilizzabile senza
+una successiva definizione. Le variabili soltanto dichiarate non hanno uno spazio riservato in memoria e non possono, quindi,
+essere utilizzate. Le funzioni soltanto dichiarate hanno solo l'header (o intestazione) e necessitano di una definizione per 
+essere utilizzate.
+
+Nella definizione si specificano tutte le informazioni necessarie per l'entità introdotta, rendendola utilizzabile a pieno nel
+programma. Nel caso delle variabili viene inclusa anche l'assegnazione di uno spazio in memoria. Per le funzioni viene indicata
+l'implementazione all'interno di un blocco \verb|{...}|.
+
+\newpage
+
+\subsection{Espressioni}
+\subsubsection*{Espressioni}
+L'espressione è il più piccolo segmento di codice usato per esprimere la computazione. Può essere semplice (literal, variabile,
+LValue, RValue), oppure composto (operazione con operandi).
+\begin{lstlisting}[numbers=none]
+	"Hello World";  // espressione semplice (literal)
+	nome_variabile; // espressione semplice (nome variabile)
+	a = b + c;      // espressione composta da operatore e operandi
+\end{lstlisting}
+
+\subsubsection*{Operatori}
+Gli operatori possono essere unari, binari o ternari in base al numero di operandi che coinvolgono e si dividono in base alla
+loro funzione:
+\begin{itemize}
+\item \textbf{operatori di assegnamento}
+\begin{lstlisting}
+	a = b
+	a += b  // a = a + b
+	a -= b  // a = a - b
+	a *= b  // a = a * b
+	a /= b  // a = a / b
+	a %= b  // a = a % b
+	a &= b  // a = a && b
+	a |= b  // a = a || b
+	a ^= b  // a = a ^ b
+	a <<= b // a = a << b
+	a >>= b // a = a >> b
+\end{lstlisting}
+
+\item \textbf{operatori di incremento e decremento}
+\begin{lstlisting}
+	++a; // preincremento  -> a = a + 1
+	--a; // predecremento  -> a = a - 1
+	a++; // postincremento -> a = a + 1
+	a--; // postdecremento -> a = a - 1
+\end{lstlisting}
+
+\item \textbf{operatori aritmetici}
+\begin{lstlisting}
+	+a     // somma unaria
+	-a     // sottrazione unaria (opposto)
+	a + b  // somma
+	a - b  // differenza
+	a * b  // prodotto
+	a / b  // divisione
+	a % b  // modulo
+	~a     // NOR bitwise
+	a & b  // AND bitwise
+	a | b  // OR bitwise
+	a ^ b  // XOR bitwise
+	a << b // shift verso sinistra
+	a >> b // shift verso destra
+\end{lstlisting}
+
+\item \textbf{operatori logici}
+\begin{lstlisting}
+	!a     // NOT logico
+	a && b // AND logico
+	a || b // OR logico
+\end{lstlisting}
+
+\item \textbf{operatori di confronto}
+\begin{lstlisting}
+	a == b  // uguaglianza
+	a != b  // diverso
+	a < b   // minore
+	a > b   // maggiore
+	a <= b  // minore o uguale
+	a >= b  // maggiore o uguale
+	a <=> b // segno della differenza a-b
+\end{lstlisting}
+
+\newpage
+
+\item \textbf{operatori di accesso}
+\begin{lstlisting}
+	a[b]  // accesso in memoria
+	*a    // dereferenziamento
+	&a    // referenziamento
+	a.b   // membro di oggetto
+	a->b  // membro di puntatore
+	a.*b  // puntatore al membro di un oggetto
+	a->*b // puntatore al membro di un puntatore
+\end{lstlisting}
+
+\item \textbf{altri operatori}
+\begin{lstlisting}
+	a(...)     // chiamata a funzione
+	a, b       // separazione tra parametri (puo' essere ridefinito)
+	a ? b : c  // confronto condizionale: return b if a == true, c if a == false
+	static_cast      // casting
+	dynamic_cast     // casting
+	const_cast       // casting
+	reinterpret_cast // casting
+	C_style_cast     // casting
+	new       // allocazione dinamica
+	delete    // deallocazione
+	sizeof    // dimensione del tipo di una variabile o oggetto
+	typeid    // ...
+	noexcept  // ...
+	alignof   // ...
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection*{Ordine di valutazione di un'espressione}
+In un'operazione non è possibile determinare con esattezza l'ordine di lettura degli operandi. Utilizzando la stessa variabile
+più volte in un'espressione si potrebbe andare incontro a risultati inattesi.
+\begin{lstlisting}
+	a = b + c      // non e' possibile stabilire se sara' letto prima b o c
+	a = v[i] + i++ // possibile errore -> viene prima letto v[i] o eseguito i++?
+\end{lstlisting}
+
+\subsubsection*{Side effect degli operatori}
+Il side effect di un operatore indica la modifica che l'operatore esegue agli operandi, indipendentemente dal risultato finale
+dell'operazione.
+\begin{lstlisting}
+	a++     // risultato: a+1, side effect: incremento di a
+	a -= b  // risultato: a-b, side effect: a = a-b
+\end{lstlisting}
+
+\subsubsection*{Overloading e significato degli operatori}
+Grazie all'overloading degli operatori (classi) è possibile che uno stesso operatore abbia diversi significati in base agli
+operatori su cui è invocato.
+\begin{lstlisting}
+	cout << "Hello"   // operator<< inserisce una stringa nell'output buffer
+	cout << 4.5       // operator<< inserisce un double nell'output buffer
+    a + b             // somma tra interi
+	"Hello" + "World" // giustapposizione di stringhe
+\end{lstlisting}
+
+\subsubsection*{Rvalue e Lvalue}
+\begin{itemize}
+	\item Un lvalue è l'elemento a sinistra di un operatore di assegnamento. Viene modificato durante l'esecuzione dell'operazione, per cui
+	deve essere modificabile.
+	\item Un rvalue è l'elemento a destra di un operatore di assegnamento. Non viene modificato (a meno di side effects) per cui può essere
+	anche costante.
+	\item Le variabili possono essere sia lvalue, sia rvalue, i literals, le costanti e i valori restituiti dalle funzioni (a meno di lvalue
+	reference o puntatori) sono solo rvaule.
+\end{itemize}
+
+\newpage
+
+\subsection{Casting} \label{casting}
+\subsubsection*{Casting esplicito e implicito}
+La conversione o casting può avvenire in due modi:
+\begin{itemize}
+	\item \textbf{casting implicito}: quando non viene specificata l'operazione di casting
+	\item \textbf{casting esplicito}: quando si esplicita l'operazione di casting
+\end{itemize}
+\begin{lstlisting}[numbers=none]
+	double x = 12 // casting implicito da int a double
+	double x = static_cast<double>(12) // casting esplicito da int a double
+\end{lstlisting}
+
+\subsubsection*{Type safety}
+Il cast implicito può essere di due tipi:
+\begin{itemize}
+	\item \textbf{type-safe conversion}: quando si esegue la conversione senza perdita di dati, in generale da un tipo con
+	minore capacità a uno con maggiore capacità
+	\item \textbf{non-type-safe conversion}: quando si esegue la conversione con perdita di dati, in generale da un tipo con
+	maggiore capacità a uno con minore capacità
+\end{itemize}
+Le conversioni non-type-safe (con perdita di dati) ed eventuali overflow non sono segnalati dal compilatore.
+
+\subsubsection*{Narrowing conversion}
+Da \cppel c'è la possibilità di eseguire le conversioni con controllo di narrowing utilizzando le \verb|{}| per indicare al
+compilatore di segnalare errore nel caso di conversioni insicure:
+\begin{lstlisting}[numbers=none]
+	int x (2);    // int x = 2           -> type-safe, nessun errore
+	int x (2.3);  // int x = 2.3         -> non-type-safe, nessun errore
+	int x {2};    // int x = 2   + check -> type-safe, nessun errore
+	int x {2.3};  // int x = 2.3 + check -> non-type-safe, errore
+\end{lstlisting}
+
+\subsubsection*{Funzioni di casting esplicito}
+In \cpp sono presenti funzioni per eseguire il cast in modo esplicito tra diversi tipi:
+\begin{itemize}
+	\item \verb|static_cast| per conversione tra tipi built-in
+	\item \verb|dynamic_cast| conversione tra classi derivate
+	\item \verb|const_cast| conversione da \verb|const| a \verb|non-const| e viceversa
+	\item \verb|reinterpret_cast| conversione tra due tipi non relazionati (es. lettura di dati binari da file, buffer, o
+	sensore e conversione in dati built-in)
+\end{itemize}
+Nel cast esplicito, il compilatore non esegue nessun controllo su overflow o perdita di dati.
+
+\newpage
+
+\section{Scope, namespace e visibilità}
+\subsubsection*{Scope}
+Lo scope è una regione di codice di un programma con la caratteristica che le entità (variabili, funzioni, \dots) dichiarate al
+suo interno hanno validità (esistono) solo all'interno di quello scope. L'esistenza dello scope permette di rendere i nomi locali
+e riduce i problemi di clash sui nomi. Il nome di una variabile deve essere tanto descrittiva quanto più è esteso lo scope su
+cui è dichiarata.
+
+\subsubsection*{Tipi di scope}
+\begin{itemize}
+	\item \textbf{globale}: al di fuori di ogni altro scope
+	\item \textbf{scope di classe}: codice all'interno della classe
+	\item \textbf{scope locale}: codice all'interno di un blocco \verb|{}}|, esempio nel corpo di una funzione
+	\item \textbf{scope di statement}: codice all'interno di un blocco \verb|{}| di uno statement (\verb|if-else|, \verb|for|, \dots)
+	\item \textbf{namespace}: scope con un nome definito globalmente o in un altro namespace
+\end{itemize}
+
+\subsubsection*{Scope globale}
+Le entità che di solito sono dichiarate globalmente sono le funzioni e i namespace. Questi sono disponibili all'interno dell'intero
+file in cui sono dichiarati e in tutti i file che lo includono. È possibile dichiarare variabili globali, solo che sorgono numerosi
+problemi:
+\begin{itemize}
+	\item le variabili globali sono accessibili a chiunque -> non c'è incapsulamento
+	\item tutte le funzioni possono modificarne il valore -> non c'è incapsulamento
+	\item il debug risulta più difficile perché l'errore potrebbe essere ovunque
+	\item il codice risulta più astruso perché il passaggio di dati tra le funzioni non avviene esplicitamente attraverso parametri
+\end{itemize}
+
+\subsubsection*{Scope annidati}
+È possibile dichiarare più scope annidati ad esempio: blocchi di statement annidati (\verb|if-else| annidati), funzioni all'interno
+di classi (funzioni membro), classi annidate (poco usato), classi in funzioni (poco usato). Non è possibile dichiarare funzioni in
+funzioni.
+
+\subsection{Namespace}
+Il namespace è uno scope con un nome. Non definisce nessuna entità (funzione o variabile). Risulta molto utile se si utilizzano
+più librerie con funzioni o classi con nomi uguali: è possibile confinare le dichiarazioni di classi o funzioni con nomi uguali
+in diversi namespace in modo da non avere collisione tra nomi e richiamarle con il fully-qualified-name \verb|namespace::membro|.
+\begin{lstlisting}
+	namespace Graph_lib {
+		struct Color {};
+		...
+	}
+	namespace Text_lib {
+		struct Color {};
+		...
+	}
+	Graph_lib::Color // si riferisce alla struct all'interno del namespace Graph_lib
+	Text_lib::Color  // si riferisce alla struct all'interno del namespace Text_lib
+\end{lstlisting}
+Per evitare di usare sempre il fully-qualified-name si ricorre alle \verb|using declaration| o \verb|using directive|. Queste
+hanno validità globale, per cui è opportuno non inserirle negli header files, altrimenti verranno importate insieme agli header
+all'insaputa del programmatore.
+\begin{lstlisting}
+	using std::cout;     // using declaration -> valido solo per std::cout
+	using namespace std; // using directive -> valido per tutti i membri di std
+\end{lstlisting}
+
+\section{Librerie}
+\section{Funzioni}
+\section{User Defined Type}
+\section{Eccezioni}
+\section{Overloading operatori}
+\section{Puntatori}
+\section{Array}
+\section{Allocazione dinamica della memoria}
+\section{Progettare interfaccia}
+\section{Rule of 5}
+\section{Template}
+
+\section{Compilazione, CMake e Git}
+\subsection{Compilazione}
+Il processo di compilazione avviene in tre fasi:
+\begin{itemize}
+	\item[1.] \textbf{preprocessore}: gestisce le direttive al preprocessore, es. \verb|#include, #define, ...|
+	\item[2.] \textbf{compilatore}: traduce in codice macchina il singolo file
+	\item[3.] \textbf{linker}: risolve i riferimenti e le relazioni tra i diversi file compilati e aggiunge le librerie necessarie
+\end{itemize}
+Il processo di compilazione è gestito dal comando \verb|g++ nome_file -o nome_eseguibile -parametri|
+
+\subsection{CMake}
+\subsection{Git}
+
+\section{Ereditarietà}
+\section{Standard Template Library}
+\section{Predicati}
+\section{RAII e Smart Pointer}
+
+\end{document}
