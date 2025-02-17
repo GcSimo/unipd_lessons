@@ -762,8 +762,8 @@ I costruttori sono funzioni particolari con le seguenti proprietà:
 	uno, questo sovrascrive quello di default che non sarà più utilizzabile
 	\item si cerca di implementare i costruttori esternamente alla classe, altrimenti vengono interpretati come \verb|inline|
 	dal compilatore; per implementarli esternamente bisogna specificare il nome della classe a cui appartengono \verb|NomeClasse::NomeCostruttore(...)|
-	\item oltre ai parametri specificati nella dichiarazione, hanno un parametro implicito \verb|this| che punta all'oggetto
-	appena creato
+	\item oltre ai parametri specificati nella dichiarazione, hanno un parametro implicito immutabile \verb|this| che punta
+	all'oggetto appena creato, utile per accedere ai membri privati di tale oggetto
 \end{itemize}
 I costruttori si possono dividere in:
 \begin{itemize}
@@ -848,8 +848,8 @@ A differenza delle normali funzioni:
 	come \verb|inline| dal compilatore; per implementarle esternamente bisogna indicare il nome della classe a cui appartengono
 	\verb|tipoRestituito NomeClasse::NomeFunzione(...)|
 	\item per invocarle bisogna usare la notazione \verb|nomeOggetto.nomeFunzione(...)|
-	\item oltre ai parametri specificati nella dichiarazione, hanno un parametro implicito \verb|this| che punta all'oggetto da
-	cui sono state invocate
+	\item oltre ai parametri specificati nella dichiarazione, hanno un parametro implicito immutabile \verb|this| che punta
+	all'oggetto invocante, utile per accedere ai membri privati di tale oggetto
 \end{itemize}
 Le member function possono avere l'attributo \verb|const| che specifica che non modificano nessun parametro ricevuto, nemmeno
 l'oggetto da cui sono invocate. Le member function \verb|const| possono, quindi, essere invocate su oggetti costanti o su const
@@ -1009,6 +1009,27 @@ L'eccezione viene catturata con un blocco \verb|try-catch|.
 \end{lstlisting}
 
 \subsubsection*{Ereditarietà delle eccezioni}
+Per migliorare la gestione delle eccezioni è possibile definire una classe eccezione all'interno di una gerarchia di classi e
+sfruttare il polimorfismo per gestire più eccezioni contemporaneamente. Le eccezioni devono implementare la funzione \verb|what()|
+che restituisce un messaggio di errore (\verb|const char *|) che è possibile stampare in output.
+\begin{lstlisting}
+	// esempio di eccezione da lanciare quando la dimensione passata non e' valida
+	class InvalidLength : public std::logic_error {
+		public:
+			const char *what() const override {	return "La dimensione non e' valida"; }
+	}
+
+	// esempio di cattura di un'eccezione basata su polimorfismo
+	try {
+		...
+	} catch (std::logic_error &e) {   // cattura le eccezioni derivate da logic_error
+		std::cerr << e.what() << "\n";
+	} catch (std::runtime_error &e) { // cattura le eccezioni derivate da runtime_error
+		std::cerr << e.what() << "\n";
+	} catch (std::exception &e) {     // cattura le altre eccezioni non ancora catturate
+		std::cerr << e.what() << "\n";
+	}
+\end{lstlisting}
 
 \newpage
 
@@ -1275,6 +1296,35 @@ translation unit (sorgente da compilare).
 
 \newpage
 
+\section{Buona interfaccia}
+Quando di progetta una classe, per avere una buona interfaccia, bisogna considerare alcuni aspetti.
+\subsubsection*{Considerazioni sui costruttori}
+\begin{itemize}
+	\item \textbf{costruttore di default}: ci sono valori di default comuni a tutti gli oggetti, ha senso tenerlo?
+	\item \textbf{costruttore con parametri}: serve specificare dei valori particolari per l'oggetti in fase di istanziamento?
+	\item \textbf{rule of 5}: è necessario implementare tali funzioni?
+	\item \textbf{conversioni}: l'oggetto creato può essere convertito in altri tipi, oppure è necessario usare la keyword
+	\verb|expicit| nei costruttori?
+\end{itemize}
+
+\subsubsection*{Considerazioni su organizzazione dei progetti in più files}
+\begin{itemize}
+	\item i file header contengono le dichiarazioni delle funzioni e le definizioni delle classi
+	\item i file sorgente contengono le definizioni delle funzioni e vanno inseriti nel comando di compilazione
+	\item se è necessario fare \verb|#include file.cpp| o inserire un file header nel comando di compilazione, allora c'è qualcosa
+	che non è stato fatto correttamente
+\end{itemize}
+
+Per una maggiore organizzazione i file si suddividono in cartelle:
+\begin{itemize}
+	\item \textbf{main directory}: contiene tutte le sottocartelle ed eventuali file come \verb|README.md| e \verb|CMakeLists.txt|
+	\begin{itemize}[topsep=0pt]
+		\item \textbf{build}: sono contenuti i file di compilazione e gli eseguibili
+		\item \textbf{include}: sono contenuti i file header \verb|.h|
+		\item \textbf{src}: sono contenuti i file sorgente \verb|.cpp| e il \verb|main.cpp|
+	\end{itemize}
+\end{itemize}
+
 \section{Compilazione, CMake e Git}
 \subsection{Compilazione}
 Il processo di compilazione avviene in tre fasi:
@@ -1283,14 +1333,309 @@ Il processo di compilazione avviene in tre fasi:
 	\item[2.] \textbf{compilatore}: traduce in codice macchina i singoli file e produce file oggetto
 	\item[3.] \textbf{linker}: risolve i riferimenti e le relazioni tra i diversi file compilati e aggiunge le librerie necessarie
 \end{itemize}
-Il processo di compilazione è gestito dal comando \verb|g++ nome_file -o nome_eseguibile -parametri|
+L'intero processo è gestito dal comando \verb|g++ nome_file -o nome_eseguibile -parametri| che si occupa di tutte e tre le fasi.
 
 \subsection{CMake}
-\subsection{Git}
+CMake è uno strumento indipendente da compilatori e piattaforma che permette di indicare come sono organizzati i file in un
+progetto complesso per essere poi compilati agevolmente su ogni computer. Le indicazioni sono salvate all'interno di un file
+situato nella main directory chiamato \verb|CMakeLists.txt|. Attraverso il comando \verb|cmake ..| eseguito dalla cartella
+\verb|build|, si generano i file che descrivono il progetto per sistema utilizzato (makefile, ninja, soluzione Visual Studio,
+\dots) ed infine si può procedere alla compilazione attraverso i programmi di compilazione (makefile, ninja, \dots)
+
+\subsection{Git e github}
+\verb|Git| è un programma di controllo delle versioni e serve per tracciare, rimuovere e condividere modifiche in un progetto di codice.
+Esistono due modelli di software a controllo versione:
+\begin{itemize}
+	\item sistemi centralizzati: tutte le modifiche e i file si salvano su un server ed ognuno può scaricare, modificare, ricaricare
+	le proprie modifiche (non è possibile salvare modifiche localmente)
+	\item sistemi a modello distribuito: ogni utente ha la propria stratificazione locale che può modificare a piacimento e infine
+	caricarla in un server centralizzato
+\end{itemize}
+\verb|Git| è appartiene al secondo tipo e il relativo server è \verb|GitHub|.
+
+\newpage
 
 \section{Ereditarietà}
+\subsubsection*{Introduzione}
+L'ereditarietà tra classi è un meccanismo che permette di relazionare le classi secondo una relazione di dipendenza 
+\verb|classe base - classe derivata| che ne permette la condivisione di determinate funzionalità.
+
+\subsubsection*{Relazione classe base - classe derivata}
+La classe base, in genere rappresenta un concetto astratto in codice che poi verrà specializzato in classi derivate. Le classi
+derivate ereditano dalla classe base tutti i membri (pubblici, privati e protected), però possono accedere solo ai membri
+public e protected. La relazione si stabilisce nella dichiarazione della classe con \verb|class Derived : public Base { ... }|
+
+\subsubsection*{Relazione \say{is a} - \say{has a}}
+\begin{itemize}
+	\item la relazione \textbf{\say{has a}} si implementa attraverso i membri di una classe; es. \verb|Date| has a \verb|day|
+	\item la relazione \textbf{\say{is a}} si implementa con l'ereditarietà; es. \verb|Derived| is a \verb|Base|
+\end{itemize}
+
+\subsubsection*{Alcune notazioni}
+\begin{itemize}
+	\item \textbf{classe astratta}: una classe astratta è una classe non istanziabile, può essere ottenuta tramite la
+	disabilitazione del costruttore (inserito protected), la disabilitazione dei costruttori di copia e move o l'inserimento di
+	una funzione virtuale pura; è possibile definire puntatori ad una classe astratta.
+	\item \textbf{funzione virtuale}: una funzione virtuale è una funzione di cui si vuole effettuare l'override nelle classi
+	derivate. Bisogna sempre implementarla o definirla pura. Attraverso l'override delle funzioni virtuali si ottiene il
+	polimorfismo dinamico o in runtime. Si aggiunge l'attributo \verb|virtual| all'inizio della dichiarazione.
+	\item \textbf{funzione virtuale pura}: una funzione virtuale pura è una funzione virtuale che non ha implementazione. Per
+	specificare che la funzione non ha implementazione si aggiunge \verb|= 0| alla fine della dichiarazione. Questo obbliga le
+	classi derivate ad implementarla, altrimenti saranno instanziabili.
+	\item \textbf{disabilitazione di funzioni}: per disabilitare una funzione non necesaria si aggiunge \verb|= delete| alla fine
+	della dichiarazione di una funzione (es. disabilitazione dei costruttori di copy e move).
+	\item \textbf{override}: l'override la ridefinizione di funzioni virtuali della classi base nelle classi derivate. Per
+	effettuare l'override bisgna avere stessi nome, parametri, constness, tipo restituito; inoltre è possibile inserire la keyword
+	\verb|override| in modo da ricevere errore di compilazione se ci sono probelmi. Per definire quale funzione verrà eseguita, si
+	utilizzano le Virtual Table.
+\end{itemize}
+
+\subsubsection*{Problemi di slicing}
+Quando si copia una classe derivata all'interno di una classe base (grazie alla relazione \say{is a}), si effettua lo slicing
+dell'oggetto derivato, ovvero i membri e le funzioni extra della classe derivata che non sono presenti nella classe base vengono
+tagliati. Per evitare tale problema, si disabilitano i costruttori e gli assegnamenti di copy e move.
+
+\subsubsection*{Virtual Table}
+Ogni oggetto con funzioni virtuali ha un virtual pointer creato dal compilatore che punta ad una tabella virtuale comune a tutte
+le istanze dell'oggetto. La tabella virtuale contiene i riferimenti delle funzioni virtuali da chiamare, altrimenti si avrebbe
+ambiguità siccome gli override hanno la stessa dichiarazione.
+
+\subsubsection*{Dynamic Cast}
+È possibile definire un casting esplicito tra classi derivate e classi base attraverso l'operatore di casting esplicito
+\verb|dynamic_cast<destination_type>(obj)|. L'upcasting (da classe derivata a classe base) è sempre concesso e non si hanno
+problemi. Il downcasting potrebbe essere problematico: se l'oggetto non soddisfa il tipo di destinazione, allora l'operatore
+restituisce \verb|nullptr| nel caso di puntatori o lancia l'eccezione \verb|bad_cast|.
+
+\newpage
+
+\subsubsection*{Esempio di implementazione}
+\begin{lstlisting}
+class Base {
+	private:
+		int a; // accessibile solo all'interno di Base
+	protected:
+		int b; // accessibile da Base e dalle classi derivate
+		Base(int _a, int _b) : a{_a}, b{_b} {} // costruttore classe base disabilitato
+		                                       // in questo modo e' classe astratta
+	public:
+		Base(const Base &) = delete;         // disabilitato costruttore copia
+		Base(Base &&) = delete;              // disabilitato costruttore move
+		int get_a() { return a; }            // getter per a
+		int get_b() { return b; }            // getter per b
+		virtual int sum() { return a + b; }  // virtuale somma tra a e b
+		virtual int diff() = 0;              // virtuale pura (senza implementazione)
+};
+
+class Derived : public Base {
+	private:
+		int c; // accessibile solo all'interno di Derived
+	public:
+		Derived(int _a, int _b, int _c) : Base(_a,_b), c{_c} {} // ctor classe derivata
+		int get_c() { return c; }              // getter per c  
+		int sum() { return Base::sum() + c; }  // virtuale somma tra a, b, c
+		int diff() { return c - b; }           // necessario implementarla
+};
+
+int main() {
+	Base a(1,2);      // errore -> classe astratta
+	Derived b(1,2,3); // ok -> classe istanziabile
+	b.get_a();        // invoca la funzione della classe Base
+	b.get_b();        // invoca la funzione della classe Base
+	b.get_c();        // invoca la funzione della classe Derived
+	b.sum();          // invoca la funzione di Derived
+	b.diff();         // invoca la funzione di Derived
+}
+
+----------------------------------------
+
+class B : public A {         |  class C : public B {   |  class D : public C {
+	virtual void f() const;  |      void f() const;    |      void f();
+	void g() const;          |      void g() const;    |      void g() const;
+}                            |  }                      |  }
+
+void call (const B &obj) {
+	obj.f();
+	obj.g();
+}
+
+call(b);  // chiama B::f e B::g -> obj ha tipo formale b e tipo reale b
+call(c);  // chiama C::f e B::g -> obj ha tipo formale b e tipo reale c + override f
+call(d);  // chiama B::f e B::g -> obj ha tipo formale b e tipo reale d + no override f
+
+b.f();  b.g()  // chiama B::f e B::g
+c.f();  c.g()  // chiama C::f e C::g
+d.f();  d.g()  // chiama D::f e D::g
+\end{lstlisting}
+
+\newpage
+
+\section{Polimorfismo}
+\subsection{Polimorfismo statico}
+Il polimorfismo statico (o svincolato, risolto a tempo di esecuzione) è generato dall'uso dei template. La classe template, agli
+occhi del programmatore, può essere di diversi tipi contemporaneamente, che poi specializzeranno la classe in fase di compilazione
+in tante classi indipendenti. Si dice svincolato perché le classi template non hanno alcun collegamento tra di loro, hanno solo
+funzioni con lo stesso nome.
+
+\subsection{Polimorfismo dinamico}
+Il polimorfismo dinamico (o vincolato, risolto a tempo di esecuzione) è dato dall'utilizzo dell'ereditarietà, delle funzioni
+virtuali e dell'override di esse. Constiste nel vedere un oggetto di una classe base con il suo vero tipo (classe derivata)
+e gestire le chiamate delle funzioni invocate da tale oggetto attraverso le virtual tables. È detto vincolato in quanto le
+classi base e derivate hanno una relazione \say{is a} tra di loro ed è risolto a tempo di esecuzione attraverso le virtual table.
+
+\subsection*{Confronto tra i due tipi di polimorfismo}
+\begin{itemize}
+	\item[1a.] Nel polimorfismo dinamico sono sicuro che la funzione chiamata esista nella classe base o in una delle classi derivate
+	\item[1b.] Nel polomorfismo statico, se per un certo tipo manca la funzione da chiamare, viene segnalato un errore dal compilatore
+	\item[2a.] Il polimorfismo dinamico è più lento in esecuzione in quando le virtual table consumano risorse
+	\item[2b.] Il polimorfismo statico è più rapido in esecuzione, ma produce eseguibili più grandi  
+\end{itemize}
+
 \section{Standard Template Library}
-\section{Predicati}
-\section{RAII e Smart Pointer}
+La Standard Template Library o STL è l'insieme di classi e funzioni comunemente utilizzate nel \verb|C++| e opportunamente suddivise
+in librerie. La STL si divide in contenitori per memorizzare i dati \verb|vector|, \verb|string|, \verb|list|, \dots e algoritmi di
+manipolazione dei dati \verb|sort|, \verb|find|, \dots
+
+\subsection{Container STL - accesso unificato}
+I container STL (o contenitori di dati / struttre dati) implementano un sistema di accesso unificato, comune a tutte le classi. 
+Questo permette di trattare i diversi container in maniera generica ed è possibile disaccoppiare la struttura dall'algoritmo.
+Questo meccanismo è implementato attraverso sequenze e iteratori.
+
+\subsubsection*{Iteratori}
+Gli iteratori dell'accesso unificato sono puntatori agli elementi di un container. 
+\begin{itemize}
+	\item Per ottenere un iteratore, si usano le funzioni \verb|begin()| (iteratore al primo elemento) o \verb|end()| (iteratore
+	all'elemento successivo dell'ultimo elemento)
+	\item Hanno un set di operazioni che permettono di muoversi all'interno della struttura (\verb|++|, \verb|--|), di eseguire
+	confronti (\verb|==|, \verb|!=|) e di accederne agli elementi (\verb|*|).
+	\item gli iteratori sono implementati attraverso template (efficienza in esecuzione)
+	\item spesso il tipo degli iteratori appesantisce il codice, per cui si utilizza la parola chiave \verb|auto| per lasciare
+	al compilatore la scelta del tipo da inserire
+\end{itemize}
+Quando si usano gli iteratori è necesassario fare attenzione ad alcune funzioni eseguite sul container. Ad esempio quando si
+rimuove un elemento da un vettore, viene eseguito lo shift dei valori, ma gli iteratori non cambiano posizione.
+
+\subsection{Algoritmi STL}
+Gli algoritmi STL implementano funzioni base sui container come ricerca, ordinamento, conteggio, copia e fusione. Tutti gli
+algoritmi vengono implementati attraverso template e utilizzano gli iteratori sugli STL-container. Nel caso in cui mancasse
+qualche funzionalità negli iteratori, il compilatore segnalerà errore.
+
+Gli algoritmi hanno una variante che prevede l'utilizzo di predicati che si sostituiscono alle condizioni di confronto o di
+ordinamento e permetto di personalizzare le funzioni STL in base alle proprie esigenze. Ad esempio:
+
+\begin{lstlisting}
+	// Funzione di ricerca senza predicato
+	// - It e' iteratore
+	// - T e' tipo di dato memorizzato nel container
+	template<typename It, typename T>
+	It find(It first, It Last, const T &val) {
+		while (first != last && *first != val)
+			first++;
+		return first;
+	}
+
+	// Funzione di ricerca con predicato
+	// - It e' iteratore
+	// - Pred e' predicato
+	template<typename It, typename Pred>
+	It find_if(It first, It Last, Pred pred) {
+		while (first != last && !pred(*first))
+			first++;
+		return first;
+	}
+\end{lstlisting}
+
+\subsection{Predicati}
+I predicati permettono di personalizzare il comportamento degli algoritmi STL. Sono particolari strutture che permettono di
+passare delle funzioni come parametri di una funzione. Sono implementati attraverso i function object e le lambda functions.
+
+\subsubsection*{Function object}
+I function object sono classi che contengono l'overloading dell'\verb|operator()|, ovvero possono essere utilizzati come
+funzioni e possono essere passati per copia ad una funzione. Possono contenere al più un membro (es. valore da cercare).
+\begin{lstlisting}
+	class Larger_than {
+		private:
+			int v; // valore discriminante scelto in fase di costruzione
+		public:
+			Larger_than(int _v) : v{_v} {}
+			bool operator() (int x) { return x > v; } // overloading operator()
+	};
+	find_if(vec.begin(); vec.last(), Larger_than(3)); // trova un valore maggiore di 3
+\end{lstlisting}
+
+\subsubsection*{Lambda expression}
+Le lambda expression sono funzioni senza nome utilizzabili come parametri di una funzione. È possibile passarle delle variabili
+locali e il tipo restituito può essere omesso (dedotto dal compilatore). Il passaggio per argomento è fatto ad ogni invocazione
+e la cattura è simile all'utilizzo di dati membro di una classe. 
+\begin{lstlisting}
+	[variabili_catturate](parametri) -> tipo_restituito { return ... }
+\end{lstlisting}
+
+\subsubsection*{Name requirement objects}
+I name requirement objects sono strutture definite da regole dello standard \verb|C++| per svolgere compiti. Se non vengono
+rispettate si potrebbe andare incontro ad errori logici (o sintattici).
+\begin{lstlisting}
+	// esempio compare
+	... bool operator() (const T &x, const T &y) { return x < y; } ...
+\end{lstlisting} 
+
+\newpage
+
+\section{RAII e smart pointers}
+\subsection{RAII - Resource Acquisition is Initialization}
+Il RAII è un paradigma di programmazione in \verb|C++| che prevede la gestione delle risorse (lettura da files, memoria dinamica)
+attraverso degli oggetti. È previsto che la risorsa venga acquisita con l'istanziamento del relativo oggetto e l'esecuzione del
+costruttore e venga rilasciata quando l'oggetto viene distrutto, con la chiamata implicita al distruttore. In questo modo, quando
+si esce da uno scope con risorse aperte, queste vengono chiuse automaticamente con la distruzione degli oggetti a cui sono legate.
+
+\subsubsection*{Gestione della memoria ed eccezioni}
+Il problema è che per la gestione della memoria dinamica non si utilizzano oggetti, per cui bisogna prevedere che all'uscita dello
+scope (in qualsiasi caso) bisogna liberare la memoria allocata. Per fare ciò si può ricorrere alla chiamata di \verb|delete| come
+nel caso seguente, o all'utilizzo degli shared-pointers.
+\begin{lstlisting}
+	... {
+		int *p = new int[100]; // allocazione dinamica
+		try {
+			...
+		} catch (std::exception &e) {
+			delete[] p; // deallocazione all'uscita dello scope per lancio di eccezioni
+			throw; // rilancia l'eccezione catturata -> non viene gestita qui
+		}
+		delete[] p; // deallocazione all'uscita dello scope per normale proseguimento
+	}
+	...
+\end{lstlisting}
+
+\subsubsection*{Exception guarantees}
+\begin{itemize}
+	\item \textbf{basic guarantee}: attributo di una funzione che libera correttamente le risorse al lancio di un'eccezione
+	\item \textbf{strong guarantee}: come il precedente, in più se la funzione modifica dei valori, questi non vengono modificati
+	se viene lanciata un'eccezione
+	\item \textbf{no-throw guarantee}: attributo di una funzione che non lancia eccezioni
+\end{itemize}
+
+\subsection{Smart Pointer}
+Gli smart pointers sono delle classi template definite nella libreria \verb|memory| che permettono di gestire la memoria secondo
+il paradigma RAII. Gestiscono automaticamente la deallocazione ed evitano i memory leak e i dandling pointers. L'overhead è
+limitato ed è comunque più vantaggioso di un garbage collector. Esistono due tipi di smart pointers: gli \verb|unique_ptr| e
+gli \verb|shared_ptr|.
+
+\subsubsection*{Unique pointers}
+\begin{itemize}
+	\item non permette di avere più copie, ovvero non ci possono essere più puntatori che puntano alla stessa area di memoria, 
+	ma permette di eseguire move
+	\item l'inizializzaizione può avvenire con costruttore o tramite la funzione reset (assegnamento)
+	\item l'accesso all'area puntata avviene tramite operatori \verb|*| e \verb|->|
+	\item il rilascio del puntatore restituisce il puntatore senza le protezioni di uno smart pointer
+\end{itemize}
+\begin{lstlisting}
+	int *p = new int; | unique_ptr<int> up {p}; // inizi da puntatore
+	unique_ptr<int> up { new int }              // iniz. con allocazione dinamica
+	unique_ptr<int> up = make_unique<int>();    // iniz. con make_unique piu' sicura
+	int *p = up.release();                      // rilascio del puntatore
+\end{lstlisting}
+
+\subsubsection*{Shared pointers}
+A differenza degli \verb|unique_ptr|, questi accettano più copie dello stesso puntatore. Hanno un reference counter e quando l'ultimo
+\verb|shared_ptr| esce dallo scope, viene deallocata la memoria.
 
 \end{document}
