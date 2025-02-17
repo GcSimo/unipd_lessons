@@ -23,8 +23,8 @@
 % definizione stile codice
 \lstdefinestyle{mystyle}{
 	language=C++,
-	morekeywords={constexpr, string, C_style_cast, noexcept, alignof},
-	emph={int,char,double,float,unsigned,string},
+	morekeywords={constexpr,string,C_style_cast,noexcept,alignof,std},
+	emph={int,char,double,float,unsigned,string,vector,initializer_list},
 	backgroundcolor=\color{backcolour},    % sfondo
 	commentstyle=\color{codegreen},        % commenti
 	keywordstyle=\color{magenta},          % keywords
@@ -59,9 +59,7 @@
 % per centrare testo nelle tabelleX
 \renewcommand\tabularxcolumn[1]{m{#1}}
 
-% abbreviazioni
-\newcommand{\cpp}{\texttt{C++} } % C++
-\newcommand{\cppel}{\texttt{C++11} } % C++11
+\newcommand{\toprightarrow}{\mathrel{\raisebox{0.25 em}{\rotatebox[origin=c]{25}{$\longrightarrow$}}}} % freccia per riga sopra
 
 \title{Appunti di Laboratorio di Programmazione}
 \author{Giacomo Simonetto}
@@ -97,11 +95,10 @@
 	modificati durante l'esecuzione di un programma.
 	\item Una variabile è un oggetto identificato con un nome (\textit{named object}).
 \end{itemize}
-In \cpp le variabili sono tipizzate, ovvero sono caratterizzate  da un tipo che rimane costante per tutta l'esistenza della
+In \verb|C++| le variabili sono tipizzate, ovvero sono caratterizzate  da un tipo che rimane costante per tutta l'esistenza della
 variabile.
 
 \subsection{Tipo di una variabile}
-\subsubsection*{Introduzione}
 Il tipo di una variabile definisce la natura di tale variabile, ovvero un range di valori che può assumere e un insieme di
 operazioni che possono essere eseguite. Specifica anche la dimensione in byte dell'area riservata in memoria. Il tipo può
 essere:
@@ -111,7 +108,7 @@ essere:
 \end{itemize}
 Esistono delle funzioni di conversione tra tipi (casting) approfondite nel paragrafo \ref{casting}.
 
-\subsubsection*{Tipi built-in in \cpp}
+\subsubsection*{Tipi built-in in \texttt|C++|}
 \begin{center}
 	\begin{tabular}{c | c | c | c}
 		\textbf{keyword} & \textbf{size} & \textbf{min} & \textbf{max} \\
@@ -175,7 +172,7 @@ potrebbe non comprenderne il significato. In base a come viene calcolato il valo
 Esiste un terzo \say{caso} che utilizza la direttiva al preprocessore \verb|#define|, solo che non è una vera variabile. Prima
 della fase di compilazione il preprocessore sostituisce tutte le occorrenze con il valore (o espressione) associato e, non avendo
 un vero tipo, non c'è type-safety.
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}
 	const int i = a + b;           // valore noto a tempo di esecuzione
 	constexpr double pi = 3.14159; // valore noto a tempo di compilazione
 	#define w 12                   // direttiva al preprocessore
@@ -185,9 +182,30 @@ un vero tipo, non c'è type-safety.
 I literal sono particolari variabili costanti senza nome, contenute all'interno delle istruzioni del codice. Sono valori
 immediati utilizzati solo una volta. Un esempio le stringhe di testo da mandare in output o i valor i con cui le variabili
 sono inizializzate. I literal hanno un tipo definito automaticamente dal compilatore.
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}
 	constexpr double pi = 3.14159; // 3.14159 e' literal di tipo float
 	string str = "Hello World";    // "Hello World" e' literal di tipo const char*
+\end{lstlisting}
+
+\subsection{Enumerazioni}
+Le enumerazioni o enumerators sono delle strutture per definire delle etichette per esprimere delle scelte in un elenco. Una
+variabile enumeratore può assumere tutti i valori definiti nella dichiarazione. I valori sono associati ad un indice ed è
+possibile accedere all'i-esima etichetta tramite un costruttore.
+\begin{lstlisting}
+	enum Month {
+		January, February, March, April, May, ...
+	};
+
+	Month m = January;  // dichiarazione e inizializzazione di m
+	Month m = Month(5); // 5a etichetta (May)
+\end{lstlisting}
+È possibile definire uno scope per gli enumeratori aggiungendo la parola \verb|class| nella dichiarazione:
+\begin{lstlisting}
+	enum class Month {
+		January, February, March, April, May, ...
+	};
+
+	Month m = Month::January; // necessario specificare lo scope
 \end{lstlisting}
 
 \newpage
@@ -196,7 +214,7 @@ sono inizializzate. I literal hanno un tipo definito automaticamente dal compila
 Le istruzioni o statement sono segmenti di codice che specificano un'azione che l'elaboratore dovrà eseguire al momento
 dell'esecuzione del programma. In genere terminano con \verb|;| o con \verb|{...}| (nel caso di istruzioni composte).
 Le direttive al preprocessore non sono istruzioni in quanto vengono risolte in fase di compilazione e non compaiono
-sull'eseguibile finale. Le istruzioni principali in \cpp sono:
+sull'eseguibile finale. Le istruzioni principali in \verb|C++| sono:
 \begin{itemize}
 	\item expression statements: espressioni da valutare
 	\item compound statements: istruzioni composte, in genere seguite da un blocco \verb|{...}|
@@ -211,16 +229,16 @@ sull'eseguibile finale. Le istruzioni principali in \cpp sono:
 La dichiarazione è un'istruzione che introduce un nome in uno scope ne specifica il tipo. Le dichiarazioni possono essere di
 variabili o di funzioni. Non tutte le dichiarazioni hanno effetto sulla memoria (es. le dichiarazioni di funzioni non alterano
 la memoria).
-\begin{lstlisting}[numbers=none]
-	extern int a; // dichiarazione di una variabile
+\begin{lstlisting}
+	extern int a;            // dichiarazione di una variabile
 	int somma(int a, int b); // dichiarazione di una funzione
 \end{lstlisting}
 
 \subsubsection*{Definizioni}
 La definizione è un'istruzione che specifica completamente l'entità introdotta. Viene specificato il nome, il tipo, eventuali
 valori di inizializzazione e dettagli implementativi.
-\begin{lstlisting}[numbers=none]
-	int a = 1; // definizione di una variabile
+\begin{lstlisting}
+	int a = 1;                // definizione di una variabile
 	int somma(int a, int b) { // definizione di una funzione
 		return a + b;
 	}
@@ -230,8 +248,8 @@ valori di inizializzazione e dettagli implementativi.
 L'inizializzazione di una variabile è una parte dell'istruzione di dichiarazione o definizione che assegna un valore iniziale
 alla variabile appena introdotta. È sempre opportuno inizializzare le variabili al momento della loro dichiarazione, altrimenti
 si potrebbe andare incontro a \say{bug oscuri}.
-\begin{lstlisting}[numbers=none]
-	int a; // dichiarazione di una variabile
+\begin{lstlisting}
+	int a;     // dichiarazione di una variabile
 	int a = 1; // dichiarazione di una variabile con inizializzazione
 \end{lstlisting}
 
@@ -245,13 +263,16 @@ Nella definizione si specificano tutte le informazioni necessarie per l'entità 
 programma. Nel caso delle variabili viene inclusa anche l'assegnazione di uno spazio in memoria. Per le funzioni viene indicata
 l'implementazione all'interno di un blocco \verb|{...}|.
 
+È possibile eseguire più dichiarazioni dello stesso nome, purché siano coerenti tra loro, ma al massimo si potrà avere una singola
+definizione.
+
 \newpage
 
 \subsection{Espressioni}
 \subsubsection*{Espressioni}
 L'espressione è il più piccolo segmento di codice usato per esprimere la computazione. Può essere semplice (literal, variabile,
 LValue, RValue), oppure composto (operazione con operandi).
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}
 	"Hello World";  // espressione semplice (literal)
 	nome_variabile; // espressione semplice (nome variabile)
 	a = b + c;      // espressione composta da operatore e operandi
@@ -324,8 +345,8 @@ loro funzione:
 \item \textbf{operatori di accesso}
 \begin{lstlisting}
 	a[b]  // accesso in memoria
-	*a    // dereferenziamento
-	&a    // referenziamento
+	*a    // referenziamento (contenuto all'indirizzo puntato)
+	&a    // dereferenziamento (indirizzo della variabile)
 	a.b   // membro di oggetto
 	a->b  // membro di puntatore
 	a.*b  // puntatore al membro di un oggetto
@@ -396,7 +417,7 @@ La conversione o casting può avvenire in due modi:
 	\item \textbf{casting implicito}: quando non viene specificata l'operazione di casting
 	\item \textbf{casting esplicito}: quando si esplicita l'operazione di casting
 \end{itemize}
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}
 	double x = 12 // casting implicito da int a double
 	double x = static_cast<double>(12) // casting esplicito da int a double
 \end{lstlisting}
@@ -412,9 +433,9 @@ Il cast implicito può essere di due tipi:
 Le conversioni non-type-safe (con perdita di dati) ed eventuali overflow non sono segnalati dal compilatore.
 
 \subsubsection*{Narrowing conversion}
-Da \cppel c'è la possibilità di eseguire le conversioni con controllo di narrowing utilizzando le \verb|{}| per indicare al
+Da \verb|C++11| c'è la possibilità di eseguire le conversioni con controllo di narrowing utilizzando le \verb|{}| per indicare al
 compilatore di segnalare errore nel caso di conversioni insicure:
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}
 	int x (2);    // int x = 2           -> type-safe, nessun errore
 	int x (2.3);  // int x = 2.3         -> non-type-safe, nessun errore
 	int x {2};    // int x = 2   + check -> type-safe, nessun errore
@@ -422,7 +443,7 @@ compilatore di segnalare errore nel caso di conversioni insicure:
 \end{lstlisting}
 
 \subsubsection*{Funzioni di casting esplicito}
-In \cpp sono presenti funzioni per eseguire il cast in modo esplicito tra diversi tipi:
+In \verb|C++| sono presenti funzioni per eseguire il cast in modo esplicito tra diversi tipi:
 \begin{itemize}
 	\item \verb|static_cast| per conversione tra tipi built-in
 	\item \verb|dynamic_cast| conversione tra classi derivate
@@ -491,23 +512,775 @@ all'insaputa del programmatore.
 \end{lstlisting}
 
 \section{Librerie}
+Le librerie sono degli strumenti (o strutture) usati per importare codice scritto da altri o scritto dall'utente in diversi
+progetti o programmi. Sono composte da un insieme di files divisi in file header e file sorgente.
+
+\subsubsection*{File header}
+I file header raggruppano gli header (o dichiarazioni) di diverse funzioni implementate dall'utente, che si riferiscono ad uno
+stesso problema. Terminano con l'estensione \verb|.h| e il nome ne riassume il contenuto.
+
+\subsubsection*{File sorgente}
+I file sorgente contengono le definizioni delle funzioni contenute nei corrispettivi header. Terminano con l'estensione \verb|.cpp|
+e hanno lo stesso nome del corrispettivo header.
+
+\subsubsection*{Linking}
+Per utilizzare una libreria all'interno di un programma è necessario includerla all'inizio del file attraverso la direttiva
+\verb|#include| seguita dal nome della libreria. Se la libreria fa parte delle librerie standard del compilatore si indica il nome
+della libreria tra \verb|<>| e non è necessario indicarne l'estensione. Se la libreria è Implementata dall'utente si indica tra
+\verb|""| ed è necessario indicare l'estensione \verb|.h|.
+\begin{lstlisting}
+	#include <iostream> // libreria dell'implementazione standard del cpp
+	#include "mylib.h"  // libreria implementata dall'utente
+\end{lstlisting}
+Si importano solo i file header di una libreria. I relativi file sorgente non si importano nei files, ma si passano al compilatore
+(linker) in fase di compilazione.
+
+\subsubsection*{Include guards}
+Per evitare che una stessa libreria sia importata pià volte inutilmente, si utilizzano delle direttive al preprocessore chiamate
+include guards. Nel caso in cui la libreria sia già stata importata, il contenuto del file header viene ignorato.
+\begin{lstlisting}
+	#ifndef MYLIB_h
+	#define MYLIB_h
+	...  // dichiarazioni
+	#endif // MYLIB_H
+\end{lstlisting}
+
+\subsubsection*{Librerie statiche e linking statico}
+Il linking statico avviene quando tutte le librerie necessarie al programma sono contenute all'interno dell'eseguibile finale. Il
+processo avviene in tre fasi:
+\begin{itemize}[topsep=0pt]
+	\item[1.] il preprocessore aggiunge gli header ai sorgenti e si crea un blocco per il main e uno per ogni libreria
+	\item[2.] il compilatore crea i due file object compilati
+	\item[3.] il linker crea il file eseguibile unendo i due file object
+	\item \verb|main.cpp + mylib.h| \(\;\;\;\rightarrow\;\;\) \verb|main.o| \(\;\;\;\longrightarrow\quad\) \verb|main.o + mylib.o| \(\;\rightarrow\;\) \verb|main.exe|
+	\item \verb|mylib.cpp + mylib.h| \(\,\,\rightarrow\;\;\) \verb|mylib.o| \(\,\,\toprightarrow\)
+\end{itemize}
+Spesso le librerie sono distribuite sotto forma di file precompilati. In tal caso verrà saltata la fase di compilazione delle
+librerie e il linker le inserirà nell'eseguibile alla fine. Il vantaggio di questo processo è avere un unico file con il programma
+e tutte le librerie e le dipendenze necessarie al funzionamento.
+
+\subsubsection*{Librerie dinamiche e linking dinamico}
+Nel caso in cui più programmi condividano le stesse librerie si può optare per il linking dinamico. Ciò consiste nella creazione
+di una copia della libreria condivisa tra i diversi eseguibili. Le librerie condivise sono chiamate \verb|SO| (shared object) su
+Linux o \verb|DLL| (Dynamic Linking Library) su Windows. I vantaggi sono:
+\begin{itemize}
+	\item evitare di avere copie superflue della stessa libreria
+	\item aggiornare e ricompilare la libreria senza dover ricompilare i sorgenti
+\end{itemize}
+
+\newpage
+
 \section{Funzioni}
-\section{User Defined Type}
+Le funzioni sono segmenti di codice identificate con un nome, che ricevono dei parametri o argomenti in input (detti parametri
+formali) e restituiscono un valore in output. La dichiarazione delle funzioni deve contenere tutte le informazioni sopra definite,
+mentre la definizione deve anche contenere il blocco con le istruzioni da eseguire. La funzione viene chiamata con il suo nome
+e le vengono passati i parametri richiesti detti parametri 
+\begin{lstlisting}
+	/**
+	 * Dichiarazione (header) della funzione
+	 * - nome funzione:      somma
+	 * - parametri formali:  double a, double b
+	 * - tipo del valore di ritorno: double
+	 */
+	double somma(double a, double b);
+
+	// Definizione (implementazione) della funzione
+	double somma(double a, double b) {  // dichiarazione (header) della funzione
+		return a + b;                   // corpo della funzione
+	}
+
+	c = somma(f,e); // Chiamata della funzione
+\end{lstlisting}
+
+\subsection{Passaggio dei parametri}
+\subsubsection*{Passaggio per copia}
+Nel passaggio per copia, i parametri passati vengono copiati all'interno dei parametri formali. In questo modo la funzione riceve
+una copia dei valori, per cui questi possono essere modificati all'interno della funzione senza alterare i relativi valori nella
+funzione chiamante. Lo svantaggio è che quando si passano dati di grandi dimensioni, la copia risulta svantaggiosa.
+
+\subsubsection*{Passaggio per reference}
+Il passaggio per riferimento o per reference permette di non effettuare la copia dei parametri, andando ad agire direttamente sui
+parametri del chiamante. Lo svantaggio è che la funzione potrebbe modificare i parametri del chiamante in maniera inaspettata. Le
+reference accettano solo lvalue (variabili modificabili). Quando avviene il passaggio per reference si suppone che i parametri
+coinvolti verranno modificati.
+
+\subsubsection*{Passaggio per const reference}
+Il passaggio per \verb|const reference| consiste nel passaggio per riferimento in cui i parametri all'interno della funzione
+sono dichiarati costanti. In questo modo non possono essere modificati all'interno della funzione e di conseguenza non verranno
+modificati nel chiamante. Le const reference accettano sia lvalue (variabili), che rvalue (literas o costanti).
+
+\begin{lstlisting}
+	int somma(std::vector<int> v); // passaggio per copia
+	int somma(std::vector<int> &v); // passaggio per reference
+	int somma(const std::vector<int> &v); // passaggio per const reference
+	sommaValori = somma(vec); // chiamata della funzione (indipendente dai casi sopra)
+\end{lstlisting}
+
+\subsubsection*{Considerazioni}
+Si cerca di evitare di usare il passaggio per reference in quanto è poco esplicito (non si sa se i valori verranno modificati o
+meno).
+
+\begin{itemize}
+	\item per passaggio di piccoli valori \(\rightarrow\) copia
+	\item per passaggio di grandi dati non modificabili \(\rightarrow\) const reference
+	\item per passaggio di grandi dati da modificare \(\rightarrow\) reference (o puntatori)
+	\item per valori da restituire \(\rightarrow\) valore di ritorno
+\end{itemize}
+
+\newpage
+
+\section{Gestione della memoria}
+\subsection{Memory Layout di un programma}
+In un programma la memoria è suddivisa in settori, partendo dalla parte alta (high address) verso la parte bassa (low address) si ha:
+\begin{itemize}
+	\item \textbf{stack}: struttura lifo che memorizza i record di attivazione di ogni funzione, si espande dalla parte alta
+	verso la parte bassa della memoria
+	\item \textbf{heap}: contiene i dati allocati dinamicamente (memoria dinamica), si espande verso la parte alta
+	\item \textbf{bss} (o uninitialised data segment): contiene le variabili globali (e statiche) non inizializzate
+	\item \textbf{data} (o initialised data segment): contiene le variabili globali (e statiche) inizializzate
+	\item \textbf{text}: contiene le istruzioni da eseguire
+\end{itemize}
+
+\subsection{RDA o record di attivazione}
+Il record di attivazione di una funzione è l'insieme dei dati memorizzati dello stack quando una funzione è in esecuzione.
+Comprende i parametri passati, le variabili locali, il valore restituito ed eventuali altri dati necessari alla corretta
+esecuzione del programma.
+
+Ad ogni chiamata di una funzione si crea un nuovo RDA che verrà aggiunto allo stack, sopra quello
+del chiamante. Alla terminazione di una funzione, lo stack di tale funzione viene estratto e si riapre quello del chiamante.
+
+\subsection{Durata in memoria delle variabili}
+La durata in memoria di una variabile è il tempo per cui tale variabile si trova in memoria ed è indipendente dallo scope,
+ovvero dall'area di codice in cui è possibile accedere a tale variabile. In base alla durata in memoria, le variabili si
+dividono in:
+\begin{itemize}
+	\item \textbf{variabili statiche}: memorizzate nel \verb|data| o \verb|bss|, esistono per tutta la durata del programma,
+	da prima dell'esecuzione del main, fino a dopo la sua terminazione. Mantengono il valore anche fuori dal loro scope e si
+	dividono in:
+	\begin{itemize}[topsep=0pt]
+		\item globali: se definite nello scope globale, per cui accessibili ovunque
+		\item locali: se definite all'interno di uno scope, con accesso limitato allo scope, tramite la parola chiave \verb|static|
+	\end{itemize}
+	\item \textbf{variabili globali}: memorizzate nel \verb|data| o \verb|bss|, si comportano come le variabili statiche,
+	essendone un caso particolare
+	\item \textbf{variabili locali automatiche}: definite all'interno di uno scope (non globale), sono memorizzate nello stack
+	all'interno dell'RDA di tale scope e vengono gestite automaticamente dal compilatore. Quando viene rimosso l'RDA, tutte le
+	variabili locali automatiche verranno distrutte. Nel caso in cui tali variabili si trovano all'interno di un blocco iterativo
+	queste vengono dichiarate e distrutte ad ogni iterazione e, nonostante ci possa essere ottimizzazione, non si potrà conoscerne
+	il valore all'iterazione successiva.
+\end{itemize}
+
+Nel caso in cui si hanno più file (o translation unit) e si utilizzano inizializzazioni che usano variabili \verb|extern|, si
+potrebbe andare incontro ad un errore in quando non è possibile stabilire l'ordine di creazione in memoria di diversi files.
+\begin{lstlisting}
+	// File 1 //
+	int x1 = 2;
+	int y1 = x1 + 2;
+
+	// File 2 //
+	extern int y1;   // richiama y1 del file 1
+	int y2 = y1 + 2; // non e' detto che y1 sia gia' stata creata in memoria
+	// potrebbero essere prima gestite qelle del file 2 e poi quelle del file 1
+\end{lstlisting}
+
+\newpage
+
+\section{User Defined Type - UDT}
+Un UDT è un particolare tipo non presente tra i tipi built-in del \verb|C++| e definito dal programmatore secondo le proprie esigenze.
+Nella libreria standard sono presenti alcuni UDT tra cui \verb|vector|, \verb|string|, \verb|list|, \verb|ostream|, \dots Un tipo
+deve avere la possibilità di avere:
+\begin{itemize}[topsep=0pt]
+	\item descrivere lo stato in cui si trova (attraverso delle variabili)
+	\item avere delle operazioni per cambiare stato (attraverso member function o helper function)
+\end{itemize}
+
+\subsection{Struct}
+Le \verb|struct| sono strutture ereditate dal \verb|C|, costituite univocamente da variabili membro. Le variabili non hanno alcun
+controllo di accesso e l'oggetto può facilmente andare in uno stato non valido. Sono utilizzate principalmente come contenitori
+di dati.
+\begin{lstlisting}
+	struct Date {
+		int day;   // variabile membro
+		int month; // variabile membro
+		int year;  // variabile membro
+	};
+\end{lstlisting}
+
+\subsection{Classi}
+\subsubsection*{Introduzione e struttura}
+Le classi sono strutture tipiche del \verb|C++| in grado di rappresentare concetti astratti in un programma. Sono composte da:
+\begin{itemize}[topsep=0pt]
+	\item variabili membro
+	\item costruttori e distruttori
+	\item member function (e helper function)
+	\item overloading operatori
+	\item meccanismo di protezione dei dati (incapsulamento)
+	\item gestione della copia dei dati 
+\end{itemize}
+\begin{lstlisting}
+	class Date {
+		private:
+			int day;   // variabile membro privata
+			int month; // variabile membro privata
+			int year;  // variabile membro privata
+
+		public:
+			Date(int d, int m, int y);           // costruttore
+			int get_day() const;                 // member function (getter)
+			int set_day();                       // member function (setter)
+			Date operator+(const Date &d) const; // overloading operatori
+			...
+	};
+
+	Date add(const Date &d1, const Date &d2); // Helper function
+\end{lstlisting}
+
+\subsubsection*{Stato di un oggetto e validità}
+Un oggetto ha uno stato valido se rispetta un certo invariante (regola definita dal programmatore) al momento della creazione e
+durante ogni azione eseguita su tale oggetto. Per rispettare tale regola si fa uso dell'incapsulamento e dei costruttori.
+
+\newpage
+
+\subsubsection*{Incapsulamento}
+L'incapsulamento consiste nel \say{nascondere} variabili membro o member function rendendole inaccessibili all'esterno della
+classe. Il programmatore fornisce delle funzioni (chiamate \verb|getters|) per accedere solo ai dati non sensibili e altre
+funzioni (chiamate \verb|setters|) per modificarli rispettando una serie di controlli implementati dal programmatore. In questo
+modo è possibile modificare l'oggetto rispettando l'invariante. Tale principio si implementa attraverso gli attributi:
+\begin{itemize}
+	\item \textbf{private}: rende l'entità accessibile solo all'interno della classe
+	\item \textbf{protected}: rende l'entità accessibile solo all'interno della classe ed eventuali classi derivate
+	\item \textbf{public}: rende l'entità accessibile a chiunque
+\end{itemize}
+
+\subsubsection*{Costruttori}
+I costruttori sono funzioni particolari con le seguenti proprietà:
+\begin{itemize}
+	\item hanno stesso nome della classe a cui appartengono e non hanno valore di ritorno
+	\item sono invocati automaticamente al momento della dichiarazione dell'oggetto garantiscono la validità dell'invariante
+	alla creazione dell'oggetto.
+	\item se non viene specificato alcun costruttore, il compilatore ne fornisce uno di default, nel caso in cui ne viene fornito
+	uno, questo sovrascrive quello di default che non sarà più utilizzabile
+	\item si cerca di implementare i costruttori esternamente alla classe, altrimenti vengono interpretati come \verb|inline|
+	dal compilatore; per implementarli esternamente bisogna specificare il nome della classe a cui appartengono \verb|NomeClasse::NomeCostruttore(...)|
+	\item oltre ai parametri specificati nella dichiarazione, hanno un parametro implicito \verb|this| che punta all'oggetto
+	appena creato
+\end{itemize}
+I costruttori si possono dividere in:
+\begin{itemize}
+\item \textbf{costruttore di default}: costruttore senza parametri
+\begin{lstlisting}
+	Date() { ... }
+
+	Date d;   // chiama il costruttore di default
+	Date d{}; // chiama il costruttore di default
+	Date d(); // errore -> viene vista come dichiarazione di una funzione
+\end{lstlisting}
+
+\item \textbf{costruttore generico}: costruttore con parametri
+\begin{lstlisting}
+	Date(int d, int m, int y) { ... }
+	
+	Date d(1,2,2024);        // costruttore con parametri vecchio stile
+	Date d{1,2,2024};        // costruttore con parametri e type safety
+	Date d = {1,2,2024};     // verboso, equivalente a quella sopra
+	Date d = Date{1,2,2024}; // verboso, equivalente a quella sopra
+\end{lstlisting}
+
+\item \textbf{costruttore con member initializer list}: costruttore in cui vengono specificate le inizializzazioni nella
+dichiarazione, fuori dal corpo del costruttore. Questa pratica a volte risulta inutile perché bypassa eventuali controlli
+sulla validità dei parametri
+\begin{lstlisting}
+	Date(int _d, int _m, int _y) : d{_d}, m{_m}, y{_y} { ... }
+\end{lstlisting}
+
+\item \textbf{delegating constructor}: costruttore che chiama un altro costruttore per evitare di ripetere operazioni base di
+inizializzazione già implementate e successivamente aggiunge eventuali correzioni
+\begin{lstlisting}
+	Date(int d, int m) : Date(d, m, 1970) { ... }
+	Date d{1,1}; // equivale a Date d{1,1,1970};
+\end{lstlisting}
+
+\item \textbf{costruttore con parametri di default}: costruttore in cui sono specificati i valori che assumono i parametri, se
+non vengono passati al momento dell'invocazione
+\begin{lstlisting}
+	Date(int d = 1, m = 1, y = 1970) { ... }
+	Date d{2};        // equivale a Date d{2,1,1970};
+	Date d{2,2};      // equivale a Date d{2,2,1970};
+	Date d{2,2,1980}; // equivale a Date d{2,2,1980};
+\end{lstlisting}
+
+\item \textbf{costruttore explicit}: costruttore che disabilita il casting implicito e la copy-initialization
+\begin{lstlisting}
+	explicit Date(int d, int m, int y) { ... }
+	Date d{1,1,1970};    // ok
+	Date d = {1,1,1970}; // errore -> copy-initialization
+
+	explicit A(int m) { ... } // costruttore che blocca il casting int -> A()
+	void fx(A a) { ... }      // funzione che accetta un oggetto A() come parametro
+	fx(A(2)); // ok     -> nessun casting
+	fx(3);   // errore -> casting implicito disabilitato
+\end{lstlisting}
+
+\item \textbf{costruttore con initializer list}: usa una \verb|initializer_list| da cui prendere i parametri, usata molto spesso
+quando serve inizializzare un oggetto vector-like.
+\begin{lstlisting}
+	Date(initializer_list<int> lst) {
+		d = lst.size() > 0 ? lst.begin()[0] : 1;    // se lst ha almeno 1 elemento
+		m = lst.size() > 1 ? lst.begin()[1] : 1;    // se lst ha almeno 2 elementi
+		y = lst.size() > 2 ? lst.begin()[2] : 1970; // se lst ha almeno 3 elementi
+	}
+
+	Date d{2,2,1980};    // ok  -> {2,2,1980} e' una initializer list
+	Date d(2,2,1980);    // err -> (2,2,1980) non e' una initializer list
+	Date d = {2,2,1980}; // ok  -> {2,2,1980} e' una initializer list
+	Date d(2);           // err -> (2) non e' una initializer list
+	Date d{2};           // ok  -> {2} e' una initializer list
+	Date d{2,2};         // ok  -> {2,2} e' una initializer list
+	Date d{2,2,2,2};     // ok  -> {2,2,2,2} e' una initializer list
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection*{Member function}
+Le member function sono funzioni interne alla classe, in grado di poter accedere e modificare le variabili membro della classe.
+A differenza delle normali funzioni:
+\begin{itemize}
+	\item si dichiarano internamente alla classe e si implementano esternamente, se implementate internamente vengono interpretate
+	come \verb|inline| dal compilatore; per implementarle esternamente bisogna indicare il nome della classe a cui appartengono
+	\verb|tipoRestituito NomeClasse::NomeFunzione(...)|
+	\item per invocarle bisogna usare la notazione \verb|nomeOggetto.nomeFunzione(...)|
+	\item oltre ai parametri specificati nella dichiarazione, hanno un parametro implicito \verb|this| che punta all'oggetto da
+	cui sono state invocate
+\end{itemize}
+Le member function possono avere l'attributo \verb|const| che specifica che non modificano nessun parametro ricevuto, nemmeno
+l'oggetto da cui sono invocate. Le member function \verb|const| possono, quindi, essere invocate su oggetti costanti o su const
+reference. Il meccanismo dei parametri di default dei costruttori è esteso anche alle funzioni.
+
+\subsubsection*{Helper function}
+Le helper function sono normali funzioni che vengono spesso collegate ad una classe in quanto implementano funzionalità specifiche
+della classe a cui sono legate.
+
+\subsubsection*{Member vs helper functions}
+Bjarne suggerisce di implementare poche member function e delegare il più possibile dei compiti alle helper function. In questo
+modo se ci sono errori di invariante, il problema sarà sulle poche member function implementate.
+
+\newpage
+
+\subsubsection*{Overloading degli operatori}
+È possibile ridefinire il comportamento degli operatori esistenti in \verb|C++| per una classe, attraverso opportune definizioni. Non
+è possibile effettuare overloading di operatori non esistenti e bisogna rispettare il numero di parametri previsti (unario,
+binario \dots). È possibile implementarne l'overloading tramite member function o con helper function. È necessario che almeno
+uno dei due parametri dell'operatore sia UDT e non  built-in (se fossero entrambi built-in) si ricadrebbe su un caso già gestito.
+Alcuni operatori hanno un pattern obbligato, ovvero l'ordine dei parametri non può essere scambiato
+\begin{lstlisting}
+	T operator+(const T &t1, const T &t2) { ... } // overloading con helper function
+	T T::operator+(/*this,*/ const T &t2) { ... } // overloading con member function
+	c = a + b;
+
+	T &operator++(T &t); // preincremento -> resituisco valore modificato
+	T operator++(T &t);  // postincremento -> restituisco valore non modificato
+
+	// pattern obbligato per overloading operator<< -> non puo' essere member function
+	ostream &operator<<(ostream &os, const T &t) {
+		return os << t.member ... ;
+	}
+\end{lstlisting}
+
+\subsubsection*{Distruttori}
+I distruttori sono member function che vengono chiamate automaticamente quando un oggetto esce dal suo scope. Servono per liberare
+la memoria occupata dalle variabili membro e viene fornito automaticamente dal compilatore. È chiamato implicitamente, per cui
+la chiamata esplicita è un errore.
+
+Nel caso in cui un oggetto abbia dei puntatori a memoria allocata dinamicamente, è necessario sovrascrivere il distruttore di
+default, inserendo la deallocazione della memoria allocata. Se ciò non viene fatto si va incontro a memory leak.
+
+Se un oggetto contiene altri oggetti o altre variabili membro, il distruttore automaticamente provvede a chiamare il distruttore
+degli oggetti-membro e liberare le variabili. È sbagliato deallocare dinamicamente variabili non allocate dinamicamente.
+\begin{lstlisting}
+	class A {
+		int *p;
+		...
+		A(){ p = new int[100]; } // costruttore con allocazione dinamica
+		~A() { delete[] p; }     // distruttore con deallocazione dinamica
+	}
+\end{lstlisting}
+
+\subsubsection*{Copia - costruttore e assegnamento di copia}
+Quando viene effettuata un'assegnazione tra due oggetti dello stesso tipo, si effettua la copia membro a membro tra l'oggetto
+originale e l'oggetto di destinazione. Quando la copia viene utilizzata per costruire un nuovo oggetto o inizializzare una
+variabile viene chiamato il costruttore di copia, mentre quando la copia coinvolge oggetti già dichiarati, allora si invoca
+l'operatore di assegnazione \verb|operator=|.
+\begin{lstlisting}
+	A obj1{1,2,3};
+	A obj2 = obj1; // copia membro a mebro da obj1 a obj2 (costruttore)
+	obj1 = obj2;   // copia membro a mebro da obj2 a obj1 (assegnazione)
+\end{lstlisting}
+Di default viene effettuata una copia membro a mebro, detta shallow copy, che è implementata di default dal costruttore di copia
+e dall'operatore di assegnamento di copia. Quando si hanno oggetti con puntatori, la shallow copy copia solo l'indirizzo, ma non
+duplica la memoria puntata. Si avranno due oggetti con puntatori alla stessa area di memoria. Per risolvere il problema si ricorre
+alla deep copy, per cui sarà necessario implementare il costruttore di copia e l'assegnamento di copia.
+\begin{lstlisting}
+	// header costruttore di copia
+	Obj(const Obj &a) { ... }
+
+	// operatore di assegnamento di copia
+	Obj &operator=(const Obj &a) { ... }
+\end{lstlisting}
+Nell'overloading dell'\verb|operator=| è consigliato creare un puntatore temporaneo alla futura area di memoria con i dati, copiare
+i dati nell'area di memoria, eliminare i dati vecchi e infine sovrascrivere il puntatore con quello temporaneo. In questo modo si
+evita di eliminare i dati senza essere sicuri di avere quelli nuovi.
+
+\subsubsection*{Move - costruttore e assegnamento di move}
+Quando ho un oggetto che contiene grandi quantità di dati allocati dinamicamente ed è in procinto di essere eliminato (es. valore
+di ritorno di una funzione), non ha senso effettuarne una copia. Basterebbe copiare l'indirizzo dell'area di memoria che contiene
+i dati. In questo modo si evitano operazioni unitili. Per fare ciò si definisce il costruttore di move e si esegue l'overloading
+dell'\verb|operator=| per l'assegnamento di move.
+\begin{lstlisting}
+	// header costruttore di move
+	Obj(Obj &&a) { ... }
+
+	// operatore di assegnamento di move
+	Obj &operator=(Obj &&a) { ... }
+\end{lstlisting}
+Si nota che entrambi ricevono un rvalue, ovvero un oggetto che non potrà essere modificato, se non viene copiato. Siccome, nel
+momento di eliminazione dell'oggetto rvalue si invoca il distruttore, è bene impostare i membri dell'oggetto d'origine a valori
+di default. In questo modo si evita di deallocare i dati che memorizzava, siccome sono condivisi con il nuovo oggetto.
+Per rimuovere i dati dall'oggetto d'origine, i parametri non possono essere const reference.
+
+Alcune volte il compilatore ottimizza gli istanziamenti degli oggetti di breve durante (valori di ritorno di funzioni),
+costruendoli direttamente sulla destinazione e bypassando eventuali copie e move. Questo processo è chiamato \verb|copy-elision|
+e per evitarlo bisogna inserire in fase di compilazione \verb|-fno-copy-elision| tra i parametri passati al compilatore.
+
+\subsubsection*{Rule of 5 - istruzioni di copy e move}
+Si osserva che quando vengono utilizzati membri allocati dinamicamente all'interno di una classe, è bene:
+\begin{itemize}
+	\item[1.] implementare il distruttore per deallocare i membri dinamici
+	\item[2,3.] implementare il costruttore di copia e l'assegnamento di copia per corretta deep copy
+	\item[4,5.] implementare il costruttore di move e l'assegnamento di move per evitare copie superflue
+\end{itemize}
+Esiste una regola chiamata \verb|Rule of 5|, per cui se è necessario implementare almeno una delle 5 member function sopra, allora
+sarà necessario implementare anche tutte le altre.
+
+\subsubsection*{Accesso ai membri di una classe - \texttt{operator[]}}
+Per accedere ai dati di una classe che implementa una generica struttura dati position-based (es. vettore, stringa, \dots) si
+utilizza l'\verb|operator[]| in cui tra le quadre si indica l'indice della posizione a cui si vuole accedere. Per fare ciò si
+effettuano due overloading (const e non const) dell'operatore in questione.
+\begin{lstlisting}
+	// overloading non const -> restituisce un lvalue reference modificabile
+	Obj &operator[](int n);
+
+	// overloading const -> restituisce un rvalue reference di sola lettura
+	Obj operator[](int n) const;
+\end{lstlisting}
+
+\newpage
+
 \section{Eccezioni}
-\section{Overloading operatori}
-\section{Puntatori}
+Le eccezioni sono un meccanismo di gestione degli errori in \verb|C++|. Al lancio di una eccezione vengono chiusi ed estratti tutti gli
+RDA aperti fino a quando non si arriva ad una funzione in grado di catturare l'eccezione. Se l'eccezione non viene catturata
+nemmeno dal main, il programma viene terminato.
+
+\subsubsection*{Definizione di una eccezione}
+L'eccezione è una classe particolare. Viene spesso definita all'interno di un'altra classe che la utilizza.
+\begin{lstlisting}
+	class A {
+		private:
+			...
+		public:
+			...
+			class Invalid {}; // classe eccezione intenzionalmente lasciata vuota
+	}
+\end{lstlisting}
+
+\subsubsection*{Lancio di un'eccezione}
+Un'eccezione viene lanciata tramite la keyword \verb|throw| seguita dal costruttore della classe eccezione.
+\begin{lstlisting}
+	if (invariante non verificato)
+		throw Invalid();
+\end{lstlisting}
+
+\subsubsection*{Cattura di un'eccezione}
+L'eccezione viene catturata con un blocco \verb|try-catch|.
+\begin{lstlisting}
+	try {
+		... // funzioni che possono lanciare l'eccezione
+	} catch (A::Invalid e /*eccezione da catturare*/) {
+		... // codice da eseguire quando l'eccezione viene catturata
+	}
+\end{lstlisting}
+
+\subsubsection*{Ereditarietà delle eccezioni}
+
+\newpage
+
+\section{Reference e puntatori}
+\subsection{Reference}
+Le reference sono \say{variabili} collegate univocamente e immutabilmente ad altre variabili. Il collegamento viene stabilito
+nella loro definizione e non è possibile cambiarlo per tutta la durata della reference. (puntatore immutabile e dereferenziato
+automaticamente)
+\begin{lstlisting}
+	int a = 10;
+	int &b = a; // definizione reference della variabile a
+	a = 15  <->  b = 15 // a, b sono la stessa variabile
+\end{lstlisting}
+
+\subsection{Puntatori}
+I puntatori sono variabili con un tipo (built-in o UDT) che contengono un indirizzo di memoria. Il tipo serve per specificare al
+compilatore come leggere o scrivere sull'area di memoria puntata e le operazioni che si possono fare con il dato. L'indirizzo
+può variare durante il programma.
+\begin{lstlisting}
+	int a = 10;
+	int *b = &a; // definizione puntatore alla variabile a
+	a = 15  <->  *b = 15 // a e il contenuto all'indirizzo in b sono equivalenti
+	int c = 20
+	*b = &c; // modifica dell'indirizzo puntato da b
+	c = 25  <->  *b = 25 // ora c e il contenuto all'indirizzo in b sono equivalenti
+\end{lstlisting}
+
+\subsubsection*{Operazioni con i puntatori}
+\begin{itemize}
+	\item \verb|operator&| \(\rightarrow\) referenziazione, restituisce l'indirizzo di una variabile o oggetto
+	\item \verb|operator*| \(\rightarrow\) dereferenziazione, restituisce lvalue con il contenuto dell'indirizzo di memoria
+	\item \verb|nullptr  | \(\rightarrow\) valore di un puntatore con indirizzo non valido (null)
+\end{itemize}
+
+\subsubsection*{Tipi dei puntatori}
+Non esiste casting tra i tipi dei puntatori, per cui un puntatore a \verb|int| non potrà mai essere assegnato ad un altro
+puntatore a \verb|double|. Esiste inoltre un puntatore puro \verb|void*| che non ha controlli sul type check.
+
+\subsection{Confronto tra puntatori e reference}
+Per i puntatori, l'assegnamento modifica l'indirizzo memorizzato nel puntatore, mentre per modificare il valore all'indirizzo
+di memoria, bisogna prima dereferenziare il puntatore ed eseguire l'assegnamento dereferenziato. Per le reference, invece,
+l'assegnamento modifica il valore delle variabili a cui sono linkate.
+Siccome per assegnare l'indirizzo ad un puntatore è necessario utilizzare l'operatore di referenziazione, il passaggio di
+parametri tramite puntatori avviene in maniera esplicita, a differenza delle reference.
+
+\newpage
+
 \section{Array}
+\subsubsection*{Introduzione}
+Gli array sono strutture dati ereditate dal \verb|C| caratterizzate da una sequenza omogenea di elementi allocati in aree di
+memoria consecutive (senza buchi). La dimensione degli array deve essere conosciuta a tempo di compilazione. Esistono anche
+i \verb|VLA| (Variable Length Array), ovvero array con dimensione non conosciuta a tempo di compilazione, ma non fanno parte
+dello standard \verb|C|.
+\begin{lstlisting}
+	int a[10]; // creazione array di 10 interi
+\end{lstlisting}
+
+\subsubsection*{Accesso e posizione in memoria}
+Gli elementi di un array sono indirizzati con un indice intero da 0 in poi e l'accesso è casuale (indipendente dalla posizione)
+e avviene con l'operatore \verb|[]|. Vengono trattatati come variabili e possono essere globali (memorizzate nel \verb|data| o
+\verb|bss|) o locali (memorizzate nello \verb|stack|).
+\begin{lstlisting}
+	a[4] = 10; // scrittura nella 5a posizione
+\end{lstlisting}
+
+\subsubsection*{Algebra dei puntatori}
+Gli array possono essere trattati come dei puntatori const che puntano alla prima cella e che possono essere spostati di un
+numero finito di celle per accedere alle celle adiacenti. È possibile fare il viceversa: trattare un puntatore come un array.
+\begin{lstlisting}
+	int a[10];
+	int *p = &a[5]; // puntatore alla 6a cella
+	p[-2] = 10; // scrittura sulla 4a cella
+	p[2] = 15;  // scrittura sulla 8a cella
+	p -= 2; // sposto il puntatore indietro di due celle
+	p += 2; // sposto il puntatore avanti di due celle 
+\end{lstlisting}
+Il salto dipende dal tipo del puntatore, se è di tipo \verb|int|, salterà di 4 byte, se \verb|char| salterà di 1 byte.
+
+\subsubsection*{Stringhe in C}
+Le stringhe ereditate dal \verb|C| sono array di char che terminano con \verb|"\0"|. Hanno le stesse limitazioni e utilizzi
+degli array. I literal string sono stringhe di questo tipo.
+
+\subsubsection*{Decadimento di un array}
+Una delle limitazioni degli array di questo tipo è che quando vengono passati ad una funzione (tramite puntatore al primo
+elemento) si perde la conoscenza della dimensione dell'array. Questo meccanismo di conversione da array a puntatore è una
+vecchia ottimizzazione del \verb|C|, mantenuta nel \verb|C++| per retrocompatibilità.
+
+\subsubsection*{Inizializzazione}
+\begin{lstlisting}
+	int a[] = {1,2,3,4}; // array di dimensione 4
+	int a[10] = {1,2,3,4}; // array di dim. 10 con {1,2,3,4,0,0,0,...,0}
+	int a[10] = {}; // array di dim. 10 con tutte le celle a 0
+	char s[] = {'a', 'b', 'c'}; // array di char, non stringa perche' manca '\0'
+\end{lstlisting}
+
+\subsubsection*{Errori da evitare}
+\begin{lstlisting}
+	int *p = nullptr;  *p = 7; // puntatore con indirizzo non valido
+
+	int* f1() {      |   int& f2() {
+		int x = 7;   |       int x = 7;
+		return &x;   |       return x;
+	}                |   }
+	int *p = f1(); // errore, la variabile puntata non piu' presente in memoria
+	int &r = f2(); // errore, la variabile a cui e' linkata non esiste piu'
+\end{lstlisting}
+
+\newpage
+
 \section{Allocazione dinamica della memoria}
-\section{Progettare interfaccia}
-\section{Rule of 5}
+\subsubsection*{Allocazione dinamica con \texttt{new}}
+Per allocare dinamicamente un'area di memoria nell'heap, si utilizzano i puntatori e l'operatore \verb|new|. I puntatori per
+accedere all'area di memoria possono essere utilizzati come array in stile \verb|C|, con l'algebra dei puntatori.
+\begin{lstlisting}
+	int *p = new int;    // allocazione di un int
+	int *p = new int[4]; // allocazione di un array di 4 int
+	int *p = new int[n]; // allocazione di un array di n int (n variabile)
+\end{lstlisting}
+
+\subsubsection*{Inizializzazione}
+Bisogna distinguere l'inizializzazione del puntatore dall'inizializzazione dell'area di memoria puntata:
+\begin{lstlisting}
+	int *p;                     // puntatore non inizializzato
+	int *p = new int;           // puntatore inizializzato, intero non inizializzato
+	int *p = new int{2};        // puntatore e intero inizializzati
+	int *p = new int[4];        // puntatore inizializzato, array non inizializzato
+	int *p = new int[]{1,2,3};  // puntatore e array non inizializzati
+	int *p = new int[5]{1,2,3}; // puntatore e array non inizializzati
+\end{lstlisting}
+Quando si alloca un oggetto, viene chiamato il costruttore per ogni oggetto allocato. Se il costruttore ha bisogno di parametri,
+bisogna indicarli nell'allocazione.
+\begin{lstlisting}
+	X *p = new X;             // oggetto allocato con ctor senza parametri
+	X *p = new X[4];          // array di oggetti allocati con ctor senza parametri
+	Y *p = new Y{3};          // oggetto allocato con un parametro per costruttore
+	Y *p = new Y[4]{3,4,2,6}; // array di oggetti allocati con rispettivi parametri
+\end{lstlisting}
+
+\subsubsection*{Controllo validità}
+Per verificare che un puntatore contenga un indirizzo di memoria si utilizza la seguente condizione:
+\begin{lstlisting}
+	// metodo classico                  |   // abbreviazione
+	if (p != nulltptr) {				|	if (p) {
+		// puntatore inizializzato		|		// puntatore inizializzato
+	}									|	}
+\end{lstlisting}
+Questo controllo non garantisce che l'area puntata sia accessibile e valida. Inoltre i puntatori non sono inizializzati di
+default a \verb|nullptr| per cui nel caso di un puntatore non inizializzato, questo confronto non ha senso.
+
+\subsubsection*{Deallocazione con \texttt{delete}}
+Per liberare l'area di memoria allocata dinamicamente si usa \verb|delete|. Il sistema operativo conosce la dimensione dell'array
+da deallocare, per cui non serve indicarla nell'istruzione. Quando si deallocano oggetti, vengono chiamati i rispettivi distruttori.
+\begin{lstlisting}
+	int *p = new int;     ->  delete p;  // deallocazione di una variabile/oggetto
+	int *q = new int[10]; -> delete[] q; // deallocazione di un array
+\end{lstlisting}
+
+\subsubsection*{Dandling pointer}
+Dopo un \verb|delete|, il puntatore mantiene l'indirizzo di memoria, anche se non è più valido. Per evitare errori è bene
+reinizializzarlo a \verb|nullptr|.
+
+\subsubsection*{Doppia cancellazione}
+\begin{lstlisting}
+	int *p = int[100];
+	delete[] p; // deallocato array, ma puntatore mantiene l'indirizzo
+	delete[] p; // errore -> deallocazione di un'area gia' deallocata
+\end{lstlisting}
+
+\subsubsection*{Memory Leak}
+Quando si perde il riferimento ad un'area di memoria, si ha memory leak. L'area rimane occupata fino alla chiusura del programma.
+L'assenza di un garbage collector permette di ottenere una migliore efficienza computazionale e spaziale (posso eliminare subito
+dati di grandi dimensioni), però delega al programmatore l'attenzione di non provocare memory leak.
+\begin{lstlisting}
+	int *p = int;   int *q = int[10];
+	q = p; // l'array puntato precedentemente da q non e' piu' accessibile
+\end{lstlisting}
+Si verifica memory leak anche quando un puntatore viene eliminato per l'uscita dal suo scope. Per evitare questo errore, è
+necessario effettuare la deallocazione di ogni area di memoria dei puntatori che andranno persi all'uscita di ogni scope.
+\begin{lstlisting}
+	void fx(int a) {
+		int *p = int[100];
+		...
+		delete[] p; // deallocazione, altrimenti l'array non e' piu' accessibile
+	}
+\end{lstlisting}
+
+\subsubsection*{Vantaggi dell'allocazione dinamica}
+L'allocazione dinamica permette di:
+\begin{itemize}
+	\item allocare dati di grandi dimensioni in maniera flessibile, solo per il tempo necessario
+	\item allocare array con dimensione conosciuta solo a tempo di compilazione
+	\item gestire efficacemente l'allocazione e la deallocazione
+\end{itemize}
+Gli svantaggi sono:
+\begin{itemize}
+	\item il costo elevato dell'allocazione e deallocazione della memoria (bisogna chiamare il sistema operativo)
+	\item la gestione delicata della memoria per evitare memory leak, dandling pointer o doppia cancellazione
+	\item la gestione delicata dei puntatori
+\end{itemize}
+
+\newpage
+
 \section{Template}
+\subsubsection*{Introduzione}
+I template sono strutture alla base della programmazione generica e del polimorfismo statico. Permettono di scrivere codice
+indipendente dal tipo dei dati, che poi verrà specializzato dal compilatore in base al tipo su cui verrà invocato. Questo processo
+è anche chiamato type generator, parametrized type o paramettized class, in quanto si generano un tipo diverso per ogni
+specializzazione e nella definizione si usano parametri al posto del tipo da specializzare.
+
+\subsubsection*{Specializzazione}
+La specializzazione avviene in fase di compilazione, per cui si ha una maggiore velocità di esecuzione e se ci sono errori sui
+tipi verranno segnalati dal compilatore. Siccome si crea una specializzazione per ogni tipo utilizzato, si avranno possibili
+raddoppi di codice.
+
+\subsubsection*{Struttura}
+\begin{lstlisting}
+	template<typename T> // oppure template<class T>, crea parametro template
+	class vector {
+		void push_back(const T &t); // T e' usato come parametro tipo
+		...
+	}
+
+	// parametro tipo per member function
+	template<typename T>
+	void vector<T>::push_back(const T &t) { ... }
+
+	// parametro tipo per funzione generica
+	// assumo esista operatore di confronto, se non eiste -> errore in compilazione
+	template<typename T>
+	T max(const T &x, const T &y) {
+		return (x > y) ? x : y;
+	}
+\end{lstlisting}
+
+\subsubsection*{Interi come template}
+È possibile indicare anche interi come parametri template. Questo processo è utile quando si vuole implementare vettori o array
+per una generica dimensione che rimarrà costante per tutto il programma (es. triplette RGB). Questo permette maggiore efficienza
+e si evita l'utilizzo del free store.
+\begin{lstlisting}
+	template<typename T, int N>           // definizione tipi template
+	class array { ... }	                  // definizione classe
+
+	array<unsigned char, 3> pixel{0,0,0}; // istanziamento oggetti
+\end{lstlisting}
+
+\subsubsection*{Template a deduzione automatica}
+Non serve sempre specificare i tipi template se si possono dedurre ad es. dai parametri della funzione.
+\begin{lstlisting}
+	template<typename T>
+	T max(const T &x, const T &y) { ... } // funzione template
+	k = max(i,j); // se i,j sono interi, non serve specificare max<int>(i,j)
+	
+	template<typename T, int N>
+	void fill(array<T,N> &a; const T &val) { ... } // funzione template
+	fill(pixel, 100); // T,N calcolati automaticamente dal tipo del parametro pixel
+\end{lstlisting}
+
+\subsubsection*{Template su Header File}
+I compilatori richiedono necessariamente di specificare sia la dichiarazione, sia la definizione delle classi e funzioni template.
+Per questo motivo non è possibile separare interfaccia e implementazione in file header e file sorgente. Si sceglie di
+inserire le dichiarazioni in un file header \verb|.h| e le implementazioni in un file header \verb|.hpp| che poi andrà linkato
+alla fine del file \verb|.h|. Nell'istruzione di compilazione non servirà aggiungere nulla perché ciò non costituisce una
+translation unit (sorgente da compilare).
+
+\newpage
 
 \section{Compilazione, CMake e Git}
 \subsection{Compilazione}
 Il processo di compilazione avviene in tre fasi:
 \begin{itemize}
 	\item[1.] \textbf{preprocessore}: gestisce le direttive al preprocessore, es. \verb|#include, #define, ...|
-	\item[2.] \textbf{compilatore}: traduce in codice macchina il singolo file
+	\item[2.] \textbf{compilatore}: traduce in codice macchina i singoli file e produce file oggetto
 	\item[3.] \textbf{linker}: risolve i riferimenti e le relazioni tra i diversi file compilati e aggiunge le librerie necessarie
 \end{itemize}
 Il processo di compilazione è gestito dal comando \verb|g++ nome_file -o nome_eseguibile -parametri|
