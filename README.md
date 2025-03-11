@@ -38,10 +38,30 @@ Appunti del corso di FAMP scritti in Latex - [link alla cartella _FAMP_](24-25_f
 * [_appunti FAMP in pdf_](24-25_fondamenti%20di%20analisi%20e%20probabilità/famp.pdf)
 
 ### Fisica 2
-nessun file appunti
-
-### Laboratorio di programmazione
-nessun file appunti
+Appunti del corso di Fisica 2 scritti in Latex - [link alla cartella _fisica2_](24-25_fisica%202/)
+* [_appunti fisica2 in LaTeX_](24-25_fisica%202/fisica2.tex)
+* [_appunti fisica2 in pdf_](24-25_fisica%202/fisica2.pdf)
 
 ### Dati e algoritmi
+Appunti del corso di Dati e algoritmi scritti in Latex - [link alla cartella _dati_](24-25_dati%20e%20algoritmi)
+* [_appunti dati in LaTeX_](24-25_dati%20e%20algoritmi/dati.tex)
+* [_appunti dati in pdf_](24-25_dati%20e%20algoritmi/dati.pdf)
+
+### Laboratorio di programmazione
+Appunti del corso di Laboratorio di programmazione scritti in Latex - [link alla cartella _laboratorio di programmazione_](24-25_laboratorio%20di%20programmazione)
+* [_appunti lab in LaTeX_](24-25_laboratorio%20di%20programmazione/lab.tex)
+* [_appunti lab in pdf_](24-25_laboratorio%20di%20programmazione/lab.pdf)
+
+## Secondo semestre 2024-25
+### Ingegneria del software
+Appunti del corso di Ingegneria del Software scritti in Markdown - [link alla cartella _inegneria del software_](24-25_ingegneria%20del%20software)
+* [_appunti lab in MarkDown_](24-25_ingegneria%20del%20software/ing_soft.md)
+
+### Sistemi operativi
+nessun file appunti
+
+### Fondamenti di controlli automatici
+nessun file appunti
+
+### Teoria dei circuiti
 nessun file appunti
