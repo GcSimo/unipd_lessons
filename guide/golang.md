@@ -180,9 +180,6 @@ Casting between different types must be explicit.
 | ``*`` | multiplication |
 | ``/`` | integer division |
 | ``%`` | module |
-| ``==`` | equality |
-| ``<``, ``<=`` | less than |
-| ``>``, ``>=`` | greater than |
 | ``&`` | bitwise and |
 | ``\|`` | bitwise or |
 | ``^`` | bitwise xor |
@@ -578,7 +575,213 @@ field.Tag // get the tag of num1 field
 ```
 
 ## 11. If and Switch Statements
-## 12. Looping
+### If
+```go
+// classic if statement
+if condition {
+	// ... code executed if condition == true ...
+}
+
+// if statement with initializer (ex. with maps)
+if pop, ok := data[key3]; ok {
+	// ... code executed if ok == true ...
+	// pop can be accessed inside the if block
+}
+```
+
+### If - else
+```go
+// classic if statement
+if condition1 {
+	// ... code executed if condition == true ...
+} else {
+	// ... code executed if condition == false ...
+}
+```
+
+### If - else if
+```go
+// classic if statement
+if condition1 {
+	// ... code executed if condition1 == true ...
+} else if condition2 {
+	// ... code executed if condition1 == false and condition2 == true ...
+} else {
+	// ... code executed if both condition1 and condition2 == false ...
+}
+```
+### Operators
+| operator | description |
+| - | - |
+| ``==`` | equality |
+| ``!=`` | inequality |
+| ``<``, ``<=`` | less than |
+| ``>``, ``>=`` | greater than |
+| ``&&`` | logical and |
+| ``\|\|`` | logical or |
+| ``!`` | logical not |
+
+Evaluation of logical expressions uses shortcircuiting:
+- if the first operand of ``&&`` is false, the second operand is not evaluated
+- if the first operand of ``\|\|`` is true, the second operand is not evaluated
+
+### Comparisons with floating point numbers
+```go
+if num1 == math.Pow(math.Sqrt(num1)) { ... } // errors may occurs
+if math.Abs ( num1 / math.Pow(math.Sqrt(num1)) - 1) < 1e-14 { ... } // introducing error
+```
+
+### Switch
+```go
+// normal switch statement
+switch variable {
+	case 1:
+		// ... code executed if variable == 1 ...
+	case 2:
+		// ... code executed if variable == 2 ...
+	case 3:
+		// ... code executed if variable == 3 ...
+	case 4,5,6:
+		// ... code executed if variable == 4 or 5 or 6 ...
+	default:
+		// ... code executed in all the other cases ...
+}
+```
+
+### Switch with initializer
+```go
+// switch statement with initializer
+switch i := 1 + 2; i {
+	case 1:
+		// ... code executed if i == 1 ...
+	case 2:
+		// ... code executed if i == 2 ...
+	default:
+		// ... code executed in all the other cases ...
+}
+```
+
+### Switch tagless
+```go
+// switch with tagless sinstax -> like if - else if - else
+switch {
+	case i <= 10:
+		// ... code executed if i <= 10 ...
+	case i <= 20 :
+		// ... code executed if i <= 20 ...
+	default:
+		// ... code executed in all the other cases ...
+}
+```
+
+### Fall through
+```go
+switch {
+	case i <= 10:
+		// ... code executed if i <= 10 ...
+		fallthrough // execute also the next case without evaluating the condition 
+	case i >= 20 :
+		// ... code executed if i <= 10 or if >= 20 ...
+	default:
+		// ... code executed in all the other cases ...
+}
+```
+
+### Type switches
+```go
+var i interface{} = variableToEvaluate
+switch i.(type) {
+	case int:
+		// ... code executed if i is an int ...
+	case float64 :
+		// ... code executed if i is a float64 ...
+	case string :
+		// ... code executed if i is a string ...
+	default:
+		// ... code executed in all the other cases ...
+}
+```
+
+### Break keyword
+Cause the termination of the block in execution and skip all the instructions in the block after the ``break`` instruction.
+
+## 12. Looping - For statement
+### Simple loops
+```go
+// simple loop
+for counter initialisarion; condition; incrementer {
+	// ... code executed while condition == true ...
+}
+
+for i := 0; i < 5; i++ {
+	// ... code executed for 5 times ...
+}
+
+// for with two counters
+// note that ++ is a statement, not an operator, so i++, j++ is an error
+for i,j := 0; i < 5; i,j = i+1, j+2 { ... }
+
+// for with counter already defined
+for ; i < 5; i++ { ... }
+
+// for with increment inside for and counter already defined
+for i < 5 {
+	// ... code ...
+	i++
+}
+```
+
+### Exiting early - break
+- loop with undetermined iteration number -> implements while and do-while 
+```go
+for  { 
+	// ... code ...
+	if exit_condition {
+		break
+	}
+}
+```
+
+### Skip iteration - continue
+- skip an iteration of the loop
+```go
+for ... { 
+	if skip_condition {
+		continue
+	}
+	// ... code ...
+}
+```
+
+### Loop labels and break nested loop
+- if you need to break multiple nested loop -> the label indicates where we want to break out to
+```go
+Loop:
+	for  { 
+		for  { 
+			// ... code ...
+			if exit_condition {
+				break Loop
+			}
+		}
+	}
+```
+
+### Looping through collections - for range loop
+```go
+// loop range with key and value
+for k,v := range []int{1,2,3} {
+	// k is the index, v is the value
+	// ... code executed for every element in the slice/array/maps/strings ...
+}
+
+// loop range with only key
+for k := range s { ... }
+
+// loop range with only value
+for _,v := range s { ... }
+```
+
 ## 13. Defer, Panic, and Recover
 ## 14. Pointers
 ## 15. Functions
