@@ -1,0 +1,343 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+\usepackage{dirtytalk} % per le ""
+\usepackage{circuitikz} % per circuiti elettrici
+\usepackage{cancel} % per barrare testpo
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+
+% percorso delle immagini da inserire
+\graphicspath{ {./ } }
+
+% parte funzione reale e parte immaginaria
+\newcommand\Real{\text{Re}}
+\newcommand\Img{\text{Im}}
+
+% versori
+\newcommand\ux{\vec{u}_x}
+\newcommand\uy{\vec{u}_y}
+\newcommand\uz{\vec{u}_z}
+\newcommand\uxp{\vec{u}_{x'}}
+\newcommand\uyp{\vec{u}_{y'}}
+\newcommand\uzp{\vec{u}_{z'}}
+\newcommand\ur{\vec{u}_r}
+\newcommand\uv{\vec{u}_v}
+\newcommand\un{\vec{u}_n}
+\newcommand\ug{\vec{u}_\gamma}
+\newcommand\uper{\vec{u}_\perp}
+\newcommand\upar{\vec{u}_\parallel}
+\newcommand\nab{\vec{\nabla}} % nabla
+
+% forza generica
+\newcommand\ft{\vec{F}\left(\vec{\gamma}(t), \; \dt \vec{\gamma}(t), \; t\right)}
+\newcommand\ftau{\vec{F}\left(\vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau\right)}
+
+% derivata
+\newcommand\dt{\frac{d}{dt}\,}
+\newcommand\dtau{\frac{d}{d\tau}\,}
+\newcommand\dts{\frac{d^2}{dt^2}\,}
+
+% modulo vettore
+\newcommand\vmod[1]{\left|\left|{#1}\right|\right|}
+
+% per elenci puntati
+\setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
+
+\title{Appunti di Teoria dei circuiti}
+\author{Giacomo Simonetto}
+\date{Secondo semestre 2024-25}
+
+\begin{document}
+
+% -------------------------------------- Copertina e indice ---------------------------------------
+\maketitle
+\begin{abstract}
+	Appunti del corso di Teoria dei circuiti della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Introduzione alla teoria dei circuiti}
+\subsubsection*{Definizione di circuito}
+Un circuito elettrico è un insieme di dispositivi elettrici interconnessi, deputati alla produzione, trasmissione ed utiizzazione
+dell'energia elettrica.
+
+\subsubsection*{Equazioni di Maxwell}
+È possibile risolvere un circuito attraverso le equazioni di Maxwell, ma si otterrebbe un sistema troppo complesso da gestire e da
+risolvere, per cui si utilizzano approssimazioni e modelli definiti dalla teoria dei circuiti.
+
+%\begin{align*}
+%	\nab \cdot \vec{D} = \rho & \quad \text{Flusso del campo elettrico - Gauss} \\
+%	\nab \cdot \vec{B} = 0 & \quad \text{Flusso del campo magnetico - Gauss} \\
+%	\nab \times \vec{E} = - \frac{\partial \vec{B}}{\partial t} & \quad \text{Circuitazione del campo elettrico - Faraday-Neumann-Lenz} \\
+%	\nab \times \vec{H} = \vec{J} + \frac{\partial \vec{D}}{\partial t} & \quad \text{Circuitazione del campo magnetico - Ampère-Maxwell} \\
+%	\nab \cdot \vec{J} = -\frac{\partial \rho}{\partial t} & \quad \text{Continuità} \\
+%	\vec{D} = \varepsilon \vec{E} \qquad \vec{B} = \mu \vec{H} & \quad \text{Relazioni tra i vari campi}\\
+%\end{align*}
+
+\subsubsection*{Modello zero-dimensionale}
+Il modello zero-dimensionale non tiene conto di cosa avviene all'interno dei componenti elettrici, ma solo di come interagiscono
+tra di loro. In altre parole viene trascurata la loro dimensione.
+
+\subsubsection*{Grandezze fisiche}
+Le grandezze fisiche utilizzate sono: tensione, corrente, potenza, energia e frequenza
+
+\subsubsection*{Modello a parametri concentrati}
+Il modello a parametri concentrati prevede che:
+\begin{itemize}
+	\item[1.] i componenti RLC sono idealizzati e considerati puntiformi (modello zero-dimensionale)
+	\item[2.] tensioni e correnti dipendono dal tempo e non dallo spazio: si può evitare di considerare eventuali propagazioni
+	elettromagnetiche
+	\item[3.] l'interazione tra componenti avviene solo attraverso connessioni elettriche
+\end{itemize}
+Il suo scopo è di:
+\begin{itemize}
+	\item analizzare i comportamenti di tensioni e correnti (flussi di potenza)
+	\item prevedere comportamenti dei dispositivi reali mediante modelli semplificati
+	\item progettare e ottimizzare sistemi elettrici
+\end{itemize}
+
+\subsubsection*{Validità}
+La teoria dei circuiti è valida se la dimensione del circuito è inferiore alla lunghezza d'onda del segnale che circola all'interno:
+\begin{itemize}
+	\item corrente alternata di rete \(\rightarrow\) 50 Hz \(\rightarrow\) \(\lambda\) = 6000 km
+	\item radiofrequenza \(\rightarrow\) 100 MHz \(\rightarrow\) \(\lambda\) = 3 m
+	\item microonde \(\rightarrow\) 10 GHz \(\rightarrow\) \(\lambda\) = 3 cm (limite della TdC)
+\end{itemize}
+
+\subsubsection*{Tipi di circuiti}
+\begin{itemize}
+	\item circuiti elettrici di segnale, lavorano con mW
+	\item circuiti elettrici di potenza, lavorano con kW
+\end{itemize}
+
+\subsubsection*{Flusso e trasmissione di energia}
+Per flusso di energia si intende cone viene utilizzata la potenza in un circuito. La trasmissione di energia può avvenire in due
+modi: attraverso onde elettromagnetiche (radio, antenne, \dots) o per conduzione (linee elettriche).
+
+\newpage
+
+\section{Interpretazione fisica dell'elettrostatica}
+\subsection{Campi e grandezze fisiche}
+\subsubsection*{Campo fisico}
+Un campo fisico è la distribuzione su un volme o su una superficie di una certa grandezza fisica rappresentabile tramite vettore
+o scalare. I campi fisici di grandezze scalari si dicono campi scalari, mentre i campi fisici di grandezze vettoriali si dicono
+campi vettoriali.
+
+\subsubsection*{Grandezze fisiche}
+Una grandezza fisica è una quantità misurabile di un oggetto. Il processo di misura consiste nel comparare una quantità campione
+(detta unità di misura) con l'oggetto da misurare. Le grandezze fondamentali del Sistema Internazionale sono: m, kg, s, K, A, cd,
+mol.
+
+\subsection{Carica elettrica e densità di carica}
+\subsubsection*{Carica elettrica}
+\begin{itemize}
+	\item la quantità di carica è una grandezza che misura la carica elettrica di un oggetto
+	\item si osserva che esiste una forza che dipende dalla quantità di carica dei corpi e può essere attrattiva tra corpi con
+	cariche di segno opposto o repulsiva tra corpi con cariche dello stesso segno
+	\item la carica è quantizzata con quanto \(e = 1.6 \cdot 10^{-19} \; C\)
+\end{itemize}
+
+\subsubsection*{Densità di carica}
+La carica di una distribuzione è data da \(\displaystyle q = \int_V \rho d\tau\), ovvero la somma complessiva delle cariche positive
+e negative di un corpo:
+\begin{itemize}
+	\item densità volumica: \(\displaystyle \rho(P,t) = [C_{oulomb}/m^3] = \lim_{V \to 0} \frac{q}{V}, \quad q = \int_V \rho(P,t) d\tau\)
+	\item densità superficiale: \(\displaystyle \sigma(P,t) = [C_{oulomb}/m^2] = \lim_{\Sigma \to 0} \frac{q}{\Sigma}, \quad q = \int_\Sigma \sigma(P,t) d\Sigma\)
+\end{itemize}
+
+\subsection{Corrente elettrica e densità di corrente}
+\subsubsection*{Densità di corrente}
+Si genera per conduzione elettrica attraverso due modi:
+\begin{itemize}
+	\item corrente di conduzione: moto delle cariche libere (es. nei metalli)
+	\item corrente di convezione: moto delle cariche libere e/o vincolate (es. soluzioni elettrolitiche)
+\end{itemize}
+\[\vec{J}(P,t) = \rho^+ + v_d^+ + \rho^- + v_d^-  \qquad \begin{cases}
+	\rho^+ \;\rightarrow\; \text{densità delle cariche positive} \\
+	v_d^+ \;\rightarrow\; \text{velocità di deriva delle cariche positive} \\
+	\rho^- \;\rightarrow\; \text{densità delle cariche negative} \\
+	v_d^- \;\rightarrow\; \text{velocità di deriva delle cariche negative}
+\end{cases}\]
+
+\subsubsection*{Corrente}
+La corrente è la quantità di cariche che attraversano una superficie in un'unità di tempo. Dipende dalla superficie e dal suo
+orientamento. Non dipende dal resto dello spazio. Se si inverte l'orientamento della superficie o il riferimento, il segno della
+corrente si inverte. Si misura in Ampère \([A_{mpere}] = [C_{oulomb}/s]\).
+\[i(t) = \int_\Sigma \vec{J}(P,t) \cdot d\vec{\Sigma} \qquad \Leftrightarrow \qquad i(t) = \lim_{\Delta t \to 0} \frac{\Delta q_{\text{ attraverso }\Sigma}(t)}{\Delta t}\]
+In caso di conduttori filiformi (dove \(\Sigma \ll \text{lunghezza}\)), vale \(i(t) = \vec{J} \cdot \vec{\Sigma}\)
+
+\subsubsection*{Conservazione della carica e continuità della corrente}
+La carica elettrica non si crea, non si distrugge, si conserva sempre.
+\begin{align*}
+	&q_\text{interna}(t + \Delta t) = q_\text{interna}(t) + \Delta q_\text{uscente} \\
+	&i_\text{uscente}(t) = \lim_{\Delta t \to 0} \frac{\Delta q_\text{uscente}}{\Delta t} = -\frac{d q_\text{entrante}}{dt} = - i_\text{entrante}
+\end{align*}
+\begin{itemize}
+	\item la variazione di carica corrisponde ad una corrente
+	\item in assenza di corrente, la carica non varia
+	\item la carica entrante è pari a quella uscente (in modulo)
+\end{itemize}
+
+\subsubsection*{Corrente solenoidale}
+La corrente si dice solenoidale quando:
+\begin{itemize}
+	\item si è in regime stazionario: non si hanno accumuli o prelievi di carica in nessun punto del volume, la carica entrante
+	e quella uscente sono uguali e il campo \(\vec{J}\) forma linee di flusso chiuse
+	\item in regioni di carica nulla: \(\rho = 0\) ad esempio nei metalli
+\end{itemize}
+si è in regime stazionario
+
+\subsubsection*{Tubo di flusso}
+Il tubo di flusso è un conduttore rivestito da materiale isolante che può essere attraversato da corrente. In condizioni stazionarie
+(con campo di corrente solenoidale) si ha che la corrente \(i_1\) attraverso una superficie \(\Sigma_1\) è uguale alla corrente
+\(i_2\) attraverso una superficie \(\Sigma_2\). Ovvero non si hanno perdite di corrente: \(i_\text{uscente} = 0\).
+
+\subsubsection*{Amperometro}
+L'amperometro è uno strumento per misurare la corrente in un circuito. Il verso del sistema è dal \(+\) al \(-\) (ovvero la corrente
+entra dal connettore \(+\) ed esce dal connettore \(-\)). Si usa in serie al circuito. Un amperometro si dice ideale se non influisce
+sul circuito e se la misura avviene senza ritardi.
+
+\begin{center}
+	\begin{circuitikz}
+		\draw (0,0) -- (0.21,0) ;
+		\draw (0.42,0) [circ,thick] circle(0.2);
+		\draw (1,0) [circ, thick] circle(0.38);
+		\draw (1.58,0) [circ, thick] circle(0.2);
+		\draw (1.78,0) -- (2,0) ;
+		\draw[->] (0.6,-0.7) -- (1.4,-0.7);
+		\node[] at (1,0) {A} ;
+		\node[] at (0.42,0) {+} ;
+		\node[] at (1.58,-0.02) {--} ;
+		\node[] at (1,-0.9) {i} ;
+	\end{circuitikz}
+\end{center}
+
+\newpage
+
+\subsection{Campo elettrostatico}
+\subsubsection*{Legge di Coulomb e campo elettrostatico}
+Il campo elettrostatico si definisce a partire dalla forza di Coulomb, per questo è anche chiamato campo coulombiano.
+\[\vec{F}_{1,2} = \frac{1}{4 \pi \varepsilon_0} \frac{q_1 \, q_2}{{r_{1,2}}^2} \hat{u}_{1,2} \qquad \qquad
+\vec{F}_\text{elettr} = q \vec{E} \qquad \qquad
+\vec{E} = \frac{\vec{F}}{q} = \frac{1}{4 \pi \varepsilon_0} \frac{q}{r^2} \hat{u}_{1,2} = [N/C_{oulob}] = [V_{olt}/m]\]
+Il campo elettrostatico è additivo: \(\displaystyle \vec{E}(P) = \frac{1}{4 \pi \varepsilon_0} \sum_{k=1}^{n} \frac{q_k}{{r_{PO_k}}^2} \vec{u}_k(P) \qquad 
+\vec{E}(P) = \frac{1}{4 \pi \varepsilon_0} \int_V \frac{\rho}{r^2} \vec{u}_k d\tau\)
+
+\subsubsection*{Campo elettrostatico nei conduttori}
+Un conduttore è un materiale che conduce corrente. Le cariche sono libere di muoversi e, muovendonsi, generano una corrente. In
+condizione di equilibrio il campo all'interno è nullo, ovvero non c'è nessuna forza che agisce sulle cariche e le cariche sono
+ferme (altrimenti non ci sarebbe equilibrio).
+
+\subsubsection*{Campo elettrostatico nei dielettrici - isolanti}
+Un dielettrico o isolante è un materiale che non conduce corrente. Le cariche sono bloccate a meno di piccoli spostamenti responsabili
+della polarizzazione dei dielettrici. I dielettrici possono essere:
+\begin{itemize}
+	\item omogenei: se \(\varepsilon\) non dipenden dalla posizione
+	\item lineari: se \(\varepsilon\) non dipende dal modulo del campo elettrico \(||\vec{E}||\)
+	\item isotropi: se \(\varepsilon\) non dipende dalla direzione del campo elettrico \(\vec{u} = \vec{E} \big/ ||{\vec{E}}||\)
+\end{itemize}
+Un dielettrio omogeneo, lineare e isotropo si dice uniforme e per esso valgono tutte le leggi viste finora.
+
+\subsubsection*{Permittività dielettrica di un mezzo}
+La permittività dielettrica di un mezzo indica come tale mezzo reagisce al campo elettrico:
+\[\varepsilon = \varepsilon_\text{relativa del mezzo} \cdot \varepsilon_\text{0 - nel vuoto} = [F_{araday}/m] = [{C_{oulomb}}^2/J] \qquad \quad \varepsilon > \varepsilon_0 \;\; \varepsilon_r > 1\]
+
+\subsubsection*{Campo elettrico conservativo}
+Il campo elettrostatico è conservativo ovvero:
+\[\oint_\mathcal{L} = \vec{E} \cdot d\vec{l} = 0 \qquad \quad \oint_{\mathcal{L}_1} = \vec{E} \cdot d\vec{l} = \oint_{\mathcal{L}_2} = \vec{E} \cdot d\vec{l} \quad
+\text{con} \; \begin{matrix} \mathcal{L}_{1,\text{iniziale}} = \mathcal{L}_{2,\text{iniziale}} \\ \mathcal{L}_{1,\text{finale}} = \mathcal{L}_{2,\text{finale}} \end{matrix}\]
+
+\subsection{Potenziale elettrostatico}
+\subsubsection*{Potenziale elettrostatico}
+Essendo \(\vec{E}\) un campo conservativo, si definisce il potenziale elettrostatico:
+\[\int_A^B \vec{E} \cdot d \vec{s} = -\Delta V = V_A - V_B \qquad \qquad V(P) = \int_P^C \vec{E} \cdot d \vec{s} = [V_{olt}] \qquad (V(C) = 0)\]
+
+\subsubsection*{Lavoro di una forza elettrostatica}
+Il lavoro compiuto dalla forza elettrostatica per spostare una carica \(q\) vale:
+\[\mathcal{L}_{AB} = \int_A^B \vec{F} \cdot d \vec{l} = q \int_A^B \vec{E} \cdot d \vec{l} = - q \Delta V = q(V_A - V_B)\]
+
+\subsubsection*{Energia potenziale elettrostatica}
+Si definisce l'energia potenziale di una carica come il lavoro compiuto per portare la carica da distanza \(\infty\) alla posizione
+in cui si trova: \[\psi(P) = q_0 V(P)\]
+
+\subsubsection*{Sorgenti del campo elettrico - distribuzioni di carica}
+\begin{itemize}
+	\item \textbf{distribuzioni di carica statiche - condizioni elettrostatiche}: \\
+	le cariche che generano il campo sono in quiete e non ci sono correnti
+	\item \textbf{distribuzione di carica stazionarie - regime stazionario}: \\
+	le cariche sono in moto a velocità costante nel tempo e di conseguenza sono presenti correnti costanti nel tempo
+	\item \textbf{distribuzione di carica variabile - regime variabile}: \\
+	le cariche sono in moto variabile e le correnti variano nel tempo, il campo non è più conservativo in quanto avrà una componente
+	non conservativa \(\vec{E}_\text{indotta}\)
+\end{itemize}
+
+\subsubsection*{Forza di una carica in moto}
+Le forze agenti su cariche in moto immerse in un campo magnetico hanno una componente dovuta al campo elettrico e una al campo
+magnetico: \[\vec{F} = q_0 \vec{E} + q_0 \vec{v} \times \vec{B}\]
+
+\subsection{Tensioni e forze elettromotrici}
+\subsubsection*{Tensione}
+La tensione è definita come il lavoro elettrico per unità di carica speso a muovere una carica elettrica di prova lungo una linea \(L\).
+\[u(t) = \int_L \vec{E}(P,t) \cdot \vec{t}(P) \; dl = \frac{W_e}{q_0} = [V_{olt}] = [J/C] = [J/A_{mpere} \;\! s] \qquad \vec{t}(P) = \text{versore della curva in P} \]
+Questa definizione permette di essere indipendenti dalla conservatività del campo elettrico: se il campo elettrico è conservativo,
+la tensione equivale al potenziale (a meno di un segno), mentre se il campo elettrico non è conservativo non si definisce nessun
+potenziale, ma si può calcolare lo stesso la tensione.
+\[\begin{matrix}
+	\text{campo conservativo} & \rightarrow & \text{potenziale} = -\text{tensione} \\
+	\text{campo non conservativo} & \rightarrow & \xcancel{\text{potenziale}} = -\text{tensione}
+\end{matrix}\]
+
+\subsubsection*{Forza elettromotrice indotta}
+Un campo elettrico non conservativo, è formato da una parte conservativa e da un campo elettrico indotto non conservativo.
+Di conseguenza la circuitazione non è più nulla e si definisce la forza elettromotrice indotta \(f.e.m.\) come il lavoro
+compiuto dal campo elettrico lungo una linea chiusa \(L\):
+\[f.e.m. \;\; e(t) = \oint_L \vec{E}(P,t) \cdot \vec{t}(P) \; dl\]
+
+\subsubsection*{Forza elettromotrice mozionale}
+La forza elettromotrice complessiva agente sulle cariche in moto è data da una componente dovuta al campo elettrico e da una
+dovuta al campo magnetico, detta forza elettromotrice mozionale:
+\[\oint_L (\vec{E} + \vec{v}\times \vec{B}) \cdot \vec{t} \; dl = \oint_L \vec{E} \cdot \vec{t} \; dl +  \oint_L (\vec{v} \times \vec{B}) \cdot \vec{t} \; dl = e(t) + e_m(t)\]
+
+\subsubsection*{Voltmetro}
+Il voltmetro è uno strumento per misurare la tensione, si collega in parallelo alla sezione di circuito di cui si vuole conoscere
+la tensione. La direzione del sistema è data dal vettore \(\vec{t}\) dal \(+\) al \(-\). Un voltmetro si dice ideale se non altera
+il regime del circuito.
+
+\begin{center}
+	\begin{circuitikz}
+		\draw (0,0) -- (0.21,0) ;
+		\draw (0.42,0) [circ,thick] circle(0.2);
+		\draw (1,0) [circ, thick] circle(0.38);
+		\draw (1.58,0) [circ, thick] circle(0.2);
+		\draw (1.78,0) -- (2,0) ;
+		\node[] at (1,0) {V} ;
+		\node[] at (0.42,0) {+} ;
+		\node[] at (1.58,-0.02) {--} ;
+		\node[] at (1,-0.6) {u} ;
+	\end{circuitikz}
+\end{center}
+
+\section{Modello a parametri concentrati}
+\section{Componenti elettrici}
+\section{Topologia delle reti}
+\section{Analisi di circuiti lineari a corrente continua}
+
+\end{document}
