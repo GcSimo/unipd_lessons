@@ -171,7 +171,7 @@ test := 1 == 2 // var test bool = false
 | ``uint32`` | 0 | 4294967295 | 32 |
 | ``uint64`` | 0 | 18446744073709551615 | 64 |
 
-Casting between different types must be explicit.
+Casting/conversion between different types must be explicit.
 
 | op | description |
 | - | - |
@@ -783,8 +783,619 @@ for _,v := range s { ... }
 ```
 
 ## 13. Defer, Panic, and Recover
+### Defer
+Execute every function associated with ``defer`` keyword after the function finished its final statement, but before it returns.
+```go
+func main() {
+	fmt.Println("start")
+	defer fmt.Println("middle")
+	fmt.Println("end")
+}
+
+/*
+ * Output:
+ * start
+ * end
+ * middle
+*/
+```
+
+Defer statements are executed in LIFO order: we often use ``defer``  to close resources, so it is normal to close them in the reverse order we use them.
+
+```go
+func main() {
+	resource1.open()
+	defer resouce1.close()
+	resource2.open()
+	defer resouce2.close()
+}
+
+/*
+ * Output:
+ * open resource1
+ * open resource2
+ * close resource1
+ * close resource2
+*/
+```
+
+The defer function takes the arguments at the time the defer is called:
+```go
+func main() {
+	a := "start"
+	defer fmt.Println(a)
+	a = "end"
+}
+
+/*
+ * Output:
+ * start
+*/
+```
+
+### Panic
+There are no exceptions in Go.
+
+```go
+func main() {
+	a, b := 1, 0
+	ans := a / b
+	fmt.Println(ans)
+}
+
+/*
+ * Output:
+ * panic: runtime error: integer divided by zero
+ * ... stacktrace of the error ...
+*/
+```
+
+It is possible to use the ``panic()`` function to "throw an exception" with a custom message to print out. It is used inside if statements to check whether a variable has a valid status.
+
+```go
+func main() {
+	fmt.Println("start")
+	panic("something bad happened")
+	fmt.Println("end")
+}
+
+/*
+ * Output:
+ * start
+ * panic: something bad happend
+ * ... stacktrace of the error ...
+*/
+```
+
+Panic happens after deferd statements are executed. It is possible to close resources before the panic is executed.
+```go
+func main() {
+	fmt.Println("start")
+	defer fmt.Println("deferred")
+	panic("something bad happened")
+	fmt.Println("end")
+}
+
+/*
+ * Output:
+ * start
+ * deferred
+ * panic: something bad happened
+ * ... stack trace of the error ...
+*/
+```
+
+### Recover
+It is possible to manage a panic programs using a defer function that catch the panic with ``recover()`` statement. If you call a panic and then a recover inside a function, statemets after panic are not executed, but the program doesn't stop and continue.
+
+```go
+func main() {
+	fmt.Println("start")
+	panicker()
+	fmt.Println("end")
+}
+
+func panicker() {
+	fmt.Println("about to panic")
+	defer func() { // anonymous function to handle the panic
+		if err := recover(); err != nil {
+			log.Println("error: ", err)
+		}
+	}()
+	panic("somenthing bad happened")
+}
+
+/*
+ * Output:
+ * start                          -> main
+ * about to panic                 -> panicker
+ * Error: something bad happened  -> anonymous function - handler
+ * end                            -> main
+*/
+```
+
+If it's not possible to manage the panic, you can call another panic inside the handler
+
+```go
+func main() {
+	fmt.Println("start")
+	panicker()
+	fmt.Println("end")
+}
+
+func panicker() {
+	fmt.Println("about to panic")
+	defer func() { // anonymous function to handle the panic
+		if err := recover(); err != nil {
+			log.Println("error: ", err)
+			panic(err) // recall of panic inside handler
+		}
+	}()
+	panic("somenthing bad happened")
+}
+
+/*
+ * Output:
+ * start                          -> main
+ * about to panic                 -> panicker
+ * Error: something bad happened  -> anonymous function - handler
+ * panic: something bad happened (recovered)
+ *     panic: something bad happened 
+ * ... stack trace ...
+*/
+```
+
 ## 14. Pointers
+### Declaration
+```go
+var a int = 42 // variable a di tipo int
+var b *int = &a // puntatore di tipo int alla variabile a
+
+a := 27 // as above
+b := &a // as above
+```
+
+### Reference and dereference operators
+- ``*`` - dereference op: returns the value saved in the memory address contained in the pointer variable
+- ``&`` - reference op: returns the memory address of a variable
+
+### Pointers arithmetic
+Go doesn't have pointer arithmetic, but there is the ``unsafe`` package that implements that. It is not recommended to use the ``usafe`` package, but if you really need pointers arithmetic, you can use that.
+
+### ``nil``
+An initialized pointer is initialised by default to ``nil``. It is an invalid address.
+
+### Pointers, structs and ``new``
+```go
+// declaration of pointers to structs
+var ms *myStruct         // uninitialized pointer -> nil
+ms := &myStruct{}        // pointer to an uninitialized struct
+ms := &myStruct{foo: 42} // pointer to an initialized struct
+ms := new(myStruct)      // pointer to an uninitialized struct with new
+// it's not possible to create a pointer to an initialized struct with new
+
+// use fields of a pointed struct
+(*ms).foo = 42 // access to the foo field
+ms.foo = 42    // equivalent, less verbose
+
+// struct definition
+type myStruct struct {
+	foo int
+}
+```
+
+### Underlying data -> slices, maps and arrays
+Slices and maps contain a pointer to an underlying array. Copy of slices and maps use the same undelying array.
+
 ## 15. Functions
+### Syntax
+```go
+// normal function syntax in go
+func function_name(parameter_name parameter_type, ...) return_type {
+	// ... code inside function ...
+}
+
+// function with comma delimited list of parameters
+func function_name(par1, par2 int) { // equivalent to ...(par1 int, par2 int)
+	// ... code inside function ...
+}
+```
+
+``function_name`` works similar to variables: uppercase -> global, lowercase -> local, ...
+
+### Pass by value - pass by pointer
+```go
+// pass by value
+func fx1(par1 int) { /* ... */ }
+
+// pass by pointer
+func fx2(par1 *int) { /* ... */ }
+
+// function call
+a := 23
+fx1(a)   // call a function with pass by value
+fx2(&a) // call a function with pass by pointer
+```
+
+By default, variables are passed by value. Variables with pointers to underlying data (slices or maps) are passed by value, but they share the same underlying data (passed by pointer).
+
+### Variatic parameters
+It is possible to wrap a list of parameters of the same type into a slice. The variatic parameters can only be used once per function and always at the end.
+
+```go
+func main() {
+	sum("sum:",1,2,3,4,5)
+}
+
+func sum(msg string, values ...int) { // values are wrapped in value []int
+	// ... code ...
+}
+```
+
+### Return value
+The return type is specified after the parameters and is returned with the keyword ``return`` at the end of the function. The return value is captured with an assignment in the caller function.
+
+```go
+func main() {
+	s := sum("sum:",1,2,3,4,5)
+}
+
+func sum(msg string, values ...int) int { // values are wrapped in value []int
+	// ... code ...
+	return sum
+}
+```
+
+It is possible to return a pointer to a local variable. The compiler recognises it and auto-allocate the variable in heap rather than in the local stack.
+
+```go
+func sum(msg string, values ...int) *int {
+	var sum int
+	// ... code ...
+	return &sum
+}
+```
+
+It is possible use a named return value. The returned variable is declared with its type in the function header and is returned automatically. It's not really used.
+
+```go
+func sum(msg string, values ...int) (sum int) {
+	// ... code ...
+	return // sum -> implicit
+}
+```
+
+### Managing errors - multiple return values
+To inform the caller function that an error has occured during the called function execution, it is possible to return an extra value as an error.
+
+```go
+func main() {
+	d, err := div(5.0, 0.0)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(d)
+}
+
+func div(a, b float) (int, error) {
+	if b == 0.0 {
+		return 0.0, fmt.Errorf("Error: can't divide by zero")
+	}
+	return a / b, nil
+}
+```
+
+### Anonymous functions
+Anonymous functions are function without names that can only be used one time and is declared inside another function.
+- Declared anonymous functions can be used only after their declaration.
+- It is suggested to pass parameters from the outer scope and not use them directly, because the function can be executed asynchronously and can generate unexepected behaviour.
+
+```go
+func main() {
+	// anonimous function declared as a variable
+	f := func(parameters_declaration) { // var f func() = ...
+		// ... code ...
+	}
+
+	f(arguments_passed) // invocation of anonymous function
+
+	// anonymous function declaration and invocation
+	func(parameters_declaration) {
+		// ... code ...
+	}(arguments_passed) // parenthesis specify to execute the anonimous function
+}
+```
+
+### Methods
+Methods are functions associated with structs (or other types -> unknown contex) and they are called from structs (or other types -> unknown contex).
+
+```go
+func main() {
+	number := num{23}
+	number.print()
+}
+
+type num struct {
+	n int
+}
+
+func (n num) print() {
+	fmt.Println(n)
+}
+```
+
+Methods operate with copy of the objects, so modifications inside the method don't affect the object in the main object. To manipulate the objects, pointes must be used.
+
+```go
+func (n num) print() { // operates with copy
+	fmt.Println(n)
+}
+
+func (n *num) incr() { // operates with pointers
+	n++
+}
+```
+
 ## 16. Interfaces
+### Basis
+Interfaces are specific types that describe behaviours (methods) that other structs will implicitly implement.
+
+```go
+// defining interface
+type Writer interface {
+	Write([]byte) (int, error)
+}
+
+// defining a struct that implicitly implements interface
+type ConsoleWriter struct { }
+func (cw ConsoleWriter) Write(data []byte) (int, error) {
+	// ... code to convert a byte slice in a integer ...
+}
+
+func main() {
+	var w Writer = ConsoleWriter{} // create a Writer 
+	w.Write([]byte("..."))
+}
+```
+### Implicit implementation
+Interface and corresponding structs are completely indipendent. You can create an interface and some structs that (implicitly) implement that or create/import structs and create an interface with common methods to all those structs.
+
+### Naming convention
+Interfaces with one method are named as the method + er (example Writer interface has a method Write, Drawer interface has a method Draw). Interfaces with more than one method should be named for what they do.
+
+### Embedding interfaces
+It is possible to embed multiple interfaces altogether in a new interface.
+
+```go
+type Writer interface {
+	Write([]byte) (int, error)
+}
+
+type Closer interface {
+	Close() error
+}
+
+type WriterCloser interface {
+	Writer // embed Writer interface
+	Closer // embed Closer interface
+}
+
+// equivalent to:
+type WriterCloser interface {
+	Write([]byte) (int, error) // from Writer
+	Close() error // from Closer
+}
+```
+
+### Polymorphis and interface casting/conversion
+Interfaces are the basis of polymorphism: an interface variable can be from different types of structs that have the same methods of the interface.
+
+It is possible to make casting between different interfaces and structs that implement the same methods.
+
+```go
+// WriterCloser interface
+type WriterCloser interface {
+	Write([]byte) (int, error) // from Writer
+	Close() error // from Closer
+}
+
+// BufferedWriterCloser struct
+type BufferedWriterCloser struct {}
+func(bwc *BufferedWriterCloser) Write([]byte) (int, error) { ... }
+func(bwc *BufferedWriterCloser) Close() error { ... }
+func(bwc *BufferedWriterCloser) NewBufferedWriterCloser() *BufferedWriterCloser { ... } // for initialization
+
+func main() {
+	var wc WriterCloser = NewBufferedWriterCloser()
+	bwc := wc.(*BufferedWriterCloser) // cast to BufferedWriterCloser
+}
+```
+
+If it's not possible to cast an interface to something else (example the new interface/struct requires other methods), the program get panicked. To "safe" cast without getting panicked it is used another variable to save the casting status.
+
+```go
+r, ok := wc.(io.Reader) // ioReader requires Read method
+if ok {
+	// conversion succeded
+} else {
+	// conversion failed
+}
+```
+
+### Empty interface and casting
+It is possible to create an empty interface without any method that can save any interface/struct, but can be casted only in specific interfaces. Empty interfaces are usually used as intermediate step.
+
+```go
+var myObj interface{} = NewBufferedWriterCloser()
+if wc,ok := myObj.(WriterCloser); ok {
+	// myObj is been converted successfully to a WriterCloser
+} else {
+	// conversion failed
+}
+if r,ok := myObj.(io.Reader); ok {
+	// myObj is been converted successfully to a WriterCloser
+} else {
+	// conversion failed
+}
+```
+
+It is possible to use a type switch to check the corresponding type of an empty interface..
+```go
+var i interface{} = myObj
+switch i.(type) {
+	case int:
+		// ... code executed if i is an int ...
+	case string :
+		// ... code executed if i is a string ...
+	default:
+		// ... code executed in all the other cases ...
+}
+```
+
+### Pointers and interface method set
+When we assign methods to types, every type has its own method set:
+- when we work directly with structs, the method set consists of all methods regardless of their receiver type
+- when we work with interfaces the method set consists of all methods that have the same receiver type as the concrete object used to initialize the interface
+
+More specifically:
+- when you use a value type to implement an interface, all the methods must have a value receiver type; a method set for a value type interface has only value receiver types
+- when you use a pointer type to implement an interface, the methods can have both pointer or value receiver type; a method set for a pointer type interface can have both pointer or value receiver types
+
+```go
+// two methods with different receiver types, but from the same method set
+type myStruct struct {}
+func (gs myStruct) print() {...}
+func (gs *myStruct) increment() {...}
+
+// method set contains only methods with same receiver type
+type PrinterIncrementer interface {
+	print()     // -> func (t type) print {...}
+	increment() // -> func (t type) increment {...}
+}
+
+// example1 -> concrete object type is myStruct1 -> receiver type must be myStruct1
+var i PrinterIncrementer{} = myStruct1{}
+func (gs myStruct1) print() {...} // is part of the interface
+func (gs myStruct1) increment() {...} // is part of the interface
+func (gs *myStruct1) increment() {...} // is not part of the interface
+
+// example2 -> concrete object type is *myStruct1 -> receiver type must be *myStruct1
+var i PrinterIncrementer{} = &myStruct1{}
+func (gs *myStruct1) print() {...} // is part of the interface
+func (gs *myStruct1) increment() {...} // is part of the interface
+func (gs myStruct1) increment() {...} // is not part of the interface
+
+// casting1 -> illegal -> myStruct has methods with both pointers and values as receiver type, but only values are accepted
+var i PrinterIncrementer{} = myStruct{}
+
+// casting2 -> ok -> receiver type is a pointer and methods can have both pointer or value receiver type
+var i PrinterIncrementer{} = &myStruct{} 
+```
+### Best practices with interfaces
+- use many, small interfaces, rather than monolithic one, examples from packages:
+  - io.Writer (1 method)
+  - io.Reader (1 method)
+  - interface{} (0 methods)
+- don't export interfaces for types that will be used by others, export only the concrete types (struct): if the user needs an interface, he will create the one he needs
+- do export interfaces for types that will be used by package
+- design functinos and methods to receive interfaces whenever possible: if you don't need to access to the undelying data, use value receiver rather than pointers
+
 ## 17. Goroutines
+### Creating goroutines
+
+```go
+func main() {
+	go fx1()
+}
+
+func func1() {
+	fmt.Println("func1")
+	//time.Sleep(100 * time.Millisecond)
+}
+```
+
+The ``go`` keyword tell go runtime to spin off a green thread and run that function in the green thread. The ``main`` function is a go-routine as well, so the program abobe does not print anything because the ``main`` function (and the program itself) terminates before the ``func1`` function prints out the message. To print the message, you have to delay the main end with a statement ``time.Sleep(100*time.Millisecond)`` (only for demo purpose, not recommanded for managing concurrence). The runtime prefers executing the main function intead givin power to the other goroutines.
+
+### Green Threads vs OS Threads
+Normally threads are derived from OS-threads, so they have individual function call stack and 1 MB of RAM dedicated. Creation and destruction of those is very expensive. In Go, the runtime has a scheduler that alternates the execution of various go-routines over the same thread creating a "virtual thread" called green thread. With this high level abstraction, go routines can start with a very small stack spaces and they are very cheap to create and destroy. It is possible to run 100.000 threads over the same runtime in Go and it is impossible to do the same in another "unoptimized" programming language.
+
+### Closures and race condition in anonymous functions
+```go
+func main() {
+	msg := "Message"
+	go func() {
+		fmt.Println(msg)
+	}()
+	time.Sleep(100 * time.Millisecond)
+}
+```
+The program above prints the correct message, despite the fact that the ``main`` and the anonymous function have different execution stacks. This works because the anonymous function can access to the outer scope and the go runtime understand that ``msg`` variable is declared in the ``main`` and used in the anonymous function. 
+The problem is that both threads use the same variable and create a race condition. The solution for this problem is to pass the ``msg`` by value to the anonymous function as a parameter.
+
+Always pass by value all data nedeed to go routines.
+```go
+func main() {
+	msg := "Message"
+	go func(msg string) {
+		fmt.Println(msg)
+	}(msg)
+	time.Sleep(100 * time.Millisecond)
+}
+```
+
+### WaitGroup
+WaitGroups are tools in go that help synchronise multiple programms. They are implemented as a conter that is incremented when a new process starts and is decremented when a process end. It is useful to pause the execution of a process to wait until all the other processes end their execution.
+
+Waitgroup is designed to be global scoped and shared amongs parallel functions. It is build to prevent race condition on itself.
+
+```go
+var wg = sync.WaitGroup{} // declaring new waitgroup
+wg.Add(n) // incremet process counter by n process
+wg.Done() // decrement the counter by 1 process
+wg.Wait() // wait untile the counter is 0 (when all the the processes terminate)
+```
+
+```go
+var wg = sync.WaitGroup{} // declaring new waitgroup
+
+func main() {
+	msg := "Message"
+	wg.Add(1) // incremet process counter by 1 process
+	go func(msg string) {
+		fmt.Println(msg)
+		wg.Done() // decrement the counter by 1 process
+	}(msg)
+	wg.Wait() // wait all the processes to terminate
+}
+```
+
+### Mutexes
+```go
+var wg = sync.WaitGroup{} // delay the main to terminate
+var counter = 0           // global counter, shared by all goroutines
+
+func main() {
+	for i := 0; i < 10; i++ {
+		wg.Add(2) // add 2 new processes
+		go sayHello()
+		go increment()
+	}
+	wg.Wait() // wait until all 20 goroutines end
+}
+
+func sayHello() {
+	fmt.Printf("Hello #%v\n", counter)
+	wg.Done()
+}
+
+func increment() {
+	counter++
+	wg.Done()
+}
+```
+
+### Parallelism
+### Best Practices
+
 ## 18. Channels
