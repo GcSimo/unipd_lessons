@@ -11,7 +11,7 @@
 \usepackage{hyperref} % per collegamenti
 \usepackage{dirtytalk} % per le ""
 \usepackage{circuitikz} % per circuiti elettrici
-\usepackage{cancel} % per barrare testpo
+\usepackage{cancel} % per barrare testo
 
 % per margini
 \geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
@@ -19,42 +19,45 @@
 % per centrare testo nelle tabelleX
 \renewcommand\tabularxcolumn[1]{m{#1}}
 
-% percorso delle immagini da inserire
-\graphicspath{ {./ } }
+% per elenchi puntati
+\setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
 
-% parte funzione reale e parte immaginaria
-\newcommand\Real{\text{Re}}
-\newcommand\Img{\text{Im}}
-
-% versori
-\newcommand\ux{\vec{u}_x}
-\newcommand\uy{\vec{u}_y}
-\newcommand\uz{\vec{u}_z}
-\newcommand\uxp{\vec{u}_{x'}}
-\newcommand\uyp{\vec{u}_{y'}}
-\newcommand\uzp{\vec{u}_{z'}}
-\newcommand\ur{\vec{u}_r}
-\newcommand\uv{\vec{u}_v}
-\newcommand\un{\vec{u}_n}
-\newcommand\ug{\vec{u}_\gamma}
-\newcommand\uper{\vec{u}_\perp}
-\newcommand\upar{\vec{u}_\parallel}
+% espressioni matematiche
 \newcommand\nab{\vec{\nabla}} % nabla
 
+% --- altro che si può eliminare ---
+% percorso delle immagini da inserire
+%\graphicspath{ {./ } }
+
+% parte funzione reale e parte immaginaria
+%\newcommand\Real{\text{Re}}
+%\newcommand\Img{\text{Im}}
+
+% versori
+%\newcommand\ux{\vec{u}_x}
+%\newcommand\uy{\vec{u}_y}
+%\newcommand\uz{\vec{u}_z}
+%\newcommand\uxp{\vec{u}_{x'}}
+%\newcommand\uyp{\vec{u}_{y'}}
+%\newcommand\uzp{\vec{u}_{z'}}
+%\newcommand\ur{\vec{u}_r}
+%\newcommand\uv{\vec{u}_v}
+%\newcommand\un{\vec{u}_n}
+%\newcommand\ug{\vec{u}_\gamma}
+%\newcommand\uper{\vec{u}_\perp}
+%\newcommand\upar{\vec{u}_\parallel}
+
 % forza generica
-\newcommand\ft{\vec{F}\left(\vec{\gamma}(t), \; \dt \vec{\gamma}(t), \; t\right)}
-\newcommand\ftau{\vec{F}\left(\vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau\right)}
+%\newcommand\ft{\vec{F}\left(\vec{\gamma}(t), \; \dt \vec{\gamma}(t), \; t\right)}
+%\newcommand\ftau{\vec{F}\left(\vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau\right)}
 
 % derivata
-\newcommand\dt{\frac{d}{dt}\,}
-\newcommand\dtau{\frac{d}{d\tau}\,}
-\newcommand\dts{\frac{d^2}{dt^2}\,}
+%\newcommand\dt{\frac{d}{dt}\,}
+%\newcommand\dtau{\frac{d}{d\tau}\,}
+%\newcommand\dts{\frac{d^2}{dt^2}\,}
 
 % modulo vettore
-\newcommand\vmod[1]{\left|\left|{#1}\right|\right|}
-
-% per elenci puntati
-\setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
+%\newcommand\vmod[1]{\left|\left|{#1}\right|\right|}
 
 \title{Appunti di Teoria dei circuiti}
 \author{Giacomo Simonetto}
@@ -129,7 +132,7 @@ La teoria dei circuiti è valida se la dimensione del circuito è inferiore alla
 \end{itemize}
 
 \subsubsection*{Flusso e trasmissione di energia}
-Per flusso di energia si intende cone viene utilizzata la potenza in un circuito. La trasmissione di energia può avvenire in due
+Per flusso di energia si intende come viene utilizzata la potenza in un circuito. La trasmissione di energia può avvenire in due
 modi: attraverso onde elettromagnetiche (radio, antenne, \dots) o per conduzione (linee elettriche).
 
 \newpage
@@ -137,7 +140,7 @@ modi: attraverso onde elettromagnetiche (radio, antenne, \dots) o per conduzione
 \section{Interpretazione fisica dell'elettrostatica}
 \subsection{Campi e grandezze fisiche}
 \subsubsection*{Campo fisico}
-Un campo fisico è la distribuzione su un volme o su una superficie di una certa grandezza fisica rappresentabile tramite vettore
+Un campo fisico è la distribuzione su un volume o su una superficie di una certa grandezza fisica rappresentabile tramite vettore
 o scalare. I campi fisici di grandezze scalari si dicono campi scalari, mentre i campi fisici di grandezze vettoriali si dicono
 campi vettoriali.
 
@@ -242,7 +245,7 @@ Il campo elettrostatico è additivo: \(\displaystyle \vec{E}(P) = \frac{1}{4 \pi
 \vec{E}(P) = \frac{1}{4 \pi \varepsilon_0} \int_V \frac{\rho}{r^2} \vec{u}_k d\tau\)
 
 \subsubsection*{Campo elettrostatico nei conduttori}
-Un conduttore è un materiale che conduce corrente. Le cariche sono libere di muoversi e, muovendonsi, generano una corrente. In
+Un conduttore è un materiale che conduce corrente. Le cariche sono libere di muoversi e, muovendosi, generano una corrente. In
 condizione di equilibrio il campo all'interno è nullo, ovvero non c'è nessuna forza che agisce sulle cariche e le cariche sono
 ferme (altrimenti non ci sarebbe equilibrio).
 
@@ -250,11 +253,11 @@ ferme (altrimenti non ci sarebbe equilibrio).
 Un dielettrico o isolante è un materiale che non conduce corrente. Le cariche sono bloccate a meno di piccoli spostamenti responsabili
 della polarizzazione dei dielettrici. I dielettrici possono essere:
 \begin{itemize}
-	\item omogenei: se \(\varepsilon\) non dipenden dalla posizione
+	\item omogenei: se \(\varepsilon\) non dipende dalla posizione
 	\item lineari: se \(\varepsilon\) non dipende dal modulo del campo elettrico \(||\vec{E}||\)
 	\item isotropi: se \(\varepsilon\) non dipende dalla direzione del campo elettrico \(\vec{u} = \vec{E} \big/ ||{\vec{E}}||\)
 \end{itemize}
-Un dielettrio omogeneo, lineare e isotropo si dice uniforme e per esso valgono tutte le leggi viste finora.
+Un dielettrico omogeneo, lineare e isotropo si dice uniforme e per esso valgono tutte le leggi viste finora.
 
 \subsubsection*{Permittività dielettrica di un mezzo}
 La permittività dielettrica di un mezzo indica come tale mezzo reagisce al campo elettrico:
@@ -307,13 +310,13 @@ potenziale, ma si può calcolare lo stesso la tensione.
 
 \subsubsection*{Forza elettromotrice indotta}
 Un campo elettrico non conservativo, è formato da una parte conservativa e da un campo elettrico indotto non conservativo.
-Di conseguenza la circuitazione non è più nulla e si definisce la forza elettromotrice indotta \(f.e.m.\) come il lavoro
+Di conseguenza la circuitazione non è più nulla e si definisce la forza elettromotrice indotta \(fem\) come il lavoro
 compiuto dal campo elettrico lungo una linea chiusa \(L\):
-\[f.e.m. \;\; e(t) = \oint_L \vec{E}(P,t) \cdot \vec{t}(P) \; dl\]
+\[fem \;\; e(t) = \oint_L \vec{E}(P,t) \cdot \vec{t}(P) \; dl\]
 
 \subsubsection*{Forza elettromotrice mozionale}
 La forza elettromotrice complessiva agente sulle cariche in moto è data da una componente dovuta al campo elettrico e da una
-dovuta al campo magnetico, detta forza elettromotrice mozionale:
+dovuta al campo magnetico, detta forza elettromotrice mozionale, provocata dal movimento delle cariche in un campo magnetico:
 \[\oint_L (\vec{E} + \vec{v}\times \vec{B}) \cdot \vec{t} \; dl = \oint_L \vec{E} \cdot \vec{t} \; dl +  \oint_L (\vec{v} \times \vec{B}) \cdot \vec{t} \; dl = e(t) + e_m(t)\]
 
 \subsubsection*{Voltmetro}
@@ -335,8 +338,353 @@ il regime del circuito.
 	\end{circuitikz}
 \end{center}
 
-\section{Modello a parametri concentrati}
+\section{Modello a parametri concentrati - \textit{mpc}}
+\subsection{Teorema}
+\subsubsection*{Obiettivo}
+\begin{itemize}
+	\item[1.] ogni componente elettrico si può modellare con equazioni algebriche o differenziali che dipendono solo da tensioni
+	o correnti (ovvero non da componenti spaziali)
+	\item[2.] le tensioni sono definite tra coppie di morsetti e le correnti sono definite ai terminali
+	\item[3.] i terminali terminano con morsetti utilizzati per collegare il componente con il resto del circuito
+\end{itemize}
+
+\subsubsection*{Ipotesi}
+\begin{itemize}
+	\item[1.] all'esterno dei componenti elettrici
+	\begin{itemize}[topsep=0pt]
+		\item il campo \(\vec{E}\) è conservativo
+		\item la densità \(\vec{J}\) è solenoidale (regime stazionario, no accumuli o prelievi)
+	\end{itemize}
+	\item[2.] i terminali e i morsetti sono superfici equipotenziali senza accumuli o prelievi di carica in essi
+\end{itemize}
+
+\subsubsection*{Teoria}
+\begin{itemize}
+	\item[1.] è possibile modellare ogni componente attraverso Equazioni
+	\item[2.] per formare un circuito si collegano più morsetti tra loro attraverso conduttori detti connessioni o interconnessioni
+	che soddisfano le ipotesi dei morsetti/terminali
+	\item[3.] se più morsetti sono attaccati insieme, si formano nodi di volume e carica nulla per cui vale la legge dei nodi (o legge
+	di continuità \(\rightarrow \;\; \sum i_\text{entranti} + \sum i_\text{uscenti} = 0\))
+\end{itemize}
+
+\subsection{Componenti}
+\subsubsection*{Introduzione}
+I componenti sono elementi del circuito:
+\begin{itemize}
+	\item rappresentati graficamente da una curva chiusa (detta superficie limite) con due (o più) tratti filiformi detti terminali
+	con cui si possono collegare ad altri componenti
+	\item modellabili con un'equazione differenziale o algebrica
+\end{itemize}
+Si definiscono:
+\begin{itemize}
+	\item corrente entrante e corrente uscente (per ogni morsetto) rappresentata con \(\rightarrow\)
+	\item tensione (per ogni coppia di morsetti) rappresentata con \(+ \; -\)
+\end{itemize}
+
+\subsubsection*{Porte elettriche, bipoli, n-poli m-bipoli, (n-1)-bipoli}
+\begin{itemize}
+	\item \textbf{porta elettrica}: coppia di terminali in cui la corrente entrante in un terminale è pari alla corrente uscente
+	dall'altro terminale; si definisce la corrente di porta \(i_{AB}(t)\) e la tensione di porta \(u_{AB}(t)\)
+	\item \textbf{bipolo elettrico}: componente con due terminali
+	\item \textbf{n-polo}: componente con n terminali
+	\item \textbf{m-bipolo}: componente con \(m\) porte e \(2m\) terminali
+	\item \textbf{n-polo come (n-1)-bipolo}: componente in cui si sceglie un polo \(N\) come polo di riferimento e si definiscono:
+	\begin{itemize}[topsep=0pt]
+		\item n-1 porte tra il polo di riferimento e gli altri n-1 poli del componente
+		\item n-1 correnti \(i_{kN}(t)\) che entrano dagli n-1 morsetti ed escono dal morsetto \(N\), per cui la corrente uscente
+		dal polo \(N\) è la somma di tutte le correnti di porta
+		\item n-1 tensioni \(u_{kN}(t)\) di porta
+	\end{itemize}
+\end{itemize}
+
+\subsection{Reti elettriche o circuiti}
+\subsubsection*{Introduzione}
+Una rete è formata da interconnessioni tra n-poli e m-bipoli. Le interconnessioni prendono il nome di nodi e i morsetti collegati
+allo stesso nodo sono superfici equipotenziali.
+
+\subsubsection*{Suddivisione}
+\begin{itemize}
+	\item \textbf{reti in regime stazionario}: valgono le ipotesi del \textit{mpc}
+	\item \textbf{reti in regime variabile}: in teoria non si potrebbe applicare il \textit{mpc}, ma si definiscono le \dots
+	\item \textbf{reti in regime variabile-quasi-stazionario}: ovvero reti in regime variabile in cui è possibile applicare
+	il \textit{mpc} se i campi \(\vec{E}\) e \(\vec{J}\) variano lentamente nel tempo e non si hanno propagazioni di onde
+	elettromagnetiche all'esterno dei componenti
+\end{itemize}
+
+\begin{description}[itemsep=0pt]
+	\item[Tipologia] tipo dei componenti utilizzati nel circuito (resistivo, capacitativo, RLC, \dots)
+	\item[Topologia] tipo di connessioni utilizzate nel circuito (serie, parallelo, \dots)
+\end{description}
+
+\subsection{Potenza di bipolo, convenzione dei generatori e utilizzatori}
+\subsubsection*{Potenza di una porta}
+Data una porta elettrica, la potenza è data dal prodotto:
+\[p(t) = u(t) \cdot i(t) \qquad [W_\text{att}] = [V_\text{olt}] \cdot [A_\text{mpere}]\]
+%\begin{align*}
+%	p(t) = \frac{d \mathcal{L}_e(t)}{dt} &= \frac{d \mathcal{L}_e(t)}{dq} \cdot \frac{d q}{dt} = u(t) \cdot i(t) \\
+%	&= \lim_{\Delta t \to 0} \frac{\Delta q (V_A - V_B)}{\Delta t} = i(t) \cdot \Delta V(t) = u(t) \cdot i(t)
+%\end{align*}
+
+\subsubsection*{Convenzione degli utilizzatori}
+Un componente (o meglio una porta o bipolo) soddisfa la convenzione degli utilizzatori se la corrente entra nel morsetto \(+\).
+Se \(p > 0\), la porta assorbe potenza, se \(p < 0\) la porta eroga energia.
+
+\subsubsection*{Convenzione dei generatori}
+Un componente (o meglio una porta o bipolo) soddisfa la convenzione dei generatori se la corrente entra nel morsetto \(-\).
+Se \(p > 0\), la porta eroga energia, se \(p < 0\) la porta assorbe potenza.
+
+\subsubsection*{Lavoro elettrico}
+Il lavoro elettrico compiuto da una porta nell'intervallo \([t_0, t_1]\) vale:
+\[\mathcal{L}(t_0,t_1) = \int_{t_0}^{t_1} p(t) dt = \int_{t_0}^{t_1} u(t) \cdot i(t) \qquad\qquad
+\begin{matrix} [J_\text{oule}] = [W_\text{att}] \cdot [\text{sec}] \\[5pt] [kWh] = 3.6 \cdot 10^6 \; [J] \end{matrix}\]
+Il lavoro è entrante per potenza entrante e viceversa.
+
+\subsubsection*{Wattmetro}
+Il wattmetro è uno strumento per misurare la potenza ed è costituito da un amperometro (in serie) e un voltmetro (in parallelo) combinati.
+\begin{center}
+	... disegno ....
+\end{center}
+
+\newpage
+
+\subsubsection*{Potenza di un m-bipolo}
+La potenza di un m-bipolo in cui tutte le porte sono convenzionate allo stesso modo è la somma di tutte le potenze delle singole porte.
+\[p(t) = p_1(t) + p_2(t) + \dots + p_n(t) \qquad \qquad \mathcal{L}(t_0, t_1) = \int_{t_0}^{t_1} p(t) dt = \int_{t_0}^{t_1} \sum_{n=1}^{m} u_n(t) \cdot i_n(t) dt\]
+In base al segno e alla convenzione utilizzata, si avrà potenza dissipata o erogata.
+
+\subsubsection*{Potenza di un n-polo}
+Per calcolare la potenza di un n-polo, uso la corrispondenza tra n-polo e (n-1)-bipolo.
+
+\subsubsection*{Bipolo passivo}
+Un bipolo si dice passivo se il lavoro elettrico uscente da un certo tempo \(t_0\) in poi è minore dell'energia immagazzinata
+fino a \(t_0\). Ovvero un bipolo passivo è capace di accumulare energia, ma non ne può emettere più di quella che ha immagazzinato.
+In condizioni stazionarie \(p_\text{uscente}(t) < 0\)
+\[\mathcal{L}_\text{lavoro uscente}(t_0,t) \; < \; W_\text{energia immagazzinata}(t_0)\]
+
+\subsubsection*{Bipolo attivo}
+Un bipolo si dice attivo se per certe condizioni non è rispettata la legge sopra, ovvero se per certe condizioni vale:
+\[\mathcal{L}_\text{lavoro uscente}(t_0,t) \; > \; W_\text{energia immagazzinata}(t_0)\]
+In generale un bipolo attivo fornisce lavoro elettrico convertendolo da altre fonti e in condizioni stazionarie \(p_\text{uscente}(t) > 0\)
+
+\newpage
+
 \section{Componenti elettrici}
+\subsection{Caratteristica esterna}
+\subsubsection*{Caratteristica esterna di un bipolo e di un m-bipolo}
+La caratteristica esterna è un'equazione che lega tutte le variabili (tensione e corrente) di ogni porta di un determinato
+componente. Per un m-bipolo si avranno 2m variabili (tensione e corrente delle m-porte), per un bipolo si avranno 2 variabili.
+\begin{itemize}
+	\item caratteristica esterna m-bipolo: \(F(u_1(t), i_1(t), u_2(t), i_2(t),\dots, u_m(t), i_m(t)) = 0\)
+	\item caratteristica esterna bipolo: \(F(u(t), i(t)) = 0\)
+\end{itemize}
+
+\subsubsection*{Bipolo controllato in corrente o in tensione}
+È possibile scrivere l'equazione per un bipolo in funzione di una delle due variabili:
+\begin{itemize}
+	\item bipolo controllato in corrente: \(u(t) = f(i(t))\)
+	\item bipolo controllato in tensione: \(i(t) = f(u(t))\)
+\end{itemize}
+
+\subsubsection*{Bipolo ideale}
+Un bipolo si dice ideale se la sua caratteristica esterna è lineare a tratti, ovvero è possibile usare un'equazione lineare per
+descriverne il comportamento in un intorno del punto \((U^*, I^*)\)
+
+\subsection{Componenti}
+\subsubsection*{Resistenza}
+\begin{itemize}
+	\item equazione costitutiva: \(\quad R=U/I \qquad [\Omega_\text{(ohm)}] = [V_\text{olt}] \; / \; [A_\text{mpere}]\)
+	\item caratteristica esterna: \(\quad F(u,i) = 0 \; \rightarrow \; \frac{U}{I} - R = 0\)
+	\item effetto Joule: \(\qquad \qquad \;\; \Delta Q = R \cdot I^2 \cdot \Delta t\)
+	\item bilancio energetico: \(\quad \;\;\; \begin{matrix} P_\text{entrante} = u \cdot i \\ P_\text{uscente} = R \cdot i^2 \end{matrix} \qquad u \cdot i = R \cdot i^2 \; \rightarrow \; P_\text{entrante} = P_\text{uscente}\)
+	\item resistività: \(\qquad\qquad\qquad R = \rho \cdot L/S \qquad \rho = \rho_0(1+ \alpha \Delta T) \qquad \begin{matrix} \rho_0 = \text{resistività a 20°C} \\ \Delta T = \text{\(\Delta\)temp. rispetto a 20°C} \end{matrix}\)
+	\begin{itemize}[topsep=0pt]
+		\item conduttori: \(\qquad\quad \rho_\text{Cu} = 1.8 \cdot 10^{-8} \Omega m\)
+		\item semiconduttori: \(\quad \rho_\text{Si} = 2.3 \cdot 10^3 \Omega m\)
+		\item isolanti: \(\qquad\qquad\; \rho_\text{PVC} = 10^{10} - 10^{13} \Omega m\)
+	\end{itemize}
+\end{itemize}
+
+\subsubsection*{Resistore ideale}
+\begin{center}
+	\begin{tabularx}{\textwidth}{ c | c | X }
+		modello grafico & equazioni costitutive & parametri caratteristici \\
+		\begin{circuitikz} \draw (0,0) [R] to (2,0); \end{circuitikz} &
+		\(\begin{cases} u(t) = R \, i(t) \\ i(t) = G \, u(t) \end{cases}\) &
+		\(\begin{cases}
+			R = \text{resistenza} \; [\Omega_\text{ohm}] \\
+			G = \text{conduttanza} \; [S_\text{iemens}]
+		\end{cases}\)
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Cortocircuito ideale}
+\begin{center}
+	\begin{tabularx}{\textwidth}{ c | c | X }
+		modello grafico & equazioni costitutive & descrizione \\
+		\begin{circuitikz} \draw (0,0) -- (2,0); \end{circuitikz} &
+		\(u(t) = 0 \quad \forall t\) &
+		resistore con \(R = 0\)
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Circuito aperto}
+\begin{center}
+	\begin{tabularx}{\textwidth}{ c | c | X }
+		modello grafico & equazioni costitutive & descrizione \\
+		\begin{circuitikz} \draw (0,0) -- (0.7,0) (1.3,0) -- (2,0); \end{circuitikz} &
+		\(i(t) = 0 \quad \forall t\) &
+		resistore con \(R = +\infty\)
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Interruttore ideale}
+\begin{center}
+	\begin{tabularx}{\textwidth}{ c | X }
+		modello grafico & descrizione \\
+		\begin{circuitikz} \draw (0,0) to[nos] (2,0); \end{circuitikz} &
+		\(\begin{array}{l}
+			\text{dipolo in grado di commutarsi tra due stati:} \\
+			\text{  1. cortocircuito ideale} \\
+			\text{  2. circuito aperto} \end{array}\)
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Interruttore reale}
+\begin{center}
+	\begin{tabularx}{\textwidth}{ c | X }
+		modello grafico & descrizione \\
+		\begin{circuitikz} \draw (0,0) to[nos] (2,0) (0,-0.2) -- (2,-0.2); \end{circuitikz} &
+		unipolare: interrompe la continuità di un solo conduttore
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Diodo ideale}
+\begin{center}
+	\begin{tabularx}{\textwidth}{ c | X }
+		modello grafico & descrizione \\
+		\begin{circuitikz} \draw (0,0) to[empty diode] (2,0); \end{circuitikz} &
+		\(\begin{array}{l}
+			\text{dipolo in grado di commutarsi tra due stati:} \\
+			\text{ se } u>0 \rightarrow \text{ conduzione} \\
+			\text{ se } u<0 \rightarrow \text{ interdizione}
+		\end{array}\)
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Diodo reale}
+\begin{center}
+	\begin{tabularx}{\textwidth}{ c | X }
+		modello grafico & descrizione \\
+		\begin{circuitikz} \draw (0,0) to[empty diode] (2,0); \end{circuitikz} &
+		\(\begin{array}{l}
+			\text{dipolo con tre stati:} \\
+			\text{ se } u>0 \rightarrow \text{ conduzione} \\
+			\text{ se } V_{bd}<u<0 \rightarrow \text{ interdizione} \\
+			\text{ se } u<V_{bd} \rightarrow \text{ rottura/conduzione} \\
+			\text{ottenuto con giunzione PN (materiali drogati positivamente o negativamente) }
+		\end{array}\)
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Induttore ideale}
+\begin{center}
+	\begin{tabularx}{\textwidth}{ c | c | c | X }
+		modello grafico & equazioni costitutive & parametri caratteristici & descrizione \\
+		\begin{circuitikz} \draw (0,0) [L] to (2,0); \end{circuitikz} &
+		\(\displaystyle u(t) = L \frac{di(t)}{dt}\) &
+		\(L = \text{induttanza} \; [H_\text{enry}]\) &
+		in regime stazionario agisce come un cortocircuito
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Induttore reale}
+Usato nei circuiti AC, \(\displaystyle e(t) = -\frac{d\Phi}{dt}\)
+
+\subsubsection*{Condensatore ideale}
+\begin{center}
+	\begin{tabularx}{\textwidth}{ c | c | c | X }
+		modello grafico & equazioni costitutive & parametri caratteristici & descrizione \\
+		\begin{circuitikz} \draw (0,0) [C] to (2,0); \end{circuitikz} &
+		\(i(t) = C \frac{du(t)}{dt}\) &
+		\(C = \text{capacità} \; [C_\text{oulomb}]\) &
+		in regime stazionario agisce come un circuito aperto
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Condensatore reale}
+Usato nei circuiti AC, \(\displaystyle \oint \vec{D} \cdot d\vec{\Sigma} = q_\text{int}\)
+
+\newpage
+
+\subsection{Generatori}
+\subsubsection*{Forze elettriche generatrici e generatori}
+In condizioni stazionarie si ha che \(\vec{J}\) è solenoidale e che \(Q = L + \Delta W \rightarrow Q = L\) ovvero il lavoro
+compiuto dal circuito è tutto dissipato in calore dalle resistenze (\(\Delta W = 0\)). Per cui si ha:
+\[Q = L = \oint \vec{F}_\text{gen} \cdot d \vec{l} \neq 0\]
+Esistono delle forze generatrici non conservative \(\vec{F}_\text{gen}\) la cui circuitazione non è nulla che mettono in moto
+le cariche. Le parti del circuito in cui si sviluppano tali forze non conservative sono detti generatori.
+
+\subsubsection*{Forza elettrica generatrice specifica}
+Si definisce quindi la forza elettrica generatrice specifica come forza per unità di carica:
+\[\vec{E}_\text{gen} = \frac{\vec{F}_\text{gen}}{q} \qquad [N_\text{ewton} / C_\text{oulomb}] = [V_\text{olt} / m]\]
+
+\subsubsection*{Generatori a vuoto}
+\begin{itemize}
+	\item si hanno forze \(\vec{E}_\text{gen}\) che inducono accumuli di cariche ai capi del generatore e l'accumulo forma
+	un campo \(\vec{E}_\text{coulombiano} \; (\vec{E}_c)\) contrario a \(\vec{E}_\text{gen}\)
+	\item in regime stazionario \(\vec{E}_g = -\vec{E}_c\) e le cariche non si muovono (o hanno \(a = 0\), \(v\) costante)
+	\item si ottiene che la forze elettromotrice è pari alla tensione ai capi del generatore:
+	\[fem_{AB} = \int_B^A \vec{E}_g(P,t) \cdot d\vec{l} = \int_B^A -\vec{E}_c(P,t) \cdot d\vec{l} = \int_A^B \vec{E}_c(P,t) \cdot d\vec{l} = u_{0,AB}(t)\]
+	\item se \(U_{0,AB}(t)\) è costante, il generatore è in regime DC e \(E_{AB} = U_{0,AB}\)
+	\item se \(U_{0,AB}(t)\) è sinusoidale, il generatore è in regime AC e \(E_{AB}(t) = u_{0,AB}(t)\)
+	\item il campo \(\vec{E}_c\) tende a muovere le cariche positive dal \(+\) al \(-\)
+	\item il campo \(\vec{E}_g\) tende a muovere le cariche positive dal \(-\) al \(+\)
+\end{itemize}
+
+\subsubsection*{Generatori a carico}
+\begin{itemize}
+	\item \(\vec{E}_g \neq -\vec{E}_c\), si ha uno spostamento di cariche
+	\item la caratteristica esterna vale \(U = E_{AB} - R_i I\) con \(R_i = \) resistenza interna
+\end{itemize}
+
+\subsubsection*{Generatori ideali}
+\begin{tabularx}{0.6\textwidth}{ c  X }
+	generatore ideale di tensione \(U = E\) &
+	\begin{circuitikz}
+		%\draw (0,0) -- (0.58,0);
+		%\draw(1,0) [circ, thick] circle(0.42);
+		%\draw (1.42,0) -- (2,0);
+		%\node [] at (0.8,0) {--};
+		%\node [] at (1.2,0) {+};
+		\draw (0,0) to[V] (2,0);
+		\node [] at (1,-0.7) {E};
+		\node [] at (0.2,-0.25) {--};
+		\node [] at (1.8,-0.25) {+};
+	\end{circuitikz} \\
+	\midrule
+	generatore ideale di corrente \(I = J\) &
+	\begin{circuitikz}
+		%\draw (0,0) -- (0.58,0);
+		%\draw(1,0) [circ, thick] circle(0.42);
+		%\draw (1.42,0) -- (2,0);
+		%\draw [->] (0.7,0) -- (1.3,0);
+		\draw (0,0) to[I] (2,0);
+		\draw[->] (0.6,-0.7) -- (1.4,-0.7);
+		\node[] at (1,-0.9) {J} ;
+	\end{circuitikz}
+\end{tabularx}
+
+\subsubsection*{Esempi di generatori}
+\begin{itemize}
+	\item elettrochimici (sede di reazioni chimiche, esempio pile a secco e accumulatori)
+	\item fotovoltaici (fotone "convertito" in elettrone, funzionamento basato su fotodiodi)
+	\item termoelettrici (giunzioni bimetalliche a temperature diverse formano una f.e.m. per effetto Seebeck)
+	\item piezoelettrici (cristalli soggetti a stress meccanico formano un campo elettrico, quindi una f.e.m.)
+	\item elettromeccanici (macchine rotanti con di statore e rotore, convertono energia meccanica in elettrica)
+\end{itemize}
+
+\newpage
+
 \section{Topologia delle reti}
 \section{Analisi di circuiti lineari a corrente continua}
 
