@@ -686,6 +686,317 @@ Si definisce quindi la forza elettrica generatrice specifica come forza per unit
 \newpage
 
 \section{Topologia delle reti}
+\subsection{Introduzione}
+La topologia di un circuito indica come gli n-poli sono connessi tra loro. Le interconnessioni tra i componenti sono dette
+nodi del circuito.
+
+\subsection{Teoria dei grafi}
+\subsubsection*{Dal circuito al grafo}
+Ad ogni circuito si associa un grafo:
+\begin{itemize}
+	\item i nodi del grafo corrispondono ai nodi del circuito
+	\item gli archi del grafo corrispondono ai componenti
+	\item ad ogni arco viene associata una tensione e una corrente
+	\item gli archi sono orientati secondo le correnti e le tensioni
+\end{itemize}
+
+\subsubsection*{Componenti connesse}
+Se si hanno grafi non connessi, le componenti connesse corrispondono a sottocircuiti non connessi tra loro che verranno
+analizzati separatamente.
+
+\subsubsection*{Definizioni}
+\begin{itemize}
+	\item \textbf{insieme di taglio}: insieme di archi che intersecano una superficie chiusa che taglia il circuito. La
+	superficie di taglio può isolare nodi singoli o parti del circuito
+	\item \textbf{nodo}: punto di interconnessione tra due o più archi del grafo
+	\item \textbf{maglia}: insieme di archi che costituiscono un percorso chiuso che tocca ciascun nodo una sola volta
+	\item \textbf{grafo piano}: grafo che può essere distribuito su un piano senza che gli archi si intersechino
+	\item \textbf{anello}: maglia che non racchiude altre parti del grafo al suo interno
+	\item \textbf{albero}: insieme di archi del grafo che collegano tutti i nodi del grafo senza formare maglie
+	\item \textbf{coalbero}: insieme di archi del grafo complementare ad un albero
+\end{itemize}
+Per un grafo vale: \(\quad m_\text{ anelli} = l_\text{ archi} - n_\text{ nodi} + 1\)
+
+\subsection{Leggi di Kirchhoff}
+\subsubsection*{Legge di Kirchhoff delle correnti - LKC}
+In un circuito chiuso la corrente entrante ed uscente in un insieme di taglio è nulla. Se l'insieme di taglio racchiude solo un
+nodo, si avrà che la somma delle correnti entranti ed uscenti in un nodo è nulla.
+\[\sum_{h \in \mathcal{T}_\text{insieme di taglio}} \alpha_h i_h(t) = 0\]
+\begin{itemize}
+	\item le correnti entranti nella sezione di taglio (o in un nodo) hanno \(\alpha_h = -1\)
+	\item le correnti uscenti dalla sezione di taglio (o da un nodo) hanno segno \(\alpha_h = +1\)
+\end{itemize}
+
+\subsubsection*{Legge di Kirchhoff delle tensioni - LKT}
+In un circuito chiuso, la somma di tutte le tensioni associate ai componenti di ogni maglia è nulla.
+\[\sum_{h \in \mathcal{M}_\text{maglia}} \beta_h u_h(t) = 0\]
+\begin{itemize}
+	\item ad ogni maglia si associa una orientazione (oraria o antioraria)
+	\item le tensioni concordi con il verso della maglia hanno \(\beta_h = +1\)
+	\item le tensioni discordi con il verso della maglia hanno segno \(\beta_h = -1\)
+\end{itemize}
+
+\newpage
+
+\subsection{Sistemi di equazioni topologiche}
+\subsubsection*{Equazioni linearmente indipendenti}
+Il sistema di equazioni topologiche è un sistema formato dalle equazioni LKT e LKC. Per avere un'unica soluzione e descrivere
+completamente un circuito, devo avere il massimo numero di equazioni LKT/LKC linearmente indipendenti.
+
+\subsubsection*{Equazioni indipendenti in grafo connesso}
+Un grafo connesso ha:
+\begin{itemize}
+	\item \(n-1\) equazioni LKC indipendenti con insiemi di taglio (o nodi) che insistono su un solo arco dell'albero (detto lato
+	peculiare specifico del taglio) e su altri archi del coalbero
+	\item \(l-n+1\) equazioni LKT indipendenti con maglie costituite da un solo arco del coalbero (detto lato peculiare specifico
+	della maglia) e altri archi dell'albero
+	\item in totale \((l-n+1)+(n-1) = l\) equazioni indipendenti: una per ogni componente o arco del grafo
+\end{itemize}
+
+\subsubsection*{Equazioni indipendenti in grafo sconnesso}
+Un grafo con \(p\) componenti connesse ha:
+\begin{itemize}
+	\item \(n_k-1\) equazioni LKC indipendenti per ogni componente connessa \(k \in 1,2,\dots,p\)
+	\item \(l_k-n_k+1\) equazioni LKT indipendenti per ogni componente connessa \(k \in 1,2,\dots,p\)
+	\item complessivamente \(\sum_{k=1}^p (l_k-n_k+1)+(n_k-1) = \sum_{k=1}^p l_k = l\) equazioni indipendenti, ovvero una per ogni
+	componente o arco del grafo (anche se sconnesso)
+\end{itemize}
+
+\subsubsection*{Conservazione delle potenze}
+La somma di tutte le potenze istantanee è nulla. La somma delle potenze entranti negli utilizzatori è uguale alla somma delle
+potenze uscenti dai generatori.
+\[P_\text{tot} = \sum_{h=1}^{l} u_h(t) \cdot i_h(t) = 0 \qquad\qquad \sum_{h_\text{utilizzatori}} P_{entrante,h}(t) = \sum_{h_\text{generatori}} P_{uscente,h}(t)\]
+
+\subsection{Connessione in serie}
+\subsubsection*{In generale}
+\begin{itemize}
+	\item due bipoli sono collegati in serie se hanno un solo morsetto in comune
+	\item due bipoli si dicono in serie diretta se hanno anche lo stesso riferimento di tensione e corrente
+\end{itemize}
+\[\begin{cases} u_\text{serie}(t) = u_1(t) + u_2(t) \\ i_\text{serie}(t) = i_1(t) = i_2(t) \end{cases}\]
+
+\subsubsection*{Serie di generatori ideali di corrente}
+Non è possibile creare una serie di generatori ideali di corrente con \(J_1 \neq J_2\) in quanto nel nodo in comune ai due
+generatori non è rispettata la LKC. Analogamente non può esistere una serie con un GIC e un circuito aperto.
+
+\subsubsection*{Serie di un generatore ideale di tensione e un resistore}
+In una serie tra generatore ideale di tensione e resistore ideale si ha:
+\begin{itemize}
+	\item \(I_\text{serie} = I_\text{resistore} = -I_\text{generatore} \;\; \rightarrow \;\;\) il generatore ha convenzione opposta
+	\item \(U_\text{serie} = U_\text{generatore} + U_\text{resistore} = E + R I_2 = E - R I\)
+\end{itemize}
+Per determinare la curva caratteristica della serie servono almeno due punti del piano \(u,i\):
+\begin{itemize}
+	\item funzionamento a vuoto: \(u_0 = E = fem,\; i_0 = 0\)
+	\item funzionamento a cortocircuito \(u_{cc} = 0,\; I_{cc} = E/R\)
+\end{itemize}
+
+\subsubsection*{Serie di resistori ideali e partitore di tensione}
+\begin{itemize}
+	\item \(u_\text{serie} = u_1(t) + u_2(t) + \dots + u_n(t) = (R_1 + R_2 + \dots + R_n) \cdot i_\text{serie}(t) = R_\text{eq,serie} \cdot i_\text{serie}(t)\)
+	\item la resistenza equivalente della serie è la somma delle resistenze: \(R_\text{eq} = R_1 + R_2 + \dots + R_n\) 
+	\item le tensioni si ripartiscono in modo proporzionale alle resistenze: \(u_k(t) = R_k / R_\text{eq} \cdot u_\text{serie}(t)\)
+\end{itemize}
+
+\subsection{Connessione in parallelo}
+\subsubsection*{In generale}
+\begin{itemize}
+	\item due bipoli sono collegati in parallelo se entrambi i morsetti sono in comune
+	\item due bipoli sono in parallelo diretto se hanno i riferimenti di tensione e corrente concordi
+\end{itemize}
+\[\begin{cases} u_\text{serie}(t) = u_1(t) = u_2(t) \\ i_\text{serie}(t) = i_1(t) + i_2(t) \end{cases}\]
+
+\subsubsection*{Parallelo di generatori ideali di tensione}
+Non è possibile creare un parallelo di generatori ideali di tensione con \(E_1 \neq E_2\) in quanto nella maglia ottenuta non
+viene rispettata la \(LKT\). Analogamente non è possible creare un parallelo tra GIT e cortocircuito.
+
+\subsubsection*{Parallelo di un generatore ideale di corrente e un resistore}
+In una serie tra generatore ideale di tensione e resistore ideale si ha:
+\begin{itemize}
+	\item \(U_\text{serie} = U_\text{resistore} = -U_\text{generatore} \;\; \rightarrow \;\;\) il generatore ha convenzione opposta
+	\item \(I_\text{serie} = I_\text{generatore} + I_\text{resistore} = J + G U_2 = J - GU\)
+\end{itemize}
+
+\subsubsection*{Parallelo di resistori ideali e partitore di corrente}
+\begin{itemize}
+	\item \(i_\text{parallelo} = i_1(t) + i_2(t) + \dots + i_n(t) = (G_1 + G_2 + \dots + G_n) \cdot u_\text{parallelo}(t) = G_\text{eq,parallelo} \cdot u_\text{parallelo}(t)\)
+	\item la conduttanza equivalente del parallelo è la somma delle conduttanze: \(G_\text{eq} = G_1 + G_2 + \dots + G_n\) 
+	\item le correnti si ripartiscono in modo proporzionale alle conduttanzze: \(i_k(t) = G_k / G_\text{eq} \cdot i_\text{parallelo}(t)\)
+\end{itemize}
+
+\subsection{Resistenze e conduttanze equivalenti di porta}
+\begin{itemize}
+	\item in una rete di resistori (passivi) è possibile definire una resistenza equivalente di porta \(R_\text{eq,AB} = U_\text{AB}/J_\text{AB}\),
+	per cui è possibile sostituire la rete passiva con un resistore equivalente \(R_\text{eq,AB}\).
+	\item analogo per le conduttanze
+\end{itemize}
+
+\subsubsection*{Resistenze a stella e a triangolo}
+È possibile semplificare le reti di resistenze a maglie a triangolo con reti a stella attraverso la relazione:
+\[R_{\Delta \; \text{triangolo}} = 3 R_{y \; \text{stella}}\]
+
+\newpage
+
 \section{Analisi di circuiti lineari a corrente continua}
+\subsection{Componenti lineari - GLC, GLT}
+Un circuito in regime stazionario in corrente continua formato solo da bipoli è lineare se costituito esclusivamente da
+generatori lineari di tensione (GLT) o generatori lineari di corrente (GLC).
+\subsubsection*{Generatore lineare di tensione - GLT}
+Un generatore lineare di tensione è formato da una serie di generatore ideale di tensione e un resistore, entrambi con
+convensione di utilizzatore.
+\begin{center}
+	\begin{circuitikz}
+		\draw (0,0) to[V] (2,0) to[R=\(R\)] (4,0);
+		\node [] at (1,0.7) {\(E_\text{GIT}\)};
+		\node [] at (0.3,-0.2) {--};
+		\node [] at (1.7,-0.2) {+};
+		\node [] at (2.3,-0.2) {--};
+		\node [] at (3.7,-0.2) {+};
+		\node [] at (-0.3,0) {--};
+		\node [] at (4.3,0) {+};
+		\node [draw,fill,circle,inner sep=1pt] at(0,0) {};
+		\node [draw,fill,circle,inner sep=1pt] at(2,0) {};
+		\node [draw,fill,circle,inner sep=1pt] at(4,0) {};
+		\draw (0.5,-0.8) [<-] -- (3.5,-0.8);
+		\node [] at (2,-1.1) {\(I_{GLT}\), \(U_\text{GLT}\)};
+	\end{circuitikz}
+\end{center}
+Il sistema ha come equazione costitutiva:
+\[U_\text{GLT} = U_\text{GIT} + U_\text{res} = E_\text{GIT} + R \cdot I_\text{GLT}\]
+
+\subsubsection*{Generatore lineare di corrente - GLC}
+Un generatore lineare di corrente è formato da un parallelo di generatore ideale di corrente e un resistore, entrambi con
+convensione di utilizzatore.
+
+\begin{center}
+	\begin{circuitikz}
+		\draw (0,0) -- (0.7,0) -- (0.7,0.7) (3.3,0.7) to[I_=\(\)] (0.7,0.7) (3.3,0.7) -- (3.3,0) -- (4,0);
+		\draw (0,0) -- (0.7,0) -- (0.7,-0.7) to[R=\(R\)] (3.3,-0.7) -- (3.3,0) -- (4,0);
+		\node [] at (2,1.4) {\(J_\text{GIC}\)};
+		\node [] at (1.3,0.5) {--};
+		\node [] at (2.7,0.5) {+};
+		\node [] at (1.3,-0.5) {--};
+		\node [] at (2.7,-0.5) {+};
+		\node [] at (-0.3,0) {--};
+		\node [] at (4.3,0) {+};
+		\node [draw,fill,circle,inner sep=1pt] at(0,0) {};
+		\node [draw,fill,circle,inner sep=1pt] at(4,0) {};
+		\node [draw,fill,circle,inner sep=1pt] at(0.7,0) {};
+		\node [draw,fill,circle,inner sep=1pt] at(3.3,0) {};
+		\draw (0.5,-1.2) [<-] -- (3.5,-1.2);
+		\node [] at (2,-1.5) {\(I_{GLC}\), \(U_\text{GLC}\)};
+	\end{circuitikz}
+\end{center}
+Il sistema ha come equazione costitutiva:
+\[I_\text{GLC} = I_\text{GIC} + I_\text{res} = J_\text{GIC} + \frac{U_\text{GLC}}{R}\]
+
+\subsubsection*{Sostituzione da GLT a GLC}
+È possibile sostiuire un GLT con un GLC:
+\[I_\text{GLC} = I_\text{res} + J_\text{GIC} = \frac{U_\text{GLT}}{R} - \frac{E_\text{GIT}}{R} \qquad\qquad J_\text{GIC} = \frac{E_\text{GIT}}{R}\]
+
+\subsubsection*{Sostituzione da GLC a GLT}
+È possibile sostiuire un GLT con un GLC:
+\[U_\text{GLT} = U_\text{res} + E_\text{GIT} = R \cdot I_\text{GLC} - R \cdot J_\text{GIC} \qquad\qquad E_\text{GIT} = R \cdot J_\text{GIC}\]
+
+\newpage
+
+\subsection{Circuiti lineari ed equazioni indipendenti}
+Un circuito lineare è descritto da equazioni linearmente indipendenti lineari di 1° grado ottenute dalle leggi di Kirchhoff o
+dalle equazioni costitutive dei GLT e GLC. Si ottiene un sistema lineare \(A x = b\) risolvibile attraverso il calcolo
+matriciale \(x = A^{-1} b\). \\
+Il sistema ha \(2l\) incognite:
+\begin{itemize}
+	\item \(u_h(t)\) per ogni bipolo \(h = 1,2,3, \dots l\)
+	\item \(i_h(t)\) per ogni bipolo \(h = 1,2,3, \dots l\)
+\end{itemize}
+Il sistema ha \((n-1) + (l-n+1) + l = 2l\) equazioni indipendenti:
+\begin{itemize}
+	\item \(n-1\) equazioni indipendenti per LKC
+	\item \(l-n+1\) equazioni indipendenti per LKT
+	\item \(l\) equazioni costitutive (una per ogni GLC e GLT)
+\end{itemize}
+Il sistema ha, quindi, \(2l\) equazioni linearmente indipendenti con \(2l\) incognite e \(\text{rango}\{A\} = 2l\), ovvero ha
+un'unica soluzione.
+
+\subsection{Metodi di analisi delle reti lineari}
+\subsubsection*{Metodo diretto o di sostituzione}
+Se un bipolo ha una certa tensione \(u_h(t)\) e corrente \(i_h(t)\) data dalla soluzione unica del sistema, è possible sostituire
+tale bipolo con:
+\begin{itemize}
+	\item un generatore ideale di tensione con \(e_h(t) = u_h(t)\)
+	\item un generatore ideale di corrente con \(j_h(t) = i_h(t)\)
+\end{itemize}
+In questo modo si ottiene una rete semplificata e di conseguenza un sistema più semplice da risolvere.
+
+\subsubsection*{Sovrapposizione degli effetti}
+La tensione di un certo bipolo è data dalla somma dei contributi di tensione (detti tensioni parziali) di ogni generatore ideale
+di tensione o corrente preso singolarmente, mentre tutti gli altri sono spenti.
+\[u_h(t) = \sum_r u_{h,E_r}(t) + \sum_s u_{h,J_s}(t) \qquad\qquad u_{h,E_r}(t) = \alpha_{hr} \cdot e_r(t) \;\;\; / \;\;\; u_{h,J_s}(t) = R_{hs} \cdot j_s(t)\]
+La corrente di un certo bipolo è data dalla somma dei contributi di corrente (detti correnti parziali) di ogni generatore ideale
+di tensione o corrente preso singolarmente, mentre tutti gli altri sono spenti.
+\[i_h(t) = \sum_r i_{h,E_r}(t) + \sum_s i_{h,J_s}(t) \qquad\qquad i_{h,E_r}(t) = G_{hr} \cdot e_r(t) \;\;\; / \;\;\; i_{h,J_s}(t) = \beta_{hs} \cdot j_s(t) \]
+I coefficienti \(\alpha_{hr}, R_{hr}, \beta_{hr}, G_{hr}\) sono detti coefficienti di rete e sono costanti in una rete lineare.
+
+\subsubsection*{Correnti cicliche o di anello}
+\begin{itemize}
+	\item si semplifica il sistema introducendo delle correnti fittizzie dette correnti cicliche di anello, ottenute matematicamente
+	da un cambio di variabile nelle LKC, il sistema finale avrà soltanto \(m\) equazioni, ovvero una per maglia
+	\item è richiesto avere soltanto generatori ideali di tensione convenzionati da generatore: i GIC/GLC vanno trasformati
+	in GIT/GLC con l'aggiunta delle seguenti condizioni \(E_h = U_h, \quad J_h = I_{Ar} - I_{As}\)
+	\item per ogni anello \(A_k\) vale:
+\end{itemize}
+\[R_{A_{kk}} \cdot I_{A_k} - \sum_r (R_{A_{kr}} \cdot I_{A_r}) = E_{A_k} \qquad
+\begin{array}{l}
+	R_{A_{kk}} = \sum \text{resistenze della maglia } A_k \\
+	R_{A_{kr}} = \sum \text{resistenze in comune alle maglie } A_k \text{ e } A_r \\
+	E_{A_k} = \sum \text{fem di anello della maglia } A_k \text{ con conv. generatore} \\
+	I_{A_k} = \text{corrente di anello della maglia } A_k \\
+	I_{A_r} = \text{corrente di anello della maglia } A_r \\
+\end{array}\]
+
+\subsubsection*{Potenziali nodali}
+\begin{itemize}
+	\item si considerano come incognite solo i potenziali ai nodi del circuito in modo da soddisfare le LKT, per cui il sistema
+	finale avrà solo \(n-1\) equazioni
+	\item si sceglie un nodo di riferimento a cui si assegna potenziale nullo \(V_{rif} = 0\) e si calcolano i potenziali degli
+	altri \(n-1\) nodi in modo da rispettare la relazione di tensione \(U_{kh} = V_{N_k}-V_{N_h}\)
+	\item è richiesto avere soltanto generatori ideali di corrente convenzionati da generatore: i GIT/GLT vanno trasformati in
+	GIC/GLC con l'aggiunta delle seguenti condizioni \(J_h = I_h, \quad V_{N_r}-V_{N_s} = E_h\)
+	\item per ogni nodo \(N_k\) vale:
+\end{itemize}
+\[G_{N_{kk}} \cdot V_{N_k} - \sum_{r} (G_{N_{kr}} \cdot V_{N_r}) = J_{N_k} \qquad
+\begin{array}{l}
+	G_{N_{kk}} = \sum \text{conduttanze incidenti al nodo } N_k \\
+	G_{N_{kr}} = \sum \text{conduttanze comprese tra i nodi } N_k \text{ e } N_r \\
+	J_{N_k} = \sum \text{correnti dei GIC impresse su } N_k \text{ (+ se entranti)} \\
+	V_{N_k} = \text{potenziale del nodo } N_k \\
+	V_{N_r} = \text{potenziale del nodo } N_r \\
+\end{array}\]
+
+\subsubsection*{Metodo di riduzione - Teorema di Thévenin}
+\begin{itemize}
+	\item si individua una superficie di taglio che intercetta solo due conduttori, per cui è possibile individuare una porta 
+	costituita dai morsetti \(a,b\)
+	\item è possibile sostituire la parte di circuito individuata dalla superficie di taglio con un generatore di Thévenin
+	costituito da un generatore lineare di tensione con:
+\end{itemize}
+\begin{align*}
+	U_{eq} &= E_{ab} = U_{0,ab} = \text{tensione a vuoto della porta ab} \\
+	R_{eq} &= R_{ab} = \frac{U_{0,ab}}{I_{cc,ab}} = \text{resistenza della rete inerte (con tutti i GIT/GIC spenti)} \\
+	&\qquad\qquad U_{ab} = U_{0,ab} - R_{eq} \cdot I_{cc,ab} \;\;\rightarrow\;\; \text{equazione del GLT}
+\end{align*}
+
+\subsubsection*{Metodo di riduzione - Teorema di Norton}
+\begin{itemize}
+	\item si individua una superficie di taglio che intercetta solo due conduttori, per cui è possibile individuare una porta 
+	costituita dai morsetti \(a,b\)
+	\item è possibile sostituire la parte di circuito individuata dalla superficie di taglio con un generatore di Norton
+	costituito da un generatore lineare di corrente con:
+\end{itemize}
+\begin{align*}
+	I_{eq} &= J_{ab} = I_{cc,ab} = \text{corrente di cortocircuito della porta ab} \\
+	R_{eq} &= R_{ab} = \frac{U_{0,ab}}{I_{cc,ab}} = \text{resistenza della rete inerte (con tutti i GIT/GIC spenti)} \\
+	&\qquad\qquad I_{ab} = I_{cc,ab} - \frac{U_{ab}}{R_{eq}} \;\;\rightarrow\;\; \text{equazione del GLC}
+\end{align*}
 
 \end{document}
