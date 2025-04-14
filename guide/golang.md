@@ -1315,10 +1315,10 @@ func func1() {
 }
 ```
 
-The ``go`` keyword tell go runtime to spin off a green thread and run that function in the green thread. The ``main`` function is a go-routine as well, so the program abobe does not print anything because the ``main`` function (and the program itself) terminates before the ``func1`` function prints out the message. To print the message, you have to delay the main end with a statement ``time.Sleep(100*time.Millisecond)`` (only for demo purpose, not recommanded for managing concurrence). The runtime prefers executing the main function intead givin power to the other goroutines.
+The ``go`` keyword tell go runtime to spin off a green thread and run that function in the green thread. The ``main`` function is a goroutine as well, so the program abobe does not print anything because the ``main`` function (and the program itself) terminates before the ``func1`` function prints out the message. To print the message, you have to delay the main end with a statement ``time.Sleep(100*time.Millisecond)`` (only for demo purpose, not recommanded for managing concurrence). The runtime prefers executing the main function intead givin power to the other goroutines.
 
 ### Green Threads vs OS Threads
-Normally threads are derived from OS-threads, so they have individual function call stack and 1 MB of RAM dedicated. Creation and destruction of those is very expensive. In Go, the runtime has a scheduler that alternates the execution of various go-routines over the same thread creating a "virtual thread" called green thread. With this high level abstraction, go routines can start with a very small stack spaces and they are very cheap to create and destroy. It is possible to run 100.000 threads over the same runtime in Go and it is impossible to do the same in another "unoptimized" programming language.
+Normally threads are derived from OS-threads, so they have individual function call stack and 1 MB of RAM dedicated. Creation and destruction of those is very expensive. In Go, the runtime has a scheduler that alternates the execution of various goroutines over the same thread creating a "virtual thread" called green thread. With this high level abstraction, goroutines can start with a very small stack spaces and they are very cheap to create and destroy. It is possible to run 100.000 threads over the same runtime in Go and it is impossible to do the same in another "unoptimized" programming language.
 
 ### Closures and race condition in anonymous functions
 ```go
@@ -1333,7 +1333,7 @@ func main() {
 The program above prints the correct message, despite the fact that the ``main`` and the anonymous function have different execution stacks. This works because the anonymous function can access to the outer scope and the go runtime understand that ``msg`` variable is declared in the ``main`` and used in the anonymous function. 
 The problem is that both threads use the same variable and create a race condition. The solution for this problem is to pass the ``msg`` by value to the anonymous function as a parameter.
 
-Always pass by value all data nedeed to go routines.
+Always pass by value all data nedeed to goroutines.
 ```go
 func main() {
 	msg := "Message"
@@ -1371,8 +1371,20 @@ func main() {
 ```
 
 ### Mutexes
+A normal mutex is used to avoid race conditions: only one goroutine can access to the locked code at the same time
+
+An RWMutxe states that:
+- everyone can read the variable at the same time
+- only one can write in the variable at the same time
+- only one action per time (reading or writing, not both)
+
+```go
+var m = sync.RWMutex{} // declaring new rw-mutex
+```
+
 ```go
 var wg = sync.WaitGroup{} // delay the main to terminate
+var m = = sync.RWMutex{}  // mutex
 var counter = 0           // global counter, shared by all goroutines
 
 func main() {
@@ -1385,17 +1397,243 @@ func main() {
 }
 
 func sayHello() {
-	fmt.Printf("Hello #%v\n", counter)
+	m.RLock() // start proteted area for variable reading
+	fmt.Printf("Hello #%v\n", counter) // variable read
+	m.RUnlock() // end proteted area for variable reading
 	wg.Done()
 }
 
 func increment() {
-	counter++
+	m.Lock() // start proteted area for variable writing
+	counter++ // variable writing
+	m.Unlock() // end proteted area for variable writing
 	wg.Done()
 }
 ```
 
-### Parallelism
+Without mutexes, the value of the counter printed out has "randomic values" (unordered with repetitions) because there is no control over readings and writings. With mutexes the values are printed in order (but with repetition) because the counter can only be read or written once at time.
+
+```go
+var wg = sync.WaitGroup{} // delay the main to terminate
+var m = = sync.RWMutex{}  // mutex
+var counter = 0           // global counter, shared by all goroutines
+
+func main() {
+	for i := 0; i < 10; i++ {
+		wg.Add(2) // add 2 new processes
+		m.RLock() // start proteted area for variable reading
+		go sayHello() // end of the protected area inside function
+		m.Lock() // start proteted area for variable writing
+		go increment() // end of the protected area inside function
+	}
+	wg.Wait() // wait until all 20 goroutines end
+}
+
+func sayHello() {
+	fmt.Printf("Hello #%v\n", counter) // variable read
+	m.RUnlock() // end proteted area for variable reading
+	wg.Done()
+}
+
+func increment() {
+	counter++ // variable writing
+	m.Unlock() // end proteted area for variable writing
+	wg.Done()
+}
+```
+The next modification constists in locking the mutex before every function call. In this way the next function is called/executed only when the function in execution unlock the mutex (and finished its execution). Numbers are printed in order and without repetition.
+
+### Parallelism and ``func runtime.GOMAXPROCS(n int) int``
+The function sets the maximum number of OS threads ``n`` available for the program and returns the previous setting. By default the valiue contains the number of cores in the CPU.
+- if ``n < 1``, it does not change the current setting (it is used to read GOMAXPROCS value)
+- if ``n=1`` the program is executed sequentially, with no parallelism
+
+The GOMAXPROCS value is a trade-off:
+- the minimum recommended is the number of CPU cores, but applications can run faster by increasing it
+- if you increase the value to much (example >100) there could be problems with memory overhead (lots of OS threads) and slow execution because the scheduler has more work by managing all those threads
+- before application final realease it is suggested to run tests with different GOMAXPROCS values to find out the best one
+
 ### Best Practices
+- Don't create goroutines in libraries (unless using channel) -> let the consumer control concurrency
+- Plan how to stop goroutines to avoid infinte goroutines (example goroutines that wait for messages) because they use resources and possible crash with aging.
+- Check for race conditions at compile time with attribute ``-race`` in the compiler command
 
 ## 18. Channels
+### Baiscs 
+Their aim is to synchronize data trasmission between different goroutines without race conditions and memory sharing problems.
+
+Properties:
+- channels are declared only with make declarations
+- they are strongly typed
+- they receive data by value (not by reference)
+
+```go
+ch := make(chan int) // create new channel for integer (make declaration only)
+i := <- ch // read data from channel
+ch <- 42   // write data into channel
+```
+
+### Restricting data flow
+Channels have polymorphic behaviour: can be casted into a read only channel or a write only channel. In this way it is possible to create goroutines that only read or only write into channels.
+
+```go
+var wg = sync.WaitGroup{}
+
+func main() {
+	ch := make(chan int) // create integer channel
+	wg.Add(3)
+	go func() { // generic goroutine - both sender and receiver
+		fmt.Println(<-ch) // read data from channel
+		ch <- 42          // write data into channel
+		wg.Done()
+	}()
+	go func(ch <-chan int) { // read only goroutine - receiver
+		fmt.Println(<-ch) // read data from channel
+		ch <- 43          // error -> try to write from a read only channel
+		wg.Done()
+	}(ch)
+	go func(ch chan<- int) { // write only goroutine - sender
+		fmt.Println(<-ch) // error -> try to read from a write only channel
+		ch <- 42          // write data into channel
+		wg.Done()
+	}(ch)
+	wg.Wait()
+}
+```
+
+### Deadlocks with channels
+Only one message can be put in the channel at one time, if multiple goroutines try to write in the channel but no one reads messages, the program gets into deadlock.
+```go
+var wg = sync.WaitGroup{}
+
+func main() {
+	ch := make(chan int) // create integer channel
+	wg.Add(2)
+	go func(ch chan<- int) {
+		ch <- 42 // write 1° message
+		ch <- 43 // write 2° message
+		wg.Done()
+	}(ch)
+	go func(ch <-chan int) {
+		fmt.Println(<-ch) // read 1° message only -> deadlock
+		wg.Done()
+	}(ch)
+	wg.Wait()
+}
+```
+
+### Buffered channels
+Buffered channels are channels where multiple messages can be stored at the same time. The size of the buffer (number of the messages) must be specified in the declaration. It is useful to store multiple data and to solve possible deadlocks, but can generate problems with message loss if there are messages that are not extracted. It is usually used with assymetrical senders and receivers.
+```go
+var wg = sync.WaitGroup{}
+
+func main() {
+	ch := make(chan int, 50) // create integer channel with buffer size 50
+	wg.Add(2)
+	go func(ch chan<- int) {
+		ch <- 42 // write 1° message
+		ch <- 43 // write 2° message
+		ch <- 44 // write 3° message
+		wg.Done()
+	}(ch)
+	go func(ch <-chan int) {
+		fmt.Println(<-ch) // read 1° message only -> message lost
+		wg.Done()
+	}(ch)
+	wg.Wait()
+}
+```
+
+### For range loops with channels
+It is possible to create a for range loop that iterate on a channel. The loop iterates on the elements inside a buffered channel. The program can reach deadlock breacuse the goroutine gets an eternal *wait for a new message* if the for loop doesn't stop.
+
+```go
+var wg = sync.WaitGroup{}
+
+func main() {
+	ch := make(chan int, 50) // create integer channel with buffer size 50
+	wg.Add(2)
+	go func(ch chan<- int) {
+		ch <- 42 // write 1° message
+		ch <- 43 // write 2° message
+		ch <- 44 // write 3° message
+		wg.Done()
+	}(ch)
+	go func(ch <-chan int) {
+		for i := range ch { // iterate on the channel
+			fmt.Println(i) // read a message
+		}
+		wg.Done()
+	}(ch)
+	wg.Wait()
+}
+```
+
+### Closing channels
+To prevent the for range loop to having infinte iterations, you have to close the channel. You can't write data in a closed channel, you can't reopen a closed channel and you can't check if a write only channel is closed without panicing the application (by trying to write in the channel). It is always possible to read data from a closed channel and it is possible to check if a read only channel contains data with *comma ok* syntax.
+
+```go
+var wg = sync.WaitGroup{}
+
+func main() {
+	ch := make(chan int, 50) // create integer channel with buffer size 50
+	wg.Add(2)
+	go func(ch chan<- int) {
+		ch <- 42 // write 1° message
+		ch <- 43 // write 2° message
+		ch <- 44 // write 3° message
+		close(ch)
+		ch <- 45 // panic -> can't write in a closed channel
+		wg.Done()
+	}(ch)
+	go func(ch <-chan int) {
+		// variation on the for range loop
+		for {
+			if i, ok := <-ch; ok { // channel ready (not closed)
+				fmt.Println(i) // read a message
+			} else { // channel closed
+				break
+			}
+		}
+		wg.Done()
+	}(ch)
+	wg.Wait()
+}
+```
+
+### Select statements (if with channels)
+Sometimes goroutines don't have a planned way to shut down or an exit condition (example: for range loop). To prevent deadlock problems it is possible to use a select statement that execute different code depending on what channel contains a message. When no channel contains a message, the select statement blocks the execution of the goroutine, to prevent that you have to add a ``default`` case. When multiple channels gets messages simoultaneously, the behavoiur is undefined.
+
+```go
+var logCh = make(chan int, 50)   // channel for messages to print out
+var doneCh = make(chan struct{}) // channel for terminating trasmissions
+// struct{} is an empty struct with zero allocation size -> no memory usage
+
+func main() {
+	go logger()
+	logCh <- 42
+	logCh <-43
+	// wait, otherwise the doneCh can be served befor the logCh inside select statement and the program finishes before printing all the messages
+	time.Sleep(100 * time.Millisecond)
+	doneCh <- struct{}{} // write empty struct into the terminator channel
+}
+
+// function with infinite loop, it doesn't go to deadlock, because it is forced to terminate when the main finishes its execution
+func logger1() {
+	for i := range logCh {
+		fmt.Println(i)
+	}
+}
+
+// function with select statement 
+func logger() {
+	for {
+		select { // selects the channel that receive a message
+			case i := <-logCh: // message from the log channel
+				fmt.Println(i)
+			case <-doneCh: // message from the termination channel
+				return
+		}
+	}
+}
+```
