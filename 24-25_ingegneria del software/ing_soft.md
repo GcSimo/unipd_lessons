@@ -1,5 +1,4 @@
 # Elementi di ingegneria del software
-
 ## Capitolo 1 - introduzione (scritta da Alessio)
 I costi del software sono la parte dominante di un sistema informatico.
 il software è scritto per essere in evoluzione.
@@ -218,6 +217,8 @@ piattaforma per l'apprendimento
 - rispettare i requisiti
 - lo sviluppatore ha responsabilità sullo sviluppo e ideazione, oltre che eventuali conseguenze sociali e legali
 
+---
+
 ## Capitolo 2 - Software Process
 ### Cos'è un software process
 insieme di attività richieste per sviluppare un software, composto da:
@@ -402,7 +403,8 @@ Svantaggi:
 - potrebbe essere difficile individuare le funzionalità di base
 - le delivery potrebbero non essere incluse nel contratto
 
-## Java e Reflection API
+--- 
+## Capitolo 3: Java e Reflection API
 ### Generics in Java
 ``CodaObject.java``:
 - memorizzo i dati nella coda attraverso oggetti generali object, per cui non c'è nessun controllo su che tipo di dati inserisco
@@ -502,3 +504,107 @@ Strumento per dichiarare un metodo in grado di ricevere un numero indefinito di 
 - evitare di creare un numero sproporzionato di classi, siccome si potrà andare in contro a problemi di incompatibilità che vengono fuori solo in runtime in determinati contesti
 - le modifiche alle classi in fase di runtime non sono permesse (non influenzano)
 - scrivere poco codice e provare a compilare spesso
+
+---
+
+## Capitolo 4 - Requirements engineering
+### Introduzione
+- **requirements engineering:** processo che descrive lo stabilire dei requisiti richiesti dall'utente per un certo sistema e per l'ambiente di esecuzione e applicazione del determinato sistema
+- **system requiremets:** descrizione dei requisiti per un software contenuti nel documento dei requisiti e sviluppati durante il processo di requirement engineering
+
+### Requirements
+#### Definizione:
+  - richiesta che il software deve soddisfare
+  - può essere sia di alto livello, sia di basso livello (es. formula matematica)
+
+#### Ambiguità
+- deve essere abbastanza libero ad interpretazioni per lasciare spazio all'ingegnosità del programmatore
+- deve essere abbastanza preciso per evitare interpretazioni ambigue e confuse quando è la base di un contratto
+
+In genere si effettua una stesura di requisiti più permissivi per lasciare la possibilità a diverse aziende di offrire preventivi diversi in base alle soluzioni trovate al problema. Poi l'azienda effettua una stesura 
+
+#### User requirements
+Requisiti espressi in linguaggio naturale (con l'aggiunta di eventuali grafici), scritti dal committente. Indicano le funzionalità richieste dal sistema ed eventuali relazioni/dipendenze tra i diversi componenti.
+
+#### System requirements
+Descrivono in maniera estremamente dettagliata le richieste che il sistema e i suoi componenti devono soddisfare in maniera non ambigua. Sono contenute in un documento redatto dall'azienda sviluppatrice e spesso è la base del contratto tra committente e sviluppatore.
+
+### System Stakeholders
+Indicano tutte le persone e le organizzazioni che sono interessate e influenzate in qualche modo dal sistema in via di sviluppo. Esempi di stakeholders sono:
+- utenti finali
+- manager del sistema
+- proprietari del sistema
+- stakleholder esterni che interagiscono col sistema
+
+### Requirements e metodi agile
+Per i metodi agile non ha senso scrivere in maniera dettagliata tutti i requisiti di un sistema in quanto cambiano in continuazione. Alla fine dello sviluppo alcuni requisiti possono essre cambiati o non essre più validi. Di solito i metodi agile utilizzano una incremental requirements engineering.
+
+Il metodo agile con la incremental requirements engineering funziona bene per sistemi business, ma diventa problematico in sistemi critici che richiedono test continui durante lo sviluppo.
+
+### Functional requirements
+Insieme dei requisiti che descrivono le funzionalità che un sistema deve avere e cosa deve fare o non fare di fronte a determinate situazioni.
+- dipende dal tipo di software, dal luogo di applicazione finale e da chi lo utilizzerà
+- descritti da un punto di vista ad alto livello di cosa il sistema deve fare
+- devono specificare i servizi che il sistema deve avere
+
+Imprecisioni nei functional requirements danno origine a problemi (es. interpretazioni diverse tra utente e sviluppatore). I functional requirements devono essere:
+- completi: devono descrivere tutte le funzionalità richieste
+- consistenti: non devono avere contraddizioni o conflitti
+
+### Non functional requirements
+Insieme dei requisiti e restrizioni che il sistema deve soddisfare a prescindere dalle funzionalità.
+- sono più critici in quanto se non soddisfatti il sistema potrebbe non essere funzionale
+- in genere sono applicati all'intero sistema e non alle singole funzionalità
+- sono più complessi da definire e sono più difficili da verificare alla fine dello sviluppo
+
+#### Suddivisione di non functional requirements
+- **Product requirements** (come il sistema dovrà comportarsi)
+  - usability requirements (usabilità del sistema, ore di formazione, ...)
+  - efficiency requirements (performance in tempo di esecuzione e spazio richiesto)
+  - dependability requirements
+  - security requirements
+- **Organisational requirements** (come il sistema è organizzato internamente)
+  - environmental requirements (energia, dissipazione, ...)
+  - operational requirements
+  - development requirements (standards, ISO, ...)
+- **External requirements** (richieste esterne per interoperabilità, leggi, norme, ...)
+  - regulatory requirements (regolamenti dell'azienda, tra cliente e azienda)
+  - ethical requirements
+  - legislative requirements (leggi)
+
+#### Esepmi di metriche per specificare i non functional requirements
+Speed: Processed transactions/second, User/event response time, Screen refresh time
+
+|  proprietà  |  grandezza |
+| ----------- | ---------- |
+| Speed       | Processed transactions/second <br> User/event response time <br> Screen refresh time |
+| Size        | Mbytes <br> Number of ROM chips |
+| Ease of use | Training time <br> Number of help frames |
+| Reliability | Mean time to failure <br> Probability of unavailability <br> Rate of failure occurrence <br> Availability |
+| Robustness  | Time to restart after failure <br> Percentage of events causing failure <br> Probability of data corruption on failure <br> Portability Percentage of target dependent statements <br> Number of target systems |
+
+### Fasi della Requirements engineering
+#### 1. Requirements elicitation and analysis:
+Consiste nel capire le richieste del committente, le richieste degli utilizzatori finali, l'ambiente di destinazione.
+- Requirements discovery: ricerca dei requisiti, interviste
+- Requirements classification and organization: definire ordine e classificazione nei requisiti
+- Requirements prioritization and negotiation: definire priorità e negoziare requisiti
+- Requirements specification: prima stesura del documento dei requisiti
+
+Le **interviste** sono usate per la requirements discovery:
+- closed interviews: basate su domande prefissate
+- open interviews: dove l'analisi viene fatta in tempo reale tra committente e sviluppatore
+- be open minded: non partire da preconcetti
+- si possono usare domande trampolino, proposte di requisiti o prototipo sviluppato assieme
+
+L'**etnografia** applicata alla requirements enegineering analizza come le persone organizzano il lavoro in base a fattori etnici e sociali. In questo modo non serve che le persone spieghino come lavorano perché ci sono studiosi che lo fanno al posto loro. Questo torna utile perché i requisiti saranno basati sull'effettivo modo con cui le persone lavorano e non come "ritengono" di lavorare.
+
+Le **storie** e gli **scenari** sono esperienze della vita reale usati come strumenti per affrontare determinate situazioni riconducibili a tali esperienze. Devono includere:
+- decrizione della situazione iniziale
+- descrizione del normale corso degli eventi
+- descrizione di cosa più andare storto
+- descrizione di attività concorrenti
+- descrizione dello stato finale
+
+#### 2. Requirements validation: validazione dei requisiti
+#### 3. Requirements management:
