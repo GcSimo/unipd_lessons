@@ -605,6 +605,117 @@ Le **storie** e gli **scenari** sono esperienze della vita reale usati come stru
 - descrizione di cosa più andare storto
 - descrizione di attività concorrenti
 - descrizione dello stato finale
+#### 2. Requirements secification: stesura dei requisiti
+Processo che prevede la stesura in maniera ordinata, chiara e concisa dei requisiti. Si divide in:
+- user requirements: comprensibili anche a chi non ha nessun background informatico
+- system requirements: molto dettagliati e con termini e linguaggio tecnico specifico
+
+Esempi di linguaggio:
+- natual language: requisiti descritti in frasi numerate in lingua inglese, ogni frase contiene un requisito
+- structured natural language: requisiti descritti sottoforma di form o template
+- design description language: descrizione attraverso uno pseudocodice o linguaggio di programmazione ad alto livello (usato poco e soltato per le interfacce)
+- graphical notations: requisiti espressi attraverso modelli grafici come UML
+- mathematical specifications: requisiti espressi attraverso linguaggio matematico (comprensibile a pochi)
+
+Requirements and design
+- requirements: spiegano cosa deve fare il sistema
+- design: spiega come deve fare ciò per cui è stato pensato
+
+**Natual language**:
+- universale e comprensibile a chiunque (sviluppatori e committente)
+- Consigli:
+  - scegliere un formato standard e uniforme per tutti i requisiti
+  - usare linguaggi non ambigui e termini condivisi tra tutti gli addetti ai lavori
+  - evidenziare parti più importanti
+  - includere spiegazione del perché il requisito è stato inserito
+- Problemi con linguaggio naturale
+  - ambiguo e poco chiaro
+  - per essere specifici si deve aumentare la complessità
+
+**Structured speciications**
+- i requisiti sono scritti in maniera rigida, strutturata e uniforme
+- utili per embedded control system, ma a volte potrebbe sembrare troppo rigido
+- esempio di struttura base (form):
+  - descrione funzione ed entità
+  - descrizione input
+  - descrizione output
+  - eventuali dipendenze
+  - eventuali pre e postcondizioni (es. validità di input -> precondizione, dove viene salvato il risultato -> postcondizione)
+  - eventuali side effects
+
+**Tabular speciications**
+- affiancano il linguaggio naturale per indicare un elenco di possibli azioni
+
+**Use cases**
+- descrivono gli scenari che si possono verificare con eventuali dipendenze, iterazioni tra i diversi componenti e accessibilità degli utilizzatori (azioni concesse e non concesse)
+
+**Software requirements document**
+- raccoglie tutti i requisiti (funzionali e non funzinonali), ma non comprendono il design del progetto
+- può diventare parte del contratto
+- ci sono più utenti diversi che lo leggono per azioni diverse:
+  - system customers: controllano se il progetto soddisfa le richieste
+  - managers: pianificano lo sviluppo e le risorse
+  - system engineers: sviluppano in base ai requisiti
+  - system test engineers: testano il sistema in base ai requisiti
+  - system maintenance engineers: manutenzione e aggiornamento
+- la dimensione del documento dipende dall'approccio usato (waterfall o incremental), dal numero di persone che ci lavorano e dalla dimensione del progetto
+- struttura:
+  - prefazione: destinatari del documento, numero della revisione e storia delle revisioni
+  - introduzione: scopo del progetto, funzioni 
+  - glossario: termini usati che potrebbero essere ambigui (es. acronimi)
+  - user requirements definition: functional and non functional requirements, generalmente in linguaggio naturale con possibile aggiunta di grafici, tabelle e uml
+  - system architecture: architettura e distribuzione delle funzionalità nei vari componenti del modello
+  - system requirements specifications: functional and non functional system specifications, interfacce, relazioni con altri sistemi esterni
+  - system models: modelli di sviluppo
+  - system evolution: direzione verso cui si prevede di farlo evolvere
+  - appendici: codice, dettagli secondari, ...
+  - indice
 
 #### 2. Requirements validation: validazione dei requisiti
-#### 3. Requirements management:
+Controllo che i requisiti soddisfano le richieste dell'utiente. Correggere i requisiti dopo la consegna del progetto costa 100 volte di più di un errore di implementazione.
+
+**Controlli sui requisiti**:
+- validità: soddisfa le richieste dell'utente
+- consistenza: conflitti tra requisiti
+- completezza: tutte le richieste dell'utente sono soddisfatte
+- concretezza: implementabilità con budget dato e tecnologia a disposizione
+- verificabilità: possibilità di verificare se i requisiti sono soddisfatti
+
+**Tecniche di validazione**
+- reviews dei requisiti: analisi manuale dei requisiti per i parametri sopra
+- creazione di prototipi: verifico attraverso la costruzione di prototipi
+- sviluppo tester per testare la verificabilità (testabilità) dei requisiti
+
+**Requirements reviews**
+- controllo regolare sui requisiti (es. problemi con fornitori), può essere formale o informale
+- parametri da valutare:
+  - verificabilità: si può effettivamente testare?
+  - comprensibilità: è comprensibile a chi non fa parte del progetto?
+  - tracciabilità: l'origine del requisiti è chiara?
+  - adattabilità: quanto è flessibile al cambiamento?
+
+#### 3. Requirements change and requirements management:
+Hardware su cui viene installato il sistema, settore di applicazione e dipendenze del sistema cambiano con il tempo, serve mantenere il sistema aggiornato e aggiustare i requisiti.
+
+Il Requirements management indica il processo di gestione dei cambiamenti dei requisiti durante il processo di requirements engineering e lo sviluppo del sistema.
+
+La pianificazione del requirements management serve per stabilire il livello di dettaglio della gestione dei requisiti:
+- identificazione dei requisiti: associare un codice univoco ad ogni requisito
+- change managment process: processo di analisi sull'impatto dei requisiti
+- politica di tracciabilità: correlazione tra i requisiti e il design del sistema
+- strumenti di supporto: strumenti per semplificare il lavoro (spreadsheets,...)
+
+Proceso di requirements change managment
+- analisi del problema e cambiamento delle specifiche
+- analisi dei cambiamenti e del costo
+- implementazione dei cambiamenti
+
+### Riassunto
+- i **software requirements** definiscono cosa dovrebbe fare il sistema e impongono vincoli sul suo design o funzionamento
+- i **functional requirements** descrivono i servizi che il sistema deve fornire o specifiche elaborazioni da eseguire
+- i **non functional requirements** impongono vincoli al sistema o al processo di sviluppo e riguardano spesso le qualità complessive del sistema
+- la **requirements engineering** è un processo iterativo che comprende l’elicitazione, la specifica e la validazione dei requisiti.
+- la **requirements elicitation** include attività come scoperta, classificazione, negoziazione e documentazione, spesso realizzate attraverso tecniche come interviste e user story.
+- la **requirements specification** consiste nel documentare formalmente tutti i requisiti in modo comprensibile sia per i clienti che per gli sviluppatori.
+- la **requirements validation** verifica che i requisiti siano corretti, completi, realistici e verificabili.
+- la **requirements management** si occupa dei cambiamenti dovuti all’evoluzione di fattori aziendali, organizzativi o tecnici.
