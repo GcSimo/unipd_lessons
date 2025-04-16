@@ -1,0 +1,163 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+\usepackage{dirtytalk} % per le ""
+\usepackage{cancel} % per barrare testo
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+
+% per elenchi puntati
+\setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
+
+
+\title{Sistemi Operativi}
+\author{Giacomo Simonetto e Diego Chiesurin}
+\date{Secondo Semestre 2024-25}
+
+\begin{document}generale
+\maketitle
+\begin{abstract}
+	Appunti del corso di Sistemi Operativi della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents                       % Genera l'indice
+
+\newpage
+
+
+
+\section{Introduzione}
+\subsection{Cos'è un sistema operativo}
+\newpage
+\section{Ripasso Hardware}
+\newpage
+\section{Struttura dei Sistemi Operativi}
+\newpage
+\section{Concorrenza}
+\subsection{Processi e Thread}
+\subsubsection*{Processi}
+Un Processo è un'istanza attiva di un programma che comprende tutte le informazioni necessarie per il suo funzionamento, risiede quindi in RAM. \\
+Un processo è costituito da: 
+\begin{itemize}
+	\item Codice eseguibile
+	\item Contesto di esecuzione (Process Control Block - PCB)
+\end{itemize}
+Inoltre un processo si può trovare nei seguenti stati:
+\begin{itemize}
+	\item New: Il processo è stato creato ma non è ancora stato avviato
+	\item Ready: Il processo è pronto per essere eseguito, ma attende che la CPU sia libera
+	\item Running: La CPU sta eseguendo il processo
+	\item Waiting: Il processo è in pausa perché attende una risorsa o un evento
+	\item Terminated: Il processo ha completato l'esecuzione o è stato terminato
+\end{itemize}
+\subsubsection*{Thread}
+Un thread (filo) è l'unità base di esecuzione all'interno della CPU. Ogni processo deve essere quindi suddiviso in uno o più thread per essere eseguito.
+Per gestirne l'esecuzione ogni thread possiede il proprio TCB, simile al PCB ma specifico per i thread. \\
+Condivide con gli altri thread dello stesso processo:
+\begin{itemize}
+	\item Sezione del codice
+	\item Sezione dati
+	\item Risorse allocate al processo originale (file)
+\end{itemize}
+I thread vengono utilizzati nelle architetture multicore perché permettono il parallelismo e la concorrenza.
+\subsubsection*{Process Control Block - PCB}
+Il PCB è una struttura dati contenente tutte le informazioni per il sistema operativo per gestire un processo durante il suo ciclo di vita. Soprattutto per la gestione dei context switch. \\
+Struttura di un PCB in generale:
+\begin{itemize}
+	\item Identificatore (PID)
+	\item Stato del processo
+	\item Contesto della CPU: Registri
+	\item Informazioni sulla memoria:
+	\begin{itemize}
+		\item Base e limite della memoria
+		\item Tabella delle pagine o dei segmenti
+		\item Heap e Stack
+		\item Initialized e uninitialized data segment
+	\end{itemize}
+	\item Informazioni sulle risorse
+	\item Informazioni di scheduling
+	\item Informazioni di comunicazione tra processi
+\end{itemize} 
+\subsubsection*{Multicore}
+Un'architettura multicore è composta da più unità di calcolo all'interno della stessa CPU, che al sistema operativo appaiono come CPU separate.
+Su questi tipi di sistemi è possibile eseguire in parallelo i thread, poiché il sistema può assegnare thread diversi a diverse unità di calcolo.
+\subsection{Concorrenza vs Parallelismo}
+\subsubsection*{Tabella di confronto}
+\begin{center}
+\centering
+\begin{tabularx}{\textwidth}{|X|X|}
+	\hline
+	\textbf{Concorrenza} & \textbf{Parallelismo} \\
+	\hline
+	Atto di eseguire più calcoli nello stesso intervallo di tempo & Atto di eseguire più calcoli simultaneamente \\
+	\hline
+	Task multipli vengono eseguiti negli stessi intervalli di tempo, senza ordine specifico particolare & Task multipli vengono eseguiti contemporaneamente in sistemi multi-CPU o multicore \\
+	\hline
+	L'esecuzione del task sembra contemporanea, ma non lo è & Viene permesso da strutture hardware apposite \\
+	\hline
+	L'effetto è dovuto al time-slicing della CPU, ovvero allo scheduler(context switching) che dedica l'unità di calcolo ai vari task per unità di tempo inifnitesimali & Si ottiene trasformando un flusso di esecuzione sequenziale in uno parallelo \\
+	\hline
+\end{tabularx}
+\end{center}
+\subsubsection*{Tipi di Parallelismo}
+Ci sono due tipi di parallelismo:
+\begin{itemize}
+	\item Data parallelism: la stessa operazione viene eseguita contemporaneamente sui dati, questi vengono suddivisi tra i vari thread in modo che non ci siano conflitti
+	\item Task parallelism: parallelizzare del codice tra thread diversi
+\end{itemize}
+\subsection{Diagramma Temporale}
+\subsubsection*{Tempi di esecuzione}
+\subsubsection*{Grafo di Precedenza}
+\subsubsection*{Sistemi di Processi}
+\subsubsection*{Massimo Grado di Parallelismo}
+\subsubsection*{Interferenza e Determinatezza}
+\subsection{Risorse}
+\subsection{Deadlock}
+\subsubsection*{Definizione di Deadlock}
+\subsubsection*{Definizione di Livelock}
+\subsubsection*{Gestione dei Deadlock}
+\subsubsection*{Ripristino dei Deadlock}
+\subsection{Prevenzione del Deadlock}
+\subsubsection*{Allocazione Globale}
+\subsubsection*{Allocazione Gerarchica}
+\subsubsection*{Algoritmo del Banchiere}
+\subsection{Grafo delle Risorse}
+\subsubsection*{Individuazione dei Deadlock}
+\subsection{Race Condition e Sezioni Critiche}
+\subsection{Semafori}
+\subsubsection*{Semafori Contatore}
+\subsubsection*{Semafori Binari - Lock Mutex}
+\subsubsection*{Semafori Privati}
+\subsubsection*{Busy Waiting}
+\subsubsection*{Deadlock e Starvation}
+\subsection{Monitor}
+\subsubsection*{Problema dei 5 Filosofi}
+\subsubsection*{Allocazione Risorse}
+\subsection{Memory Barrier}
+\newpage
+\section{Scheduling CPU}
+\newpage
+\section{Gestione Memoria Principale}
+\newpage
+\section{Gestione File}
+\newpage
+\section{Affidabilità}
+
+
+
+
+\end{document}
