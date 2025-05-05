@@ -719,3 +719,80 @@ Proceso di requirements change managment
 - la **requirements specification** consiste nel documentare formalmente tutti i requisiti in modo comprensibile sia per i clienti che per gli sviluppatori.
 - la **requirements validation** verifica che i requisiti siano corretti, completi, realistici e verificabili.
 - la **requirements management** si occupa dei cambiamenti dovuti all’evoluzione di fattori aziendali, organizzativi o tecnici.
+
+## Capitolo 5 - Design Patterns
+### Introduzione al design pattern
+Un pattern è una descrizione di un problema standardizzato in un determinato contensto e della sua soluzione ricorrente, identificato con un nome omogeneo e univoco. Prevede il riuso dei principi di successo della soluzione ad un problema per velocizzare lo sviluppo.
+
+### GRASP - General Responsibility Assignment Software Patterns
+Si basa sull'identificazione delle responsabilità reciproche dei vari componenti del sistema.
+
+#### Creator
+- **Problema**: chi crea le istanze di A
+- **Soluzione**: la responsabilità della creazione di A è assegnata a B se almento una delle seguenti confizione è verificata:
+  - B contiene A
+  - B tiene traccia di A
+  - B usa intensamente e intimamente A
+  - B ha i dati per inizializzare A
+- **Vantaggi**: in ogni programma c'è sempre una responsabilità sulla creazione di oggetti (es. collezione di oggetti, registratore, ...)
+- **Svantaggi**: la creazione di oggetti potrebbe essere più complessa
+  - potrebbe essere utile riciclare le istanze per risparmiare risorse
+  - il tipo dell'istanza potrebbe non essere unico, ma scelto all'interno di una famiglia di classi
+
+#### Information Expert
+- **Problema**: come assegnare le responsabilità tra i vari oggetti
+- **Soluzione**: si assegnano le responsabilità dell'istanziamento alla classe che contiene le informazioni necessarie per istanziare l'oggetto
+- **Vantaggi**: facilita l'incapsulamento e favorisce una coesiva e leggera definizione delle classi (le informazioni per istanziare le classi rimangono all'interno della classe delegata all'istanziamento e non vanno sparse per il sistema)
+- **Svantaggi**: potrebbe contraddire il pattern di Low Coupling e High Cohesion, potrebbe indurre alla creazione di una classe megalitica responsabile di creare tutti gli oggetti che risulta complessa da gestire e modificare
+
+#### Low Coupling
+- **Problema**: come ridurre l'impatto di un cambiamento e facilitare il riuso
+- **Soluzione**: assegnare responsabilità in modo da avere pochi collegamenti tra le classi
+- **Vantaggi**: le classi "isolate" sono più facili da comprendere, mantenere e riutilizzare
+- **Svantaggi**: non serve utilizzare low coupling nel caso di componenti stabili che non subiranno cambiamenti nel tempo
+
+#### Controller
+- **Problema**: chi deve essere responsabile della gestione dell'interfaccia utente
+- **Soluzione**: facade pattern (l'utente agisce sul sistema attraverso una serie di funzioni che costituiscono la facciata) o controllore di sessione (l'utente interagisce attraverso scenari che evolgono nel tempo)
+
+#### High Cohesion
+- **Problema**: come creare classi focalizzate e gestibili
+- **Soluzione**: assegnare responsabilità in modo da avere alta coesione tra le classi (delegare le azioni a più oggetti in modo da avere più oggetti gestibili e focalizzati)
+- **Vantaggi**: facilita comprensione, mantenibilità del sistema, in parallelo a Low Coupling
+- **Svantaggi**: delegare compiti su più classi consuma risorse e degrada le prestazioni, alcune volte conviene unire funzionalità "distanti logicamente" sotto un'unica classe se ciò migliora le prestazioni del sistema
+
+
+### GoF - Gang of Four Design Patterns
+Definiti nel libro *Desgin Patterns* e creati da Erich Gamma, Richard Helm Ralph Johnson e John Vlissides (gang of four). Si dividono in:
+- **creational patterns** (5): creazione e inizializzazione di oggetti (come creare un oggetto e non come GRASP che definisce chi deve creare)
+- **structural patterns** (7): disaccoppiare interfaccia e implementazione, composizione statica e dinamica di oggetti (incapsulamento o ereditarietà)
+- **behavioral patterns** (11): definiscono come gli oggetti interagiscono e come distribuiscono le responsabiiltà
+
+### Creational patterns
+#### Abstact
+
+#### Builder
+- **Problema**:
+- **Soluzione**:
+- **Vantaggi**:
+- **Svantaggi**:
+
+#### Factory Method
+- **Descrizione**: data una classe base e le sue classi derivate, la "factory" (classe delegata alla creazione di nuovi oggetti) sceglierà, in base ai parametri passati, quale classe derivata usare per implementare oggetti della classe base (es. quale implementazione usare per istanziare un'interfaccia).
+- **Vantaggi**: il sistema si aspetta che l'oggetto rispetti una determinata interfaccia e delega alla factory la scelta di quale classe derivata utilizzare, in questo modo è possibile modificare le classi derivate e aggiornare solo la factory senza alterare il resto del sistema
+- **Utilizzi**:
+  - quando una classe non conosce a priori che tipi di oggetti creare (es. si lavora con una classe astratta o con un'interfaccia e si delega alla factory quale implementazione utilizzare)
+  - quando una classe usa sottoclassi per svolgere diverse versioni della stessa funzione in base alla situazione
+  - quando si vuole incapsulare la conoscenza del tipo della classe da creare
+
+#### Prototype
+- **Problema**:
+- **Soluzione**:
+- **Vantaggi**:
+- **Svantaggi**:
+
+#### Singleton
+- **Problema**:
+- **Soluzione**:
+- **Vantaggi**:
+- **Svantaggi**:
