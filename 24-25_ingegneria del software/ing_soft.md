@@ -796,3 +796,98 @@ Definiti nel libro *Desgin Patterns* e creati da Erich Gamma, Richard Helm Ralph
 - **Soluzione**:
 - **Vantaggi**:
 - **Svantaggi**:
+
+## Capitolo 8 - Software Testing
+### Introduzione
+La fase di test consiste nel verificare che il sistema soddisfi i requisiti e che non contenga errori o bug, prima che venga eseguita la consegna finale. Il test permette di mostrare eventuali errori, ma non garantisce l'assenza assoluta di errori, in quanto bisognerebbe eseguire il sistema con ogni possibile input.
+
+#### Obiettivi
+- **validation testing**: dimostrare che il sistema soddisfa i requisiti
+- **defect testing**: individuare le situazioni in cui il sistema manifesta comportamenti inattesi (crash, errori di output, ...)
+
+#### Suggerimenti
+- effettuare almeno un test per requisito
+- progettare test semplici in modo da facilitare eventuali debug
+
+#### Veridica e validazione
+- **verifica**: testare che il sistema soddisfa i requisiti e le specifiche
+- **validazione**: testare che il sistema soddisfa le richieste dell'utente
+
+### Software inspection
+- consiste nell'esaminare staticamente il codice sorgente senza eseguirlo
+- essendo un'esame statico, non c'è interazione tra errori, per cui è più facile individuari
+- permette di effettuare una valutazione della qualità del codice (portabilità, leggibilità, completezza)
+- non permette di testare usabilità e performance del sistema
+
+### Software testing - Development testing
+Il development testing si riferisce alle attività di test condotte dal team che sviluppa il sistema. Si divide in unit testing, component testing e system testing.
+
+#### Unit testing
+- consiste nel testare le singole unità di programma (metodi, classi), concentrandosi sulle loro funzionalità
+- in genere gli unit test vengono automatizzati attraverso frameworks come JUnit, specificando 
+- verifica che le unità funzionano se sono usate come previsto e quando sono poste in situazioni inattese
+- 2 tipi di testing:
+  - **partition testing**: suddividere l'input in gruppi che vengono processati allo stesso modo in modo da dover testare solo alcuni casi per ogni gruppo (es. identificare sequenze di numeri e valutare solo all'inizio, nel mezzo e alla fine di ogni sequenza)
+  - **guideline-based testing**: testare le unità per rilevare errori comuni effettuati dal programmatore (es. overflow, underflow, invalid input, ...)
+
+#### Component testing
+- consiste nel testare i vari componenti del sistema, con un focus sulle interfacce dei componenti
+- 4 tipi di interfacce:
+  - parameter interfaces: per passare dati da un metodo ad un altro
+  - shared memory interfaces: per memoria condivisa tra metodi
+  - procedural interfaces: insieme di procedure chiamate da altri metodi
+  - message passing interfaces: per richiedere servizi ad altri sottosistemi
+- 3 tipi di errore:
+  - interface misuse: errore nell'utilizzo di un componente
+  - interface misunderstanding: assunzioni errate sul comportamento di determinati componenti
+  - timing errors: errore nel parallelismo tra componenti
+- suggerimenti:
+  - testare i metodi con parametri limite (massimi e minimi rappresentabili, nullptr, ...)
+  - testare i casi limite che possono provocare errori
+
+#### System testing
+- consiste nel testare il sistema e le interazioni tra i componenti
+- richiede l'assemblaggio dei vari componenti per comporre il sistema, spesso richiede la partecipazione di altri team che non hanno partecipato allo sviluppo del sistema
+- use-case testing: verifico che il sistema funzioni per i casi d'uso documentati
+- test policies: siccome è impossibile testare totalmente un sistema, è bene definire delle priorità su che funzionalità vengono testate
+
+#### Test-driven development - TDD
+- approccio di sviluppo in cui la scrittura del codice e la fase di testing vengono fatte in parallelo, spesso usato in metodi incremental development
+- la scrittura dei test viene fatta prima dello sviluppo della relativa parte del sistema e il superamento del test è elemento essenziale per proseguire lo sviluppo della parte succesiva
+- benefici
+  - code coverage: ogni parte di codice avrà almeno un test associato
+  - regression testing: si verifica che le nuove modifiche non alterino le funzionalità già presenti
+  - simplified debug: se c'è un problema, è facile capire dove si trova il problema
+  - system documentation: i test possono essere visti come una documentazione che mostra come il sistema e i componenti vengono usati
+
+### Software testing - Release testing
+- consiste nel testare una particolare versione del sistema che si intende utilizzare al di fuori del team di sviluppo, lo scopo principale è convincere gli utilizzatori e il committente
+- consiste in un black-box test effettuato da un altro team per
+  - verificare che i requisiti siano soddisfatti
+  - controllare il funzionamento del sistema nell' uso comune
+  - a differenza del system testing, non è orientato a individuare bug
+
+### Software testing - User testing
+Il committente e gli utenti testano il sistema nella sua collocazione d'uso finale. Per effettuare lo user testing, è necessario completare tutti i passaggi precedenti (development e testing).
+
+#### Tipi di testing:
+- alpha testing: utenti collaborano con gli sviluppatori durante lo sviluppo
+- beta testing: viene condivisa una release del sistema in modo che gli utenti possano testarla e riportare eventuali problemi
+- acceptance testing: committenti finali verificano l'accettabilità del sistema in base alle loro aspettative nell'ambiente d'uso finale
+
+#### Agile e accepatance testing
+- il committente fa parte del team di testing ed è responsabile delle decisioni di accettabilità
+- i test di accettabilità sono definiti dal committente (integrati con altri dei programmatori)
+
+### Riassunto
+- il testing può solo rilevare la presenza di errori in un programma, ma non può dimostrare che non ci siano difetti residui
+- il development testing è responsabilità del team di sviluppo software, mentre il release testing è delegato ad un team separato
+- il development testing include
+  - lo unit testing, in cui si testano singoli oggetti e metodi
+  - il component testing, in cui si testano gruppi correlati di oggetti
+  - il system testing, in cui si testano sistemi parziali o completi
+- è importante cercare di "rompere" il software scegliendo i casi particolari che spesso danno problemi
+- quando possibile, è preferibile scrivere test automatizzati, in modo da integrarli in un programma che può essere eseguito ogni volta che viene effettuata una modifica al sistema
+- il test driven development è un approccio in cui i test vengono scritti prima del codice da testare
+- lo scenario testing consiste nell'inventare uno scenario di utilizzo tipico e utilizzarlo per derivare i casi di test
+- l'acceptance test è un processo di testing in cui l'utente e altri programmatori decidono se il software è abbastanza buono da essere distribuito e utilizzato nell’ambiente operativo
