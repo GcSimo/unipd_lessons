@@ -9,6 +9,8 @@
 \usepackage{tabularx} % per tabelle con larghezza flessibile
 \usepackage{booktabs} % per linee orizzontali tabelle
 \usepackage{hyperref} % per collegamenti
+\usepackage{graphicx} % per immagini
+\usepackage{subcaption} % per immagini
 \usepackage{dirtytalk} % per le ""
 \usepackage{circuitikz} % per circuiti elettrici
 \usepackage{cancel} % per barrare testo
@@ -25,10 +27,10 @@
 % espressioni matematiche
 \newcommand\nab{\vec{\nabla}} % nabla
 
-% --- altro che si può eliminare ---
 % percorso delle immagini da inserire
-%\graphicspath{ {./ } }
+\graphicspath{{./}}
 
+% --- altro che si può eliminare ---
 % parte funzione reale e parte immaginaria
 %\newcommand\Real{\text{Re}}
 %\newcommand\Img{\text{Im}}
@@ -998,5 +1000,91 @@ I coefficienti \(\alpha_{hr}, R_{hr}, \beta_{hr}, G_{hr}\) sono detti coefficien
 	R_{eq} &= R_{ab} = \frac{U_{0,ab}}{I_{cc,ab}} = \text{resistenza della rete inerte (con tutti i GIT/GIC spenti)} \\
 	&\qquad\qquad I_{ab} = I_{cc,ab} - \frac{U_{ab}}{R_{eq}} \;\;\rightarrow\;\; \text{equazione del GLC}
 \end{align*}
+
+\newpage
+
+\subsection{Rendimento di un generatore elettrico lineare}
+Sia dato un circuito costituito da un generatore lineare e una resistenza
+\begin{figure}[h]
+	\centering
+	\begin{minipage}{0.25\textwidth}
+		\begin{circuitikz}
+			\draw (0,0) to[V] (0,2) to[R=\(R_i\)] (2,2) to (2.5,2);
+			\draw (2.5,2) to[R=\(R_u\)] (2.5,0) to (0,0);
+			\node [] at (0.7,1) {\(E\)};
+			\node [] at (-0.25,1.6) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.7\textwidth}
+		\begin{align*}
+			\text{potenza dissipata da \(R_u\)} \quad &P_{R_u} = U I = R_u I^2 = R_u \frac{E^2}{(R_u + R_i)^2} \\
+			\text{potenza dissipata da \(R_i\)} \quad &P_{R_i} = U I = R_i I^2 = R_i \frac{E^2}{(R_u + R_i)^2} \\
+			\text{potenza erogata dal GIT} \quad &P_{g} = U I = E I = \frac{E^2}{(R_u + R_i)} \\
+			\text{rendimento} \quad \eta = \frac{P_{R_u}}{P_g} = &\frac{P_g-P_{R_i}}{P_g} = 1-\frac{P_{R_i}}{P_g} = 1-{R_i} \;\frac{I}{E} = \frac{R_u}{R_i + R_u}
+		\end{align*}
+	\end{minipage}
+\end{figure}
+
+Si osserva che:
+\begin{itemize}
+	\item il rendimento è sempre \(\leq 1\)
+	\item in caso di generatore a vuoto \(\eta = 1\), in quanto \(I = 0\)
+	\item in caso di cortocirtuito \(\eta = 0\), in quanto \(E = 0\)
+	\item nel mezzo si ha un andamento lineare \(\eta = 1 - R_i \; I / E\)
+\end{itemize}
+
+\subsubsection*{Rendimento nei circuiti di potenza}
+Nei circuiti di potenza si vogliono rendimenti massimi, ovvero quando \(R_u \gg R_i\).
+
+\subsubsection*{Rendimento nei circuiti di segnale}
+Nei circuiti di segnale si vuole il massimo rapporto segnale/rumore e si analizzano le potenze massime. Analizzando la potenza dissipata
+da \(R_u\) in funzione del carico si osserva che si ha massima potenza dissipata quando \(R_i = R_u\), con un rendimento di \(1/2\).
+\[\frac{\partial P_{R_u}}{\partial R_u} = 0 \;\; \Leftrightarrow \;\; \frac{R_i - R_u}{(R_i + R_u)^3}E^2 = 0 \;\; \Leftrightarrow \;\; R_i = R_u \qquad\quad \eta = \frac{R_u}{R_i + R_u} = 0.5\]
+
+\subsection{Punto di lavoro}
+Si immagina di avere una rete di bipoli di ordine 0 e non necessariamente lineare. Nel seguente caso, si ha un fotodiodo
+convenzionato da utilizzatore e un glt convenzionato da generatore con le rispettive caratteristiche esterne.
+
+\begin{figure}[h]
+	\centering
+	\begin{minipage}{0.3\textwidth}
+		\begin{circuitikz}
+			\draw (0,0) to[V] (2,0) to[R=\(R\)] (4,0) to (4,1.5);
+			\draw (0,0) to (0,1.5) to[pD] (4,1.5);
+			\node [] at (1,0.7) {\(E\)};
+			\node [] at (1.3,1.7) {+};
+			\node [] at (2.7,1.7) {--};
+			\node [] at (0.3,-0.25) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.2\textwidth}
+		\centering
+		\begin{subfigure}[h]{0.8\textwidth}
+			\includegraphics[width=\textwidth]{photodiode.png}
+			\caption*{caratt. esterna fotodiodo}
+		\end{subfigure}
+	\end{minipage}
+	\begin{minipage}{0.2\textwidth}
+		\begin{subfigure}[h]{0.8\textwidth}
+			\includegraphics[width=\textwidth]{glt.png}
+			\caption*{caratt. esterna glt}
+		\end{subfigure}
+	\end{minipage}
+	\begin{minipage}{0.2\textwidth}
+		\begin{subfigure}[h]{0.9\textwidth}
+			\includegraphics[width=\textwidth]{puntodilavoro.png}
+			\caption*{punto di lavoro}
+		\end{subfigure}
+	\end{minipage}
+\end{figure}
+\begin{itemize}
+	\item Il punto di lavoro del circuito è il punto in cui le equazioni di Kirchhoff per le correnti e le tensioni sono
+	soddisfatte e corrisponde al punto di intersezione delle caratteristiche esterne.
+	\item Siccome l'intersezione si trova nel secondo quadrante, significa che l'utilizzatore (il fotodiodo) eroga energia
+	e il generatore la assorbe. L'area evidenziata è la potenza erogata dal fotodiodo.
+	\item In questo caso, le curve caratteristiche si intersecano in un unico punto, per cui la rete ha un'unica soluzione.
+	Se le due curve caratteristiche si intersecano in più punti, non è possibile determinare a priori in quale dei punti
+	la rete andrà a lavorare.
+\end{itemize}
 
 \end{document}
