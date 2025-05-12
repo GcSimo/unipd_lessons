@@ -11,6 +11,7 @@
 \usepackage{hyperref} % per collegamenti
 \usepackage{graphicx} % per immagini
 \usepackage{subcaption} % per immagini
+\usepackage{multicol} % per pagina in colonne
 \usepackage{dirtytalk} % per le ""
 \usepackage{circuitikz} % per circuiti elettrici
 \usepackage{cancel} % per barrare testo
@@ -1085,6 +1086,562 @@ convenzionato da utilizzatore e un glt convenzionato da generatore con le rispet
 	\item In questo caso, le curve caratteristiche si intersecano in un unico punto, per cui la rete ha un'unica soluzione.
 	Se le due curve caratteristiche si intersecano in più punti, non è possibile determinare a priori in quale dei punti
 	la rete andrà a lavorare.
+\end{itemize}
+
+\newpage
+
+\section{Doppi bipoli}
+\subsection{Introduzione ai doppi bipoli}
+\subsubsection*{Doppi bipoli generici}
+I doppi bipoli sono componenti elettrici costituiti da due porte.
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\begin{circuitikz}
+			\draw (0,0) -- (1,0) -- (1,1.5) -- (0,1.5) -- (0,0);
+			\draw (0,0.4) -- (-0.5,0.4);
+			\node [] at (-0.7,0.4) {\(1'\)};
+			\draw (0,1.1) -- (-0.5,1.1);
+			\node [] at (-0.7,1.1) {\(1\)};
+			\draw (1,0.4) -- (1.5,0.4);
+			\node [] at (1.7,0.4) {\(2'\)};
+			\draw (1,1.1) -- (1.5,1.1);
+			\node [] at (1.7,1.1) {\(2\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\(1-1'\) porta primaria, \(I_1 = I_{1'}\) \\[5pt]
+		\(2-2'\) porta secondaria, \(I_2 = I_{2'}\)
+	\end{minipage}
+\end{center}
+\begin{itemize}
+	\item è possibile collegare i doppi bipoli con altri componenti attraverso le due porte
+	\item valgono sempre le LKT, le LKC e le sezioni di taglio
+\end{itemize}
+
+\subsubsection*{Doppi bipoli di ordine zero}
+I doppi bipoli di ordine zero sono doppi bipoli con:
+\begin{itemize}
+	\item 2 porte convenzionate da utilizzatore
+	\item 2 equazioni costitutive di ordine zero, cioè senza derivate
+	\item 4 variabili (\(v_1, v_2, i_1, i_2\)) di cui due sono grandezze libere e due sono grandezze pilotate esprimibili in
+	funzione delle due grandezze libere
+\end{itemize}
+
+\begin{center}
+	\begin{minipage}{0.25\textwidth}
+		\begin{circuitikz}
+			\draw (0,0) -- (1,0) -- (1,1.5) -- (0,1.5) -- (0,0);
+			\draw (0,0.4) -- (-0.5,0.4);
+			\draw (0,1.1) -- (-0.5,1.1);
+			\draw (1,0.4) -- (1.5,0.4);
+			\draw (1,1.1) -- (1.5,1.1);
+			
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (1.9,1.3) {\(i_2\)};
+			\draw[->] (2.2,1.1) -- (1.6,1.1);
+			\node [] at (-0.8,0.7) {\(u_1\)};
+			\node [] at (1.8,0.7) {\(u_2\)};
+		
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (1.4,0.2) {--};
+			\node [] at (1.4,1.3) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.7\textwidth}
+		\[\begin{cases} f_1(v_1, v_2, i_1, i_2) = 0 \\ f_2(v_1, v_2, i_1, i_2) = 0 \end{cases} \Rightarrow \;\;
+		\begin{cases} v_1 = f(i_1, i_2) \\ v_2 = g(i_1,i_2) \end{cases}, \;\;
+		\begin{cases} v_1 = f(v_2, i_2) \\ i_1 = g(v_2,i_2) \end{cases}, \;\; ... \]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Potenza nei doppi bipoli}
+La potenza dei doppi bipoli vale: \(p_{entrante} = p_{e1} + p_{e2} = v_1 i_1 + v_2 i_2\), per un generico circuito vale la
+conservazione delle potenze \(p_{tot} = 0\)
+
+\subsubsection*{Doppi bipoli ideali e inerti}
+\begin{itemize}
+	\item \textbf{doppi bipoli ideali}: se modellabili con un sistema di eq. lineari del tipo \(Y = A \cdot X + B\)
+	\item \textbf{doppi bipoli ideali inerti}: se \(B = 0 \;\; \Rightarrow \;\; Y = A \cdot X\), per cui sono rappresentabili
+	attraverso una delle 6 rappresentazioni in base alle variabili indipendenti e controllate.
+\end{itemize}
+
+\subsection{Rappresentazioni dei doppi bipoli ideali inerti}
+\subsubsection*{Rappresentazione controllata in corrente}
+\[\begin{cases}
+	v_1 = R_{11} i_1 + R_{12} i_2 \\
+	v_2 = R_{21} i_1 + R_{22} i_2
+\end{cases} \quad \Leftrightarrow \quad
+\vec{v} = R \cdot \vec{i} \qquad
+R = \left( \begin{matrix}
+	R_{11} = \frac{v_1}{i_1} \Big|_{i_2=0} = [\Omega] & R_{12} = \frac{v_1}{i_2} \Big|_{i_1=0} = [\Omega] \\[8pt]
+	R_{21} = \frac{v_2}{i_1} \Big|_{i_2=0} = [\Omega] & R_{22} = \frac{v_2}{i_2} \Big|_{i_1=0} = [\Omega]
+\end{matrix} \right)\]
+\begin{itemize}
+	\item con \(R\) matrice di resistenza o matrice a vuoto
+	\item per misurare \(R_{11}\) e \(R_{21}\), impongo la corrente \(i_1\), lascio la porta 2 a vuoto e misuro \(v_1\) e \(v_2\)
+	\item per misurare \(R_{12}\) e \(R_{22}\), impongo la corrente \(i_2\), lascio la porta 1 a vuoto e misuro \(v_1\) e \(v_2\)
+\end{itemize}
+
+\subsubsection*{Rappresentazione controllata in tensione}
+\[\begin{cases}
+	i_1 = G_{11} v_1 + G_{12} v_2 \\
+	i_2 = G_{21} v_1 + G_{22} v_2
+\end{cases} \quad \Leftrightarrow \quad
+\vec{i} = G \cdot \vec{v} \qquad
+G = \left( \begin{matrix}
+	G_{11} = \frac{i_1}{v_1} \Big|_{v_2=0} = [S] & G_{12} = \frac{i_1}{v_2} \Big|_{v_1=0} = [S] \\[8pt]
+	G_{21} = \frac{i_2}{v_1} \Big|_{v_2=0} = [S] & G_{22} = \frac{i_2}{v_2} \Big|_{v_1=0} = [S]
+\end{matrix} \right)\]
+\begin{itemize}
+	\item con \(G\) matrice di conduttanza o matrice di cortocircuito
+	\item per misurare \(G_{11}\) e \(G_{21}\), impongo la tensione \(v_1\), cortocircuito la porta 2 e misuro \(i_1\) e \(i_2\)
+	\item per misurare \(G_{12}\) e \(G_{22}\), impongo la tensione \(v_2\), cortocircuito la porta 1 e misuro \(i_1\) e \(i_2\)
+\end{itemize}
+
+\subsubsection*{Prima rappresentazione ibrida}
+\[\begin{cases}
+	v_1 = h_{11} i_1 + h_{12} v_2 \\
+	i_2 = h_{21} i_1 + h_{22} v_2
+\end{cases} \quad \Leftrightarrow \quad
+\binom{v_1}{i_2} = h \cdot \binom{i_1}{v_2} \qquad
+h = \left( \begin{matrix}
+	h_{11} = \frac{v_1}{i_1} \Big|_{v_2=0} = [\Omega] & h_{12} = \frac{v_1}{v_2} \Big|_{i_1=0} = [/] \\[8pt]
+	h_{21} = \frac{i_2}{i_1} \Big|_{v_2=0} = [/] & h_{22} = \frac{i_2}{v_2} \Big|_{i_1=0} = [S]
+\end{matrix} \right)\]
+\begin{itemize}
+	\item con \(h\) prima matrice ibrida perché composta da grandezze ibride \([R]\) e \([S_{iemens}]\)
+	\item per misurare \(h_{11}\) e \(h_{21}\), impongo la corrente \(i_1\), cortocircuito la porta 2 e misuro \(v_1\) e \(i_2\)
+	\item per misurare \(h_{12}\) e \(h_{22}\), impongo la tensione \(v_2\), lascio la porta 1 a vuoto e misuro \(v_1\) e \(i_2\)
+\end{itemize}
+
+\subsubsection*{Seconda rappresentazione ibrida}
+\[\begin{cases}
+	i_1 = g_{11} v_1 + g_{12} i_2 \\
+	v_2 = g_{21} v_1 + g_{22} i_2
+\end{cases} \quad \Leftrightarrow \quad
+\binom{i_1}{v_2} = h \cdot \binom{v_1}{i_2} \qquad
+g = \left( \begin{matrix}
+	g_{11} = \frac{i_1}{v_1} \Big|_{i_2=0} = [S] & g_{12} = \frac{i_1}{i_2} \Big|_{v_1=0} = [/] \\[8pt]
+	g_{21} = \frac{v_2}{v_1} \Big|_{i_2=0} = [/] & g_{22} = \frac{v_2}{i_2} \Big|_{v_1=0} = [\Omega]
+\end{matrix} \right)\]
+\begin{itemize}
+	\item con \(g\) seconda matrice ibrida perché composta da grandezze ibride \([R]\) e \([S_{iemens}]\)
+	\item per misurare \(g_{11}\) e \(g_{21}\), impongo la tensione \(v_1\), lascio la porta 2 a vuoto e misuro \(i_1\) e \(v_2\)
+	\item per misurare \(g_{12}\) e \(g_{22}\), impongo la corrente \(i_2\), cortocircuito la porta 1 e misuro \(i_1\) e \(v_2\)
+\end{itemize}
+
+\subsubsection*{Prima rappresentazione di trasmissione}
+\[\begin{cases}
+	v_1 = A v_2 - B i_2 \\
+	i_1 = C v_2 - D i_2
+\end{cases} \quad \Leftrightarrow \quad
+\binom{v_1}{i_1} = T \cdot \binom{v_2}{-i_2} \qquad
+T = \left( \begin{matrix}
+	A = \frac{v_1}{v_2} \Big|_{i_2=0} & B = -\frac{v_1}{i_2} \Big|_{v_2=0} \\[8pt]
+	C = \frac{i_1}{v_2} \Big|_{i_2=0} & D = -\frac{i_1}{i_2} \Big|_{v_2=0}
+\end{matrix} \right)\]
+\begin{itemize}
+	\item con \(T\) prima matrice di trasmissione
+	\item siccome si dovrebbe imporre sia \(v_2\) che \(i_2\) contemporaneamente, per determinare \(A, B, C, D\) si misurano
+	i reciproci \(1/A, 1/B, 1/C, 1/D\) imponendo le opportune grandezze alle opportune porte
+\end{itemize}
+
+\subsubsection*{Seconda rappresentazione di trasmissione}
+\[\begin{cases}
+	v_2 = A' v_1 + B' i_1 \\
+	-i_2 = C' v_1 + D' i_1
+\end{cases} \quad \Leftrightarrow \quad
+\binom{v_2}{-i_2} = T' \cdot \binom{v_1}{i_1} \qquad
+T = \left( \begin{matrix}
+	A' = \frac{v_2}{v_1} \Big|_{i_1=0} & B' = \frac{v_2}{i_1} \Big|_{v_1=0} \\[8pt]
+	C' = -\frac{i_2}{v_1} \Big|_{i_1=0} & D' = -\frac{i_2}{i_1} \Big|_{v_1=0}
+\end{matrix} \right)\]
+\begin{itemize}
+	\item con \(T'\) seconda matrice di trasmissione
+	\item siccome si dovrebbe imporre sia \(v_1\) che \(i_1\) contemporaneamente, per determinare \(A', B', C', D'\) si misurano
+	i reciproci \(1/A', 1/B', 1/C', 1/D'\) imponendo le opportune grandezze alle opportune porte
+\end{itemize}
+
+\subsubsection*{Matrici e funzioni di trasferimento}
+\begin{itemize}
+	\item una matrice di trasferimento (che rappresenta una funzione di trasferimento) si può esprimere come rapporto tra causa
+	ed effetto: \(A = \frac{\text{effetto}}{\text{causa}} = \frac{X(s)}{U(s)}\)
+	\item siccome per determinare le matrici \(R, G, h, g\), si imporre una causa per misurarne l'effetto, sono dette matrici di trasferimento
+	\item siccome per determinare le matrici \(T, T'\) non è possibile imporre la causa previsa, allora non sono matrici di trasferimento
+\end{itemize}
+
+\subsubsection*{Cambio di rappresentazioni}
+Per i doppi bipoli ideali inerti per cui valgono tutte le rappresentazioni, allora vale:
+\[R = G^{-1} \qquad\qquad h = g^{-1} \qquad\qquad T = T'^{-1}\]
+
+\subsubsection*{Cambio dei riferimenti nelle rappresentazioni}
+Se cambio i riferimenti ad una porta, è necessario invertire i segni dei parametri mutui \(X_{12}\) e \(X_{21}\) per mantenere
+la stessa rappresentazione. Di seguito un esempio di doppi bipoli in rappresentazione controllata in corrente in cui si invertono
+i riferimenti alla porta 2. 
+
+\begin{center}
+	% --- primo circuito ---
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) -- (1,0) -- (1,1.5) -- (0,1.5) -- (0,0);
+			\draw (0,0.4) -- (-0.5,0.4);
+			\draw (0,1.1) -- (-0.5,1.1);
+			\draw (1,0.4) -- (1.5,0.4);
+			\draw (1,1.1) -- (1.5,1.1);
+			
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (1.9,1.3) {\(i_2\)};
+			\draw[->] (2.2,1.1) -- (1.6,1.1);
+			\node [] at (-0.8,0.7) {\(u_1\)};
+			\node [] at (1.8,0.7) {\(u_2\)};
+		
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (1.4,0.2) {--};
+			\node [] at (1.4,1.3) {+};
+
+			\node [] at (0.2,0.4) {\(1'\)};
+			\node [] at (0.15,1.1) {\(1\)};
+			\node [] at (0.85,0.4) {\(2'\)};
+			\node [] at (0.8,1.1) {\(2\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.1\textwidth}
+		\centering
+		\(\Longrightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\(\begin{cases}
+			v_1 = R_{11} i_1 + R_{12} i_2 \\
+			v_2 = R_{21} i_1 + R_{22} i_2
+		\end{cases}\)
+	\end{minipage}
+
+	% --- vertical space ---
+	\begin{minipage}{\textwidth}
+		\(\big.\)
+	\end{minipage}
+
+	% --- secondo circuito ---
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) -- (1,0) -- (1,1.5) -- (0,1.5) -- (0,0);
+			\draw (0,0.4) -- (-0.5,0.4);
+			\draw (0,1.1) -- (-0.5,1.1);
+			\draw (1,0.4) -- (1.5,0.4);
+			\draw (1,1.1) -- (1.5,1.1);
+			
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (1.9,0.2) {\(i_2\)};
+			\draw[->] (2.2,0.4) -- (1.6,0.4);
+			\node [] at (-0.8,0.7) {\(u_1\)};
+			\node [] at (1.8,0.8) {\(u_2\)};
+		
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (1.4,0.2) {+};
+			\node [] at (1.4,1.3) {--};
+
+			\node [] at (0.2,0.4) {\(1'\)};
+			\node [] at (0.15,1.1) {\(1\)};
+			\node [] at (0.85,0.4) {\(2'\)};
+			\node [] at (0.8,1.1) {\(2\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.1\textwidth}
+		\centering
+		\(\Longrightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\(\begin{cases}
+			v_1 = R_{11}^* i_1 - R_{12}^* i_2 \\
+			v_2 = -R_{21}^* i_1 + R_{22}^* i_2
+		\end{cases} \quad \begin{cases}
+			v_1 = R_{11}^* i_1 + R_{12}^* i_2^* \\
+			v_2^* = R_{21}^* i_1 + R_{22}^* i_2^*
+		\end{cases}\)
+	\end{minipage}
+	
+	% --- vertical space ---
+	\begin{minipage}{\textwidth}
+		\(\big.\)
+	\end{minipage}
+
+	% --- equazioni corrispondenti ---
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		grandezze corrispondenti:
+	\end{minipage}
+	\begin{minipage}{0.15\textwidth}
+		\centering
+		\(\begin{cases} i_2^* = -i_2 \\ v_2^* = -v_2 \end{cases}\)
+	\end{minipage}
+	e
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\(R^* = \left(\begin{matrix} R_{11}^* & R_{12}^* \\ R_{21}^* & R_{22}^* \end{matrix}\right) = \left(\begin{matrix} R_{11} & -R_{12} \\ -R_{21} & R_{22} \end{matrix}\right)\)
+	\end{minipage}
+\end{center}
+
+\subsection{Collegamenti di doppi bipoli}
+\begin{multicols}{2}
+	\subsubsection*{Collegameno in cascata}
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{dbp_cascata.png}
+	\end{center}
+	\[T_{eq}' = T_b' \cdot T_a'\]
+	
+	\subsubsection*{Serie di doppi bipoli}
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{dbp_serie.png}
+	\end{center}
+	\[R_{eq} = R_a + R_b\]
+	
+	\subsubsection*{Parallelo di doppi bipoli}
+	\begin{center}
+		\includegraphics[width=0.9\linewidth]{dbp_parallelo.png}
+	\end{center}
+	\[G_{eq} = G_a + G_b\]
+
+	\columnbreak
+
+	\subsubsection*{Collegamento ibrido serie/parallelo}
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{dbp_serie-parallelo.png}
+	\end{center}
+	\[h_{eq} = h_a + h_b\]
+	
+	\vspace{20pt}
+
+	\subsubsection*{Collegamento ibrido parallelo/serie}
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{dbp_parallelo-serie.png}
+	\end{center}
+	\[g_{eq} = g_a + g_b\]
+	
+	\vspace{30pt}
+	\(\;\) % invisible character
+\end{multicols}
+
+\newpage
+
+\subsection{Trasformatore ideale}
+\subsubsection*{Trasformatore ideale}
+Un trasformatore ideale è un doppio bipolo solitamente in rappresentazione di trasmissione in grado di modificare la tensione
+in ingresso di un certo fattore \(n\) detto rapporto di trasformazione.
+
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{trasformatore.png}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\[\begin{cases}
+			\displaystyle v_1(t) = n \, v_2(t) \\[7pt]
+			\displaystyle i_1(t) = -\frac{1}{n} i_2(t)
+		\end{cases}\]
+	\end{minipage}
+\end{center}
+Siccome non è possibile isolare \(i_1\) e \(i_2\), oppure \(v_1\) e \(v_2\), non è possibile usare le rappresentazioni controllate
+in corrente \(R\) o in tensione \(G\), mentre è possibile usare le altre 4.
+
+\subsubsection*{Trasformatore reale}
+I trasformatori reali sono utilizzabili solo in corrente alternata, servono per trasfomare la tensione o per isolare due parti
+di circuito. I trasformatori ideali sono solo utilizzati per modellare componenti elettrici.
+
+\subsubsection*{Proprietà trasformatori ideali}
+\begin{itemize}
+	\item[1.] trasparente alla potenza: \(p_{e1} + p_{u2} = 0\)
+	\item[2.] passivo: la potenza istantanea entrante è nulla
+	\item[3.] amplifica la tensione [o corrente] in ingresso, riducendone la corrente [o tensione]
+	\item[4.] trasporto: se alla porta 2 è collegato un resistore \(R_2\), dalla porta 1 appare come una resistenza equivalente
+	\(R_{eq} = n^2 R_2\): \(\;\;v_1(t) = n v_2(t) = n (-R_2 i_2(t)) = - n R_2(-n i_1(t)) = n^2 R_2 i_1(t) = R_{eq} i_1(t)\)
+\end{itemize}
+
+\subsection{Generatori pilotati}
+I generatori pilotati sono generatori ideali rappresentati come doppi bipoli ideali. Una porta impone la corrente [o la tensione]
+mentre l'altra controlla la corrente [o la tensione] impressa.
+
+\subsubsection*{Generatore di tensione pilotato in tensione - GTPT}
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) -- (2,0) -- (2,1.5) -- (0,1.5) -- (0,0);
+			\draw (-0.5,0.4) -- (0.5,0.4) (0.5,1.1) -- (-0.5,1.1);
+			\draw (2.5,0.4) -- (1.5,0.4) -- (1.5,1.1) -- (2.5,1.1);
+			\draw (1.5,0.5) -- (1.75,0.75) -- (1.5,1) -- (1.25,0.75) -- (1.5,0.5);
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,0.4) {};
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,1.1) {};
+
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (2.9,1.3) {\(i_2\)};
+			\draw[->] (3.2,1.1) -- (2.6,1.1);
+			\node [] at (-0.5,0.7) {\(v_1\)};
+			\node [] at (2.5,0.7) {\(v_2\)};
+
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (2.4,0.2) {--};
+			\node [] at (2.4,1.3) {+};
+			\node [] at (1.3,1) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.6\textwidth}
+		\[\begin{cases}
+			i_1 = 0 \\
+			v_2 = e_2 = k_\alpha v_1
+		\end{cases} \qquad g = \left(\begin{matrix} 0 & 0 \\ k_\alpha & 0 \end{matrix}\right)\]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Generatore di tensione pilotato in corrente - GTPC}
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) -- (2,0) -- (2,1.5) -- (0,1.5) -- (0,0);
+			\draw (-0.5,0.4) -- (0.5,0.4) -- (0.5,1.1) -- (-0.5,1.1);
+			\draw (2.5,0.4) -- (1.5,0.4) -- (1.5,1.1) -- (2.5,1.1);
+			\draw (1.5,0.5) -- (1.75,0.75) -- (1.5,1) -- (1.25,0.75) -- (1.5,0.5);
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,0.4) {};
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,1.1) {};
+
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (2.9,1.3) {\(i_2\)};
+			\draw[->] (3.2,1.1) -- (2.6,1.1);
+			\node [] at (-0.5,0.7) {\(v_1\)};
+			\node [] at (2.5,0.7) {\(v_2\)};
+
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (2.4,0.2) {--};
+			\node [] at (2.4,1.3) {+};
+			\node [] at (1.3,1) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.6\textwidth}
+		\[\begin{cases}
+			v_1 = 0 \\
+			v_2 = e_2 = k_r i_1
+		\end{cases} \qquad R = \left(\begin{matrix} 0 & 0 \\ k_r & 0 \end{matrix}\right)\]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Generatore di corrente pilotato in tensione - GCPT}
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) -- (2,0) -- (2,1.5) -- (0,1.5) -- (0,0);
+			\draw (-0.5,0.4) -- (0.5,0.4) (0.5,1.1) -- (-0.5,1.1);
+			\draw (2.5,0.4) -- (1.5,0.4) -- (1.5,0.5) (1.5,1) -- (1.5,1.1) -- (2.5,1.1);
+			\draw (1.75,0.75) -- (1.25,0.75);
+			\draw (1.5,0.5) -- (1.75,0.75) -- (1.5,1) -- (1.25,0.75) -- (1.5,0.5);
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,0.4) {};
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,1.1) {};
+
+			\draw[->] (1.2,0.9) -- (1.2,0.5);
+			\node [] at (1.05,0.7) {\(j\)};
+
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (2.9,1.3) {\(i_2\)};
+			\draw[->] (3.2,1.1) -- (2.6,1.1);
+			\node [] at (-0.5,0.7) {\(v_1\)};
+			\node [] at (2.5,0.7) {\(v_2\)};
+
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (2.4,0.2) {--};
+			\node [] at (2.4,1.3) {+};
+			\node [] at (1.3,1) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.6\textwidth}
+		\[\begin{cases}
+			i_1 = 0 \\
+			i_2 = j_2 = k_g v_1
+		\end{cases} \qquad G = \left(\begin{matrix} 0 & 0 \\ k_g & 0 \end{matrix}\right)\]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Generatore di corrente pilotato in corrente - GCPC}
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) -- (2,0) -- (2,1.5) -- (0,1.5) -- (0,0);
+			\draw (-0.5,0.4) -- (0.5,0.4) -- (0.5,1.1) -- (-0.5,1.1);
+			\draw (2.5,0.4) -- (1.5,0.4) -- (1.5,0.5) (1.5,1) -- (1.5,1.1) -- (2.5,1.1);
+			\draw (1.75,0.75) -- (1.25,0.75);
+			\draw (1.5,0.5) -- (1.75,0.75) -- (1.5,1) -- (1.25,0.75) -- (1.5,0.5);
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,0.4) {};
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,1.1) {};
+
+			\draw[->] (1.2,0.9) -- (1.2,0.5);
+			\node [] at (1.05,0.7) {\(j\)};
+
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (2.9,1.3) {\(i_2\)};
+			\draw[->] (3.2,1.1) -- (2.6,1.1);
+			\node [] at (-0.5,0.7) {\(v_1\)};
+			\node [] at (2.5,0.7) {\(v_2\)};
+
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (2.4,0.2) {--};
+			\node [] at (2.4,1.3) {+};
+			\node [] at (1.3,1) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.6\textwidth}
+		\[\begin{cases}
+			v_1 = 0 \\
+			i_2 = j_2 = k_\beta i_1
+		\end{cases} \qquad h = \left(\begin{matrix} 0 & 0 \\ k_\beta & 0 \end{matrix}\right)\]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Osservazioni sui generatori pilotati}
+\begin{itemize}
+	\item Non esistono componenti reali corrispondenti, ma si utilizzano per modellare altri componenti, ad esempio per il transistor
+	NPN come composizione di diodi, resistori e GP.
+	\item Ogni tipo di generatore ha solo una delle quattro rappresentazioni R, G, h, g e tutti hanno la rappresentazione \(T'\).
+\end{itemize}
+
+\subsection{Circuiti lineari in corrente continua con doppi bipoli}
+\subsubsection*{Introduzione e teoremi}
+\begin{itemize}
+	\item in circuito in corrente continua con doppi bipoli si dice lineare se è costitituito solo da GRT, GRC e doppi bipoli lineari
+	inerti di ordine zero
+	\item valgono ancora le LKC e LKT e si può modellare il circuito con il sistema lineare \(Ax = b\)
+	\item valgono i teoremi di sostituzione, sovrapposizione degli effetti, Thévenin e Norton
+	\item vale il principio di conservazione delle potenze
+\end{itemize}
+
+\subsubsection*{Resistenza equivalente di porta}
+Si definisce la resistenza di porta in una sezione di circuito con generatori pilotati come la resistenza misurata quando si applica
+una corrente di 1 \(A_{mpere}\), dopo aver spento tutti i generatori ideali e mantendendo accesi tutti i generatori pilotati.
+
+\subsubsection*{Esercizi con la sovrapposizione degli effetti}
+Quando si applica la sovrapposizione degli effeti in un circuito con generatori pilotati bisogna:
+\begin{itemize}
+	\item[1.] considerare individualmente ogni generatore ideale, spegnendo anche i generatori pilotati, in modo da calcolare la
+	grandezza desiderata e le grandezze che controllano i generatori pilotati
+	\item[2.] alla fine considerare individualmente ogni generatore pilotato utilizzando le grandezze pilotate ottenute prima per
+	calcolare le grandezze richieste
 \end{itemize}
 
 \end{document}
