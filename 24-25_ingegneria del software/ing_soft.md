@@ -891,3 +891,195 @@ Il committente e gli utenti testano il sistema nella sua collocazione d'uso fina
 - il test driven development è un approccio in cui i test vengono scritti prima del codice da testare
 - lo scenario testing consiste nell'inventare uno scenario di utilizzo tipico e utilizzarlo per derivare i casi di test
 - l'acceptance test è un processo di testing in cui l'utente e altri programmatori decidono se il software è abbastanza buono da essere distribuito e utilizzato nell’ambiente operativo
+
+## JUnit
+### Introduzione
+JUnit è un framework in Java che permette di automatizzare i test in un progetto in Java.
+- test case: classi in java che contengono i metodi di test
+- test method: metodo senza argomenti preceduto da ``@Test``
+- fixture: stato iniziale di un test case
+- assertions: controlli per verificare che i risultati ottenuti siano quelli attesi
+- test suite: collezione di test cases
+
+### Fixture
+Metodi che permettono di impostare il sistema per eseguire i test successivi
+- ``@Before public void setUp() { ... }`` metodo che inizializza la classe per i test
+- ``@After public void tearDown() { ... }`` metodo per liberare le risorse utilizzate nel test
+
+### Asserzioni
+Le asserzioni sono controlli che, se risultano falsi, lanciano un'eccezione. JUnit sviluppa una classe di asserzioni ``org.junit.Assert`` con alcuni metodi tipo ``assertEquals()``, ``assertNull()``, ``assertSame()``, ``assertTrue()`` per controlli e un metodo ``fail()`` per bloccare l'eccezione ogni volta che viene raggiunta tale istruzione.
+
+### Testing exceptions
+Sfrutta un'annotazione per dichiarare che il codice dovrebbe lanciare una determinata eccezione. Il test fallisce se l'eccezione non viene lanciata.
+```Java
+@Test (expected=ArithmeticException.class)
+	public void divideByZero() {
+	int n = 2 / 0;
+}
+```
+
+### Ignored tests
+Si possono escludere determinati test aggiungendo ``@Ignore`` nello header del metodo:
+```Java
+@Ignore @Test public void myTest() { ... }
+```
+
+### Timed tests
+È possibile impostare un timer che fa fallire il test se l'esecuzione supera il tempo specificato:
+```Java
+@Test(timeout=500)
+public void retrieveAllElementsInDocument() {
+	doc.query("//*");
+}
+```
+
+### Test Suite
+Insieme di Test Case
+```Java
+@RunWith(Suite.class)
+@Suite.SuiteClasses(value = {
+	CalculatorIntegerTest.class,
+	CalculatorFloatingPointTest.class,
+	CalculatorLogarithmsTest.class })
+public class CalculatorTestSuite {
+	// Can leave empty
+}
+```
+
+### Ordine dei test
+L'ordine di esecuzione dei test di JUnit è indeterminato e non è prestabilito, per cui non è possibile progettare un test la cui condizione iniziale viene impostata in un altro test. È necessario che i test siano indipendenti tra di loro. Se si vuole specificare un ordine particolare di due test, è necessario usare ``@OrderWith()`` o ``@FixMethodOrder()``.
+
+### Altri dettagli e documentazione: [wiki junit4 on github](https://github.com/junit-team/junit4/wiki)
+
+## Agile development - Alberto Silitti
+### Development process:
+**Waterfall process**: suddivido il processo di svilupppo in fasi, per passare alla fase susccessiva devo aver prima terminato completamente la fase precedente che non può più essere ripresa in futuro
+1. Requirements + defining acceptance testing
+2. Analysis + defining ... testing
+3. Design + defining ... testing
+4. Coding + defining ... testing
+5. Testing 
+
+**Agile process**: suddivido il processo di sviluppo in funzionalità e per ogni funzionalità ciclo su tutte le fasi dello sviluppo:
+1. requirements of the functionality
+2. analysis of the functionality
+3. design of the functionality
+4. coding of the functionality
+5. testing of the functionality
+6. riparto dal punto 1 con la funzionalità successiva
+
+**Verification and validation**: ...
+**...**: ...
+**Complexity**: ...
+
+### Constant flow of values
+Ogni funzionalità viene pesata in base a quanto è importante per il cliente, quanto sarà usata dal cliente e quanto costa svilupparla. Per assegnare la priorità delle funzionalità è necessario capire come l'utente utilizzerà tale funzionalità.
+
+### Agile manifesto
+1. Our highest priority is to satisfy the customer through early and continuous delivery of valuable software. --> focalizzarsi sulle funzionalità che l'utente ritiene più importanti e non su quelle complesse da sviluppare
+2. Welcome changing requirements, even late in development. Agile processes harness change for the customer's competitive advantage. --> l'utente cambia spesso idea, per cui è necessario sempre predisporre il cambiamento dei requisiti, non prevedere le possibili nuove funzioalità siccome le previsioni saranno quasi sicuramente sbagliate
+3. Deliver working software frequently, from a couple of weeks to a couple of months, with a preference to the shorter timescale. --> serve un costante feedback dal cliente per raccogliere il prima possibile eventuali richieste di modifica dei requisiti
+4. Business people and developers must work together daily throughout the project. --> collaborare con il cliente è importante
+5. Build projects around motivated individuals. Give them the environment and support they need, and trust them to get the job done. --> servono persone motivate per lo sviluppo agile e un ambiente stimolante
+6. The most efficient and effective method of conveying information to and within a development team is face-to-face conversation. --> importanza nell'attenzione sui mezzi di comunicazione
+7. Working software is the primary measure of progress. --> non servono progress reports, ... il progresso nello sviluppo si basa sul codice funzionante (sulla delivery)
+8. Agile processes promote sustainable development. The sponsors, developers, and users should be able to maintain a constant pace indefinitely. --> serve un progresso a velocità costante sostenibile sia dal punto di vista dello sviluppatore, sia dal punto di vista dei feedback del consumatore
+9. Continuous attention to technical excellence and good design enhances agility. --> qualità e attenzione ai  facilita una migliore 
+10. Simplicity--the art of maximizing the amount of work not done--is essential. --> massimizzare il lavoro non fatto, sviluppando sempre tutte le funzionalità richieste
+11. The best architectures, requirements, and designs emerge from self-organizing teams. --> lasciare che il team si organizzi autonomamente, senza avere un manager che assegna task
+12. At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior accordingly. --> valorizzare eventuali confronti e verifica su come sta andando il processo e quali sono le eventuali migliorie
+
+### Agile Method
+- Extreme Programming - XP: ...
+- DSDM: ...
+- SCRUM: ...
+- FDD: ...
+- Crystal: ...
+- Agile modeling: ...
+- Lean Software Development: ...
+- ...
+Ad oggi si usa una fusione tra SCRUM e XP.
+
+### Extreme programming
+Extreme programming è un tipo di sviluppo agile che consiste nel buttasi subito a 
+1. si definiscono 4 valori fondamentali:
+   1. semplicità
+   2. comunicazione
+   3. feedback
+   4. coraggio (fare cambiamenti senza aver paura di farli, avere una rete di salvataggio)
+2. si sviluppano 3 drivers:
+   1. focus on value (si basa su comunicazione, semplicità, coraggio)
+   2. costant flow of activities (si basa su feedback e coraggio: non aver paura del feedback)
+   3. no defect (consiste nel fare la delivery in ogni momento, si basa su tutti i 4 valori)
+3. si definiscono delle pratiche
+   1. planning game
+   2. short releases
+   3. metaphor
+   4. simple design
+   5. test-driven development
+   6. refactoring
+   7. pair programming
+   8. collective code ownership
+   9. cotinuous integration
+   10. ...
+   11. ...
+   12. ...
+
+#### User stories
+Una  user story è una descrizione di un singolo esempio di iterazione dell'utente con il sistema, contenuto in un A5, composto da titolo, acceptance test, priority, story points (effort nello sviluppo) e descrizione della user story.
+
+Il planning game consiste nell'assegnare lo story point di ogni user story da parte dell'intero team di sviluppo. Lo story point può essere definito in ore di lavoro o in t-shirt size (XS, S, M, L). Se gli story points sono troppo elevati, sarà necessario spezzare tale user story in altre sotto-user stories più piccole.
+
+#### Struttura dello Extreme Programming
+1. si definiscono le user story
+2. si effettua un piano delle release (ogni quanto rilasciare le release) e vengono svolti eventuali spikes
+3. si procede ogni iterazione per aggiungere le nuove funzionalità
+4. si effettuano gli acceptance test definiti dagli user stories alla fine di ogni iterazione
+5. ogni tot iterazioni viene fatta una small release per far testare il sistema all'utente (es. ogni 2 iterazioni di 2 settimane ciascuna)
+
+Gli **spikes** sono attività che vengono svolte durante il planning per testare le architetture, strutture e sistemi nuovi che si prevede vengano utilizzati
+
+#### Ruoli nello Extreme Programming
+- **utente**: definisce le funzionalità, i requisiti, la priorità delle funzionalità, gli acceptance test (materiale per le user stories)
+- **sviluppatori**: analisi, design, test, sviluppo e integrazione del sistema, definisce gli storypoints, lavoro in coppia con una tastiera, condividere il codice tra i vari sviluppatori
+- **manager**: facilitatore che crea l'ambiente favorevole allo sviluppo extreme
+
+#### Metafore
+Per facilitare le collaborazioni e comprensioni tra sviluppatori e utenti, si utilizzano metafore, ovvero concetti paralleli più facili da comprendere per l'utente
+
+#### Cowboy Coding vs Extreme prorgamming
+| | cowboy coding | extreme programming |
+| --- | --- | --- |
+| definizione requisiti | nessuna | prevista con le user story |
+| documentazione | assente | solo lo stretto necessario |
+| proprietà del codice | del singolo,  | del team, tutti possono modificarlo purchè soddisfi gli acceptance test definiti |
+| integrazione | molto difficile, fatta solo alla fine | più leggera, fatta giornalmente |
+| contatti con il cliente | solo alla fine a progetto terminato | cliente partecipa allo sviluppo |
+| refactoring | se funziona, non si tocca | refactoring costante, se si rompe qualcosa si vede subito dai test e il codice viene sempre migliorato |
+| cambiamenti | si cercano di evitare cambiamenti | serve assecondare i cambiamenti |
+
+#### Controllo nel processo (endogeno) e controllo del processo (esogeno)
+Il controllo esogeno prevede di mettere delle regole di utilizzo del sistema, il controllo endogeno effettua la verifica all'interno del sistema. Si cerca di privilegiare il controllo endogeno, ovvero il controllo dello sviluppo processo viene fatto dall'interno attraverso misure (risultati di acceptance tests, feedback sull'evoluzione, copertura dei test, ...)
+
+### SCRUM
+#### Introduzione e ruoli
+Basati su valori e fasi di sviluppo paralleli a XP. Ci sono tre figure:
+- Scrum team: sviluppatori
+- Scrum master: responsabile del progetto
+- Product owner: cliente o intermediario con il cliente
+
+#### Scrum vs XP
+Scrum, a differenza di XP, non pone regole sullo sviluppo software (codifica), per cui oggi si utilizza una fusione tra Scrum e XP
+
+#### Componenti/principi di Scrum:
+- **scrum board**: lavagna/tabella in cui si catalogano le attività in *not started*, *in progeress*, *ready for test*, *done*
+- **review**: riunioni intermedie di veriica sull'andamento dello sviluppo
+- **planning poker**: simile al planning game per assegnare punteggio alle user stories
+- **metrics**: strumenti per valutare la produttività, ad esempio burndown chart
+- **daily scrum**: riunione breve (15 min) di inizio giornata su cosa viene fatto nella giornata
+
+#### Burndown chart
+- si definiscono le ore necessarie per un tot di user stories
+- si prevede, lavorando tot ore al giorno, di terminare entro il giorno x
+- ad ogni giornata si effettua un controllo e si traccia il burndown chart (grafico giornate-ore di lavoro mancanti)
+- se si osserva che la pendendza è minore di quella prevista (si finirà più avanti) si arriverà alla deadline in cui alcune user stories non verranno completate entro la deadline, ma dovranno essere ri-schedulate la volta successiva
