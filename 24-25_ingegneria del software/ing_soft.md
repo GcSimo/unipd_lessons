@@ -769,13 +769,8 @@ Definiti nel libro *Desgin Patterns* e creati da Erich Gamma, Richard Helm Ralph
 - **behavioral patterns** (11): definiscono come gli oggetti interagiscono e come distribuiscono le responsabiiltà
 
 ### Creational patterns
-#### Abstact
-
-#### Builder
-- **Problema**:
-- **Soluzione**:
-- **Vantaggi**:
-- **Svantaggi**:
+#### Abstact ...
+#### Builder ...
 
 #### Factory Method
 - **Descrizione**: data una classe base e le sue classi derivate, la "factory" (classe delegata alla creazione di nuovi oggetti) sceglierà, in base ai parametri passati, quale classe derivata usare per implementare oggetti della classe base (es. quale implementazione usare per istanziare un'interfaccia).
@@ -785,17 +780,20 @@ Definiti nel libro *Desgin Patterns* e creati da Erich Gamma, Richard Helm Ralph
   - quando una classe usa sottoclassi per svolgere diverse versioni della stessa funzione in base alla situazione
   - quando si vuole incapsulare la conoscenza del tipo della classe da creare
 
-#### Prototype
-- **Problema**:
-- **Soluzione**:
-- **Vantaggi**:
-- **Svantaggi**:
+#### Prototype ...
+#### Singleton ...
 
-#### Singleton
-- **Problema**:
-- **Soluzione**:
-- **Vantaggi**:
-- **Svantaggi**:
+### Altri pattern visti nella ultima lezione
+#### Adapter
+- **Descrizione**: permette di interfacciare un modulo (o classe) già implementato da terzi con il proprio sistema, anche se l'interfaccia richiesta dal sistema non coincide con quella implementata nel modulo; va utilizzata solo per motivi di interfaccia, non per aggiungere funzionalità e non deve evolvere in stati (avere variabili interne); è detto anche *wrapper* o *also kwnown as* pattern
+- **Struttura**: il *Client* (sistema) effettua una richiesta all'interfaccia *Target* (interfaccia del sistema), l'*Adapter* (pattern) adatta la richiesta per l'*Adaptee* (interfaccia implementata dal modulo), l'*Adaptee* risponde all'*Adaprter* che adatta la risposta per il *Target*, comprensibile dal *Client*
+- **Implementazioni**
+  - esistono due tipi di implementazioni:
+    - class adapter: classe che estende l'adaptee, rischioso perché non sempre si conoscono le classi genitori
+    - object adapter: classe contiene un'istanza dell'adaptee, più sicuro perché l'accesso viene sempre attraverso l'adapter
+  - in base alla visibilità della interfaccia dell'adaptee, si ha un:
+    - single way adapter: l'interfaccia dell'adaptee è completamente nascosta
+    - two way adapter: viene resa disponibile sia la vecchia interfaccia, che quella nuova
 
 ## Capitolo 8 - Software Testing
 ### Introduzione
