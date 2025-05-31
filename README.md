@@ -5,6 +5,7 @@ File con appunti dei corsi svolti durante la facoltà di Ingnegneria Informatica
 Guide scritte in Markdown sull'utilizzo di alcuni strumenti di programmazione - [link alla cartella _guide_](guide/)
 - [_guida sull'uso di Git e GitHub_](guide/git.md)
 - [_guida sull'uso di CMake_](guide/cmake.md)
+- [_guida sul linguaggio GoLang_](guide/golang.md)
 
 ## Primo semestre 2023-24
 ### Analisi 1
@@ -54,7 +55,7 @@ Appunti del corso di Laboratorio di programmazione scritti in Latex - [link alla
 
 ## Secondo semestre 2024-25
 ### Ingegneria del software
-Appunti del corso di Ingegneria del Software scritti in Markdown - [link alla cartella _inegneria del software_](24-25_ingegneria%20del%20software)
+Appunti del corso di Ingegneria del Software scritti in Markdown - [link alla cartella _ingegneria del software_](24-25_ingegneria%20del%20software)
 * [_appunti lab in MarkDown_](24-25_ingegneria%20del%20software/ing_soft.md)
 
 ### Sistemi operativi
@@ -64,4 +65,6 @@ nessun file appunti
 nessun file appunti
 
 ### Teoria dei circuiti
-nessun file appunti
+Appunti del corso di Laboratorio di programmazione scritti in Latex - [link alla cartella _teoria dei circuiti_](24-25_teoria%20dei%20circuiti)
+* [_appunti circuiti in LaTex_](24-25_teoria%20dei%20circuiti/circuiti.tex)
+* [_appunti circuiti in pdf_](24-25_teoria%20dei%20circuiti/circuiti.pdf)
