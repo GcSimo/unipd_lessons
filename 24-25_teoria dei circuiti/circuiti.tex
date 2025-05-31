@@ -410,7 +410,7 @@ allo stesso nodo sono superfici equipotenziali.
 \begin{itemize}
 	\item \textbf{reti in regime stazionario}: valgono le ipotesi del \textit{mpc}
 	\item \textbf{reti in regime variabile}: in teoria non si potrebbe applicare il \textit{mpc}, ma si definiscono le \dots
-	\item \textbf{reti in regime variabile-quasi-stazionario}: ovvero reti in regime variabile in cui è possibile applicare
+	\item \textbf{reti in regime variabile quasi stazionario}: ovvero reti in regime variabile in cui è possibile applicare
 	il \textit{mpc} se i campi \(\vec{E}\) e \(\vec{J}\) variano lentamente nel tempo e non si hanno propagazioni di onde
 	elettromagnetiche all'esterno dei componenti
 \end{itemize}
@@ -2094,6 +2094,25 @@ Z = \left|\dot{Z}\right| = \frac{U_\text{eff}}{I_\text{eff}} = [\Omega] \qquad \
 	&u(t) = \frac{1}{2}Cu^2(t) \geq 0 \qquad S_\text{apparente} = \left|X_L\right| I^2 \qquad P_\text{attiva} = S \cos\varphi = 0 \qquad Q_\text{reattiva} = S \sin\varphi = X_L I^2
 \end{align*}
 
+\subsubsection*{Condensatore reale (per curiosità personale, non in programma)}
+\begin{center}
+	\begin{minipage}{0.55\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) to[short, *-] (0.5,0) to[L=L] (1.5,0) to[R=\(R_S\)] (4,0) -- (4,0.5) to[R=\(R_C\)] (6,0.5) -- (6,0) to[short, -*] (6.5,0);
+			\draw (4,0) -- (4,-0.75) to[C=C] (6,-0.75) -- (6,0);
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\begin{align*}
+			L \quad &\text{induttanza dei terminali, }  L \to 0 \\
+			R_S \quad &\text{resistenza dei terminali, } R_S \to 0 \\
+			R_C \quad &\text{resistenza dei dielettrici, } R_C \to +\infty \\
+			C \quad &\text{capacità del condensatore}
+		\end{align*}
+	\end{minipage}
+\end{center}
+
 \newpage
 
 \subsection{Leggi di Kirchhoff, serie e paralleli in AC}
@@ -2364,5 +2383,382 @@ influire sulla potenza istantanea del circuito.
 	La potenza attiva ceduta al carico è massima se \(\dot{Z_i} = Z_u^*\), ovvero se il coniugato dell'impedenza di carico è pari
 	all'impedenza interna del generatore (adattamento coniugato).
 \end{minipage}
+
+\newpage
+
+
+\section{Reti in regime variabile}
+\subsection{Regime variabile quasi stazionario}
+Di tutte le possibili reti a regime variabile, si analizzano solo quelle a regime variabile quasi stazionario, in modo da poter
+applicare le proprietà della teoria dei circuiti. Nello specifico verranno analizzati i regimi variabili che si verificano
+all' apertura o alla chiusura di un interruttore che modifica il circuito, ciò provoca un transitorio tra il regime precedente
+e quello nuovo.
+
+\subsubsection*{Deviatore ideale}
+\begin{center}
+	\begin{minipage}{0.17\textwidth}
+		\begin{circuitikz}
+			\draw (1,0) node[spdt] (myspdt) {}
+			(0,0) -- (myspdt.in) 
+			(myspdt.out 1) -- +(0.5,0)
+			(myspdt.out 2) -- +(0.5,0);
+			\node[] at (0.3,0.2) {\(_\text{COM}\)};
+			\node[] at (1.5,0.6) {1};
+			\node[] at (1.5,-0.6) {2};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.75\textwidth}
+		dipolo in grado di commutarsi tra due stati: \\
+		1. cortocircuito tra mors. 1 e comune, circuito aperto tra mors. 2 e comune \\
+		2. cortocircuito tra mors. 1 e comune, circuito aperto tra mors. 2 e comune
+	\end{minipage}
+\end{center}
+
+\subsection{Istante critico e variabili di stato all'istante critico}
+\subsubsection*{Istante critico}
+L'istante critico è l'ultimo istante di tempo in cui vale ancora il regime \say{vecchio} che corrisponde alle condizioni iniziali
+del transitorio variabile. Studiare una rete variabile corrisponde a studiare cosa avviene nell'istante critico e nell'immediato
+futuro.
+
+\subsubsection*{Variabili di stato e continuità}
+All'istante critico alcune grandezze possono ammettere discontinuità, altre sono continue. Le variabili che non ammettono discontinuità
+all'istante critico sono dette variabili di stato.
+
+\begin{itemize}
+	\item interruttore ideale ha discontinuità quando si inverte lo stato \(u(0^-) \neq u(0^+)\)
+	\item generatore ideale ha discontinuità in accensione o spegnimento \(e(0^-) \neq e(0^+), \; j(0^-) \neq j(0^+)\)
+	\item resistenza ideale può presentare discontinuità di correnti e tensioni \(u(0^-) \neq u(0^+), \; i(0^-) \neq i(0^+)\)
+	\item condensatore ideale non ammette discontinuità di tensione \(u(0^-) = u(0^+)\)
+	\item induttore ideale non ammette discontinuità di corrente \(i(0^-) = i(0^+)\)
+\end{itemize}
+
+\subsection{Reti lineari in regime variabile}
+\subsubsection*{Sistema di equazioni di reti lineari in regime variabile}
+Per risolvere una rete lineare a regime variabile:
+\begin{itemize}
+	\item[1.] si scrive il sistema composto da \(2l\) equazioni differenziali ordinarie ottenute dalle LKC, LKT e dalle equazioni
+	costitutive dei singoli bipoli
+	\item[2.] si individuano le variabili di stato \(u_k(t)\) e \(i_k(t)\) e si identificano come uscite \(y(t)\)
+	\item[3.] si individuano le variabili dei generatori \(e(t)\) e \(j(t)\) e si identificano come ingressi \(x(t)\)
+	\item[4.] si risolve il sistema ottenendo una equazione differenziale ordinaria con unica incognita \(y(t)\)
+	\item[5.] si risolve l'EDO ottenuta e di conseguenza si risolve l'intera rete
+\end{itemize}
+
+\subsubsection*{Equazione differenziale ordinaria}
+\[\sum_{i=0}^{p} a_i \frac{d^i y(t)}{dt} = \sum_{i=0}^{q} b_i \frac{d^i x(t)}{dt} \qquad \begin{cases}
+	\sum_{i=0}^{p} a_i \frac{d^i y(t)}{dt} \quad &\text{combinazione delle derivate degli ingressi} \\
+	\sum_{i=0}^{q} b_i \frac{d^i x(t)}{dt} \quad &\text{combinazione delle derivate delle uscite}
+\end{cases}\]
+I coefficienti \(a_i\) e \(b_i\) dipendono dall'uscita considerata, il numero \(p\) \((\geq q)\) determina il grado dell'EDO ed è
+sempre minore del numero di condensatori e induttori presenti nella rete. La soluzione dell'EDO si compone della somma tra la
+soluzione dell'omogenea associata e una soluzione particolare.
+
+\subsubsection*{Soluzione del'omogenea}
+Supponendo che la soluzione dell'omogenea sia di tipo esponenziale \(y_0(t) = Ye^{st}\), si ottiene
+\[\sum_{i=0}^{p} a_i \frac{d^i y(t)}{dt^i} = \sum_{i=0}^{p} a_i Y s^i e^{st} = Ye^{st} \sum_{i=0}^{p} a_i s^i = 0 \quad \Leftrightarrow \quad \sum_{i=0}^{p} a_i s^i = 0\]
+\begin{itemize}
+	\item il polinomio \(\sum_{i=0}^{p} a_i s^i = 0\) è definito equazione algebrica caratteristica del circuito, di grado \(p\)
+	\item le soluzioni \(s = s_1, s_2, ... s_p\) sono esattamente \(p\) e sono chiamate zeri del polinomio
+	\item le soluzioni possono essere reali distinte, reali coincidenti o complesse coniugate e dipendono dai valori R, L, C del circuito
+	\item ciascuno zero \(s_i\) fornisce una soluzione parziale dell'omogenea del tipo \(y_0(t) = Y_i e ^{s_it}\) chiamato modo
+	naturale o modo caratteristico dell'EDO.
+\end{itemize}
+La soluzione completa dell'omogenea è una combinazione lineare di tutti i modi naturali:
+\[y_0(t) = Y_1e^{s_1t} + Y_2e^{s_2t} + \dots + Y_pe^{s_pt}\]
+
+\subsubsection*{Radici reali e modi naturali unidirezionali}
+Ad ogni radice reale \(s_i = \sigma_i\) è associato un modo naturale esponenziale del tipo \(y_0(t) = Y_i e^{\sigma_i t}\)
+\begin{itemize}
+	\item se le soluzioni sono negative o nulle \(\sigma_i \leq 0\), l'evoluzione del sistema converge ad un regime di stabilità (per reti di bipoli passivi si ha sempre stabilità)
+	\item se ci sono due soluzioni coincidenti \(\sigma_{i} = \sigma_{i+1}\), il contributo risultante cumulativo di entrambi sarà della forma \(y_0(t) = Y_i e^{\sigma_i t} + Y_i t e^{\sigma_i t}\)
+\end{itemize}
+
+\subsubsection*{Radici complesse coniugate e modi natali oscillanti}
+Ad ogni coppia di radici complesse coniugate è associato un modo naturale oscillatorio del tipo:
+\begin{align*}
+	y_0(t) &= Y_i e^{(\sigma_i + j\omega_i)t} + Y_{i+1} e^{(\sigma_i - j\omega_i)t} = e^{\sigma_i t} Y_i e^{j\omega_i t} + e^{\sigma_i t} Y_{i+1} e^{-j\omega_i t} \\
+	&= e^{\sigma_i t} Y_i (\cos (\omega_i t) + j\sin(\omega_i t)) + e^{\sigma_i t} Y_{i+1} (\cos (\omega_i t) - j\sin(\omega_i t)) \\
+	&= e^{\sigma_i t} (Y_i + Y_{i+1}) \cos (\omega_i t) + e^{\sigma_i t} j (Y_i - Y_{i+1}) \sin(\omega_i t) \\
+	y_0(t) &= e^{\sigma_i t} A_i \cos (\omega_i t) + e^{\sigma_i t} B_i \sin(\omega_i t)
+\end{align*}
+Se la parte reale è negativa \(\sigma_i < 0\), si ha un moto armonico esponenzialmente smorzato e si converge ad un regime di stabilità.
+
+\subsubsection*{Frequenze naturali e costanti di tempo}
+Si osserva che le radici \(s_i\) esprimono una frequenza associata al modo naturale, per cui si definisce il tempo caratteristico
+associato al modo naturale \(\tau_i = -1/\sigma_i\). In questo modo si ottengono:
+\begin{itemize}
+	\item modi naturali unidirezionali: \(y_0(t) = Y_i e^{-t/\tau_i}\)
+	\item modi naturali oscillanti: \(y_0(t) = e^{-t/\tau_i} (A_i \cos(\omega_i t) + B_i \sin(\omega_i t))\)
+\end{itemize}
+
+\subsubsection*{Soluzione completa dell'EDO}
+La soluzione completa dell'equazione differenziale è data dalla somma di quella dell'omogenea associata e di una soluzione particolare
+\[y(t) = y_0(t) + y_p(t) = Y_1e^{s_1t} + Y_2e^{s_2t} + ... + Y_pe^{s_pt} + y_p(t)\]
+Le costanti di integrazione \(Y_1, \dots Y_p\) si determinano imponendo le condizioni iniziali per l'uscita \(y(t)\) e le sue
+\(p-1\)-esime derivate in \(t = 0\).
+
+\newpage
+
+\subsection{Carica del condensatore in circuito RC}
+\begin{minipage}{0.4\textwidth}
+	\centering
+	\begin{circuitikz}
+		\draw (1,0) node[spdt] (myspdt) {}
+		(0,0) -- (myspdt.in)
+		(myspdt.out 1) to[R=R, i>_=\(i(t)\)] +(2.5,0) to[C=C] +(2.5,-2) -- +(0,-2)
+		(myspdt.out 2) -- +(0,-1.37) -- +(-1.6,-1.37) to[V=\(e(t)\)] (0,0);
+		\node[] at (0.6,0.2) {1};
+		\node[] at (1.4,0.55) {\(_\text{COM}\)};
+		\node[] at (1.4,-0.55) {2};
+	\end{circuitikz}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	\begin{itemize}
+		\item inizialmente lo switch si trova in posizione \(2\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i(t) = 0\), \(u_C(t) = 0\)
+		\end{itemize}
+		\item a \(t=0\) passa in posizione \(1\):
+		\begin{itemize}[topsep=0pt]
+			\item \(u_C(t) = 0\) perché variabile di stato
+		\end{itemize}
+	\end{itemize}
+\end{minipage}
+\vspace{15pt}
+\begin{itemize}[itemsep=0pt]
+	\item[1.] scrivo le equazioni del sistema per \(t \geq 0\)
+	\[\text{LKT:} \;\; u_R(t) + u_C(t) = E \quad\; \text{LKC:} \;\; i_R(t) = i_C(t) = i(t) \quad\; \text{R:} \;\; u_R(t) = Ri_R(t) \quad\; \text{C:} \;\; i_C(t) = C \frac{du_C(t)}{dt}\]
+	\item[2.] ottengo la EDO e l'omogenea associata
+	\[RC\frac{du_C(t)}{dt} + u_C(t) = E \qquad \rightarrow \qquad RC\frac{du_C(t)}{dt} + u_C(t) = 0 \quad\text{omogenea}\]
+	\item[3.] soluzione particolare
+	\[u_p(t) = U_P \text{ con } U_P = E \quad \rightarrow \quad RC\frac{d U_P}{dt} + U_P = E \;\;\rightarrow\;\; U_P = E\]
+	\item[4.] soluzione dell'omogenea
+	\[RC s + 1 = 0 \;\; \rightarrow \;\; s = -\frac{1}{RC}, \quad \tau = RC, \quad u_o(t) = U_0 e^{st} = U_0 e^{-t/\tau}\]
+	\item[5.] soluzione completa e calcolo delle costanti con condizioni iniziali \(u_C(0) = 0\)
+	\[u_C(t) = U_P + U_0 e^{-t/\tau} \;\; \rightarrow\;\; U_P = U_0 = E \;\; \rightarrow \;\; u_C(t) = E(1-e^{-t/\tau}), \quad i(t) = \frac{E}{R} e^{-t/\tau}\]
+\end{itemize}
+
+\subsection{Scarica del condensatore in circuito RC}
+\begin{minipage}{0.4\textwidth}
+	\centering
+	\begin{circuitikz}
+		\draw (1,0) node[spdt] (myspdt) {}
+		(0,0) -- (myspdt.in)
+		(myspdt.out 1) to[R=R, i>_=\(i(t)\)] +(2.5,0) to[C=C] +(2.5,-2) -- +(0,-2)
+		(myspdt.out 2) -- +(0,-1.37) -- +(-1.6,-1.37) to[V=\(e(t)\)] (0,0);
+		\node[] at (0.6,0.2) {1};
+		\node[] at (1.4,0.55) {\(_\text{COM}\)};
+		\node[] at (1.4,-0.55) {2};
+	\end{circuitikz}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	\begin{itemize}
+		\item inizialmente lo switch si trova in posizione \(1\):
+		\begin{itemize}[topsep=0pt]
+			\item \(u_C(t) = E\)
+		\end{itemize}
+		\item a \(t=0\) passa in posizione \(2\):
+		\begin{itemize}[topsep=0pt]
+			\item \(u_C(t) = E\) perché variabile di stato
+		\end{itemize}
+	\end{itemize}
+\end{minipage}
+\vspace{15pt}
+\begin{itemize}[itemsep=0pt]
+	\item[1.] scrivo le equazioni del sistema per \(t \geq 0\)
+	\[\text{LKT:} \;\; u_R(t) + u_C(t) = 0 \quad\; \text{LKC:} \;\; i_R(t) = i_C(t) = i(t) \quad\; \text{R:} \;\; u_R(t) = Ri_R(t) \quad\; \text{C:} \;\; i_C(t) = C \frac{du_C(t)}{dt}\]
+	\item[2.] ottengo la EDO che è già omogenea
+	\[RC\frac{du_C(t)}{dt} + u_C(t) = 0 \quad\text{già omogenea, non serve la soluzione particolare}\]
+	\item[4.] soluzione dell'omogenea
+	\[RC s + 1 = 0 \;\; \rightarrow \;\; s = -\frac{1}{RC}, \quad \tau = RC, \quad u_o(t) = U_0 e^{st} = U_0 e^{-t/\tau}\]
+	\item[5.] soluzione completa e calcolo delle costanti con condizioni iniziali \(u_C(0) = E\)
+	\[u_C(t) = U_0 e^{-t/\tau} \;\; \rightarrow\;\; U_0 = E \;\; \rightarrow \;\; u_C(t) = Ee^{-t/\tau}, \quad i(t) = -\frac{E}{R} e^{-t/\tau}, \quad u_R = -Ee^{-t/\tau}\]
+\end{itemize}
+
+\newpage
+
+\subsection{Carica dell'induttore in circuito RL}
+\begin{minipage}{0.4\textwidth}
+	\centering
+	\begin{circuitikz}
+		\draw (1,0) node[spdt] (myspdt) {}
+		(0,0) -- (myspdt.in)
+		(myspdt.out 1) to[R=R, i>_=\(i(t)\)] +(2.5,0) to[L=L] +(2.5,-2) -- +(0,-2)
+		(myspdt.out 2) -- +(0,-1.37) -- +(-1.6,-1.37) to[V=\(e(t)\)] (0,0);
+		\node[] at (0.6,0.2) {1};
+		\node[] at (1.4,0.55) {\(_\text{COM}\)};
+		\node[] at (1.4,-0.55) {2};
+	\end{circuitikz}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	\begin{itemize}
+		\item inizialmente lo switch si trova in posizione \(2\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i(t) = 0\), \(u_L(t) = 0\)
+		\end{itemize}
+		\item a \(t=0\) passa in posizione \(1\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i_L(t) = 0\) perché variabile di stato
+		\end{itemize}
+	\end{itemize}
+\end{minipage}
+\vspace{15pt}
+\begin{itemize}[itemsep=0pt]
+	\item[1.] scrivo le equazioni del sistema per \(t \geq 0\)
+	\[\text{LKT:} \;\; u_R(t) + u_L(t) = E \quad\; \text{LKC:} \;\; i_R(t) = i_L(t) = i(t) \quad\; \text{R:} \;\; u_R(t) = Ri_R(t) \quad\; \text{L:} \;\; u_L(t) = L \frac{di_L(t)}{dt}\]
+	\item[2.] ottengo la EDO e l'omogenea associata
+	\[L\frac{di_L(t)}{dt} + Ri_L(t) = E \qquad \rightarrow \qquad L\frac{di_L(t)}{dt} + Ri_L(t) = 0 \quad\text{omogenea}\]
+	\item[3.] soluzione particolare
+	\[i_p(t) = I_P \text{ con } i_P = \frac{E}{R} \quad \rightarrow \quad L\frac{dI_P}{dt} + RI_P = E \;\;\rightarrow\;\; I_P = \frac{E}{R}\]
+	\item[4.] soluzione dell'omogenea
+	\[L s + R = 0 \;\; \rightarrow \;\; s = -\frac{R}{L}, \quad \tau = \frac{L}{R}, \quad i_o(t) = I_0 e^{st} = I_0 e^{-t/\tau}\]
+	\item[5.] soluzione completa e calcolo delle costanti con condizioni iniziali \(i_L(0) = 0\)
+	\[i_L(t) = I_P + I_0 e^{-t/\tau} \;\; \rightarrow\;\; I_P = I_0 = \frac{E}{R} \;\; \rightarrow \;\; i_L(t) = \frac{E}{R}(1-e^{-t/\tau}), \quad \begin{array}{l} u_L(t) = E e^{-t/\tau} \\ u_R(t) = E(1-e^{-t/\tau}) \end{array}\]
+\end{itemize}
+
+\subsection{Scarica dell'induttore in circuito RL}
+\begin{minipage}{0.4\textwidth}
+	\centering
+	\begin{circuitikz}
+		\draw (1,0) node[spdt] (myspdt) {}
+		(0,0) -- (myspdt.in)
+		(myspdt.out 1) to[R=R, i>_=\(i(t)\)] +(2.5,0) to[L=L] +(2.5,-2) -- +(0,-2)
+		(myspdt.out 2) -- +(0,-1.37) -- +(-1.6,-1.37) to[V=\(e(t)\)] (0,0);
+		\node[] at (0.6,0.2) {1};
+		\node[] at (1.4,0.55) {\(_\text{COM}\)};
+		\node[] at (1.4,-0.55) {2};
+	\end{circuitikz}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	\begin{itemize}
+		\item inizialmente lo switch si trova in posizione \(1\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i_L(t) = E/R\)
+		\end{itemize}
+		\item a \(t=0\) passa in posizione \(2\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i_L(t) = E/R\) perché variabile di stato
+		\end{itemize}
+	\end{itemize}
+\end{minipage}
+\vspace{15pt}
+\begin{itemize}[itemsep=0pt]
+	\item[1.] scrivo le equazioni del sistema per \(t \geq 0\)
+	\[\text{LKT:} \;\; u_R(t) + u_L(t) = 0 \quad\; \text{LKC:} \;\; i_R(t) = i_L(t) = i(t) \quad\; \text{R:} \;\; u_R(t) = Ri_R(t) \quad\; \text{L:} \;\; u_L(t) = L \frac{di_L(t)}{dt}\]
+	\item[2.] ottengo la EDO che è già omogenea
+	\[L\frac{di_L(t)}{dt} + Ri_L(t) = 0 \quad\text{già omogenea, non serve la soluzione particolare}\]
+	\item[4.] soluzione dell'omogenea
+	\[L s + R = 0 \;\; \rightarrow \;\; s = -\frac{R}{L}, \quad \tau = \frac{L}{R}, \quad i_o(t) = I_0 e^{st} = I_0 e^{-t/\tau}\]
+	\item[5.] soluzione completa e calcolo delle costanti con condizioni iniziali \(i_L(0) = E/R\)
+	\[i_L(t) = I_0 e^{-t/\tau} \;\; \rightarrow\;\; I_0 = \frac{E}{R} \;\; \rightarrow \;\; i_L(t) = \frac{E}{R}e^{-t/\tau}, \quad u_L(t) = - E e^{-t/\tau}, \quad u_R(t) = Ee^{-t/\tau}\]
+\end{itemize}
+
+\newpage
+
+\subsection{Circuito RLC e fattore di smorzamento}
+\begin{minipage}{0.4\textwidth}
+	\centering
+	\begin{circuitikz}
+		\draw (1,0) node[spdt] (myspdt) {}
+		(0,0) -- (myspdt.in)
+		(myspdt.out 1) to[R=R, i>_=\(i(t)\)] +(2.5,0) to[L=L] +(2.5,-2) to[C=C] +(0,-2)
+		(myspdt.out 2) -- +(0,-1.37) -- +(-1.6,-1.37) to[V=\(e(t)\)] (0,0);
+		\node[] at (0.6,0.2) {1};
+		\node[] at (1.4,0.55) {\(_\text{COM}\)};
+		\node[] at (1.4,-0.55) {2};
+	\end{circuitikz}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	\begin{itemize}
+		\item inizialmente lo switch si trova in posizione \(2\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i(t) = 0\), \(u_R(t) = u_L(t) = u_C(t) = 0\)
+		\end{itemize}
+		\item a \(t=0\) passa in posizione \(1\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i_L(t) = 0\) e \(u_C(t) = 0\) perché variabili di stato
+		\end{itemize}
+	\end{itemize}
+\end{minipage}
+\vspace{10pt}
+
+\begin{itemize}[itemsep=0pt]
+	\item[1.] scrivo le equazioni del sistema per \(t \geq 0\)
+	\[\begin{array}{l}
+		\text{LKT:} \;\; u_R(t) + u_L(t) + u_C(t) = E \\[7pt]
+		\text{LKC:} \;\; i_R(t) = i_L(t) = i_C(t) = i(t)
+	\end{array} \qquad u_R(t) = Ri_R(t) \qquad u_L(t) = L \frac{di_L(t)}{dt} \qquad i_C(t) = C \frac{du_C(t)}{dt}\]
+	\item[2.] ottengo le EDO in funzione della corrente e della tensione e le relative omogenee associate
+	\[\begin{array}{l}
+		\displaystyle LC\frac{d^2u_C(t)}{dt^2} + RC\frac{du_C(t)}{dt} + u_C(t) = E \\[10pt]
+		\displaystyle LC\frac{d^2i_L(t)}{dt^2} + RC\frac{di_L(t)}{dt} + i_L(t) = 0
+	\end{array}
+	\quad \rightarrow \quad \begin{array}{l}
+		\displaystyle LC\frac{d^2u_C(t)}{dt^2} + RC\frac{du_C(t)}{dt} + u_C(t) = 0 \\[10pt]
+		\displaystyle LC\frac{d^2i_L(t)}{dt^2} + RC\frac{di_L(t)}{dt} + i_L(t) = 0
+	\end{array}\]
+	\item[3.] si risolve la EDO in funzione delle tensioni, introducendo i parametri \(T\), \(\omega_0\), \(\xi\) e si risolve
+	distinguendo tre casi in base al valore di \(\xi > 1\), \(\xi = 1\), \(\xi < 1\)
+	\[\begin{array}{l}
+		\displaystyle T = \frac{2L}{R} \;\; \text{costante di tempo} \\[10pt]
+		\displaystyle \omega_0 = \frac{1}{\sqrt{LC}} \;\; \text{pulsazione}
+	\end{array} \qquad\qquad \begin{array}{l}
+		\displaystyle \xi = \frac{1}{\omega_0 T} = \frac{R}{2\omega_0 L} = \frac{R}{R_{cr}} \;\; \text{smorzamento} \\[10pt]
+		\displaystyle R_{cr} = 2 \omega_0 L = 2\sqrt{\frac{L}{C}} \;\; \text{resistenza critica}
+	\end{array}\]
+	
+	\item[4.] caso \(\xi > 1\), andamento sovrasmorzato, \(R > R_{cr}\) \\
+	si ha un andamento esponenziale monotono e si definiscono due costanti di tempo \(0 < T_2 < T < T_1\) tali per cui per \(t \to +\infty\)
+	prevale la costante di tempo maggiore \(T_1\):
+	
+	\begin{minipage}{0.5\textwidth}
+		\begin{align*}
+			u_C(t) &= E - \frac{T_1}{T_1 - T_2} E e^{-t/T_1} + \frac{T_2}{T_1 - T_2} E e^{-t/T_2} \\
+			i_L(t) &= \frac{C E}{T_1 - T_2} (e^{-t/T_1} - e^{-t/T_2})
+		\end{align*}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\includegraphics[width=0.6\linewidth]{rlc sovrasmorzato.png}
+	\end{minipage}
+	
+	\item[5.] caso \(\xi = 1\), andamento criticamente smorzato \(R = R_{cr}\) \\
+	si ha un andamento esponenziale monotono con una sola costante di tempo \(T = T_1 = T_2\):
+	
+	\begin{minipage}{0.5\textwidth}
+		\begin{align*}
+			u_C(t) &= E - E e^{-t/T} - E \frac{t}{T} e^{-t/T} \\
+			i_L(t) &= \frac{C E}{T^2}t e^{-t/T}
+		\end{align*}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\includegraphics[width=0.6\linewidth]{rlc criticamente smorzato.png}
+	\end{minipage}
+	
+	\item[6.] caso \(\xi < 1\), andamento sottosmorzato \(R < R_{cr}\) \\
+	si ha un andamento oscillatorio esponenzialmente smorzato con una singola costante di tempo \(T\):
+	
+	\begin{minipage}{0.5\textwidth}
+		\begin{align*}
+			u_C(t) &= E - E e^{-t/T} \cos (\omega t) - \frac{E}{T\omega} e^{-t/T}\sin (\omega t) \\
+			i_L(t) &= \frac{E}{L\omega}t e^{-t/T} \sin (\omega t)
+		\end{align*}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\includegraphics[width=0.6\linewidth]{rlc sottosmorzato.png}
+	\end{minipage}
+\end{itemize}
+
+\subsection{Considerazioni finali su reti a regime variabile che tendono alla stabilità}
+\begin{itemize}
+	\item nelle reti a regime smorzato, il transitorio termina dopo \(\approx 5T\), nel caso in cui si hanno più
+	costanti di tempo, domina quella maggiore
+	\item dopo il transitorio iniziale , la rete tende ad un regime che dipende dai generatori (stazionario, sinusoidale), in
+	assenza di generatori (con smorzamento), il regime è nullo \(u(t) = 0\), \(i(t) = 0\) 
+	\item il contributo dello smorzamento è dato dai componenti resistivi \(R\)
+	\item il contributo delle oscillazioni è dato dai componenti induttivo-capacitivi \(L\) e \(C\)
+\end{itemize}
 
 \end{document}
