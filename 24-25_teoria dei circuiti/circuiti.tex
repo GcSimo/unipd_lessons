@@ -9,9 +9,13 @@
 \usepackage{tabularx} % per tabelle con larghezza flessibile
 \usepackage{booktabs} % per linee orizzontali tabelle
 \usepackage{hyperref} % per collegamenti
+\usepackage{graphicx} % per immagini
+\usepackage{subcaption} % per immagini
+\usepackage{multicol} % per pagina in colonne
 \usepackage{dirtytalk} % per le ""
 \usepackage{circuitikz} % per circuiti elettrici
 \usepackage{cancel} % per barrare testo
+\usepackage{xcolor} % per caratteri bianchi
 
 % per margini
 \geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
@@ -25,13 +29,13 @@
 % espressioni matematiche
 \newcommand\nab{\vec{\nabla}} % nabla
 
-% --- altro che si può eliminare ---
 % percorso delle immagini da inserire
-%\graphicspath{ {./ } }
+\graphicspath{{./}}
 
+% --- altro che si può eliminare ---
 % parte funzione reale e parte immaginaria
-%\newcommand\Real{\text{Re}}
-%\newcommand\Img{\text{Im}}
+\newcommand\Real{\text{Re}}
+\newcommand\Img{\text{Im}}
 
 % versori
 %\newcommand\ux{\vec{u}_x}
@@ -79,7 +83,7 @@
 
 \section{Introduzione alla teoria dei circuiti}
 \subsubsection*{Definizione di circuito}
-Un circuito elettrico è un insieme di dispositivi elettrici interconnessi, deputati alla produzione, trasmissione ed utiizzazione
+Un circuito elettrico è un insieme di dispositivi elettrici interconnessi, deputati alla produzione, trasmissione ed utilizzazione
 dell'energia elettrica.
 
 \subsubsection*{Equazioni di Maxwell}
@@ -220,16 +224,16 @@ sul circuito e se la misura avviene senza ritardi.
 
 \begin{center}
 	\begin{circuitikz}
-		\draw (0,0) -- (0.21,0) ;
+		\draw (0,0) -- (0.21,0);
 		\draw (0.42,0) [circ,thick] circle(0.2);
 		\draw (1,0) [circ, thick] circle(0.38);
 		\draw (1.58,0) [circ, thick] circle(0.2);
-		\draw (1.78,0) -- (2,0) ;
+		\draw (1.78,0) -- (2,0);
 		\draw[->] (0.6,-0.7) -- (1.4,-0.7);
-		\node[] at (1,0) {A} ;
-		\node[] at (0.42,0) {+} ;
-		\node[] at (1.58,-0.02) {--} ;
-		\node[] at (1,-0.9) {i} ;
+		\node[] at (1,0) {A};
+		\node[] at (0.42,0) {+};
+		\node[] at (1.58,-0.02) {--};
+		\node[] at (1,-0.9) {i};
 	\end{circuitikz}
 \end{center}
 
@@ -326,15 +330,15 @@ il regime del circuito.
 
 \begin{center}
 	\begin{circuitikz}
-		\draw (0,0) -- (0.21,0) ;
+		\draw (0,0) -- (0.21,0);
 		\draw (0.42,0) [circ,thick] circle(0.2);
 		\draw (1,0) [circ, thick] circle(0.38);
 		\draw (1.58,0) [circ, thick] circle(0.2);
-		\draw (1.78,0) -- (2,0) ;
-		\node[] at (1,0) {V} ;
-		\node[] at (0.42,0) {+} ;
-		\node[] at (1.58,-0.02) {--} ;
-		\node[] at (1,-0.6) {u} ;
+		\draw (1.78,0) -- (2,0);
+		\node[] at (1,0) {V};
+		\node[] at (0.42,0) {+};
+		\node[] at (1.58,-0.02) {--};
+		\node[] at (1,-0.6) {u};
 	\end{circuitikz}
 \end{center}
 
@@ -406,13 +410,13 @@ allo stesso nodo sono superfici equipotenziali.
 \begin{itemize}
 	\item \textbf{reti in regime stazionario}: valgono le ipotesi del \textit{mpc}
 	\item \textbf{reti in regime variabile}: in teoria non si potrebbe applicare il \textit{mpc}, ma si definiscono le \dots
-	\item \textbf{reti in regime variabile-quasi-stazionario}: ovvero reti in regime variabile in cui è possibile applicare
+	\item \textbf{reti in regime variabile quasi stazionario}: ovvero reti in regime variabile in cui è possibile applicare
 	il \textit{mpc} se i campi \(\vec{E}\) e \(\vec{J}\) variano lentamente nel tempo e non si hanno propagazioni di onde
 	elettromagnetiche all'esterno dei componenti
 \end{itemize}
 
 \begin{description}[itemsep=0pt]
-	\item[Tipologia] tipo dei componenti utilizzati nel circuito (resistivo, capacitativo, RLC, \dots)
+	\item[Tipologia] tipo dei componenti utilizzati nel circuito (resistivo, capacitivo, RLC, \dots)
 	\item[Topologia] tipo di connessioni utilizzate nel circuito (serie, parallelo, \dots)
 \end{description}
 
@@ -441,8 +445,62 @@ Il lavoro è entrante per potenza entrante e viceversa.
 
 \subsubsection*{Wattmetro}
 Il wattmetro è uno strumento per misurare la potenza ed è costituito da un amperometro (in serie) e un voltmetro (in parallelo) combinati.
+
 \begin{center}
-	... disegno ....
+	\begin{minipage}{0.25\textwidth}
+		\begin{circuitikz}[european]
+			\draw (-0.5,0) -- (0.21,0);
+			\draw (0.42,0) [circ,thick] circle(0.2);
+			\draw (1,0.58) [circ,thick] circle(0.2);
+			\draw (1,0) [circ, thick] circle(0.38);
+			\draw (1.58,0) [circ, thick] circle(0.2);
+			\draw (1,-0.58) [circ,thick] circle(0.2);
+			\draw (1.78,0) -- (2.5,0);
+			\draw (0,0) -- (0,1) -- (1,1) -- (1,0.79);
+			\node[] at (1,0) {W};
+			\node[] at (2.5,-1) {U};
+			\node[] at (1,0.58) {+};
+			\node[] at (0.42,0) {+};
+			\node[] at (1.58,-0.02) {--};
+			\node[] at (1,-0.6) {--};
+			\draw (2.5,0) to[R] (2.5,-2) -- (-0.5,-2);
+			\draw (1,-0.79) -- (1,-2);
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.05\textwidth}
+		\(\longrightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.25\textwidth}
+		\begin{circuitikz}[european]
+			\draw (-0.5,0) -- (0.21,0);
+			\draw (0.42,0) [circ,thick] circle(0.2);
+			\draw (1,0) [circ, thick] circle(0.38);
+			\draw (1.58,0) [circ, thick] circle(0.2);
+			\draw (1.78,0) -- (2.5,0);
+			\node[] at (1,0) {A};
+			\node[] at (2.5,-1) {U};
+			\node[] at (0.42,0) {+};
+			\node[] at (1.58,-0.02) {--};
+			\draw (2.5,0) to[R] (2.5,-2) -- (-0.5,-2);
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.05\textwidth}
+		\(+\)
+	\end{minipage}
+	\begin{minipage}{0.25\textwidth}
+		\begin{circuitikz}[european]
+			\draw (1,-0.42) [circ,thick] circle(0.2);
+			\draw (1,-1) [circ, thick] circle(0.38);
+			\draw (1,-1.58) [circ,thick] circle(0.2);
+			\node[] at (1,-1) {V};
+			\node[] at (2.5,-1) {U};
+			\node[] at (1,-0.42) {+};
+			\node[] at (1,-1.6) {--};
+			\draw (-0.5,0) -- (2.5,0) to[R] (2.5,-2) -- (-0.5,-2);
+			\draw (1,0) -- (1,-0.22);
+			\draw (1,-1.78) -- (1,-2);
+		\end{circuitikz}
+	\end{minipage}
 \end{center}
 
 \newpage
@@ -670,7 +728,7 @@ Si definisce quindi la forza elettrica generatrice specifica come forza per unit
 		%\draw [->] (0.7,0) -- (1.3,0);
 		\draw (0,0) to[I] (2,0);
 		\draw[->] (0.6,-0.7) -- (1.4,-0.7);
-		\node[] at (1,-0.9) {J} ;
+		\node[] at (1,-0.9) {J};
 	\end{circuitikz}
 \end{tabularx}
 
@@ -808,7 +866,7 @@ Per determinare la curva caratteristica della serie servono almeno due punti del
 
 \subsubsection*{Parallelo di generatori ideali di tensione}
 Non è possibile creare un parallelo di generatori ideali di tensione con \(E_1 \neq E_2\) in quanto nella maglia ottenuta non
-viene rispettata la \(LKT\). Analogamente non è possible creare un parallelo tra GIT e cortocircuito.
+viene rispettata la \(LKT\). Analogamente non è possibile creare un parallelo tra GIT e cortocircuito.
 
 \subsubsection*{Parallelo di un generatore ideale di corrente e un resistore}
 In una serie tra generatore ideale di tensione e resistore ideale si ha:
@@ -821,7 +879,7 @@ In una serie tra generatore ideale di tensione e resistore ideale si ha:
 \begin{itemize}
 	\item \(i_\text{parallelo} = i_1(t) + i_2(t) + \dots + i_n(t) = (G_1 + G_2 + \dots + G_n) \cdot u_\text{parallelo}(t) = G_\text{eq,parallelo} \cdot u_\text{parallelo}(t)\)
 	\item la conduttanza equivalente del parallelo è la somma delle conduttanze: \(G_\text{eq} = G_1 + G_2 + \dots + G_n\) 
-	\item le correnti si ripartiscono in modo proporzionale alle conduttanzze: \(i_k(t) = G_k / G_\text{eq} \cdot i_\text{parallelo}(t)\)
+	\item le correnti si ripartiscono in modo proporzionale alle conduttanze: \(i_k(t) = G_k / G_\text{eq} \cdot i_\text{parallelo}(t)\)
 \end{itemize}
 
 \subsection{Resistenze e conduttanze equivalenti di porta}
@@ -843,7 +901,7 @@ Un circuito in regime stazionario in corrente continua formato solo da bipoli è
 generatori lineari di tensione (GLT) o generatori lineari di corrente (GLC).
 \subsubsection*{Generatore lineare di tensione - GLT}
 Un generatore lineare di tensione è formato da una serie di generatore ideale di tensione e un resistore, entrambi con
-convensione di utilizzatore.
+convenzione di utilizzatore.
 \begin{center}
 	\begin{circuitikz}
 		\draw (0,0) to[V] (2,0) to[R=\(R\)] (4,0);
@@ -866,7 +924,7 @@ Il sistema ha come equazione costitutiva:
 
 \subsubsection*{Generatore lineare di corrente - GLC}
 Un generatore lineare di corrente è formato da un parallelo di generatore ideale di corrente e un resistore, entrambi con
-convensione di utilizzatore.
+convenzione di utilizzatore.
 
 \begin{center}
 	\begin{circuitikz}
@@ -891,11 +949,11 @@ Il sistema ha come equazione costitutiva:
 \[I_\text{GLC} = I_\text{GIC} + I_\text{res} = J_\text{GIC} + \frac{U_\text{GLC}}{R}\]
 
 \subsubsection*{Sostituzione da GLT a GLC}
-È possibile sostiuire un GLT con un GLC:
+È possibile sostituire un GLT con un GLC:
 \[I_\text{GLC} = I_\text{res} + J_\text{GIC} = \frac{U_\text{GLT}}{R} - \frac{E_\text{GIT}}{R} \qquad\qquad J_\text{GIC} = \frac{E_\text{GIT}}{R}\]
 
 \subsubsection*{Sostituzione da GLC a GLT}
-È possibile sostiuire un GLT con un GLC:
+È possibile sostituire un GLT con un GLC:
 \[U_\text{GLT} = U_\text{res} + E_\text{GIT} = R \cdot I_\text{GLC} - R \cdot J_\text{GIC} \qquad\qquad E_\text{GIT} = R \cdot J_\text{GIC}\]
 
 \newpage
@@ -920,7 +978,7 @@ un'unica soluzione.
 
 \subsection{Metodi di analisi delle reti lineari}
 \subsubsection*{Metodo diretto o di sostituzione}
-Se un bipolo ha una certa tensione \(u_h(t)\) e corrente \(i_h(t)\) data dalla soluzione unica del sistema, è possible sostituire
+Se un bipolo ha una certa tensione \(u_h(t)\) e corrente \(i_h(t)\) data dalla soluzione unica del sistema, è possibile sostituire
 tale bipolo con:
 \begin{itemize}
 	\item un generatore ideale di tensione con \(e_h(t) = u_h(t)\)
@@ -939,7 +997,7 @@ I coefficienti \(\alpha_{hr}, R_{hr}, \beta_{hr}, G_{hr}\) sono detti coefficien
 
 \subsubsection*{Correnti cicliche o di anello}
 \begin{itemize}
-	\item si semplifica il sistema introducendo delle correnti fittizzie dette correnti cicliche di anello, ottenute matematicamente
+	\item si semplifica il sistema introducendo delle correnti fittizie dette correnti cicliche di anello, ottenute matematicamente
 	da un cambio di variabile nelle LKC, il sistema finale avrà soltanto \(m\) equazioni, ovvero una per maglia
 	\item è richiesto avere soltanto generatori ideali di tensione convenzionati da generatore: i GIC/GLC vanno trasformati
 	in GIT/GLC con l'aggiunta delle seguenti condizioni \(E_h = U_h, \quad J_h = I_{Ar} - I_{As}\)
@@ -998,5 +1056,1709 @@ I coefficienti \(\alpha_{hr}, R_{hr}, \beta_{hr}, G_{hr}\) sono detti coefficien
 	R_{eq} &= R_{ab} = \frac{U_{0,ab}}{I_{cc,ab}} = \text{resistenza della rete inerte (con tutti i GIT/GIC spenti)} \\
 	&\qquad\qquad I_{ab} = I_{cc,ab} - \frac{U_{ab}}{R_{eq}} \;\;\rightarrow\;\; \text{equazione del GLC}
 \end{align*}
+
+\newpage
+
+\subsection{Rendimento di un generatore elettrico lineare}
+Sia dato un circuito costituito da un generatore lineare e una resistenza
+\begin{figure}[h]
+	\centering
+	\begin{minipage}{0.25\textwidth}
+		\begin{circuitikz}
+			\draw (0,0) to[V] (0,2) to[R=\(R_i\)] (2,2) to (2.5,2);
+			\draw (2.5,2) to[R=\(R_u\)] (2.5,0) to (0,0);
+			\node [] at (0.7,1) {\(E\)};
+			\node [] at (-0.25,1.6) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.7\textwidth}
+		\begin{align*}
+			\text{potenza dissipata da \(R_u\)} \quad &P_{R_u} = U I = R_u I^2 = R_u \frac{E^2}{(R_u + R_i)^2} \\
+			\text{potenza dissipata da \(R_i\)} \quad &P_{R_i} = U I = R_i I^2 = R_i \frac{E^2}{(R_u + R_i)^2} \\
+			\text{potenza erogata dal GIT} \quad &P_{g} = U I = E I = \frac{E^2}{(R_u + R_i)} \\
+			\text{rendimento} \quad \eta = \frac{P_{R_u}}{P_g} = &\frac{P_g-P_{R_i}}{P_g} = 1-\frac{P_{R_i}}{P_g} = 1-{R_i} \;\frac{I}{E} = \frac{R_u}{R_i + R_u}
+		\end{align*}
+	\end{minipage}
+\end{figure}
+
+Si osserva che:
+\begin{itemize}
+	\item il rendimento è sempre \(\leq 1\)
+	\item in caso di generatore a vuoto \(\eta = 1\), in quanto \(I = 0\)
+	\item in caso di cortocircuito \(\eta = 0\), in quanto \(E = 0\)
+	\item nel mezzo si ha un andamento lineare \(\eta = 1 - R_i \; I / E\)
+\end{itemize}
+
+\subsubsection*{Rendimento nei circuiti di potenza}
+Nei circuiti di potenza si vogliono rendimenti massimi, ovvero quando \(R_u \gg R_i\).
+
+\subsubsection*{Rendimento nei circuiti di segnale}
+Nei circuiti di segnale si vuole il massimo rapporto segnale/rumore e si analizzano le potenze massime. Analizzando la potenza dissipata
+da \(R_u\) in funzione del carico si osserva che si ha massima potenza dissipata quando \(R_i = R_u\), con un rendimento di \(1/2\).
+\[\frac{\partial P_{R_u}}{\partial R_u} = 0 \;\; \Leftrightarrow \;\; \frac{R_i - R_u}{(R_i + R_u)^3}E^2 = 0 \;\; \Leftrightarrow \;\; R_i = R_u \qquad\quad \eta = \frac{R_u}{R_i + R_u} = 0.5\]
+
+\subsection{Punto di lavoro}
+Si immagina di avere una rete di bipoli di ordine 0 e non necessariamente lineare. Nel seguente caso, si ha un fotodiodo
+convenzionato da utilizzatore e un glt convenzionato da generatore con le rispettive caratteristiche esterne.
+
+\begin{figure}[h]
+	\centering
+	\begin{minipage}{0.3\textwidth}
+		\begin{circuitikz}
+			\draw (0,0) to[V] (2,0) to[R=\(R\)] (4,0) to (4,1.5);
+			\draw (0,0) to (0,1.5) to[pD] (4,1.5);
+			\node [] at (1,0.7) {\(E\)};
+			\node [] at (1.3,1.7) {+};
+			\node [] at (2.7,1.7) {--};
+			\node [] at (0.3,-0.25) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.2\textwidth}
+		\centering
+		\begin{subfigure}[h]{0.8\textwidth}
+			\includegraphics[width=\textwidth]{photodiode.png}
+			\caption*{caratt. esterna fotodiodo}
+		\end{subfigure}
+	\end{minipage}
+	\begin{minipage}{0.2\textwidth}
+		\begin{subfigure}[h]{0.8\textwidth}
+			\includegraphics[width=\textwidth]{glt.png}
+			\caption*{caratt. esterna glt}
+		\end{subfigure}
+	\end{minipage}
+	\begin{minipage}{0.2\textwidth}
+		\begin{subfigure}[h]{0.9\textwidth}
+			\includegraphics[width=\textwidth]{puntodilavoro.png}
+			\caption*{punto di lavoro}
+		\end{subfigure}
+	\end{minipage}
+\end{figure}
+\begin{itemize}
+	\item Il punto di lavoro del circuito è il punto in cui le equazioni di Kirchhoff per le correnti e le tensioni sono
+	soddisfatte e corrisponde al punto di intersezione delle caratteristiche esterne.
+	\item Siccome l'intersezione si trova nel secondo quadrante, significa che l'utilizzatore (il fotodiodo) eroga energia
+	e il generatore la assorbe. L'area evidenziata è la potenza erogata dal fotodiodo.
+	\item In questo caso, le curve caratteristiche si intersecano in un unico punto, per cui la rete ha un'unica soluzione.
+	Se le due curve caratteristiche si intersecano in più punti, non è possibile determinare a priori in quale dei punti
+	la rete andrà a lavorare.
+\end{itemize}
+
+\newpage
+
+\section{Doppi bipoli}
+\subsection{Introduzione ai doppi bipoli}
+\subsubsection*{Doppi bipoli generici}
+I doppi bipoli sono componenti elettrici costituiti da due porte.
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\begin{circuitikz}
+			\draw (0,0) -- (1,0) -- (1,1.5) -- (0,1.5) -- (0,0);
+			\draw (0,0.4) -- (-0.5,0.4);
+			\node [] at (-0.7,0.4) {\(1'\)};
+			\draw (0,1.1) -- (-0.5,1.1);
+			\node [] at (-0.7,1.1) {\(1\)};
+			\draw (1,0.4) -- (1.5,0.4);
+			\node [] at (1.7,0.4) {\(2'\)};
+			\draw (1,1.1) -- (1.5,1.1);
+			\node [] at (1.7,1.1) {\(2\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\(1-1'\) porta primaria, \(I_1 = I_{1'}\) \\[5pt]
+		\(2-2'\) porta secondaria, \(I_2 = I_{2'}\)
+	\end{minipage}
+\end{center}
+\begin{itemize}
+	\item è possibile collegare i doppi bipoli con altri componenti attraverso le due porte
+	\item valgono sempre le LKT, le LKC e le sezioni di taglio
+\end{itemize}
+
+\subsubsection*{Doppi bipoli di ordine zero}
+I doppi bipoli di ordine zero sono doppi bipoli con:
+\begin{itemize}
+	\item 2 porte convenzionate da utilizzatore
+	\item 2 equazioni costitutive di ordine zero, cioè senza derivate
+	\item 4 variabili (\(v_1, v_2, i_1, i_2\)) di cui due sono grandezze libere e due sono grandezze pilotate esprimibili in
+	funzione delle due grandezze libere
+\end{itemize}
+
+\begin{center}
+	\begin{minipage}{0.25\textwidth}
+		\begin{circuitikz}
+			\draw (0,0) -- (1,0) -- (1,1.5) -- (0,1.5) -- (0,0);
+			\draw (0,0.4) -- (-0.5,0.4);
+			\draw (0,1.1) -- (-0.5,1.1);
+			\draw (1,0.4) -- (1.5,0.4);
+			\draw (1,1.1) -- (1.5,1.1);
+			
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (1.9,1.3) {\(i_2\)};
+			\draw[->] (2.2,1.1) -- (1.6,1.1);
+			\node [] at (-0.8,0.7) {\(u_1\)};
+			\node [] at (1.8,0.7) {\(u_2\)};
+		
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (1.4,0.2) {--};
+			\node [] at (1.4,1.3) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.7\textwidth}
+		\[\begin{cases} f_1(v_1, v_2, i_1, i_2) = 0 \\ f_2(v_1, v_2, i_1, i_2) = 0 \end{cases} \Rightarrow \;\;
+		\begin{cases} v_1 = f(i_1, i_2) \\ v_2 = g(i_1,i_2) \end{cases}, \;\;
+		\begin{cases} v_1 = f(v_2, i_2) \\ i_1 = g(v_2,i_2) \end{cases}, \;\; ... \]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Potenza nei doppi bipoli}
+La potenza dei doppi bipoli vale: \(p_{entrante} = p_{e1} + p_{e2} = v_1 i_1 + v_2 i_2\), per un generico circuito vale la
+conservazione delle potenze \(p_{tot} = 0\)
+
+\subsubsection*{Doppi bipoli ideali e inerti}
+\begin{itemize}
+	\item \textbf{doppi bipoli ideali}: se modellabili con un sistema di eq. lineari del tipo \(Y = A \cdot X + B\)
+	\item \textbf{doppi bipoli ideali inerti}: se \(B = 0 \;\; \Rightarrow \;\; Y = A \cdot X\), per cui sono rappresentabili
+	attraverso una delle 6 rappresentazioni in base alle variabili indipendenti e controllate.
+\end{itemize}
+
+\subsection{Rappresentazioni dei doppi bipoli ideali inerti}
+\subsubsection*{Rappresentazione controllata in corrente}
+\[\begin{cases}
+	v_1 = R_{11} i_1 + R_{12} i_2 \\
+	v_2 = R_{21} i_1 + R_{22} i_2
+\end{cases} \quad \Leftrightarrow \quad
+\vec{v} = R \cdot \vec{i} \qquad
+R = \left( \begin{matrix}
+	R_{11} = \frac{v_1}{i_1} \Big|_{i_2=0} = [\Omega] & R_{12} = \frac{v_1}{i_2} \Big|_{i_1=0} = [\Omega] \\[8pt]
+	R_{21} = \frac{v_2}{i_1} \Big|_{i_2=0} = [\Omega] & R_{22} = \frac{v_2}{i_2} \Big|_{i_1=0} = [\Omega]
+\end{matrix} \right)\]
+\begin{itemize}
+	\item con \(R\) matrice di resistenza o matrice a vuoto
+	\item per misurare \(R_{11}\) e \(R_{21}\), impongo la corrente \(i_1\), lascio la porta 2 a vuoto e misuro \(v_1\) e \(v_2\)
+	\item per misurare \(R_{12}\) e \(R_{22}\), impongo la corrente \(i_2\), lascio la porta 1 a vuoto e misuro \(v_1\) e \(v_2\)
+\end{itemize}
+
+\subsubsection*{Rappresentazione controllata in tensione}
+\[\begin{cases}
+	i_1 = G_{11} v_1 + G_{12} v_2 \\
+	i_2 = G_{21} v_1 + G_{22} v_2
+\end{cases} \quad \Leftrightarrow \quad
+\vec{i} = G \cdot \vec{v} \qquad
+G = \left( \begin{matrix}
+	G_{11} = \frac{i_1}{v_1} \Big|_{v_2=0} = [S] & G_{12} = \frac{i_1}{v_2} \Big|_{v_1=0} = [S] \\[8pt]
+	G_{21} = \frac{i_2}{v_1} \Big|_{v_2=0} = [S] & G_{22} = \frac{i_2}{v_2} \Big|_{v_1=0} = [S]
+\end{matrix} \right)\]
+\begin{itemize}
+	\item con \(G\) matrice di conduttanza o matrice di cortocircuito
+	\item per misurare \(G_{11}\) e \(G_{21}\), impongo la tensione \(v_1\), cortocircuito la porta 2 e misuro \(i_1\) e \(i_2\)
+	\item per misurare \(G_{12}\) e \(G_{22}\), impongo la tensione \(v_2\), cortocircuito la porta 1 e misuro \(i_1\) e \(i_2\)
+\end{itemize}
+
+\subsubsection*{Prima rappresentazione ibrida}
+\[\begin{cases}
+	v_1 = h_{11} i_1 + h_{12} v_2 \\
+	i_2 = h_{21} i_1 + h_{22} v_2
+\end{cases} \quad \Leftrightarrow \quad
+\binom{v_1}{i_2} = h \cdot \binom{i_1}{v_2} \qquad
+h = \left( \begin{matrix}
+	h_{11} = \frac{v_1}{i_1} \Big|_{v_2=0} = [\Omega] & h_{12} = \frac{v_1}{v_2} \Big|_{i_1=0} = [/] \\[8pt]
+	h_{21} = \frac{i_2}{i_1} \Big|_{v_2=0} = [/] & h_{22} = \frac{i_2}{v_2} \Big|_{i_1=0} = [S]
+\end{matrix} \right)\]
+\begin{itemize}
+	\item con \(h\) prima matrice ibrida perché composta da grandezze ibride \([R]\) e \([S_{iemens}]\)
+	\item per misurare \(h_{11}\) e \(h_{21}\), impongo la corrente \(i_1\), cortocircuito la porta 2 e misuro \(v_1\) e \(i_2\)
+	\item per misurare \(h_{12}\) e \(h_{22}\), impongo la tensione \(v_2\), lascio la porta 1 a vuoto e misuro \(v_1\) e \(i_2\)
+\end{itemize}
+
+\subsubsection*{Seconda rappresentazione ibrida}
+\[\begin{cases}
+	i_1 = g_{11} v_1 + g_{12} i_2 \\
+	v_2 = g_{21} v_1 + g_{22} i_2
+\end{cases} \quad \Leftrightarrow \quad
+\binom{i_1}{v_2} = h \cdot \binom{v_1}{i_2} \qquad
+g = \left( \begin{matrix}
+	g_{11} = \frac{i_1}{v_1} \Big|_{i_2=0} = [S] & g_{12} = \frac{i_1}{i_2} \Big|_{v_1=0} = [/] \\[8pt]
+	g_{21} = \frac{v_2}{v_1} \Big|_{i_2=0} = [/] & g_{22} = \frac{v_2}{i_2} \Big|_{v_1=0} = [\Omega]
+\end{matrix} \right)\]
+\begin{itemize}
+	\item con \(g\) seconda matrice ibrida perché composta da grandezze ibride \([R]\) e \([S_{iemens}]\)
+	\item per misurare \(g_{11}\) e \(g_{21}\), impongo la tensione \(v_1\), lascio la porta 2 a vuoto e misuro \(i_1\) e \(v_2\)
+	\item per misurare \(g_{12}\) e \(g_{22}\), impongo la corrente \(i_2\), cortocircuito la porta 1 e misuro \(i_1\) e \(v_2\)
+\end{itemize}
+
+\subsubsection*{Prima rappresentazione di trasmissione}
+\[\begin{cases}
+	v_1 = A v_2 - B i_2 \\
+	i_1 = C v_2 - D i_2
+\end{cases} \quad \Leftrightarrow \quad
+\binom{v_1}{i_1} = T \cdot \binom{v_2}{-i_2} \qquad
+T = \left( \begin{matrix}
+	A = \frac{v_1}{v_2} \Big|_{i_2=0} & B = -\frac{v_1}{i_2} \Big|_{v_2=0} \\[8pt]
+	C = \frac{i_1}{v_2} \Big|_{i_2=0} & D = -\frac{i_1}{i_2} \Big|_{v_2=0}
+\end{matrix} \right)\]
+\begin{itemize}
+	\item con \(T\) prima matrice di trasmissione
+	\item siccome si dovrebbe imporre sia \(v_2\) che \(i_2\) contemporaneamente, per determinare \(A, B, C, D\) si misurano
+	i reciproci \(1/A, 1/B, 1/C, 1/D\) imponendo le opportune grandezze alle opportune porte
+\end{itemize}
+
+\subsubsection*{Seconda rappresentazione di trasmissione}
+\[\begin{cases}
+	v_2 = A' v_1 + B' i_1 \\
+	-i_2 = C' v_1 + D' i_1
+\end{cases} \quad \Leftrightarrow \quad
+\binom{v_2}{-i_2} = T' \cdot \binom{v_1}{i_1} \qquad
+T = \left( \begin{matrix}
+	A' = \frac{v_2}{v_1} \Big|_{i_1=0} & B' = \frac{v_2}{i_1} \Big|_{v_1=0} \\[8pt]
+	C' = -\frac{i_2}{v_1} \Big|_{i_1=0} & D' = -\frac{i_2}{i_1} \Big|_{v_1=0}
+\end{matrix} \right)\]
+\begin{itemize}
+	\item con \(T'\) seconda matrice di trasmissione
+	\item siccome si dovrebbe imporre sia \(v_1\) che \(i_1\) contemporaneamente, per determinare \(A', B', C', D'\) si misurano
+	i reciproci \(1/A', 1/B', 1/C', 1/D'\) imponendo le opportune grandezze alle opportune porte
+\end{itemize}
+
+\subsubsection*{Matrici e funzioni di trasferimento}
+\begin{itemize}
+	\item una matrice di trasferimento (che rappresenta una funzione di trasferimento) si può esprimere come rapporto tra causa
+	ed effetto: \(A = \frac{\text{effetto}}{\text{causa}} = \frac{X(s)}{U(s)}\)
+	\item siccome per determinare le matrici \(R, G, h, g\), si imporre una causa per misurarne l'effetto, sono dette matrici di trasferimento
+	\item siccome per determinare le matrici \(T, T'\) non è possibile imporre la causa previsa, allora non sono matrici di trasferimento
+\end{itemize}
+
+\subsubsection*{Cambio di rappresentazioni}
+Per i doppi bipoli ideali inerti per cui valgono tutte le rappresentazioni, allora vale:
+\[R = G^{-1} \qquad\qquad h = g^{-1} \qquad\qquad T = T'^{-1}\]
+
+\subsubsection*{Cambio dei riferimenti nelle rappresentazioni}
+Se cambio i riferimenti ad una porta, è necessario invertire i segni dei parametri mutui \(X_{12}\) e \(X_{21}\) per mantenere
+la stessa rappresentazione. Di seguito un esempio di doppi bipoli in rappresentazione controllata in corrente in cui si invertono
+i riferimenti alla porta 2. 
+
+\begin{center}
+	% --- primo circuito ---
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) -- (1,0) -- (1,1.5) -- (0,1.5) -- (0,0);
+			\draw (0,0.4) -- (-0.5,0.4);
+			\draw (0,1.1) -- (-0.5,1.1);
+			\draw (1,0.4) -- (1.5,0.4);
+			\draw (1,1.1) -- (1.5,1.1);
+			
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (1.9,1.3) {\(i_2\)};
+			\draw[->] (2.2,1.1) -- (1.6,1.1);
+			\node [] at (-0.8,0.7) {\(u_1\)};
+			\node [] at (1.8,0.7) {\(u_2\)};
+		
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (1.4,0.2) {--};
+			\node [] at (1.4,1.3) {+};
+
+			\node [] at (0.2,0.4) {\(1'\)};
+			\node [] at (0.15,1.1) {\(1\)};
+			\node [] at (0.85,0.4) {\(2'\)};
+			\node [] at (0.8,1.1) {\(2\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.1\textwidth}
+		\centering
+		\(\Longrightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\(\begin{cases}
+			v_1 = R_{11} i_1 + R_{12} i_2 \\
+			v_2 = R_{21} i_1 + R_{22} i_2
+		\end{cases}\)
+	\end{minipage}
+
+	% --- vertical space ---
+	\begin{minipage}{\textwidth}
+		\(\big.\)
+	\end{minipage}
+
+	% --- secondo circuito ---
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) -- (1,0) -- (1,1.5) -- (0,1.5) -- (0,0);
+			\draw (0,0.4) -- (-0.5,0.4);
+			\draw (0,1.1) -- (-0.5,1.1);
+			\draw (1,0.4) -- (1.5,0.4);
+			\draw (1,1.1) -- (1.5,1.1);
+			
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (1.9,0.2) {\(i_2\)};
+			\draw[->] (2.2,0.4) -- (1.6,0.4);
+			\node [] at (-0.8,0.7) {\(u_1\)};
+			\node [] at (1.8,0.8) {\(u_2\)};
+		
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (1.4,0.2) {+};
+			\node [] at (1.4,1.3) {--};
+
+			\node [] at (0.2,0.4) {\(1'\)};
+			\node [] at (0.15,1.1) {\(1\)};
+			\node [] at (0.85,0.4) {\(2'\)};
+			\node [] at (0.8,1.1) {\(2\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.1\textwidth}
+		\centering
+		\(\Longrightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\(\begin{cases}
+			v_1 = R_{11}^* i_1 - R_{12}^* i_2 \\
+			v_2 = -R_{21}^* i_1 + R_{22}^* i_2
+		\end{cases} \quad \begin{cases}
+			v_1 = R_{11}^* i_1 + R_{12}^* i_2^* \\
+			v_2^* = R_{21}^* i_1 + R_{22}^* i_2^*
+		\end{cases}\)
+	\end{minipage}
+	
+	% --- vertical space ---
+	\begin{minipage}{\textwidth}
+		\(\big.\)
+	\end{minipage}
+
+	% --- equazioni corrispondenti ---
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		grandezze corrispondenti:
+	\end{minipage}
+	\begin{minipage}{0.15\textwidth}
+		\centering
+		\(\begin{cases} i_2^* = -i_2 \\ v_2^* = -v_2 \end{cases}\)
+	\end{minipage}
+	e
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\(R^* = \left(\begin{matrix} R_{11}^* & R_{12}^* \\ R_{21}^* & R_{22}^* \end{matrix}\right) = \left(\begin{matrix} R_{11} & -R_{12} \\ -R_{21} & R_{22} \end{matrix}\right)\)
+	\end{minipage}
+\end{center}
+
+\subsection{Collegamenti di doppi bipoli}
+\begin{multicols}{2}
+	\subsubsection*{Collegamento in cascata}
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{dbp_cascata.png}
+	\end{center}
+	\[T_{eq}' = T_b' \cdot T_a'\]
+	
+	\subsubsection*{Serie di doppi bipoli}
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{dbp_serie.png}
+	\end{center}
+	\[R_{eq} = R_a + R_b\]
+	
+	\subsubsection*{Parallelo di doppi bipoli}
+	\begin{center}
+		\includegraphics[width=0.9\linewidth]{dbp_parallelo.png}
+	\end{center}
+	\[G_{eq} = G_a + G_b\]
+
+	\columnbreak
+
+	\subsubsection*{Collegamento ibrido serie/parallelo}
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{dbp_serie-parallelo.png}
+	\end{center}
+	\[h_{eq} = h_a + h_b\]
+	
+	\vspace{20pt}
+
+	\subsubsection*{Collegamento ibrido parallelo/serie}
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{dbp_parallelo-serie.png}
+	\end{center}
+	\[g_{eq} = g_a + g_b\]
+	
+	\vspace{30pt}
+	\(\;\) % invisible character
+\end{multicols}
+
+\newpage
+
+\subsection{Trasformatore ideale}
+\subsubsection*{Trasformatore ideale}
+Un trasformatore ideale è un doppio bipolo solitamente in rappresentazione di trasmissione in grado di modificare la tensione
+in ingresso di un certo fattore \(n\) detto rapporto di trasformazione.
+
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{trasformatore.png}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\[\begin{cases}
+			\displaystyle v_1(t) = n \, v_2(t) \\[7pt]
+			\displaystyle i_1(t) = -\frac{1}{n} i_2(t)
+		\end{cases}\]
+	\end{minipage}
+\end{center}
+Siccome non è possibile isolare \(i_1\) e \(i_2\), oppure \(v_1\) e \(v_2\), non è possibile usare le rappresentazioni controllate
+in corrente \(R\) o in tensione \(G\), mentre è possibile usare le altre 4.
+
+\subsubsection*{Trasformatore reale}
+I trasformatori reali sono utilizzabili solo in corrente alternata, servono per trasformare la tensione o per isolare due parti
+di circuito. I trasformatori ideali sono solo utilizzati per modellare componenti elettrici.
+
+\subsubsection*{Proprietà trasformatori ideali}
+\begin{itemize}
+	\item[1.] trasparente alla potenza: \(p_{e1} + p_{u2} = 0\)
+	\item[2.] passivo: la potenza istantanea entrante è nulla
+	\item[3.] amplifica la tensione [o corrente] in ingresso, riducendone la corrente [o tensione]
+	\item[4.] trasporto: se alla porta 2 è collegato un resistore \(R_2\), dalla porta 1 appare come una resistenza equivalente
+	\(R_{eq} = n^2 R_2\): \(\;\;v_1(t) = n v_2(t) = n (-R_2 i_2(t)) = - n R_2(-n i_1(t)) = n^2 R_2 i_1(t) = R_{eq} i_1(t)\)
+\end{itemize}
+
+\subsection{Generatori pilotati}
+I generatori pilotati sono generatori ideali rappresentati come doppi bipoli ideali. Una porta impone la corrente [o la tensione]
+mentre l'altra controlla la corrente [o la tensione] impressa.
+
+\subsubsection*{Generatore di tensione pilotato in tensione - GTPT}
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) -- (2,0) -- (2,1.5) -- (0,1.5) -- (0,0);
+			\draw (-0.5,0.4) -- (0.5,0.4) (0.5,1.1) -- (-0.5,1.1);
+			\draw (2.5,0.4) -- (1.5,0.4) -- (1.5,1.1) -- (2.5,1.1);
+			\draw (1.5,0.5) -- (1.75,0.75) -- (1.5,1) -- (1.25,0.75) -- (1.5,0.5);
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,0.4) {};
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,1.1) {};
+
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (2.9,1.3) {\(i_2\)};
+			\draw[->] (3.2,1.1) -- (2.6,1.1);
+			\node [] at (-0.5,0.7) {\(v_1\)};
+			\node [] at (2.5,0.7) {\(v_2\)};
+
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (2.4,0.2) {--};
+			\node [] at (2.4,1.3) {+};
+			\node [] at (1.3,1) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.6\textwidth}
+		\[\begin{cases}
+			i_1 = 0 \\
+			v_2 = e_2 = k_\alpha v_1
+		\end{cases} \qquad g = \left(\begin{matrix} 0 & 0 \\ k_\alpha & 0 \end{matrix}\right)\]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Generatore di tensione pilotato in corrente - GTPC}
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) -- (2,0) -- (2,1.5) -- (0,1.5) -- (0,0);
+			\draw (-0.5,0.4) -- (0.5,0.4) -- (0.5,1.1) -- (-0.5,1.1);
+			\draw (2.5,0.4) -- (1.5,0.4) -- (1.5,1.1) -- (2.5,1.1);
+			\draw (1.5,0.5) -- (1.75,0.75) -- (1.5,1) -- (1.25,0.75) -- (1.5,0.5);
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,0.4) {};
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,1.1) {};
+
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (2.9,1.3) {\(i_2\)};
+			\draw[->] (3.2,1.1) -- (2.6,1.1);
+			\node [] at (-0.5,0.7) {\(v_1\)};
+			\node [] at (2.5,0.7) {\(v_2\)};
+
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (2.4,0.2) {--};
+			\node [] at (2.4,1.3) {+};
+			\node [] at (1.3,1) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.6\textwidth}
+		\[\begin{cases}
+			v_1 = 0 \\
+			v_2 = e_2 = k_r i_1
+		\end{cases} \qquad R = \left(\begin{matrix} 0 & 0 \\ k_r & 0 \end{matrix}\right)\]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Generatore di corrente pilotato in tensione - GCPT}
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) -- (2,0) -- (2,1.5) -- (0,1.5) -- (0,0);
+			\draw (-0.5,0.4) -- (0.5,0.4) (0.5,1.1) -- (-0.5,1.1);
+			\draw (2.5,0.4) -- (1.5,0.4) -- (1.5,0.5) (1.5,1) -- (1.5,1.1) -- (2.5,1.1);
+			\draw (1.75,0.75) -- (1.25,0.75);
+			\draw (1.5,0.5) -- (1.75,0.75) -- (1.5,1) -- (1.25,0.75) -- (1.5,0.5);
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,0.4) {};
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,1.1) {};
+
+			\draw[->] (1.2,0.9) -- (1.2,0.5);
+			\node [] at (1.05,0.7) {\(j\)};
+
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (2.9,1.3) {\(i_2\)};
+			\draw[->] (3.2,1.1) -- (2.6,1.1);
+			\node [] at (-0.5,0.7) {\(v_1\)};
+			\node [] at (2.5,0.7) {\(v_2\)};
+
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (2.4,0.2) {--};
+			\node [] at (2.4,1.3) {+};
+			\node [] at (1.3,1) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.6\textwidth}
+		\[\begin{cases}
+			i_1 = 0 \\
+			i_2 = j_2 = k_g v_1
+		\end{cases} \qquad G = \left(\begin{matrix} 0 & 0 \\ k_g & 0 \end{matrix}\right)\]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Generatore di corrente pilotato in corrente - GCPC}
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) -- (2,0) -- (2,1.5) -- (0,1.5) -- (0,0);
+			\draw (-0.5,0.4) -- (0.5,0.4) -- (0.5,1.1) -- (-0.5,1.1);
+			\draw (2.5,0.4) -- (1.5,0.4) -- (1.5,0.5) (1.5,1) -- (1.5,1.1) -- (2.5,1.1);
+			\draw (1.75,0.75) -- (1.25,0.75);
+			\draw (1.5,0.5) -- (1.75,0.75) -- (1.5,1) -- (1.25,0.75) -- (1.5,0.5);
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,0.4) {};
+			\node [draw,fill,circle,inner sep=1pt] at(0.5,1.1) {};
+
+			\draw[->] (1.2,0.9) -- (1.2,0.5);
+			\node [] at (1.05,0.7) {\(j\)};
+
+			\node [] at (-0.9,1.3) {\(i_1\)};
+			\draw[->] (-1.2,1.1) -- (-0.6,1.1);
+			\node [] at (2.9,1.3) {\(i_2\)};
+			\draw[->] (3.2,1.1) -- (2.6,1.1);
+			\node [] at (-0.5,0.7) {\(v_1\)};
+			\node [] at (2.5,0.7) {\(v_2\)};
+
+			\node [] at (-0.4,0.2) {--};
+			\node [] at (-0.4,1.3) {+};
+			\node [] at (2.4,0.2) {--};
+			\node [] at (2.4,1.3) {+};
+			\node [] at (1.3,1) {+};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.6\textwidth}
+		\[\begin{cases}
+			v_1 = 0 \\
+			i_2 = j_2 = k_\beta i_1
+		\end{cases} \qquad h = \left(\begin{matrix} 0 & 0 \\ k_\beta & 0 \end{matrix}\right)\]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Osservazioni sui generatori pilotati}
+\begin{itemize}
+	\item Non esistono componenti reali corrispondenti, ma si utilizzano per modellare altri componenti, ad esempio per il transistor
+	NPN come composizione di diodi, resistori e GP.
+	\item Ogni tipo di generatore ha solo una delle quattro rappresentazioni R, G, h, g e tutti hanno la rappresentazione \(T'\).
+\end{itemize}
+
+\subsection{Circuiti lineari in corrente continua con doppi bipoli}
+\subsubsection*{Introduzione e teoremi}
+\begin{itemize}
+	\item in circuito in corrente continua con doppi bipoli si dice lineare se è costituito solo da GRT, GRC e doppi bipoli lineari
+	inerti di ordine zero
+	\item valgono ancora le LKC e LKT e si può modellare il circuito con il sistema lineare \(Ax = b\)
+	\item valgono i teoremi di sostituzione, sovrapposizione degli effetti, Thévenin e Norton
+	\item vale il principio di conservazione delle potenze
+\end{itemize}
+
+\subsubsection*{Resistenza equivalente di porta}
+Si definisce la resistenza equivalente di porta in una sezione di circuito con generatori pilotati come la resistenza misurata quando
+si applica una corrente di 1 \(A_{mpere}\), dopo aver spento tutti i generatori ideali e mantenendo accesi tutti i generatori pilotati.
+
+\subsubsection*{Conduttanza equivalente di porta}
+Si definisce la conduttanza equivalente di porta in una sezione di circuito con generatori pilotati come la resistenza misurata quando
+si applica una tensione di 1 \(V_{olt}\), dopo aver spento tutti i generatori ideali e mantenendo accesi tutti i generatori pilotati.
+
+\subsubsection*{Esercizi con la sovrapposizione degli effetti}
+Quando si applica la sovrapposizione degli effetti in un circuito con generatori pilotati bisogna:
+\begin{itemize}
+	\item[1.] considerare individualmente ogni generatore ideale, spegnendo anche i generatori pilotati, in modo da calcolare la
+	grandezza desiderata e le grandezze che controllano i generatori pilotati
+	\item[2.] alla fine considerare individualmente ogni generatore pilotato utilizzando le grandezze pilotate ottenute prima per
+	calcolare le grandezze richieste
+\end{itemize}
+
+\newpage
+
+\section{Componenti elettrici pt.2}
+\subsection{Condensatore}
+\subsubsection*{Introduzione}
+Un condensatore è un componente elettrico costituito da una coppia di conduttori (armature) separati da un isolante (dielettrico).
+
+\subsubsection*{Capacità di un condensatore}
+Sulle armature sono presenti cariche uguali ed opposte \(q_A(t) = -q_B(t)\). Si definisce la capacità di un condensatore (propria
+del componente in quanto dipende dalla forma \(S/l\) e dal dielettrico \(\varepsilon\)):
+\[C = \frac{q_A(t)}{u_{AB}(t)} = \frac{q(t)}{u(t)} \qquad \qquad C = [F_{arad}]\]
+\begin{itemize}
+	\item la capacità dipende dalla forma e dal dielettrico, per un condensatore piano vale \(C = \varepsilon \; S/l\)
+	\item vale la legge di conservazione della carica \(i_\text{entrante} = \frac{d q_A(t)}{dt} = - \frac{d q_B(t)}{dt} = i_\text{uscente}\)
+\end{itemize}
+
+\subsubsection*{Bipolo condensatore}
+\begin{center}
+	\begin{tabularx}{\textwidth}{ c | X }
+		modello grafico & equazioni costitutive  \\
+		\begin{circuitikz} \draw (0,0) [C] to (2,0); \end{circuitikz} &
+		\(\begin{cases}
+			\displaystyle i(t) = C \frac{d u(t)}{dt} \\
+			\displaystyle u(t) = u(0) + \frac{1}{C} \int_0^t i(\tau) d\tau
+		\end{cases} \displaystyle \qquad \text{ottenute da} \;\; i(t) = \frac{d q(t)}{dt} = \frac{d \; C u(t)}{dt} = C \frac{d u(t)}{dt}\)
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Lavoro elettrico in carica}
+Il lavoro compiuto per caricare il condensatore dipende solo dalla tensione finale, non dipende dalle altre grandezze e da come
+esse variano nel tempo.
+\[L_\text{entrante}(0,t) = \int_0^t p_\text{entr}(\tau) d\tau = \int_0^t u(\tau) \cdot i(\tau) d\tau = C \int_0^t u(\tau) \frac{d u(\tau)}{d\tau} d\tau = C \int_{u_0=0}^{u_1} u \; du = \frac{1}{2}Cu(t)^2\]
+
+\subsubsection*{Lavoro elettrico in scarica}
+Il lavoro compiuto dal condensatore in scarica è pari all'energia immagazzinata durante la carica.
+\[L_\text{entrante}(t,t') = \int_t^{t'} p_\text{entr}(\tau) d\tau = \int_t^{t'} u(\tau) \cdot i(\tau) d\tau = \dots = C \int_{u_1}^{u_2=0} u \; du = -\frac{1}{2}Cu(t)^2 = -L_\text{entr}(0,t)\]
+
+\subsubsection*{Energia capacitiva}
+L'energia immagazzinata dal condensatore è detta energia capacitiva e vale \(\quad\displaystyle W_C(t) = \frac{1}{2} C u(t)^2\)
+
+\subsubsection*{Bipolo passivo}
+Il condensatore è un bipolo passivo in quanto rispetta la condizione di passività: \(L_\text{uscente}(t_0,t) \leq W(t_0)\)
+\[L_\text{uscente}(t_0,t) = -L_\text{entrante}(t_0,t) = W_C(t_0)-W_C(t) \leq W_C(t_0)\]
+
+\subsubsection*{Condensatore in regime stazionario}
+In regime stazionario il condensatore si comporta come un circuito aperto: \(\displaystyle i(t) = \frac{d u(t)}{dt} = 0 \quad \forall t\)
+
+\subsection{Induttore}
+\subsubsection*{Introduzione}
+Un induttore è un conduttore filiforme che forma una spira (o meglio una bobina) non chiusa.
+
+\subsubsection*{Induttanza di un induttore}
+Essendo un conduttore filiforme si ha \(i_A(t) = i_B(t)\) e dall'equazione dell'autoflusso si ottiene l'induttanza
+\[L = \frac{\varphi_L(t)}{i(t)} \qquad\qquad L=[H_{enry}]\]
+
+\subsubsection*{Bipolo induttore}
+\begin{center}
+	\begin{tabularx}{\textwidth}{ c | X }
+		modello grafico & equazioni costitutive  \\
+		\begin{circuitikz} \draw (0,0) [L] to (2,0); \end{circuitikz} &
+		\(\begin{cases}
+			\displaystyle u(t) = L \frac{d i(t)}{dt} \\
+			\displaystyle i(t) = i(0) + \frac{1}{L} \int_0^t u(\tau) d\tau
+		\end{cases} \displaystyle \qquad \text{ottenute da} \;\; u(t) = \frac{d}{dt} \varphi(t) = \frac{d}{dt} L i(t) = L \frac{di(t)}{dt}\)
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Lavoro elettrico in carica}
+Il lavoro compiuto per caricare l'induttore dipende solo dalla corrente finale, non dipende dalle altre grandezze e da come esse
+variano nel tempo.
+\[L_\text{entrante}(0,t) = \int_0^t p_\text{entr}(\tau) d\tau = \int_0^t u(\tau) \cdot i(\tau) d\tau = L \int_0^t i(\tau) \frac{d i(\tau)}{d\tau} d\tau = L \int_{i_0=0}^{i_1} i \; di = \frac{1}{2}Li(t)^2\]
+
+\subsubsection*{Lavoro elettrico in scarica}
+Il lavoro compiuto dall'induttore in scarica è pari all'energia immagazzinata durante la carica.
+\[L_\text{entrante}(t,t') = \int_t^{t'} p_\text{entr}(\tau) d\tau = \int_t^{t'} u(\tau) \cdot i(\tau) d\tau = \dots = L \int_{i_1}^{i_2=0} i \; di = -\frac{1}{2}Li(t)^2 = -L_\text{entr}(0,t)\]
+
+\subsubsection*{Energia induttiva o energia magnetica}
+L'energia immagazzinata dall'induttore è detta energia induttiva e vale \(\quad\displaystyle W_L(t) = \frac{1}{2} L i(t)^2\)
+
+\subsubsection*{Bipolo passivo}
+L'induttore è un bipolo passivo in quanto rispetta la condizione di passività: \(L_\text{uscente}(t_0,t) \leq W(t_0)\)
+\[L_\text{uscente}(t_0,t) = -L_\text{entrante}(t_0,t) = W_L(t_0)-W_L(t) \leq W_L(t_0)\]
+
+\subsubsection*{Induttore in regime stazionario}
+In regime stazionario l'induttore si comporta come un cortocircuito: \(\displaystyle u(t) = \frac{d i(t)}{dt} = 0 \quad \forall t\)
+
+\newpage
+
+
+\section{Reti in regime sinusoidale}
+\subsection{Introduzione e funzioni periodiche}
+Una rete si dice in regime sinusoidale quando tutte le grandezze variano in regime sinusoidale isofrequenziale. Esempi di reti in
+regime sinusoidale si trovano in telecomunicazioni, impianti radio e impianti di trasporto delle correnti.
+
+\subsubsection*{Funzioni periodiche}
+\[a(t) = a(t + T) \;\; \forall t \qquad\qquad T = \text{periodo} \qquad f = 1/T = \text{frequenza}\]
+\begin{itemize}
+	\item valore medio: \(\displaystyle \qquad\qquad\quad\;\;\, A_0 = \frac{1}{T} \int_T a(t) dt\)
+	\item valore medio in modulo: \(\displaystyle\;\; A_m = \frac{1}{T} \int_T \left|a(t)\right| dt\)
+	\item valore efficace: \(\displaystyle \qquad\qquad\quad\;\;\, A = \sqrt{\frac{1}{T} \int_T a(t)^2 dt} \qquad\; \text{anche detto R}_\text{oot} \text{M}_\text{ean} \text{S}_\text{quare}\)
+	\item fattore di forma: \(\displaystyle \qquad\qquad\;\, k_f = \frac{A}{A_m} \qquad\qquad\qquad\quad \text{per sinusoidi} \; k_f = \frac{\pi}{2\sqrt{2}}\)
+\end{itemize}
+
+\subsection{Funzioni sinusoidali}
+\subsubsection*{Notazione}
+\[a(t) = A_M \sin(\omega t + \alpha) \qquad \qquad \begin{aligned}
+	&A_M = \text{ampiezza} \\
+	&A = A_M/\sqrt{2} = \text{amp. efficace}
+\end{aligned} \qquad \begin{aligned}
+	&\omega = 2 \pi f = \text{pulsazioni} \\
+	&\alpha = \text{fase iniziale}
+\end{aligned}\]
+Si osserva che \(\cos(\theta) = \sin(\theta + \pi/2)\) e inoltre le funzioni sinusoidali isofrequenziali definite sopra costituiscono
+uno spazio vettoriale (in quanto insieme chiuso per somma e prodotto per uno scalare) definito come segue:
+\(a(t) = A_M \sin(\omega t + \alpha) = \left\{A_M, \omega, \alpha\right\}\)
+
+\subsubsection*{Sinusoidi isofrequenziali e sfasamento}
+Due sinusoidi si dicono isofrequenziali se hanno la stessa pulsazione \(\omega\) o la stessa frequenza \(f\). Date due sinusoidi
+isofrequenziali è possibile definire lo sfasamento \(\varphi\):
+\[\begin{aligned} a(t) &= A_M \sin (\omega t + \alpha) \\ b(t) &= B_M \sin (\omega t + \beta) \end{aligned}
+\qquad \Leftrightarrow \qquad \varphi = \alpha - \beta + 2 k \pi \qquad \text{con} \; -\pi \leq \varphi \leq \pi\]
+In base allo sfasamento le due sinusoidi si dicono:
+\begin{center}
+	\begin{minipage}{0.35\textwidth}
+		\begin{itemize}
+			\item \(\varphi = 0 \;\; \rightarrow \;\;\) \(a\) e \(b\) sono in fase
+			\item \(\varphi > 0 \;\; \rightarrow \;\;\) \(a\) è in anticipo su \(b\)
+			\item \(\varphi < 0 \;\; \rightarrow \;\;\) \(a\) è in ritardo su \(b\)
+		\end{itemize}
+	\end{minipage}
+	\begin{minipage}{0.6\textwidth}
+		\begin{itemize}
+			\item \(\varphi = \pm \pi \;\; \rightarrow \;\;\) \(a\) e \(b\) sono in opposizione di fase
+			\item \(\varphi = \pi/2 \;\; \rightarrow \;\;\) \(a\) è in quadratura in anticipo rispetto a \(b\)
+			\item \(\varphi = -\pi/2 \;\; \rightarrow \;\;\) \(a\) è in quadratura in ritardo rispetto a \(b\)
+		\end{itemize}
+	\end{minipage}
+\end{center}
+
+\newpage
+
+\subsection{Trasformata di Steinmetz, fasori e numeri complessi}
+\subsubsection*{Trasformata di Steinmetz}
+La trasformata di Steinmetz converte equazioni di onde sinusoidali isofrequenziali in numeri complessi detti fasori. La trasformazione
+permette uno studio facilitato delle equazioni.
+\begin{align*}
+	a(t) = A_M \sin (\omega t + \alpha) \quad \rightarrow \quad \overline{A} = S\left[a(t)\right] = \frac{A_M}{\sqrt{2}} e^{j\alpha} = Ae^{j\alpha} \\
+	\overline{A} = Ae^{j\alpha} \quad \rightarrow \quad a(t) = S^{-1}\left[\;\overline{A}\;\right] = \sqrt{2} A \sin(\omega t + \alpha) = A_M \sin (\omega t + \alpha)
+\end{align*}
+La trasformata è lineare in \(\mathbb{R}\):
+\[S[\lambda a(t) + \mu b(t)] = \lambda S[a(t)] + \mu S[b(t)] \qquad S^{-1}\left[\lambda\overline{A} + \mu\overline{B}\;\right] = \lambda S^{-1}\left[\;\overline{A}\;\right] + \mu S^{-1}\left[\;\overline{B}\;\right]\]
+
+\subsubsection*{Fasori e numeri complessi}
+Il fasore è definito come immagine di una sinusoide attraverso la trasformata di Steinmetz. Nel piano complesso è rappresentato da
+un vettore.
+\[\overline{A} = S[a(t)] = \quad \begin{cases} Ae^{j\alpha} &\text{forma polare} \\ A\cos\alpha + jA\sin\alpha &\text{forma cartesiana}\end{cases}\]
+L'angolo tra i fasori nel piano corrisponde al loro sfasamento:
+\begin{center}
+	\begin{minipage}{0.5\textwidth}
+		\begin{itemize}
+			\item in fase \(\;\; \rightarrow \;\;\) fasori sovrapposti
+			\item in opposizione di fase \(\;\; \rightarrow \;\;\) fasori opposti
+			\item in quadratura di fase \(\;\; \rightarrow \;\;\) fasori perpendicolari
+		\end{itemize}
+	\end{minipage}
+	\begin{minipage}{0.49\textwidth}
+		\begin{itemize}
+			\item \(\overline{A}\) in anticipo su \(\overline{B}\) \(\;\; \rightarrow \;\;\) angolo di \(\overline{A}\) maggiore
+			\item \(\overline{A}\) in ritardo su \(\overline{B}\) \(\;\; \rightarrow \;\;\) angolo di \(\overline{B}\) maggiore
+		\end{itemize}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Operazioni tra fasori}
+\begin{itemize}
+	\item \textbf{somma tra fasori} (somma di sinusoidi):
+	\[\overline{C} = \overline{A} + \overline{B} = [\Real(A) + \Real(B)] + j [\Img(A) + \Img(B)] = \Real(C) + \Img(C)\]
+	\item \textbf{prodotto per uno scalare reale}:
+	\[\overline{C} = k \overline{A} = k A e^{j\alpha} = \left|k\right| A e^{\alpha \pm n \pi} = Ce^{j\gamma}
+	\qquad\quad C = \left|k\right| A \qquad \gamma = \begin{cases} \alpha & k > 0 \\ \alpha \pm \pi & k < 0 \end{cases}\]
+	\item \textbf{prodotto per uno scalare immaginario} (derivata temporale, anticipo di \(\pi/2\)):
+	\[\overline{C} = j\omega \overline{A} = \omega A e^{j\alpha}e^{j \pi / 2} = \omega A e^{j(\alpha + \pi/2)} = Ce^{j\gamma}
+	\qquad\quad C = \omega A \qquad \gamma = \alpha + \pi/2\]
+	\item \textbf{prodotto per il proprio coniugato} (il risultato è un numero complesso, ma non è un fasore):
+	\[\dot{P} = \overline{A} \check{B} = Ae^{j\alpha}Be^{-j\beta} = AB e^{j\varphi} = AB\cos\varphi + jAB\sin\varphi\]
+	\item \textbf{rapporto tra fasori} (il risultato è un numero complesso, ma non è un fasore):
+	\[\dot{O} = \frac{\overline{A}}{\overline{B}} = \frac{A}{B} e^{j\alpha - j\beta} = Oe^{j\varphi} \qquad\quad \overline{A} = \dot{O} \overline{B} \qquad \dot{O} = \text{operatore complesso}\]
+\end{itemize}
+
+\newpage
+
+\subsection{Potenze in regime sinusoidale}
+\subsubsection*{Potenze in funzione del tempo}
+La potenza in un bipolo in regime sinusoidale è data da una parte costante \(P_\text{costante}\) dipendente da \(U, I, \varphi\)
+e da una parte fluttuante \(P_\text{fluttuante}(t)\) a frequenza doppia dipendente in particolare dal tempo.
+\begin{align*}
+	p(t) &= u(t) i(t) = U_M I_M \sin(\omega t + \alpha) \sin (\omega + \beta) = 2UI \left(\frac{1}{2} \cos(\alpha-\beta) - \frac{1}{2} \cos(2\omega t + \alpha + \beta)\right) = \\
+	&= UI \cos(\varphi) - UI \cos (2 \omega t + \alpha + \beta) = P_\text{costante} + P_\text{fluttuante}(t)
+\end{align*}
+
+\subsubsection*{Potenza attiva}
+Si definisce la potenza attiva come media della potenza in un periodo di tempo \(T\).
+\[P = \frac{1}{T} \int_T p(t) dt = UI \cos \varphi = [W_{att}] \qquad \qquad \begin{cases}
+	\text{potenza massima per} \; \varphi = 0 \\
+	\text{potenza opposta per} \; \varphi = \pi \\
+	\text{potenza nulla per} \; \varphi = \pm\pi/2
+\end{cases}\]
+
+\subsubsection*{Lavoro elettrico e significato del valore efficace}
+Si definisce il lavoro elettrico per un intervallo di tempo \([t_1, t_2]\) con \(t_2 - t_1 = k T\):
+\[L(t_1,t_2) = \int_{t_1}^{t_2} p(t) dt = \int_{t_1}^{t_2} P + p_f(t) dt = P \Delta t + \int_{t_1}^{t_2} p_f(t) dt \; \stackrel{t_2-t_1 \gg T}{\approx} \; P \Delta t\]
+Il lavoro entrante calcolato in un periodo \(T\) vale:
+\[L(t_1, t_1 + T) = \int_{t_1}^{t_1+T} p(t) dt = \int_{t_1}^{t_1+T} R i^2(t) dt = R {I_\text{eff}}^2 \cdot T \qquad L_\text{per unità di periodo} = R{I_\text{eff}}^2\]
+Si osserva che il valore efficace o RMS è il corrispettivo valore che in corrente continua produce una stessa energia di
+quella prodotta in circuito AC.
+
+\subsubsection*{Potenza reattiva}
+Si definisce la potenza reattiva come grandezza proporzionale al \(W_{att}\), ma non legata all'accumulo elettrico, bensì associata
+all'accumulo di energia all'interno dei componenti (condensatori e induttori).
+\[Q = UI \sin \varphi = [V_{olt} A_{mpere} R_{eattivi}]\]
+
+\subsubsection*{Potenza apparente}
+Si definisce la potenza apparente come modulo della potenza attiva e reattiva, sempre proporzionale al \(W_{att}\) e sempre positiva,
+associata allo scambio di energia dei componenti e alla loro taglia.
+\[S = U I = \sqrt{P^2 + Q^2} = [V_{olt}A_{mpere}] \qquad\qquad P = S \cos \varphi \quad Q = S \sin \varphi\]
+
+\subsubsection*{Fattore di potenza}
+Si definisce il fattore di potenza come rapporto tra la potenza attiva e quella apparente: \(\cos \varphi = P/S\)
+
+\subsubsection*{Potenza complessa}
+La potenza complessa contiene tutte le informazioni delle potenze attiva, reattiva e apparente in AC. La parte reale è legata al
+lavoro elettrico, la parte immaginaria è legata all'accumulo di energia.
+\[\dot{S} = \overline{U} \check{I} = UI e^{j\alpha} e^{-j\beta} = UI e^{j\varphi} = UI(cos\varphi + j \sin\varphi) = P + jQ\]
+\[P = \Real(\dot{S}) \qquad Q = \Img(\dot{S}) \qquad S = \left|\dot{S}\right|\]
+
+\subsection{Bipoli in regime sinusoidale}
+\subsubsection*{Notazione}
+\begin{center}
+	\begin{minipage}{0.25\textwidth}
+		\begin{circuitikz}[european]
+			\draw (0,0) to[R=R, i_>=i] (3,0);
+			\node [] at (0,0.2) {+};
+			\node [] at (3,0.2) {--};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.7\textwidth}
+		\begin{align*}
+			\text{corrente} \quad i(t) &= I_M \sin(\omega t + \beta) = \sqrt{2} I \sin(\omega t + \beta) \\
+			\text{tensione} \quad u(t) &= U_M \sin(\omega t + \alpha) = \sqrt{2} U \sin(\omega t + \alpha) \\
+			\text{sfasamento} \quad \varphi &= \alpha - \beta + 2k\pi \\
+			\text{relazione} \quad u(t) &= \frac{U_M}{I_M} i\left(t + \frac{\varphi}{\omega}\right) \qquad \frac{\varphi}{\omega} = \text{sfasamento in secondi}
+		\end{align*}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Strumenti di misura}
+\begin{itemize}
+	\item \textbf{voltmetro a valore efficace}: misura il valore efficace della tensione (sempre positiva)
+	\item \textbf{amperometro a valore efficace}: misura il valore efficace della corrente (sempre positiva)
+	\item \textbf{wattametro a valor medio}: misura la potenza attiva (il segno dipende dalle convenzioni)
+	\item \textbf{varmetro}: misura la potenza reattiva (il segno dipende dalle convenzioni)
+\end{itemize}
+
+\subsubsection*{Generatori ideali in AC}
+\begin{center}
+	\begin{minipage}{0.25\textwidth}
+		\begin{circuitikz}
+			\draw (0,0) to[V, i<_=i] (3,0);
+			\draw (1.5,0) [circ, thick, fill, color=white] circle(0.39);
+			\node[] at (0,0.2) {+};
+			\node[] at (3,0.2) {--};
+			\node[] at (1.5,0.7) {\(e(t)\)};
+			\node[] at (1.5,0) {\(\underline{\sim}\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.7\textwidth}
+		\begin{align*}
+			v(t) &= e(t) = E_M \sin(\omega t + \alpha) = \sqrt{2} E \sin(\omega t + \alpha) \\
+			i(t) &= I_M \sin(\omega t + \beta) = \sqrt{2} I \sin(\omega t + \beta) \\
+			&\text{con } I_M \text{ e } \beta \text{ incognite dipendenti dal circuito}
+		\end{align*}
+	\end{minipage}
+\end{center}
+
+\begin{center}
+	\begin{minipage}{0.25\textwidth}
+		\begin{circuitikz}
+			\draw (0,0) to[V, i<_=i] (3,0);
+			\draw (1.5,0) [circ, thick, fill, color=white] circle(0.39);
+			\node[] at (0,0.2) {+};
+			\node[] at (3,0.2) {--};
+			\node[] at (1.5,0.7) {\(j(t)\)};
+			\node[] at (1.5,0) {\(\underline{\sim}\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.7\textwidth}
+		\begin{align*}
+			i(t) &= j(t) = I_M \sin(\omega t + \beta) = \sqrt{2} I \sin(\omega t + \beta) \\
+			v(t) &= E_M \sin(\omega t + \alpha) = \sqrt{2} E \sin(\omega t + \alpha) \\
+			&\text{con } E_M \text{ e } \alpha \text{ incognite dipendenti dal circuito}
+		\end{align*}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Bipoli lineari in AC}
+Un bipolo si dice lineare in AC se la sua caratteristica esterna è combinazione lineare dei fasori \(\overline{U}\) e \(\overline{I}\)
+(analogo ai bipoli lineari in DC): \(\;\; a_n\overline{U} + b_n\overline{I} = c_n\)
+
+\subsubsection*{Bipoli passivi in AC}
+Un bipolo si dice passivo in AC se può solo assorbire potenza attiva: \(P = UI \cos\varphi > 0 \;\; \rightarrow \;\; -\pi/2 \leq \varphi \leq \pi/2\)
+
+\subsubsection*{Impedenza di un bipolo passivo}
+\[\dot{Z} = \frac{\overline{U}}{\overline{I}} = \frac{Ue^{j\alpha}}{Ie^{j\beta}} = \frac{U}{I} e^{j\varphi} \qquad\qquad
+Z = \left|\dot{Z}\right| = \frac{U_\text{eff}}{I_\text{eff}} = [\Omega] \qquad \varphi = \text{arg} \dot{Z} = \arctan\left(\frac{\Img(\dot{Z})}{\Real(\dot{Z})}\right) = [rad]\]
+
+\subsubsection*{Ammettenza di un bipolo passivo}
+\[\dot{Y} = \dot{Z}^{-1} = \frac{\overline{I}}{\overline{U}} = \frac{Ie^{j\beta}}{Ue^{j\alpha}} = \frac{I}{U} e^{-j\varphi}\]
+
+\subsubsection*{Potenze in un bipolo passivo}
+\[\dot{S} = \overline{U} I^* = \dot{Z} \overline{I} I^* = \dot{Z} I^2 \qquad\qquad \begin{aligned}
+	&\text{potenza apparente} \quad\! S = \left|Z\right| I^2 = ZI^2 \\
+	&\;\;\text{potenza attiva} \qquad P = \Real(Z) I^2 = ZI^2 \cos\varphi \\
+	&\;\text{potenza reattiva} \quad\;\, Q = \Img(Z) I^2 = ZI^2 \sin \varphi
+\end{aligned}\]
+
+\subsubsection*{Resistore ideale in AC}
+\begin{center}
+	\begin{minipage}{0.25\textwidth}
+		\begin{circuitikz}
+			\draw (0,0) to[R=R, i>_=i(t)] (3,0);
+			\node[] at (0,0.2) {+};
+			\node[] at (3,0.2) {--};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.74\textwidth}
+		\begin{align*}
+			u(t) = R i(t) \;\; \rightarrow \;\; &u(t) = U_M \sin(\omega t + \alpha) = R I_M \sin (\omega t + \beta) \\
+			&\varphi = \alpha - \beta = 0
+		\end{align*}
+	\end{minipage}
+\end{center}
+\begin{align*}
+	&\dot{Z}_\text{impedenza} = \frac{\overline{U}}{\overline{I}} = \frac{R \overline{I}}{\overline{I}} = R \qquad \dot{Y}_\text{ammettenza} = \frac{1}{\dot{Z}} = \frac{1}{R} = G \qquad R_\text{resistenza} = \frac{U_M}{I_M} = \frac{U}{I} \\
+	&p(t)_\text{istantanea} = R i^2 \qquad S_\text{apparente} = RI^2 \qquad P_\text{attiva} = RI^2 \cos\varphi = RI^2 \qquad Q_\text{reattiva} = RI^2 \sin\varphi = 0
+\end{align*}
+
+
+\subsubsection*{Induttore ideale in AC}
+\begin{center}
+	\begin{minipage}{0.25\textwidth}
+		\begin{circuitikz}
+			\draw (0,0) to[L=L, i>_=i(t)] (3,0);
+			\node[] at (0,0.2) {+};
+			\node[] at (3,0.2) {--};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.74\textwidth}
+		\begin{align*}
+			u(t) = L \frac{di}{dt} \;\; \rightarrow \;\; &u(t) = U_M \sin(\omega t + \alpha) = \omega L I_M \sin (\omega t + \beta + \pi/2) \\
+			&\varphi = \alpha - \beta = \pi/2
+		\end{align*}
+	\end{minipage}
+\end{center}
+\begin{align*}
+	&\dot{Z}_\text{impedenza} = \frac{\overline{U}}{\overline{I}} = \frac{U}{I} e^{j\pi/2} = j \omega L = j X_L \qquad {X_L}_\text{reattanza induttiva} = \omega L = [\Omega] \\
+	&\dot{Y}_\text{ammettenza} = \frac{1}{\dot{Z}} = \frac{1}{j\omega L} = -\frac{j}{\omega L}= j B_L  \qquad\; {B_L}_\text{scuscettanza induttiva} = -\frac{1}{\omega L} = [S_{iemens}] \\
+	&u(t) = \frac{1}{2}Li^2(t) \geq 0 \qquad S_\text{apparente} = \left|X_L\right| I^2 \qquad P_\text{attiva} = S \cos\varphi = 0 \qquad Q_\text{reattiva} = S \sin\varphi = X_L I^2
+\end{align*}
+
+\subsubsection*{Condensatore ideale in AC}
+\begin{center}
+	\begin{minipage}{0.25\textwidth}
+		\begin{circuitikz}
+			\draw (0,0) to[C=C, i>_=i(t)] (3,0);
+			\node[] at (0,0.2) {+};
+			\node[] at (3,0.2) {--};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.74\textwidth}
+		\begin{align*}
+			i(t) = C \frac{du}{dt} \;\; \rightarrow \;\; &i(t) = I_M \sin(\omega t + \beta) = \omega C U_M \sin (\omega t + \alpha + \pi/2) \\
+			&\varphi = \alpha - \beta = -\pi/2
+		\end{align*}
+	\end{minipage}
+\end{center}
+\begin{align*}
+	&\dot{Z}_\text{impedenza} = \frac{\overline{U}}{\overline{I}} = \frac{U}{I} e^{-j\pi/2} = - \frac{j}{\omega C} = j X_C \qquad {X_C}_\text{reattanza capacitiva} = \frac{1}{\omega C} = [\Omega] \\
+	&\dot{Y}_\text{ammettenza} = \frac{1}{\dot{Z}} = -\frac{\omega C}{j} = j \omega C = j B_L  \qquad\quad\;\; {B_C}_\text{scuscettanza capacitiva} = \omega C = [S_{iemens}] \\
+	&u(t) = \frac{1}{2}Cu^2(t) \geq 0 \qquad S_\text{apparente} = \left|X_L\right| I^2 \qquad P_\text{attiva} = S \cos\varphi = 0 \qquad Q_\text{reattiva} = S \sin\varphi = X_L I^2
+\end{align*}
+
+\subsubsection*{Condensatore reale (per curiosità personale, non in programma)}
+\begin{center}
+	\begin{minipage}{0.55\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) to[short, *-] (0.5,0) to[L=L] (1.5,0) to[R=\(R_S\)] (4,0) -- (4,0.5) to[R=\(R_C\)] (6,0.5) -- (6,0) to[short, -*] (6.5,0);
+			\draw (4,0) -- (4,-0.75) to[C=C] (6,-0.75) -- (6,0);
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\begin{align*}
+			L \quad &\text{induttanza dei terminali, }  L \to 0 \\
+			R_S \quad &\text{resistenza dei terminali, } R_S \to 0 \\
+			R_C \quad &\text{resistenza dei dielettrici, } R_C \to +\infty \\
+			C \quad &\text{capacità del condensatore}
+		\end{align*}
+	\end{minipage}
+\end{center}
+
+\newpage
+
+\subsection{Leggi di Kirchhoff, serie e paralleli in AC}
+\subsubsection*{Legge di Kirchhoff per correnti}
+Dato un insieme di taglio \(\mathcal{T}\), la legge di Kirchhoff per i fasori delle correnti  vale:
+\[\sum_{h \in \mathcal{T}} = \alpha_h \overline{I}_h = \overline{0} \qquad \qquad \begin{cases}\alpha = 1 &\text{correnti uscenti} \\ \alpha = -1 &\text{correnti entranti}\end{cases}\]
+
+\subsubsection*{Legge di Kirchhoff per tensioni}
+Data una maglia \(\mathcal{M}\), la legge di Kirchhoff per i fasori delle tensioni vale:
+\[\sum_{h \in \mathcal{M}} = \beta_h \overline{U}_h = \overline{0} \qquad \qquad \begin{cases}\beta = 1 &\text{tensioni concordi con maglia} \\ \beta = -1 &\text{tensioni discordi con maglia}\end{cases}\]
+
+\subsubsection*{Serie di impedenze}
+Data una serie di impedenze, l'impedenza equivalente è \(\dot{Z}_{eq} = \dot{Z}_1 + \dot{Z}_2 + ... + \dot{Z}_n\)
+
+\subsubsection*{Partitore di tensione}
+In un partitore di tensione, la tensione è proporzionale all'impedenza:
+\[\overline{U}_k = \frac{\dot{Z}_k}{\sum_j \dot{Z}_j} \overline{U}_{tot} \qquad\qquad \overline{U}_1 = \frac{\dot{Z}_1}{\dot{Z}_1 + \dot{Z}_2} \overline{U}_{tot} \qquad \overline{U}_2 = \frac{\dot{Z}_2}{\dot{Z}_1 + \dot{Z}_2} \overline{U}_{tot}\]
+
+\subsubsection*{Parallelo di impedenze}
+Dato un parallelo di impedenze, l'impedenza equivalente è \(\dot{Z}_{eq} = \left(\frac{1}{\dot{Z}_1} + \frac{1}{\dot{Z}_2} + ... + \frac{1}{\dot{Z}_n}\right)^{-1}\)
+
+\subsubsection*{Partitore di corrente}
+In un partitore di corrente, la corrente è proporzionale all'ammettenza:
+\[\overline{I}_k = \frac{\dot{Y}_k}{\sum_j \dot{Y}_j} \overline{I}_{tot} \qquad\qquad \overline{I}_1 = \frac{\dot{Z}_2}{\dot{Z}_1 + \dot{Z}_2} \overline{I}_{tot} \qquad \overline{I}_2 = \frac{\dot{Z}_1}{\dot{Z}_1 + \dot{Z}_2} \overline{I}_{tot}\]
+
+\subsection{Rete simbolica}
+\subsubsection*{Rete lineare e analisi nel tempo}
+Una rete si dice lineare in regime sinusoidale se è composta soltanto da bipoli R, L, C, GIT e GIC. È possibile analizzare la
+rete in funzione del tempo. Ciò, però, risulta complesso, lungo e poco vantaggioso.
+
+\subsubsection*{Rete simbolica e analisi in frequenza}
+Se si ha una rete lineare con GIT e GIC che generano sinusoidi isofrequenziali, è possibile trasformarla attraverso la trasformata
+di Steinmetz ottenendo una rete simbolica analizzabile con i fasori con le seguenti proprietà:
+\begin{itemize}
+	\item si analizza in funzione della frequenza
+	\item ha lo stesso grafo della rete di partenza
+	\item valgono sostituzione, SVE, correnti di anello, potenziali nodali, Thévenin e Norton
+\end{itemize}
+
+\begin{align*}
+	&\text{bipoli passivi} \;\; \rightarrow \;\; \overline{U} = \dot{Z} \overline{I} \qquad\qquad\quad \overline{I} = \dot{Y} \overline{U} \\
+	&\;\, \text{GIT e GIC} \quad \rightarrow \;\; \overline{U} = \overline{E} = Ee^{j\alpha} \qquad \overline{I} = \overline{J} = Je^{j\beta} \\
+	&\text{GLT e GLC} \quad \rightarrow \;\; \overline{U} = \overline{E} - \dot{Z} \overline{I} \qquad\quad \overline{I} = \overline{J} - \dot{Y} \overline{U}
+\end{align*}
+
+\subsubsection*{Teorema di sostituzione}
+È possibile sostituire un lato della rete con \(\overline{U}\) e \(\overline{I}\) con un GIT di tensione \(\overline{E} = \overline{U}\)
+o con un GIC di \(\overline{J} = \overline{I}\).
+
+\subsubsection*{Sovrapposizione degli effetti}
+\[\overline{U}_h = \sum_r \overline{U}_{h,E_r} + \sum_s \overline{U}_{h,J_s} \qquad \qquad \begin{aligned} &\overline{U}_{h,E_r} = \text{costributo dell'r-esimo GIT} \\ &\overline{U}_{h,J_s} = \text{costributo dell's-esimo GIC}\end{aligned}\]
+\[\overline{I}_h = \sum_r \overline{I}_{h,E_r} + \sum_s \overline{I}_{h,J_s} \qquad \qquad \begin{aligned} &\overline{I}_{h,E_r} = \text{costributo dell'r-esimo GIT} \\ &\overline{I}_{h,J_s} = \text{costributo dell's-esimo GIC}\end{aligned}\]
+
+\subsubsection*{Metodo delle correnti di anello (poco usato)}
+\[\dot{Z}_{A_{kk}} \overline{I}_{A_k} - \sum_h \dot{Z}_{A_{kh}} \overline{I}_{A_h} = \overline{E}_{A_k} \qquad
+\begin{aligned}
+	\dot{Z}_{A_{kk}} &= \sum \text{impedenze della maglia } A_k \\
+	\dot{Z}_{A_{kh}} &= \sum \text{impedenze in comune alle maglie } A_k \text{ e } A_h \\
+	\overline{E}_{A_k} &= \sum \text{fem di anello della maglia } A_k \text{ con conv. generatore} \\
+	\overline{I}_{A_k} &= \text{corrente di anello della maglia } A_k \\
+	\overline{I}_{A_h} &= \text{corrente di anello della maglia } A_h
+\end{aligned}\]
+
+\subsubsection*{Metodo dei potenziali nodali (poco usato)}
+\[\dot{Y}_{N_{kk}} \overline{U}_{N_k} - \sum_{h} \dot{Y}_{N_{kh}} \overline{U}_{N_h} = \overline{J}_{N_k} \qquad
+\begin{aligned}
+	\dot{Y}_{N_{kk}} &= \sum \text{ammettenze incidenti al nodo } N_k \\
+	\dot{Y}_{N_{kh}} &= \sum \text{ammettenze comprese tra i nodi } N_k \text{ e } N_h \\
+	\overline{J}_{N_k} &= \sum \text{correnti dei GIC impresse su } N_k \text{ (+ se entranti)} \\
+	\overline{U}_{N_k} &= \text{potenziale del nodo } N_k \\
+	\overline{U}_{N_h} &= \text{potenziale del nodo } N_h
+\end{aligned}\]
+
+\subsubsection*{Teorema di Thévenin}
+\begin{align*}
+	\overline{U}_{eq} &= \overline{E}_{ab} = \overline{U}_{0,ab} = \text{fasore della tensione a vuoto della porta ab} \\
+	\dot{Z}_{eq} &= \dot{Z}_{ab} = \frac{\overline{U}_{0,ab}}{\overline{I}_{cc,ab}} = \text{impedenza della rete inerte (con tutti i GIT/GIC spenti)} \\
+	\overline{U}_{ab} &= \overline{U}_{0,ab} - \dot{Z}_{eq} \; \overline{I}_{cc,ab} \;\;\rightarrow\;\; \text{equazione del GLT}
+\end{align*}
+
+\subsubsection*{Teorema di Norton}
+\begin{align*}
+	\overline{I}_{eq} &= \overline{J}_{ab} = \overline{I}_{cc,ab} = \text{fasore della corrente di cortocircuito della porta ab} \\
+	\dot{Z}_{eq} &= \dot{Z}_{ab} = \frac{\overline{U}_{0,ab}}{\overline{I}_{cc,ab}} = \text{impedenza della rete inerte (con tutti i GIT/GIC spenti)} \\
+	\overline{I}_{ab} &= \overline{I}_{cc,ab} - \frac{\overline{U}_{ab}}{\dot{Z}_{eq}} \;\;\rightarrow\;\; \text{equazione del GLC}
+\end{align*}
+
+\subsubsection*{Convenzione delle potenze complesse}
+\[\sum \dot{S}_e = \dot{0} \quad \Leftrightarrow \quad \begin{cases}
+	\sum P_e = 0 \\
+	\sum Q_e = 0
+\end{cases} \qquad \qquad \sum \dot{S}_u = \dot{0} \quad \Leftrightarrow \quad \begin{cases}
+	\sum P_u = 0 \\
+	\sum Q_u = 0
+\end{cases} \qquad \qquad \sum \dot{S}_e = \sum \dot{S}_u\]
+
+\newpage
+
+\subsection{Analisi in frequenza e risonanza in una serie RLC}
+\subsubsection*{Circuito ed equazioni caratteristiche}
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) to[short, *-, i>_=i(t)] (1,0);
+			\draw (1,0) to[R=R] (2.5,0) to[L=L] (4,0) to[C=C] (5,0) -- (5,-1.5) to[short, -*] (0,-1.5);
+			\node[] at (-0.3,0) {+};
+			\node[] at (1,0.2) {+};
+			\node[] at (2.6,0.2) {+};
+			\node[] at (4.1,0.2) {+};
+			\node[] at (-0.3,-1.5) {--};
+			\node[] at (-0.4,-0.75) {u(t)};
+		\end{circuitikz}
+		\begin{align*}
+			&\quad\overline{U} = \dot{Z} \overline{I} \qquad \dot{Z}(\omega) = R + jX(\omega) \\
+			&X(\omega) = X_L(\omega) + X_C(\omega) = \omega L - \frac{1}{\omega C} 
+		\end{align*}
+	\end{minipage}
+	\begin{minipage}{0.1\textwidth}
+		\textcolor{white}{.}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{serie RLC.png}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Impedenza e ammettenza}
+\begin{align*}
+	\text{impedenza:} \quad &\dot{Z}(\omega) = R + j(X_L(\omega) + X_(\omega)) = R + j\left(\omega L - \frac{1}{\omega C}\right) \\
+	&\left|\dot{Z}(\omega)\right| = \sqrt{R^2 + \left(\omega L - \frac{1}{\omega C}\right)^2} \qquad \qquad \varphi(\omega) = \arg \dot{Z} = \arctan \left(\frac{\omega L - \frac{1}{\omega C}}{R}\right) \\
+	& \\
+	\text{ammettenza:} \quad &\dot{Y}(\omega) = \frac{1}{\dot{Z}(\omega)} = \frac{1}{R + j(X_L + X_C)} = \frac{1}{R + j\left(\omega L - \frac{1}{\omega C}\right)} \\
+	&\left|\dot{Y}(\omega)\right| = \frac{1}{\sqrt{R^2 + \left(\omega L - \frac{1}{\omega C}\right)^2}} \qquad\qquad \varphi'(\omega) = \arg \dot{Y} = \arctan \left(-\frac{\omega L - \frac{1}{\omega C}}{R}\right)
+\end{align*}
+
+\subsubsection*{Risonanza}
+Si osserva che l'impedenza e l'ammettenza dipendono da \(\omega\), ovvero dalla frequenza delle correnti e delle tensioni impresse
+sul circuito. Per un certo valore \(\omega_0 = \frac{1}{\sqrt{LC}}\) si ha un fenomeno di risonanza:
+\begin{itemize}
+	\item i fenomeni induttivi e capacitivi si equivalgono e si cancellano a vicenda
+	\item si ha un picco di massimo dell'ammettenza per \(\omega = \omega_0\)
+	\item si ha una valle di minimo dell'induttanza per \(\omega = \omega_0\)
+\end{itemize}
+In base al valore di \(\omega\) si avranno due comportamenti
+\begin{itemize}
+	\item per \(\omega < \omega_0\) prevale il comportamento ohmico-capacitivo (\(\varphi < 0\), \(\dot{Z} \stackrel{\omega \ll \omega_0}{\longrightarrow} R - j / \omega C\))
+	\item per \(\omega > \omega_0\) prevale il comportamento ohmico-induttivo (\(\varphi > 0\), \(\dot{Z} \stackrel{\omega \gg \omega_0}{\longrightarrow} R + j\omega L\))
+\end{itemize}
+
+\subsubsection*{Fattore di merito in risonanza}
+Il fattore di merito indica l'ampiezza della campana di risonanza e, in generale, la selettività del circuito:
+\begin{itemize}
+	\item fattore di merito alto \(\;\; \rightarrow \;\;\) campana ampia, bassa selettività
+	\item fattore di merito basso \(\;\; \rightarrow \;\;\) campana stretta, alta selettività
+\end{itemize}
+
+\[Q_0 = \frac{U_L}{U_R} = \frac{U_C}{U_R} = \frac{\left|X_L(\omega_0)\right|}{R} = \frac{\left|X_C(\omega_0)\right|}{R} = \frac{\omega L}{R} = -\frac{1}{\omega C R} = \frac{1}{R} \sqrt{\frac{L}{C}} \qquad\qquad \text{indipendente da } \omega_0\]
+
+\newpage
+
+\subsubsection*{Analisi dei fasori di correnti, tensioni e potenze in risonanza}
+\begin{align*}
+	\overline{U}_L = - \overline{U}_C \qquad &\text{i fasori sono uguali e opposti tra loro e si cancellano a vicenda} \\
+	\overline{U}_L = j \omega_0 L \, \overline{I} \qquad &\text{la corrente è in ritardo (e in quadratura) rispetto alla tensione nell'induttanza} \\
+	\overline{U}_C = - j \frac{1}{\omega_0 C} \, \overline{I} \qquad &\text{la corrente è in anticipo (e in quadratura) rispetto alla tensione nel condensatore} \\
+	Q_L + Q_C = 0 \qquad &\text{le potenze reattive sono opposte, induttore e condensatore agiscono in cortocircuito}
+\end{align*}
+Siccome vale \(U_L = U_C = Q_0 \, U_\text{serie}\), se \(Q_0 > 1\) le tensioni all'interno dei singoli componenti vengono amplificate.
+Questo fenomeno può essere voluto nei circuiti di amplificazione di segnale, ma può provocare danni nei circuiti di potenza.
+
+\subsubsection*{Analisi nel tempo di correnti, tensioni e potenze in risonanza}
+\begin{align*}
+	u_{LC}(t) &= u_L(t) + u_C(t) = 0 \quad \rightarrow \quad u_L(t) = - u_C(t), \qquad\quad i_L(t) = i_C(t) \\
+	p_L(t) &= u_L(t) i(t) = - u_C(t) i(t) = - p_C(t) \quad \rightarrow \quad p_L(t) + p_C(t) = 0 \\
+	\omega_L(t) &= \frac{1}{2} Li(t)^2, \qquad \omega_C(t) = \frac{1}{2} Cu(t)^2 \quad \rightarrow \quad \omega_{LC} = \text{costante}
+\end{align*}
+Si osserva che, in risonanza, il condensatore e l'induttanza agiscono come cortocircuito e si scambiano energia a vicenda, senza
+influire sulla potenza istantanea del circuito.
+
+\vspace{20pt}
+
+\subsection{Analisi in frequenza e risonanza in un parallelo RLC}
+\subsubsection*{Circuito ed equazioni caratteristiche}
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) to[short, *-, i>_=i(t)] (1,0) -- (4,0) (4,-2) to[short, -*] (0,-2);
+			\draw (1.2,0) to[R=R] (1.2,-2) (2.5,0) to[L=L] (2.5,-2) (4,0) to[C=C] (4,-2);
+			\node[] at (-0.3,0) {+};
+			\node[] at (-0.3,-2) {--};
+			\node[] at (-0.4,-1) {u(t)};
+		\end{circuitikz}
+		\begin{align*}
+			&\quad \overline{I} = \dot{Y} \overline{U} \qquad\quad \dot{Y} = G + jB(\omega) \\
+			&B(\omega) = B_L(\omega) + B_C(\omega) = -\frac{1}{\omega L} + \omega C
+		\end{align*}
+	\end{minipage}
+	\begin{minipage}{0.1\textwidth}
+		\textcolor{white}{.}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{parallelo RLC.png}
+	\end{minipage}
+\end{center}
+\subsubsection*{Impedenza e ammettenza}
+\begin{align*}
+	\text{ammettenza:} \quad &\dot{Y}(\omega) = G + j(B_L + B_C) = G + j\left(\omega C - \frac{1}{\omega L}\right) \\
+	&\left|\dot{Y}(\omega)\right| = \sqrt{G^2 + \left(\omega C - \frac{1}{\omega L}\right)^2} \qquad\qquad \varphi'(\omega) = \arg \dot{Y} = \arctan \left(\frac{\omega C - \frac{1}{\omega L}}{G}\right) \\
+	& \\
+	\text{impedenza:} \quad &\dot{Z}(\omega) = \frac{1}{\dot{Y}(\omega)} = \frac{1}{G + j(B_L + B_C)} = \frac{1}{G + j\left(\omega C - \frac{1}{\omega L}\right)} \\
+	&\left|\dot{Z}(\omega)\right| = \frac{1}{\sqrt{G^2 + \left(\omega C - \frac{1}{\omega L}\right)^2}} \qquad\qquad \varphi(\omega) = \arg \dot{Z} = \arctan \left(-\frac{\omega C - \frac{1}{\omega L}}{G}\right)
+\end{align*}
+
+\newpage
+
+\subsubsection*{Antisonanza}
+Si ha un fenomeno di antisonanza (opposto alla risonanza) per \(\omega_0 = \frac{1}{\sqrt{LC}}\)
+\begin{itemize}
+	\item i fenomeni induttivi e capacitivi si equivalgono e si sommano
+	\item si ha una valle di minimo dell'ammettenza per \(\omega = \omega_0\)
+	\item si ha un picco di massimo dell'induttanza per \(\omega = \omega_0\)
+\end{itemize}
+In base al valore di \(\omega\) si avranno due comportamenti
+\begin{itemize}
+	\item per \(\omega < \omega_0\) prevale il comportamento ohmico-induttivo (\(\varphi > 0\), \(\dot{Z} \stackrel{\omega \ll \omega_0}{\longrightarrow} R - j / \omega L\))
+	\item per \(\omega > \omega_0\) prevale il comportamento ohmico-capacitivo (\(\varphi < 0\), \(\dot{Z} \stackrel{\omega \gg \omega_0}{\longrightarrow} R + j\omega C\))
+\end{itemize}
+
+\subsubsection*{Fattore di merito in antisonanza}
+\[Q_0 = \frac{I_L}{I_R} = \frac{I_C}{I_R} = \frac{R}{\left|X_L(\omega_0)\right|} = \frac{R}{\left|X_C(\omega_0)\right|} = \frac{R}{\omega L} = -\omega C R = R \sqrt{\frac{C}{L}} \qquad\qquad \text{indipendente da } \omega_0\]
+
+\subsubsection*{Analisi dei fasori di correnti, tensioni e potenze in antisonanza}
+\begin{align*}
+	\overline{I}_L = - \overline{I}_C \qquad &\text{i fasori sono uguali ed opposti tra loro e si cancellano a vicenda} \\
+	\overline{I}_C = j \omega_0 C \overline{U} \qquad &\text{la tensione è in ritardo (e in quadratura) rispetto alla corrente nel condensatore} \\
+	\overline{I}_L = - j \frac{1}{\omega_0 L} \overline{U} \qquad &\text{la tensione è in anticipo (e in quadratura) rispetto alla corrente nell'induttanza} \\
+	Q_L + Q_C = 0 \qquad &\text{le potenze reattive sono opposte, indutt. e condensatore formano un circuito aperto}
+\end{align*}
+Siccome vale \(I_L = I_C = Q_0 I_\text{parallelo}\), se \(Q_0 > 0\) le correnti all'interno dei singoli componenti vengono amplificate.
+
+\subsubsection*{Analisi nel tempo di correnti, tensioni e potenze in antisonanza}
+\begin{align*}
+	i_{LC}(t) &= i_L(t) + i_C(t) = 0 \quad \rightarrow \quad i_L(t) = - i_C(t), \qquad\quad u_L(t) = u_C(t) \\
+	p_L(t) &= u(t) i_L(t) = - u(t) i_C(t) = - p_C(t) \quad \rightarrow \quad p_L(t) + p_C(t) = 0 \\
+	\omega_L(t) &= \frac{1}{2} Li(t)^2, \qquad \omega_C(t) = \frac{1}{2} Cu(t)^2 \quad \rightarrow \quad \omega_{LC} = \text{costante}
+\end{align*}
+Si osserva che, in antisonanza, il condensatore e l'induttanza agiscono come circuito aperto e si scambiano energia a vicenda, senza
+influire sulla potenza istantanea del circuito.
+
+\vspace{20pt}
+
+\subsection{Teorema del massimo trasferimento di potenza}
+\begin{minipage}{0.3\textwidth}
+	\centering
+	\begin{circuitikz}[european]
+		\draw (0,0) to[V, i_>=i] (2,0) to[R=\(\dot{Z}_i\)] (4,0) -- (4,-1.5) to[R=\(\dot{Z}_u\)] (0,-1.5) -- (0,0);
+		\draw (1,0) [circ, thick, fill, color=white] circle(0.39);
+		\node[] at (0.4,0.2) {--};
+		\node[] at (1.6,0.2) {+};
+		\node[] at (1,0.7) {\(e(t)\)};
+		\node[] at (1,0) {\(\underline{\sim}\)};
+	\end{circuitikz}
+\end{minipage}
+\begin{minipage}{0.69\textwidth}
+	La potenza attiva ceduta al carico è massima se \(\dot{Z_i} = Z_u^*\), ovvero se il coniugato dell'impedenza di carico è pari
+	all'impedenza interna del generatore (adattamento coniugato).
+\end{minipage}
+
+\newpage
+
+
+\section{Reti in regime variabile}
+\subsection{Regime variabile quasi stazionario}
+Di tutte le possibili reti a regime variabile, si analizzano solo quelle a regime variabile quasi stazionario, in modo da poter
+applicare le proprietà della teoria dei circuiti. Nello specifico verranno analizzati i regimi variabili che si verificano
+all' apertura o alla chiusura di un interruttore che modifica il circuito, ciò provoca un transitorio tra il regime precedente
+e quello nuovo.
+
+\subsubsection*{Deviatore ideale}
+\begin{center}
+	\begin{minipage}{0.17\textwidth}
+		\begin{circuitikz}
+			\draw (1,0) node[spdt] (myspdt) {}
+			(0,0) -- (myspdt.in) 
+			(myspdt.out 1) -- +(0.5,0)
+			(myspdt.out 2) -- +(0.5,0);
+			\node[] at (0.3,0.2) {\(_\text{COM}\)};
+			\node[] at (1.5,0.6) {1};
+			\node[] at (1.5,-0.6) {2};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.75\textwidth}
+		dipolo in grado di commutarsi tra due stati: \\
+		1. cortocircuito tra mors. 1 e comune, circuito aperto tra mors. 2 e comune \\
+		2. cortocircuito tra mors. 1 e comune, circuito aperto tra mors. 2 e comune
+	\end{minipage}
+\end{center}
+
+\subsection{Istante critico e variabili di stato all'istante critico}
+\subsubsection*{Istante critico}
+L'istante critico è l'ultimo istante di tempo in cui vale ancora il regime \say{vecchio} che corrisponde alle condizioni iniziali
+del transitorio variabile. Studiare una rete variabile corrisponde a studiare cosa avviene nell'istante critico e nell'immediato
+futuro.
+
+\subsubsection*{Variabili di stato e continuità}
+All'istante critico alcune grandezze possono ammettere discontinuità, altre sono continue. Le variabili che non ammettono discontinuità
+all'istante critico sono dette variabili di stato.
+
+\begin{itemize}
+	\item interruttore ideale ha discontinuità quando si inverte lo stato \(u(0^-) \neq u(0^+)\)
+	\item generatore ideale ha discontinuità in accensione o spegnimento \(e(0^-) \neq e(0^+), \; j(0^-) \neq j(0^+)\)
+	\item resistenza ideale può presentare discontinuità di correnti e tensioni \(u(0^-) \neq u(0^+), \; i(0^-) \neq i(0^+)\)
+	\item condensatore ideale non ammette discontinuità di tensione \(u(0^-) = u(0^+)\)
+	\item induttore ideale non ammette discontinuità di corrente \(i(0^-) = i(0^+)\)
+\end{itemize}
+
+\subsection{Reti lineari in regime variabile}
+\subsubsection*{Sistema di equazioni di reti lineari in regime variabile}
+Per risolvere una rete lineare a regime variabile:
+\begin{itemize}
+	\item[1.] si scrive il sistema composto da \(2l\) equazioni differenziali ordinarie ottenute dalle LKC, LKT e dalle equazioni
+	costitutive dei singoli bipoli
+	\item[2.] si individuano le variabili di stato \(u_k(t)\) e \(i_k(t)\) e si identificano come uscite \(y(t)\)
+	\item[3.] si individuano le variabili dei generatori \(e(t)\) e \(j(t)\) e si identificano come ingressi \(x(t)\)
+	\item[4.] si risolve il sistema ottenendo una equazione differenziale ordinaria con unica incognita \(y(t)\)
+	\item[5.] si risolve l'EDO ottenuta e di conseguenza si risolve l'intera rete
+\end{itemize}
+
+\subsubsection*{Equazione differenziale ordinaria}
+\[\sum_{i=0}^{p} a_i \frac{d^i y(t)}{dt} = \sum_{i=0}^{q} b_i \frac{d^i x(t)}{dt} \qquad \begin{cases}
+	\sum_{i=0}^{p} a_i \frac{d^i y(t)}{dt} \quad &\text{combinazione delle derivate degli ingressi} \\
+	\sum_{i=0}^{q} b_i \frac{d^i x(t)}{dt} \quad &\text{combinazione delle derivate delle uscite}
+\end{cases}\]
+I coefficienti \(a_i\) e \(b_i\) dipendono dall'uscita considerata, il numero \(p\) \((\geq q)\) determina il grado dell'EDO ed è
+sempre minore del numero di condensatori e induttori presenti nella rete. La soluzione dell'EDO si compone della somma tra la
+soluzione dell'omogenea associata e una soluzione particolare.
+
+\subsubsection*{Soluzione del'omogenea}
+Supponendo che la soluzione dell'omogenea sia di tipo esponenziale \(y_0(t) = Ye^{st}\), si ottiene
+\[\sum_{i=0}^{p} a_i \frac{d^i y(t)}{dt^i} = \sum_{i=0}^{p} a_i Y s^i e^{st} = Ye^{st} \sum_{i=0}^{p} a_i s^i = 0 \quad \Leftrightarrow \quad \sum_{i=0}^{p} a_i s^i = 0\]
+\begin{itemize}
+	\item il polinomio \(\sum_{i=0}^{p} a_i s^i = 0\) è definito equazione algebrica caratteristica del circuito, di grado \(p\)
+	\item le soluzioni \(s = s_1, s_2, ... s_p\) sono esattamente \(p\) e sono chiamate zeri del polinomio
+	\item le soluzioni possono essere reali distinte, reali coincidenti o complesse coniugate e dipendono dai valori R, L, C del circuito
+	\item ciascuno zero \(s_i\) fornisce una soluzione parziale dell'omogenea del tipo \(y_0(t) = Y_i e ^{s_it}\) chiamato modo
+	naturale o modo caratteristico dell'EDO.
+\end{itemize}
+La soluzione completa dell'omogenea è una combinazione lineare di tutti i modi naturali:
+\[y_0(t) = Y_1e^{s_1t} + Y_2e^{s_2t} + \dots + Y_pe^{s_pt}\]
+
+\subsubsection*{Radici reali e modi naturali unidirezionali}
+Ad ogni radice reale \(s_i = \sigma_i\) è associato un modo naturale esponenziale del tipo \(y_0(t) = Y_i e^{\sigma_i t}\)
+\begin{itemize}
+	\item se le soluzioni sono negative o nulle \(\sigma_i \leq 0\), l'evoluzione del sistema converge ad un regime di stabilità (per reti di bipoli passivi si ha sempre stabilità)
+	\item se ci sono due soluzioni coincidenti \(\sigma_{i} = \sigma_{i+1}\), il contributo risultante cumulativo di entrambi sarà della forma \(y_0(t) = Y_i e^{\sigma_i t} + Y_i t e^{\sigma_i t}\)
+\end{itemize}
+
+\subsubsection*{Radici complesse coniugate e modi natali oscillanti}
+Ad ogni coppia di radici complesse coniugate è associato un modo naturale oscillatorio del tipo:
+\begin{align*}
+	y_0(t) &= Y_i e^{(\sigma_i + j\omega_i)t} + Y_{i+1} e^{(\sigma_i - j\omega_i)t} = e^{\sigma_i t} Y_i e^{j\omega_i t} + e^{\sigma_i t} Y_{i+1} e^{-j\omega_i t} \\
+	&= e^{\sigma_i t} Y_i (\cos (\omega_i t) + j\sin(\omega_i t)) + e^{\sigma_i t} Y_{i+1} (\cos (\omega_i t) - j\sin(\omega_i t)) \\
+	&= e^{\sigma_i t} (Y_i + Y_{i+1}) \cos (\omega_i t) + e^{\sigma_i t} j (Y_i - Y_{i+1}) \sin(\omega_i t) \\
+	y_0(t) &= e^{\sigma_i t} A_i \cos (\omega_i t) + e^{\sigma_i t} B_i \sin(\omega_i t)
+\end{align*}
+Se la parte reale è negativa \(\sigma_i < 0\), si ha un moto armonico esponenzialmente smorzato e si converge ad un regime di stabilità.
+
+\subsubsection*{Frequenze naturali e costanti di tempo}
+Si osserva che le radici \(s_i\) esprimono una frequenza associata al modo naturale, per cui si definisce il tempo caratteristico
+associato al modo naturale \(\tau_i = -1/\sigma_i\). In questo modo si ottengono:
+\begin{itemize}
+	\item modi naturali unidirezionali: \(y_0(t) = Y_i e^{-t/\tau_i}\)
+	\item modi naturali oscillanti: \(y_0(t) = e^{-t/\tau_i} (A_i \cos(\omega_i t) + B_i \sin(\omega_i t))\)
+\end{itemize}
+
+\subsubsection*{Soluzione completa dell'EDO}
+La soluzione completa dell'equazione differenziale è data dalla somma di quella dell'omogenea associata e di una soluzione particolare
+\[y(t) = y_0(t) + y_p(t) = Y_1e^{s_1t} + Y_2e^{s_2t} + ... + Y_pe^{s_pt} + y_p(t)\]
+Le costanti di integrazione \(Y_1, \dots Y_p\) si determinano imponendo le condizioni iniziali per l'uscita \(y(t)\) e le sue
+\(p-1\)-esime derivate in \(t = 0\).
+
+\newpage
+
+\subsection{Carica del condensatore in circuito RC}
+\begin{minipage}{0.4\textwidth}
+	\centering
+	\begin{circuitikz}
+		\draw (1,0) node[spdt] (myspdt) {}
+		(0,0) -- (myspdt.in)
+		(myspdt.out 1) to[R=R, i>_=\(i(t)\)] +(2.5,0) to[C=C] +(2.5,-2) -- +(0,-2)
+		(myspdt.out 2) -- +(0,-1.37) -- +(-1.6,-1.37) to[V=\(e(t)\)] (0,0);
+		\node[] at (0.6,0.2) {1};
+		\node[] at (1.4,0.55) {\(_\text{COM}\)};
+		\node[] at (1.4,-0.55) {2};
+	\end{circuitikz}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	\begin{itemize}
+		\item inizialmente lo switch si trova in posizione \(2\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i(t) = 0\), \(u_C(t) = 0\)
+		\end{itemize}
+		\item a \(t=0\) passa in posizione \(1\):
+		\begin{itemize}[topsep=0pt]
+			\item \(u_C(t) = 0\) perché variabile di stato
+		\end{itemize}
+	\end{itemize}
+\end{minipage}
+\vspace{15pt}
+\begin{itemize}[itemsep=0pt]
+	\item[1.] scrivo le equazioni del sistema per \(t \geq 0\)
+	\[\text{LKT:} \;\; u_R(t) + u_C(t) = E \quad\; \text{LKC:} \;\; i_R(t) = i_C(t) = i(t) \quad\; \text{R:} \;\; u_R(t) = Ri_R(t) \quad\; \text{C:} \;\; i_C(t) = C \frac{du_C(t)}{dt}\]
+	\item[2.] ottengo la EDO e l'omogenea associata
+	\[RC\frac{du_C(t)}{dt} + u_C(t) = E \qquad \rightarrow \qquad RC\frac{du_C(t)}{dt} + u_C(t) = 0 \quad\text{omogenea}\]
+	\item[3.] soluzione particolare
+	\[u_p(t) = U_P \text{ con } U_P = E \quad \rightarrow \quad RC\frac{d U_P}{dt} + U_P = E \;\;\rightarrow\;\; U_P = E\]
+	\item[4.] soluzione dell'omogenea
+	\[RC s + 1 = 0 \;\; \rightarrow \;\; s = -\frac{1}{RC}, \quad \tau = RC, \quad u_o(t) = U_0 e^{st} = U_0 e^{-t/\tau}\]
+	\item[5.] soluzione completa e calcolo delle costanti con condizioni iniziali \(u_C(0) = 0\)
+	\[u_C(t) = U_P + U_0 e^{-t/\tau} \;\; \rightarrow\;\; U_P = U_0 = E \;\; \rightarrow \;\; u_C(t) = E(1-e^{-t/\tau}), \quad i(t) = \frac{E}{R} e^{-t/\tau}\]
+\end{itemize}
+
+\subsection{Scarica del condensatore in circuito RC}
+\begin{minipage}{0.4\textwidth}
+	\centering
+	\begin{circuitikz}
+		\draw (1,0) node[spdt] (myspdt) {}
+		(0,0) -- (myspdt.in)
+		(myspdt.out 1) to[R=R, i>_=\(i(t)\)] +(2.5,0) to[C=C] +(2.5,-2) -- +(0,-2)
+		(myspdt.out 2) -- +(0,-1.37) -- +(-1.6,-1.37) to[V=\(e(t)\)] (0,0);
+		\node[] at (0.6,0.2) {1};
+		\node[] at (1.4,0.55) {\(_\text{COM}\)};
+		\node[] at (1.4,-0.55) {2};
+	\end{circuitikz}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	\begin{itemize}
+		\item inizialmente lo switch si trova in posizione \(1\):
+		\begin{itemize}[topsep=0pt]
+			\item \(u_C(t) = E\)
+		\end{itemize}
+		\item a \(t=0\) passa in posizione \(2\):
+		\begin{itemize}[topsep=0pt]
+			\item \(u_C(t) = E\) perché variabile di stato
+		\end{itemize}
+	\end{itemize}
+\end{minipage}
+\vspace{15pt}
+\begin{itemize}[itemsep=0pt]
+	\item[1.] scrivo le equazioni del sistema per \(t \geq 0\)
+	\[\text{LKT:} \;\; u_R(t) + u_C(t) = 0 \quad\; \text{LKC:} \;\; i_R(t) = i_C(t) = i(t) \quad\; \text{R:} \;\; u_R(t) = Ri_R(t) \quad\; \text{C:} \;\; i_C(t) = C \frac{du_C(t)}{dt}\]
+	\item[2.] ottengo la EDO che è già omogenea
+	\[RC\frac{du_C(t)}{dt} + u_C(t) = 0 \quad\text{già omogenea, non serve la soluzione particolare}\]
+	\item[4.] soluzione dell'omogenea
+	\[RC s + 1 = 0 \;\; \rightarrow \;\; s = -\frac{1}{RC}, \quad \tau = RC, \quad u_o(t) = U_0 e^{st} = U_0 e^{-t/\tau}\]
+	\item[5.] soluzione completa e calcolo delle costanti con condizioni iniziali \(u_C(0) = E\)
+	\[u_C(t) = U_0 e^{-t/\tau} \;\; \rightarrow\;\; U_0 = E \;\; \rightarrow \;\; u_C(t) = Ee^{-t/\tau}, \quad i(t) = -\frac{E}{R} e^{-t/\tau}, \quad u_R = -Ee^{-t/\tau}\]
+\end{itemize}
+
+\newpage
+
+\subsection{Carica dell'induttore in circuito RL}
+\begin{minipage}{0.4\textwidth}
+	\centering
+	\begin{circuitikz}
+		\draw (1,0) node[spdt] (myspdt) {}
+		(0,0) -- (myspdt.in)
+		(myspdt.out 1) to[R=R, i>_=\(i(t)\)] +(2.5,0) to[L=L] +(2.5,-2) -- +(0,-2)
+		(myspdt.out 2) -- +(0,-1.37) -- +(-1.6,-1.37) to[V=\(e(t)\)] (0,0);
+		\node[] at (0.6,0.2) {1};
+		\node[] at (1.4,0.55) {\(_\text{COM}\)};
+		\node[] at (1.4,-0.55) {2};
+	\end{circuitikz}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	\begin{itemize}
+		\item inizialmente lo switch si trova in posizione \(2\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i(t) = 0\), \(u_L(t) = 0\)
+		\end{itemize}
+		\item a \(t=0\) passa in posizione \(1\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i_L(t) = 0\) perché variabile di stato
+		\end{itemize}
+	\end{itemize}
+\end{minipage}
+\vspace{15pt}
+\begin{itemize}[itemsep=0pt]
+	\item[1.] scrivo le equazioni del sistema per \(t \geq 0\)
+	\[\text{LKT:} \;\; u_R(t) + u_L(t) = E \quad\; \text{LKC:} \;\; i_R(t) = i_L(t) = i(t) \quad\; \text{R:} \;\; u_R(t) = Ri_R(t) \quad\; \text{L:} \;\; u_L(t) = L \frac{di_L(t)}{dt}\]
+	\item[2.] ottengo la EDO e l'omogenea associata
+	\[L\frac{di_L(t)}{dt} + Ri_L(t) = E \qquad \rightarrow \qquad L\frac{di_L(t)}{dt} + Ri_L(t) = 0 \quad\text{omogenea}\]
+	\item[3.] soluzione particolare
+	\[i_p(t) = I_P \text{ con } i_P = \frac{E}{R} \quad \rightarrow \quad L\frac{dI_P}{dt} + RI_P = E \;\;\rightarrow\;\; I_P = \frac{E}{R}\]
+	\item[4.] soluzione dell'omogenea
+	\[L s + R = 0 \;\; \rightarrow \;\; s = -\frac{R}{L}, \quad \tau = \frac{L}{R}, \quad i_o(t) = I_0 e^{st} = I_0 e^{-t/\tau}\]
+	\item[5.] soluzione completa e calcolo delle costanti con condizioni iniziali \(i_L(0) = 0\)
+	\[i_L(t) = I_P + I_0 e^{-t/\tau} \;\; \rightarrow\;\; I_P = I_0 = \frac{E}{R} \;\; \rightarrow \;\; i_L(t) = \frac{E}{R}(1-e^{-t/\tau}), \quad \begin{array}{l} u_L(t) = E e^{-t/\tau} \\ u_R(t) = E(1-e^{-t/\tau}) \end{array}\]
+\end{itemize}
+
+\subsection{Scarica dell'induttore in circuito RL}
+\begin{minipage}{0.4\textwidth}
+	\centering
+	\begin{circuitikz}
+		\draw (1,0) node[spdt] (myspdt) {}
+		(0,0) -- (myspdt.in)
+		(myspdt.out 1) to[R=R, i>_=\(i(t)\)] +(2.5,0) to[L=L] +(2.5,-2) -- +(0,-2)
+		(myspdt.out 2) -- +(0,-1.37) -- +(-1.6,-1.37) to[V=\(e(t)\)] (0,0);
+		\node[] at (0.6,0.2) {1};
+		\node[] at (1.4,0.55) {\(_\text{COM}\)};
+		\node[] at (1.4,-0.55) {2};
+	\end{circuitikz}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	\begin{itemize}
+		\item inizialmente lo switch si trova in posizione \(1\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i_L(t) = E/R\)
+		\end{itemize}
+		\item a \(t=0\) passa in posizione \(2\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i_L(t) = E/R\) perché variabile di stato
+		\end{itemize}
+	\end{itemize}
+\end{minipage}
+\vspace{15pt}
+\begin{itemize}[itemsep=0pt]
+	\item[1.] scrivo le equazioni del sistema per \(t \geq 0\)
+	\[\text{LKT:} \;\; u_R(t) + u_L(t) = 0 \quad\; \text{LKC:} \;\; i_R(t) = i_L(t) = i(t) \quad\; \text{R:} \;\; u_R(t) = Ri_R(t) \quad\; \text{L:} \;\; u_L(t) = L \frac{di_L(t)}{dt}\]
+	\item[2.] ottengo la EDO che è già omogenea
+	\[L\frac{di_L(t)}{dt} + Ri_L(t) = 0 \quad\text{già omogenea, non serve la soluzione particolare}\]
+	\item[4.] soluzione dell'omogenea
+	\[L s + R = 0 \;\; \rightarrow \;\; s = -\frac{R}{L}, \quad \tau = \frac{L}{R}, \quad i_o(t) = I_0 e^{st} = I_0 e^{-t/\tau}\]
+	\item[5.] soluzione completa e calcolo delle costanti con condizioni iniziali \(i_L(0) = E/R\)
+	\[i_L(t) = I_0 e^{-t/\tau} \;\; \rightarrow\;\; I_0 = \frac{E}{R} \;\; \rightarrow \;\; i_L(t) = \frac{E}{R}e^{-t/\tau}, \quad u_L(t) = - E e^{-t/\tau}, \quad u_R(t) = Ee^{-t/\tau}\]
+\end{itemize}
+
+\newpage
+
+\subsection{Circuito RLC e fattore di smorzamento}
+\begin{minipage}{0.4\textwidth}
+	\centering
+	\begin{circuitikz}
+		\draw (1,0) node[spdt] (myspdt) {}
+		(0,0) -- (myspdt.in)
+		(myspdt.out 1) to[R=R, i>_=\(i(t)\)] +(2.5,0) to[L=L] +(2.5,-2) to[C=C] +(0,-2)
+		(myspdt.out 2) -- +(0,-1.37) -- +(-1.6,-1.37) to[V=\(e(t)\)] (0,0);
+		\node[] at (0.6,0.2) {1};
+		\node[] at (1.4,0.55) {\(_\text{COM}\)};
+		\node[] at (1.4,-0.55) {2};
+	\end{circuitikz}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	\begin{itemize}
+		\item inizialmente lo switch si trova in posizione \(2\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i(t) = 0\), \(u_R(t) = u_L(t) = u_C(t) = 0\)
+		\end{itemize}
+		\item a \(t=0\) passa in posizione \(1\):
+		\begin{itemize}[topsep=0pt]
+			\item \(i_L(t) = 0\) e \(u_C(t) = 0\) perché variabili di stato
+		\end{itemize}
+	\end{itemize}
+\end{minipage}
+\vspace{10pt}
+
+\begin{itemize}[itemsep=0pt]
+	\item[1.] scrivo le equazioni del sistema per \(t \geq 0\)
+	\[\begin{array}{l}
+		\text{LKT:} \;\; u_R(t) + u_L(t) + u_C(t) = E \\[7pt]
+		\text{LKC:} \;\; i_R(t) = i_L(t) = i_C(t) = i(t)
+	\end{array} \qquad u_R(t) = Ri_R(t) \qquad u_L(t) = L \frac{di_L(t)}{dt} \qquad i_C(t) = C \frac{du_C(t)}{dt}\]
+	\item[2.] ottengo le EDO in funzione della corrente e della tensione e le relative omogenee associate
+	\[\begin{array}{l}
+		\displaystyle LC\frac{d^2u_C(t)}{dt^2} + RC\frac{du_C(t)}{dt} + u_C(t) = E \\[10pt]
+		\displaystyle LC\frac{d^2i_L(t)}{dt^2} + RC\frac{di_L(t)}{dt} + i_L(t) = 0
+	\end{array}
+	\quad \rightarrow \quad \begin{array}{l}
+		\displaystyle LC\frac{d^2u_C(t)}{dt^2} + RC\frac{du_C(t)}{dt} + u_C(t) = 0 \\[10pt]
+		\displaystyle LC\frac{d^2i_L(t)}{dt^2} + RC\frac{di_L(t)}{dt} + i_L(t) = 0
+	\end{array}\]
+	\item[3.] si risolve la EDO in funzione delle tensioni, introducendo i parametri \(T\), \(\omega_0\), \(\xi\) e si risolve
+	distinguendo tre casi in base al valore di \(\xi > 1\), \(\xi = 1\), \(\xi < 1\)
+	\[\begin{array}{l}
+		\displaystyle T = \frac{2L}{R} \;\; \text{costante di tempo} \\[10pt]
+		\displaystyle \omega_0 = \frac{1}{\sqrt{LC}} \;\; \text{pulsazione}
+	\end{array} \qquad\qquad \begin{array}{l}
+		\displaystyle \xi = \frac{1}{\omega_0 T} = \frac{R}{2\omega_0 L} = \frac{R}{R_{cr}} \;\; \text{smorzamento} \\[10pt]
+		\displaystyle R_{cr} = 2 \omega_0 L = 2\sqrt{\frac{L}{C}} \;\; \text{resistenza critica}
+	\end{array}\]
+	
+	\item[4.] caso \(\xi > 1\), andamento sovrasmorzato, \(R > R_{cr}\) \\
+	si ha un andamento esponenziale monotono e si definiscono due costanti di tempo \(0 < T_2 < T < T_1\) tali per cui per \(t \to +\infty\)
+	prevale la costante di tempo maggiore \(T_1\):
+	
+	\begin{minipage}{0.5\textwidth}
+		\begin{align*}
+			u_C(t) &= E - \frac{T_1}{T_1 - T_2} E e^{-t/T_1} + \frac{T_2}{T_1 - T_2} E e^{-t/T_2} \\
+			i_L(t) &= \frac{C E}{T_1 - T_2} (e^{-t/T_1} - e^{-t/T_2})
+		\end{align*}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\includegraphics[width=0.6\linewidth]{rlc sovrasmorzato.png}
+	\end{minipage}
+	
+	\item[5.] caso \(\xi = 1\), andamento criticamente smorzato \(R = R_{cr}\) \\
+	si ha un andamento esponenziale monotono con una sola costante di tempo \(T = T_1 = T_2\):
+	
+	\begin{minipage}{0.5\textwidth}
+		\begin{align*}
+			u_C(t) &= E - E e^{-t/T} - E \frac{t}{T} e^{-t/T} \\
+			i_L(t) &= \frac{C E}{T^2}t e^{-t/T}
+		\end{align*}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\includegraphics[width=0.6\linewidth]{rlc criticamente smorzato.png}
+	\end{minipage}
+	
+	\item[6.] caso \(\xi < 1\), andamento sottosmorzato \(R < R_{cr}\) \\
+	si ha un andamento oscillatorio esponenzialmente smorzato con una singola costante di tempo \(T\):
+	
+	\begin{minipage}{0.5\textwidth}
+		\begin{align*}
+			u_C(t) &= E - E e^{-t/T} \cos (\omega t) - \frac{E}{T\omega} e^{-t/T}\sin (\omega t) \\
+			i_L(t) &= \frac{E}{L\omega}t e^{-t/T} \sin (\omega t)
+		\end{align*}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\includegraphics[width=0.6\linewidth]{rlc sottosmorzato.png}
+	\end{minipage}
+\end{itemize}
+
+\subsection{Considerazioni finali su reti a regime variabile che tendono alla stabilità}
+\begin{itemize}
+	\item nelle reti a regime smorzato, il transitorio termina dopo \(\approx 5T\), nel caso in cui si hanno più
+	costanti di tempo, domina quella maggiore
+	\item dopo il transitorio iniziale , la rete tende ad un regime che dipende dai generatori (stazionario, sinusoidale), in
+	assenza di generatori (con smorzamento), il regime è nullo \(u(t) = 0\), \(i(t) = 0\) 
+	\item il contributo dello smorzamento è dato dai componenti resistivi \(R\)
+	\item il contributo delle oscillazioni è dato dai componenti induttivo-capacitivi \(L\) e \(C\)
+\end{itemize}
 
 \end{document}
