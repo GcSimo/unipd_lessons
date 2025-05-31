@@ -605,6 +605,479 @@ Le **storie** e gli **scenari** sono esperienze della vita reale usati come stru
 - descrizione di cosa più andare storto
 - descrizione di attività concorrenti
 - descrizione dello stato finale
+#### 2. Requirements secification: stesura dei requisiti
+Processo che prevede la stesura in maniera ordinata, chiara e concisa dei requisiti. Si divide in:
+- user requirements: comprensibili anche a chi non ha nessun background informatico
+- system requirements: molto dettagliati e con termini e linguaggio tecnico specifico
+
+Esempi di linguaggio:
+- natual language: requisiti descritti in frasi numerate in lingua inglese, ogni frase contiene un requisito
+- structured natural language: requisiti descritti sottoforma di form o template
+- design description language: descrizione attraverso uno pseudocodice o linguaggio di programmazione ad alto livello (usato poco e soltato per le interfacce)
+- graphical notations: requisiti espressi attraverso modelli grafici come UML
+- mathematical specifications: requisiti espressi attraverso linguaggio matematico (comprensibile a pochi)
+
+Requirements and design
+- requirements: spiegano cosa deve fare il sistema
+- design: spiega come deve fare ciò per cui è stato pensato
+
+**Natual language**:
+- universale e comprensibile a chiunque (sviluppatori e committente)
+- Consigli:
+  - scegliere un formato standard e uniforme per tutti i requisiti
+  - usare linguaggi non ambigui e termini condivisi tra tutti gli addetti ai lavori
+  - evidenziare parti più importanti
+  - includere spiegazione del perché il requisito è stato inserito
+- Problemi con linguaggio naturale
+  - ambiguo e poco chiaro
+  - per essere specifici si deve aumentare la complessità
+
+**Structured speciications**
+- i requisiti sono scritti in maniera rigida, strutturata e uniforme
+- utili per embedded control system, ma a volte potrebbe sembrare troppo rigido
+- esempio di struttura base (form):
+  - descrione funzione ed entità
+  - descrizione input
+  - descrizione output
+  - eventuali dipendenze
+  - eventuali pre e postcondizioni (es. validità di input -> precondizione, dove viene salvato il risultato -> postcondizione)
+  - eventuali side effects
+
+**Tabular speciications**
+- affiancano il linguaggio naturale per indicare un elenco di possibli azioni
+
+**Use cases**
+- descrivono gli scenari che si possono verificare con eventuali dipendenze, iterazioni tra i diversi componenti e accessibilità degli utilizzatori (azioni concesse e non concesse)
+
+**Software requirements document**
+- raccoglie tutti i requisiti (funzionali e non funzinonali), ma non comprendono il design del progetto
+- può diventare parte del contratto
+- ci sono più utenti diversi che lo leggono per azioni diverse:
+  - system customers: controllano se il progetto soddisfa le richieste
+  - managers: pianificano lo sviluppo e le risorse
+  - system engineers: sviluppano in base ai requisiti
+  - system test engineers: testano il sistema in base ai requisiti
+  - system maintenance engineers: manutenzione e aggiornamento
+- la dimensione del documento dipende dall'approccio usato (waterfall o incremental), dal numero di persone che ci lavorano e dalla dimensione del progetto
+- struttura:
+  - prefazione: destinatari del documento, numero della revisione e storia delle revisioni
+  - introduzione: scopo del progetto, funzioni 
+  - glossario: termini usati che potrebbero essere ambigui (es. acronimi)
+  - user requirements definition: functional and non functional requirements, generalmente in linguaggio naturale con possibile aggiunta di grafici, tabelle e uml
+  - system architecture: architettura e distribuzione delle funzionalità nei vari componenti del modello
+  - system requirements specifications: functional and non functional system specifications, interfacce, relazioni con altri sistemi esterni
+  - system models: modelli di sviluppo
+  - system evolution: direzione verso cui si prevede di farlo evolvere
+  - appendici: codice, dettagli secondari, ...
+  - indice
 
 #### 2. Requirements validation: validazione dei requisiti
-#### 3. Requirements management:
+Controllo che i requisiti soddisfano le richieste dell'utiente. Correggere i requisiti dopo la consegna del progetto costa 100 volte di più di un errore di implementazione.
+
+**Controlli sui requisiti**:
+- validità: soddisfa le richieste dell'utente
+- consistenza: conflitti tra requisiti
+- completezza: tutte le richieste dell'utente sono soddisfatte
+- concretezza: implementabilità con budget dato e tecnologia a disposizione
+- verificabilità: possibilità di verificare se i requisiti sono soddisfatti
+
+**Tecniche di validazione**
+- reviews dei requisiti: analisi manuale dei requisiti per i parametri sopra
+- creazione di prototipi: verifico attraverso la costruzione di prototipi
+- sviluppo tester per testare la verificabilità (testabilità) dei requisiti
+
+**Requirements reviews**
+- controllo regolare sui requisiti (es. problemi con fornitori), può essere formale o informale
+- parametri da valutare:
+  - verificabilità: si può effettivamente testare?
+  - comprensibilità: è comprensibile a chi non fa parte del progetto?
+  - tracciabilità: l'origine del requisiti è chiara?
+  - adattabilità: quanto è flessibile al cambiamento?
+
+#### 3. Requirements change and requirements management:
+Hardware su cui viene installato il sistema, settore di applicazione e dipendenze del sistema cambiano con il tempo, serve mantenere il sistema aggiornato e aggiustare i requisiti.
+
+Il Requirements management indica il processo di gestione dei cambiamenti dei requisiti durante il processo di requirements engineering e lo sviluppo del sistema.
+
+La pianificazione del requirements management serve per stabilire il livello di dettaglio della gestione dei requisiti:
+- identificazione dei requisiti: associare un codice univoco ad ogni requisito
+- change managment process: processo di analisi sull'impatto dei requisiti
+- politica di tracciabilità: correlazione tra i requisiti e il design del sistema
+- strumenti di supporto: strumenti per semplificare il lavoro (spreadsheets,...)
+
+Proceso di requirements change managment
+- analisi del problema e cambiamento delle specifiche
+- analisi dei cambiamenti e del costo
+- implementazione dei cambiamenti
+
+### Riassunto
+- i **software requirements** definiscono cosa dovrebbe fare il sistema e impongono vincoli sul suo design o funzionamento
+- i **functional requirements** descrivono i servizi che il sistema deve fornire o specifiche elaborazioni da eseguire
+- i **non functional requirements** impongono vincoli al sistema o al processo di sviluppo e riguardano spesso le qualità complessive del sistema
+- la **requirements engineering** è un processo iterativo che comprende l’elicitazione, la specifica e la validazione dei requisiti.
+- la **requirements elicitation** include attività come scoperta, classificazione, negoziazione e documentazione, spesso realizzate attraverso tecniche come interviste e user story.
+- la **requirements specification** consiste nel documentare formalmente tutti i requisiti in modo comprensibile sia per i clienti che per gli sviluppatori.
+- la **requirements validation** verifica che i requisiti siano corretti, completi, realistici e verificabili.
+- la **requirements management** si occupa dei cambiamenti dovuti all’evoluzione di fattori aziendali, organizzativi o tecnici.
+
+## Capitolo 5 - Design Patterns
+### Introduzione al design pattern
+Un pattern è una descrizione di un problema standardizzato in un determinato contensto e della sua soluzione ricorrente, identificato con un nome omogeneo e univoco. Prevede il riuso dei principi di successo della soluzione ad un problema per velocizzare lo sviluppo.
+
+### GRASP - General Responsibility Assignment Software Patterns
+Si basa sull'identificazione delle responsabilità reciproche dei vari componenti del sistema.
+
+#### Creator
+- **Problema**: chi crea le istanze di A
+- **Soluzione**: la responsabilità della creazione di A è assegnata a B se almento una delle seguenti confizione è verificata:
+  - B contiene A
+  - B tiene traccia di A
+  - B usa intensamente e intimamente A
+  - B ha i dati per inizializzare A
+- **Vantaggi**: in ogni programma c'è sempre una responsabilità sulla creazione di oggetti (es. collezione di oggetti, registratore, ...)
+- **Svantaggi**: la creazione di oggetti potrebbe essere più complessa
+  - potrebbe essere utile riciclare le istanze per risparmiare risorse
+  - il tipo dell'istanza potrebbe non essere unico, ma scelto all'interno di una famiglia di classi
+
+#### Information Expert
+- **Problema**: come assegnare le responsabilità tra i vari oggetti
+- **Soluzione**: si assegnano le responsabilità dell'istanziamento alla classe che contiene le informazioni necessarie per istanziare l'oggetto
+- **Vantaggi**: facilita l'incapsulamento e favorisce una coesiva e leggera definizione delle classi (le informazioni per istanziare le classi rimangono all'interno della classe delegata all'istanziamento e non vanno sparse per il sistema)
+- **Svantaggi**: potrebbe contraddire il pattern di Low Coupling e High Cohesion, potrebbe indurre alla creazione di una classe megalitica responsabile di creare tutti gli oggetti che risulta complessa da gestire e modificare
+
+#### Low Coupling
+- **Problema**: come ridurre l'impatto di un cambiamento e facilitare il riuso
+- **Soluzione**: assegnare responsabilità in modo da avere pochi collegamenti tra le classi
+- **Vantaggi**: le classi "isolate" sono più facili da comprendere, mantenere e riutilizzare
+- **Svantaggi**: non serve utilizzare low coupling nel caso di componenti stabili che non subiranno cambiamenti nel tempo
+
+#### Controller
+- **Problema**: chi deve essere responsabile della gestione dell'interfaccia utente
+- **Soluzione**: facade pattern (l'utente agisce sul sistema attraverso una serie di funzioni che costituiscono la facciata) o controllore di sessione (l'utente interagisce attraverso scenari che evolgono nel tempo)
+
+#### High Cohesion
+- **Problema**: come creare classi focalizzate e gestibili
+- **Soluzione**: assegnare responsabilità in modo da avere alta coesione tra le classi (delegare le azioni a più oggetti in modo da avere più oggetti gestibili e focalizzati)
+- **Vantaggi**: facilita comprensione, mantenibilità del sistema, in parallelo a Low Coupling
+- **Svantaggi**: delegare compiti su più classi consuma risorse e degrada le prestazioni, alcune volte conviene unire funzionalità "distanti logicamente" sotto un'unica classe se ciò migliora le prestazioni del sistema
+
+
+### GoF - Gang of Four Design Patterns
+Definiti nel libro *Desgin Patterns* e creati da Erich Gamma, Richard Helm Ralph Johnson e John Vlissides (gang of four). Si dividono in:
+- **creational patterns** (5): creazione e inizializzazione di oggetti (come creare un oggetto e non come GRASP che definisce chi deve creare)
+- **structural patterns** (7): disaccoppiare interfaccia e implementazione, composizione statica e dinamica di oggetti (incapsulamento o ereditarietà)
+- **behavioral patterns** (11): definiscono come gli oggetti interagiscono e come distribuiscono le responsabiiltà
+
+### Creational patterns
+#### Abstact ...
+#### Builder ...
+
+#### Factory Method
+- **Descrizione**: data una classe base e le sue classi derivate, la "factory" (classe delegata alla creazione di nuovi oggetti) sceglierà, in base ai parametri passati, quale classe derivata usare per implementare oggetti della classe base (es. quale implementazione usare per istanziare un'interfaccia).
+- **Vantaggi**: il sistema si aspetta che l'oggetto rispetti una determinata interfaccia e delega alla factory la scelta di quale classe derivata utilizzare, in questo modo è possibile modificare le classi derivate e aggiornare solo la factory senza alterare il resto del sistema
+- **Utilizzi**:
+  - quando una classe non conosce a priori che tipi di oggetti creare (es. si lavora con una classe astratta o con un'interfaccia e si delega alla factory quale implementazione utilizzare)
+  - quando una classe usa sottoclassi per svolgere diverse versioni della stessa funzione in base alla situazione
+  - quando si vuole incapsulare la conoscenza del tipo della classe da creare
+
+#### Prototype ...
+#### Singleton ...
+
+### Altri pattern visti nella ultima lezione
+#### Adapter
+- **Descrizione**: permette di interfacciare un modulo (o classe) già implementato da terzi con il proprio sistema, anche se l'interfaccia richiesta dal sistema non coincide con quella implementata nel modulo; va utilizzata solo per motivi di interfaccia, non per aggiungere funzionalità e non deve evolvere in stati (avere variabili interne); è detto anche *wrapper* o *also kwnown as* pattern
+- **Struttura**: il *Client* (sistema) effettua una richiesta all'interfaccia *Target* (interfaccia del sistema), l'*Adapter* (pattern) adatta la richiesta per l'*Adaptee* (interfaccia implementata dal modulo), l'*Adaptee* risponde all'*Adaprter* che adatta la risposta per il *Target*, comprensibile dal *Client*
+- **Implementazioni**
+  - esistono due tipi di implementazioni:
+    - class adapter: classe che estende l'adaptee, rischioso perché non sempre si conoscono le classi genitori
+    - object adapter: classe contiene un'istanza dell'adaptee, più sicuro perché l'accesso viene sempre attraverso l'adapter
+  - in base alla visibilità della interfaccia dell'adaptee, si ha un:
+    - single way adapter: l'interfaccia dell'adaptee è completamente nascosta
+    - two way adapter: viene resa disponibile sia la vecchia interfaccia, che quella nuova
+
+## Capitolo 8 - Software Testing
+### Introduzione
+La fase di test consiste nel verificare che il sistema soddisfi i requisiti e che non contenga errori o bug, prima che venga eseguita la consegna finale. Il test permette di mostrare eventuali errori, ma non garantisce l'assenza assoluta di errori, in quanto bisognerebbe eseguire il sistema con ogni possibile input.
+
+#### Obiettivi
+- **validation testing**: dimostrare che il sistema soddisfa i requisiti
+- **defect testing**: individuare le situazioni in cui il sistema manifesta comportamenti inattesi (crash, errori di output, ...)
+
+#### Suggerimenti
+- effettuare almeno un test per requisito
+- progettare test semplici in modo da facilitare eventuali debug
+
+#### Veridica e validazione
+- **verifica**: testare che il sistema soddisfa i requisiti e le specifiche
+- **validazione**: testare che il sistema soddisfa le richieste dell'utente
+
+### Software inspection
+- consiste nell'esaminare staticamente il codice sorgente senza eseguirlo
+- essendo un'esame statico, non c'è interazione tra errori, per cui è più facile individuari
+- permette di effettuare una valutazione della qualità del codice (portabilità, leggibilità, completezza)
+- non permette di testare usabilità e performance del sistema
+
+### Software testing - Development testing
+Il development testing si riferisce alle attività di test condotte dal team che sviluppa il sistema. Si divide in unit testing, component testing e system testing.
+
+#### Unit testing
+- consiste nel testare le singole unità di programma (metodi, classi), concentrandosi sulle loro funzionalità
+- in genere gli unit test vengono automatizzati attraverso frameworks come JUnit, specificando 
+- verifica che le unità funzionano se sono usate come previsto e quando sono poste in situazioni inattese
+- 2 tipi di testing:
+  - **partition testing**: suddividere l'input in gruppi che vengono processati allo stesso modo in modo da dover testare solo alcuni casi per ogni gruppo (es. identificare sequenze di numeri e valutare solo all'inizio, nel mezzo e alla fine di ogni sequenza)
+  - **guideline-based testing**: testare le unità per rilevare errori comuni effettuati dal programmatore (es. overflow, underflow, invalid input, ...)
+
+#### Component testing
+- consiste nel testare i vari componenti del sistema, con un focus sulle interfacce dei componenti
+- 4 tipi di interfacce:
+  - parameter interfaces: per passare dati da un metodo ad un altro
+  - shared memory interfaces: per memoria condivisa tra metodi
+  - procedural interfaces: insieme di procedure chiamate da altri metodi
+  - message passing interfaces: per richiedere servizi ad altri sottosistemi
+- 3 tipi di errore:
+  - interface misuse: errore nell'utilizzo di un componente
+  - interface misunderstanding: assunzioni errate sul comportamento di determinati componenti
+  - timing errors: errore nel parallelismo tra componenti
+- suggerimenti:
+  - testare i metodi con parametri limite (massimi e minimi rappresentabili, nullptr, ...)
+  - testare i casi limite che possono provocare errori
+
+#### System testing
+- consiste nel testare il sistema e le interazioni tra i componenti
+- richiede l'assemblaggio dei vari componenti per comporre il sistema, spesso richiede la partecipazione di altri team che non hanno partecipato allo sviluppo del sistema
+- use-case testing: verifico che il sistema funzioni per i casi d'uso documentati
+- test policies: siccome è impossibile testare totalmente un sistema, è bene definire delle priorità su che funzionalità vengono testate
+
+#### Test-driven development - TDD
+- approccio di sviluppo in cui la scrittura del codice e la fase di testing vengono fatte in parallelo, spesso usato in metodi incremental development
+- la scrittura dei test viene fatta prima dello sviluppo della relativa parte del sistema e il superamento del test è elemento essenziale per proseguire lo sviluppo della parte succesiva
+- benefici
+  - code coverage: ogni parte di codice avrà almeno un test associato
+  - regression testing: si verifica che le nuove modifiche non alterino le funzionalità già presenti
+  - simplified debug: se c'è un problema, è facile capire dove si trova il problema
+  - system documentation: i test possono essere visti come una documentazione che mostra come il sistema e i componenti vengono usati
+
+### Software testing - Release testing
+- consiste nel testare una particolare versione del sistema che si intende utilizzare al di fuori del team di sviluppo, lo scopo principale è convincere gli utilizzatori e il committente
+- consiste in un black-box test effettuato da un altro team per
+  - verificare che i requisiti siano soddisfatti
+  - controllare il funzionamento del sistema nell' uso comune
+  - a differenza del system testing, non è orientato a individuare bug
+
+### Software testing - User testing
+Il committente e gli utenti testano il sistema nella sua collocazione d'uso finale. Per effettuare lo user testing, è necessario completare tutti i passaggi precedenti (development e testing).
+
+#### Tipi di testing:
+- alpha testing: utenti collaborano con gli sviluppatori durante lo sviluppo
+- beta testing: viene condivisa una release del sistema in modo che gli utenti possano testarla e riportare eventuali problemi
+- acceptance testing: committenti finali verificano l'accettabilità del sistema in base alle loro aspettative nell'ambiente d'uso finale
+
+#### Agile e accepatance testing
+- il committente fa parte del team di testing ed è responsabile delle decisioni di accettabilità
+- i test di accettabilità sono definiti dal committente (integrati con altri dei programmatori)
+
+### Riassunto
+- il testing può solo rilevare la presenza di errori in un programma, ma non può dimostrare che non ci siano difetti residui
+- il development testing è responsabilità del team di sviluppo software, mentre il release testing è delegato ad un team separato
+- il development testing include
+  - lo unit testing, in cui si testano singoli oggetti e metodi
+  - il component testing, in cui si testano gruppi correlati di oggetti
+  - il system testing, in cui si testano sistemi parziali o completi
+- è importante cercare di "rompere" il software scegliendo i casi particolari che spesso danno problemi
+- quando possibile, è preferibile scrivere test automatizzati, in modo da integrarli in un programma che può essere eseguito ogni volta che viene effettuata una modifica al sistema
+- il test driven development è un approccio in cui i test vengono scritti prima del codice da testare
+- lo scenario testing consiste nell'inventare uno scenario di utilizzo tipico e utilizzarlo per derivare i casi di test
+- l'acceptance test è un processo di testing in cui l'utente e altri programmatori decidono se il software è abbastanza buono da essere distribuito e utilizzato nell’ambiente operativo
+
+## JUnit
+### Introduzione
+JUnit è un framework in Java che permette di automatizzare i test in un progetto in Java.
+- test case: classi in java che contengono i metodi di test
+- test method: metodo senza argomenti preceduto da ``@Test``
+- fixture: stato iniziale di un test case
+- assertions: controlli per verificare che i risultati ottenuti siano quelli attesi
+- test suite: collezione di test cases
+
+### Fixture
+Metodi che permettono di impostare il sistema per eseguire i test successivi
+- ``@Before public void setUp() { ... }`` metodo che inizializza la classe per i test
+- ``@After public void tearDown() { ... }`` metodo per liberare le risorse utilizzate nel test
+
+### Asserzioni
+Le asserzioni sono controlli che, se risultano falsi, lanciano un'eccezione. JUnit sviluppa una classe di asserzioni ``org.junit.Assert`` con alcuni metodi tipo ``assertEquals()``, ``assertNull()``, ``assertSame()``, ``assertTrue()`` per controlli e un metodo ``fail()`` per bloccare l'eccezione ogni volta che viene raggiunta tale istruzione.
+
+### Testing exceptions
+Sfrutta un'annotazione per dichiarare che il codice dovrebbe lanciare una determinata eccezione. Il test fallisce se l'eccezione non viene lanciata.
+```Java
+@Test (expected=ArithmeticException.class)
+	public void divideByZero() {
+	int n = 2 / 0;
+}
+```
+
+### Ignored tests
+Si possono escludere determinati test aggiungendo ``@Ignore`` nello header del metodo:
+```Java
+@Ignore @Test public void myTest() { ... }
+```
+
+### Timed tests
+È possibile impostare un timer che fa fallire il test se l'esecuzione supera il tempo specificato:
+```Java
+@Test(timeout=500)
+public void retrieveAllElementsInDocument() {
+	doc.query("//*");
+}
+```
+
+### Test Suite
+Insieme di Test Case
+```Java
+@RunWith(Suite.class)
+@Suite.SuiteClasses(value = {
+	CalculatorIntegerTest.class,
+	CalculatorFloatingPointTest.class,
+	CalculatorLogarithmsTest.class })
+public class CalculatorTestSuite {
+	// Can leave empty
+}
+```
+
+### Ordine dei test
+L'ordine di esecuzione dei test di JUnit è indeterminato e non è prestabilito, per cui non è possibile progettare un test la cui condizione iniziale viene impostata in un altro test. È necessario che i test siano indipendenti tra di loro. Se si vuole specificare un ordine particolare di due test, è necessario usare ``@OrderWith()`` o ``@FixMethodOrder()``.
+
+### Altri dettagli e documentazione: [wiki junit4 on github](https://github.com/junit-team/junit4/wiki)
+
+## Agile development - Alberto Silitti
+### Development process:
+**Waterfall process**: suddivido il processo di svilupppo in fasi, per passare alla fase susccessiva devo aver prima terminato completamente la fase precedente che non può più essere ripresa in futuro
+1. Requirements + defining acceptance testing
+2. Analysis + defining ... testing
+3. Design + defining ... testing
+4. Coding + defining ... testing
+5. Testing 
+
+**Agile process**: suddivido il processo di sviluppo in funzionalità e per ogni funzionalità ciclo su tutte le fasi dello sviluppo:
+1. requirements of the functionality
+2. analysis of the functionality
+3. design of the functionality
+4. coding of the functionality
+5. testing of the functionality
+6. riparto dal punto 1 con la funzionalità successiva
+
+**Verification and validation**: ...
+**...**: ...
+**Complexity**: ...
+
+### Constant flow of values
+Ogni funzionalità viene pesata in base a quanto è importante per il cliente, quanto sarà usata dal cliente e quanto costa svilupparla. Per assegnare la priorità delle funzionalità è necessario capire come l'utente utilizzerà tale funzionalità.
+
+### Agile manifesto
+1. Our highest priority is to satisfy the customer through early and continuous delivery of valuable software. --> focalizzarsi sulle funzionalità che l'utente ritiene più importanti e non su quelle complesse da sviluppare
+2. Welcome changing requirements, even late in development. Agile processes harness change for the customer's competitive advantage. --> l'utente cambia spesso idea, per cui è necessario sempre predisporre il cambiamento dei requisiti, non prevedere le possibili nuove funzioalità siccome le previsioni saranno quasi sicuramente sbagliate
+3. Deliver working software frequently, from a couple of weeks to a couple of months, with a preference to the shorter timescale. --> serve un costante feedback dal cliente per raccogliere il prima possibile eventuali richieste di modifica dei requisiti
+4. Business people and developers must work together daily throughout the project. --> collaborare con il cliente è importante
+5. Build projects around motivated individuals. Give them the environment and support they need, and trust them to get the job done. --> servono persone motivate per lo sviluppo agile e un ambiente stimolante
+6. The most efficient and effective method of conveying information to and within a development team is face-to-face conversation. --> importanza nell'attenzione sui mezzi di comunicazione
+7. Working software is the primary measure of progress. --> non servono progress reports, ... il progresso nello sviluppo si basa sul codice funzionante (sulla delivery)
+8. Agile processes promote sustainable development. The sponsors, developers, and users should be able to maintain a constant pace indefinitely. --> serve un progresso a velocità costante sostenibile sia dal punto di vista dello sviluppatore, sia dal punto di vista dei feedback del consumatore
+9. Continuous attention to technical excellence and good design enhances agility. --> qualità e attenzione ai  facilita una migliore 
+10. Simplicity--the art of maximizing the amount of work not done--is essential. --> massimizzare il lavoro non fatto, sviluppando sempre tutte le funzionalità richieste
+11. The best architectures, requirements, and designs emerge from self-organizing teams. --> lasciare che il team si organizzi autonomamente, senza avere un manager che assegna task
+12. At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior accordingly. --> valorizzare eventuali confronti e verifica su come sta andando il processo e quali sono le eventuali migliorie
+
+### Agile Method
+- Extreme Programming - XP: ...
+- DSDM: ...
+- SCRUM: ...
+- FDD: ...
+- Crystal: ...
+- Agile modeling: ...
+- Lean Software Development: ...
+- ...
+Ad oggi si usa una fusione tra SCRUM e XP.
+
+### Extreme programming
+Extreme programming è un tipo di sviluppo agile che consiste nel buttasi subito a 
+1. si definiscono 4 valori fondamentali:
+   1. semplicità
+   2. comunicazione
+   3. feedback
+   4. coraggio (fare cambiamenti senza aver paura di farli, avere una rete di salvataggio)
+2. si sviluppano 3 drivers:
+   1. focus on value (si basa su comunicazione, semplicità, coraggio)
+   2. costant flow of activities (si basa su feedback e coraggio: non aver paura del feedback)
+   3. no defect (consiste nel fare la delivery in ogni momento, si basa su tutti i 4 valori)
+3. si definiscono delle pratiche
+   1. planning game
+   2. short releases
+   3. metaphor
+   4. simple design
+   5. test-driven development
+   6. refactoring
+   7. pair programming
+   8. collective code ownership
+   9. cotinuous integration
+   10. ...
+   11. ...
+   12. ...
+
+#### User stories
+Una  user story è una descrizione di un singolo esempio di iterazione dell'utente con il sistema, contenuto in un A5, composto da titolo, acceptance test, priority, story points (effort nello sviluppo) e descrizione della user story.
+
+Il planning game consiste nell'assegnare lo story point di ogni user story da parte dell'intero team di sviluppo. Lo story point può essere definito in ore di lavoro o in t-shirt size (XS, S, M, L). Se gli story points sono troppo elevati, sarà necessario spezzare tale user story in altre sotto-user stories più piccole.
+
+#### Struttura dello Extreme Programming
+1. si definiscono le user story
+2. si effettua un piano delle release (ogni quanto rilasciare le release) e vengono svolti eventuali spikes
+3. si procede ogni iterazione per aggiungere le nuove funzionalità
+4. si effettuano gli acceptance test definiti dagli user stories alla fine di ogni iterazione
+5. ogni tot iterazioni viene fatta una small release per far testare il sistema all'utente (es. ogni 2 iterazioni di 2 settimane ciascuna)
+
+Gli **spikes** sono attività che vengono svolte durante il planning per testare le architetture, strutture e sistemi nuovi che si prevede vengano utilizzati
+
+#### Ruoli nello Extreme Programming
+- **utente**: definisce le funzionalità, i requisiti, la priorità delle funzionalità, gli acceptance test (materiale per le user stories)
+- **sviluppatori**: analisi, design, test, sviluppo e integrazione del sistema, definisce gli storypoints, lavoro in coppia con una tastiera, condividere il codice tra i vari sviluppatori
+- **manager**: facilitatore che crea l'ambiente favorevole allo sviluppo extreme
+
+#### Metafore
+Per facilitare le collaborazioni e comprensioni tra sviluppatori e utenti, si utilizzano metafore, ovvero concetti paralleli più facili da comprendere per l'utente
+
+#### Cowboy Coding vs Extreme prorgamming
+| | cowboy coding | extreme programming |
+| --- | --- | --- |
+| definizione requisiti | nessuna | prevista con le user story |
+| documentazione | assente | solo lo stretto necessario |
+| proprietà del codice | del singolo,  | del team, tutti possono modificarlo purchè soddisfi gli acceptance test definiti |
+| integrazione | molto difficile, fatta solo alla fine | più leggera, fatta giornalmente |
+| contatti con il cliente | solo alla fine a progetto terminato | cliente partecipa allo sviluppo |
+| refactoring | se funziona, non si tocca | refactoring costante, se si rompe qualcosa si vede subito dai test e il codice viene sempre migliorato |
+| cambiamenti | si cercano di evitare cambiamenti | serve assecondare i cambiamenti |
+
+#### Controllo nel processo (endogeno) e controllo del processo (esogeno)
+Il controllo esogeno prevede di mettere delle regole di utilizzo del sistema, il controllo endogeno effettua la verifica all'interno del sistema. Si cerca di privilegiare il controllo endogeno, ovvero il controllo dello sviluppo processo viene fatto dall'interno attraverso misure (risultati di acceptance tests, feedback sull'evoluzione, copertura dei test, ...)
+
+### SCRUM
+#### Introduzione e ruoli
+Basati su valori e fasi di sviluppo paralleli a XP. Ci sono tre figure:
+- Scrum team: sviluppatori
+- Scrum master: responsabile del progetto
+- Product owner: cliente o intermediario con il cliente
+
+#### Scrum vs XP
+Scrum, a differenza di XP, non pone regole sullo sviluppo software (codifica), per cui oggi si utilizza una fusione tra Scrum e XP
+
+#### Componenti/principi di Scrum:
+- **scrum board**: lavagna/tabella in cui si catalogano le attività in *not started*, *in progeress*, *ready for test*, *done*
+- **review**: riunioni intermedie di veriica sull'andamento dello sviluppo
+- **planning poker**: simile al planning game per assegnare punteggio alle user stories
+- **metrics**: strumenti per valutare la produttività, ad esempio burndown chart
+- **daily scrum**: riunione breve (15 min) di inizio giornata su cosa viene fatto nella giornata
+
+#### Burndown chart
+- si definiscono le ore necessarie per un tot di user stories
+- si prevede, lavorando tot ore al giorno, di terminare entro il giorno x
+- ad ogni giornata si effettua un controllo e si traccia il burndown chart (grafico giornate-ore di lavoro mancanti)
+- se si osserva che la pendendza è minore di quella prevista (si finirà più avanti) si arriverà alla deadline in cui alcune user stories non verranno completate entro la deadline, ma dovranno essere ri-schedulate la volta successiva
