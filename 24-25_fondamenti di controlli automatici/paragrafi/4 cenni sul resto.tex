@@ -1,0 +1,321 @@
+\section{Proprietà strutturali}
+\subsection{Stabilità}
+\subsubsection*{Equazione dell'equilibrio}
+\begin{itemize}
+	\item l'equilibrio di un sistema a tempo continuo per ingressi fissati \(u(t) = u_e\):
+	\[\dot{x}(t) = Ax(t) + Bu(t) = 0 \;\; \rightarrow \;\; x_e = A^{-1} Bu_e\]
+	\item l'equilibrio di un sistema a tempo discreto per ingressi fissati \(u(k) = u_e\):
+	\[x(k+1) = Ax(k) + Bu(k) = x(k) \;\; \rightarrow \;\; x_e = (I-A)^{-1} Bu_e\]
+	\item l'origine dello spazio di stato è sempre punto di equilibrio del sistema
+\end{itemize}
+
+\subsubsection*{Classificazione dei punti di equilibrio}
+\begin{itemize}
+	\item si definisce un punto di equilibrio \(x_e\):
+	\begin{itemize}
+		\item \textbf{asintoticamente stabile}: se l'evoluzione libera per qualsiasi stato iniziale \(x_0\) tende a \(x_e\)
+		sul lungo periodo
+		\item \textbf{instabile}: se esiste uno stato iniziale \(x_0\) per cui l'evoluzione libera tende ad allontanarsi
+		definitivamente da \(x_e\) sul lungo periodo
+		\item \textbf{marginalmente stabile}: se non è né asintoticamente stabile, né marginalmente stabile, in genere è
+		dovuto alla presenza di un polo nullo di molteplicità unitaria
+		\item \textbf{instabilità debole}: se è presente un polo nullo di molteplicità maggiore di 1
+	\end{itemize}
+	\item in un sistema lineare, tutti i punti di equilibrio di tale sistema sono caratterizzati allo stesso modo per cui è possibile
+	classificare un sistema come asintoticamente stabile, instabile, marginalmente stabile o instabilità debole, in base a come
+	si caratterizza un generico punto di equilibrio (ad esempio l'origine)
+\end{itemize}
+\begin{center}
+	\begin{tabularx}{\textwidth}{C | C | C}
+		\textbf{punto di equilibrio} & \textbf{tempo continuo} & \textbf{tempo discreto} \\
+		\toprule
+		asintoticamente stabile & \(\Real(\lambda) < 0 \quad \forall \lambda\) & \(\left|\Real(\lambda)\right| < 1 \quad \forall \lambda\) \\
+		\midrule
+		instabile & \(\exists \lambda : \Real(\lambda) > 0\) & \(\exists \lambda : \left|\Real(\lambda)\right| > 1\) \\
+		\midrule
+		marginalmente stabile & \(\exists! \lambda : \Real(\lambda) = 0\) & \(\exists! \lambda : \left|\Real(\lambda)\right| = 1\) \\
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Criterio di Cartesio, di Routh e corrispondenza a tempo discreto}
+Per individuare se un sistema è stabile, basta vedere se nelle soluzioni del polinomio caratteristico sono presenti inversioni
+di segno. Se non sono presenti inversioni, vuol dire che tutte le soluzioni (o poli) sono negative e il sistema è stabile, se
+è presente anche solo una inversione, vuol dire che una soluzione ha segno positivo e il sistema è instabile.
+
+Per individuare le inversioni in un polinomio caratteristico di secondo grado si usa la regola di Cartesio: il numero di radici
+reali positive è uguale al numero di variazioni di segno tra coefficienti consecutivi non nulli del polinomio. Ovvero se non ci
+sono inversioni nel segno dei coefficienti, tutte i poli sono negativi e il sistema è stabile (o marginalmente stabile).
+
+Nel caso di un polinomio caratteristico di grado superiore a 2, si utilizza la tabella di Routh, per i sistemi a tempo continuo.
+Il criterio di Routh-Hurwitz è una condizione necessaria e sufficiente per verificare che tutte le radici del polinomio
+caratteristico sono strettamente negative. Se tale condizione è verificata, si dice che il polinomio è Hurwitziano.
+
+Per il tempo discreto esisterebbe il criterio di Jury, soltanto che noi approfittiamo della trasformazione bilineare dal piano
+\(z\) al piano \(s\) per poter applicare il criterio di Routh-Hurwitz: \(\lambda=\frac{1+\omega}{1-\omega} \quad \omega=\frac{\lambda-1}{\lambda+1}\)
+Il polinomio caratteristico a tempo discreto \(p(\lambda)\) ha tutte le radici all'interno del disco di raggio unitario se e
+solo se \(q(\omega)\) ha tutte le radici a parte reale negativa (se è Hurwitziano).
+
+Il polinomio caratteristico compare al denominatore di \((sI-A)^{-1}\) o di \((zI-A)^{-1}\) nelle analisi dei sistemi nei domini
+di Laplace e di \(z\).
+
+\newpage
+
+\subsubsection*{BIBO stabilità e BIBS stabilità}
+\begin{itemize}
+	\item un sistema si dice BIBS-stabile (Bounded Input - Bounded State) se in corrispondenza di un ingresso limitato,
+	l'evoluzione dello stato è limitata, ovvero se il denominatore della funzione di trasferimento ingresso-stato è
+	Hurwitziano/Jury-stabile:
+	\[T(s) = \frac{X(s)}{U(s)} = (sI-A)^{-1}B = \frac{\text{adj}(sI-A)}{\det{(sI-A)}}B \;\; \rightarrow \;\; \det{(sI-A)} = p_a(s) = \text{Hurwitziano}\]
+	\[T(z) = \frac{X(z)}{U(z)} = (zI-A)^{-1}B = \frac{\text{adj}(zI-A)}{\det{(zI-A)}}B \;\; \rightarrow \;\; \det{(zI-A)} = p_a(z) = \text{Jury-stabile}\]
+	\item un sistema di dice BIBO-stabile (Bounded Input - Bounded Output) se in corrispondenza di un ingresso limitato,
+	le evoluzioni delle uscite del sistema sono limitate, ovvero se il denominatore della funzione di trasferimento
+	ingresso-uscite è Hurwitziano/Jury-stabile:
+	\[G(s) = \frac{Y(s)}{U(s)} = C(sI-A)^{-1}B + D = C\frac{\text{adj}(sI-A)}{\det{(sI-A)}}B + D \;\; \rightarrow \;\; \det{(sI-A)} = p_a(s) = \text{Hurwitziano}\]
+	\[G(z) = \frac{Y(z)}{U(z)} = C(zI-A)^{-1}B + D = C\frac{\text{adj}(zI-A)}{\det{(zI-A)}}B + D \;\; \rightarrow \;\; \det{(zI-A)} = p_a(z) = \text{Jury-stabile}\]
+	\item \textbf{teorema (evoluzione libera in tempo continuo)}: il sistema è asintoticamente stabile se e solo se tutte le radici
+	del denominatore hanno parte reale negativa. Il sistema è marginalmente stabile se le radici del denominatore hanno parte reale
+	negativa e ne esiste qualcuna con parte reale nulla ma di molteplicità unitaria. In tutti gli altri casi il sistema è debolmente
+	instabile o instabile
+	\item \textbf{teorema (evoluzione forzata in tempo continuo)}: il sistema è BIBO stabile se e solo se tutte le radici del
+	denominatore della funzione di trasferimento G(s), hanno parte reale negativa (cioè il polinomio è di Hurwitz)
+	\item \textbf{teorema (evoluzione libera in tempo discreto)}: il sistema è asintoticamente stabile se e solo se tutte le radici
+	del denominatore hanno modulo inferiore a 1. Il sistema è marginalmente stabile se le radici del denominatore hanno modulo minore
+	di 1 e ne esiste qualcuna con modulo unitario ma di molteplicità unitaria. In tutti gli altri casi il sistema è debolmente
+	instabile o instabile
+	\item \textbf{teorema (evoluzione forzata in tempo discreto)}: il sistema è BIBO stabile se e solo se tutte le radici del
+	denominatore della funzione di trasferimento G(s), hanno modulo inferiore di 1 (cioè il polinomio è Jury-stabile)
+	\item ciò che cambia tra l'evoluzione libera e quella forzata è che si potrebbero avere delle cancellazioni zero-polo quando
+	si moltiplica l'inversa della matrice \((sI-A)^{-1}\) per l'uscita \(U(s)\), per cui si potrebbero avere poli che compaiono
+	nell'evoluzione libera, ma che non compaiono nella risposta forzata
+	\item si osserva che gli zeri dei denominatori sono detti poli della funzione di trasferimento e \(G(s)\), \(G(z)\) sono
+	rispettivamente la trasformata di Laplace e la trasformata \(Z\) delle risposte impulsive a tempo continuo e tempo discreto
+	\item se il sistema è asintoticamente stabile (e quindi BIBS-BIBO), è possibile applicare il teorema del valore finale per
+	calcolare lo stato di equilibrio per \(t \to \infty\)
+\end{itemize}
+
+\newpage
+
+\subsection{Raggiungibilità}
+\begin{itemize}
+	\item la raggiungibilità è una proprietà che descrive le possibilità di modificare lo stato \(x(t)\) del sistema a partire
+	da un particolare stato iniziale \(x0\) agendo opportunamente sull’ingresso \(u(t)\)
+	\item un sistema è raggiungibile (ovvero se non esistono stati non raggiungibili) se e solo se il rango della matrice di
+	raggiungibilità (detta matrice di Kalman) è pari a \(n\), ovvero alla dimensione dello spazio di stato dove la matrice di
+	raggiungibilità è: \[\mathcal{R} := [B, AB, \dots, A^{n-1}B] \qquad\qquad \text{rank} \mathcal{R} = n \;\; \Leftrightarrow \;\; \text{sistema raggiungibile}\]
+\end{itemize}
+
+\subsection{Controllabilità}
+\begin{itemize}
+	\item la controllabilità è la proprietà che descrive la possibilità di portare lo stato del sistema da un qualsiasi stato
+	iniziale ad uno stato finale desiderato, in un tempo finito, mediante un opportuno segnale di ingresso \(u\)
+	\item un sistema LTI è controllabile (tutti gli stati possono essere controllati) se è raggiungibile, infatti sono proprietà
+	equivalenti per sistemi LTI, ma non in generale
+\end{itemize}
+
+\subsection{Osservabilità}
+\begin{itemize}
+	\item l'osservabilità descrive la possibilità di stimare lo stato iniziale del sistema mediante la misura dell'uscita \(y\) e
+	dell'ingresso \(u\) per un certo istante di tempo \(t\)
+	\item un sistema è osservabile (non esistono stati non osservabili) se e solo se il rango della matrice di osservabilità è pari
+	a \(n\), cioè alla dimensione dello spazio di stato, la matrice di osservabilità è definita come:
+	\[\mathcal{O}:= \left[\begin{matrix}
+		C \\ CA \\ \vdots \\ C A^{n-1}
+	\end{matrix}\right] \qquad\qquad \text{rank} \mathcal{O} = n \;\; \Leftrightarrow \;\; \text{sistema osservabile}\]
+	osservazione: un sistema, per essere osservabile, deve aver definito delle uscite \(y(t) = Cx(t) + D\)
+\end{itemize}
+
+\newpage
+
+\section{Controlli}
+\subsection{Struttura dei controlli}
+\subsubsection*{Controllo in catena aperta (azione diretta, open-loop, feed-forward)}
+\begin{itemize}
+	\item si costruisce un sistema con un blocco controllore \(C\) in serie al blocco del sistema \(G\) da controllare
+	\item si stabilisce un desiderio o setpoint \(r(t)\) come ingresso del controllore, che produrrà un certo ingresso \(u(t)\)
+	opportuno per il sistema da controllare, affinché l'uscita \(y(t) = r(t)\)
+	\[Y(s) = R(s)C(s)G(s) = R(s) \;\; \rightarrow \;\; T(s) = \frac{Y(s)}{R(s)} = \frac{R(s)}{R(s)} = 1 \;\; \rightarrow \;\; C(s) = G^{-1}(s)\]
+	\item il controllo in questo tipo è molto instabile in quanto non si possono correggere eventuali errori/disturbi
+\end{itemize}
+
+\subsubsection*{Controllo in retroazione (feedback) dall'uscita}
+\begin{itemize}
+	\item si costruisce un sistema a catena aperta in cui è presente un ramo che dalle uscite viene sottratto al desiderio \(r(t)\)
+	in modo da ottenere uno scostamento dal desiderio \(e(t)\)
+	\[Y(s) = \left[R(s)-Y(s)\right] C(s) G(s) \;\; \rightarrow \;\; W_\text{riferimento}(s) = \frac{Y(s)}{R(s)} = \frac{C(s)G(s)}{1+C(s)G(s)}\]
+	\[W_\text{errore}(s) = \frac{E(s)}{R(s)} = \frac{1}{1+C(s)G(s)} \qquad\quad W_\text{disturbo}(s) = \frac{Y(s)}{D(s)} = \frac{1}{1+C(s)G(s)}\]
+	\item si osserva che per \(C(s)G(s) \gg 1\) si ha \(W_r(t) \approx 1\) (l'uscita insegue l'ingresso), \(W_e(t) \approx 0\)
+	(errore trascurabile rispetto al desiderio), \(W_d(s) \approx 0\) (effetto dei disturbi trascurabile)
+	\item il controllo di questo tipo è approccio più complicato (richiede sensori di misura di \(y(t)\)), ma è più robusto a
+	incertezze e/o disturbi esterni
+\end{itemize}
+
+\subsubsection*{Osservazione su zeri e poli nei controlli in retroazione}
+Definita \(L(s) := C(s)G(s)\) si osserva che la funzione di trasferimento diventa \(W_r(s) = \frac{L(s)}{1+L(s)}\). Analizzando il
+numeratore e denominatore della funzione \(W_r(s)\) si nota che:
+\begin{itemize}
+	\item la retroazione non cambia la posizione degli zeri rispetto ad un sistema a catena aperta
+	\item la retroazione cambia la posizione dei poli (solo quelli raggiungibili e osservabili) rispetto ad un sistema a catena aperta
+	\item se è presente un polo \say{instabile} in \(G(s)\), bisogna stare attenti a non cancellarlo con uno zero di \(C(s)\) in quanto
+	nella teoria si ottiene un sistema stabile, ma nella pratica non è detto che la semplificazione avvenga in maniera esatta e si potrebbe
+	avere un sistema instabile
+\end{itemize}
+
+\subsection{Analisi delle specifiche dinamiche durante il transitorio}
+\subsubsection*{Sistemi elementari di primo ordine}
+Dato un sistema elementare di primo ordine con \(\displaystyle G(s) = \frac{1}{s-p_1} = \frac{K_1}{T_1s + 1}\)
+\begin{itemize}
+	\item la costante di tempo \(T_1 := -1/p_1\) associata ad un polo caratterizza il comportamento dinamico nel transitorio,
+	maggiore è \(T_1\), maggiore sarà la durata del transitorio e viceversa
+	\item il guadagno statico \(K_1 := T_1\) associato ad un polo, caratterizza il comportamento asintotico del sistema, maggiore
+	è \(K_1\), maggiore sarà il valore asintotico a cui tenderà il sistema a regime
+\end{itemize}
+In caso di presenza di uno zero al numeratore \(\displaystyle G(s) = \frac{s-z_1}{s-p_1} = \frac{\hat{T}_1s + 1}{T_1s + 1} = \alpha + \frac{1-\alpha}{T_1s+1}\)
+con \(\alpha = \hat{T_1}/T_1\) si nota che variando la costante di tempo dello zero \(\hat{T}_1\) (ovvero variandone la posizione)
+cambia la condizione iniziale del sistema, ma non il transitorio o il valore asintotico.
+
+\subsubsection*{Sistemi elementari di secondo ordine}
+Dato un sistema elementare del secondo ordine nella forma \(\displaystyle G(s) = \frac{{\omega_n}^2}{(s-p_1)(s-p_2)}\) si definiscono
+le seguenti grandezze riferite al sistema
+\begin{itemize}
+	\item \(p_{1,2} = \sigma \pm j\omega = \omega_n(-cos\varphi \pm j \sin\varphi)\)
+	\item \(\omega_n = \sqrt{\sigma^2+\omega^2}\) pulsazione naturale
+	\item \(\xi=\cos\varphi=-\sigma/\omega_n\) fattore di smorzamento (\(\xi=0\) per immaginari puri, \(\xi=1\) per reali coincidenti)
+\end{itemize}
+Si definiscono inoltre le seguenti grandezze per l'analisi della funzione di trasferimento:
+\begin{itemize}
+	\item \textbf{overshoot} (massima sovraelongazione): \(M_p = e^{-\pi\xi/\sqrt{1-\xi^2}} \times 100\%\)\\
+	essendo difficile da calcolare si utilizza una tabella con percentuale di massima elongazione in funzione di \(\xi = \cos\varphi\),
+	imporre un overshoot massimo corrisponde ad imporre un \(\xi^*\) massimo, ovvero un \(\varphi^*\) massimo, in questo modo si
+	individua una regione del piano complesso di tutti i possibili poli \(s_i\) con \(\varphi_i \leq \varphi^*\) che soddisfano la
+	condizione imposta
+	\item \textbf{settling time} (tempo di assestamento): \({T_s}_\text{5\%} \approx 3/\xi\omega_n\) \\
+	imporre un tempo di assestamento consiste nel definire un vincolo alla parte reale dei poli \(s_i\): \(\sigma_i = -\xi\omega_n \leq -3/{T_s}^*\)
+	ovvero si devono trovare a sinistra della retta verticale \(\sigma^* = -3/{T_s}^*\) nel piano complesso
+	\item \textbf{rise time} (tempo di salita): \(T_r \approx 1.8/\omega_n\) \\
+	imporre un tempo di salita consiste nell'imporre un \({\omega_n}^*\) minimo, ovvero si individuano sul piano tutti i possibili poli
+	complessi con modulo maggiore di \({\omega_n}^*\) (esterni al cerchio di raggio \({\omega_n}^*\))
+\end{itemize}
+
+\subsubsection*{Sistemi di ordine superiore al secondo}
+Per i sistemi di ordine superiore al secondo, ci si può ricondurre ad un sistema di secondo ordine facendo delle opportune semplificazioni:
+\begin{itemize}
+	\item si eliminano i poli (\(\Real(\lambda) < 0\)) molto vicini tra loro
+	\item si eliminano i poli con parte reale molto negativa, ovvero quelli che danno origine a comportamenti molto veloci e che non
+	influiscono sulla risposta dominante del sistema
+	\item in tutto questo va tenuto costante il guadagno statico del sistema (\(\lim_{s \to 0} G(s)\))
+\end{itemize}
+
+\subsection{Fedeltà alla risposta - analisi delle specifiche a regime}
+L'analisi della fedeltà alla risposta consiste nel studiare il sistema affinché raggiunga e il setpoint (problema di regolazione),
+segua un riferimento variabile (tracking) e resista all’effetto di disturbi e incertezze nel modello (robustezza). Una volta raggiunta
+la fedeltà desiderata si può lavorare per renderlo prestante (risposta veloce e precisa).
+
+Si osserva che l'errore a regime di un sistema ad anello chiuso dipende dal tipo di sistema e dal tipo di ingresso:
+\begin{itemize}
+	\item \textbf{sistemi di tipo 0}: sistemi con nessun polo nell'origine, hanno errore costante \(e_0 = 1/(1+L(0))\) per ingresso
+	di ordine 0 (gradino) e errore divergente per un ingresso di ordine superiore
+	\item \textbf{sistemi di tipo 1}: sistemi con 1 polo nell'origine, hanno errore nullo per ingresso di ordine nullo, errore
+	costante \(e_0 = 1/L(0)\) per ingresso di ordine 1 (rampa) e errore divergente per ingressi di ordine superiore
+	\item \textbf{sistemi di tipo 2}: sistemi con 2 poli nell'origine, hanno errore nullo per ingressi di ordine \(<2\), errore
+	costante \(e_0 = 1/L(0)\) per ingresso di ordine 2 (rampa parabolica) e errore divergente per un ingresso di ordine superiore
+\end{itemize}
+
+\newpage
+
+\subsection{Controllori standard P, PI}
+Definito un sistema ad anello chiuso (feedback), l'uscita \(u(t)\) del controllore \(C(s)\) corrispondente all'entrata del
+sistema \(G(s)\),per un controllore PID vale:
+\[u(t) = u_\text{proporzionale}(t) + u_\text{integrale}(t) + u_\text{derivativa}(t) = k_pe(t) + k_i \int_{0}^{t}e^{\tau}d\tau + k_d\frac{de(t)}{dt}\]
+
+\subsubsection*{Controllore proporzionale}
+Un controllore proporzionale consiste in un blocco controllore la cui uscita \(u(t)\) dipende solo proporzionalmente dall'errore
+\(e(t)\) (dal presente), per cui si hanno le seguenti relazioni:
+\[C(s) = k_p \qquad L(s)=k_pG(s) \qquad W_r(s) = \frac{k_p n_G(s)}{d_G(s)+k_pn_G(s)} \qquad W_e(s) = \frac{1}{1+k_pG(s)}\]
+Si osserva che:
+\begin{itemize}
+	\item affinché il sistema completo sia stabile, il polinomio \(d_g(s)+k_pn_G(s)\) deve essere Hurwitziano
+	\item l'errore a regime diminuisce all'aumentare di \(k_p\): \(\displaystyle\lim_{s \to 0} sE(s) = 1/(1+k_pG(0))\), ma per un
+	ingresso costante non si annulla mai
+\end{itemize}
+
+\subsubsection*{Controllore proporzionale integrativo}
+Un controllore proporzionale consiste in un blocco controllore la cui uscita \(u(t)\) dipende proporzionalmente dall'errore
+\(e(t)\) (dal presente) e dall'integrale dell'errore nel tempo (dal passato), per cui si hanno le seguenti relazioni:
+\[C(s) = k_p + \frac{k_i}{s} = \frac{sk_p + k_i}{s} \qquad L(s)=\frac{sk_p + k_i}{s}G(s) \qquad W_r(s) = \frac{(sk_p + k_i) n_G(s)}{sd_G(s)+(sk_p + k_i)n_G(s)}\]
+\[W_e(s) = \frac{s}{s+(sk_p+k_i)G(s)}\]
+Si osserva che:
+\begin{itemize}
+	\item affinché il sistema completo sia stabile, il polinomio \(sd_G(s)+(sk_p + k_i)n_G(s)\) deve essere Hurwitziano
+	\item l'errore a regime si annulla per un ingresso costante: \(\displaystyle\lim_{s \to 0} sE(s) = 0 \cdot \frac{1}{(0+(0k_p+k_i)G(0)} = 0\)
+\end{itemize}
+
+\subsubsection*{Ruolo degli zeri nel controllo}
+Dato un sistema con di secondo grado con risposta impulsiva:
+\[H(s) = \frac{{\omega_n}^2(1+\hat{T}s)}{s^2 + 2\xi\omega_ns + {\omega_n}^2} \qquad \hat{T} = \text{tempo caratteristico dello zero}\]
+\begin{itemize}
+	\item \textbf{zero a parte reale positiva}: uno zero a parte reale positiva \(\hat{T} < 0\) provoca una sottoelongazione
+	proporzionale allo zero, ovvero il sistema inizialmente evolve in direzione opposta al regime finale
+	\item \textbf{zero a parte reale negativa a destra dei poli}: uno zero a parte reale negativa \(T_\text{polo} > \hat{T} > 0\),
+	ma più vicino allo zero dei poli provoca una sovraelongazione extra proporzionale allo zero e, in generale, provoca una
+	risposta più nervosa
+	\item \textbf{quasi cancellazione zero-polo}: uno zero prossimo ad un polo con parte reale positiva \(T_\text{polo} \approx \hat{T} > 0\)
+	provoca un andamento simile ad un sistema di primo ordine, se il polo è a destra \(T_\text{polo} < \hat{T}\) si arriva a
+	regime più lentamente, viceversa se il polo si trova a sinistra \(T_\text{polo} > \hat{T}\) si arriva a regime più velocemente
+\end{itemize}
+
+\subsubsection*{Riassunto evoluzioni per controllori P vs PI}
+\begin{center}
+	\begin{tabularx}{\textwidth}{C | C | C | C | C | C}
+		\textbf{parameter} & \textbf{rise time} & \textbf{overshoot} & \textbf{settling time} & \textbf{steady-state error} & \textbf{stability} \\
+		\toprule
+		\(k_p \;\; \uparrow\) & \(\searrow\) & \(\nearrow\) & \(\leadsto\) & \(\searrow\) & \(\searrow\) \\
+		\midrule
+		\(k_i \;\; \uparrow\) & \(\searrow\) & \(\nearrow\) & \(\nearrow\) & 0 & \(\searrow\)
+	\end{tabularx}
+\end{center}
+
+\section{Luogo delle radici - LDR}
+Il luogo delle radici è la rappresentazione sul piano complesso della posizione delle radici di un polinomio \(p_k(s)\) al variare
+del parametro \(k\). Permette di scegliere facilmente il parametro \(k\) per posizionare i poli secondo le specifiche da rispettare.
+
+\subsubsection*{Osservazioni}
+\begin{itemize}
+	\item[0.] si assume \(k \geq 0\) con \(p_k(s)\) di grado \(n\)
+	\item[1.] la funzione che associa il polinomio \(p(k) = D(s) +kN(s)\) alle sue radici è continua
+	\item[2.] ogni radice forma, al variare di \(k\) una curva continua nel piano complesso
+	\item[3.] per cui il luogo delle radici ha \(n\) rami (uno per ogni radice)
+	\item[4.] i rami si intersecano eventualmente per i valori di \(k\) in cui \(p_k(s)\) ha radici di molteplicità multipla
+	\item[5.] il ldr si può tracciare per semplici regole per via grafica
+	\item[6.] per \(k=0\) il ldr coincide con i poli di \(G(s)\)
+	\item[7.] per \(k \to +\infty\) si ha che \(m\) rami tendono agli zeri di \(G(s)\), mentre i rimanenti \(m-n\) tendono a \(+\infty\)
+	\item[8.] siccome le radici sono coppie di coniugati, il luogo è simmetrico per l'asse reale
+\end{itemize}
+
+\subsubsection*{Disegno del luogo delle radici}
+\begin{itemize}
+	\item[0.] si scrive \(G(s)\) in forma di Evans (fattorizzo numeratore e denominatore)
+	\item[1.] il luogo delle radici è composto da \(n\) rami continui in \(\mathcal{C}\)
+	\item[2.] i rami si originano dai poli di \(G(s)\), ogni polo avrà tanti rami quanto la sua molteplicità
+	\item[3.] i rami terminano negli zeri di \(G(s)\), ogni zero avrà tanti rami quanto la sua molteplicità
+	\item[4.] il luogo è simmetrico per l'asse reale
+	\item[5.] appartengono al ldr, solo i punti dell'asse reale che lasciano a destra un numero dispari di zeri e poli, gli altri
+	punti dell'asse reale che fanno parte del ldr sono al più altri zeri o poli
+	\item[6.] se \(n-m\) è dispari, allora uno dei rami che tende a \(\infty\), vi tende lungo il semiasse reale negativo
+	\item[7.] gli \(n-m\) rami che tendono a \(\infty\), ci vanno lungo \(n-m\) asintoti che si intersecano sullo stesso punto
+	\(\sigma_c\) e dividono l'angolo giro in \(n-m\) settori:
+	\begin{itemize}
+		\item \(\sigma_c = \frac{\sum^n p_i - \sum^m z_i}{n-m} \;\; \in \;\; \mathbb{R}\)
+		\item se \(n-m\) è dispari, uno degli asintoti è il semiasse reale negativo
+		\item se \(n-m\) è pari, il semiasse reale negativo è la bisettrice di uno dei settori
+	\end{itemize}
+	\item[8.] è possibile usare il criterio di Routh per determinare per quali valori di \(k\) il luogo attraversa l'asse immaginario
+	o un altro generico asse verticale con ascisse \(\sigma^*\) traslando il sistema \(\hat{s} = s - \sigma^*\)
+	\item[9.] dato \(\hat{s} \in\) ldr, per trovare il \(k\) associato basta fare: \(D(\hat{s}) + kN(\hat{s}) \;\;\rightarrow\;\; k = -D(\hat{s})/N(\hat{s})\)
+	\item[10.] per trovare i punti multipli (o intersezioni dei rami) basta porre la condizione che la derivata si annulla, in
+	quanto una radice \(\hat{s}\) di molteplicità superiore a 1 annulla sia \(p_k(s)\) che \(p_k'(s)\) per cui si ottiene
+	\(p_k'(s) = D'(\hat{s})-D(\hat{s})/N(\hat{s})\cdot N'(\hat{s}) \;\;\rightarrow\;\; D'(\hat{s})N(\hat{s})=D(\hat{s})N'(\hat{s})\)
+	e risolvendo tale equazione si ottengono i punti multipli al finito, oltre che ai poli, zeri multipli e ai punti multipli a \(\infty\)
+	\item[11.] le tangenti ai rami che escono per un punto multiplo dividono l'angolo giro in settori uguali, in analogo anche
+	le tangenti dei rami entranti dividono l'angolo giro in settori uguali, tali che ogni ramo entrante è la bisettrice di un
+	settore delimitato da due rami uscenti
+\end{itemize}

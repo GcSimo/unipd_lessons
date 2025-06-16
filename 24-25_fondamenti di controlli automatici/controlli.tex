@@ -18,6 +18,9 @@
 
 % per centrare testo nelle tabelleX
 \renewcommand\tabularxcolumn[1]{m{#1}}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
 
 % per elenchi puntati
 \setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
@@ -29,35 +32,12 @@
 \newcommand\Real{\text{Re}}
 \newcommand\Img{\text{Im}}
 
-% --- altro che si può eliminare ---
 % espressioni matematiche
-%\newcommand\nab{\vec{\nabla}} % nabla
+\newcommand\lap{\mathcal{L}} % Trasformata di Laplace
+\newcommand\z{\mathcal{Z}} % Trasformata Zeta
 
-% versori
-%\newcommand\ux{\vec{u}_x}
-%\newcommand\uy{\vec{u}_y}
-%\newcommand\uz{\vec{u}_z}
-%\newcommand\uxp{\vec{u}_{x'}}
-%\newcommand\uyp{\vec{u}_{y'}}
-%\newcommand\uzp{\vec{u}_{z'}}
-%\newcommand\ur{\vec{u}_r}
-%\newcommand\uv{\vec{u}_v}
-%\newcommand\un{\vec{u}_n}
-%\newcommand\ug{\vec{u}_\gamma}
-%\newcommand\uper{\vec{u}_\perp}
-%\newcommand\upar{\vec{u}_\parallel}
-
-% forza generica
-%\newcommand\ft{\vec{F}\left(\vec{\gamma}(t), \; \dt \vec{\gamma}(t), \; t\right)}
-%\newcommand\ftau{\vec{F}\left(\vec{\gamma}(\tau), \; \dtau \vec{\gamma}(\tau), \; \tau\right)}
-
-% derivata
-%\newcommand\dt{\frac{d}{dt}\,}
-%\newcommand\dtau{\frac{d}{d\tau}\,}
-%\newcommand\dts{\frac{d^2}{dt^2}\,}
-
-% modulo vettore
-%\newcommand\vmod[1]{\left|\left|{#1}\right|\right|}
+% --- altro che si può eliminare ---
+%\includeonly{paragrafi/4 cenni sul resto}
 
 \title{Appunti di Fondamenti di controlli automatici}
 \author{Giacomo Simonetto}
@@ -78,5 +58,7 @@
 
 \include{paragrafi/1 intro}
 \include{paragrafi/2 modellizzazione}
+\include{paragrafi/3 analisi}
+\include{paragrafi/4 cenni sul resto}
 
 \end{document}

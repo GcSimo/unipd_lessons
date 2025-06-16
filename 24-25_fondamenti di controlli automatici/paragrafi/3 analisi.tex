@@ -1,0 +1,442 @@
+\section{Analisi a tempo continuo}
+\subsection{Sistemi lineari a tempo invariante - LTI}
+\subsubsection*{Assunzioni}
+Un sistema di dice lineare a tempo invariante (LTI) se:
+\begin{itemize}
+	\item i coefficienti non cambiano nel tempo
+	\item vale il principio di sovrapposizione degli effetti
+	\item si ha invarianza nel tempo, ovvero se a partire dalle stesse condizioni una certa causa \(u(t)\) ha sempre lo stesso
+	effetto \(x(t)\) anche se viene ritardata \(u(t-t_0)\) di un tempo \(t_0\)
+\end{itemize}
+
+\subsubsection*{Sovrapposizione degli effetti}
+Per il principio di sovrapposizione degli effetti, dato un sistema LTI \(\dot{x}(t) = Ax(t) + Bu(t)\):
+\begin{itemize}
+	\item se \(x'(t)\) è soluzione per le condizioni iniziali \(x'(0)\) e ingressi \(u'(t)\)
+	\item se \(x''(t)\) è soluzione per le condizioni iniziali \(x''(0)\) e ingressi \(u''(t)\)
+	\item se \(x'''(0) = \alpha x'(0) + \beta x''(0)\) e \(u'''(t) = \alpha u'(t) + u''(t)\)
+	\[\text{allora si ottiene una nuova soluzione: } \qquad x'''(t) = \alpha x'(t) + x''(t)\]
+\end{itemize}
+Ciò significa che se si è in grado di scomporre le condizioni iniziali e gli ingressi in due parti \(x'(0),u'(t)\), \(x''(0),u''(t)\)
+e si conoscono le soluzioni \(x'(t),x''(t)\) per i due sottoproblemi allora per trovare la soluzione completa è sufficiente
+sommare le due soluzioni parziali.
+
+\subsubsection*{Introduzione all'evoluzione libera e alla risposta forzata}
+Si definiscono quindi due situazioni per cui risulta più facile calcolare le soluzioni:
+\begin{itemize}
+	\item \textbf{evoluzione libera}: con condizioni iniziali non nulle \(x(0) \neq 0\) e  ingressi nulli \(u(t) = 0\)
+	\item \textbf{risposta forzata}: con condizioni iniziali nulle \(x(0) = 0\) e ingressi non nulli \(u(t) \neq 0\)
+\end{itemize}
+La soluzione generale del sistema con condizioni iniziali \(x(0)\) dell'evoluzione libera e con ingressi \(u(t)\) della risposta
+forzata sarà data dalla somma della soluzione dell'evoluzione libera con quella della risposta forzata.
+
+\newpage
+
+\subsection{Evoluzione libera}
+\subsubsection*{Introduzione}
+L'evoluzione libera \(x_l(t)\) di un sistema LTI \(\dot{x}(t) = Ax(t) + Bu(t)\) è la soluzione parziale del sistema ottenuta
+considerando solo le condizioni iniziali \(x(0) \neq 0\), ponendo gli ingressi a zero \(u(t) = 0\).
+
+\subsubsection*{Calcolo dell'evoluzione libera}
+Dato un sistema LTI \(\dot{x}(t) = Ax(t) + Bu(t)\) di cui si vuole analizzare l'evoluzione libera:
+\begin{itemize}
+	\item[1.] si pongono gli ingressi a zero \(u(t) = 0\) e si scelgono determinate condizioni iniziali \(x(0) \neq 0\), per
+	cui l'equazione del sistema diventa \[\dot{x}(t) = Ax(t)\]
+	\item[2.] è possibile esprimere il vettore \(x(t)\) come combinazione lineare degli autovettori di \(A\) ottenendo \(x(t) = c_1 v_1 + c_2 v_2 + \dots\)
+	per cui l'equazione diventa \[\dot{x}(t) = A(c_i v_1 + c_2 v_2 + \dots)\]
+	\item[3.] per la proprietà degli autovettori \(A v_i = \lambda_i v_i\), con \(\lambda_i\) autovalore associato, l'equazione
+	diventa \[\dot{x}(t) = Ax(t) = c_1 \lambda_1 v_1 + c_2 \lambda_2 v_2 + \dots\]
+	\item[4.] per linearità del sistema si studia ogni contributo indipendentemente e alla fine si sommano tutti i risultati
+	ottenuti, la soluzione di un generico contributo (si pone \(x(t) = c_i v_i\)) vale
+	\[\dot{x}(t) = c_i \lambda_i v_i \;\; \Leftrightarrow \;\; x_{l,i}(t) = c_i e^{\lambda_i t} v_i \;\; (= x_0 e^{\lambda_i t})\]
+	\item[5.] dalla somma di tutti i contributi si ottiene la soluzione dell'evoluzione libera
+	\[x_l(t) = \sum_{i=1}^{n} c_i e^{\lambda_i t} v_i \qquad \qquad \text{con } x(0) = \sum_{i=0}^{n} c_i v_i, \quad \begin{array}{l}
+		\lambda_i, v_i = \text{autovalori e autovettori di } A \\
+		e^{\lambda_i t} v_i =  \text{modo naturale associato a } \lambda_i
+	\end{array}\]
+\end{itemize}
+
+\subsubsection*{Modi naturali reali}
+Dato il modo naturale \(e^{\lambda_i t} v_i\) relativo all'autovalore \(\lambda_i\), se \(\lambda_i \in \mathbb{R}\), il modo
+naturale viene detto reale e:
+\begin{center}
+	\begin{minipage}{0.5\textwidth}
+		\begin{itemize}
+			\item come traiettoria evolutiva nel diagramma delle fasi ha una retta che passa per il punto \(x(t)\) e ha come vettore
+			direttore proprio l'autovettore del modo naturale reale
+			\item come evoluzione nel tempo ha un andamento esponenziale che dipende da \(\lambda_i\):
+			\begin{itemize}
+				\item se \(\lambda_i > 0\) moto esponenziale divergente
+				\item se \(\lambda_i = 0\) moto costante 
+				\item se \(\lambda_i < 0\) moto esponenziale convergente
+			\end{itemize}
+			\item ha costante di tempo caratteristica del modo naturale reale: \(\displaystyle\tau_i = -\frac{1}{\lambda_i}\)
+		\end{itemize}
+	\end{minipage}
+	\begin{minipage}{0.49\textwidth}
+		\centering
+		\includegraphics[width=0.8\textwidth]{immagini/evoluzione libera reale 1.png}
+		\includegraphics[width=0.8\textwidth]{immagini/evoluzione libera reale 2.png}
+	\end{minipage}
+\end{center}
+In conclusione l’evoluzione libera è la combinazione lineare di \(n\) modi naturali a cui corrispondono \(n\) traiettorie,
+ciascuna delle quali evolve lungo il sottospazio unidimensionale determinato dal corrispondente autovettore \(v_i\).
+
+\newpage
+
+\subsubsection*{Modi naturali complessi}
+Se dalla soluzione \(x_l(t)\) si ottengono due autovalori \(\lambda_{k1}, \lambda_{k2}\) complessi coniugati tali che
+\(\lambda_{k1,k2} = \sigma_k \pm j\omega_k\) allora si avrà anche degli autovettore complessi coniugati \(v_{k1,k2} = v_{ka} \pm j v_{kb}\).
+Il modo naturale complesso associato sarà della forma:
+\[x(t) = m_k e^{\sigma_k t} \; [ \sin(\omega_k t + \varphi_k) v_{ka} + \cos (\omega_k t + \varphi_k) v_{kb}]\]
+\[\text{con}\quad m_p = \sqrt{{c_{ka}}^2 + {c_{kb}}^2} \qquad x(0) = c_{ka} v_{ka} + c_{kb} v_{kb} \qquad
+\varphi = \begin{cases} \arctan (c_{ka} / c_{kb}) & c_{kb} > 0 \\ \arctan (c_{ka} / c_{kb}) + \pi & c_{kb} < 0 \end{cases}\]
+Analizzando il modo naturale complesso si osserva che:
+\begin{center}
+	\begin{minipage}{0.5\textwidth}
+		\begin{itemize}
+			\item come traiettoria evolutiva nel diagramma delle fasi ha una spirale ellittica che parte per il punto \(x(t)\)
+			e che può convergere, divergere o rimanere costante in funzione di \(\sigma_k\)
+			\item come evoluzione nel tempo ha un andamento esponenziale oscillatorio che dipende da \(\sigma_k\):
+			\begin{itemize}
+				\item se \(\sigma_k > 0\) moto oscillante divergente
+				\item se \(\sigma_k = 0\) moto periodico 
+				\item se \(\sigma_k < 0\) moto oscillante convergente
+			\end{itemize}
+			\item ha costante di tempo caratteristica del modo naturale complesso : \(\displaystyle\tau_k = -\frac{1}{\sigma_k}\)
+		\end{itemize}
+	\end{minipage}
+	\begin{minipage}{0.49\textwidth}
+		\centering
+		\includegraphics[width=0.8\textwidth]{immagini/evoluzione libera complessa 1.png}
+		\vspace{10pt}
+		
+		\includegraphics[width=0.9\textwidth]{immagini/evoluzione libera complessa 2.png}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Evoluzione libera completa: modi naturali reali + complessi}
+Mettendo insieme l'evoluzione libera costituita dai moti naturali reali e quella costituita dai moti naturali complessi si ottiene
+la formula generale dell'evoluzione libera (considerando che \(A\) abbia \(n\) autovalori distinti):
+\[x_l(t) = \sum_{i=1}^{\mu} c_i e^{\lambda_i t} v_i + \sum_{k=1}^{\nu} m_k e^{\sigma_k t} [ \sin(\omega_k t + \varphi_k) v_{ka} + \cos (\omega_k t + \varphi_k) v_{kb}]\]
+\[\text{con} \qquad x(0) = \sum_{i=1}^{\mu} c_i v_i + \sum_{k=1}^{\nu} c_{ka} v_{ka} + c_{kb} v_{kb} \qquad n = \mu + 2\nu\]
+In base al posizionamento degli autovalori nel piano complesso si hanno diversi moti evolutivi del sistema:
+\begin{center}
+	\includegraphics[width=0.6\textwidth]{immagini/evoluzione libera generale.png}
+\end{center}
+
+\subsubsection*{Evoluzione libera come esponenziale di una matrice}
+L'esponenziale di una matrice è definito sfruttando lo sviluppo di Taylor dell'esponenziale nell'origine
+\[e^A = \sum_{i=0}^{+\infty} \frac{A^k}{k!} = I + A + \frac{A^2}{2} + \dots\]
+Si dimostra che l'espressione dell'evoluzione libera corrisponde all'esponenziale della matrice \(A\)
+\[x_l(t) = \sum_{i=1}^{n} c_i e^{\lambda_i t} v_i = e^{At} x(0) \qquad \qquad \text{con} \;\; x(0) = \sum_{i=1}^{n} c_i v_i\]
+
+\subsection{Risposta forzata}
+\subsubsection*{Introduzione}
+La risposta forzata \(x_f(t)\) di un sistema LTI \(\dot{x}(t) = Ax(t) + Bu(t)\) è la soluzione parziale del sistema ottenuta
+considerando l'evoluzione del sistema di fronte agli ingressi non nulli \(u(t) \neq 0\), ponendo le condizioni
+iniziali a zero \(x(0) = 0\).
+
+\subsubsection*{Calcolo della risposta forzata}
+Dato un sistema LTI \(\dot{x}(t) = Ax(t) + Bu(t)\) di cui si vuole analizzare la risposta forzata:
+\begin{itemize}
+	\item[1.] si pongono le condizioni iniziali a zero \(x(0) = 0\) e si analizza il sistema in funzione degli ingressi
+	\(u(t) \neq 0\), per cui l'equazione del sistema rimane \[\dot{x}(t) = Ax(t) + Bu(t) \qquad \text{con} \quad x(0) = 0\]
+	\item[2.] risolvendo l'equazione differenziale si ottiene che la formula per la risposta forzata vale
+	\[x_f(t) = \int_{0}^{t} e^{A(t-\tau)} Bu(\tau) d\tau\]
+	\item[3.] analizzando per un certo ingresso fissato \(u(t) = \bar{u}\) e ponendo \(\xi = (t - \tau)\) si ha:
+	\[x_f(t) = \int_{0}^{t} e^{A(t-\tau)} Bu(\tau) d\tau = \int_{t}^{0} e^{A\xi} B\bar{u} -d\xi = \left(\int_{0}^{t} e^{A\xi} B d\xi\right) \bar{u}\]
+	\item[4.] se la matrice \(A\) è invertibile si ottiene
+	\[\int_{0}^{t} e^{A\xi} B d\xi = \left. A^{-1} e^{A\xi} B \right|_0^t = A^{-1} \left(e^{A\xi} - I\right) B \quad \rightarrow \quad x_f(t) = A^{-1} \left(e^{A\xi} - I\right) B \bar{u}\]
+	\item[5.] se la matrice \(A\) non è invertibile si usa sovrapposizione degli effetti per ogni ingresso \(1, \dots, m\) (colonne
+	della matrice \(B\)) e sarà necessario calcolare l'integrale, in caso è possibile notare che la risposta forzata corrisponde 
+	all'evoluzione libera con condizioni iniziali \(B_i\)
+	\[x_f(t) = \sum_{i=1}^{m} \left(\int_{0}^{t} e^{A\xi} B_i d\xi\right) \bar{u}_i = \sum_{i=1}^{m} \left(\int_{0}^{t} \left.x_l(t) \right|_{x(0)=B_i} d\xi\right) \bar{u}_i = \sum_{i=1}^{m} \left(\int_{0}^{t} \sum_{j=1}^{n} \left(c_j e^{\lambda_j t} v_j\right)  d\xi\right) \bar{u}_i\]
+	\[\text{con} \qquad B_i = \sum_{j=1}^{n} c_j v_j\]
+\end{itemize}
+
+\newpage
+
+
+\subsection{Convoluzione}
+\subsubsection*{Risposta impulsiva}
+La risposta impulsiva è una funzione matematica che descrive la risposta forzata di un sistema perturbato da un impulso unitario,
+ovvero quando \(u(t) = \delta(t)\):
+\[h(t) := e^{At}B \qquad\qquad \left. x_f(t) \right|_{u(t) = \delta(t)} = \int_{0}^{t} h(t-\tau) \, \delta(t) \, d\tau= h(t)\]
+
+\subsubsection*{Risposta forzata come prodotto di convoluzione}
+La risposta forzata può essere interpretata come un integrale della convoluzione (o prodotto di convoluzione), ovvero la
+combinazione tra risposta impulsiva \(h(t)\) e l'ingresso \(u(t)\):
+\[x_f(t) = (h * u)(t) := \int_{-\infty}^{+\infty} h(t - \tau) u(\tau) \, d\tau\]
+
+\begin{itemize}
+	\item l'impulso di Dirac è l'elemento neutro del prodotto di convoluzione \(x_f(t) = (h * \delta)(t) = h(t)\)
+	\item poiché la risposta di un sistema LTI a un impulso di Dirac è la risposta impulsiva \(h(t)\), la risposta forzata a un
+	ingresso \(u(t)\) è la somma pesata (tramite \(u(t)\)) delle risposte impulsive \(h(t)\) traslate nel tempo.
+\end{itemize}
+
+\subsection{Trasformata di Laplace}
+\subsubsection*{Definizione}
+La trasformata di Laplace mappa funzioni nel dominio del tempo in funzioni nel dominio dei numeri complessi permettendo di
+semplificare i calcoli di analisi dei sistemi.
+\[\lap : f \left(\begin{array}{l} \mathbb{R} \to \mathbb{R} \\ t \mapsto f(t) \end{array}\right) \mapsto F \left(\begin{array}{l} \mathbb{C} \to \mathbb{C} \\ s \mapsto F(s) \end{array}\right) \qquad F(s) = \lap[f(t)] := \int_{0^-}^{+\infty} f(t) e^{st} dt\]
+
+\subsubsection*{Osservazioni}
+\begin{itemize}
+	\item si considera solo la trasformata di Laplace unilatera (solo per tempi positivi o nulli)
+	\item il fattore \(e^{st}\) serve per far convergere l'integrale a \(t \to +\infty\)
+	\item per rendere l'esponente \(st\) adimensionale, \(s\) ha dimensioni di una frequenza
+	\item siccome è un integrale indefinito, l'integrale va trattato con un limite
+	\item l'integrale non dipende da \(t\), ma solo dal parametro \(s\), per questo \(F\) dipende solo da \(s\)
+	\item se l'integrale converge per un certo valore \(s_0\), allora convergerà per tutti i valori \(\Real(s) > \Real(s_0)\), si 
+	definisce, quindi, l'ascissa di convergenza \(\sigma_c\) che separa il semipiano sinistro con \(s\) convergenti da quello
+	destro con \(s\) convergenti
+\end{itemize}
+
+\subsubsection*{Proprietà}
+\begin{itemize}
+	\item unicità: se esiste la trasformata è unica e vale \(\lap[f(t)] = F(s) \qquad \lap^{-1}[F(s)] = f(t)\)
+	\item linearità: \(\lap[\alpha f(t) + \beta g(t)] = \alpha\lap[f(t)] + \beta\lap[g(t)] = \alpha L(s) + \beta G(s)\)
+	\item proprietà della derivata e dell'integrale: \(\lap\left[\frac{d f(t)}{dt}\right] = sF(s) - f(0^-) \qquad \lap\left[\int_0^t f(t) dt \right] = F(s)/s\)
+	\item convoluzione: \(\lap[(f*h)(t)] = F(s)H(s)\)
+	\item traslazione temporale: \(\lap[f(t-a)] = e^{-as} F(s)\)
+	\item traslazione in frequenza: \(\lap[e^{at}f(t)] = F(s-a)\)
+	\item teorema del valore iniziale: \(\displaystyle \lim_{t \to 0^+} f(t) = \lim_{s \to +\infty} sF(s)\)
+	\item teorema del valore finale: \(\displaystyle \lim_{t \to +\infty} f(t) = \lim_{s \to 0} sF(s)\)
+\end{itemize}
+
+\subsubsection*{Tabelle per trasformata e antitrasformata}
+\begin{center}
+	\begin{tabularx}{\textwidth}{ C | C }
+		\textbf{Funzione del tempo} & \textbf{Trasformata di Laplace} \\
+		\toprule
+		\(\delta(t)\) (impulso di Dirac) & 1 \\
+		\midrule
+		\(\delta_{-1}(t)\) (gradino unitario) & \(1/s\) \\
+		\midrule
+		\(\delta_{-2}(t)\) (rampa unitaria) & \(1/s^2\) \\
+		\midrule
+		\(e^{at}\) (esponenziale) & \(\dfrac{1}{s - a}\) \\
+		\midrule
+		\(\dfrac{t^{n-1}}{(n-1)!} e^{at}\) (esponenziale polinomiale) & \(\dfrac{1}{(s - a)^n}\) \\
+		\midrule
+		\(\sin(\omega t)\) (sinusoide) & \(\dfrac{\omega}{s^2 + \omega^2}\) \\
+		\midrule
+		\(\cos(\omega t)\) (cosinusoide) & \(\dfrac{s}{s^2 + \omega^2}\) \\
+		\midrule
+		\(\dfrac{1}{\omega_n \sqrt{1 - \zeta^2}} e^{-\zeta \omega_n t} \sin\big(\omega_n \sqrt{1 - \zeta^2} t \big)\) & 
+		\(\dfrac{1}{s^2 + 2\zeta \omega_n s + \omega_n^2}\) (fattore trinomio) \\
+		\midrule
+		\(e^{-at} \cos(\omega t)\) & \(\dfrac{s + a}{(s + a)^2 + \omega^2}\) \\
+		\midrule
+		\(e^{-at} \sin(\omega t)\) & \(\dfrac{\omega}{(s + a)^2 + \omega^2}\)
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Antitrasformata}
+Definita la trasformata di Laplace come sopra, l'antitrasformata è definita come segue:
+\[\lap[f(t)] = \int_{0^-}^{+\infty} f(t) e^{-st} dt \qquad\qquad \lap^{-1}[F(s)] = \frac{1}{2\pi j} \int_{\sigma-j\infty}^{\sigma+j\infty} F(s) e^{st} ds \qquad \text{con} \; \sigma > \sigma_c\]
+Siccome l'integrale dell'antitrasformata è ostico da calcolare, si ricorre all'uso della tabella sopra. Di solito le funzioni
+da antitrasformare sono un rapporto tra polinomi in \(s\) per cui si definiscono alcune regole e procedimenti ricondursi alle
+forme in tabella:
+\begin{itemize}
+	\item[1.] si scrive la funzione come rapporto di polinomi \(\mathcal{N}(s)\) e \(\mathcal{D}(s)\)
+	\item[2.] si scompone il denominatore esplicitandone le radici (reali o complesse), dette poli
+\end{itemize}
+\[F(s) = \frac{\mathcal{N}(s)}{\mathcal{D}(s)} = \frac{\mathcal{N}(s)}{(s-\lambda_1)^{\mu_1}(s-\lambda_2)^{\mu_2}\dots(s-\lambda_n)^{\mu_n}} = \dots\]
+
+\subsubsection*{Antitrasformata per poli semplici}
+\begin{itemize}
+	\item[3.] se i poli hanno molteplicità unitaria, si può dividere la frazione in fratti semplici \(C_i \; / \; (s-\lambda_i)\)
+	\[\dots = \frac{C_1}{s-\lambda_1} + \frac{C_2}{s-\lambda_2} + \dots + \frac{C_n}{s-\lambda_n} \qquad \text{con} \qquad C_i = \lim_{s \to \lambda_i} (s-\lambda_i) F(s)\]
+	\item[4.] si antitrasformano i fratti semplici individualmente, in caso di poli reali le soluzioni sono esponenziali, in
+	caso di poli complessi coniugati, le soluzioni si combinano ottenendo moti oscillatori
+	\[\lap^{-1}\left[\frac{C_i}{s-\lambda_i}\right] = C_i e^{\lambda_i t} \qquad\quad C_i e^{\lambda_i t} + {C_i}^* e^{{\lambda_i}^* t} = 2e^{\sigma t} (a \cos(\omega t) - b \sin(\omega t)) \quad \begin{array}{l} C,C^* = a \pm jb \\[5pt] \lambda,\lambda^* = \sigma \pm j\omega \end{array}\]
+\end{itemize}
+
+\newpage
+
+\subsubsection*{Antitrasformata per poli multipli}
+\begin{itemize}
+	\item[3.] se i poli hanno molteplicità maggiore di 1, si considera un residuo per ogni esponente da 1 a \(\mu_i\)
+	\[\dots = \dots \frac{C_{i,0}}{(s-\lambda_i)} + \frac{C_{i,1}}{(s-\lambda_i)^2} + \dots + \frac{C_{i,\mu_i-1}}{(s-\lambda_i)^{\mu_i}} + \dots\]
+	\begin{align*}
+		C_{i,\mu_i-1} &= \lim_{s \to \lambda_i} F(s) (s-\lambda_i)^{\mu_i} &\qquad C_{i,\mu_i-2} &= \lim_{s \to \lambda_i} \left(F(s) - \frac{C_{i,\mu_i-1}}{(s-\lambda_i)^{\mu_i}} \right) (s-\lambda_i)^{\mu_i-1} \\
+		\quad &\dots\quad  &\qquad C_{i,0} &= \lim_{s \to \lambda_i} \left(F(s) - \sum_{l=1}^{\mu_i-1} \frac{C_{i,l}}{(s-\lambda_i)^{l+1}} \right) (s-\lambda_i)
+	\end{align*}
+	\item[4.] si antitrasformano i fratti raggruppando quelli associati ad uno stesso autovalore:
+	\[\lap^{-1}\left[ \sum_{l=0}^{\mu_i-1} \frac{C_{i,l}}{(s-\lambda_i)^{l+1}} \right] = \sum_{l=0}^{\mu_i-1} C_{i,l} \frac{t^l}{l!} e^{\lambda_i t}\]
+\end{itemize}
+
+\subsubsection*{Moti naturali di poli semplici}
+\begin{center}
+	\includegraphics[width=0.9\textwidth]{immagini/laplace poli semplici.png}
+\end{center}
+
+\subsubsection*{Moti naturali di poli multipli}
+\begin{center}
+	\includegraphics[width=0.9\textwidth]{immagini/laplace poli multipli.png}
+\end{center}
+
+\subsubsection*{Evoluzione libera con Laplace}
+Studio dell'evoluzione libera attraverso la trasformata di Laplace
+\[\dot{x}_l(t) = Ax_l(t) \;\;\stackrel{\lap}{\longrightarrow}\;\; sX_l(s) - x_l(0) = AX_l(s) \;\;\rightarrow\;\; sX_l(s)-AX_l(s) = x_l(0) \;\;\rightarrow\;\; (sI-A)X_l(s) = x_l(0)\]
+\[(sI-A)X_l(s) = x_l(0) \;\;\rightarrow\;\; X_l(s) = (sI-A)^{-1} x_l(0) \;\;\stackrel{\lap^{-1}}{\longrightarrow}\;\; x_l(t) = e^{At} x_l(0)\]
+
+\subsubsection*{Risposta forzata con Laplace}
+Studio della risposta forzata attraverso la trasformata di Laplace
+\[\dot{x}_f(t) = Ax_f(t) + Bu(t) \;\;\stackrel{\lap}{\longrightarrow}\;\; sX_f(s) - x_f(0) = AX_f(s) + BU(s) \;\;\rightarrow\;\; X_f(s) = (sI-A)^{-1}BU(s)\]
+Si definisce la matrice di trasferimento tra ingressi e stato, che è anche la risposta impulsiva del sistema:
+\[\frac{X_f(s)}{U(s)} = (sI-A)^{-1}B \qquad\qquad X_f(s) = H(s)U(s) \;\;\rightarrow\;\; \frac{X_f(s)}{U(s)} = H(s) = (sI-A)^{-1}B\]
+Se si definiscono le uscite del sistema come \(y(t) = Cx(t) + Du(t)\), allora è possibile definire la matrice di trasferimento tra 
+ingressi e uscite: \[\frac{Y(s)}{U(s)} = C(sI-A)^{-1}B + D\]
+
+\subsubsection*{Risposta complessiva (libera + forzata) con Laplace}
+Unendo l'evoluzione libera e la risposta forzata trasformate con Laplace si ottiene:
+\[X(s) = X_l(s) + X_f(s) = (sI-A)^{-1} x_l(0) + (sI-A)^{-1}BU(s)\]
+
+\subsection{Risposta in frequenza}
+\subsubsection*{Risposta in frequenza in un sistema BIBO stabile}
+L'analisi della risposta in frequenza consiste nell'analizzare come varia l'ampiezza e la fase tra un segnale in ingresso e un segnale
+in uscita di un sistema BIBO-stabile. Si considerano solo sistemi BIBO-stabili in quanto, se perturbati con un segnale sinusoidale ad
+una certa frequenza, restituiscono sempre un segnale sinusoidale alla stessa frequenza alterato di ampiezza e fase.
+
+\subsubsection*{Analisi in frequenza e diagrammi di Bode}
+Per l'analisi in frequenza si eseguono i seguenti passaggi:
+\begin{itemize}
+	\item[1.] si calcola la sola risposta forzata di un sistema BIBO stabile e si ottiene la risposta impulsiva del sistema trasformata
+	con Laplace (o funzione di trasferimento): \(H(s) = X_f(s) / U(s)\)
+	\item[2.] si studia la risposta in frequenza (in uscita) del sistema perturbato da una sinusoide (in ingresso) analizzando come
+	varia l'ampiezza e la fase in funzione di \(\omega\):
+	\[x_r(t) := \left|H(j\omega)\right| \sin (\omega t + \arg{\left\{H(j\omega)\right\}}) \qquad \text{ampiezza} = \left|H(j\omega)\right| \qquad \text{fase} = \arg{\left\{H(j\omega)\right\}}\]
+	\item[3.] è possibile disegnare i grafici che si ottengono studiando ampiezza e fase in funzione della frequenza che prendono il
+	nome di diagrammi di Bode; ampiezza \((20\log_{10}(H(j\omega)) = [dB])\) e frequenza \((\log_{10}(\omega))\) sono indicate in
+	scala logaritmica per una migliore lettura
+\end{itemize}
+
+\subsubsection*{Frequenza o pulsazione di taglio}
+Nel caso di sistemi BIBO che fungono da filtri (abbassano l'ampiezza di frequenze sopra o sotto una certa soglia) si definisce la
+pulsazione di taglio quando la parte reale uguaglia la parte immaginaria e si ha un'attenuazione dell'ampiezza di \(-3 \; \text{dB}\)
+o \(70\%\) e la fase si inverte di \(\pi/4\):
+\[\left. H(j\omega) \right|_{\omega = \omega_\text{taglio}} = \frac{\sqrt{2}}{2} = 0.7 \qquad\qquad 20\log_{10}\left(\left. H(j\omega) \right|_{\omega = \omega_\text{taglio}}\right) = -3 \; \text{dB}\]
+
+\newpage
+
+
+\section{Analisi a tempo discreto}
+\subsection{Parallelismo tra tempo continuo e tempo discreto}
+\begin{center}
+	\begin{tabularx}{\textwidth}{l | C | C}
+		& \textbf{tempo continuo} & \textbf{tempo discreto} \\
+		\toprule
+		\multirow{2}{*}{equazioni} & \(\dot{x}(t) = Ax(t) + Bu(t)\) & \(x(k+1) = Ax(k) + Bu(k)\) \\
+		& \(x(t) = x_l(t) + x_f(t)\) & \(x(k) = x_l(k) + x_f(k)\) \\
+		\midrule
+		condizioni iniziali & \(x_0 = c_1 v_1 + \dots + c_n v_n\) & \(x_0 = c_1 v_1 + \dots + c_n v_n\) \\
+		\midrule
+		modo naturale & \(e^{\lambda_i t} v_i\) & \({\lambda_i}^k v_i\) \\
+		\midrule
+		evoluzione & \(\lambda_i < 0\) convergente, \(\lambda_i = 0\) costante, \(\lambda_i > 0\) divergente & \(\left|\lambda_i\right| < 1\) convergente, \(\left|\lambda_i\right| = 1\) costante, \(\left|\lambda_i\right| > 1\) divergente, \(\lambda_i < 0\) alternati \\
+		\midrule
+		evoluzione libera & \(x_l(t) = \sum_{i=1}^{n} c_i e^{\lambda_i t} v_i = e^{At} x_0\) & \(x_l(k) = \sum_{i=1}^{n} c_i {\lambda_i}^k v_i = A^k x_0\) \\
+		\midrule
+		\multirow{3}{*}{risposta forzata} & \(x_f(t) = \int_{0}^{t} e^{A(t-\tau)}Bu(\tau) d\tau\) & \(x_f(k) = \sum_{h=0}^{k-1} A^{k-h-1} B u(h)\) \\
+		& \(x_f(t) = \left(\int_{0}^{t} e^{A\xi}B d\xi\right) \bar{u}\) & \(x_f(t) = \left(\sum_{\xi=0}^{k-1} A^\xi B\right) \bar{u}\) \\
+		& \(x_f(t) = \sum_{i=1}^{p} \left(\int_{0}^{t} e^{A\xi}[B]_i d\xi\right) \bar{u}_i\) & \(x_f(t) = \sum_{i=1}^{p} \left(\sum_{\xi=0}^{k-1} A^\xi [B]_i\right) \bar{u}_i\) \\
+		\bottomrule
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Andamenti delle evoluzioni (convergenti, divergenti, oscillanti, alterni)}
+\begin{center}
+	\begin{tabularx}{\textwidth}{C C}
+		\midrule
+		diagramma delle fasi in tempo continuo & diagramma delle fasi in tempo discreto
+	\end{tabularx}
+	\includegraphics[width=\textwidth]{immagini/tempo discreto 1.png}
+	\vspace{10pt}
+
+	\begin{tabularx}{\textwidth}{C C}
+		\midrule
+		modi naturali in tempo continuo & modi naturali in tempo discreto
+	\end{tabularx}
+	\includegraphics[width=\textwidth]{immagini/tempo discreto 2.png}
+\end{center}
+
+\subsection{Trasformata Zeta}
+\subsubsection*{Definizione - notazione}
+La trasformata Zeta mappa equazioni alle differenze in equazioni algebriche, permettendo di semplificare i calcoli nell'analisi dei
+sistemi a tempo discreto.
+\[\z : f \left(\begin{array}{l} \mathbb{Z} \to \mathbb{R} \\ k \mapsto f(k) \end{array}\right) \mapsto F \left(\begin{array}{l} \mathbb{Z} \to \mathbb{R} \\ z \mapsto F(z) \end{array}\right) \qquad F(z) = \z[f(k)] := \sum_{k=0}^{+\infty} x(k) z^{-k}\]
+
+\subsubsection*{Osservazioni}
+\begin{itemize}
+	\item il termine \(z^{-k}\) corrisponde ad un ritardo temporale di \(k\) passi e serve per \say{posizionare} i valori del campione
+	\(x(k)\) nella serie (es. \(x(k)=[4,2,0,5] \rightarrow X(z) = 4z^{-0} + 2z^{-1} + 0z^{-2} + 5z^{-3}\))
+	\item è possibile osservare che la trasformata Zeta corrisponde alla trasformata di Laplace di un segnale continuo campionato
+	idealmente ogni periodo \(T\)
+	\begin{align*}
+		x(k) \leftrightarrow x_q(t) &= x(0)\delta(t) + x(1)\delta(t-T) + x(2)\delta(t-2T) + x(3)\delta(t-T3) + \dots + x(k)\delta(t-kT) \\
+		X(z) = \z[x(k)] &= x(0) + x(1)z^{-1} + x(2)z^{-2} + x(3)z^{-3} + \dots + x(k)z^{-k} \\
+		X_q(s) = \lap[x_q(t)] &= x(0) + x(1)e^{-sT} + x(2)e^{-2sT} + x(3)e^{-3sT} + \dots + x(k)e^{-skT}
+	\end{align*}
+	\[z = e^{st} \qquad\qquad X_q(s) = \left. X(z) \right|_{z = e^{st}}\]
+\end{itemize}
+
+\subsubsection*{Proprietà}
+\begin{itemize}
+	\item unicità: se esiste la trasformata è unica e vale \(\z[x(k)] = X(z) \qquad \z^{-1}[X(z)] = x(k)\)
+	\item linearità: \(\z[\alpha x(k) + \beta y(k)] = \alpha\z[x(k)] + \beta\z[y(k)] = \alpha L(z) + \beta Y(z)\)
+	\item moltiplicazione per \(k\) e \(k^2\): \(\lap\left[kx(k)\right] = -z\frac{dX(z)}{dz} \qquad \lap\left[k^2 x(k)\right] = z\frac{dX(z)}{dz} + z^2\frac{d^2X(z)}{dz^2}\)
+	\item ritardo temporale: \(\z[x(k-1)] = z^{-1} X(z)\)
+	\item anticipo temporale: \(\z[x(k+1)] = zX(z)- zx(0)\)
+	\item convoluzione: \(\z[(x_1*x_2)(k)] = X_1(z)X_2(z)\)
+	\item moltiplicazione per esponenziale: \(\z[\lambda^kx(k)] = X(z/\lambda)\)
+\end{itemize}
+
+\subsubsection*{Tabelle per trasformata e antitrasformata}
+\begin{center}
+	\begin{tabularx}{\textwidth}{ c | C }
+		\textbf{Funzione del tempo} & \textbf{Trasformata di Laplace} \\
+		\toprule
+		\(\delta(k)\) (impulso di Kronecker - unitario discreto) & 1 \\
+		\midrule
+		\(\delta(k-i)\) (impulso di Kronecker traslato) & \(z^{-i}\) \\
+		\midrule
+		\(\delta_{-1}(k)\) (gradino unitario discreto) & \(z/(z-1)\) \\
+		\midrule
+		\(\lambda^k\delta_{-1}(k)\) (successione esponenziale causale) & \(z/(z-\lambda)\) \\
+		\midrule
+		\(k\lambda^k\delta_{-1}(k)\) (\(k\) volte successione esponenziale causale) & \(z\lambda/(z-\lambda)^2\) \\
+		\midrule
+		\(k^2\lambda^k\delta_{-1}(k)\) (\(k^2\) volte successione esponenziale causale) & \(z\lambda(z+\lambda)/(z-\lambda)^3\) \\
+		\midrule
+		\(A \cos(\theta k + \phi)\, \delta_{-1}(k)\) (successone sinusoidale causale) & \(A \frac{z\left[z\cos(\phi)-\cos(\phi-\theta)\right]}{z^2 - 2z\cos\theta + 1}\)
+	\end{tabularx}
+\end{center}
+
+\newpage
+
+\subsubsection*{Calcolo della trasformata}
+Per il calcolo della trasformata di una successione si sfrutta il ruolo di \(z^{-k}\) per la trasformata zeta
+\begin{align*}
+	x(k) = [4,2,0,5] \;\;&\rightarrow\;\; x(k) = 4\delta(k) + 2\delta(k-1) + 0\delta(k-2) + 5\delta(k-3) \;\;\rightarrow \\
+	&\rightarrow\;\; X(z) = \sum_{k=0}^{\infty} x(k)z^{-k} = 4 + 2z^{-1} + 0z^{-2} + 5z^{-3} = \frac{4z^3+2z^2+5}{z^3}
+\end{align*}
+
+\subsubsection*{Calcolo dell'antitrasformata}
+Si sfruttano tecniche analoghe alla antitrasformata di Laplace:
+\begin{itemize}
+	\item[1.] si scrive la funzione come rapporto irriducibile di polinomi 
+	\item[2.] si scompone il rapporto in fratti semplici
+	\item[3.] si antitrasformano i fratti semplici singolarmente come con Laplace
+\end{itemize}
+
+\subsubsection*{Evoluzione libera con trasformata Zeta}
+Studio dell'evoluzione libera attraverso la trasformata Zeta
+\[x_l(k) = Ax_l(k) \;\;\stackrel{\z}{\longrightarrow}\;\; zX_l(k) - zx_l(0) = AX_l(z) \;\;\rightarrow\;\; zX_l(z)-AX_l(z) = zx_l(0)\]
+\[zX_l(z)-AX_l(z) = zx_l(0) \;\;\rightarrow\;\; (zI-A)X_l(z) = zx_l(0) \;\;\rightarrow\;\; X_l(z) = (zI-A)^{-1} zx_l(0)\]
+
+\subsubsection*{Risposta forzata con trasformata Zeta}
+Studio della risposta forzata attraverso la trasformata zeta
+\[x_f(k+1) = Ax_f(k) + Bu(k) \;\;\stackrel{\z}{\longrightarrow}\;\; zX_f(z) - zx_f(0) = AX_f(z) + BU(z) \;\;\rightarrow\;\; X_f(z) = (zI-A)^{-1}BU(z)\]
