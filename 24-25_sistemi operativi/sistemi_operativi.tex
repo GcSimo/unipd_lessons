@@ -391,7 +391,8 @@ connesse al computer.
 
 \subsubsection*{Interrupt}
 La comunicazione tra controller e driver/kernel avviene tramite gli interrupt. Esiste un vettore con puntatori alle procedure da
-eseguire quando si riceve un interrupt (chiamate Interrupt Service Routines) e che gestiscono i flussi di dati tra risorse e sistema.
+eseguire quando si riceve un interrupt (chiamate Interrupt Service Routines o ISR) e che gestiscono i flussi di dati tra risorse
+e sistema.
 
 \subsubsection*{Input/Output}
 \begin{itemize}
@@ -1595,7 +1596,7 @@ Le condition variables sono associate ai lock mutex:
 \begin{itemize}
 	\item \verb|pthread_cond_t cond_var|: dichiarazione della condition variable \verb|cond_var|
 	\item \verb|pthread_cond_init(&cond_var,NULL)|: inizializzazione della condition variable
-	\item \verb|pthread_cond_wait(&cond_var, &mtx)|: esegue il wait di \verb|cond_var| rilaciando il mutex \verb|mtx|
+	\item \verb|pthread_cond_wait(&cond_var, &mtx)|: esegue il wait di \verb|cond_var| rilasciando il mutex \verb|mtx|
 	\item \verb|pthread_cond_signal(&cond_var)|: esegue la signal della \verb|cond_var|
 \end{itemize}
 Di solito si esegue la \verb|pthread_cond_wait(&cond_var, &mtx)| all'interno di un ciclo \verb|while| con la condizione da
@@ -1653,7 +1654,7 @@ composto da tre sezioni:
 	e attivare il segmento di codice opportuno)
 	\item \textbf{dispatcher}: assegnazione dei core ai processi in base all'output dello scheduler che, attraverso l'algoritmo
 	di scheduling, sceglie quali processi mandare in esecuzione
-	\item \textbf{sincronizzazione}: gestione degli stumenti di sincronizzaione (semafori a contatore, con code FIFO, con stack
+	\item \textbf{sincronizzazione}: gestione degli strumenti di sincronizzazione (semafori a contatore, con code FIFO, con stack
 	LIFO, con liste di priorità, concorrenza nell'esecuzione di wait e signal, \dots)
 \end{itemize}
 
@@ -1902,7 +1903,485 @@ dispone di uno scheduler per i compiti grafici della GPU bypassando la CPU grazi
 % \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|/////////////////////////////////////////////////////////////////////////
 % ***************************************************************************************************************************************************
 
+% ***************************************************************************************************************************************************
+% ------------------------------------------------------------------ CONCETTI BASE ------------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
 \section{Gestione memoria principale}
+\subsection{Concetti base}
+\begin{itemize}
+	\item \textbf{librerie dinamiche} permettono al processo in esecuzione di caricare la libreria richiesta nel momento in cui
+	serve, ed essendo condivisa, se il modulo è già in memoria (perché usato da altro processo) allora non deve essere caricato
+	di nuovo
+	\item \textbf{accesso alla memoria}: il processore accede in maniera immediata solo ai registri e alla memoria primaria (ed
+	eventuali cache nel mezzo), per accedere alla memoria secondaria serve interfacciarsi con driver appositi in quanto gestito
+	come dispositivo di I/O
+\end{itemize}
+
+\subsubsection*{Memoria del task manager di Windows}
+\begin{itemize}
+	\item \textbf{cache}: area di memoria con dati vecchi che possono essere usati per altri processi ma vengono mantenuti
+	in memoria per un eventuale uso futuro
+	\item \textbf{memoria compressa}: memoria non usata e compressa per occupare meno spazio
+	\item \textbf{pool di paging o memoria di swap}: area di memoria salvata in un disco diverso dalla RAM in cui vengono
+	salvati alcuni dati dei processi in modo da liberare la RAM quando risulta piena (es. computer con poca RAM o esecuzione
+	di programmi che richiedono tanta memoria)
+	\item \textbf{pool non di paging (Wired Memory)}: dati del kernel memorizzati in RAM che non possono essere swappati in memoria
+	secondaria
+\end{itemize}
+
+\subsubsection*{Frammentazione}
+\begin{itemize}
+	\item \textbf{frammentazione interna}: quando un programma alloca più memoria di quella che effettivamente usa, ovvero si
+	hanno aree di memoria riservate a programmi, ma non usate
+	\item \textbf{frammentazione esterna}: quando in una generica memoria sono presenti molte aree libere di piccole dimensioni
+	intervallate da aree occupate, il problema è che le piccole aree non sempre sono utili per allocare un processo
+\end{itemize}
+
+% ***************************************************************************************************************************************************
+% -------------------------------------------------- MEMORIA DEI PROGRAMMI E RILOCAZIONE INDIRIZZI --------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Gestione della memoria e degli indirizzi dei programmi}
+\subsubsection*{Tipi di indirizzo}
+\begin{itemize}
+	\item \textbf{indirizzi simbolici}: sono i nomi delle variabili utilizzati nel codice del programmatore
+	\item \textbf{indirizzi rilocabili}: generati dal compilatore e dal linker, sono relativi ovvero sono offset dall'inizio
+	del segmento in cui si trovano
+	\item \textbf{indirizzi logici}: generati dal loader e sono frutto della rilocazione degli indirizzi relativi
+	una volta che il programma viene caricato in memoria
+	\item \textbf{indirizzi fisici}: generati dalla MMU o dal TBL e corrispondono all'indirizzo effettivo della memoria in cui
+	è contenuto il determinato dato
+\end{itemize}
+
+\subsubsection*{Gestione della memoria dedicata ai processi e rilocazione degli indirizzi}
+Quando un processo viene caricato in memoria, gli viene assegnato uno spazio di memoria personale delimitato dall'indirizzo base
+e dall'indirizzo limite. 
+
+Gli indirizzi relativi (nel codice) vengono rilocati in indirizzi logici attraverso un mapping lineare solo quando il
+programma viene caricato in memoria in quanto è necessario conoscere l'indirizzo base:
+\begin{center}
+	\vspace{-5pt}
+	\(\text{ind. logio} = \text{ind. base} + \text{ind. relativo} \qquad\qquad \text{con} \;\;\; \text{base} \leq \text{ind. logico} \leq \text{limite}\)
+	\vspace{-5pt}
+\end{center}
+Se l'indirizzo logico non è compreso tra la base e il limite, si verifica un errore di segmentation fault.
+
+\subsubsection*{Tipo di binding}
+\begin{itemize}
+	\item \textbf{binding in compilazione}: i programmi contengono già indirizzi fisici (codice assoluto) e, vengono quindi
+	eseguiti sempre nella stessa area di memoria (caricamento statico) (es. processi kernel)
+	\item \textbf{binding in caricamento}: il passaggio da indirizzi rilocabili a indirizzi logici avviene in fase di caricamento,
+	il codice è detto rilocabile e il caricamento è statico (non rilocato in runtime)
+	\item \textbf{binding in esecuzione}: il passaggio da indirizzi rilocabili a indirizzi logici avviene in fase di esecuzione,
+	ovvero il codice può essere spostato nella RAM e gli indirizzi devono essere dinamicamente rilocabili, il codice deve essere
+	rilocabile e il caricamento si dice dinamico
+\end{itemize}
+
+% ***************************************************************************************************************************************************
+% ------------------------------------------------------------------- PAGINAZIONE -------------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Paginazione}
+\subsubsection*{Introduzione}
+La paginazione consiste nella suddivisione della memoria RAM in pagine fisiche e dello spazio logico (la memoria indirizzabile
+dal processore) in pagine logiche della stessa dimensione. La dimensione può variare tra 512 byte e 1GB, attualmente i sistemi
+hanno pagine comprese tra i 4KB e i 4MB. La corrispondenza tra le pagine logiche e quelle fisiche avviene tramite la tabella
+delle pagine (una per ogni processo). Le pagine fisiche sono dette anche frame.
+
+\subsubsection*{Passaggio da indirizzo logico a indirizzo fisico con paginazione}
+Dato un sistema con paginazione, è possibile suddividere un indirizzo (logico o fisico) in indice di pagina (logica o fisica) e
+offset di pagina. Ad esempio per indirizzi a 32 bit con pagine da 4KB si avranno 12 bit di offset e i restanti 20 di indice di
+pagina. Per passare da un indirizzo logico con pagina logica ad uno fisico con pagina fisica basta sostituire l'indice di pagina
+logica con il corrispettivo indice di pagina fisica. La traduzione viene fatta in hardware dalla Memory Management Unit (MMU).
+
+\subsubsection*{Tabella delle pagine}
+La tabella delle pagine (memorizzata in un apposito spazio in RAM) contiene la corrispondenza tra le pagine logiche e le pagine
+fisiche di uno specifico processo. È composta una riga per ogni pagina logica (creata dal sistema) e ogni riga contiene una cella
+con l'indirizzo di pagina logica, una cella adiacente con l'indirizzo corrispondente di pagina fisica ed eventuali metadati (bit
+validità, bit modifica, bit protezione). La MMU ci accede attraverso due registri:
+\begin{itemize}
+	\item Page Table Base Register - PTBR: inizio della page table (CR3 in x86, TTBR in ARM)
+	\item Page Table Lenght Register - PTLR: lunghezza della page table
+\end{itemize}
+
+\subsubsection*{Translation Lookaside Buffer - TLB o cache per la page table}
+Il Translation Lookaside Buffer o TLB è una memoria associativa (CAM o Content Addressable Memory) che funge da cache per la
+tabella delle pagine in modo da facilitare il calcolo per il passaggio da pagina logica o pagina fisica. È implementato come
+memoria associativa in modo da avere il risultato in tempo costante \(O(1)\), contiene tra le 64 e 1024 righe della tabella
+delle pagine e si trova vicino alla cache L2. Per velocizzare i processi, la ricerca della pagina avviene in contemporanea
+nel TLB e nella page table, inoltre si utilizzano TLB differenti per istruzioni e dati.
+
+Siccome si ha una specifica tabella delle pagine per ogni processo, ad ogni context switch sarebbe necessario aggiornare il
+TLB. Per risparmiare ciò, si utilizza una colonna aggiuntiva chiamata Address Space Identifier (ASID) che memorizza l'ID del
+processo che usa la determinata corrispondenza logico-fisico. In questo modo prima di effettuare la traduzione è sufficiente 
+controllare che il PID in esecuzione e il ASID corrispondano. Nel caso in cui ciò non avvenga, viene restituito un TLB-miss.
+
+\subsubsection*{Trade-off tra frammentazione e accesso veloce}
+Se le pagine hanno dimensioni piccole, si riesce a ridurre la frammentazione, ma aumenta la dimensione della tabella delle pagine
+e si possono avere importanti TLB-miss che rallentano l'esecuzione. Viceversa con pagine di grande dimensione si ha una tabella
+delle pagine di minore dimensione, accessi più veloci (pochi TLB-miss), ma si va incontro a grande frammentazione.
+
+\subsubsection*{Page swap}
+In caso di memoria piena, è necessario spostare alcune pagine dalla RAM allo spazio di swap nell'hard disk secondo un preciso
+algoritmo di swap. Le informazioni se una determinata pagina è in RAM o è stata swappata, sono contenute nei dati aggiuntivi
+della tabella delle pagine.
+
+\subsubsection*{Gestione dei page fault}
+Ad ogni processo vengono assegnate le pagine richieste per la sua esecuzione. Se un processo tenta di accedere a pagine non
+assegnateli o non ancora caricate in memoria, viene lanciata un'eccezione di page fault. Se la pagina può essere caricata si
+effettua il page load (la pagina viene caricata dal disco alla RAM e viene aggiornata la tabella delle pagine) e il page fault
+viene gestito silenziosamente. Se la pagina è presente, ma l'accesso non è consentito, viene lanciato un segmentation fault che
+provoca l'arresto del processo in esecuzione.
+
+\subsubsection*{Metadati della tabella delle pagine}
+\begin{itemize}
+	\item \textbf{bit di protezione}: specifica se l'accesso alle pagine è in sola lettura o lettura + scrittura
+	\item \textbf{bit di validità}: specifica se la pagina si trova o meno in memoria, se non è in memoria (page fault) si
+	rimedia con un page load (se possibile) o con un seg fault
+	\item altri metadati non approfonditi, come riservatezza al kernel, bit di modifica, copy-on-write, \dots
+\end{itemize}
+
+\subsubsection*{Come ridurre la dimensione delle page table}
+Si vuole mantenere la tabella delle pagine contigua (per poter usare l'offset), ma allo stesso tempo si vuole evitare tabelle di
+grandi dimensioni per evitare frammentazione. Per risolvere questo problema possono utilizzare le tabelle invertite, le tabelle
+di pagine hash e le tabelle di pagina gerarchiche.
+
+\subsubsection*{Tabelle invertite}
+Le tabelle invertite consistono in tabelle di pagina ordinate in base alla pagina fisica. Non si potranno avere, quindi, più pagine
+logiche che mappano la stessa pagina fisica e soprattutto la ricerca della pagina logica non sarà più \(O(1)\). Per questo sono
+poco usate.
+
+\subsubsection*{Tabelle di pagina gerarchiche}
+La tabella di pagina si sviluppa su più livelli preservando continuità delle sottotabelle e riducendo la frammentazione. La
+tabella di primo livello (e le altre sottotabelle tranne l'ultima) contengono riferimenti alle altre sottotabelle, mentre
+l'ultima tabella contiene l'effettivo indirizzo fisico. In base al numero di livelli, si suddivide l'indirizzo di pagina in
+più parti (\(p_1, p_2, \dots d\)) in cui ogni parte rappresenta l'offset della tabella ad un determinato livello (\(p_1\) per
+il primo, \(p_2\) per il secondo, \dots, \(d\) per l'ultimo).
+
+Negli attuali SO da 32-64bit si utilizzano da 3 a 7 livelli di paginazione, in hardware con RAM lenta (ci sono molti più accessi)
+o con basse capacità computazionali e pochi registri, il costo della paginazione gerarchica è parecchio elevato.
+
+\subsubsection*{Tabelle di pagina hash}
+Le tabelle di pagina hash sfruttano le funzioni di hash per indirizzare una determinata pagina logica alla riga con la
+corrispondente pagina fisica. Ogni riga della tabella sarà una catena (per gestire collisioni) di pagine fisiche. Il vantaggio
+principale è la riduzione del numero delle entry della tabella delle pagine.
+
+\subsubsection*{Tabelle invertite con hash}
+Sono tabelle invertite in cui la ricerca della riga avviene tramite funzione hash e, in caso di collisioni, si utilizzano sistemi
+di open addressing con varianti di funzioni hash \(H(p), H'(p), H''(p)\).
+
+\subsubsection*{Clustered page table}
+In una stessa riga della tabella delle pagine si memorizzano le pagine fisiche associate a pagine logiche adiacenti, per
+condensare più righe insieme e risparmiare spazio.
+
+% ***************************************************************************************************************************************************
+% ------------------------------------------------------------------ SEGMENTAZIONE ------------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Segmentazione}
+\subsubsection*{Introduzione}
+Si sfrutta il fatto che ogni programma è suddiviso in blocchi o segmenti logici (data, bss), text, stack, \dots) dette unità
+logiche. È possibile suddividere la memoria in segmenti di dimensione variabile, corrispondenti alle unità logiche dei programmi
+e, conoscendo l'indirizzo di partenza e la lunghezza di ogni segmento è possibile convertire un indirizzo logico (segmento logico
++ offset) in indirizzo fisico (segmento fisico + offset) facendo attenzione che l'offset non superi la lunghezza del segmento.
+
+\subsubsection*{Tabella dei segmenti}
+In analogia alla tabella delle pagine, si ha una tabella dei segmenti per ogni processo. La tabella dei segmenti è indicizzata
+in base al segmento logico e contiene il corrispettivo indirizzo base del segmento fisico e la sua lunghezza. Ci si accede
+attraverso i due registri:
+\begin{itemize}
+	\item Segment Table Base Register - STBR: inizio della segment table
+	\item Segment Table Lenght Register - STLR: lunghezza della segment table
+\end{itemize}
+
+\subsubsection*{Vantaggi e svantaggi rispetto alla paginazione}
+Il vantaggio principale rispetto alla paginazione è la grande riduzione di frammentazione interna (non era sempre detto che i
+processi usassero interamente tutte le pagine), lo svantaggio è che la conversione tra indirizzo logico a fisico è leggermente
+più complessa (somma e non semplice sostituzione di una parte dell'indirizzo).
+
+\subsubsection*{Segmentazione paginata}
+Nei sistemi a segmentazione paginata si ha che ogni segmento è diviso in pagine con una tabella delle pagine per ogni segmento.
+Partendo da un indirizzo logico (segmento + offset) si ottiene un Linear Space Address (indice page table + indice pagina + offset)
+che attraverso la paginazione diventa un indirizzo fisico.
+
+% ***************************************************************************************************************************************************
+% ---------------------------------------------- PAGINAZIONE E SEGMENTAZIONE NEI PROCESSORI INTEL E ARM ---------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Paginazione e segmentazione nei processori Intel e ARM}
+\subsubsection*{Segmentazione Intel 1° versione}
+Nei primi processori Intel a 32bit, si poteva usare sia segmentazione che misto di paginazione e segmentazione. La segmentazione
+prevedeva:
+\begin{itemize}
+	\item dimensione massima di ogni segmento di 64K \(\;\;\rightarrow\;\;\) 16 bit offset massimo
+	\item 8K segmenti riservati per dati locali (Local Descriptor Table - LDT) \(\;\rightarrow\;\) 13 bit segmento logico 
+	\item 8K segmenti condivisi per dati globali (Global Descriptor Table - GDT)\(\;\rightarrow\;\) 13 bit segmento logico
+	\item 1 bit per classificare il segmento riservato o condiviso e 2 bit di protezione
+\end{itemize}
+Per cui si avevano al massimo 16K segmenti da 64K con offset da 16 bit, con 1GB di spazio indirizzabile.
+
+\subsubsection*{Segmentazione Intel 2° versione}
+La seconda versione permetteva di gestire completamente i 4GB di RAM, sviluppata per i processori Pentium da 32bit, in cui si
+hanno 20 bit di offset e un extra bit di granularità che permetteva di estendere l'offset di altri 12 bit per avere al massimo
+32 bit complessivi di offset e di conseguenza segmenti da 4GB.
+
+\subsubsection*{Paginazione Intel Pentium 1° versione}
+Si potevano avere due tipi di paginazione, con massimo spazio indirizzabile di 4GB:
+\begin{itemize}
+	\item paginazione su singolo livello con pagine da 4MB (10 bit di indice e 22 bit di offset) e tabella delle pagine con
+	righe della page table da 32 bit
+	\item paginazione su due livelli con pagine da 4KB (10 bit di indice 1° livello, 10bit di indice 2° livello e 12 bit di
+	offset) con righe della page table da 32 bit
+\end{itemize}
+
+\subsubsection*{Paginazione Intel Pentium con Page Address Extension PAE}
+Per riuscire a mappare più di 4GB di memoria RAM senza passare alle architetture a 64 bit, Intel ha sviluppato il Page Address
+Extension (PAE) estendendo l'indirizzo fisico di 4 bit per un totale di indirizzi fisici a 36 bit e 64GB di memoria indirizzabile.
+Si sfrutta la paginazione a tre livelli con:
+\begin{itemize}
+	\item 2 bit per selezionare la entry nella Page Directory Pointer Table
+	\item 9 bit per selezionare la entry nella page directory di primo livello
+	\item 9 bit per selezionare la entry nella page directory di secondo livello
+	\item 12 bit di offset
+\end{itemize}
+Avendo le tabelle delle pagine a 64 bit, è possibile memorizzare indirizzi di pagine fisiche fino a 36 bit. Questo permette
+all'intero sistema di lavorare con RAM superiori a 4GB, ma il singolo processo può ancora indirizzare 4GB. In alternativa
+è possibile usare le pagine da 2MB con singolo livello di paginazione con offset di 12+9 bit e indice di pagina di 9 bit.
+
+\subsubsection*{Paginazione dei sistemi a 64bit}
+Nelle architetture a 64bit si è esteso di gran lunga lo spazio indirizzabile con la possibilità teoria di usare al massimo 64
+bit di indirizzo. Nelle applicazioni reali, si usano indirizzi fisici da 52 bit e indirizzi logici da 48 bit con PAE. Si
+usa paginazione a 4 livelli con indirizzi con la seguente suddivisione dei bit:
+\begin{center}
+	\vspace{-5pt}
+	16 unused - 9 page map level 4 - 9 page dir. pointer table - 9 page directory - 9 page table - 12 offset
+	\vspace{-5pt}
+\end{center}
+
+\subsubsection*{Paginazione nei sistemi ARM a 3264bit}
+Nei sistemi ARM a 32 bit si ha paginazione su due o uno livelli con pagine, dette sezioni, da 4KB e 1MB o 16KB e 16MB. Nei sistemi
+a 64bit, invece, si ha paginazione su a massimo 4 livelli con pagine di dimensione variabile in base alla granularità:
+\begin{itemize}
+	\item granularità 4KB: pagine da 4KB, 1MB, 1GB, indirizzo da L0[9], L1[9], L2[9], L3[9], offset[12]
+	\item granularità 16KB: pagine da 16KB, 32MB, 512MB, indirizzi da L1[13], L2[13],  L3[8], offset[14]
+	\item granularità 64KB: pagine da 64KB, 512MB/1GB, con 2 o 3 livelli in base alle configurazioni
+\end{itemize}
+
+% ***************************************************************************************************************************************************
+% ------------------------------------------------------------- MEMORIA VIRTUALE E SWAP -------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Memoria virtuale e swap}
+\subsubsection*{Scopo della memoria virtuale e swapping e paging}
+La memoria virtuale indica l'insieme della memoria RAM e di una sezione riservata del disco utilizzata in caso di riempimento della
+RAM che dal punto di vista dell'indirizzo logico appare omogenea. Questo permette trattare uniformemente RAM e disco e di delegare
+il compito di gestione e ottimizzazione dei processi in memoria a dei servizi dei SO detti pager (gestione dei page fault) o swapper
+(sposta pagine inutilizzate da RAM al disco per liberare RAM). Esistono due tipi di swapper:
+\begin{itemize}
+	\item swapper pigro: muove solo alcune pagine dei processi
+	\item swapper tradizionale: muove tutte le pagine associate ad un processo
+\end{itemize}
+In Linux si usava una partizione di swap ad hoc, recentemente si può usare anche un file apposito. In Windows esiste un file
+apposito e recentemente è stata aggiunta la possibilità di swappare anche sui dispositivi mobile (iPad Mx).
+
+\subsubsection*{Gestione di un page fault}
+Come detto prima, un page fault si verifica se si tenta di accedere ad una pagina con bit validità nullo (pagina assente in RAM).
+Si procede verificando se il programma può effettivamente accedere alla pagina richiesta (analizzando il PCB), in caso affermativo
+la pagina corrispondente viene caricata, in caso negativo viene lanciato un segmentation fault. Se la memoria risulta già piena
+e non è possibile caricare la pagina richiesta, bisogna prima applicare un algoritmo di swap per sostituire una pagina non usata
+della RAM con quella nuova richiesta.
+
+\subsubsection*{Effective Time Access}
+Il tempo di acceso effettivo alla RAM deve tenere conto della possibile necessità di effettuare operazioni di page load o di swap
+in e swap out. È dato dalla seguente formula:
+\[\text{EAT} = (1-p_\text{page fault}) \cdot T_\text{memory access} + p_\text{page fault} \cdot T_\text{page fault + swap out + swap in}\]
+
+\subsubsection*{Algoritmi di swapping}
+\begin{itemize}
+	\item \textbf{First In First Out - FIFO}: la prima pagina ad essere caricata in RAM sarà la prima ad essere swappata, non
+	tiene conto del fatto che magari la prima pagina è quella più utilizzata, inoltre è possibile che si verifichi la anomalia
+	di Belady (approfondita dopo)
+	\item \textbf{Algoritmo ottimo - OPT}: rimuove la pagina che non verrà utilizzata per più tempo, non ha la anomalia di
+	Belady, ma non può essere implementato perché prevede la conoscenza del futuro
+	\item \textbf{Least Recently Used - LRU}: rimuove la pagina che per più tempo non è stata utilizzata, non soffre dell'anomalia
+	di Belady e per essere implementata ci sono 3 possibilità:
+	\begin{itemize}[topsep=0pt]
+		\item salvando l'orario (contatore clock) nella page table
+		\item usando uno stack per cui una pagina utilizzata viene tolta dal mezzo e rimessa in cima
+		\item usando un bit che indica se una pagina è stata utilizzata o meno negli ultimi 100 ms
+	\end{itemize}
+	\item \textbf{Second Chance}: si utilizzano due extra bit di accesso e modifica che vengono posti a 1 rispettivamente in caso
+	di accesso o di modifica e periodicamente vengono resettati a 0, le prime pagine eliminate saranno quelle con (0,0), poi quelle
+	solo lette (1,0), poi quelle solo scritte (0,1), infine quelle sia lette che scritte (1,1)
+	\item \textbf{Least Frequently Used - LFU}: viene sostituita quella con contatore di utilizzo minimo (scarse prestazioni in
+	costo computazionale e efficacia)
+	\item \textbf{Most Frequently Used - MFU}: viene sostituita quella con contatore di utilizzo più alto perché quelle con
+	contatore basso sono appena state caricate in memoria (scarse prestazioni)
+\end{itemize}
+
+\subsubsection*{Anomalia di Belady}
+L'anomalia di Belady consiste nel fatto che analizzando il grafico dei page fault in funzione dei frame disponibili (grandezze
+inversamente proporzionali) si nota che per alcuni valori se si aumentano i frame allora aumentano controintuitivamente anche
+i page fault. Questo fenomeno si verifica nel caso dell'algoritmo FIFO se l'algoritmo perde memoria delle pagine accedute in 
+precedenza in caso di loop di richieste per cui un mancato allineamento comporta un continuo swap out.
+
+\subsubsection*{Pool frame liberi}
+Quando una pagina deve essere swappata nel disco per lasciare posto ad un'altra pagina, si effettua contemporaneamente la copia
+della pagina in una parte della memoria riservata detta pool di frame liberi e nell'hard disk. In questo modo è possibile caricare
+subito la nuova pagina dal disco sulla RAM e se la pagina swappata è richiesta entro un breve lasco di tempo, si trova ancora
+nella memoria tra i pool di frame.
+
+\subsubsection*{Ottimizzazione delle scritture}
+Quando si rileva un momento di inattività del dispositivo, un processo di paging si avvia per copiare le pagine modificate dalla
+RAM al disco in modo da velocizzare un eventuale swap futuro essendoci più pagine già copiate sul disco.
+
+\subsubsection*{Pagine Pinned}
+Le pagine pinned sono quelle obbligate a stare in memoria in uno specifico posto, ad esempio quelle utilizzate per copiare files
+dai dispositivi di I/O nel memory mapping dei dispositivi di I/O.
+
+\newpage
+
+% ***************************************************************************************************************************************************
+% ----------------------------------------------------- GESTIONE DEI FRAME TRA I PROCESSI ATTIVI ----------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Gestione dei frame tra i processi attivi e Working Set}
+\subsubsection*{Allocazione dei frame}
+Quando dei processi devono allocare i loro frame in memoria possono avvenire vari tipi di allocazioni:
+\begin{itemize}
+	\item alloc. uniforme: il numero di frame è ripartito in maniera equa tra i processi
+	\item alloc. proporzionale: il numero di frame è ripartito proporzionalmente alla dimensione dei processi
+	\item alloc. con priorità: il numero di frame è ripartito proporzionalmente alla priorità dei processi
+\end{itemize}
+
+\subsubsection*{Sostituzione dei frame}
+Quando dei frame devono essere sostituiti si parla di:
+\begin{itemize}
+	\item sostituzione globale: se i frame swappati sono di un qualsiasi processo
+	\item sostituzione locale: se i frame swappati sono dello stesso processo che richiede quello nuovo
+\end{itemize}
+
+\subsubsection*{Thrashing}
+Il thrashing è una situazione in cui si verificano tantissimi page fault e l'utilizzo della CPU crolla sensibilmente perché
+è in continua attesa di ricevere dati.
+
+\subsubsection*{Località e working set}
+Il working set è l'insieme di pagine che vengono accedute in un intervallo di tempo \(\Delta\) detto finestra di working set.
+Il working set viene utilizzato per identificare le pagine da non swappare: si aggiungono \(n\) bit di riferimento per ogni riga
+della page table, quando una pagina viene visitata si pone il bit di sinistra a 1 e ogni \(\Delta/n\) viene mandato un interrupt
+che esegue uno shift dei bit di riferimento. In questo modo se almeno uno dei bit di riferimento è 1, allora la pagina fa parte
+del WS, altrimenti si può swappare.
+
+\subsubsection*{Frequenza di page fault}
+È possibile adottare un algoritmo che, fissata una soglia massima e minima di page fault, gestisce i frame associati ad un
+processo in maniera adattiva. Se il numero di page fault supera la soglia massima, l'algoritmo acquisisce nuovi frame, mentre
+se va sotto la soglia minima, rilascia alcuni frame.
+
+\subsubsection*{Correlazione invocazione di una funzione e page fault rate}
+Si osserva che quando in un programma viene invocata una funzione, spesso si ha un aumento di page fault dovuto al fatto che è
+necessario caricare le pagine per eseguire quella determinata funzione.
+
+\subsubsection*{Prepaging}
+Il prepaging consiste nel caricare l'intero working set all'inizio della chiamata di una funzione o programma per limitare
+i page fault per cambio di working set. Il working set cambia di dimensione in base al sistema e alla memoria disponibile.
+
+\subsubsection*{Dimensione delle pagine e TLB reach}
+Il TLB Reach è la dimensione della memoria raggiungibile dal TLB (\# pagine nel TLB \(\times\) dim. pagine). Idealmente il
+working set deve essere completamente contenuto in un TLB per evitare page fault frequenti.
+
+\subsubsection*{Copy On Write - COW}
+Quando si crea un processo figlio con una fork, la copia delle pagine del padre per il figlio avviene solo quando uno dei due
+processi effettua una modifica a tale area di memoria.
+
+% ***************************************************************************************************************************************************
+% --------------------------------------------------- ALLOCAZIONE DELLA MEMORIA DEL KERNEL ---------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Allocazione della memoria del kernel}
+\subsubsection*{Introduzione - contestualizzazione}
+Le strutture dati del kernel devono essere continue per cui la memoria del kernel non è soggetta a paging (ovvero a swap) e
+utilizza solo indirizzi fisici. Viene in genere allocata secondo due strategie l'allocazione a potenze di due e l'allocazione
+a lastra.
+
+\subsubsection*{Allocazione a potenze di due}
+L'allocazione a potenze di due: si allocano sempre pagine a blocchi di potenze di 2 per ogni processo e quando alcune
+pagine vengono deallocate, il segmento viene splittato a metà rimanendo sempre una potenza di 2.
+
+\subsubsection*{Allocazione a lastra}
+Nell'allocazione a lastra la memoria del kernel è suddivisa in cache che raggruppano diverse slab (non necessariamente continue)
+che memorizzano una stessa struttura dati. Esiste una unica cache per ogni struttura (es. cache dei semafori, cache dei descrittori
+dei files, \dots). Le slab sono aree di memoria costituite da pagine continue che sono suddivise in slot grandi esattamente quanto 
+l'oggetto che devono contenere (es. slab da 12KB formata da 3 pagine di 4KB che contiene 24 slot per 24 oggetti da 512B). In questo
+modo si riduce la frammentazione per l'allocazione di piccoli oggetti.
+
+Le cache hanno anche il compito di gestire gli oggetti nella memoria, in particolare gli oggetti vengono tutti inizialmente
+allocati e preinizializzati pronti all'uso. Poi, una volta utilizzati non vengono deallocati, ma semplicemente marcati come
+liberi. In questo modo di elimina l'overhead di allocazione e deallocazione continua di oggetti, rendendo il sistema più
+efficiente. Lo slab allocator si occupa di fare ciò.
+
+Siccome non sempre le slab si riempiono (specialmente se le strutture dati occupano una dimensione strana es. 592byte), la parte
+di slab che rimane vuota è utilizzata dallo slab allocator per memorizzare dati sul riempimento delle slab, oppure si usa per
+lo slab coloring. Lo slab coloring consiste nello sfalsare l'indirizzo di partenza delle slab (es. slab0 con offset 0B, slab1
+con offset 64B, slab2 con offset 128B) in modo che quando vengono mappate su cache set-associative, si distribuiscono meglio
+su più set diversi e si evita di avere continue sovrascritture e continui cache miss.
+
+% ***************************************************************************************************************************************************
+% --------------------------------------------------- MAPPATURA DELLA MEMORIA E GESTIONE DELL'I/O ---------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Mappatura della memoria e gestione dell'I/O}
+\subsubsection*{Mappatura di un file - Memory Mapping}
+Quando un processo richiede l'accesso a files di grandi dimensioni, tale file viene caricato solo parzialmente in memoria ed è
+gestito tramite page fault come se fosse un processo. Alcuni sistemi operativi obbligano l'accesso ai files tramite memory mapping
+ad esempio \verb|mmap| in Linux o tramite le API in Windows come la funzione \verb|CreateFileMapping|.
+
+\subsubsection*{Mappatura degli I/O}
+Anche i registri dei dispositivi di I/O vengono mappati in memoria e vengono letti attraverso la memoria primaria, con paginazione.
+
+\newpage
+
+% ***************************************************************************************************************************************************
+% --------------------------------------------------------- GESTIONE DELLA MEMORIA IN LINUX ---------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Gestione della memoria in Linux}
+\subsubsection*{Allocazione a lastre, buddy, SLOB e SLUB per memoria kernel}
+\begin{itemize}
+	\item linux pre 2.2: usa il sistema buddy con allocazione a potenze di 2 per strutture dati e altro
+	\item linux post 2.2: usa la allocazione a lastre per strutture dati, per il resto usa quella a potenze di 2
+	\item linux recenti: usano anche SLOB (Simple List of Block, per embedded, con tre liste per oggetti piccoli, medi e grandi)
+	e SLUB (allocazione a lastre ottimizzata per il multiprocessore)
+\end{itemize}
+
+\subsubsection*{Gestione della memoria utente}
+Ci sono due liste, una con le pagine attive e una con le pagine non attive. Quando una pagina viene visitata, si sposta in cima
+alla lista delle pagine attive, di conseguenza le pagine poco visitate si spostano in fondo alla lista. Il daemon \verb|kswapd|
+tiene bilanciate le due liste (sposta pagine inattive nella lista delle pagine inattive). Le pagine da rimuovere sono scelte tra
+la lista delle pagine inattive.
+
+% ***************************************************************************************************************************************************
+% -------------------------------------------------------- GESTIONE DELLA MEMORIA IN WINDOWS --------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Gestione della memoria in Windows}
+\subsubsection*{Gestione della memoria kernel}
+La memoria kernel è divisa in:
+\begin{itemize}
+	\item paged pool - paged kernel memory: memoria che può essere eventualmente spostata nel file di paging \verb|pagefile.sys|
+	e contiene i dati di cui non si richiede accesso immediato
+	\item non paged pool - non paged kernel memory: memoria che deve rimanere in RAM e che non può essere paginata (es. Interrupt
+	Service Routine (ISR))
+\end{itemize}
+
+\subsubsection*{Gestione della memoria utente}
+Il sistema impiega paginazione su richiesta via clustering, ovvero in caso di page fault vengono caricate in memoria sia la
+pagina richiesta che quelle limitrofe per evitare eventuali page fault. All'avvio di un processo gli viene assegnata la
+dimensione minima e massima del working set (tra 50 e 345) che specifica il minimo numero e il massimo numero di pagine
+caricabili in memoria da un determinato processo. Quando la memoria libera scende sotto una determinata soglia, il sistema
+riduce i working set per liberare memoria. Windows inoltre utilizza la memoria compressa in sostituzione allo swap. Questo
+permette di liberare memoria senza effettuare swap, riducendo i tempi di trasferimento tra disco e RAM.
+
 \newpage
 
 
