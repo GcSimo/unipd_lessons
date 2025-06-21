@@ -2401,5 +2401,96 @@ permette di liberare memoria senza effettuare swap, riducendo i tempi di trasfer
 % ***************************************************************************************************************************************************
 
 \section{Affidabilità}
+\subsection{Nozioni introduttive}
+\subsubsection*{Affidabilità}
+L'affidabilità di un sistema (o dispositivo) è la probabilità che esso funzioni correttamente per un certo tempo sotto certe
+condizioni imposte. In altre parole è la probabilità che il sistema non abbia guasti di un certo tipo nello svolgimento di una
+certa missione. Per facilitare il calcolo dell'affidabilità di sistemi complessi si può utilizzare la scomposizione gerarchica
+di un sistema in sottosistemi.
+
+\subsubsection*{Tipi di errori e guasti}
+Gli errori o guasti si distinguono in:
+\begin{itemize}
+	\item permanenti: se una volta verificati, rimangono presenti nel sistema finché non vengono riparati
+	\item temporanei: se non si verifica sempre in tutte le condizioni e si classifica in
+	\begin{itemize}[topsep=0pt]
+		\item transitori: se accade solo una volta
+		\item intermittenti: se si presenta più volte in modo imprevedibile
+	\end{itemize}
+\end{itemize}
+Secondo lo standard IEEE un guasto può essere sia un difetto di un componente, sia un errore in una delle procedure che deve
+compiere (es. dati, operazioni, interferenze, \dots) che si manifestano durante l'esecuzione.
+
+\subsubsection*{Fault tollerance}
+Per fault tollerance si fa riferimento all'abilità di un componente di continuare il normale funzionamento nonostante la
+presenza di guasti. Per avere fault tollerance è necessario inserire forme di ridondanza che avranno costo economico e
+prestazionale. In genere si vuole incrementare la fault tollerance in risorse delicate da proteggere.
+
+\noindent
+Per aumentare la fault tollerant di un SO si possono implementare alcune soluzioni come:
+\begin{itemize}
+	\item isolamento dei processi: se un processo si blocca non blocca l'intero sistema
+	\item controllo della concorrenza: evitare deadlock, livelock o altri
+	\item virtual machines: per astrarre hardware ed eseguire i processi in sandbox
+	\item checkpoints e rollback: per ripristinare il sistema se si verifica un errore
+	\item ridondanza spaziale/fisica: impiego di più componenti che svolgono lo stesso compito e possono sostituire i colleghi
+	in caso di rotture
+	\item ridondanza temporale: riesecuzione di una funzione in caso si verifichi un errore (transitorio)
+	\item ridondanza di informazioni: clonazione delle informazioni in modo da poter individuare e correggere i bit di errore
+\end{itemize}
+
+\subsubsection*{Affidabilità logistica}
+L'affidabilità logistica è la probabilità che non si verifichi nessun guasto di qualsiasi tipo.
+
+\subsubsection*{Affidabilità di missione}
+L'affidabilità di missione è la probabilità che non si verifichino guasti con conseguenze gravi tali da pregiudicare la
+funzionalità del sistema. Si possono distingue in guasti significativi (che alterano le funzionalità del sistema ma non
+gli impediscono di compiere la missione) e guasti maggiori (che impediscono il completamento della missione).
+
+\subsubsection*{Sicurezza}
+La sicurezza è la probabilità che non si verifichino guasti con possibili conseguenze catastrofiche con danni a persone, cose
+o al sistema stesso.
+
+\subsection{Formule matematiche}
+\subsubsection*{Affidabilità - Reliability}
+Rapporto tra i dispositivi funzionanti ad un tempo \(t\) e i dispositivi funzionanti al tempo iniziale \(t_0\)
+\[R_\text{affidabilità}(t) = \frac{n_\text{disp. funzionanti}(t)}{n_\text{disp. funzionanti}(t_0)}\]
+La funzione ha le seguenti proprietà:
+\(\begin{cases}
+	R(t) = 1 & \text{per}\ t = 0 \\
+	1 \geq R(t) \geq R(t + \Delta t) & \text{per}\ \Delta t \geq 0 \\
+	R(t) = 0 & \text{per}\ t = +\infty
+\end{cases}\) \\[10pt]
+La derivata è chiamata densità di affidabilità \(\displaystyle r(t) = \frac{dR(t)}{dt}\)
+
+\subsubsection*{Probabilità di guasto - Unreliability}
+Probabilità che si verifichi un guasto, complementare alla affidabilità:
+\[Q_\text{guasto}(t) = 1 - R(t) = 1- \frac{n_\text{disp. funzionanti}(t)}{n_\text{disp. funzionanti}(t_0)}\]
+La funzione ha le seguenti proprietà:
+\(\begin{cases}
+	Q(t) = 0 & \text{per}\ t = 0 \\
+	0 \leq Q(t) \leq Q(t + \Delta t) & \text{per}\ \Delta t \geq 0 \\
+	Q(t) = 1 & \text{per}\ t = +\infty
+\end{cases}\) \\[10pt]
+La derivata è chiamata densità di probabilità di guasto \(\displaystyle q(t) = \frac{dQ(t)}{dt} = \frac{d(1-R(t))}{dt} = \frac{-dR(t)}{dt} = -r(t)\)
+
+\subsubsection*{Mean Time To Failure - MTTF}
+Media delle ore di funzionamento prima di un guasto
+\[\text{MTTF} = \frac{\text{somma ore di funzionamento di tutti i dispositivi}}{\text{numero di dispositivi}} \qquad\qquad P_\text{failure} = \frac{1}{\text{MTTF}}\]
+
+\subsubsection*{Mean Time To Repair - MTTR}
+Media delle ore richieste per riparare i dispositivi, tempo di esposizione per cui un altro guasto può provocare perdita di dati
+\[\text{MTTR} = \frac{\text{somma ore di riparazione di tutti i dispositivi}}{\text{numero di dispositivi}} \qquad P_\text{repair} = \text{MTTR} \cdot P_\text{failure} \approx \frac{\text{MTTR}}{\text{MTBF}}\]
+
+\subsubsection*{Availability}
+Frazione di tempo di funzionamento del dispositivo: \(\qquad \displaystyle A_\text{vailability} = \frac{\text{MTTF}}{\text{MTTF} + \text{MTTR}} = \frac{\text{MTTF}}{\text{MTBF}}\)
+
+\subsubsection*{Mean Time Bewteen Failure - MTBF}
+Media delle ore di funzionamento tra un guasto e quello successivo, corrisponde alla somma tra MTTF e MTTR, siccome molte
+volte il MTTF \(\gg\) MTTR si utilizzano MTTF = MTBF.
+
+\subsubsection*{Mean Time to Data Loss - MTTDL}
+Media in ore per avere una perdita di dati (es. se si verifica un guasto al componente A mentre l'altro componente B è in riparazione):
+\[\text{MTTDL} = \frac{1}{P_{DL}(t)} \approx \frac{1}{P_F(A) \times P_R(B) + P_F(B) \times P_R(A)}\]
 
 \end{document}
