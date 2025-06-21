@@ -586,7 +586,7 @@ utilizzato in progetti proprietari.
 
 \subsection{CPU}
 \subsubsection*{Struttura della CPU}
-La CPU o Control Proceccing Unit è l'unità di calcolo e controllo dell'elaboratore. È composta da:
+La CPU o Control Processing Unit è l'unità di calcolo e controllo dell'elaboratore. È composta da:
 \begin{itemize}
 	\item \textbf{Control Unit o CU}: unità di controllo che comprende il Program Counter e Instruction Register
 	\item \textbf{Arithmetic Logic Unit o ALU}: unità che esegue operazioni matematiche e logiche
@@ -744,7 +744,7 @@ Alcuni esempi di cloud computing sono Google Drive ed EC2 (Elastic Compute Cloud
 	\item[1.] \textbf{cloud pubblico}: disponibile attraverso internet a chiunque si abboni al servizio
 	\item[2.] \textbf{cloud privato}: gestito da un’azienda ad utilizzo interno
 	\item[3.] \textbf{cloud ibrido}: comprende componenti sia pubbliche che private
-	\item[4.] \textbf{SaaS} (Software as a Service): applicazioni fruibili via unternet (es. word processor, fogli di calcolo)
+	\item[4.] \textbf{SaaS} (Software as a Service): applicazioni fruibili via internet (es. word processor, fogli di calcolo)
 	\item[5.] \textbf{PaaS} (Platform as a Service): ambiente software per usi applicativi via internet (server database)
 	\item[6.] \textbf{IaaS} (Infrastructure as a Service): server o storage accessibili via internet (spazio per backup)
 \end{itemize}
@@ -796,7 +796,7 @@ L'elaborazione può essere:
 
 \subsubsection*{Sistemi multicomputer}
 Un'architettura multicomputer è una struttura costituita da più elaboratori (ciascuno indipendente con la propria CPU e memoria)
-collegati insieme, di solito condividono la stessa memoria secondaria.. La gestione del traffico dei dati tra i diversi processori
+collegati insieme, di solito condividono la stessa memoria secondaria. La gestione del traffico dei dati tra i diversi processori
 è particolarmente ostico da gestire, però hanno il vantaggio di essere più facili ed economici da implementare rispetto ai sistemi
 multiprocessore. Esistono alcuni indici di classificazione dei multicomputer:
 \begin{itemize}
@@ -971,17 +971,32 @@ sistema operativo) che sfrutta tre code:
 
 \subsubsection*{Thread}
 Un thread (filo) è l'unità base di esecuzione all'interno della CPU. Ogni processo deve essere suddiviso in uno o più thread per
-essere eseguito. Per gestirne l'esecuzione ogni thread possiede il proprio identificatore di thread TID e il proprio TCB, simile
-al PCB ma specifico per i thread. I thread vengono utilizzati nelle architetture multicore perché permettono il parallelismo e la
-concorrenza in quanto è possibile eseguire in parallelo più thread, poiché il sistema può assegnare thread diversi a diverse unità
-di calcolo.
+essere eseguito. Per gestirne l'esecuzione ogni thread è composto da:
+\begin{itemize}
+	\item \textbf{Thread Identifier - TID}: identificativo di ogni thread analogo al PID
+	\item \textbf{Thread Control Block - TCB}: dati di gestione del thread analogo al PCB
+	\item \textbf{Thread Local Storage - TLS}: per memorizzare i dati del singolo thread (es. PC, stack, \dots)
+	\item riferimenti a codice, dati e risorse condivisi con altri thread dello stesso processo
+\end{itemize}
+I thread vengono utilizzati nelle architetture multicore perché permettono il parallelismo e la concorrenza in quanto è possibile
+eseguire in parallelo più thread diversi assegnati a diverse unità di calcolo. La condivisione dei dati tra più thread comporta
+la necessità di gestire correttamente la memoria condivisa. L'utilizzo di un TLS consiste nell'avere una copia dei dati condivisi
+in modo da lavorare localmente e aggiornare i dati solo alla fine dell'esecuzione del thread.
 
-Linux impiega thread a livello kernel per la gestione dei dispositivi della memoria e delle interrupt e il thread kthreadd con
-pid 2 è genitore di tutti i kernel thread.
+Per la corretta gestione dei thread da parte del kernel esistono due diverse mappatutre:
+\begin{itemize}
+	\item \textbf{one-to-one}: ogni thread user-mode ha un analogo thread in kernel-mode (es. Windows e Linux)
+	\item \textbf{many-to-many}: più thread kernel-mode possono gestire i thread in user-mode (poco diffuso)
+	\item \textbf{misto}: usa sia la gestione one-to-one che la gestione many-to-many
+\end{itemize}
 
-Ogni thread condivide codice, dati e risorse con gli altri thread dello stesso processo, ma ha istanze di esecuzione e program
-counter distinti, per cui è bene fare molta attenzione nella gestione della memoria condivisa e delle risorse condivise tra i
-thread di uno stesso programma.
+Nei SO, i processi e threads sono organizzati gerarchicamente in una struttura ad albero padre-figli. In Linux esiste il processo
+\verb|sistemd| con PID=1 che è genitore di tutti i task (processi e threads). In fase di creazione di un nuovo task è possibile 
+scegliere i dati che il nuovo task condivide con il padre (filesystem info, memory space, signal, files,\dots). Un processo figlio
+che non ha più il padre (perché ha terminato l'esecuzione) è detto zombie-defunct o orfano.
+
+Linux impiega thread a livello kernel per la gestione dei dispositivi della memoria e delle interrupt e il thread \verb|kthreadd|
+con pid 2 è genitore di tutti i kernel thread.
 
 
 % ***************************************************************************************************************************************************
@@ -1005,6 +1020,12 @@ thread di uno stesso programma.
 	\item \textbf{task parallelism}: parallelizzare del codice tra thread diversi in modo da avere più processi che possono
 	essere eseguiti se uno è in attesa di risorse
 \end{itemize}
+
+\newpage
+
+% ***************************************************************************************************************************************************
+% --------------------------------------------------------------- DIAGRAMMI TEMPORALI ---------------------------------------------------------------
+% ***************************************************************************************************************************************************
 
 \subsection{Diagrammi temporale}
 \subsubsection*{Diagramma dei tempi di esecuzione}
@@ -1053,7 +1074,7 @@ Un sistema di processi è un insieme di processi che si definisce:
 \subsubsection*{Massimo grado di parallelismo}
 Il massimo grado di parallelismo si intende la cardinalità del più grande sottoinsieme di processi tali per cui, presi due
 qualsiasi nodi del sottoinsieme, non esiste un percorso orientato che li connette. Ovvero sono il massimo numero di processi
-che verranno eseguri in parallelo (che si trovano allineati verticalmente). In base all'architettura si può voler  minimizzare
+che verranno eseguiri in parallelo (che si trovano allineati verticalmente). In base all'architettura si può voler  minimizzare
 il parallelismo per ottimizzare il calcolo in sistemi hardware limitati o massimizzare il parallelismo per massimizzare le
 prestazioni.
 
@@ -1069,6 +1090,7 @@ prestazioni.
 	input producono lo stesso output
 \end{itemize}
 
+\newpage
 
 % ***************************************************************************************************************************************************
 % --------------------------------------------------------------------- RISORSE ---------------------------------------------------------------------
@@ -1091,7 +1113,7 @@ Una risorsa si dice preemptive (o con prelazione) se è possibile sottrarla forz
 un altro processo. Ad esempio se si sottrae il core CPU ad un processo con bassa priorità nel caso in cui ce ne sia un altro con
 maggiore priorità.
 
-\subsection{Grafo di assegnazione delle risorse o grafo di Holt}
+\subsubsection*{Grafo di assegnazione delle risorse o grafo di Holt}
 Il grafo di assegnazione delle risorse è un grafo orientato composto da:
 \begin{itemize}
 	\item \(T = \{T_1, T_2, \dots\}\) insieme dei thread attivi nel sistema, rappresentato come nodi circolari etichettati con il 
@@ -1106,9 +1128,11 @@ Una risorsa \(R_i\) può avere tanti archi uscenti (di assegnazione) quante sono
 
 \subsubsection*{Costruzione del grafo delle risorse}
 Inizialmente si segnano tutte le risorse e tutti i thread e si aggiungono eventuali gli archi di reclamo. Ogni volta che un
-thread richiede una risorsa, si converte l'arco di reclamo in arco di richiesta. Se la risorsa è diponibile, l'arco di richiesta
+thread richiede una risorsa, si converte l'arco di reclamo in arco di richiesta. Se la risorsa è disponibile, l'arco di richiesta
 cambia verso e diventa arco di assegnazione. Se la risorsa è già occupata, il richiedente rimane in attesa ed eventualmente viene
 messo in una coda FIFO di attesa. Quando una risorsa viene liberata, l'arco di assegnazione torna ad essere un arco di reclamo.
+
+\newpage
 
 % ***************************************************************************************************************************************************
 % --------------------------------------------------------------------- DEADLOCK --------------------------------------------------------------------
@@ -1116,9 +1140,9 @@ messo in una coda FIFO di attesa. Quando una risorsa viene liberata, l'arco di a
 
 \subsection{Deadlock}
 \subsubsection*{Definizione di deadlock}
-Un deadlock o stallo indica la situazione per cui si ha un insieme di thread bloccati in quanto ciascuno possiede almento una
-risorsa ed attende di acqusirne altre, già allocate da altri thread. Gli stalli possono verificarsi spesso in quanto più thread
-possono competere per un numero limitato di risorse. Le sitazioni (necesasarie ma non sufficienti) per cui si può verificare sono:
+Un deadlock o stallo indica la situazione per cui si ha un insieme di thread bloccati in quanto ciascuno possiede almeno una
+risorsa ed attende di acquisirne altre, già allocate da altri thread. Gli stalli possono verificarsi spesso in quanto più thread
+possono competere per un numero limitato di risorse. Le situazioni (necessarie ma non sufficienti) per cui si può verificare sono:
 \begin{itemize}
 	\item mutua esclusione delle risorse: una risorsa è utilizzabile solo da un processo contemporaneamente
 	\item allocazione parziale: i processi allocano risorse in tempi diversi
@@ -1127,7 +1151,7 @@ possono competere per un numero limitato di risorse. Le sitazioni (necesasarie m
 \end{itemize}
 
 \subsubsection*{Definizione di livelock}
-Il livelock è una situazione di stallo attivo in cui i thread non sono effettivamente bloccati, ma non progrediscono. In genre
+Il livelock è una situazione di stallo attivo in cui i thread non sono effettivamente bloccati, ma non progrediscono. In genere
 si verifica quando un thread effettua ripetutamente un'azione che non ha successo, ad esempio quando due thread effettuano polling
 (busy waiting) per verificare lo stato del'altro reciprocamente (livelock mutuo).
 
@@ -1144,8 +1168,6 @@ Analizzando la presenza di cicli nel grafo delle risorse è possibile stabile l'
 	\item se il grafo contiene cicli e alcune risorse coinvolte hanno più istanze, potrebbe non esserci deadlock
 \end{itemize}
 
-\newpage
-
 \subsubsection*{Algoritmo di individuazione del blocco critico - riduzione del grafo di Holt}
 In generale un sistema non è in stallo se e solo se il grafo di Holt è completamente riducibile. Un grafo di Holt è completamente
 riducibile se esiste una sequenza di passi di riduzione che elimina tutti gli archi del grafo. Una riduzione è possibile se un
@@ -1161,9 +1183,15 @@ sistema non sarà in stallo. Per ridurre il grafo di Holt si ricorre al seguente
 	non è in deadlock, altrimenti se alcune righe non sono eliminabili si verificherà un deadlock
 \end{itemize}
 
+\newpage
+
+% ***************************************************************************************************************************************************
+% --------------------------------------------------------------- PREVENZIONE DEADLOCK --------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
 \subsection{Prevenzione del deadlock}
 \subsubsection*{Allocazione globale}
-L'allocazione globale constiste nel far sì che un processo richieda tutte le risorse di cui ha bisogno in un'unica richiesta,
+L'allocazione globale consiste nel far sì che un processo richieda tutte le risorse di cui ha bisogno in un'unica richiesta,
 prima di iniziare l'esecuzione. Se tutte le risorse non sono disponibili, il processo non parte, evitando così situazioni di
 attesa circolare.
 
@@ -1176,7 +1204,7 @@ già possiede. In questo modo non possono verificarsi stalli dovuti al mutuo blo
 \subsubsection*{Algoritmo del banchiere}
 Sfrutta un principio simile al metodo di riduzione del grafo di Holt, quando un processo richiede risorse:
 \begin{itemize}
-	\item[1.] verifica che le risorse richieste rientrano in quelle dichiarate iniziamente dal processo
+	\item[1.] verifica che le risorse richieste rientrano in quelle dichiarate inizialmente dal processo
 	\item[2.] verifica che le risorse richieste siano inferiori di quelle disponibili
 	\item[3.] simula l'assegnazione di risorse decrementando quelle disponibili e se ci si trova ancora in uno stato sicuro
 	(ovvero se il grafo è riducibile)
@@ -1190,7 +1218,7 @@ Le operazioni per ripristinare uno stato attivo del sistema si chiama recovery e
 	specialmente nei database come MySQL dove è possibile il rollback)
 	\item la kill dei thread bloccati (secondo una certa priorità) ed eventualmente tutti i sottothread che dipendono da essi
 	con possibilità di dover riavviare l'intero sistema, metodo chiamato algoritmo dello struzzo, usato dalla maggior parte dei
-	sistemi opearativi
+	sistemi operativi
 \end{itemize}
 
 \subsubsection*{Gestione dei deadlock}
@@ -1203,14 +1231,15 @@ invece impiegati sistemi di:
 	\item recovery attraverso rollback (se possibile) o applicazione l'algoritmo dello struzzo
 \end{itemize}
 
+\newpage
+
 % ***************************************************************************************************************************************************
 % ------------------------------------------------------------------ RACE CONDITION -----------------------------------------------------------------
 % ***************************************************************************************************************************************************
 
-
 \subsection{Race condition e sezioni critiche}
 \subsubsection*{Definizione di race condition}
-Una race condition indica la situazione in cui due processi parallei e concorrenti modificano contemporaneamente una risorsa
+Una race condition indica la situazione in cui due processi paralleli e concorrenti modificano contemporaneamente una risorsa
 condivisa (es. variabili in memoria) e il risultato dipenderà dall'ordine con cui sono eseguiti.
 
 \subsubsection*{Istruzioni atomiche}
@@ -1218,7 +1247,7 @@ Se più processi modificano le stesse variabili si possono verificare race condi
 un programma può essere sovrascritta da quella dall'altro programma. Per evitare questa situazione si utilizzano le istruzioni
 atomiche ovvero istruzioni che vengono completate senza subire interruzioni che possono comportare a data race.
 
-Alcune architetture implementano istruzioni atomiche via hardware adn esempio \verb|TestAndSet| per controllare e modificare il
+Alcune architetture implementano istruzioni atomiche via hardware ad esempio \verb|TestAndSet| per controllare e modificare il
 contenuto di una parola in memoria o \verb|CompareAndSwap| per scambiare due parole in memoria.
 
 \subsubsection*{Sezioni critiche}
@@ -1227,7 +1256,7 @@ si impongono dei vincoli a determinate regioni del codice affinché si abbia l'e
 sezioni critiche hanno le seguenti proprietà:
 \begin{itemize}
 	\item mutua esclusione: solo un processo per volta può accedervi
-	\item progesso: la scelta del processo che accederà alla regione critica non può essere rimandata all'infinto
+	\item progresso: la scelta del processo che accederà alla regione critica non può essere rimandata all'infinito
 	\item attesa limitata: un processo che richiede l'accesso alla sezione critica non può attendere all'infinito
 \end{itemize}
 
@@ -1251,14 +1280,13 @@ prelazione. Linux, da 2.6 introduce kernel con diritto di prelazione (sebbene si
 	\item via software: con i lock mutex, semafori e monitor implementati dal kernel
 \end{itemize}
 
-
 % ***************************************************************************************************************************************************
 % -------------------------------------------------------------------- LOCK MUTEX -------------------------------------------------------------------
 % ***************************************************************************************************************************************************
 
 \subsection{Lock Mutex}
 I lock mutex (MUTual EXclusion) sono strumenti software per controllare l'accesso alla regione critica. In entrata di una regione
-critica si chiama la funzinne \verb|acquire()| che aspetta in busy waiting finché non è possibile acquisire il flag, mentre in
+critica si chiama la funzione \verb|acquire()| che aspetta in busy waiting finché non è possibile acquisire il flag, mentre in
 uscita della regione critica si effettua la \verb|release| in cui si libera il flag acquisito in ingresso. Le due funzioni sono
 implementate via hardware, fornite dall'architettura, o sono atomiche per evitare data race.
 
@@ -1278,7 +1306,7 @@ implementate via hardware, fornite dall'architettura, o sono atomiche per evitar
 \subsubsection*{Semafori contatore}
 I semafori contatore hanno un funzionamento simile ai lock mutex, solo che basandosi su un contatore, permettono ad un certo
 numero \(s \geq 1\) di processi di entrare in una determinata sezione critica. Per utilizzare un semaforo è necessario prima
-dichiararlo, specificandone il valore inziale \(s\). Le operazioni di \verb|acquire| e \verb|release| sono sostituite con
+dichiararlo, specificandone il valore iniziale \(s\). Le operazioni di \verb|acquire| e \verb|release| sono sostituite con
 \verb|wait| (che attende che il contatore sia positivo prima di decrementarlo) e \verb|signal| (che reincrementa il contatore),
 sempre gestite in maniera atomica.
 
@@ -1299,7 +1327,7 @@ I semafori privati sono classici semafori con la caratteristica che solo un proc
 la \verb|wait|, mentre qualsiasi processo può eseguirne la \verb|signal|.
 
 \subsubsection*{Come evitare busy waiting}
-Si osserva che, per come definito sopra, le istruzioni di \verb|wait| e \verb|signal| sfruttano il busy waiting, spercando
+Si osserva che, per come definito sopra, le istruzioni di \verb|wait| e \verb|signal| sfruttano il busy waiting, sprecando
 cicli della CPU. È possibile evitare ciò inserendo i processi in attesa in una coda, in modo da risvegliarli ogni volta che
 viene fatta una \verb|signal|. In questo caso il contatore può assumere valori negativi e il relativo modulo è il numero di
 processi in coda. (negli esercizi si userà l'implementazione precedente)
@@ -1329,7 +1357,7 @@ In genere si verifica quando due programmi acquisiscono due semafori in ordine i
 il secondo semaforo e l'altro aspetta che il primo rilasci il primo semaforo.
 
 La starvation si verifica se un processo in coda attende per un tempo indefinito in coda ad un semaforo senza venir mai svegliato.
-In genere si verifica se la lista dei processi in attesa è di tipo LIFO, al posto di FIFO, oppure se c'è un diaccopiamento tra
+In genere si verifica se la lista dei processi in attesa è di tipo LIFO, al posto di FIFO, oppure se c'è un disaccoppiamento tra
 \verb|text| e \verb|text|.
 
 \subsubsection*{Implementazione dei semafori}
@@ -1365,8 +1393,8 @@ una determinata condizione è verificata. Di seguito un esempio in C++:
 
 \subsubsection*{Monitor e condition variables}
 I monitor sono strumenti alternativi ai semafori che semplificano la gestione della mutua esclusione sacrificando in parte la
-parallelizzazione. Grazie all'utilizzo dei mutex, solo un processo per volta può accedere alle loro proceduere. La differenza
-principale rispetto ai semafori è che non vegono effettuati nessun incremento o decremento di contatori, ma vengono utilizzate
+parallelizzazione. Grazie all'utilizzo dei mutex, solo un processo per volta può accedere alle loro procedure. La differenza
+principale rispetto ai semafori è che non vengono effettuati nessun incremento o decremento di contatori, ma vengono utilizzate
 le condition variable per mettere in attesa e risvegliare i processi. Di seguito un esempio di implementazione di un buffer
 utilizzando i monitor in C++:
 \begin{lstlisting}
@@ -1403,14 +1431,14 @@ public:
 	}
 };
 \end{lstlisting}
-Si osserva che i processi risegliati dai notity non vengono subito attivati perché devono prima aspettare che i mutex vengano
+Si osserva che i processi risvegliati dai notity non vengono subito attivati perché devono prima aspettare che i mutex vengano
 liberati con l'uscita dalle procedure del monitor. Vengono sì svegliati, ma passano all'esecuzione solo dopo che il programma
 che li ha chiamati libera il mutex terminando.
 
 \subsubsection*{Problema dei 5 filosofi}
 Nel problema dei 5 filosofi si ha in una tavola rotonda in cui sono seduti attorno 5 filosofi intervallati da una forchetta
 per un totale di 5 forchette. I filosofi possono pensare o mangiare, per pensare non è richiesta nessuna risorsa, per mangiare
-devono aver acquisito entrambe le forchette che hanno accanto. Di seguito un esempio di codice, si nota che non è possible che
+devono aver acquisito entrambe le forchette che hanno accanto. Di seguito un esempio di codice, si nota che non è possibile che
 si verifichi deadlock perché acquisiscono entrambe le forchette insieme e non c'è l'\textit{acquire-one-and-wait-the-other}. È
 comunque possibile che si verifichi starvation se un filosofo non riesce mai a mangiare.
 \begin{lstlisting}
@@ -1506,7 +1534,7 @@ Si osservano alcune criticità:
 \begin{itemize}
 	\item sono gli utilizzatori che devono preoccuparsi di chiamare release dopo il tempo massimo impostato, altrimenti la
 	risorsa verrà assegnata contemporaneamente a qualcun altro
-	\item il codice non gestisce eventiali false wakeup della condition variable
+	\item il codice non gestisce eventuali false wakeup della condition variable
 \end{itemize}
 
 \subsubsection*{Altri esempi visti nelle slides}
@@ -1543,7 +1571,7 @@ In C/C++ i mutex sono gestiti con:
 \end{itemize}
 
 \subsubsection*{Spinlock}
-Gli spinlock sono mutex che effettano busy waiting mentre sono in attesa di catturare il lock. Sono preferiti ai mutex quando la
+Gli spinlock sono mutex che effettuano busy waiting mentre sono in attesa di catturare il lock. Sono preferiti ai mutex quando la
 sezione critica è estremamente breve, oppure in presenza di sistemi che devono gestire I/O (driver dei dispositivi, o Interrupt
 Service Routine (ISR)). Nei sistemi single core sono estremamente sconsigliati perché rubano cicli di clock alla funzione che
 attendono che finisca.
@@ -1566,7 +1594,7 @@ Esistono dei semafori utilizzabili nel kernel, solo che ad oggi si preferiscono 
 Le condition variables sono associate ai lock mutex:
 \begin{itemize}
 	\item \verb|pthread_cond_t cond_var|: dichiarazione della condition variable \verb|cond_var|
-	\item \verb|pthread_cond_init(&cond_var,NULL)|: inizializzazione della contition variable
+	\item \verb|pthread_cond_init(&cond_var,NULL)|: inizializzazione della condition variable
 	\item \verb|pthread_cond_wait(&cond_var, &mtx)|: esegue il wait di \verb|cond_var| rilaciando il mutex \verb|mtx|
 	\item \verb|pthread_cond_signal(&cond_var)|: esegue la signal della \verb|cond_var|
 \end{itemize}
@@ -1597,9 +1625,276 @@ forzare l'ordine stabilito per evitare data race.
 % \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|/////////////////////////////////////////////////////////////////////////
 % ***************************************************************************************************************************************************
 
+% ***************************************************************************************************************************************************
+% ------------------------------------------------------------------- INTRODUZIONE ------------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
 \section{Scheduling CPU}
+\subsection{Introduzione}
+\subsubsection*{Alcuni concetti introduttivi}
+\begin{itemize}
+	\item \textbf{meccanismo di interruzione}: procedura per cui l'elaboratore interrompe l'esecuzione di un processo, ne salva
+	in contesto in memoria (specialmente il PC per sapere dove ripartire) e carica il contesto di un altro processo in memoria
+	avviandone l'esecuzione (meccanismo di interruzione è anche detto cambio di contesto)
+	\item \textbf{istruzioni privilegiate}: insieme di istruzioni eseguibili solo dal sistema operativo per gestire alcuni compiti
+	riservati al kernel (abilitare/disabilitare interruzioni, accedere ai registi di protezione della memoria, gestione delle
+	eccezioni, arresto della CPU)
+	\item richiamo sulla parte di processo, thread, preemptive e non preemptive, \dots in particolare c'è da fare attenzione in
+	caso di \textbf{scheduling preemptive su processi con dati condivisi} in quanto l'interruzione durante la gestione di dati
+	condivisi può comportare risultati imprescindibili, specialmente in caso di modifiche dei dati di sistema da parte di un
+	kernel preemptive
+\end{itemize}
+
+\subsubsection*{Kernel}
+Il kernel è la parte del sistema implementata in parte in hardware e in parte in linguaggi a basso livello (assembly, C), è
+composto da tre sezioni:
+\begin{itemize}
+	\item \textbf{First Interrupt Handler - FLIH}: gestione iniziale di tutte le interruzioni (determinare l'origine dell'interruzione
+	e attivare il segmento di codice opportuno)
+	\item \textbf{dispatcher}: assegnazione dei core ai processi in base all'output dello scheduler che, attraverso l'algoritmo
+	di scheduling, sceglie quali processi mandare in esecuzione
+	\item \textbf{sincronizzazione}: gestione degli stumenti di sincronizzaione (semafori a contatore, con code FIFO, con stack
+	LIFO, con liste di priorità, concorrenza nell'esecuzione di wait e signal, \dots)
+\end{itemize}
+
+\subsubsection*{Scheduler}
+Algoritmo di alto livello che sceglie i processi da mandare in base alla priorità scelta, eventualmente la priorità può essere
+dinamica (dipendere dal tempo). L'ordinamento con priorità sfrutta la struttura di heap per migliore efficienza. Alcuni indici
+delle caratteristiche degli algoritmi di scheduling:
+\begin{itemize}
+	\item \textbf{throughput}: produttività o numero di processi completati in un arco di tempo
+	\item \textbf{CPU-burst}: ciclo di utilizzo puro della CPU di un processo
+	\item \textbf{I/O-burst}: ciclo di attesa di un input/output di di un processo
+	\item \textbf{tempo di turnaround}: durata dell'esecuzione di un processo
+	\item \textbf{tempo di attesa}: tempo di attesa nella ready queue
+	\item \textbf{tempo di risposta}: tempo tra richiesta e risposta
+	\item \textbf{latenza di dispatch}: tempo necessario al dispatcher per cambiare contesto
+\end{itemize}
+
+\subsubsection*{Grafico di Gantt}
+Il grafico di Gantt è un diagramma dei tempi di esecuzione in cui si segnano su una linea del tempo appositamente numerata, il
+susseguirsi dei vari processi in esecuzione sulla CPU. Vengono in particolar modo indicati il tempo di arrivo, di inizio e di
+fine di ogni processo in modo da poter facilitare il calcolo del tempo di turnaround, tempo medio di attesa e di risposta.
+
+\subsubsection*{Scheduling dei sistemi real-time}
+I sistemi real time sono caratterizzati da processi invocati a intervalli periodici \(T_i\) con durata di esecuzione conosciuta
+\(P_i\), tali per cui è necessario che un determinato processo termini le sue esecuzioni prima di essere reinvocato. In generale
+un sistema real-time si dice schedulabile se esiste almeno un modo per pianificare ottimamente i processi, ovvero se (gli
+algoritmi di scheduling avranno un upper bound leggermente inferiore):
+\(\sum_{i=1}^{m} T_\text{i} / P_\text{i} \leq 1\)
+
+I sistemi real-time si dividono in:
+\begin{itemize}
+	\item \textbf{hard real time}: devono garantire il rispetto delle scadenze di esecuzione per i processi critici 
+	\item \textbf{soft real time}: richiedono che ai processi critici sia assegnata una maggiore priorità rispetto ai
+	processi di routine (senza nessuna garanzia sui tempi di completamento)
+\end{itemize}
+
+\subsubsection*{Gestione processi in iOS}
+Inizialmente era permesso di eseguire solo una applicazione in foreground e nulla in background. Da iOS 4 è stata introdotta la
+possibilità di eseguire un unico processi in foreground controllabile tramite GUI e altri servizi in background (senza accesso
+al display).
+
+\subsubsection*{Gestione processi in Android}
+Un'app, per funzionare il background deve utilizzare un servizio, ovvero un componente applicativo separato eseguito per conto
+di un'app. I servizi non hanno un'interfaccia utente e sono in parte forniti da sistema con la classe Services. I processi,
+inoltre sono classificati in: processo foreground, processo visibile (esegue task del processo in foreground), processo di
+servizio (svolge task in background ma evidente per l'utente), processo in background (svolge task non visibili all'utente),
+processo vuoto (non ha componenti attive associate ad app).
+
+\subsubsection*{Gestione processi in Chrome Browser}
+Il browser Chrome è un sistema multiprocesso con tre categorie di processi: browser (interfaccia utente, I/O dal disco e dalla
+rete), renderer (rendering delle pagine HTML, Javascript, immagini, uno per ogni scheda aperta, eseguiti in sandbox per ridurre
+problemi di sicurezza) e plug-in (estensioni per semplificare determinati compiti es. Flash, Windows Media).
+
+% ***************************************************************************************************************************************************
+% ------------------------------------------------------------ COMUNICAZIONE TRA PROCESSI -----------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Comunicazione tra processi}
+La comunicazione tra processi detta Inter Process Comunication (IPC) serve per condividere informazioni e coordinare sottotask.
+I mezzi utilizzati sono la memoria condivisa (più rapida, ma con rischio di data race) o attraverso messaggi (più sicuro, ma più
+lento perché si sfruttano le system call). Nei sistemi multicore si sfruttano i messaggi in quanto la memoria condivisa può
+avere inconsistenze dovute alla suddivisione in gerarchie di cache.
+
+\subsubsection*{Ordinary pipes}
+Le pipes (in Windows dette anonymous pipes ) sono vie di comunicazione unidirezionali tra processi padre e figlio. Il produttore
+scrive i dati nella write-end della pipe e l'utilizzatore legge i dati dalla read-end della pipe.
+
+\subsubsection*{Named pipes}
+Le named pipes chiamate anche FIFO sono pipes bidirezionali che sfruttano determinati tipi di files (FIFO) per la comunicazione
+tra più processi indipendenti (non serve la relazione padre-figlio e possono coinvolgere più di due processi).
+
+\subsubsection*{Mailboxes}
+Una mailbox (o porta) è una struttura per la comunicazione tra processi/thread concorrenti, basata sull’invio e ricezione
+asincrona di messaggi. Ogni porta ha un unico ID e i processi, per comunicare, devono condividere una stessa porta. Se più
+processi condividono la stesa mailbox, un messaggio potrà raggiungere solo di essi. I messaggi risiedono in code temporanee e
+si ha una disaccopiazione tra mittente e destinatario. Alcune opzioni di gestione:
+\begin{itemize}
+	\item \textbf{syncronous}: il mittente si blocca finché il destinatario non riceve un messaggio, il destinatario si blocca
+	finché non riceve un messaggio
+	\item \textbf{asyncronous}: senza interruzione tra sender e receiver, lo scambio avviene attraverso un buffer, sfruttando
+	memoria dinamica condivisa o semafori (memoria statica)
+\end{itemize}
+
 \newpage
 
+% ***************************************************************************************************************************************************
+% ------------------------------------------------------------- ALGORITMI DI SCHEDULING -------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Algoritmi di sheduling}
+\subsubsection*{First Come First Served - FCFS}
+La CPU viene assegnata al processo che la richiede per primo. Si basa sull'utilizzo di una coda FIFO come ready queue. Può
+provocare l'effetto convoglio, aumentando parecchio il tempo medio di attesa dei vari processi da eseguire, se il primo che si
+impossessa della CPU la tiene occupata per tanto tempo.
+
+\subsubsection*{Shortest Job First - SJF}
+La CPU viene assegnata al processo più corto. Si sfrutta una coda con priorità in cui i processi con priorità maggiore sono quelli
+con tempo di esecuzione minore. Si necessita, quindi, di conoscere i tempi di esecuzione di ogni processo. Lo svantaggio è che si
+possa verificare starvation se un processo lungo rimane in coda siccome arrivano sempre processi più rapidi. Una possibile soluzione
+è implementare un algoritmo di aging per aumentare la priorità man mano che i processi rimangono in coda.
+
+\subsubsection*{Round Robin - RR}
+Vengono assegnati ad ogni processo dei quanti di tempo di esecuzione della CPU (10-100 ms) e i processi si turnano a vicenda.
+Dopo che un processo ha trascorso il suo quanto di esecuzione, è forzato a rilasciare la CPU (prelazione). La lunghezza del
+quanto di tempo permette di ottimizzare le prestazioni: per \(q\) grandi si ha comportamento simile a FCFS, per \(q\) bassi
+si rischia di perdere più tempo nel context switch che nell'effettiva esecuzione. In generale RR è più efficiente di SJF,
+nonostante abbia più context switch. Se in uno stesso istante un processo termina il quanto e un altro arriva nella coda di
+attesa è indifferente se il processo che prende l'esecuzione sia quello già in coda (FIFO) oppure quello appena arrivato (LIFO)
+in quanto nella realtà è altamente improbabile che ciò avvenga.
+
+\subsubsection*{Shortest Process Next - SPN}
+La CPU viene assegnata al processo con tempo di esecuzione minore, a parità di valore si usa la strategia FCFS. In una
+realizzazione non-preempitve si favoriscono i processi più brevi.
+
+\subsubsection*{Shortest Remaining Time - SRT}
+La CPU viene assegnata al processo con tempo di esecuzione rimanente inferiore. Problema fondamentale è determinare la durata
+dei processi, per effettuarla vengono eseguite stime predittive (algoritmi diversi basati sullo storico di processi simili).
+SRT equivale a SJF con prelazione.
+
+\subsubsection*{Highest Response Ratio Next - HRRN}
+Una volta definito il fattore di risposta come rapporto tra tempo di turnaround e tempo di esecuzione, si assegna la CPU il
+processo che in un certo istante ha il fattore di risposta maggiore. In questo modo si dà alta priorità ai processi brevi e
+si ha aging dei processi lunghi in attesa da tempo nella ready queue.
+
+\subsubsection*{Scheduling proporzionale alla frequenza - per sistemi real-time}
+Applicato ai sistemi real-time si sceglie di mandare in esecuzione quello che ha frequenza più elevata, interrompendo
+eventualmente altri processi (con prelazione). Il carico può essere gestito solo se vale:
+\[\sum_{i=1}^{m} \frac{T_\text{esecuzione,i}}{P_\text{periodo,i}} \leq m_\text{\# processi} \cdot (2^{1/m} - 1)\]
+
+\subsubsection*{Earliest Deadline First - EDF - per sistemi real time}
+Applicato ai sistemi real-time si sceglie di mandare in esecuzione quello che ha la scadenza più immediata, interrompendo
+eventualmente altri processi (con prelazione). Il casi ottimali si riesce a portare il consumo della CPU al 100\%, ovvero
+l'upper bound è pari a 1.
+
+\subsubsection*{Scelta dell'algoritmo migliore}
+Per scegliere quale algoritmo implementare si può procedere in tre modi:
+\begin{itemize}
+	\item[1.] \textbf{modello deterministico}: se si è in grado (avviene raramente) di sapere a priori ogni processo eseguito
+	dalla CPU con relativi tempi di arrivo e burst time, allora è possibile calcolare deterministicamente i tempi medi di
+	risposta per ogni algoritmo e scegliere quello minore (e migliore)
+	\item[2.]\textbf{rete di code}: poco usato, consiste nel rappresentare il sistema come una rete di server in cui ogni
+	componente (CPU, dispositivi I/O) è un server con una sua coda, analizzando le distribuzioni dei processi nelle varie
+	code è possibile calcolare le performance di ogni dispositivo e scegliere l'algoritmo migliore (spesso usando distribuzioni
+	matematiche e metodi matematici complessi e non reali); si può ricorrere eventualmente alla formula di Little:
+	\begin{center}
+		\vspace{-10pt}
+		\(\;\qquad\qquad\qquad n_\text{processi in coda} \;=\;\lambda_\text{richieste in arrivo nel tempo} \;\cdot\; W_\text{tempo medio di attesa}\)
+		\vspace{-5pt}
+	\end{center}
+	\item[3.] \textbf{simulazione}: ovvero si confrontano i risultati dei diversi algoritmi in applicazioni simulate per
+	scegliere quello migliore
+\end{itemize}
+
+% ***************************************************************************************************************************************************
+% ------------------------------------------------------------------ CODE MULTIPLE ------------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Code multiple}
+È possibile creare più ready queue (code multiple) per gestire processi di ambiti diversi (foreground e background) in modo
+da poter scegliere un algoritmo migliore per ciascuna delle due categorie dei processi (RR per foreground e FCFS per background).
+Poi è necessario effettuare lo scheduling tra due code con ad esempio time slice a priorità fissa (80\% foreground e 20\% background).
+
+Un processo viene assegnato ad una determinata coda in base a regole scelte dal sistema e può rimanere fisso su una coda o migrare
+tra una coda e l'altra. In questo ultimo caso (code multiple con feedback) è necessario fornire degli algoritmi che gestiscono
+la migrazione dei processi verso una coda con più priorità o meno priorità.
+
+% ***************************************************************************************************************************************************
+% ------------------------------------------------------------ SCHEDULING MULTIPROCESSORE -----------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Scheduling multiprocessore}
+\subsubsection*{Architetture omogenee}
+Si ipotizza che le unità di elaborazione siano omogenee (identiche), altrimenti diventa molto complesso ottimizzare la scelta
+di quale core assegnare ad un processo in base al tipo di processi e asi core disponibili (es. efficiency vs performance core).
+
+\subsubsection*{Multielaborazione asimmetrica vs simmetrica}
+\begin{itemize}
+	\item \textbf{multielaborazione asimmetrica} consiste nell'avere un processore detto master server che coordina gli altri
+	processori, in questo modo solo il master accede i dati del sistema senza doverli condividere
+	\item \textbf{multielaborazione simmetrica} (Symmetric Multi Processing - SMP) consiste nell'avere più core indipendenti,
+	ciascuno con il proprio scheduler e i processi sono raggruppati in una coda comune o in code separate per ogni core; nel caso
+	di coda comune serve fare attenzione a possibili race condition sull'acceso della coda; è usato da Windows, Linux e macOS
+	in quanto più veloce ed efficiente
+\end{itemize}
+
+\subsubsection*{Predilezione del processore vs bilanciamento del carico}
+\begin{itemize}
+	\item \textbf{predilezione del processore} consiste nel mantenere un processo in esecuzione sempre sullo stesso processore,
+	in modo da ottimizzare l'utilizzo della cache; in Linux attraverso la system call \verb|sched_setaffinity| è possibile
+	impostare \verb|strong affinity| per evitare di far migrare il processo tra processori o \verb|soft affinity| per cui sotto
+	determinati carichi è possibile per un processo migrare in altri processori
+	\item \textbf{bilanciamento del carico} consiste nel ripartire uniformemente il carico per ogni processore (nei sistemi
+	con ready queue comune diventa automatico); si distingue in migrazione guidata (push migration) se un processo periodicamente
+	bilancia il carico dei diversi processori o migrazione spontanea (pull migration) se un processore inattivo sottrae carico
+	ad uno in sovraccarico; Linux le implementa entrambe
+\end{itemize}
+
+\subsubsection*{Gestione della memoria}
+Si parla di stallo di memoria quando la CPU è in attesa che dei dati dalla memoria, spesso si perde fino al 50\% del tempo. È bene
+scegliere lo scheduling adatto in base anche al tipo di memoria disponibile. In architetture di calcolo separate NUMA (Non Uniform
+Memory Access) in cui è possibile accedere alla memoria di altre CPU, ma a costo elevato, è bene ridurre la migrazione dei processi.
+
+\subsection{Nei sistemi operativi attuali}
+\subsubsection*{Linux pre 2.5}
+Si utilizzano code multiple con feedback gestite con RR e ha prelazione legata alla priorità. La priorità è legata alla
+percentuale di utilizzo della CPU di un dato processo, più tempo utilizza la CPU, minore sarà la priorità. È presente aging
+in quanto processi mai eseguiti hanno priorità maggiore.
+
+\subsubsection*{Linux post 2.6.23}
+Per ottimizzare la gestione multicore si utilizza il Completely Fair Scheduler (CFS). I processi vengono divisi in due classi
+\verb|real time| e \verb|default| con priorità propria. Il tempo di utilizzo della CPU viene suddiviso in latenza obiettivo,
+ovvero in intervalli di tempo entro cui un qualsiasi processo viene eseguito. La latenza obiettivo si ripartisce in maniera
+proporzionale alla priorità dei processi (si usa \% di tempo e non RR a quanto fisso). La priorità è inversamente proporzionale
+al tempo virtuale di utilizzo detto \verb|vruntime|. Il tempo virtuale di utilizzo è un accumulatore del normale tempo di
+utilizzo combinato con un fattore di decadimento detto \verb|nice|:
+\[\texttt{vruntime += } \Delta t \cdot \frac{\text{nice}_0}{\text{nice}}\]
+I vari processi sono salvati in un red-black tree ordinato in base al loro \verb|vruntime| (\verb|vruntime| minore in cima).
+Ogni volta che un processo interrompe la sua esecuzione si calcola l'incremento del \verb|vruntime|, si aggiorna il red-black
+tree con tutti i processi e si assegna l'esecuzione al processo in cima alla lista. I fattori di \verb|nice| variano da
+\(\texttt{nice}_{-20}\) (di minima priorità) a \(\texttt{nice}_{19}\) (di massima priorità) con \(\texttt{nice}_0\) di priorità
+neutrale.
+
+Lo scheduler CFS supporta il bilanciamento del carico, è compatibile con NUMA e cerca di ridurre al minimo la migrazione dei
+thread. Per ridurre le migrazioni si dividono i core in cluster e si cerca di mantenere i processi all'interno dei cluster.
+
+Con l'avvento delle architetture ibride (Intel Alder Lake o Apple M) è stato necessario apportare delle modifiche al kernel con
+Linux 5.16 in modo da scegliere meglio il tipo di core in base al tipo di processo.
+
+\subsubsection*{Windows 10}
+Win10 utilizza 32 code con priorità proporzionale al numero (da 0 a 31). L'esecuzione viene assegnata mediante RR ai processi
+appartenenti alla coda con priorità maggiore con prelazione a favore dei thread con maggiore priorità, ovvero un thread verrà
+eseguito solo se non ci sono altri thread con priorità maggiore. La priorità è gestita dinamicamente per evitare aging.
+
+\subsubsection*{Windows 11}
+Win10 non riconosce le diverse architetture dei core, per cui su un processore ibrido pecca di ottimizzazione. In Win11
+è stata introdotta la gestione delle architetture ibride in modo da ottimizzare non solo le performance, ma anche l'efficienza
+del sistema. Il sistema di scheduling si basa sull'Intel Thread Director che permette di fornire al SO dati sull'esecuzione dei
+diversi thread e suggerisce (attraverso modelli di AI pre-learned) quale mandare in esecuzione. A differenza di Win10, in Win11
+dispone di uno scheduler per i compiti grafici della GPU bypassando la CPU grazie anche al GPU Direct Storage.
+
+\newpage
 
 % ___________________________________________________________________________________________________________________________________________________
 % /////////////////////////////////////////////////////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
