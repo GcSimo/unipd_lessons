@@ -252,7 +252,7 @@ Esempi di sistemi monolitici:
 	c'è una netta separazione tra interfacce e funzionalità. Gli applicativi accedono direttamente alle routine di sistema del
 	BIOS, senza nessuna protezione, in quanto l'Intel 8088 (hardware su cui girava MS-DOS) non aveva protezione hardware tramite
 	i bit mode.
-	\item \textbf{UNIX}: \\
+	\item \textbf{Unix}: \\
 	è un sistema scarsamente stratificato (date le limitate funzionalità hardware di quando è stato progettato) ed è diviso in
 	due parti: i programmi di sistema e il kernel (che incorpora tutto ciò che si trova tra le system call e l'hardware).
 \end{itemize}
@@ -296,7 +296,7 @@ I sistemi ibridi combinano diversi approcci allo scopo di migliorare performance
   |  |  +- BSD: sottosistema Unix-derived per gestione di filesystem, rete e API POSIX
   |  |  +- IOKit: moduli dinamici per la gestione dei driver (estensioni kernel)
   |  +- librerie C di basso livello: libc, dyld, ecc.
-  |  +- utility di sistema base: shell, tool UNIX, ecc.
+  |  +- utility di sistema base: shell, tool Unix, ecc.
   +- framework grafico Cocoa: GUI, AppKit, UIKit
   +- applicazioni di sistema: Finder, Safari, ecc.
   +- servizi Apple proprietari: Spotlight, iCloud, ecc.
@@ -548,7 +548,7 @@ Il codice più sicuro e i bug sono scoperti e risolti velocemente.
 
 \subsubsection*{Richard Stallman, GNU e Linux}
 Richard Stallman nel 1984 da origine al progetto GNU (GNU is Not Unix), ovvero l'idea di ricreare un intero sistema operativo
-analogo a UNIX, ma libero, con licenza GLP (General Public Licence). La GPL indica che ogni componente software può essere
+analogo a Unix, ma libero, con licenza GLP (General Public Licence). La GPL indica che ogni componente software può essere
 utilizzata, modificata e distribuita mantenendo sempre la licenza GPL, ovvero non è possibile utilizzarlo in codice proprietario.
 Ad oggi il progetto GNU ha numeri strumenti compatibili con Unix, ma il kernel Hurt (GNU) è ancora in fase di sviluppo. Per i
 sistemi operativi liberi si utilizza il kernel Linux sviluppato da Linus Torvald usando strumenti di GNU, ma che non fa parte
@@ -563,8 +563,8 @@ utilizzato in progetti proprietari.
 \begin{itemize}
 	\item \textbf{Linux}: open source con alcune distribuzioni libere e altre solo open source
 	\item \textbf{Windows}: proprietario e closed-source
-	\item \textbf{macOS}: ibrido in quanto basato su kernel Darwin open-source basato su UNIX BSD, con l'aggiunta di componenti proprietarie
-	\item \textbf{UNIX BSD}: derivato da Unix, non è open source in quanto è richiesta la licenza, ma era inizialmente distribuito
+	\item \textbf{macOS}: ibrido in quanto basato su kernel Darwin open-source basato su Unix BSD, con l'aggiunta di componenti proprietarie
+	\item \textbf{Unix BSD}: derivato da Unix, non è open source in quanto è richiesta la licenza, ma era inizialmente distribuito
 	insieme al sorgente, esistono diverse distribuzioni (FreeBSD, NetBSD, \dots)
 	\item \textbf{MINIX}: sistema operativo sviluppato da Andrew Tanenbaum in supporto al suo corso universitario, ma impiegato
 	a sua insaputa all'interno dell'Intel Management Engine, data la sua leggerezza
@@ -2391,8 +2391,633 @@ permette di liberare memoria senza effettuare swap, riducendo i tempi di trasfer
 % \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|/////////////////////////////////////////////////////////////////////////
 % ***************************************************************************************************************************************************
 
+% ***************************************************************************************************************************************************
+% ----------------------------------------------------------- INTRODUZIONE AI FILE SYSTEM -----------------------------------------------------------
+% ***************************************************************************************************************************************************
+
 \section{Gestione file}
+\subsection{Introduzione al file system}
+\subsubsection*{Scopo del filesystem}
+Il filesystem è il sottosistema per la gestione, memorizzazione, accesso e protezione dei files e dei dati nel sistema operativo.
+Permette un'interfaccia uniforme tra le diverse memorie secondarie (HDD, SSD, USB drive, CD, DVD \dots) e ai file dalla rete.
+
+\subsubsection*{Struttura gerarchica}
+L'interfaccia dei filesystem dei SO moderni sono organizzati in struttura gerarchica (HFS - Hierarchical File System). È presente
+una cartella Root da cui si diramano ad albero tutte le sottocartelle (nodi) che contengono i files (foglie). La struttura
+gerarchica non ha nulla a che vedere su come sono organizzati i files fisicamente nel disco.
+
+\subsubsection*{Montaggio del disco rigido e accesso uniformato}
+Un disco per essere utilizzabile attraverso l'interfaccia uniformata fornita dal sistema, deve essere prima montato, ovvero
+deve diventare parte integrante del grafico delle directory. L'interfaccia uniformata per l'accesso ai dati in memoria permette
+sia di accedere a periferiche hardware connesse fisicamente al computer, sia a periferiche connesse attraverso la rete utilizzando
+una interfaccia indipendente dal supporto fisico.
+
+% ***************************************************************************************************************************************************
+% ------------------------------------------------------------------ GESTIONE FILE ------------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Files}
+\subsubsection*{Cos'è un file}
+Un file è uno spazio di indirizzi logici continui che contiene informazioni registrate in memoria secondaria. Ogni file, oltre
+ai dati, contiene informazioni aggiuntive dette attributi (nome, identificativo, tipo, posizione, dati di ultimo accesso e
+modifica, \dots) ed eventuali altri attributi estesi che dipendono dal file system e dal SO (es. checksum). I metadati e le
+indicazioni su come recuperare il file in memoria sono contenute nel file control block (FCB) o descrittore del file.
+
+\subsubsection*{Operazioni sui files}
+Le operazioni che possono essere fatte su un file sono:
+\begin{itemize}
+	\item creazione, scrittura, lettura
+	\item posizionamento gerarchico del file system
+	\item cancellazione, troncamento, modifica degli attributi
+\end{itemize}
+
+\subsubsection*{Gestione dei files aperti}
+L'apertura e la chiusura dei files all'interno di programmi avviene tramite system call. Il SO, per la gestione dei files aperti
+dispone di due tabelle:
+\begin{itemize}
+	\item \textbf{tabella dei file aperti di sistema}: contiene il riferimento di tutti i files aperti, delle posizioni nel disco,
+	contatore delle aperture (programmi che hanno aperto il file)
+	\item \textbf{tabella dei file aperti per processo}: unica e specifica di un singolo processo, contiene i files aperti da un
+	singolo processo
+\end{itemize}
+
+\subsubsection*{Apertura di un file}
+Quando un programma richiede l'apertura di un file, il SO:
+\begin{itemize}
+	\item ricerca nella tabella dei files aperti (nella RAM) se il file è già aperto da qualche altro processo
+	\begin{itemize}[topsep=0pt]
+		\item in caso affermativo aggiorna il FCB ed eventuali tabelle dei processi che lo usano
+		\item in caso negativo carica il FCB in memoria (che contiene l'informazione su come raggiungere fisicamente i dati) e
+		aggiorna le tabelle dei files aperti
+	\end{itemize}
+\end{itemize}
+
+\subsubsection*{Tipi di files e abuso di posizione dominante}
+I files si distinguono in base a:
+\begin{itemize}
+	\item estensioni (obbligatorie in Windows, facoltative in altri SO)
+	\item attributo tipo associato ai files (es. in macOS)
+	\item magic number, ovvero un numero che identifica il tipo, memorizzato all'inizio del file (es. Unix)
+\end{itemize}
+Per abuso di posizione dominante si intende il fatto che un certo sistema contenga di default tutti i decoder e i programmi
+necessari per aprire e modificare tutti i tipi di file. In questo modo si crea un grande svantaggio alla concorrenza (aziende
+che sviluppano programmi per gestione dei files) e si potrebbe ricevere ad una multa dall'AntiTrust.
+
+\subsubsection*{Struttura di un file}
+Un file può memorizzare dati attraverso più strutture (scelte da SO o dall'applicativo che crea il file):
+\begin{itemize}
+	\item \textbf{nessuna struttura}: sequenza di parole o byte
+	\item \textbf{struttura a record semplice}: linee di record con lunghezza fissa o lunghezza variabile
+	\item \textbf{struttura complessa}: se documento formattato o file eseguibile rilocabile
+\end{itemize}
+Fisicamente il file è diviso in blocchi logici continui detti record logici che poi vengono memorizzati in blocchi fisici non
+necessariamente continui detti blocchi fisici con possibile frammentazione. La dimensione dei record logici e dei blocchi fisici
+potrebbe non necessariamente coincidere.
+
+\subsubsection*{Accesi ai file, semantica della coerenza, sicurezza e protezione dei dati}
+L'accesso al file può avvenire in diversi modi:
+\begin{itemize}
+	\item \textbf{accesso sequenziale}: attraverso un puntatore, flusso di stream
+	\item \textbf{accesso diretto}: accesso a salti, attraverso offset
+	\item \textbf{accesso indicizzato}: accesso tramite indice ai vari record logici (come nella paginazione)
+\end{itemize}
+L'accesso condiviso ai files può avvenire in diversi modi:
+\begin{itemize}
+	\item \textbf{shared}: più processi agiscono sullo stesso file
+	\item \textbf{exclusive}: solo un processo per volta può accedere i files
+	\item \textbf{obbligatorio}: gestito dal SO, accesso regolamentato da lock (es. Windows)
+	\item \textbf{consigliato}: gestito dal programmatore in caso di file inaccessibile/bloccato (es. Unix)
+\end{itemize}
+La semantica della coerenza consiste nel rendere accessibile il file a qualsiasi applicazione nella versione più aggiornata
+disponibile. L'accesso ai files in Unix avviene attraverso puntatore per cui tutti i programmi possono vedere le modifiche in
+tempo reale che vengono effettuate da altri programmi.
+
+Ogni file contiene informazioni sul proprietario del file e ha una serie di bit di controllo che specificano quali azioni
+possono e non possono essere effettuate da un determinato utente.
+
+\subsubsection*{Link e alias}
+Il fenomeno di aliasing consiste nel creare dei file-riferimento ad un altro file (si introducono cicli nell'albero della
+struttura gerarchica). Possono essere:
+\begin{itemize}
+	\item \textbf{hard link}: serve per assegnare un nome diverso allo stesso file fisico, condivide lo stesso inode del file
+	originale (in Unix), è difficile da distinguere dal file originale, inoltre il file è accessibile (tramite) l'hard link
+	anche se il file originale viene rimosso
+	\item \textbf{soft link o symbolic link}: è un file che memorizza il percorso di un altro file, se il file originale viene
+	rimosso (o viene spostato) il collegamento diventa corrotto e non è più possibile accederci, 
+	\item \textbf{alias}: solo della GUI di macOS, è un sistema di symbolic link intelligente che permette di accedere lo stesso
+	al file anche nel caso in cui il file originale viene spostato
+\end{itemize}
+
+\subsubsection*{Gestione degli errori nei file}
+Gli unici errori risolvibili nei files sono errori hardware dei dischi che possono essere corretti se si utilizza ridondanza e
+meccanismi di correzione degli errori (RAID).
+
+% ***************************************************************************************************************************************************
+% ---------------------------------------------------------------- GESTIONE DIRECTORY ---------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Directory}
+\subsubsection*{Struttura delle directory}
+Le directory sono contenitori che permettono il raggruppamento (grouping) dei files per una organizzazione efficiente secondo
+la struttura gerarchica del FS. Ogni directory ha un nome assegnatoli dall'utente e altre informazioni (tipo, indirizzo,
+dimensione, proprietari, \dots) analoghe a quelle dei files. Inoltre sono fornite alcune operazioni come ricerca di un file
+in una directory e attraversamento del file system per mezzo di esse.
+
+\subsubsection*{Struttura delle directory e del file system}
+\begin{itemize}
+	\item \textbf{directory monolivello}: tutte le dir. sono poste alla stessa distanza dalla radice
+	\item \textbf{directory a due livelli}: il primo livello è riservato alla differenziazione degli utenti e il secondo è usato
+	per la memorizzazione monolivello di tutti i dati degli utenti
+	\item \textbf{struttura ad albero}: le directory e il file system sono strutturati gerarchicamente in cui a livello 0 c'è
+	la cartella radice (root), al primo livello ci sono tutte le directory base e nei livelli successivi i file sono organizzati
+	in directory e subdirectory
+\end{itemize}
+In caso di symbolic link alle directory si formano alberi con dei cicli, detti grafi ciclici. Per verificare o meno la presenza
+di cicli si utilizzano gli ordinamenti topologici dei grafi DAG. Siccome gestire cicli è particolarmente complesso, si cerca di
+evitarli creando symbolic link solo a i file e non alle directory. In alternativa per gestire i cicli in fase di backup si
+marcano i files già archiviati in modo da non doverli riarchiviare.
+
+\subsubsection*{Path assoluto, path relativo}
+Per identificare la posizione di un file nel file system si utilizza il path o percorso, ovvero le cartelle attraversate per
+arrivare al file desiderato. La notazione utilizzata per il path cambia in base al SO, in generale esistono due tipi di path:
+\begin{itemize}
+	\item \textbf{path assoluto}: parte dalla root directory del FS (Unix: \verb|/Users/Doc...|, Win: \verb|C:\Users\Doc...|)
+	\item \textbf{path relativo}: parte dalla cartella di lavoro (Unix: \verb|./Docum...|, Win: \verb|.\Docum...|)
+\end{itemize}
+
+\subsubsection*{Realizzazione delle directory}
+La struttura delle directory (memorizzata nel disco e all'occorrenza in cache o RAM) può avvenire con:
+\begin{itemize}
+	\item \textbf{lista lineare ordinata o non ordinata}: con l'elenco di tutte le cartelle e i relativi files con i puntatori 
+	ai blocchi di dati, la ricerca e l'inserimento costano (a prescindere da un eventuale ordinamento)
+	\item \textbf{lista lineare con struttura hash}: \say{ordinata} per nome del file a cui è associato il puntatore ai relativi
+	blocchi di dati, si ha ricerca e inserimento lineare, ma bisogna gestire le collisioni
+\end{itemize}
+
 \newpage
+
+% ***************************************************************************************************************************************************
+% -------------------------------------------------------- SUPPORTI DI MEMORIZZAZIONE --------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Supporti di memorizzazione (HDD, SSD, protocolli di comunicazione)}
+\subsubsection*{Struttura del disco rigido HDD}
+Dal punto di vista fisico, un hard disk drive (HDD) è costituito da:
+\begin{itemize}
+	\item \textbf{piatti magnetici} (platters) sovrapposti con due facce ciascuno
+	\item \textbf{tracce} (tracks): anelli circolari concentrici che suddividono ogni faccia da fuori verso il centro
+	\item \textbf{settori} (sectors): piccole porzioni delle tracce circolari, un settore ha dimensione di 512B o 4KB
+	\item \textbf{cilindri} (cylinder): l’insieme di tracce allineate verticalmente su tutti i piatti
+\end{itemize}
+
+Dal punto di vista logico il disco è suddiviso in:
+\begin{itemize}
+	\item \textbf{blocchi}: la minima unità di trasferimento gestibile dal file system, può essere costituita da un unico settore o da più
+	settori continui
+	\item \textbf{cluster}: la minima unità di allocazione gestibile dal file system, in genere è composta da uno o più blocchi continui
+	e costituisce la dimensione minima che un file occupa
+\end{itemize}
+
+Il disco può essere suddiviso in partizioni, ovvero sezioni fisiche continue tali per cui ogni partizione ha un proprio sistema
+di directory indipendente dalle altre. Più dischi possono essere collegati insieme in strutture chiamate RAID.
+
+La lettura e scrittura dei dati avviene attraverso una testina magnetica si muove attraverso le varie tracce. La testina è separata
+dal disco da un piccolo cuscinetto d'aria di qualche micron, in alcuni casi l'aria è sostituita con l'elio per ridurre gli attriti.
+
+\subsubsection*{Dischi CLV e CAV}
+In un \textbf{disco CAV} (Constant Angular Velocity) si mantiene costante la velocità angolare del disco, per cui i settori all'esterno
+del disco sono più dilatati rispetto a quelli dell'interno per mantenere costante la densità angolare dei dati. Questo comporta
+una facile implementazione pratica, ma una minore capacità complessiva dei dati. Gli hdd sono implementati in questo modo.
+
+In un \textbf{disco CLV} (Constant Linear Velocity) si mantiene costante la velocità lineare del disco, per cui contemporaneamente allo
+spostamento della testina dal centro all'esterno, la velocità di rotazione del disco rallenta per mantenere costante quella
+lineare. L'implementazione pratica risulta complessa e viene usata sui supporti ottici come CD, DVD, Blu-Ray.
+
+\subsubsection*{Tempo di accesso in un disco rigido HDD}
+Il tempo di accesso ad un disco rigido comprende:
+\begin{itemize}
+	\item tempo di seek o seektime: tempo necessario alla testina di posizionarsi nella traccia corretta
+	\item tempo di latenza media: tempo necessario al settore con i dati di posizionarsi sotto alla testina, si calcola come metà
+	dei millisecondi impiegati dal piatto per eseguire un giro completo, ovvero \(T_\text{latenza media} = (1/\text{RPM})/2 \cdot 1000/60 = 30\,000 / \text{RPM}\)
+\end{itemize}
+Per ottenere il tempo di un'operazione di I/O è necessario sommare il tempo di accesso e il tempo di trasferimento con l'aggiunta
+di un possibile overhead (controllori, cache, ...). Il tempo di trasferimento si calcola tenendo conto che la lettura avviene in
+parallelo sulle tracce di uno stesso cilindro: \\
+\(T_\text{trasferimento} = \text{byte trasferiti} / (\text{giri al secondo} \cdot \text{byte per traccia})\)
+
+\subsubsection*{Settori logici e settori fisici}
+I settori logici e i settori fisici hanno la stessa dimensione e sono utilizzati per rimappare i settori danneggiati con altri
+funzionanti, eventualmente utilizzando proprio quelli riservati a sostituire quelli danneggiati. Nei settori fisici, in alcuni
+casi, c'è uno spazio riservato ai dati e strutture dati del settore.
+
+\subsubsection*{Formattazione logica e fisica}
+La formattazione fisica agisce fisicamente sul disco per suddividerlo in tracce e settori (di solito 4KB) con l'aggiunta di
+eventuali strutture dati richieste per ogni settore. Viene effettuata dal costruttore.
+
+La formattazione logica viene effettuata dal SO e consiste nella mappatura dei settori logici in settori fisici e nella creazione
+di un file system all'interno del disco.
+
+\subsubsection*{Struttura di un SSD}
+Tipi di memoria flash non volatile in grado di immagazzinare dati all'interno di transistor (floating gate MOSFET) organizzati
+spazialmente in SLC (single layer cell), MLC (multi layer cell), TLC (triple layer cell), 3D. L'affidabilità di un SSD è data dal DWPD (Drive
+Writes Per Day), ovvero quante scritture complete dell'SSD si possono effettuare al giorno senza rotture nel tempo di garanzia.
+
+\subsubsection*{Dimensione tra blocchi e pagine, NVMe 1.0 vs 2.0 in un SSD}
+La dimensione dei blocchi fisici di scrittura, o pagine (write block size, circa 4KB) è molto inferiore rispetto a quella dei
+blocchi di cancellazione (erase block size, circa 256KB). Inoltre per poter scrivere una pagina in una determinata cella di
+memoria, è necessario prima liberare la cella. Se è necessario modificare una singola pagina, sarà quindi necessario eliminare
+tutte le pagine del blocco e poi riscriverle tutte assieme. Il costo di scrittura di una singola cella risulta estremamente
+dispendioso se non gestito correttamente. Inizialmente (NVMe 1.0) gli SSD erano gestiti come HDD per cui c'era una grande
+perdita di prestazioni, poi con NVMe 2.0 le scritture sono diventate compito del sistema operativo in modo da ridurre il più
+possibile le complete riscritture dei blocchi.
+
+\subsubsection*{Overprovisionig di un SSD}
+Siccome le celle degli SSD sono molto soggette ad usura, da NVMe 2.0 è stato introdotto il Zone Namespaces con cui l'utilizzo
+delle celle viene bilanciato per avere un'usura costante. Per sopperire alle possibili celle difettose, i produttori forniscono
+alcune celle extra che verranno utilizzate in sostituzione alle celle difettose o rovinate in modo da allungare la vita del disco.
+
+\subsubsection*{TRIM in un SSD}
+Comando che utilizza il SO per informare un disco a stato solido (SSD) quali dati non servono più e possono essere cancellati.
+È utile per ottimizzare il processo di cancellazione e riscrittura dei blocchi negli SSD.
+
+\subsubsection*{Comunicazione tra disco e scheda madre}
+La comunicazione tra disco e scheda madre avviene attraverso appositi driver, controllori, protocolli di collegamento e protocolli
+di comunicazione. Alcuni protocolli di collegamento sono SATA, USB, NVMe, SCSI (vecchio). Alcuni protocolli di comunicazione sono:
+PCIe, USB (USB4), HDMI, Thunderbolt (Thunderbolt 5). Di seguito una breve spiegazione:
+\begin{itemize}
+	\item \textbf{PCI (Peripheral Component Interconnect)}: protocollo di comunicazione composto da più code (x1,x4,x8,x16) con
+	ogni coda (o lane) associata ad un processo indipendente, per cui è possibile gestire più richieste in parallelo
+	\item \textbf{PCIe (PCI Express)}: nuova ridefinizione del PCI, con la possibilità di avere 64K code per gestire in parallelo
+	64K processi e 64K richieste, è praticamente impossibile da saturare con le tecnologie odierne, l'unico collo di bottiglia
+	è la velocità di trasmissione
+	\item \textbf{NVMe 1.0}: l'SSD è gestito dal SO come se fosse un HDD e le effettive operazioni sono svolte dal firmware
+	dell'SSD, questo genera problemi di usura data la divergenza tra erase block size e write block size
+	\item \textbf{NVMe 2.0}: viene ottimizzata la scrittura e lettura degli SSD con l'aggiunta di numerose altre features come
+	Zone Namespaces (ZNS), Key-Value Namespace e Endurance Group Management
+	\item \textbf{SCSI}: permette la connessione di un massimo di 16 device, composto da SCSI initiatior richiede un'operazione
+	e SCSI target realizza il compito richiesto
+	\item \textbf{Fiber Channel}: gestisce uno spazio di indirizzi a 24bit per gestire le storage area netwok (SAN)
+\end{itemize}
+I NAS (Network-Attached Storage) sono sistemi di memorizzazione dati accessibili via rete. I protocolli usati sono NFS (Unix) e
+CIFS (Windows). Le richieste avvengono attraverso TCP o UDP sopra rete IP.
+
+\subsubsection*{Network file system - NFS}
+Attraverso il NFS è un'interfaccia che permette di condividere le memorie di più elaboratori con file system diversi in modo da
+poter montare directory remote (situate in un qualsiasi elaboratore con un qualsiasi file system) sull'elaboratore con cui si sta
+lavorando attraverso protocolli di rete come UDP/IP (Unreliable Datagram Protocol over IP) e TCP/IP. Il sistema di collegamento
+è indipendente da hardware e software dei diversi elaboratori grazie alla virtualizzazione creata dall'utilizzo delle primitive
+RPC (Remote Procedure Call) per eseguire procedure su computer remoti e la rappresentazione dei dati attraverso XDR (External
+Data Representation).
+
+I vantaggi sono il fatto di poter dislocare i dati di un computer ad un server su altre macchine in posizione remota per occupare
+meno memoria nella posizione locale e permette la possibilità di condivisione delle risorse come CD-ROM e USB.
+
+Il sistema si divide in due parti: protocollo di montaggio per stabilire la connessione tra i diversi file system e il protocollo
+NFS per utilizzare i servizi veri e propri di accesso ai file remoti.
+
+All'interno del sistema Unix si presenta come un middleware tra le system call e la gestione del disco locale. Quando riceve
+una chiamata di accesso ad un dato, il NFS reindirizza la chiamata al FS locale se il file cercato si trova in locale o
+la reindirizza ad un modulo NFS client. Tale modulo, tramite protocolli RPC/XDR, comunica la richiesta ad un NFS server
+situato in un altro elaboratore che gestisce la richiesta indirizzandola al proprio FS.
+
+\subsubsection*{Altre strutture di archiviazione}
+Altre strutture sono i nastri magnetici (tape) di lenta lettura, ma praticamente eterni, il DNA e i cristalli.
+
+\subsubsection*{Indicatori di prestazione}
+I performance indicator indicano il tipo di operazioni che vengono effettuate sul disco e servono per classificare diversi
+supporti in base a quanto ci mettono ad eseguire quelle determinate operazioni:
+\begin{itemize}
+	\item genericamente hanno la struttura \verb|[Tipo di Accesso] Q[Queue Depth] T[Thread]|
+	\item \texttt{SeqQ32T1}: read/write sequenziale di blocchi da 128KB con code di 32 elementi su 1 thread
+	\item \texttt{SeqQ1T1}: read/write sequenziale di blocchi da 128KB con code di 1 elemento su 1 thread
+	\item \texttt{4KQ32T8}: read/write casuale di blocchi da 4KB con code di 32 elementi su 1 thread
+	\item \texttt{4KQ1T1}: read/write casuale di blocchi da 4KB con code di 1 elemento su 1 thread
+\end{itemize}
+
+\newpage
+
+% ***************************************************************************************************************************************************
+% -------------------------------------------------------- ALGORITMI DI SCHEDULING DEL DISCO --------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Scheduling del disco}
+Lo scheduling del disco consiste nell'ottimizzazione delle operazioni di I/O agendo sul seektime, ovvero sul movimento della
+testina attraverso le varie tracce del disco.
+
+\subsubsection*{Algoritmi di scheduling}
+\begin{itemize}
+	\item \textbf{Shortest Seek Time First - SSTF}: viene servita la richiesta che si trova nella posizione più vicina a quella
+	attuale della testina. Ci possono essere processi perennemente in attesa, inoltre si ha costo computazionale per trovare
+	il minimo
+	\item \textbf{Scan o algoritmo dell'ascensore}: la testina si muove da 0 al max  e torna indietro servendo tutte le
+	richieste che incontra lungo il movimento
+	\item \textbf{Look}: analogo allo Scan, solo che al posto di arrivare agli estremi del disco si ferma alla richiesta
+	più esterna/interna prima di fare inversione di movimento
+	\item \textbf{C-Scan}: analogo al metodo Scan, ma il ritorno viene effettuato direttamente dal limite a 0, saltando tutte
+	le tracce in mezzo. Il ritorno rapido è più veloce del ritorno traccia-per-traccia dello Scan. Garantisce un tempo di attesa
+	più uniforme rispetto allo Scan
+	\item \textbf{C-Look}: fusione tra il Look e il C-Scan, la testina si comporta come nel C-Scan, solo che come estremi di
+	arrivo considera le richieste più esterne
+\end{itemize}
+
+\subsubsection*{Alcune osservazioni}
+Le operazioni di lettura hanno sempre la precedenza sopra quelle di scrittura. In Linux è presente una deadline per ogni
+processo per evitare starvation delle richieste. Siccome il disco è molto lento, nel tempo di 1 accesso la CPU può fare fino
+a un miliardo di operazioni, si cerca il più possibile di ridurre il numero di accessi al disco. L'SSD è decisamente più veloce
+e permette di avere più veloci tempi di accesso.
+
+\newpage
+
+% ***************************************************************************************************************************************************
+% --------------------------------------------------------------- CORREZIONE DI ERRORI --------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Correzione di errori}
+\subsubsection*{Distanza di Hamming}
+La distanza di Hamming di due stringhe binarie \(H(C,C')\) equivale al numero di bit diversi, ovvero al numero di differenze tra le due stringhe.
+
+\subsubsection*{Bit di parità}
+Per individuare eventuali errori \(H(C,C')=1\) si introducono i bit di parità, ovvero bit extra aggiunti ogni due bit della
+stringa che vengono messi a 0 se la coppia è formata da bit uguali o 1 se la coppia è formata da bit diversi:
+\[00 \rightarrow 0 \qquad 01 \rightarrow 1 \qquad 10 \rightarrow 1 \qquad 11 \rightarrow 0 \qquad\qquad 10\ 01\ 00\ 11 \rightarrow 101\ 011\ 000\ 110\]
+In questo modo è possibile rilevare, non correggere, errori singoli di distanza di Hamming unitaria. Inoltre si ha una codifica
+non minimale perché solo metà delle codifiche ottenibili possono essere utilizzate perché le altre rappresentano le codifiche
+con errori.
+
+\subsubsection*{Codifica con XOR su 4 bit}
+Analogo al caso precedente soltanto che ora vengono utilizzati 3 bit di parità calcolati come XOR di 3 dei 4 bit di cui è composta
+la stringa. In questo modo è possibile individuare in che bit è presente l'errore e di conseguenza correggerlo.
+
+\subsubsection*{Tabelle di Hamming per costruire il codice di Hamming}
+Si inseriscono dei bit di parità nelle posizioni corrispondenti alle potenze di 2 (1,2,4,8\dots). Ogni bit di codifica influenza
+i bit di parità che compongono l'indice della sua posizione, ad esempio il bit di codifica in posizione 3 influenza i bit di 
+parità in posizione 1 e 2, il bit di codifica alla posizione 7, influenza i bit di parità in posizione 1, 2 e 4, ecc.
+\[1\ 0\ 1\ 1 \rightarrow \_\ \_\ 1\ \_\ 0\ 1\ 1 \rightarrow P(1,0,1)\ P(1,1,1)\ 1\ P(0,1,1)\ 0\ 1\ 1 \rightarrow 0\ 1\ 1\ 0\ 0\ 1\ 1\]
+Il risultato della conversione è detto codice di Hamming. Esistono diversi tipi di codici di Hamming, quello visto sopra è
+il più frequente, con distanza minima pari a 3. Ad esempio per avere un codice con distanza minima pari a 4, si utilizza un
+extra bit di parità globale.
+
+Si osserva che maggiore è la dimensione dei dati, minore è l'overhead dovuto ai bit di parità.
+
+\subsubsection*{Distanza minima e numero di errori correggibili, individuabili}
+Dato un sistema di codice di Hamming, la distanza minima \(H(C,C') = d\) è data dalla distanza minima di Hamming tra due
+generici codici validi ottenuti dal sistema usato. Nel codice visto sopra si ha distanza minima 3, in quanto partendo da
+qualsiasi sequenza di 4 bit e calcolando tutti i codici di Hamming di tale sequenza si nota che tutti i codici ottenuti
+differiscono per almeno 3 cifre.
+
+Dato un generico sistema di Hamming con distanza minima \(H(C,C')_\text{min} = d\)
+\begin{itemize}
+	\item si possono scoprire solo \(d-1\) errori
+	\item si possono correggere solo \((d-1)/2\) errori
+\end{itemize}
+Si osserva che, purtroppo, non tutti gli errori possono essere corretti.
+
+\newpage
+
+% ***************************************************************************************************************************************************
+% ------------------------------------------------------ GESTIONE DI BOOT E PARTIZIONE DI SWAP ------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Gestione di boot e partizione di swap}
+\subsubsection*{Gestione del boot in Linux}
+In fase di boot, il bootloader carica in RAM inizialmente un piccolo file system temporaneo per accedere ai driver e ai moduli
+del kernel. Poi, una volta avviato il kernel, viene caricato il root file system per permettere l'accesso al resto del disco e
+viene avviato il processo \verb|systemd| da cui si diramano tutti gli altri sottoprocessi.
+
+\subsubsection*{Gestione del boot in Windows}
+Il firmware di sistema esegue il codice nel Master Boot Record (MBR) che, con l’ausilio di una tabella delle partizioni,
+identifica quella dove si trovano kernel e drivers per avviare il resto del SO.
+
+\subsubsection*{Swap in Linux}
+Lo spazio di swap è chiamato anche area di avvicendamento ed è organizzata in pagine da 4KB. Ogni pagina ha un contatore dei
+processi che utilizzano tale area. L'area non contiene files, ma solo dati generici.
+
+% ***************************************************************************************************************************************************
+% ----------------------------------------------------------------------- RAID ----------------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{RAID}
+\subsubsection*{Introduzione e scopi}
+I RAID (Redundant Array of Independent Disks) sono sistemi di organizzazione dei dischi con l'obiettivo di aumentare affidabilità,
+ridondanza e granularità. Esistono diverse configurazioni, alcune volte ibride. Le diverse configurazioni possono essere
+implementate via hardware (con un controller fisico) o via software (attraverso programmi eseguiti dalla CPU).
+
+\subsubsection*{Tipi di RAID}
+\begin{itemize}
+	\item \textbf{RAID0}: o striping, ogni blocco è diviso in sottoblocchi distribuiti su più HDD che vengono letti in parallelo,
+	maggiore velocità in lettura e scrittura, ma nessuna ridondanza
+	\item \textbf{RAID1}: o mirroring, ogni blocco è duplicato su un altro disco, nessun incremento in scrittura e lettura, ma
+	c'è ridondanza
+	\item \textbf{RAID0+1}: o stripe of mirrors, si creano più RAID 1 (mirrors) che si concatenano con uno RAID 0 (stripe)
+	\item \textbf{RAID1+0}: o mirror of stripes, si creano più RAID 0 (stripes) che si concatenano con uno RAID 1 (mirror)
+	\item \textbf{RAID2}: i dati e le parità si trovano in dischi diversi, il numero di dischi per parità è pari al logaritmo
+	del numero di dischi dei dati
+	\item \textbf{RAID3}: parallelismo estremo, striping a livello di byte, i byte sono suddivisi tra i vari dischi, movimento
+	delle testine sincronizzato e letture non parallelizzabili
+	\item \textbf{RAID4}: striping a livello di blocco con un disco di sola parità, i blocchi sono divisi tra i vari dischi
+	\item \textbf{RAID5}: striping a livello di blocco e parità distribuita, i blocchi e le parità sono distribuiti sui vari
+	dischi, può gestire solo 1 disco guasto alla volta
+	\item \textbf{RAID6}: come RAID 5 ma con doppia parità distribuita può gestire fino a 2 guasti contemporanei
+\end{itemize}
+
+\subsubsection*{Codice di Reed-Solomon}
+Computazionalmente più complesso dei codici di Hamming, però è molto più potente e sfrutta i campi di Galois. È impiegato per
+il calcolo delle parità.
+
+\newpage
+
+% ***************************************************************************************************************************************************
+% ------------------------------------------------------------ STRUTTURE DEL FILE SYSTEM ------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Strutture del file system}
+\subsubsection*{Organizzazione di un file system}
+\begin{itemize}
+	\item FS per utente: definizione dell'aspetto di file cartelle e le operazioni che possono essere seguite
+	\item FS per SO: interfaccia per la gestione dei volumi, dei files e delle cartelle da parte del SO
+	\item FS logico: gestione dei metadati e delle strutture dei files
+	\item controllori (esterni al FS): traducono le istruzioni del kernel in comandi binari per il disco
+\end{itemize}
+
+\subsubsection*{Esempi di file system generici e file system specifici}
+Alcuni esempi di FS generici sono: APFS, NTFS, FAT32, FAT64, exFAT, EXT3, EXT4, FUSE, \dots Alcuni esempi di FS specifici per
+determinati compiti sono GoogleFS o BigFiles (gestione di files grandi, letti spesso e modificati poco) e Oracle ASM (con
+SQL per accesso ai dati)
+
+\subsubsection*{File system virtuali - FSV}
+I file system sono interfacce omogenee per gestire i diversi file system differenti collegati ad un computer e provenienti, ad
+esempio dalle diverse periferiche. Si posiziona tra il kernel e i dispositivi/periferiche.
+
+\subsubsection*{Strutture dati nel disco}
+\begin{itemize}
+	\item blocco di controllo di avviamento o boot block: insieme delle istruzioni per avviare il SO
+	\item blocchi di controllo dei volumi: gestione delle partizioni e dei blocchi liberi, usati, danneggiati dei dischi
+	\item strutture della directory: organizzazione dei files e delle cartelle
+	\item file control block o FCB: informazioni su metadati di un file e come recuperarne fisicamente il contenuto, in NTFS si 
+	chiama Master File Table (MFT)
+\end{itemize}
+
+\subsubsection*{Strutture dati nella RAM}
+\begin{itemize}
+	\item tabella di montaggio: informazioni sui volumi montati
+	\item struttura delle directory: analoga a quella del disco, in parte è anche in memoria (cache)
+	\item tabella dei files aperti globalmente: FCB di tutti i files aperti nell'intero sistema
+	\item tabella dei files aperti per processo: FCB di tutti i files aperti da un processo
+\end{itemize}
+
+% ***************************************************************************************************************************************************
+% --------------------------------------------------------------- ALLOCAZIONE DEI FILE --------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Tipi di allocazione dei files}
+\subsubsection*{Allocazione continua delle cartelle}
+Ogni file occupa una serie continua di blocchi, il vantaggio è una gestione molto efficiente del disco, le limitazioni sono
+l'elevata frammentazione e la difficoltà nel ridimensionare i files allocati. Ad oggi si utilizzano gli extend (insieme di
+blocchi continui) non necessariamente continui. L'indirizzo fisico si ottiene:
+\begin{align*}
+	\text{indirizzo fisico} &= \text{indirizzo 1° blocco} + \text{indice blocco} + \text{offset} \\
+	\text{indice blocco} + \text{offset} &= \text{indirizzo base} / \text{dim. blocco (es. 512)}
+\end{align*}
+
+\subsubsection*{Allocazione concatenata delle cartelle}
+Ogni blocco contiene il puntatore al blocco successivo. Alcune volte si organizzano i blocchi in cluster. Per ogni file c'è un
+blocco di partenza e uno di arrivo. Per accedere al blocco fisico bisogna partire dal primo blocco e scorrerli uno ad uno. Non
+basta più dividere per la dimensione del blocco perché una parte è occupata dal puntatore al blocco successivo. Inoltre siccome
+il puntatore è memorizzato all'inizio del blocco, è necessario sommare 1 all'offset.
+\begin{align*}
+	\text{blocchi da attraversare} + \text{offset blocco \say{+1}} &= \text{indirizzo base} / \text{dim. blocco (es. 512) - dim. puntatore}
+\end{align*}
+
+\subsubsection*{Allocazione indicizzata delle cartelle}
+Ogni file possiede un blocco indice che contiene i puntatori a tutti i blocchi di cui è composto il file. La directory contiene
+gli indirizzi dei blocchi indice di ogni file. È possibile eventualmente estendere la dimensione della tabella indice a più
+blocchi concatenati. L'indirizzo 
+\begin{align*}
+	\text{indice della tabella} + \text{offset tabella} &= \text{indirizzo base} / \text{(dim. blocco \(\times\) (dim. blocco - 1)) (es. 512\(\times\)511)} \\
+	\text{indice riga tabella} + \text{offset blocco} &= \text{offset tabella} / \text{dim. blocco (es. 512)}
+\end{align*}
+
+\subsubsection*{Allocazione per indice multilivello}
+Analoga alla allocazione indicizzata, ma esiste un blocco indice che contiene gli indici delle tabelle indice di secondo livello
+che a loro volta contengono i puntatori dei blocchi con i dati.
+\begin{align*}
+	\text{indice riga tabella esterna} + \text{offset tabella} &= \text{indirizzo base} / \text{dim. blocco\(^2\) (es. 512\(^2\))} \\
+	\text{indice riga tabella interna} + \text{offset blocco} &= \text{offset tabella} / \text{dim. blocco (es. 512)}
+\end{align*}
+
+\subsubsection*{File Allocation Table - FAT}
+La File Allocation Table o FAT è una tabella contenuta in memoria RAM e all'inizio di ogni volume FAT. È composta da una riga
+per ogni cluster (o blocco) con associato il puntatore ad un cluster o ad un codice identificativo. Ogni FCB punta alla riga
+che memorizza il primo cluster in cui è memorizzato il file e in ogni cluster è memorizzato il puntatore al cluster successivo.
+I codici identificativi contenuti nella FAT possono essere 
+\begin{itemize}
+	\item indice/puntatore al blocco successivo
+	\item \verb|0000| se cluster libero, \(\qquad\) \verb|FFFF| fine del file, \(\qquad\) \verb|FFF7| cluster danneggiato
+\end{itemize}
+
+In base alla dimensione del blocco e al tipo di formato (FAT12, FAT16, FAT32) è possibile variare la dimensione massima allocabile
+dalla tabella (indirizzi a 12, 16, 32bit) e di conseguenza alla dimensione massima del disco. La dimensione massima è comunque
+bloccata a 2TB per motivi software.
+
+\subsubsection*{Schema combinato Unix}
+Ogni file possiede un i-node o descritto del file. Il descrittore è composto da una serie di attributi (tipo del file,
+proprietario, gruppo, dimensione, data e ora, bit protezione) e da 13 o 15 indirizzi ai blocchi con i dati del file.
+I primi 10 indirizzi sono a indirizzamento diretto, l'11 indirizza ad una tabella di primo livello che contiene gli indirizzi
+dei blocchi (1° livello di indirettezza), il 12 sfrutta un indirizzamento a 2 livelli, il 13 a tre livelli e così via.
+
+% ***************************************************************************************************************************************************
+% ----------------------------------------------------------- GESTIONE DELLO SPAZIO LIBERO ----------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Gestione dello spazio libero}
+
+\begin{itemize}
+	\item \textbf{lista concatenata dei blocchi liberi}: 
+	i blocchi liberi sono salvati in una lista e quando è necessario salvare un nuovo file, si utilizzano i blocchi liberi da tale
+	lista. In caso, per motivi di sicurezza, si utilizza la tecnica di zero-fill-on-demand per resettare il contenuto di un blocco
+	se contiene dati sensibili
+	
+	\item \textbf{vettore bitmap}: 
+	si crea un vettore di bit in cui ogni posizione rappresenta un determinato blocco. Se in una determinata posizione c'è il bit 1
+	vuol dire che il blocco è occupato, altrimenti se c'è 0, vuol dire che il blocco è libero. Semplice da gestire e da controllare,
+	inoltre non utilizza troppa memoria
+	
+	\item \textbf{lista concatenata}: 
+	i blocchi liberi si concatenano attraverso una lista concatenata con puntatore alla testa. È più complesso sia individuare i blocchi liberi
+	e che l'overhead di gestione dei puntatori
+	
+	\item \textbf{lista di indici}: 
+	gli indirizzi dei blocchi liberi sono salvati in una tabella, in analogia con l'allocazione indicizzata. Eventualmente si può
+	avere un'indicizzazione su più livelli
+	
+	\item \textbf{lista con conteggio}: 
+	siccome la memoria viene spesso allocata in maniera continua, è possibile avere una tabella indice in cui si memorizza l'indice
+	del primo blocco libero e a seguire un contatore dei successivi blocchi liberi contigui
+\end{itemize}
+
+\newpage
+
+% ***************************************************************************************************************************************************
+% ------------------------------------------------------------------- PRESTAZIONI -------------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Prestazioni}
+\subsubsection*{Prestazioni di allocazione}
+\begin{itemize}
+	\item allocazione contigua: molto rapida ed efficiente, provoca frammentazione, il FS cerca dove e quando possibile di avere
+	continuità
+	\item allocazione concatenata: più lenta per accesso sequenziale, ma non provoca frammentazione
+	\item allocazione indicizzata: più complessa per overhead, si possono utilizzare cluster di blocchi contigui per risparmiare
+	righe nella tabella degli indici
+	\item se si aumentano i metadati, si permette ai programmatori di avere già dati pronti e ridurre possibili bug per svolgere
+	compiti che il SO ha già fatto
+	\item aumentando la dimensione dei puntatori, aumenta lo spazio indirizzabile, ma aumenteranno anche le dimensioni delle
+	strutture di gestione dei files
+	\item mantenere dati e metadati vicini permette un migliore efficienza nel recupero delle informazioni
+	\item utilizzare una buffer cache per memorizzare i blocchi usati di frequente
+	\item prediligere eventuali scritture asincrone (completabili in un secondo momento, attraverso buffer), rispetto alle scritture
+	sincrone (svolte dal SO, che devono essere completate prima di procedere)
+	\item ottimizzare gli algoritmi di svuotamento e riempimento delle cache
+\end{itemize}
+
+\subsubsection*{Cache per gestione dei files}
+\begin{itemize}
+	\item \textbf{page cache}: \\
+	cache che si trova tra la buffer cache e la RAM, memorizza le pagine usate di frequente nella gestione dell'accesso ai file
+	con la paginazione (tecnica del memory mapped I/O)
+
+	\item \textbf{buffer cache}: \\
+	cache che si trova tra la page cache, i dispositivi di I/O (come disco e periferiche) e il file system, serve per ottimizzare
+	gli accessi in modalità asincrona ai dispositivi di I/O e per collegare il file system dal memory mapped I/O
+
+	\item \textbf{buffer cache unificata}: \\
+	buffer cache unificata con la page cache che interfaccia il file system, gli accessi in modalità memory mapped e gli accessi
+	convenzionali con le system call \verb|read| e \verb|write|
+\end{itemize}
+
+\subsubsection*{Algoritmi di rimpiazzo dei blocchi/pagine nel memory mapped I/O}
+Siccome se si verifica una richiesta di lettura di una pagina, è molto probabile che questa non verrà più letta, si effettuano
+alcune modifiche al LRU: \begin{itemize}
+	\item \textbf{rilascio indietro} o free-behind: appena una nuova pagina viene richiesta, la nuova pagina sostituisce quella
+	vecchia
+	\item \textbf{lettura anticipata} o read ahead: viene anticipata la lettura delle successive pagine di cui è composto il
+	file per anticipare le richieste future
+\end{itemize}
+
+% ***************************************************************************************************************************************************
+% ----------------------------------------------------------------- MALFUNZIONAMENTI ----------------------------------------------------------------
+% ***************************************************************************************************************************************************
+
+\subsection{Gestione dei malfunzionamenti e coerenza del file system}
+È possibile che il sistema si blocchi proprio durante le operazioni di creazione di un nuovo file e si possono avere incoerenze
+tra il FCB, i blocchi allocati con il file e le varie strutture del FS. Per individuare e risolvere eventuali incoerenze esistono
+degli appositi programmi di verifica delle coerenze (\verb|fsck| di Unix e \verb|chkdsk| di Windows). Se un file sfrutta la
+allocazione concatenata è possibile ricostruire il percorso, non se è allocato tramite indice.
+
+In caso è sempre consigliato fare backup.
+
+\newpage
+
 
 % ___________________________________________________________________________________________________________________________________________________
 % /////////////////////////////////////////////////////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
