@@ -1,0 +1,64 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+\usepackage{graphicx} % per immagini
+\usepackage{multicol} % per pagina in colonne
+\usepackage{dirtytalk} % per le ""
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+% per elenchi puntati
+\setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
+
+% percorso delle immagini da inserire
+\graphicspath{{./}}
+
+% parte funzione reale e parte immaginaria
+\newcommand\Real{\text{Re}}
+\newcommand\Img{\text{Im}}
+
+% espressioni matematiche
+\newcommand\lap{\mathcal{L}} % Trasformata di Laplace
+\newcommand\z{\mathcal{Z}} % Trasformata Zeta
+
+% --- altro che si può eliminare ---
+%\includeonly{paragrafi/4 cenni sul resto}
+
+\title{Appunti di Fondamenti di controlli automatici}
+\author{Giacomo Simonetto}
+\date{Secondo semestre 2024-25}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+	Appunti del corso di Fondamenti di controlli automatici della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\include{paragrafi/1 intro}
+\include{paragrafi/2 modellizzazione}
+\include{paragrafi/3 analisi}
+\include{paragrafi/4 cenni sul resto}
+
+\end{document}
