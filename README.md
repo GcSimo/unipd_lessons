@@ -49,20 +49,24 @@ Appunti del corso di Dati e algoritmi scritti in Latex - [link alla cartella _da
 * [_appunti dati in pdf_](24-25_dati%20e%20algoritmi/dati.pdf)
 
 ### Laboratorio di programmazione
-Appunti del corso di Laboratorio di programmazione scritti in Latex - [link alla cartella _laboratorio di programmazione_](24-25_laboratorio%20di%20programmazione)
+Appunti del corso di Laboratorio di programmazione scritti in Latex - [link alla cartella _lab_](24-25_laboratorio%20di%20programmazione)
 * [_appunti lab in LaTeX_](24-25_laboratorio%20di%20programmazione/lab.tex)
 * [_appunti lab in pdf_](24-25_laboratorio%20di%20programmazione/lab.pdf)
 
 ## Secondo semestre 2024-25
 ### Ingegneria del software
 Appunti del corso di Ingegneria del Software scritti in Markdown - [link alla cartella _ingegneria del software_](24-25_ingegneria%20del%20software)
-* [_appunti lab in MarkDown_](24-25_ingegneria%20del%20software/ing_soft.md)
+* [_appunti ingSoft in MarkDown_](24-25_ingegneria%20del%20software/ing_soft.md)
 
 ### Sistemi operativi
-nessun file appunti
+Appunti del corso di Sistemi operativi scritti in Latex (con Diego Chiesurin) - [link alla cartella _SO_](24-25_sistemi%20operativi)
+* [_appunti SO in LaTeX_](24-25_sistemi%20operativi/sistemi_operativi.tex)
+* [_appunti SO in pdf_](24-25_sistemi%20operativi/sistemi_operativi.pdf)
 
 ### Fondamenti di controlli automatici
-nessun file appunti
+Appunti del corso di Fondamenti di controlli automatici scritti in Latex - [link alla cartella _controlli_](24-25_fondamenti%20di%20controlli%20automatici)
+* [_appunti controlli in LaTeX_](24-25_fondamenti%20di%20controlli%20automatici/controlli.tex)
+* [_appunti controlli in pdf_](24-25_fondamenti%20di%20controlli%20automatici/controlli.pdf)
 
 ### Teoria dei circuiti
 Appunti del corso di Laboratorio di programmazione scritti in Latex - [link alla cartella _teoria dei circuiti_](24-25_teoria%20dei%20circuiti)
