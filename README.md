@@ -54,21 +54,47 @@ Appunti del corso di Laboratorio di programmazione scritti in Latex - [link alla
 * [_appunti lab in pdf_](24-25_laboratorio%20di%20programmazione/lab.pdf)
 
 ## Secondo semestre 2024-25
-### Ingegneria del software
-Appunti del corso di Ingegneria del Software scritti in Markdown - [link alla cartella _ingegneria del software_](24-25_ingegneria%20del%20software)
-* [_appunti ingSoft in MarkDown_](24-25_ingegneria%20del%20software/ing_soft.md)
+### Fondamenti di controlli automatici
+Appunti del corso di Fondamenti di controlli automatici scritti in Latex - [link alla cartella _controlli_](24-25_fondamenti%20di%20controlli%20automatici)
+* [_appunti controlli in LaTeX_](24-25_fondamenti%20di%20controlli%20automatici/controlli.tex)
+* [_appunti controlli in pdf_](24-25_fondamenti%20di%20controlli%20automatici/controlli.pdf)
 
 ### Sistemi operativi
 Appunti del corso di Sistemi operativi scritti in Latex (con Diego Chiesurin) - [link alla cartella _SO_](24-25_sistemi%20operativi)
 * [_appunti SO in LaTeX_](24-25_sistemi%20operativi/sistemi_operativi.tex)
 * [_appunti SO in pdf_](24-25_sistemi%20operativi/sistemi_operativi.pdf)
 
-### Fondamenti di controlli automatici
-Appunti del corso di Fondamenti di controlli automatici scritti in Latex - [link alla cartella _controlli_](24-25_fondamenti%20di%20controlli%20automatici)
-* [_appunti controlli in LaTeX_](24-25_fondamenti%20di%20controlli%20automatici/controlli.tex)
-* [_appunti controlli in pdf_](24-25_fondamenti%20di%20controlli%20automatici/controlli.pdf)
-
 ### Teoria dei circuiti
 Appunti del corso di Laboratorio di programmazione scritti in Latex - [link alla cartella _teoria dei circuiti_](24-25_teoria%20dei%20circuiti)
 * [_appunti circuiti in LaTex_](24-25_teoria%20dei%20circuiti/circuiti.tex)
 * [_appunti circuiti in pdf_](24-25_teoria%20dei%20circuiti/circuiti.pdf)
+
+### Ingegneria del software
+Appunti del corso di Ingegneria del Software scritti in Markdown - [link alla cartella _ingegneria del software_](24-25_ingegneria%20del%20software)
+* [_appunti ingSoft in MarkDown_](24-25_ingegneria%20del%20software/ing_soft.md)
+
+---
+
+## TO-DO List (che quasi sicuramente non sarà completata)
+* Appunti di **analisi**
+  * aggiungere grafici e continuità delle funzioni elementari nel capitolo delle funzioni (12.1)
+  * aggiungere grafici e continuità delle funzioni iperboliche nel capitolo delle funzioni iperboliche (13)
+  * aggiungere dimostrazioni di limiti a infinito e continuità delle funzioni elementari nelle dimostrazioni
+
+* Appunti di **fisica 1**
+  * aggiungere grafici dei vari tipi di forze (sezione 5) e fenomeno di risonanza (sezione 6)
+  * completare gli appunti con la seconda parte del corso su fluidi, termodinamica, ecc.
+
+* Appunti di **fondamenti di informatica**
+  * completamento delle strutture dati Java (array, liste - sezione 10)
+  * completamento degli algoritmi di ordinamento e ricerca (sezione 11 e 12)
+  * completamento delle ADT  (sezione 13)
+
+* Appunti di **architettura degli elaboratori**
+  * scrivere interamente il file latex
+
+* Appunti di **fondamenti di controlli automatici**
+  * rivedere la seconda parte (dalla stabilità in poi) siccome è stata sviluppata solo a livello concettuale e potrebbero mancare delle parti o dei passaggi logici
+
+* Appunti di **sistemi operativi**
+  * rivedere la sezione sulla gestione files, siccome potrebbe mancare qualcosa che è scritto nelle slides
