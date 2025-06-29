@@ -5,9 +5,9 @@ il software è scritto per essere in evoluzione.
 Se non dovesse evolvere e dovrà fare solo quello, lo faccio in HW non SW; ma quasi sempre non so se dovrò inserire ulteriori funzioni o sapere la scala di produzione.
 
 Ingegneria del software si preoccupa che sia Cost Effective.
-Qual'è il principio fondamentare di tutta l'ingegneria? (divide and conquer)
+Qual'è il principio fondamentale di tutta l'ingegneria? (divide and conquer)
 se spezzo il problema in sottoproblemi allora è gestibile.
-La complessita si affronta spezzando tutto il problemi più piccoli.
+La complessità si affronta spezzando tutto il problemi più piccoli.
 
 Se non si usano dei metodi di ingegneria del software verrà fuori un programma non ottimale.
 
@@ -57,7 +57,7 @@ non c'è un committente
 es: Windows
 
 Prodotto Custom:
-c'è un committente, i requisiti te li da lui.
+c'è un committente, i requisiti te li dà lui.
 99% delle volte il committente non sa quello che vuole.
 Il Software engineer deve andare a elicitare i requisiti dal committente per capire che vuole.
 
@@ -73,7 +73,7 @@ Attributi essenziali di un buon SW:
 
 Ciclo di vita di un SW:
 l'Ing. del SW inizia da elicitazione, raffinamento e richiesta requisiti.
-I compomenti SW devono essere documentati.
+I componenti SW devono essere documentati.
 Devi raggiungere un risultato con un determinato budget
 fa parte anche la progettazione del progetto.
 Non puoi sviluppare un SW e pensare che giri ovunque, come minimo bisogna documentare tutti gli aspetti dove noi abbiamo sviluppato (versioni ecc).
@@ -98,7 +98,7 @@ Quando ti parla dei requisiti, devi raffinarli e parlare col cliente, scriverli,
 Non devi farti sopraffare dalle prime idee che capitano perché altrimenti non segui quello che veramente bisogna fare.
 
 Software Validation:
-controllare che non solo faccia qurllo che ti aspetti che faccia ma che lo faccia anche nel modo che vuole il committente e con i vari vincoli che vuole e che ti ha commissionato.
+controllare che non solo faccia quello che ti aspetti che faccia ma che lo faccia anche nel modo che vuole il committente e con i vari vincoli che vuole e che ti ha commissionato.
 
 Software Evolution:
 Quando uno produce un sistema poi se va bene e il sistema è funzionale, va sul campo, e sul campo comincia ad entrare alle pressioni del campo e quindi ad essere evoluto.
@@ -134,7 +134,7 @@ Security by Design: usi un modulo che fa quello che ti serve, ma non solo quello
 
 Internet Software Engineering: se ho un sistema isolato, ho meccanismi per pararmi dalle injection, se è su internet bisogna stare il doppio attenti.
 
-Lambda expression: funzione che non ha uno stato, se la devo eseguire due volte è irrilevante dove venga eseguita, non si porta dietro nulla. Se massimizziamo questo, quasiasi funzione può diventare lambda expression, solo che può accumularsi peso e sparare un GB di roba se il code è fatto male(lambda accumuator, un counter che invece di fare count++, passa come argomento lo stato precedente dell'accumulator).
+Lambda expression: funzione che non ha uno stato, se la devo eseguire due volte è irrilevante dove venga eseguita, non si porta dietro nulla. Se massimizziamo questo, qualsiasi funzione può diventare lambda expression, solo che può accumularsi peso e sparare un GB di roba se il code è fatto male(lambda accumuator, un counter che invece di fare count++, passa come argomento lo stato precedente dell'accumulator).
 
 Bisogna essere coscienti che: (esempio con le lambda)
 - non è l'architettura che funziona bene sempre
@@ -212,7 +212,7 @@ piattaforma per l'apprendimento
 
 ### Riassunto cap 1
 - il software è l'ingegneria meno standardizzata in assoluto
-- caratteristiche: mantenibilità, dipendenza, sicurezza, efficienza, acettabilità (correttezza)
+- caratteristiche: manutenibilità, dipendenza, sicurezza, efficienza, acettabilità (correttezza)
 - fasi di scrittura software: specifica, sviluppo, validazione, evoluzione
 - rispettare i requisiti
 - lo sviluppatore ha responsabilità sullo sviluppo e ideazione, oltre che eventuali conseguenze sociali e legali
@@ -223,7 +223,7 @@ piattaforma per l'apprendimento
 ### Cos'è un software process
 insieme di attività richieste per sviluppare un software, composto da:
 - specifiche: cosa deve fare il software
-- progettazione e implementatione: organizzazione del sistema e implementazione
+- progettazione e implementazione: organizzazione del sistema e implementazione
 - validazione: controllo funzionalità e correttezza
 - evoluzione: mantenimento del software
 
@@ -249,7 +249,7 @@ plan driven model che separa temporalmente le fasi di specifica, sviluppo, ... c
 È vantaggioso se tutti i requisiti rimangono costanti per tutto lo sviluppo del programma.
 È usato in:
 - progetti mission-critical: applicazioni militari in cui non si deve sbagliare assolutamente
-- progettio molto standardizzati: controllo traffico aereo, ferroviario
+- progetti molto standardizzati: controllo traffico aereo, ferroviario
 - progetti in cui lavorano molte persone (difficile controllarne il lavoro)
 
 Il problema del Waterfall model è la difficoltà di modificare la pianificazione (requisiti, specifiche) in corso d'opera.
@@ -261,9 +261,9 @@ si procede in parallelo con specifiche, sviluppo e testing (plan-driven o agile)
 2. Specifiche, sviluppo e testing in parallelo (una specie di mini-waterfall più flessibile)
 3. si ottiene una versione iniziale, tante versioni intermedie e una versione finale
 
-Il vantaggio di produrre versioni intermedie, permette al committente di capire la strada intrappresa nello sviluppo e in caso è possibile correggere il progetto in corso d'opera in base alle richieste o modifiche del committente.
+Il vantaggio di produrre versioni intermedie, permette al committente di capire la strada intrapresa nello sviluppo e in caso è possibile correggere il progetto in corso d'opera in base alle richieste o modifiche del committente.
 
-Lo svantaggio è che non si ha una visione completa del progetto e non si sa a che punto dello sviluppo ci si trova. Inoltre non si ha una visione immediata e completa del progeto finale e risulterà difficile inserirla in un contratto. Inoltre se la struttura base si porta avanti per molto tempo, si potrebbe arrivare ad un punto in cui si procede solo di patch appensantendo il programma e non avendo più una conoscenza completa del sistema (tante patch che funzionano per miracolo perché ce ne sono troppe).
+Lo svantaggio è che non si ha una visione completa del progetto e non si sa a che punto dello sviluppo ci si trova. Inoltre non si ha una visione immediata e completa del progetto finale e risulterà difficile inserirla in un contratto. Inoltre se la struttura base si porta avanti per molto tempo, si potrebbe arrivare ad un punto in cui si procede solo di patch appesantendo il programma e non avendo più una conoscenza completa del sistema (tante patch che funzionano per miracolo perché ce ne sono troppe).
 
 #### Integration and configuration
 si riciclano componenti già disponibili (plan-driven o agile)
@@ -276,7 +276,7 @@ si riciclano componenti già disponibili (plan-driven o agile)
 Esempi di software riutilizzabili:
 - standalone application systems (COTS), es. Windows
 - Frameworks come .NET o J2EE
-- Web services, sfruttano il protoccolo web per trasmettere informazioni
+- Web services, sfruttano il protocollo web per trasmettere informazioni
 
 Vantaggi:
 - generalmente minor costo e rischi per la riduzione di software completamente nuovo, anche se di solito l'inserimento delle nuove funzionalità potrebbe costare parecchio
@@ -291,7 +291,7 @@ Vantaggi:
 3. validazione
 4. mantenimento
 
-#### Requirments - Software specification 
+#### Requirements - Software specification 
 1. Requirements elicitation and analysis -> si chiede al committente cosa vuole, quale è la sua idea e quale è la sua necessità (più importante quello che gli serve che quello che vuole perché potrebbe non avere ben chiaro cosa vuole, ma ha una necessità da risolvere)
 2. Requirements specification -> descrizione univoca, completa e non ambigua di quello che il programmatore ha capito
 3. Requirements validation -> confronto con il committente per capire se i requisiti stilati non contengono errori ed è ciò che il committente ha bisogno
@@ -309,7 +309,7 @@ Conversione delle specifiche in un programma eseguibile
 #### Software design process
 1. Design inputs
    - platform information: tipo di architettura
-   - requirements specification: specifica dei reqo
+   - requirements specification: specifica dei requisiti
    - data description ()
 2. Design activities
    - architectural design: struttura principale del sistema
@@ -324,7 +324,7 @@ Conversione delle specifiche in un programma eseguibile
 
 #### System implementation
 Comprende lo sviluppo di un programma o la configurazione di un application system.
-- Vengono eseguite in parallelo l'implementazione e la scritutta della documentazione
+- Vengono eseguite in parallelo l'implementazione e la scrittura della documentazione
 - Spesso ci sono degli standard di programmazione (direttive su come scrivere codice elegantemente).
 - Alla fine c'è il debugging dove si individuano e correggono eventuali errori 
 
@@ -333,7 +333,7 @@ Verifica che il software rispetti i requisiti iniziali
 
 1. component testing: test di oggetti, funzioni, sottoprogrammi
 2. system testing: test del sistema e 
-3. acceptance testing: test del rispeto dei requisiti con 
+3. acceptance testing: test del rispetto dei requisiti con 
 
 #### V-Model
 Ad ogni fase di specifica si produce un piano di test di accettazione:
@@ -395,8 +395,8 @@ Al posto di eseguire un'unica consegna alla fine dello sviluppo, si creano tante
 9. if the system is incompleted -> back to 4, else -> final system
 
 Vantaggi:
-- nuove funzionalità sono disponibli prima e testate più a fondo
-- permettono di esegire controllo sui requisiti
+- nuove funzionalità sono disponibili prima e testate più a fondo
+- permettono di eseguire controllo sui requisiti
 - minor rischio di fallimento
 Svantaggi:
 - la prima delivery dovrà comunque essere abbastanza completa da includere tutte le funzionalità di base
@@ -422,7 +422,7 @@ In fase di runtime, vengono caricati solo i moduli che vengono utilizzati, esemp
 
 NB: in fase di compilazione di ``class A``, verranno comunque compilate tutte le dipendenze necessarie.
 
-Siccome i vari programmi vengono collegati solo in fase di runtime quando strettamente necessario, è possibile che delle dipendenze vengono modificate e ricompilate con errori di codice, e questi errori possono riimanere silenti per molto tempo finché il programma esegue un determinato ramo che le richiede.
+Siccome i vari programmi vengono collegati solo in fase di runtime quando strettamente necessario, è possibile che delle dipendenze vengono modificate e ricompilate con errori di codice, e questi errori possono rimanere silenti per molto tempo finché il programma esegue un determinato ramo che le richiede.
 
 È possibile anche aggiungere elementi/classi ad un programma che è già in esecuzione, aggiungendo i file precompilati bytecode nella stessa cartella del programma in esecuzione. Questa cosa è utile per aggiungere strumenti per elaborare determinati formati di dati che vengono richiesti in runtime (es. aggiungere un nuovo strumento per elaborare immagini in un determinato formato).
 
@@ -510,7 +510,7 @@ Strumento per dichiarare un metodo in grado di ricevere un numero indefinito di 
 ## Capitolo 4 - Requirements engineering
 ### Introduzione
 - **requirements engineering:** processo che descrive lo stabilire dei requisiti richiesti dall'utente per un certo sistema e per l'ambiente di esecuzione e applicazione del determinato sistema
-- **system requiremets:** descrizione dei requisiti per un software contenuti nel documento dei requisiti e sviluppati durante il processo di requirement engineering
+- **system requirements:** descrizione dei requisiti per un software contenuti nel documento dei requisiti e sviluppati durante il processo di requirement engineering
 
 ### Requirements
 #### Definizione:
@@ -537,7 +537,7 @@ Indicano tutte le persone e le organizzazioni che sono interessate e influenzate
 - stakleholder esterni che interagiscono col sistema
 
 ### Requirements e metodi agile
-Per i metodi agile non ha senso scrivere in maniera dettagliata tutti i requisiti di un sistema in quanto cambiano in continuazione. Alla fine dello sviluppo alcuni requisiti possono essre cambiati o non essre più validi. Di solito i metodi agile utilizzano una incremental requirements engineering.
+Per i metodi agile non ha senso scrivere in maniera dettagliata tutti i requisiti di un sistema in quanto cambiano in continuazione. Alla fine dello sviluppo alcuni requisiti possono essere cambiati o non essere più validi. Di solito i metodi agile utilizzano una incremental requirements engineering.
 
 Il metodo agile con la incremental requirements engineering funziona bene per sistemi business, ma diventa problematico in sistemi critici che richiedono test continui durante lo sviluppo.
 
@@ -600,20 +600,20 @@ Le **interviste** sono usate per la requirements discovery:
 L'**etnografia** applicata alla requirements enegineering analizza come le persone organizzano il lavoro in base a fattori etnici e sociali. In questo modo non serve che le persone spieghino come lavorano perché ci sono studiosi che lo fanno al posto loro. Questo torna utile perché i requisiti saranno basati sull'effettivo modo con cui le persone lavorano e non come "ritengono" di lavorare.
 
 Le **storie** e gli **scenari** sono esperienze della vita reale usati come strumenti per affrontare determinate situazioni riconducibili a tali esperienze. Devono includere:
-- decrizione della situazione iniziale
+- descrizione della situazione iniziale
 - descrizione del normale corso degli eventi
 - descrizione di cosa più andare storto
 - descrizione di attività concorrenti
 - descrizione dello stato finale
-#### 2. Requirements secification: stesura dei requisiti
+#### 2. Requirements specification: stesura dei requisiti
 Processo che prevede la stesura in maniera ordinata, chiara e concisa dei requisiti. Si divide in:
 - user requirements: comprensibili anche a chi non ha nessun background informatico
 - system requirements: molto dettagliati e con termini e linguaggio tecnico specifico
 
 Esempi di linguaggio:
-- natual language: requisiti descritti in frasi numerate in lingua inglese, ogni frase contiene un requisito
-- structured natural language: requisiti descritti sottoforma di form o template
-- design description language: descrizione attraverso uno pseudocodice o linguaggio di programmazione ad alto livello (usato poco e soltato per le interfacce)
+- natural language: requisiti descritti in frasi numerate in lingua inglese, ogni frase contiene un requisito
+- structured natural language: requisiti descritti sotto forma di form o template
+- design description language: descrizione attraverso uno pseudocodice o linguaggio di programmazione ad alto livello (usato poco e soltanto per le interfacce)
 - graphical notations: requisiti espressi attraverso modelli grafici come UML
 - mathematical specifications: requisiti espressi attraverso linguaggio matematico (comprensibile a pochi)
 
@@ -632,25 +632,25 @@ Requirements and design
   - ambiguo e poco chiaro
   - per essere specifici si deve aumentare la complessità
 
-**Structured speciications**
+**Structured specifications**
 - i requisiti sono scritti in maniera rigida, strutturata e uniforme
 - utili per embedded control system, ma a volte potrebbe sembrare troppo rigido
 - esempio di struttura base (form):
-  - descrione funzione ed entità
+  - descrizione funzione ed entità
   - descrizione input
   - descrizione output
   - eventuali dipendenze
   - eventuali pre e postcondizioni (es. validità di input -> precondizione, dove viene salvato il risultato -> postcondizione)
   - eventuali side effects
 
-**Tabular speciications**
+**Tabular specifications**
 - affiancano il linguaggio naturale per indicare un elenco di possibli azioni
 
 **Use cases**
 - descrivono gli scenari che si possono verificare con eventuali dipendenze, iterazioni tra i diversi componenti e accessibilità degli utilizzatori (azioni concesse e non concesse)
 
 **Software requirements document**
-- raccoglie tutti i requisiti (funzionali e non funzinonali), ma non comprendono il design del progetto
+- raccoglie tutti i requisiti (funzionali e non funzionali), ma non comprendono il design del progetto
 - può diventare parte del contratto
 - ci sono più utenti diversi che lo leggono per azioni diverse:
   - system customers: controllano se il progetto soddisfa le richieste
@@ -672,7 +672,7 @@ Requirements and design
   - indice
 
 #### 2. Requirements validation: validazione dei requisiti
-Controllo che i requisiti soddisfano le richieste dell'utiente. Correggere i requisiti dopo la consegna del progetto costa 100 volte di più di un errore di implementazione.
+Controllo che i requisiti soddisfano le richieste dell'utente. Correggere i requisiti dopo la consegna del progetto costa 100 volte di più di un errore di implementazione.
 
 **Controlli sui requisiti**:
 - validità: soddisfa le richieste dell'utente
@@ -691,7 +691,7 @@ Controllo che i requisiti soddisfano le richieste dell'utiente. Correggere i req
 - parametri da valutare:
   - verificabilità: si può effettivamente testare?
   - comprensibilità: è comprensibile a chi non fa parte del progetto?
-  - tracciabilità: l'origine del requisiti è chiara?
+  - tracciabilità: l'origine dei requisiti è chiara?
   - adattabilità: quanto è flessibile al cambiamento?
 
 #### 3. Requirements change and requirements management:
@@ -722,14 +722,14 @@ Proceso di requirements change managment
 
 ## Capitolo 5 - Design Patterns
 ### Introduzione al design pattern
-Un pattern è una descrizione di un problema standardizzato in un determinato contensto e della sua soluzione ricorrente, identificato con un nome omogeneo e univoco. Prevede il riuso dei principi di successo della soluzione ad un problema per velocizzare lo sviluppo.
+Un pattern è una descrizione di un problema standardizzato in un determinato contesto e della sua soluzione ricorrente, identificato con un nome omogeneo e univoco. Prevede il riuso dei principi di successo della soluzione ad un problema per velocizzare lo sviluppo.
 
 ### GRASP - General Responsibility Assignment Software Patterns
 Si basa sull'identificazione delle responsabilità reciproche dei vari componenti del sistema.
 
 #### Creator
 - **Problema**: chi crea le istanze di A
-- **Soluzione**: la responsabilità della creazione di A è assegnata a B se almento una delle seguenti confizione è verificata:
+- **Soluzione**: la responsabilità della creazione di A è assegnata a B se almeno una delle seguenti condizione è verificata:
   - B contiene A
   - B tiene traccia di A
   - B usa intensamente e intimamente A
@@ -753,12 +753,12 @@ Si basa sull'identificazione delle responsabilità reciproche dei vari component
 
 #### Controller
 - **Problema**: chi deve essere responsabile della gestione dell'interfaccia utente
-- **Soluzione**: facade pattern (l'utente agisce sul sistema attraverso una serie di funzioni che costituiscono la facciata) o controllore di sessione (l'utente interagisce attraverso scenari che evolgono nel tempo)
+- **Soluzione**: facade pattern (l'utente agisce sul sistema attraverso una serie di funzioni che costituiscono la facciata) o controllore di sessione (l'utente interagisce attraverso scenari che evolvono nel tempo)
 
 #### High Cohesion
 - **Problema**: come creare classi focalizzate e gestibili
 - **Soluzione**: assegnare responsabilità in modo da avere alta coesione tra le classi (delegare le azioni a più oggetti in modo da avere più oggetti gestibili e focalizzati)
-- **Vantaggi**: facilita comprensione, mantenibilità del sistema, in parallelo a Low Coupling
+- **Vantaggi**: facilita comprensione, manutenibilità del sistema, in parallelo a Low Coupling
 - **Svantaggi**: delegare compiti su più classi consuma risorse e degrada le prestazioni, alcune volte conviene unire funzionalità "distanti logicamente" sotto un'unica classe se ciò migliora le prestazioni del sistema
 
 
@@ -766,7 +766,7 @@ Si basa sull'identificazione delle responsabilità reciproche dei vari component
 Definiti nel libro *Desgin Patterns* e creati da Erich Gamma, Richard Helm Ralph Johnson e John Vlissides (gang of four). Si dividono in:
 - **creational patterns** (5): creazione e inizializzazione di oggetti (come creare un oggetto e non come GRASP che definisce chi deve creare)
 - **structural patterns** (7): disaccoppiare interfaccia e implementazione, composizione statica e dinamica di oggetti (incapsulamento o ereditarietà)
-- **behavioral patterns** (11): definiscono come gli oggetti interagiscono e come distribuiscono le responsabiiltà
+- **behavioral patterns** (11): definiscono come gli oggetti interagiscono e come distribuiscono le responsabilità
 
 ### Creational patterns
 #### Abstact ...
@@ -813,7 +813,7 @@ La fase di test consiste nel verificare che il sistema soddisfi i requisiti e ch
 
 ### Software inspection
 - consiste nell'esaminare staticamente il codice sorgente senza eseguirlo
-- essendo un'esame statico, non c'è interazione tra errori, per cui è più facile individuari
+- essendo un esame statico, non c'è interazione tra errori, per cui è più facile individuarli
 - permette di effettuare una valutazione della qualità del codice (portabilità, leggibilità, completezza)
 - non permette di testare usabilità e performance del sistema
 
@@ -851,7 +851,7 @@ Il development testing si riferisce alle attività di test condotte dal team che
 
 #### Test-driven development - TDD
 - approccio di sviluppo in cui la scrittura del codice e la fase di testing vengono fatte in parallelo, spesso usato in metodi incremental development
-- la scrittura dei test viene fatta prima dello sviluppo della relativa parte del sistema e il superamento del test è elemento essenziale per proseguire lo sviluppo della parte succesiva
+- la scrittura dei test viene fatta prima dello sviluppo della relativa parte del sistema e il superamento del test è elemento essenziale per proseguire lo sviluppo della parte successiva
 - benefici
   - code coverage: ogni parte di codice avrà almeno un test associato
   - regression testing: si verifica che le nuove modifiche non alterino le funzionalità già presenti
@@ -951,7 +951,7 @@ L'ordine di esecuzione dei test di JUnit è indeterminato e non è prestabilito,
 
 ## Agile development - Alberto Silitti
 ### Development process:
-**Waterfall process**: suddivido il processo di svilupppo in fasi, per passare alla fase susccessiva devo aver prima terminato completamente la fase precedente che non può più essere ripresa in futuro
+**Waterfall process**: suddivido il processo di sviluppo in fasi, per passare alla fase successiva devo aver prima terminato completamente la fase precedente che non può più essere ripresa in futuro
 1. Requirements + defining acceptance testing
 2. Analysis + defining ... testing
 3. Design + defining ... testing
@@ -1024,7 +1024,7 @@ Extreme programming è un tipo di sviluppo agile che consiste nel buttasi subito
    12. ...
 
 #### User stories
-Una  user story è una descrizione di un singolo esempio di iterazione dell'utente con il sistema, contenuto in un A5, composto da titolo, acceptance test, priority, story points (effort nello sviluppo) e descrizione della user story.
+Una user story è una descrizione di un singolo esempio di iterazione dell'utente con il sistema, contenuto in un A5, composto da titolo, acceptance test, priority, story points (effort nello sviluppo) e descrizione della user story.
 
 Il planning game consiste nell'assegnare lo story point di ogni user story da parte dell'intero team di sviluppo. Lo story point può essere definito in ore di lavoro o in t-shirt size (XS, S, M, L). Se gli story points sono troppo elevati, sarà necessario spezzare tale user story in altre sotto-user stories più piccole.
 
@@ -1050,7 +1050,7 @@ Per facilitare le collaborazioni e comprensioni tra sviluppatori e utenti, si ut
 | --- | --- | --- |
 | definizione requisiti | nessuna | prevista con le user story |
 | documentazione | assente | solo lo stretto necessario |
-| proprietà del codice | del singolo,  | del team, tutti possono modificarlo purchè soddisfi gli acceptance test definiti |
+| proprietà del codice | del singolo,  | del team, tutti possono modificarlo purché soddisfi gli acceptance test definiti |
 | integrazione | molto difficile, fatta solo alla fine | più leggera, fatta giornalmente |
 | contatti con il cliente | solo alla fine a progetto terminato | cliente partecipa allo sviluppo |
 | refactoring | se funziona, non si tocca | refactoring costante, se si rompe qualcosa si vede subito dai test e il codice viene sempre migliorato |
@@ -1071,7 +1071,7 @@ Scrum, a differenza di XP, non pone regole sullo sviluppo software (codifica), p
 
 #### Componenti/principi di Scrum:
 - **scrum board**: lavagna/tabella in cui si catalogano le attività in *not started*, *in progeress*, *ready for test*, *done*
-- **review**: riunioni intermedie di veriica sull'andamento dello sviluppo
+- **review**: riunioni intermedie di verifica sull'andamento dello sviluppo
 - **planning poker**: simile al planning game per assegnare punteggio alle user stories
 - **metrics**: strumenti per valutare la produttività, ad esempio burndown chart
 - **daily scrum**: riunione breve (15 min) di inizio giornata su cosa viene fatto nella giornata
@@ -1080,4 +1080,4 @@ Scrum, a differenza di XP, non pone regole sullo sviluppo software (codifica), p
 - si definiscono le ore necessarie per un tot di user stories
 - si prevede, lavorando tot ore al giorno, di terminare entro il giorno x
 - ad ogni giornata si effettua un controllo e si traccia il burndown chart (grafico giornate-ore di lavoro mancanti)
-- se si osserva che la pendendza è minore di quella prevista (si finirà più avanti) si arriverà alla deadline in cui alcune user stories non verranno completate entro la deadline, ma dovranno essere ri-schedulate la volta successiva
+- se si osserva che la pendenza è minore di quella prevista (si finirà più avanti) si arriverà alla deadline in cui alcune user stories non verranno completate entro la deadline, ma dovranno essere ri-schedulate la volta successiva

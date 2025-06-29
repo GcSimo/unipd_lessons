@@ -524,6 +524,8 @@ La virtualizzazione consiste nel riservare parte delle risorse dell'hardware rea
 non è necessario tradurre le istruzioni da una architettura ad un'altra, rendendo l'esecuzione più rapida, ma è possibile eseguire
 solo codice compilato per l'architettura reale in possesso.
 
+\newpage
+
 
 % ***************************************************************************************************************************************************
 % --------------------------------------------------------- SISTEMI EMBEDDED ED OPEN SOURCE ---------------------------------------------------------
@@ -611,7 +613,7 @@ Alcune nomenclature sul funzionamento:
 \subsubsection*{Prestazioni}
 \begin{itemize}
 	\item \textbf{tempo di esecuzione} dato dal \(T_\text{clock}\) tempo di un ciclo di clock o di data path, da \(N_i\) numero
-	di istruzioni di tipo \(i\) e da \(CPI_i\) numero di cicli di clock per istruzioni di tipo: \(i\) \[T_\text{exec} = T_\text{clock} \cdot \sum_{i=0}^{n} N_i \cdot CPI_i\]
+	di istruzioni di tipo \(i\) e da \(CPI_i\) numero di cicli di clock per istruzioni di tipo \(i\): \[T_\text{exec} = T_\text{clock} \cdot \sum_{i=0}^{n} N_i \cdot CPI_i\]
 	\item \textbf{MIPS o Mega Instructions Per Second} indica il numero di milioni di istruzioni eseguibili in un secondo non è
 	molto preciso in quanto non tiene conto delle istruzioni offerte, della variazione di \(CPI\) per le diverse istruzioni e
 	della velocità del buffer, si calcola come segue: \[M_\text{ega} I_\text{nstructions} P_\text{er} S_\text{econd} = \frac{\text{freq. di clock}}{10^6 \cdot CPI}\]
@@ -984,7 +986,7 @@ eseguire in parallelo più thread diversi assegnati a diverse unità di calcolo.
 la necessità di gestire correttamente la memoria condivisa. L'utilizzo di un TLS consiste nell'avere una copia dei dati condivisi
 in modo da lavorare localmente e aggiornare i dati solo alla fine dell'esecuzione del thread.
 
-Per la corretta gestione dei thread da parte del kernel esistono due diverse mappatutre:
+Per la corretta gestione dei thread da parte del kernel esistono due diverse mappature:
 \begin{itemize}
 	\item \textbf{one-to-one}: ogni thread user-mode ha un analogo thread in kernel-mode (es. Windows e Linux)
 	\item \textbf{many-to-many}: più thread kernel-mode possono gestire i thread in user-mode (poco diffuso)
@@ -1075,7 +1077,7 @@ Un sistema di processi è un insieme di processi che si definisce:
 \subsubsection*{Massimo grado di parallelismo}
 Il massimo grado di parallelismo si intende la cardinalità del più grande sottoinsieme di processi tali per cui, presi due
 qualsiasi nodi del sottoinsieme, non esiste un percorso orientato che li connette. Ovvero sono il massimo numero di processi
-che verranno eseguiri in parallelo (che si trovano allineati verticalmente). In base all'architettura si può voler  minimizzare
+che verranno eseguirli in parallelo (che si trovano allineati verticalmente). In base all'architettura si può voler  minimizzare
 il parallelismo per ottimizzare il calcolo in sistemi hardware limitati o massimizzare il parallelismo per massimizzare le
 prestazioni.
 
@@ -1165,7 +1167,7 @@ essere eseguito data la costante presenza di processi più prioritari.
 Analizzando la presenza di cicli nel grafo delle risorse è possibile stabile l'eventuale presenza di deadlock:
 \begin{itemize}
 	\item se il grafo non contiene cicli, allora non si hanno deadlock
-	\item se il grado contiene cicli e se le risorse coinvolte hanno una singola istanza, allora si ha deadloclk
+	\item se il grado contiene cicli e se le risorse coinvolte hanno una singola istanza, allora si ha deadlock
 	\item se il grafo contiene cicli e alcune risorse coinvolte hanno più istanze, potrebbe non esserci deadlock
 \end{itemize}
 
@@ -1207,8 +1209,8 @@ Sfrutta un principio simile al metodo di riduzione del grafo di Holt, quando un 
 \begin{itemize}
 	\item[1.] verifica che le risorse richieste rientrano in quelle dichiarate inizialmente dal processo
 	\item[2.] verifica che le risorse richieste siano inferiori di quelle disponibili
-	\item[3.] simula l'assegnazione di risorse decrementando quelle disponibili e se ci si trova ancora in uno stato sicuro
-	(ovvero se il grafo è riducibile)
+	\item[3.] simula l'assegnazione di risorse decrementando quelle disponibili e verifica se ci si trova ancora in uno stato
+	sicuro (ovvero se il grafo è riducibile)
 	\item[5.] se sì, concede le risorse, altrimenti nega temporaneamente la richiesta
 \end{itemize}
 
@@ -1246,7 +1248,7 @@ condivisa (es. variabili in memoria) e il risultato dipenderà dall'ordine con c
 \subsubsection*{Istruzioni atomiche}
 Se più processi modificano le stesse variabili si possono verificare race condition date dal fatto che la modifica fatta da
 un programma può essere sovrascritta da quella dall'altro programma. Per evitare questa situazione si utilizzano le istruzioni
-atomiche ovvero istruzioni che vengono completate senza subire interruzioni che possono comportare a data race.
+atomiche ovvero istruzioni che vengono completate senza subire interruzioni che possono portare a data race.
 
 Alcune architetture implementano istruzioni atomiche via hardware ad esempio \verb|TestAndSet| per controllare e modificare il
 contenuto di una parola in memoria o \verb|CompareAndSwap| per scambiare due parole in memoria.
@@ -1665,7 +1667,7 @@ delle caratteristiche degli algoritmi di scheduling:
 \begin{itemize}
 	\item \textbf{throughput}: produttività o numero di processi completati in un arco di tempo
 	\item \textbf{CPU-burst}: ciclo di utilizzo puro della CPU di un processo
-	\item \textbf{I/O-burst}: ciclo di attesa di un input/output di di un processo
+	\item \textbf{I/O-burst}: ciclo di attesa di un input/output di un processo
 	\item \textbf{tempo di turnaround}: durata dell'esecuzione di un processo
 	\item \textbf{tempo di attesa}: tempo di attesa nella ready queue
 	\item \textbf{tempo di risposta}: tempo tra richiesta e risposta
@@ -2002,7 +2004,7 @@ con l'indirizzo di pagina logica, una cella adiacente con l'indirizzo corrispond
 validità, bit modifica, bit protezione). La MMU ci accede attraverso due registri:
 \begin{itemize}
 	\item Page Table Base Register - PTBR: inizio della page table (CR3 in x86, TTBR in ARM)
-	\item Page Table Lenght Register - PTLR: lunghezza della page table
+	\item Page Table Length Register - PTLR: lunghezza della page table
 \end{itemize}
 
 \subsubsection*{Translation Lookaside Buffer - TLB o cache per la page table}
@@ -2081,7 +2083,7 @@ condensare più righe insieme e risparmiare spazio.
 
 \subsection{Segmentazione}
 \subsubsection*{Introduzione}
-Si sfrutta il fatto che ogni programma è suddiviso in blocchi o segmenti logici (data, bss), text, stack, \dots) dette unità
+Si sfrutta il fatto che ogni programma è suddiviso in blocchi o segmenti logici (data, bss, text, stack, \dots) dette unità
 logiche. È possibile suddividere la memoria in segmenti di dimensione variabile, corrispondenti alle unità logiche dei programmi
 e, conoscendo l'indirizzo di partenza e la lunghezza di ogni segmento è possibile convertire un indirizzo logico (segmento logico
 + offset) in indirizzo fisico (segmento fisico + offset) facendo attenzione che l'offset non superi la lunghezza del segmento.

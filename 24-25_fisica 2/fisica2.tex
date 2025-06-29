@@ -11,8 +11,9 @@
 \usepackage{hyperref} % per collegamenti
 \usepackage{graphicx} % per immagini
 \usepackage{listings} % per codice
-\usepackage{xcolor} % per colori nel codice
 \usepackage{dirtytalk} % per le ""
+\usepackage{xcolor} % per colori nel codice
+\usepackage{esint} % per integrali
 
 % per margini
 \geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
@@ -63,7 +64,7 @@
 % -------------------------------------- Copertina e indice ---------------------------------------
 \maketitle
 \begin{abstract}
-	Appunti del corso di Elementi di Fisica 2 - (Elettromagnetismo) della facoltà di Ingegneria Informatica dell'Università di Padova.
+	Appunti del corso di Elementi di Fisica 2 (Elettromagnetismo) della facoltà di Ingegneria Informatica dell'Università di Padova.
 \end{abstract}
 
 \newpage
@@ -86,7 +87,7 @@ e ha la proprietà poter essere sia positiva che negativa. Corpi di cariche con 
 stesso segno si respingono.
 
 \subsubsection*{Legge di conservazione della carica}
-In un sistema isolato, la carica totale non cambia.Nei decadimenti radioattivi, quando viene emesso un elettrone, si emette anche
+In un sistema isolato, la carica totale non cambia. Nei decadimenti radioattivi, quando viene emesso un elettrone, si emette anche
 un positrone (per bilanciare la carica). L'universo appare come una miscela bilanciata di cariche elettriche.
 
 \subsubsection*{Quantizzazione della carica}
@@ -128,7 +129,7 @@ carico nelle vicinanze.
 \subsubsection*{Definizione}
 Il campo elettrico si definisce come \(\vec{E} := \vec{F}_{tot,0}/q_0\) dove \(q_0\) è detta carica di prova e \(\vec{F}_0\) è
 la forza totale agente sulla carica di prova.
-\[\vec{E}(x,y,z) = \sum_{i} \frac{1}{4 \pi \varepsilon_0} \; \frac{q_i}{r_{0i}^2} \; \hat{r}_{0i} \qquad \qquad \vec{E} = \vec{F}_{tot,0}/q_0 \qquad \vec{F}_{tot,0} = q_0 \vec{E} \qquad \qquad \vec{E} = \left[ \frac{N}{C} \right] = \left[ \frac{V}{M} \right]\]
+\[\vec{E}(x,y,z) = \sum_{i} \frac{1}{4 \pi \varepsilon_0} \; \frac{q_i}{r_{0i}^2} \; \hat{r}_{0i} \qquad \qquad \vec{E} = \vec{F}_{tot,0}/q_0 \qquad \vec{F}_{tot,0} = q_0 \vec{E} \qquad \qquad \vec{E} = \left[ \frac{N}{C} \right] = \left[ \frac{V}{m} \right]\]
 Siccome la forza è additiva, anche il campo elettrico è additivo.
 
 \subsubsection*{Linee del campo elettrostatico}
@@ -158,11 +159,13 @@ Il campo elettrico generato da una distribuzione continua di cariche vale:
 \subsubsection*{Distribuzioni da sapere}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] campo generato lungo l'asse di un anello di raggio \(R\) con carica \(q\) uniformemente distribuita ad una distanza
-	\(x\) dal centro dell'anello: \(\displaystyle \vec{E} = \frac{\lambda}{2 \varepsilon_0} \; \frac{R \, x}{(R^2 + x^2)^{3/2}} \ux\)
+	\(x\) dal centro dell'anello: \(\displaystyle \vec{E} = \frac{\lambda}{2 \varepsilon_0} \; \frac{R \, x}{(R^2 + x^2)^{3/2}} \ux = \frac{q}{4\pi\varepsilon_0} \frac{x}{(R^2 + x^2)^{3/2}}\)
 	\item[-] campo generato lungo l'asse di un disco di raggio \(R\) con carica \(q\) uniformemente distribuita ad una distanza
-	\(x\) dal centro del disco: \(\displaystyle \vec{E} = \pm \frac{\sigma}{2 \varepsilon_0} \; \left(1- \frac{|x|}{\sqrt{R^2 + x^2}}\right) \ux\)
-	\item[-] campo generato da un piano infinito con carica uniformemente distribuita con fattore \(\sigma\) ad una distanza \(x\):
+	\(x\) dal centro del disco: \(\displaystyle \vec{E} = \pm \frac{\sigma}{2 \varepsilon_0} \; \left(1- \frac{|x|}{\sqrt{R^2 + x^2}}\right) \ux = \frac{q}{2\pi R^2\varepsilon_0} \left(1-\frac{\left|x\right|}{\sqrt{R^2 + x^2}}\right)\)
+	\item[-] campo generato da un piano infinito con carica uniformemente distribuita con fattore \(\sigma\) ad una distanza qualsiasi \(x\):
 	\(\displaystyle \vec{E} = \pm \frac{\sigma}{2 \varepsilon_0}\ux\)
+	\item[-] campo generato da una sfera piena uniformemente carica: all'esterno coincide con quello della carica puntiforme,
+	all'interno è necessario usare Gauss
 \end{itemize}
 
 \newpage
@@ -190,6 +193,10 @@ Siccome la forza è conservativa è possibile definire un potenziale elettrostat
 	
 	\item[-] L'energia potenziale di una composizione di cariche è la somma dei lavori compiuti per spostare le varie cariche da \(+\infty\)
 	alla loro rispettiva posizione: \(\displaystyle U_e = W_{ext} = \sum_{j>i} \frac{1}{4 \pi \varepsilon_0} \; \frac{q_i q_j}{r_{ij}} = \frac{1}{2} \sum_{i \neq j} \frac{1}{4 \pi \varepsilon_0} \; \frac{q_i q_j}{r_{ij}}\)
+
+	\item[-] L'energia di una distribuzione di carica utilizza l'integrale
+	
+	\item[-] Un corpo con carica \(q\) ha potenziale \(qV\), ovvero l'energia necessaria a caricare il corpo con una nuova carica
 \end{itemize}
 
 \subsubsection*{Legge di conservazione dell'energia}
@@ -198,8 +205,8 @@ Durante il moto di una particella l'energia totale si conserva:
 
 \subsubsection*{Potenziali da sapere}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] potenziale generato da una distribuzione è \(\displaystyle V_{tot}(r) = -\int_{\infty}^r \vec{E} \cdot d\vec{s} = \frac{1}{4 \pi \varepsilon_0} \int \limits_\text{distribuzione} \frac{dq}{r}\)
 	\item[-] potenziale generato da una carica ad una distanza \(r\) è \(\displaystyle V(r) = \frac{1}{4 \pi \varepsilon_0} \frac{q}{r}\)
+	\item[-] potenziale generato da una distribuzione è \(\displaystyle V_{tot}(r) = -\int_{\infty}^r \vec{E} \cdot d\vec{s} = \frac{1}{4 \pi \varepsilon_0} \int \limits_\text{distribuzione} \frac{dq}{r}\)
 	\item[-] potenziale lungo l'asse di un anello di raggio \(R\) con carica \(q\) uniformemente distribuita ad una distanza
 	\(x\) dal centro dell'anello: \(\displaystyle V(x) = \frac{\lambda R}{2 \varepsilon_0 \; \sqrt{R^2 + x^2}}\)
 	\item[-] potenziale lungo l'asse di un disco di raggio \(R\) con carica \(q\) uniformemente distribuita ad una distanza
@@ -219,7 +226,7 @@ Il dipolo elettrico è costituito da due cariche puntiformi \(+q\) e \(-q\) a di
 \(P\) a distanza \(r_1\) da \(+q\) e \(r_2\) da \(-q\) vale 
 \[V(P) = \frac{q}{4 \pi \varepsilon_0} \left(\frac{1}{r_1} - \frac{1}{r_2}\right) = \frac{q}{4 \pi \varepsilon_0} \frac{r_2 - r_1}{r_1 r_2}\]
 Per \(r \gg a\) e definito l'angolo \(\theta\) tra \(\vec{r}\) e \(\vec{a}\) con \(\vec{a}\) diretto da \(-q\) a \(+q\) si ha:
-\[V(P) = \frac{q \, a \cos\theta}{4 \pi \varepsilon_0 \, r^2} = \frac{q \, \vec{a} \cdot \hat{r}}{4 \pi \varepsilon_0 \, r^2}\]
+\[V(r) = \frac{q \, a \cos\theta}{4 \pi \varepsilon_0 \, r^2} = \frac{q \, \vec{a} \cdot \hat{r}}{4 \pi \varepsilon_0 \, r^2}\]
 
 \subsubsection*{Momento del dipolo elettrico}
 Viene definito il momento del dipolo elettrico:
@@ -253,16 +260,16 @@ Generalizzando una distribuzione di cariche complessivamente neutra, si ha che i
 
 \subsection{Flusso del campo elettrostatico}
 Il flusso del campo elettrico attraverso una superficie infinitesima \(d\Sigma\) con vettore normale \(\un\) è:
-\[d\Phi(\vec{E}) := \vec{E} \cdot \un \, d\Sigma\]
+\[d\Phi(\vec{E}) := \vec{E} \cdot \un \, d\Sigma = \vec{E} \cdot d\vec{\Sigma}\]
 Si definisce quindi il flusso attraverso una superficie chiusa \(\Sigma\):
-\[\Phi(\vec{E}) := \oint \vec{E} \cdot \un \, d\Sigma\]
+\[\Phi(\vec{E}) := \oiint \vec{E} \cdot d\vec{\Sigma}\]
 Se il flusso è positivo, si dice che il flusso è uscente, se il flusso è negativo, il flusso è entrante.
 
 \subsection{Teorema di Gauss}
 \subsubsection*{Enunciato}
 Il teorema di Gauss enuncia che il flusso del campo elettrico attraverso una superficie chiusa è pari al rapporto tra la carica
 totale interna alla superficie e la costante \(\varepsilon_0\).
-\[\Phi(\vec{E}) := \oint \vec{E} \cdot \un \, d\Sigma = \frac{q_\text{tot interna}}{\varepsilon_0}\]
+\[\Phi(\vec{E}) := \oiint \vec{E} \cdot \un \, d\Sigma = \frac{q_\text{tot interna}}{\varepsilon_0}\]
 
 \subsubsection*{Applicazioni}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
@@ -280,7 +287,7 @@ totale interna alla superficie e la costante \(\varepsilon_0\).
 		\toprule
 		\textbf{potenziale} & \(\displaystyle \qquad V(r) = - \int_\infty^r \vec{E} \cdot d\vec{s} \qquad\) & \(\displaystyle \vec{E} = - \nab V\) \\[7pt]
 		\hline
-		\textbf{flusso} & \(\displaystyle \qquad \Phi(\vec{E}) = \oint \vec{E} \cdot d\vec{\Sigma} \qquad\) & \(\displaystyle \text{div} \, \vec{E} = \nab \cdot \vec{E} = \frac{\rho}{\varepsilon_0}\) \\[7pt]
+		\textbf{flusso} & \(\displaystyle \qquad \Phi(\vec{E}) = \oiint \vec{E} \cdot d\vec{\Sigma} \qquad\) & \(\displaystyle \text{div} \, \vec{E} = \nab \cdot \vec{E} = \frac{\rho}{\varepsilon_0}\) \\[7pt]
 		\hline
 		\textbf{circuitazione} & \(\displaystyle \qquad \oint \vec{E} \cdot d\vec{s} \qquad\) & \(\displaystyle \text{rot} \, \vec{E} = \nab \times \vec{E} = \vec{0}\) \\[7pt]
 		\bottomrule
@@ -354,7 +361,7 @@ della cavità \(R_2\). Le armature sono costituite dai due cilindri concentrici 
 
 \subsubsection*{Condensatore piano}
 Un condensatore piano è costituito da due piani (infiniti) che costituiscono le due armature ad una distanza costante \(h\). Tra le armature si ha:
-\[\vec{E} = \frac{\sigma}{\varepsilon_0} \; \un \qquad \qquad \Delta V = \frac{\sigma \, h}{\varepsilon_0} \qquad \qquad C = - \frac{\varepsilon_0 \, \Sigma}{h}\]
+\[\vec{E} = \frac{\sigma}{\varepsilon_0} \; \un \qquad \qquad \Delta V = \frac{\sigma \, h}{\varepsilon_0} \qquad \qquad C = \frac{\varepsilon_0 \, \Sigma}{h}\]
 
 \subsubsection*{Condensatori in serie}
 La carica sulle armature è costante per tutti i condensatori \(q_\text{tot} = q_1 = q_2 = \dots = q_n\) \\
@@ -424,14 +431,14 @@ momento \(p_a = Z_\text{\# protoni} \cdot e_\text{carica elem.} \cdot \chi_\text
 costituiti da molecole polari (es. acqua). Si definisce il vettore di polarizzazione:
 \[\vec{p} = \varepsilon_0 \, \chi_\text{suscettività} \, \vec{E} \qquad \qquad \vec{p} = \frac{\vec{p}_\text{tot}}{\tau} = \frac{N}{\tau} \langle \vec{p} \rangle  = n \langle \vec{p} \rangle  \qquad n = \text{\# dipoli per volume}\]
 In assenza di campo elettrico esterno, il momento di dipolo totale è nullo. In presenza di un campo elettrico esterno, i momenti
-si allineano e formano un momento totale risultante non nullo e concorde con il campo esterno. Lungo 
+si allineano e formano un momento totale risultante non nullo e concorde con il campo esterno.
 
 \subsubsection*{Capacità di condensatori con dielettrico}
 La formula della capacità di condensatori con un dielettrico tra le armature aumenta di un fattore \(\kappa\):
 \[C_\kappa = \frac{q}{\Delta V_\kappa} = \kappa \, \frac{q}{\Delta V_0} = \kappa \, C_0\]
 
 \subsection{Materiali conduttori, modello di Drude e corrente elettrica}
-\subsubsection*{Moto degli elettroni - elettroni liberi}
+\subsubsection*{Moto degli elettroni liberi}
 Nei materiali conduttori, la presenza di elettroni liberi permette la formazione di correnti di elettroni che si spostano da una
 zona con potenziale minore ad un'altra con potenziale maggiore (verso opposto al campo elettrico).
 
@@ -479,13 +486,13 @@ La resistenza complessiva di \(n\) resistenze collegate in serie è:
 \[R_\text{tot} = R_1 + R_2 + \dots + R_n\]
 
 \subsubsection*{Resistenze in parallelo}
-L'intensità di corrente è è la somma delle correnti di ogni resistenza \(i_{tot} = i_1 + i_2 + \dots + i_n\) \\
+L'intensità di corrente è la somma delle correnti di ogni resistenza \(i_{tot} = i_1 + i_2 + \dots + i_n\) \\
 La differenza di potenziale è costante per tutte le resistenze \(\Delta V_\text{tot} = \Delta V_1 = \Delta V_2 = \dots = \Delta V_n\) \\
 La resistenza complessiva di \(n\) resistenze collegate in parallelo è:
 \[\frac{1}{R_\text{tot}} = \frac{1}{R_1}+ \frac{1}{R_2} + \dots + \frac{1}{R_n}\]
 
 \subsubsection*{Potenza dissipata da una resistenza}
-La potenza dissipata da una resistenza sottoforma di calore per effetto Joule è:
+La potenza dissipata da una resistenza sotto forma di calore per effetto Joule è:
 \[P_\text{dissipata} = R \, i^2 = V \, i = \frac{V^2}{R}\]
 
 \newpage
@@ -505,9 +512,11 @@ Nei generatori reali è presente una resistenza interna \(r\) al generatore, per
 \[\mathcal{E} - r \, i = R \, i \quad \rightarrow \quad \Delta V = (R + r) i\]
 
 \subsubsection*{Potenza erogata - dissipata}
-La potenza erogata da un generatore è: \(\qquad P_\text{erogata} = \mathcal{E} i\) \\
+La potenza erogata da un generatore è: \[\qquad P_\text{erogata} = \mathcal{E} i\]
 Sostituendo \(\mathcal{E} = (R + r) \, i\) si ottiene che la potenza erogata viene interamente dissipata dalla resistenza:
 \[P_\text{erogata} = \mathcal{E} i = R_\text{tot} i^2 = P_\text{dissipata}\]
+
+\vspace{10pt}
 
 \subsection{Circuiti e leggi di Kirchhoff}
 \subsubsection*{Leggi di Kirchhoff}
@@ -524,7 +533,7 @@ Sostituendo \(\mathcal{E} = (R + r) \, i\) si ottiene che la potenza erogata vie
 
 \newpage
 
-\subsubsection*{Circuito RC in carica}
+\subsubsection*{Circuito RC in scarica}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] in un circuito RC aperto con condensatore carico si ha che il condensatore ha immagazzinato \(U_e = {q_0}^2 / 2C\) e
 	ha una differenza di potenziale tra le armature \(V_0 = q_0/C\)
@@ -543,7 +552,7 @@ Sostituendo \(\mathcal{E} = (R + r) \, i\) si ottiene che la potenza erogata vie
 	\item[-] l'energia immagazzinata dal condensatore viene tutta dissipata dalla resistenza
 \end{itemize}
 
-\subsubsection*{Circuito RC in scarica}
+\subsubsection*{Circuito RC in carica}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] in un circuito RC aperto con condensatore scarico e con un generatore di FEM, l'energia immagazzinata dal
 	condensatore è nulla
@@ -556,10 +565,10 @@ Sostituendo \(\mathcal{E} = (R + r) \, i\) si ottiene che la potenza erogata vie
 		&3. \quad \frac{dq}{q - C\mathcal{E}} = - \frac{dt}{RC} \;\;\rightarrow\;\; \int_0^q \frac{dq}{q - C\mathcal{E}} = -\int_0^t \frac{dt}{RC} \;\;\rightarrow\;\; \ln \frac{q - C\mathcal{E}}{-C\mathcal{E}} = -\frac{t}{RC} \\
 		&4. \quad \ln \frac{q - C\mathcal{E}}{-C\mathcal{E}} = -\frac{t}{RC}  \;\;\rightarrow\;\; q(t) = C \mathcal{E} (1-e^{-t/\tau}) = q_\text{tot} (1-e^{-t/\tau}) \\
 		&5. \quad V(t) = \frac{q(t)}{C} = \mathcal{E} (1-e^{-t/\tau}) =  V_\text{max} (1-e^{-t/\tau}) \\
-		&6. \quad i = \frac{dq}{dt} = \frac{\mathcal{E}}{R} (1-e^{-t/\tau}) = i_\text{max} (1-e^{-t/\tau}) \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+		&6. \quad i = \frac{dq}{dt} = \frac{\mathcal{E}}{R} e^{-t/\tau} = i_\text{max} e^{-t/\tau} \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad
 	\end{align*}
-	\item[-] per cui in un condensatore in scarica si hanno le seguenti equazioni
-	\[q(t) = C \mathcal{E} \, (1-e^{-t/\tau}) \qquad \qquad V(t) = \mathcal{E} \, (1-e^{-t/\tau}) \qquad \qquad i(t) = \frac{\mathcal{E}}{R} \, (1-e^{-t/\tau}) \qquad \qquad \tau = RC\]
+	\item[-] per cui in un condensatore in carica si hanno le seguenti equazioni
+	\[q(t) = C \mathcal{E} \, (1-e^{-t/\tau}) \qquad \qquad V(t) = \mathcal{E} \, (1-e^{-t/\tau}) \qquad \qquad i(t) = \frac{\mathcal{E}}{R} \, e^{-t/\tau}) \qquad \qquad \tau = RC\]
 	\item[-] l'energia fornita dal generatore viene per metà immagazzinata nel condensatore e per metà dissipata nella resistenza
 	\item[-] si immagina che esista una corrente di spostamento tra le armature del condensatore, oltre a quella di conduzione che
 	circola all'interno del circuito:
@@ -594,9 +603,9 @@ Immaginando un filo su cui scorre una corrente \(i\) con velocità \(v_d\), si h
 \begin{align*}
 	& d\vec{F} = - N_\text{elettroni} \; e_\text{carica} \; \vec{v}_d \times \vec{B} \qquad n_e = \frac{N_\text{elettroni}}{d\tau} = \frac{N}{\Sigma ds} \rightarrow N = n_e \, \Sigma \, ds \qquad \vec{j} = n \, q \, \vec{v}_d = \frac{i}{\Sigma} \, \un \\
 	& d\vec{F} = - n_e \, e \, \Sigma \, ds \, \vec{v}_d \times \vec{B} = \Sigma \, ds \, \vec{j} \times \vec{B} = i \; d\vec{s} \times \vec{B} \\
-	&\qquad\qquad\qquad d\vec{F} = i \; d\vec{s} \times \vec{B} \quad \vec{F} = i \int d\vec{s} \times \vec{B} \qquad \leftarrow \text{seconda legge di Laplace}
+	&\qquad\qquad\qquad d\vec{F} = i \; d\vec{s} \times \vec{B} \qquad \vec{F} = i \int d\vec{s} \times \vec{B} \qquad \leftarrow \text{seconda legge di Laplace}
 \end{align*}
-Nel caso di un filo rettilineo la legge diventa \(\vec{F} = i \; B \; l \; \cos \theta\). La forza totale agente su un circuito
+Nel caso di un filo rettilineo la legge diventa \(\vec{F} = i \, B \, l \, \sin \theta\). La forza totale agente su un circuito
 chiuso è nulla, per cui il centro di massa non si sposta (al massimo il circuito ruota).
 
 \subsection{Dipolo magnetico}
@@ -619,8 +628,9 @@ Inoltre si può calcolare:
 	\item[-] lavoro di rotazione: \(W = \int \vec{M} \cdot d\theta = - \int m B \sin \theta d\theta = mB (\cos \theta_1 - \cos \theta_0)\)
 	\item[-] energia interna di rotazione: \(\Delta U = -W = mB (\cos \theta_0 - \cos \theta_1)\)
 	\item[-] accelerazione angolare: \(\alpha = - d^2 \theta / dt^2\) (si osserva che descrive un moto armonico oscillante)
-	\item[-] pulsazione delle piccole oscillazioni: \(\omega = \sqrt{\frac{i \sigma B}{I}} = \sqrt{\frac{mB}{I}}\)
+	\item[-] pulsazione delle piccole oscillazioni: \(\omega = \sqrt{\frac{i \Sigma B}{I}} = \sqrt{\frac{mB}{I}}\)
 	\item[-] periodo delle piccole oscillazioni: \(T = \frac{2 \pi}{\omega} = 2 \pi \sqrt{\frac{I}{mB}}\)
+	\item[-] energia del dipolo magnetico: \(U_m = mB\cos\alpha\)
 \end{itemize} 
 
 \subsubsection*{Applicazioni}
@@ -683,11 +693,11 @@ Applicando la legge ad un circuito chiuso, si ottiene la legge di Ampère-Laplac
 
 \subsubsection*{Campo magnetico di configurazioni particolari}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] \textbf{singola carica}: \(\displaystyle \vec{B}_q = \frac{\mu_0}{4 \pi} \frac{q \vec{v} \times \ur}{r^2}\)
+	\item[-] \textbf{singola carica in movimento}: \(\displaystyle \vec{B}_q = \frac{\mu_0}{4 \pi} \frac{q \vec{v} \times \ur}{r^2}\)
 	\item[-] \textbf{filo rettilineo - Legge di Biot-Savard}: le linee di campo sono circonferenze concentriche con verso
 	determinato dalla mano destra, con modulo: \[B(r) = \frac{\mu_0 i}{2 \pi r}\]
 	\item[-] \textbf{spira circolare}: il campo magnetico lungo l'asse generato da una spira circolare è
-	\[\vec{B}(z) = \frac{\mu_0 i R^2}{2 \sqrt{R^2 + z^2}^3} \un\]
+	\[\vec{B}(z) = \frac{\mu_0 i R^2}{2 \sqrt{R^2 + z^2}^3} \un \qquad\qquad \text{con}\ z = 0 \rightarrow \vec{B}(z) = \frac{\mu_0 i}{2R} \un\]
 	\item[-] \textbf{dipolo}: analogo al dipolo elettrico, per un punto a distanza \(r\) con angolo \(\theta\)
 	dall'asse del dipolo
 	\[\vec{B} = \frac{\mu_0}{4 \pi} \frac{m}{r^3} \left(\begin{matrix} 2 \cos \theta \\ \sin \theta \\ 0 \end{matrix}\right)\]
@@ -703,7 +713,7 @@ Dati due fili paralleli percorsi da corrente con distanza \(d\) si ha che il pri
 secondo e viceversa. Se le due correnti hanno verso concorde, allora i fili si attraggono, se le due correnti sono discordi,
 i fili si respingono.
 
-\subsubsection*{Interazione tra fili perpendicolare}
+\subsubsection*{Interazione tra fili perpendicolari}
 Dati due fili perpendicolari percorsi da corrente si ha che la risultante delle forze è nulla, per cui non c'è spostamento,
 in più si generano due momenti delle forze uguali ed opposte che inducono all'allineamento dei due fili. Se i fili sono legati
 insieme, il momento risultante sarà nullo e non ci sarà nemmeno rotazione.
@@ -739,6 +749,8 @@ Si definisce il vettore di magnetizzazione \(M\) dato dal contributo del materia
 	\item[-] \textbf{materiali paramagnetici}: materiali che aumentano il campo magnetico esterno, con \(\chi_m > 0\)
 	\item[-] \textbf{materiali ferromagnetici}: materiali che aumentano di molto il campo magnetico
 \end{itemize}
+Nei materiali diamagnetici vale \(\displaystyle <m>_\text{vett. magnetizzazione} = - \alpha_\alpha H\) \\
+Nei materiali paramagnetici vale \(\displaystyle <m>_\text{vett. magnetizzazione} = + \alpha_m H/T_\text{emperatura}\)
 
 \subsubsection*{Domini di Weiss}
 Il comportamento dei materiali ferromagnetici si spiega attraverso i domini di Weiss. I domini sono sezioni del materiale con una
@@ -770,15 +782,15 @@ formula per la circuitazione del campo elettrico diventa:
 \subsection{Legge di Gauss per il campo magnetico}
 Si studia il flusso del campo magnetico attraverso una superficie chiusa \(\Sigma\). Si osserva che se il campo
 entra in una superficie, prima o poi deve uscire, per cui si ha flusso nullo.
-\[\Phi(\vec{B}) = \oint_\Sigma \vec{B} \cdot \un d\Sigma = 0 \qquad \qquad \nab \cdot \vec{B} = 0\]
+\[\Phi(\vec{B}) = \oiint_\Sigma \vec{B} \cdot d\vec{\Sigma} = 0 \qquad \qquad \nab \cdot \vec{B} = 0\]
 
 \newpage
 
 \section{Elettromagnetismo}
 \subsection{Equazioni di Maxwell (senza variazione temporale)}
 \begin{align*}
-	&\oint \vec{E} \cdot d\vec{s} = 0 \qquad \nab \times \vec{E} = 0 &&\oint \vec{B} \cdot d\vec{s} = \mu_0 \; i \qquad \nab \times \vec{B} = \mu_0 \; \vec{j} \\[10pt]
-	&\oint \vec{E} \cdot d\vec{\Sigma} = \frac{q_\text{int}}{\varepsilon_0} \qquad \nab \cdot \vec{E} = \frac{\rho_\text{int}}{\varepsilon_0} &&\oint \vec{B} \cdot d\vec{\Sigma} = 0 \qquad \nab \cdot \vec{B} = 0
+	&\oint_\mathcal{L} \vec{E} \cdot d\vec{s} = 0 \qquad\quad\;\;\; \nab \times \vec{E} = 0 &&\oint_\mathcal{L} \vec{B} \cdot d\vec{s} = \mu_0 \; i \qquad \nab \times \vec{B} = \mu_0 \; \vec{j} \\[10pt]
+	&\oiint_\Sigma \vec{E} \cdot d\vec{\Sigma} = \frac{q_\text{int}}{\varepsilon_0} \qquad \nab \cdot \vec{E} = \frac{\rho_\text{int}}{\varepsilon_0} &&\oiint_\Sigma \vec{B} \cdot d\vec{\Sigma} = 0 \qquad\;\; \nab \cdot \vec{B} = 0
 \end{align*}
 
 \subsection{Legge di Faraday-Neumann-Lenz}
@@ -786,7 +798,7 @@ Si osserva che in un circuito chiuso con amperometro a 0 centrale, quando si avv
 ferma il magnete, la corrente smette di circolare. Si conclude che la corrente circola solo se c'è variazione di campo magnetico
 e si osserva che il verso è opposto a quello della corrente che indurrebbe il campo: la corrente si oppone alla variazione di
 flusso.
-\[\mathcal{E}_\text{FEM indotta} = -\frac{d \Phi(\vec{B})}{dt} \qquad \rightarrow \qquad \oint_\mathcal{L} \vec{E}_i \cdot d\vec{s} = -\frac{\partial}{\partial t}\int_\Sigma \vec{B} \cdot d\vec{\Sigma} \qquad\qquad \nab \times \vec{E} = -\frac{d\vec{B}}{dt}\]
+\[\mathcal{E}_\text{FEM indotta} = -\frac{d \Phi(\vec{B})}{dt} \qquad \rightarrow \qquad \oint_\mathcal{L} \vec{E}_i \cdot d\vec{s} = -\frac{\partial}{\partial t} \iint_\Sigma \vec{B} \cdot d\vec{\Sigma} \qquad\qquad \nab \times \vec{E} = -\frac{d\vec{B}}{dt}\]
 
 \subsubsection*{Correnti parassite - di Foucault - di eddy}
 In un conduttore immerso in un campo magnetico variabile nel tempo, si formano delle correnti indotte all'interno di esso. Queste
@@ -801,7 +813,7 @@ una variazione di flusso che induce una corrente indotta nella spira.
 \begin{align*}
 	&\quad \mathcal{E}_\text{FEM indotta} = - \frac{\partial \Phi(\vec{B})}{\partial t} = - B \Sigma \omega \sin (\omega t) = - \mathcal{E}_\text{ind max} \sin(\omega t) \qquad \mathcal{E}_\text{ind max} = B \Sigma \omega \\
 	&\quad i_\text{indotta} = \frac{\mathcal{E}_\text{indotta}}{R} = i_\text{ind max} \sin(\omega t) \qquad i_\text{ind max} = \frac{B \Sigma \omega}{R} \\
-	&\quad P_\text{otenza} = R \cdot i^2 = \frac{\mathcal{E}_\text{ind max}}{R} \sin (\omega t) \qquad P_\text{media} = \frac{1}{2} R \cdot {i_\text{ind max}}^2 \\
+	&\quad P_\text{otenza} = R \cdot i^2 = \frac{\mathcal{E}^2_\text{ind max}}{R} \sin^2 (\omega t) \qquad P_\text{media} = \frac{1}{2} R \cdot {i_\text{ind max}}^2 \\
 	&\quad \mathcal{E}_\text{eff} = \mathcal{E}_\text{ind max} \frac{\sqrt{2}}{2} \qquad i_\text{eff} = i_\text{ind max} \frac{\sqrt{2}}{2} \quad \rightarrow \quad P_\text{media} = \frac{{\mathcal{E}_\text{eff}}^2}{R} =  R {i_\text{eff}}^2
 \end{align*}
 Si osserva che forza elettromotrice e corrente sono in fase tra loro (\(\Delta\phi = 0\)). Per assorbire l'\(1/2\) della potenza
@@ -809,7 +821,7 @@ media si definisce la forza elettromotrice efficace e la corrente efficace.
 
 \subsubsection*{Legge di Felici}
 La carica che circola nel circuito tra due istanti \(t_1\) e \(t_2\) è pari a:
-\[q = \frac{\Phi_{t_1}(\vec{B}) - \Phi_{t_2}(\vec{B})}{R}\]
+\[q = \frac{\Phi_\text{iniziale}(\vec{B}) - \Phi_\text{finale}(\vec{B})}{R}\]
 
 \newpage
 
@@ -845,7 +857,6 @@ L'extracorrente di apertura è quella che genera la scintilla quando si stacca l
 \subsubsection*{Autoinduttanze in solenoidi}
 In un solenoide toroidale a sezione rettangolare di lati \(a\), \(b\) con \(N\) spire, il valore di autoinduttanza è
 \[L = \frac{\mu_0 N^2 a}{2 \pi} \ln \left( 1+ \frac{b}{R} \right)\]
-
 In un solenoide infinito di passo \(\lambda\), il valore di autoinduttanza per unità di lunghezza è:
 \[L_{/l} = \mu_0 \lambda^2 \Sigma\]
 
@@ -898,14 +909,14 @@ In un circuito formato da una induttanza e un generatore di corrente alternata s
 di \(\pi/2\) rispetto alla forza elettromotrice, ovvero c'è uno sfasamento di \(\pi/2\)
 \[\mathcal{E}(t) = \mathcal{E}_0 \cos(\omega t) \qquad \mathcal{E} = L \frac{di}{dt} \;\;\rightarrow\;\; i(t) = \frac{\mathcal{E}_0}{L\omega} \cos \left( \omega t + \frac{\pi}{2} \right) \qquad V_L(t) = L \omega i_0 \cos \left( \omega t + \frac{\pi}{2} \right)\]
 È possibile definire la reattanza dell'induttanza, ovvero la resistenza associata all'induttanza come \(Z_L\):
-\[Z_L = L\omega \qquad i(t) = \frac{\mathcal{E}_0}{Z_L} \cos \left( \omega t + \frac{\pi}{2} \right) \qquad V_L(t) = Z_L i_0 \cos(\omega t + \frac{1}{2})\]
+\[Z_L = L\omega \qquad i(t) = \frac{\mathcal{E}_0}{Z_L} \cos \left( \omega t + \frac{\pi}{2} \right) \qquad V_L(t) = Z_L i_0 \cos\left(\omega t + \frac{1}{2}\right)\]
 
 \subsubsection*{Circuito C + AC}
 In un circuito formato da un condensatore e un generatore di corrente alternata si ha che la corrente e la tensione sono in
 anticipo di \(\pi/2\) rispetto alla forza elettromotrice, per cui c'è uno sfasamento di \(\pi/2\)
-\[\mathcal{E} = \mathcal{E}_0 \cos(\omega t) \qquad q = C \mathcal{E} \;\;\rightarrow\;\; i(t) = \frac{dq}{dt} = C \omega \mathcal{E}_0 \cos \left( \omega t + \frac{\pi}{2} \right) \qquad V_C(t) = \frac{q(t)}{C} = \frac{i_0}{\omega C} \cos \left( \omega t + \frac{\pi}{2} \right)\]
+\[\mathcal{E} = \mathcal{E}_0 \cos(\omega t) \qquad q = C \mathcal{E} \;\;\rightarrow\;\; i(t) = \frac{dq}{dt} = C \omega \mathcal{E}_0 \cos \left( \omega t + \frac{\pi}{2} \right) \qquad V_C(t) = \frac{q(t)}{C} = \frac{i_0}{\omega C} \cos \left( \omega t - \frac{\pi}{2} \right)\]
 È possibile definire la reattanza del condensatore \(Z_C\):
-\[Z_C = \frac{1}{C \omega} \qquad i(t) = \frac{\mathcal{E}}{Z_C} \cos \left( \omega t + \frac{\pi}{2} \right) \qquad V_C(t) = Z_C i_0 \cos \left( \omega t + \frac{\pi}{2} \right)\]
+\[Z_C = \frac{1}{C \omega} \qquad i(t) = \frac{\mathcal{E}}{Z_C} \cos \left( \omega t + \frac{\pi}{2} \right) \qquad V_C(t) = Z_C i_0 \cos \left( \omega t - \frac{\pi}{2} \right)\]
 
 \subsubsection*{Circuito RL + AC}
 In un circuito formato da una resistenza, un'induttanza e un alternatore si ha uno sfasamento \(\theta\) che dipende dai valori
@@ -942,16 +953,16 @@ Per cui l'equazione di Ampère con la correzione di Maxwell diventa:
 \[\oint \vec{B} \cdot d\vec{s} = \mu_0 \left( i_\text{conduzione} + \varepsilon_0 \frac{d \Phi(\vec{E})}{dt} \right)\]
 
 \subsection{Leggi di Maxwell}
-\subsubsection*{Equazioni di Maxwell}
+\subsubsection*{Equazioni di Maxwell in presenza di conduttori}
 Le equazioni di circuitazione e flusso dei campi \(\vec{E}\) e \(\vec{B}\) prendono il nome di equazioni di Maxwell:
 \begin{align*}
-	&1. \quad \Phi_\Sigma(\vec{E}) = \oint_\Sigma \vec{E} \cdot d\vec{\Sigma} = \frac{q}{\varepsilon_0} 
+	&1. \quad \Phi_\Sigma(\vec{E}) = \oiint_\Sigma \vec{E} \cdot d\vec{\Sigma} = \frac{q}{\varepsilon_0} 
 	&& \nab \cdot \vec{E} = \frac{\rho}{\varepsilon_0} \\
-	&2. \quad \Phi_\Sigma(\vec{B}) = \oint_\Sigma \vec{B} \cdot d \vec{\Sigma} = 0 
+	&2. \quad \Phi_\Sigma(\vec{B}) = \oiint_\Sigma \vec{B} \cdot d \vec{\Sigma} = 0 
 	&& \nab \cdot \vec{B} = 0 \\
-	&3. \quad \Gamma_\mathcal{L}(\vec{E}) = \oint_\mathcal{L} \vec{E} \cdot d\vec{s} = - \frac{d\Phi_\Sigma \vec{B}}{dt}
+	&3. \quad \Gamma_\mathcal{L}(\vec{E}) = \oint_\mathcal{L} \vec{E} \cdot d\vec{s} = - \frac{d\Phi_\Sigma (\vec{B})}{dt} \quad \text{(FNL)}
 	&& \nab \times \vec{E} = - \frac{\partial \vec{B}}{\partial t} \\
-	&4. \quad \Gamma_\mathcal{L}(\vec{B}) = \oint_\mathcal{L} \vec{B} \cdot d\vec{s} = \mu_0 (i_\text{concatenata} + \varepsilon_0 \frac{d \Phi_\Sigma \vec{E}}{dt})
+	&4. \quad \Gamma_\mathcal{L}(\vec{B}) = \oint_\mathcal{L} \vec{B} \cdot d\vec{s} = \mu_0 (i_\text{concatenata} + \varepsilon_0 \frac{d \Phi_\Sigma (\vec{E})}{dt}) \quad \text{(AM)}
 	&& \nab \times \vec{B} = \mu_0 \vec{j} + \mu_0 \, \varepsilon_0 \frac{\partial \vec{E}}{\partial t}
 \end{align*}
 
@@ -962,9 +973,9 @@ In assenza di conduttori, si hanno le seguenti due equazioni:
 	&& \nab \cdot \vec{E} = 0\\
 	&2. \quad \Phi_\Sigma(\vec{B}) = \oint_\Sigma \vec{B} \cdot d \vec{\Sigma} = 0 
 	&& \nab \cdot \vec{B} = 0 \\
-	&3. \quad \Gamma_\mathcal{L}(\vec{E}) = \oint_\mathcal{L} \vec{E} \cdot d\vec{s} = - \frac{d\Phi_\Sigma \vec{B}}{dt}
+	&3. \quad \Gamma_\mathcal{L}(\vec{E}) = \oint_\mathcal{L} \vec{E} \cdot d\vec{s} = - \frac{d\Phi_\Sigma (\vec{B})}{dt}
 	&& \nab \times \vec{E} = - \frac{\partial \vec{B}}{\partial t} \\
-	&4. \quad \Gamma_\mathcal{L}(\vec{B}) = \oint_\mathcal{L} \vec{B} \cdot d\vec{s} = \mu_0 \, \varepsilon_0 \frac{d \Phi_\Sigma \vec{E}}{dt} \qquad\qquad\qquad\;
+	&4. \quad \Gamma_\mathcal{L}(\vec{B}) = \oint_\mathcal{L} \vec{B} \cdot d\vec{s} = \mu_0 \, \varepsilon_0 \frac{d \Phi_\Sigma (\vec{E})}{dt} \qquad\qquad\qquad\qquad\quad\;\;\;
 	&& \nab \times \vec{B} = \mu_0 \, \varepsilon_0 \frac{\partial \vec{E}}{\partial t} \qquad\;\;\;
 \end{align*}
 

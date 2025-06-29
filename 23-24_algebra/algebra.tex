@@ -41,7 +41,7 @@
 
 \title{Appunti di algebra lineare e geometria}
 \author{Giacomo Simonetto}
-\date{Secondo semetre 2023-24}
+\date{Secondo semestre 2023-24}
 
 \begin{document}
 
@@ -98,7 +98,7 @@ Uno spazio vettoriale \(V\) su un campo \(k\) è un insieme di vettori non vuoto
 	\item somma \(+\): \(\qquad \qquad \qquad \qquad \qquad f : \f{V \times V}{V}{(v, w)}{v + w} \)
 	\item prodotto per uno scalare \(\times\): \(\qquad \;\; f : \f{k \times V}{V}{(\alpha, v)}{\alpha \cdot w}\)
 \end{enumerate}
-Inoltre devovo valere le 8 proprietà di anello commutativo.
+Inoltre devono valere le 8 proprietà di anello commutativo.
 Gli elementi di uno spazio vettoriale si chiamano vettori.
 
 \subsubsection*{Proprietà dell'elemento neutro}
@@ -121,7 +121,7 @@ Sia \(V\) uno spazio vettoriale su campo \(k\), dati \(v_1, \dots v_n \in V\) ve
 allora possiamo costruire il vettore \(v = \alpha_1 v_1 + \alpha_2 v_2 + \dots + \alpha_n v_n\), chiamato combinazione lineare dei
 vettori \(v_1, \dots v_n\).
 
-\subsection{Vettori liearmente indipendenti}
+\subsection{Vettori linearmente indipendenti}
 Siano \(v_1, \dots v_n\) vettori di uno spazio vettoriale \(V\), i vettori sono linearmente indipendenti se l'unica soluzione di
 \(\alpha_1 v_1 + \dots + \alpha_n v_n = \vec{0}\) è per \(\alpha_1 = \dots = \alpha_n = 0\).
 
@@ -153,7 +153,7 @@ dato un generico sottospazio \(W\) di \(V\), vale \(\{ \vec{0} \} \leq W \leq V\
 \subsubsection*{Unione, somma e intersezione tra sottospazi vettoriali}
 Siano \(U, W \leq V\) sottospazi di \(V\), spazio vettoriale su \(k\), vengono definite:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] \(U \cap W = \left\{ v \in U \land v \in W \right\}\) è l'intrsezione, si dimostra che \(U \cap W \leq V\)
+	\item[-] \(U \cap W = \left\{ v \in U \land v \in W \right\}\) è l'intersezione, si dimostra che \(U \cap W \leq V\)
 	\item[-] \(U \cup W = \left\{ v \in U \lor v \in W \right\}\) è l'unione, che si dimostra non essere sottospazi
 	\item[-] \(U + W = \left\{ u + w \tc u \in U, \; w \in W\right\}\) è il più piccolo sottospazio vettoriale che
 	contiene \(U\) e \(W\)
@@ -245,7 +245,7 @@ Siano \(V, W\) spazi vettoriali su campo \(k\), \(f: W \to W\) si dice lineare s
 	con \(a_1, \dots a_n \in k\)
 \end{itemize}
 
-\subsection{Omorfismo e isomorfismo}
+\subsection{Omomorfismo e isomorfismo}
 Una funzione o applicazione lineare è chiamata omomorfismo. \\
 Una funzione lineare biiettiva è chiamata isomorfismo. \\
 Una funzione lineare che ha lo stesso spazio vettoriale sia nel dominio che nel codominio si dice endomorfismo.
@@ -433,33 +433,33 @@ Le matrici elementari sono matrici quadrate e invertibili ottenute dalle funzion
 \begin{enumerate}
 	\item la matrice per scambiare tra loro due righe si ottiene dalla matrice identica in cui sono state scambiate due righe
 	come nell'esempio seguente, scambiando le righe 1 e 2:
-	\[P(1,2) = \begin{pmatrix}
+	\[M_{1,2} = \begin{pmatrix}
 		0 & 1 & 0 \\
 		1 & 0 & 0 \\
 		0 & 0 & 1
-	\end{pmatrix}\]
+	\end{pmatrix} \qquad (\det A' = -\det A)\]
 	si osserva che \(\rg P(i,j) = \rg I_n = n\), \(P(i,j)^{-1} = P(i,j)\)
 	
 	\item la matrice per moltiplicare una riga per uno scalare \(\lambda\) si ottiene dalla matrice identica con \(\lambda\)
 	al posto dell'1, nella riga da moltiplicare, come nell'esempio moltiplicando la riga 2 per \(\pi\):
-	\[M(2,\pi) = \begin{pmatrix}
+	\[M_2\pi = \begin{pmatrix}
 		1 & 0 & 0 \\
 		0 & \pi & 0 \\
 		0 & 0 & 1
-	\end{pmatrix}\]
+	\end{pmatrix} \qquad (\det A' = \lambda \det A)\]
 	
 	\item la matrice per ottenere una composizione lineare di righe si ottiene inserendo il coefficiente \(\beta\) al posto
 	dello 0, nella riga da modificare, nella colonna con lo stesso indice della riga che si vuole sommare, come nell'esempio
 	con \(R_2 = R_2 + \lambda R_3\):
-	\[M(2, 3, \lambda) = \begin{pmatrix}
+	\[M_{2,3}(\lambda) = \begin{pmatrix}
 		1 & 0 & 0 \\
 		0 & 1 & \lambda \\
 		0 & 0 & 1
-	\end{pmatrix}\]
+	\end{pmatrix} \qquad (\det A' = \det A)\]
 \end{enumerate}
 
 Per ottenere una generica matrice \(B\) che raggruppa più operazioni elementari eseguite su una matrice \(A\), ottenendo \(A'\)
-si può procedere come prodotto delle matrici delle diverse operazioni elemenatri eseguite (\hyperlink{composizioneFunzioniCambiamentiDiBase}{funzioni composte}),
+si può procedere come prodotto delle matrici delle diverse operazioni elementari eseguite (\hyperlink{composizioneFunzioniCambiamentiDiBase}{funzioni composte}),
 oppure si osserva che: \(B \cdot (A|I_n) = (BA | BI_n) = (A'|B)\). Quindi basta considerare la matrice \((A|I_n)\) e applicare
 le operazioni elementari per ottenere \(A'\) al posto di \(A\) e in questo modo si avrà \(B\) al posto di \(I_n\).
 
@@ -502,10 +502,10 @@ vale che: \[w = f(v) \quad \Rightarrow \quad \psmatrix{\mu_1}{\dots}{\mu_2}^{\un
 
 Ovvero ogni funzione, scelte una base del dominio e una del codominio, è possibile scriverla come matrice \(\dim W \times \dim V\),
 e per applicare la funzione ad un vettore, si moltiplica a sinistra il vettore dato dalle coordinate rispetto alla base del dominio
-per la matrice, ottnenedo le coordinate del vettore rispetto alla base del codominio.
+per la matrice, ottenendo le coordinate del vettore rispetto alla base del codominio.
 
 Per costruire la matrice relativa alla funzione si uniscono le coordinate dei vettori (verticali), secondo la base del codominio,
-dati dall'applicaione della funzione ai vettori della base del dominio come di seguito: \\
+dati dall'applicazione della funzione ai vettori della base del dominio come di seguito: \\
 sia \(f:V \to W\), \(\underline{v} = \{v_1, \dots v_n\}\) base di \(V\), \(\underline{w} = \{w_1, \dots w_m\}\) base di \(W\):
 \[f: \begin{matrix}
 	f(v_1) = a_1 w_1 + a_2 w_2 + \dots + a_m w_m \\
@@ -534,7 +534,7 @@ Sia \(V\) spazio vettoriale su \(k\) con basi \(\underline{v} = \{v_1, \dots v_n
 Un vettore \(v\) si può esprimere in due modi diversi secondo i due sistemi di coordinate:
 \[v \;\; = \;\; \lambda_1 v_1 + \dots + \lambda_n v_n = \begin{pmatrix} \lambda_1 \\ \cdots \\ \lambda_n \\ \end{pmatrix}^{\underline{v}}
 	\;\; = \;\;	\lambda_1' v_1' + \dots + \lambda_n' v_n' = \begin{pmatrix} \lambda_1' \\ \cdots \\ \lambda_n' \\ \end{pmatrix}^{\underline{v'}}\]
-Costriusco la funzione identità \(id: \f{V_{\underline{v}}}{V_{\underline{v'}}}{v}{v'}\) e la relativa matrice in cui le colonne
+Costruisco la funzione identità \(id: \f{V_{\underline{v}}}{V_{\underline{v'}}}{v}{v'}\) e la relativa matrice in cui le colonne
 sono le coordinate dei vettori della base \(\underline{v}\) rispetto alla base \(\underline{v'}\), come segue:
 \[f: \begin{matrix}
 	v_1 = a_1 v_1' + a_2 v_2' + \dots + a_n v_n' \\
@@ -602,7 +602,7 @@ La matrice \((A|B)\) si chiama matrice completa di \(S\): \((A|B) = \begin{pmatr
 	tutte le equazioni siano verificate contemporaneamente. Nel caso in cui \(A\) sia invertibile, il sistema ha un'unica soluzione
 	\(X = A^{-1} B\)
 	\item[-] Un sistema lineare ha soluzioni se e solo se \(B \in \img f\), con \(f: \f{k^n}{k^m}{X}{AX}\). Si osserva che \(\img f\)
-	corrisponde allo spazio vettoriale generato dalle colonne di \(A\), per cui \(B \in \img f \leftrightarrow B \in <A_1, A_2, \dots A_n>\) 
+	corrisponde allo spazio vettoriale generato dalle colonne di \(A\), per cui \(B \in \img f \leftrightarrow B \in <C_{A_1}, C_{A_2}, \dots C_{A_n}>\) 
 \end{itemize}
 
 \subsubsection*{Sistemi lineari omogenei associati}
@@ -683,16 +683,16 @@ Esempio per \(n = 2\)
 Esempio per \(n = 3\)
 \begin{align*}
 	\det A &= \sum_{\sigma \in S_3} \sgn(\sigma) \; a_{1 \sigma(1)} \; a_{2 \sigma(2)} \; a_{3 \sigma(3)} \\
-	&= \sgn(\sigma_1) \; a_{1 \sigma_1(1)} \; a_{2 \sigma_1(2)} \; a_{3 \sigma_1(3)} + \sgn(\sigma_2) \; a_{1 \sigma_2(1)} \; a_{2 \sigma_2(2)} \; a_{3 \sigma_2(3)} + \dots + \sgn(\sigma_6) \; a_{1 \sigma_6(1)} \; a_{2 \sigma_6(2)} \; a_{3 \sigma_6(3)} \\
+	&= \sgn(\sigma_1) \, a_{1 \sigma_1(1)} \, a_{2 \sigma_1(2)} \, a_{3 \sigma_1(3)} + \sgn(\sigma_2) \, a_{1 \sigma_2(1)} \, a_{2 \sigma_2(2)} \, a_{3 \sigma_2(3)} + \dots + \sgn(\sigma_6) \, a_{1 \sigma_6(1)} \, a_{2 \sigma_6(2)} \, a_{3 \sigma_6(3)} \\
 	&= a_{11} \; a_{22} \; a_{33} - a_{11} \; a_{23} \; a_{32} - a_{13} \; a_{22} \; a_{31} - a_{12} \; a_{21} \; a_{33} + a_{12} \; a_{23} \; a_{31} + a_{13} \; a_{21} \; a_{32}
 \end{align*}
 
 \subsection{Regola di Sarrus (det 3x3)}
-\(\det A = \det \left( \begin{matrix}
+\[\det A = \det \left( \begin{matrix}
 	a_{11} & a_{12} & a_{13} \\
 	a_{21} & a_{22} & a_{23} \\
 	a_{31} & a_{32} & a_{33}
-\end{matrix} \right) = a_{11} a_{22} a_{33} + a_{12} a_{23} a_{31} + a_{13} a_{21} a_{32} - a_{13} a_{22} a_{31} - a_{11} a_{23} a_{32} - a_{12} a_{21} a_{33}\)
+\end{matrix} \right) = a_{11} a_{22} a_{33} + a_{12} a_{23} a_{31} + a_{13} a_{21} a_{32} - a_{13} a_{22} a_{31} - a_{11} a_{23} a_{32} - a_{12} a_{21} a_{33}\]
 diagonali alto-sx \(\to\) basso-dx con segno \(+\), diagonali alto-dx \(\to\) basso-sx con segno \(-\)
 
 \subsection{Proprietà dei determinanti}
@@ -702,11 +702,11 @@ diagonali alto-sx \(\to\) basso-dx con segno \(+\), diagonali alto-dx \(\to\) ba
 	\item[1.3] \(\det\) matrice triangolare inferiore \(=\) prodotto elementi sulla diagonale principale
 	\item[1.4] \(\det \left( \begin{matrix} A & B \\ 0 & C \end{matrix} \right) = \det A \cdot \det C \qquad\) con \(A, B, C\) sottomatrici quadrate di matrice quadrata
 	\item[2] \(\det A\tran = \det A\), ovvero le proprietà che valgono per le righe valgono anche per le colonne
-	\item[3.1] \(\det \left( \begin{matrix} \dots \\ \alpha v + \alpha' v' \\ ... \end{matrix} \right) = \alpha \det \left( \begin{matrix} \dots \\ v \\ ... \end{matrix} \right) + \alpha' \det \left( \begin{matrix} \dots \\ v' \\ ... \end{matrix} \right)\)
-	\item[3.2] \(\det A' = -\det A\), con \(A'\) ottenuta scambiando due righe (o colonne) tra loro
-	\item[3.3] \(\det A' = \lambda \det A\), con \(A'\) ottenuta moltiplicando una riga (o colonna) per uno scalare \(\lambda\)
+	\item[3.1] \(\det \left( \begin{matrix} \dots \\ \alpha v + \alpha' v' \\ \dots \end{matrix} \right) = \alpha \det \left( \begin{matrix} \dots \\ v \\ \dots \end{matrix} \right) + \alpha' \det \left( \begin{matrix} \dots \\ v' \\ \dots \end{matrix} \right)\)
+	\item[3.2] \(\det A' = -\det A\), con \(A'\) ottenuta scambiando due righe (o colonne) tra loro (matrice elem. \(M_{i,j}\))
+	\item[3.3] \(\det A' = \lambda \det A\), con \(A'\) ottenuta moltiplicando una riga (o colonna) per uno scalare \(\lambda\) (\(M_{i}\lambda\))
 	\item[3.4] \(\det A = 0\) se ci sono due righe (o colonne) uguali.
-	\item[3.5] se ad una riga (o colonna) ci sommo combinazioni lineari di altre righe (o colonne), il determinante non cambia
+	\item[3.5] se ad una riga (o colonna) ci sommo combinazioni lineari di altre righe (o colonne), il determinante non cambia (matrice elementare \(M_{i,j}(\lambda)\))
 	\item[4.1] teorema di Binet: \(\det (AB) = \det A \cdot \det B\)
 	\item[4.2] corollario: \(\det A^{-1} = \frac{1}{\det A}\)
 \end{enumerate}
@@ -733,7 +733,7 @@ Gli autovettori sono vettori linearmente indipendenti che costituiscono una base
 è diagonale e la diagonale è costituita dagli autovalori associati agli autovettori.
 
 \subsection{Autovalori e polinomio caratteristico}
-Gli autovalori di una matrice \(A\) sono le soluzioni del poliniomio caratteristico \(p(\lambda) = \det (A - \lambda I_n)\). Ogni
+Gli autovalori di una matrice \(A\) sono le soluzioni del polinomio caratteristico \(p(\lambda) = \det (A - \lambda I_n)\). Ogni
 autovalore \(\lambda\) ha una propria molteplicità algebrica \(m_a(\lambda)\) data dal numero di volte che compare nelle soluzioni
 del polinomio caratteristico. La somma delle molteplicità algebriche di tutti gli autovalori è inferiore a \(n\) (righe della matrice).
 
@@ -758,7 +758,7 @@ Alcune osservazioni:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] se una matrice ha \(n\) autovettori linearmente indipendenti, allora è diagonalizzabile
 	\item[-] un teorema garantisce che autovettori associati a autovalori distinti, sono linearmente indipendenti
-	\item[-] se una matrice \(n \times n\) ha \(n\) autovalori distiniti, allora è diagonalizzabile
+	\item[-] se una matrice \(n \times n\) ha \(n\) autovalori distinti, allora è diagonalizzabile
 	\item[-] la molteplicità geometrica è sempre minore o uguale a quella algebrica \(1 \leq m_g(\lambda) \leq m_a(\lambda)\)
 	\item[-] se una matrice ha \(m_g(\lambda) = m_a(\lambda)\) per ogni autovalore, allora è diagonalizzabile
 	\item[-] \(A\) è diagonalizzabile \(\quad \Leftrightarrow \quad p_A(\lambda) = (\lambda_1-\lambda)^{m_1} \cdot (\lambda_2-\lambda)^{m_2} \dots (\lambda_r-\lambda)^{m_r}\)
@@ -816,7 +816,7 @@ Dato un sottospazio \(U \leq \mathbb{R}^n\), il sottospazio ortogonale ad \(U\) 
 	\item[-] l'ortogonale dell'ortogonale è il sottopazio di partenza \(U^{\perp\perp} = U\)
 	\item[-] \((U+W)^\perp = U^\perp \cap W^\perp\) e \((U \cap W)^\perp = U^\perp + W^\perp\)
 \end{itemize}
-Dato \(U\) sottoforma di equazioni cartesiane, allora:
+Dato \(U\) sotto forma di equazioni cartesiane, allora:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(U = \ker A\), con \(A\) matrice associata al sistema di equazioni cartesiane
 	\item[-] \(U^\perp\) è sottospazio generato dalle righe di \(A\)
@@ -827,8 +827,8 @@ Per trovare le proiezioni ortogonali di \(v\) su \(U\) e \(U^\perp\):
 	trovo due basi di \(U\) e \(U^\perp\), le unisco, trovo le coordinate di \(v\) rispetto alla nuova base e le coordinate relative
 	ai vettori della base di \(U\) sono la proiezione di \(v\) su \(U\), mentre le rimanenti sono la proiezione di \(v\) su \(U^\perp\)
 	\item[-] \textbf{Metodo 2:}\\
-	impongo che \(v-v' v'' \in U^\perp\) per cui impongo la condizione di perpendicolarità per ogni vettore di \(U^\perp\) e risolvo
-	il sistema \(u_1 \cdot (v-v') = 0, u_2 \cdot (v-v') = 0, \dots u_r \cdot (v-v') = 0\) 
+	impongo che \((v-v') = v'' \in U^\perp\) per cui impongo la condizione di perpendicolarità per ogni vettore di \(U^\perp\) e risolvo
+	il sistema \(u_1 \cdot (v-v') = 0, u_2 \cdot (v-v') = 0, \dots u_r \cdot (v-v') = 0\), \(u_1, \dots u_r\) base di \(U\) 
 \end{itemize}
 
 \subsection{Matrice di proiezione ortogonale}
@@ -885,7 +885,7 @@ Uno spazio affine \(\mathbb{A}\) su \(\mathbb{R}\) è costituito da:
 \end{enumerate}
 
 \subsection{Rette in uno spazio affine}
-Una generica retta \(r\) è univocamente identificata da due punti distiniti \(P, Q \in r\) appartenenti ad essa, o da un punto
+Una generica retta \(r\) è univocamente identificata da due punti distinti \(P, Q \in r\) appartenenti ad essa, o da un punto
 e da un vettore direttore \(v\) (ottenuto come differenza di punti distinti della retta \(v = Q - P\))
 
 \subsubsection*{Equazioni parametriche}
@@ -894,13 +894,13 @@ l'equazione parametrica della retta ha la forma:
 \[r : X = P + \lambda v\]
 
 \subsubsection*{Equazioni cartesiane}
-Partendo dall'equazone parametrica e sostituendo il parametro \(\lambda\) si ottiene un sistema di \(n-1\) equazioni cartesiane
+Partendo dall'equazione parametrica e sostituendo il parametro \(\lambda\) si ottiene un sistema di \(n-1\) equazioni cartesiane
 con \(n\) dimensione dello spazio affine. Nel caso di \(\mathbb{R}^3\) si ha:
 \[r: \begin{cases}
 	ax + by + cz = d \\
 	ex + fy + gz = h
 \end{cases}\]
-(si osserva che i vettori \((a, b, c, d)\) e \((e, f, g, h)\) definiscono il sottospazio direttore perprendicolare a \(r\))
+(si osserva che i vettori \((a, b, c, d)\) e \((e, f, g, h)\) definiscono il sottospazio direttore perpendicolare a \(r\))
 
 \subsection{Piani in uno spazio affine}
 Un generico piano \(\pi\) è univocamente identificato da tre punti distinti e non allineati \(P, Q, R \in \pi\), o da un punto
@@ -1021,7 +1021,7 @@ La formula generica è \(\dist (P,r) = || P - H || = \sqrt{(P-Q) \cdot (P-Q) - \
 \newpage
 
 \subsubsection*{Distanza retta-retta}
-Due rette possono intersecarsi, essere parallele o sghembe. Se si intersecano, la loro distranza è 0, se sono parallele distinte,
+Due rette possono intersecarsi, essere parallele o sghembe. Se si intersecano, la loro distanza è 0, se sono parallele distinte,
 basta prendere un generico punto da una delle due rette e calcolare la distanza punto-retta, se sono sghembe, la distanza minima
 è quella per cui il vettore distanza è perpendicolare al sottospazio generato unendo i sottospazi direttori: \((X_r-X_s) \perp <W_r, W_s>\)
 \begin{itemize}[topsep=3pt, itemsep=0pt]
@@ -1036,7 +1036,7 @@ basta prendere un generico punto da una delle due rette e calcolare la distanza 
 
 \subsection{Angoli tra sottospazi affini in \(\mathbb{R}^3\)}
 \subsubsection*{Angolo tra due rette}
-Date due rette incindenti con i relativi vettori direttori, l'angolo formato dalle due è \(\displaystyle \cos \alpha = \frac{u \cdot v}{||u|| \; ||v||}\)
+Date due rette incidenti con i relativi vettori direttori, l'angolo formato dalle due è \(\displaystyle \cos \alpha = \frac{u \cdot v}{||u|| \; ||v||}\)
 con \(0 \leq \alpha \leq \frac{\pi}{2}\)
 
 \subsubsection*{Angolo tra piano e retta}
@@ -1044,7 +1044,7 @@ Data una retta e il piano, trovo la proiezione ortogonale della retta sul piano 
 proiezione ortogonale sul piano. Se la proiezione è un punto, allora la retta è perpendicolare al piano e \(\alpha = \frac{\pi}{2}\).
 
 \subsection{Fasci di sottospazi affini}
-\subsubsection*{Fascio di piani pasanti per una retta}
+\subsubsection*{Fascio di piani passanti per una retta}
 Date le equazioni cartesiane di una retta, si ottengono immediatamente le due equazioni cartesiane dei piani che si intersecano
 sulla retta stessa. I due piani sono detti generatori del fascio, gli altri piani sono ottenuti come combinazione lineare dei
 due piani generatori, dipendenti da due parametri \(\lambda\) e \(\mu\) non nulli contemporaneamente.
@@ -1053,7 +1053,7 @@ due piani generatori, dipendenti da due parametri \(\lambda\) e \(\mu\) non null
 		a_1 x + b_1 y + c_1 z + d_1 = 0 \\
 		a_2 x + b_2 y + c_2 z + d_2 = 0
 	\end{cases}
-	\quad &\longrightarrow \quad \begin{aligned}
+	\;\; &\longrightarrow \;\; \begin{aligned}
 		\pi_1 : a_1 x + b_1 y + c_1 z + d_1 = 0 \\
 		\pi_2 : a_2 x + b_2 y + c_2 z + d_2 = 0
 	\end{aligned}

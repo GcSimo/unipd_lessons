@@ -156,7 +156,7 @@ Esistono delle funzioni di conversione tra tipi (casting) approfondite nel parag
 Il nome di una variabile permette di richiamarla durante il programma in maniera univoca. Non ci possono essere più variabili con
 lo stesso nome. Alcune buone pratiche per nominare una variabile:
 \begin{itemize}
-	\item evitare nomi troppo corti corti (eccetto per situazioni particolari es. contatori cicli)
+	\item evitare nomi troppo corti (eccetto per situazioni particolari es. contatori cicli)
 	\item evitare acronimi difficili da interpretare
 	\item usare nomi brevi che esplicitano il ruolo della variabile nel codice
 \end{itemize}
@@ -180,7 +180,7 @@ un vero tipo, non c'è type-safety.
 
 \subsection{Literal}
 I literal sono particolari variabili costanti senza nome, contenute all'interno delle istruzioni del codice. Sono valori
-immediati utilizzati solo una volta. Un esempio le stringhe di testo da mandare in output o i valor i con cui le variabili
+immediati utilizzati solo una volta. Un esempio le stringhe di testo da mandare in output o i valori con cui le variabili
 sono inizializzate. I literal hanno un tipo definito automaticamente dal compilatore.
 \begin{lstlisting}
 	constexpr double pi = 3.14159; // 3.14159 e' literal di tipo float
@@ -398,14 +398,14 @@ operatori su cui è invocato.
 	"Hello" + "World" // giustapposizione di stringhe
 \end{lstlisting}
 
-\subsubsection*{Rvalue e Lvalue}
+\subsubsection*{RValue e LValue}
 \begin{itemize}
 	\item Un lvalue è l'elemento a sinistra di un operatore di assegnamento. Viene modificato durante l'esecuzione dell'operazione, per cui
 	deve essere modificabile.
 	\item Un rvalue è l'elemento a destra di un operatore di assegnamento. Non viene modificato (a meno di side effects) per cui può essere
 	anche costante.
 	\item Le variabili possono essere sia lvalue, sia rvalue, i literals, le costanti e i valori restituiti dalle funzioni (a meno di lvalue
-	reference o puntatori) sono solo rvaule.
+	reference o puntatori) sono solo rvalue.
 \end{itemize}
 
 \newpage
@@ -536,7 +536,7 @@ Si importano solo i file header di una libreria. I relativi file sorgente non si
 (linker) in fase di compilazione.
 
 \subsubsection*{Include guards}
-Per evitare che una stessa libreria sia importata pià volte inutilmente, si utilizzano delle direttive al preprocessore chiamate
+Per evitare che una stessa libreria sia importata più volte inutilmente, si utilizzano delle direttive al preprocessore chiamate
 include guards. Nel caso in cui la libreria sia già stata importata, il contenuto del file header viene ignorato.
 \begin{lstlisting}
 	#ifndef MYLIB_h
@@ -607,7 +607,7 @@ coinvolti verranno modificati.
 \subsubsection*{Passaggio per const reference}
 Il passaggio per \verb|const reference| consiste nel passaggio per riferimento in cui i parametri all'interno della funzione
 sono dichiarati costanti. In questo modo non possono essere modificati all'interno della funzione e di conseguenza non verranno
-modificati nel chiamante. Le const reference accettano sia lvalue (variabili), che rvalue (literas o costanti).
+modificati nel chiamante. Le const reference accettano sia lvalue (variabili), che rvalue (literals o costanti).
 
 \begin{lstlisting}
 	int somma(std::vector<int> v); // passaggio per copia
@@ -914,7 +914,7 @@ l'operatore di assegnazione \verb|operator=|.
 	A obj2 = obj1; // copia membro a mebro da obj1 a obj2 (costruttore)
 	obj1 = obj2;   // copia membro a mebro da obj2 a obj1 (assegnazione)
 \end{lstlisting}
-Di default viene effettuata una copia membro a mebro, detta shallow copy, che è implementata di default dal costruttore di copia
+Di default viene effettuata una copia membro a membro, detta shallow copy, che è implementata di default dal costruttore di copia
 e dall'operatore di assegnamento di copia. Quando si hanno oggetti con puntatori, la shallow copy copia solo l'indirizzo, ma non
 duplica la memoria puntata. Si avranno due oggetti con puntatori alla stessa area di memoria. Per risolvere il problema si ricorre
 alla deep copy, per cui sarà necessario implementare il costruttore di copia e l'assegnamento di copia.
@@ -1236,7 +1236,7 @@ Gli svantaggi sono:
 \subsubsection*{Introduzione}
 I template sono strutture alla base della programmazione generica e del polimorfismo statico. Permettono di scrivere codice
 indipendente dal tipo dei dati, che poi verrà specializzato dal compilatore in base al tipo su cui verrà invocato. Questo processo
-è anche chiamato type generator, parametrized type o paramettized class, in quanto si generano un tipo diverso per ogni
+è anche chiamato type generator, parametrized type o parametrized class, in quanto si generano un tipo diverso per ogni
 specializzazione e nella definizione si usano parametri al posto del tipo da specializzare.
 
 \subsubsection*{Specializzazione}
@@ -1382,11 +1382,11 @@ public e protected. La relazione si stabilisce nella dichiarazione della classe 
 	\item \textbf{funzione virtuale pura}: una funzione virtuale pura è una funzione virtuale che non ha implementazione. Per
 	specificare che la funzione non ha implementazione si aggiunge \verb|= 0| alla fine della dichiarazione. Questo obbliga le
 	classi derivate ad implementarla, altrimenti saranno instanziabili.
-	\item \textbf{disabilitazione di funzioni}: per disabilitare una funzione non necesaria si aggiunge \verb|= delete| alla fine
+	\item \textbf{disabilitazione di funzioni}: per disabilitare una funzione non necessaria si aggiunge \verb|= delete| alla fine
 	della dichiarazione di una funzione (es. disabilitazione dei costruttori di copy e move).
-	\item \textbf{override}: l'override la ridefinizione di funzioni virtuali della classi base nelle classi derivate. Per
-	effettuare l'override bisgna avere stessi nome, parametri, constness, tipo restituito; inoltre è possibile inserire la keyword
-	\verb|override| in modo da ricevere errore di compilazione se ci sono probelmi. Per definire quale funzione verrà eseguita, si
+	\item \textbf{override}: l'override la ridefinizione di funzioni virtuali delle classi base nelle classi derivate. Per
+	effettuare l'override bisogna avere stessi nome, parametri, constness, tipo restituito; inoltre è possibile inserire la keyword
+	\verb|override| in modo da ricevere errore di compilazione se ci sono problemi. Per definire quale funzione verrà eseguita, si
 	utilizzano le Virtual Table.
 \end{itemize}
 
@@ -1478,14 +1478,14 @@ funzioni con lo stesso nome.
 
 \subsection{Polimorfismo dinamico}
 Il polimorfismo dinamico (o vincolato, risolto a tempo di esecuzione) è dato dall'utilizzo dell'ereditarietà, delle funzioni
-virtuali e dell'override di esse. Constiste nel vedere un oggetto di una classe base con il suo vero tipo (classe derivata)
+virtuali e dell'override di esse. Consiste nel vedere un oggetto di una classe base con il suo vero tipo (classe derivata)
 e gestire le chiamate delle funzioni invocate da tale oggetto attraverso le virtual tables. È detto vincolato in quanto le
 classi base e derivate hanno una relazione \say{is a} tra di loro ed è risolto a tempo di esecuzione attraverso le virtual table.
 
 \subsection*{Confronto tra i due tipi di polimorfismo}
 \begin{itemize}
 	\item[1a.] Nel polimorfismo dinamico sono sicuro che la funzione chiamata esista nella classe base o in una delle classi derivate
-	\item[1b.] Nel polomorfismo statico, se per un certo tipo manca la funzione da chiamare, viene segnalato un errore dal compilatore
+	\item[1b.] Nel polimorfismo statico, se per un certo tipo manca la funzione da chiamare, viene segnalato un errore dal compilatore
 	\item[2a.] Il polimorfismo dinamico è più lento in esecuzione in quando le virtual table consumano risorse
 	\item[2b.] Il polimorfismo statico è più rapido in esecuzione, ma produce eseguibili più grandi  
 \end{itemize}
@@ -1496,7 +1496,7 @@ in librerie. La STL si divide in contenitori per memorizzare i dati \verb|vector
 manipolazione dei dati \verb|sort|, \verb|find|, \dots
 
 \subsection{Container STL - accesso unificato}
-I container STL (o contenitori di dati / struttre dati) implementano un sistema di accesso unificato, comune a tutte le classi. 
+I container STL (o contenitori di dati / strutture dati) implementano un sistema di accesso unificato, comune a tutte le classi. 
 Questo permette di trattare i diversi container in maniera generica ed è possibile disaccoppiare la struttura dall'algoritmo.
 Questo meccanismo è implementato attraverso sequenze e iteratori.
 
@@ -1511,7 +1511,7 @@ Gli iteratori dell'accesso unificato sono puntatori agli elementi di un containe
 	\item spesso il tipo degli iteratori appesantisce il codice, per cui si utilizza la parola chiave \verb|auto| per lasciare
 	al compilatore la scelta del tipo da inserire
 \end{itemize}
-Quando si usano gli iteratori è necesassario fare attenzione ad alcune funzioni eseguite sul container. Ad esempio quando si
+Quando si usano gli iteratori è necessario fare attenzione ad alcune funzioni eseguite sul container. Ad esempio quando si
 rimuove un elemento da un vettore, viene eseguito lo shift dei valori, ma gli iteratori non cambiano posizione.
 
 \subsection{Algoritmi STL}
@@ -1623,7 +1623,7 @@ gli \verb|shared_ptr|.
 \begin{itemize}
 	\item non permette di avere più copie, ovvero non ci possono essere più puntatori che puntano alla stessa area di memoria, 
 	ma permette di eseguire move
-	\item l'inizializzaizione può avvenire con costruttore o tramite la funzione reset (assegnamento)
+	\item l'inizializzazione può avvenire con costruttore o tramite la funzione reset (assegnamento)
 	\item l'accesso all'area puntata avviene tramite operatori \verb|*| e \verb|->|
 	\item il rilascio del puntatore restituisce il puntatore senza le protezioni di uno smart pointer
 \end{itemize}

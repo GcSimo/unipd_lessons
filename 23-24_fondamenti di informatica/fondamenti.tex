@@ -55,7 +55,7 @@
 
 \title{Appunti di Fondamenti di Informatica}
 \author{Giacomo Simonetto}
-\date{Primo semetre 2023-24}
+\date{Primo semestre 2023-24}
 
 \begin{document}
 
@@ -88,7 +88,7 @@
 		& Church, Turing e Kleene elaborano dei formalismi meccanici tra cui la \textbf{Macchina di Turing} e la
 		\textbf{Tesi di Church-Turing} che sostiene che tutto ciò che è computabile è computabile dalla macchina di
 		Turing universale. La capacità computazionale tra una macchina di Turing e un computer odierno è la stessa
-		(ecceto per il fatto che la macchina di Turing prevedeva uno spazio di archiviazione illimitato), cambia
+		(eccetto per il fatto che la macchina di Turing prevedeva uno spazio di archiviazione illimitato), cambia
 		solo la velocità computazionale. Entrambe le macchine risolvono gli stessi problemi, ovvero tutti quelli
 		che si possono risolvere con un algoritmo. \\
 		\midrule
@@ -111,7 +111,7 @@
 
 		1966
 		& Viene formulato il \textbf{Teorema di Jacopini-Bohm}: qualsiasi algoritmo è implementabile utilizzando le
-		strutture fondamentali di sequenza, selezione e ripetizione. In alrre parole ha senso investire nell'informatica 
+		strutture fondamentali di sequenza, selezione e ripetizione. In altre parole ha senso investire nell'informatica 
 		come strumento per risolvere problemi di tipo algoritmico. \\
 		\midrule
 		
@@ -172,17 +172,17 @@
 \section{Computer}
 Per computer, o calcolatore, si intende un sistema di elaborazione e memorizzazione di informazioni che opera sotto
 il controllo di un programma. È composto da hardware (parte fisica) e software (programmi e dati). I dati possono
-essre di diverso tipo (immagini, testi, audio, video, \dots) e sono rappresentati elettricamente in 0 e 1.
+essere di diverso tipo (immagini, testi, audio, video, \dots) e sono rappresentati elettricamente in 0 e 1.
 
 Esistono diversi tipi di computer (workstation, smartphone, \dots) che possono svolgere diversi tipi di impieghi
 (elettrodomestici, giochi, fotografie, \dots).
 
 
 \section{Modello di Von Neumann}
-Il modello di Von Neumann è una rappresentazione dell'archietttura di un elaboratore. Prevede la presenza di 4 blocchi:
+Il modello di Von Neumann è una rappresentazione dell'architettura di un elaboratore. Prevede la presenza di 4 blocchi:
 la CPU, la memoria primaria, la memoria secondaria e i dispositivi di I/O collegati insieme grazie al BUS.
 
-Inoltre sono presenti due diversi flussi di informazioni: quello di dati è bidirezionale (nello schema è rappresetato
+Inoltre sono presenti due diversi flussi di informazioni: quello di dati è bidirezionale (nello schema è rappresentato
 dalle frecce arancioni), mentre quello degli indirizzi e dei segnali di controllo è unidirezionale con direzione CPU
 \(\rightarrow\) altri blocchi (nello schema è rappresentato dalle frecce blu).
 
@@ -213,7 +213,7 @@ La Central Processing Unit ha il compito di:
 			\item[-] il \textbf{Program Counter}, o \textit{PC}, che memorizza l'indirizzo di memoria dell'istruzione successiva da eseguire
 			\item[-] l'\textbf{Instruction Register}, o \textit{IR}, che memorizza l'istruzione da decodificare
 			\item[-] il \textbf{Memory Data Register},	o \textit{MDR}, che memorizza i dati/le istruzioni lette o che stanno per essere scritte nella memoria primaria
-			\item[-] il \textbf{Memory Adress Register}, o \textit{MAR}, che memorizza l'indirizzo di memoria dell'istruzione da eseguire o del dato da utilizzare
+			\item[-] il \textbf{Memory Address Register}, o \textit{MAR}, che memorizza l'indirizzo di memoria dell'istruzione da eseguire o del dato da utilizzare
 		\end{itemize}
 	\end{tabularx}
 \end{center}
@@ -236,7 +236,7 @@ della tecnologia disponibile.
 		2° fase & \textbf{decode} &
 		\begin{itemize}[topsep=3pt, itemsep=0pt, leftmargin=5pt]
 			\item[-] la \textit{CU} decodifica l'istruzione salvata nell'\textit{IR}
-			\item[-] se necessario viene caricato nel \textit{MAR} l'indirrizzo del dato da elaborare o della posizione in cui scrivere il dato elaborato 
+			\item[-] se necessario viene caricato nel \textit{MAR} l'indirizzo del dato da elaborare o della posizione in cui scrivere il dato elaborato 
 		\end{itemize} \\
 		\midrule
 		3° fase & \textbf{execute} &
@@ -263,7 +263,7 @@ Esistono due tipi di parallelismo:
 	quella della successiva, ma è sufficiente che sia completato il primo stadio. 
 	\item[-] \textbf{parallelismo a livello di processori}: \\
 	consiste nell'avere più processori che lavorano contemporaneamente in grado di eseguire più istruzioni nello stesso momento.
-	In base all'archietttura di distinguono in multiprocessori (se sono presenti più processori che condividono la stessa memoria)
+	In base all'architettura di distinguono in multiprocessori (se sono presenti più processori che condividono la stessa memoria)
 	o multicomputer (se sono più processori, ciascuno con la propria memoria dedicata, collegati tra loro).
 \end{itemize}
 
@@ -385,7 +385,7 @@ In Windows i comandi riprendono il vecchio sistema MS-DOS.
 \subsection{Unix - Linux}
 \subsubsection*{Introduzione}
 Linux è un sistema operativo sviluppato nel 1994 da Linus Torvald, basandosi su UNIX.
-Unix è un sistema operativo proprietaro, Linux è la corrispettiva versione di Unix, ma open source.
+Unix è un sistema operativo proprietario, Linux è la corrispettiva versione di Unix, ma open source.
 
 \subsubsection*{Utenti e permessi}
 Da sempre Linux e Unix sono sistemi multiutente, ovvero ciascun file ha un utente proprietario e ogni utente più accedere
@@ -393,15 +393,15 @@ e modificare solo dove è permesso. L'utente che non ha limitazioni è chiamato 
 
 \subsubsection*{Filesystem}
 Il filesystem è organizzato con una struttura ad albero capovolto, in cui la cartella, o \textit{directory}, principale,
-che contiente tutti i file e le directory del sistema, è chiamata \verb|root|. Ogni elemento nel filesystem è raggiungibile
-attraverso un percoso chiamato \textit{path}. Il percorso della cartella \verb|root| è \verb|\|.
+che contiene tutti i file e le directory del sistema, è chiamata \verb|root|. Ogni elemento nel filesystem è raggiungibile
+attraverso un percorso chiamato \textit{path}. Il percorso della cartella \verb|root| è \verb|\|.
 
 I path si distinguono in:
 \begin{itemize} [topsep=3pt, itemsep=0pt]
 	\item[-] \textbf{percorso assoluto}: \\
 	ovvero il percorso che separa la cartella \verb|root| dal file in questione, inizia con \verb|\|, ovvero il simbolo della
 	cartella \verb|root|, cioè con \verb|/|, es. \verb|/user/nomeutente/home/desktop/file.txt|
-	\item[-] \textbf{persorso relativo}: \\
+	\item[-] \textbf{percorso relativo}: \\
 	ovvero il percorso che separa una cartella diversa dalla \verb|root| dal file in questione, inizia con il nome della cartella
 	di partenza, es. \verb|desktop/file.txt| rispetto alla \verb|home|
 \end{itemize}
@@ -458,7 +458,7 @@ Alcuni comandi di Linux/Unix sono:
 
 Dato che un computer può elaborare soltanto un numero finito di informazioni, mentre i numeri sono infiniti, significa che
 ci sarà un valore massimo e un valore minimo rappresentabile. Inoltre viene introdotto un errore dato dal fatto che non tutti
-i nmeri hanno un numero di cifre limitate (es. \(\pi\) o \(\sqrt{2}\)).
+i numeri hanno un numero di cifre limitate (es. \(\pi\) o \(\sqrt{2}\)).
 
 \subsection{Base binaria, decimale, ottale ed esadecimale}
 La rappresentazione decimale utilizza le cifre da 0 a 9 (10 simboli), quella binaria solo 0 e 1 (2 simboli). Le altre
@@ -500,7 +500,7 @@ while (numero != 0)
 	numero = numero / base
 \end{lstlisting}
 
-Il numero converito si ottiene giustapponendo i resti ottenuti al contrario, in modo che l'ultimo resto diventi la cifra più
+Il numero convertito si ottiene giustapponendo i resti ottenuti al contrario, in modo che l'ultimo resto diventi la cifra più
 significativa e il primo resto diventi quella meno significativa.
 
 \subsubsection*{Conversione binario - decimale}
@@ -547,7 +547,7 @@ efficiente e complesso.
 \subsection{Rappresentazione in complemento a 2}
 Con la rappresentazione in complemento a 2 è possibile rappresentare numeri interi positivi e negativi, eliminando la
 doppia rappresentazione dello zero e semplificando l'algoritmo di somma (e differenza), avendo sempre i positivi e lo
-0 che inziano per 0 e i negativi che iniziano per 1.
+0 che iniziano per 0 e i negativi che iniziano per 1.
 
 \subsubsection*{Rappresentazione}
 \begin{center}
@@ -587,8 +587,8 @@ In alternativa se il numero è negativo
 \end{align*}
 
 \subsubsection*{Conversione binario - decimale}
-Per i numeri che iniziano per 0 basta eseguire la conversione per sistema posizionale, per quelli che inizano con
-1 bisogna converire il numero secondo il sistema posizionale e toglierci \(2^n\) con \(n =\) cifre del numero.
+Per i numeri che iniziano per 0 basta eseguire la conversione per sistema posizionale, per quelli che iniziano con
+1 bisogna convertire il numero secondo il sistema posizionale e toglierci \(2^n\) con \(n =\) cifre del numero.
 
 \begin{align*}
 	01100_{C2} &= 0 \cdot 2 ^ 4 + 1 \cdot 2 ^ 3 + 1 \cdot 2 ^ 3 + 0 \cdot 2 ^ 1 + 0 \cdot 2 ^ 0 \\
@@ -754,7 +754,7 @@ Il teorema di Jacopini-Bohm sostiene che un programma/algoritmo è composto da i
 o decisioni, e iterazioni, o cicli.
 
 \subsection{Linguaggi di programmazione}
-Per linguaggio di programmazione si intende un sistema per la scrittura di programmi/algortimi eseguibili da un calcolatore.
+Per linguaggio di programmazione si intende un sistema per la scrittura di programmi/algoritmi eseguibili da un calcolatore.
 Deve essere rigoroso e non avere ambiguità.
 
 \subsubsection*{Linguaggio macchina}
@@ -767,7 +767,7 @@ istruzioni sono composte da sequenze di bit. Le istruzioni si dividono in tre ca
 \end{itemize}
 
 \subsubsection*{Linguaggi assembly e di basso livello}
-Permettono di scrivrere codice macchina attraverso codici mnemonici più simili al linguaggio umano, per cui più semplice
+Permettono di scrivere codice macchina attraverso codici mnemonici più simili al linguaggio umano, per cui più semplice
 da utilizzare. C'è una corrispondenza biunivoca tra l'instruction set del processore e il linguaggio assembly (o basso
 livello), per cui è diverso per ogni processore. Le istruzioni sono convertite in linguaggio macchina da un assembler.
 Rimane sempre il problema della portabilità.
@@ -825,7 +825,7 @@ Per compilare un file java si utilizza il comando \verb|javac NomeFile.java|, pe
 
 
 \subsection{Struttura di un programma}
-Un programma in java è composto da diversi elementi (introduzione):
+Un programma in Java è composto da diversi elementi (introduzione):
 \begin{center}
 	\begin{tabularx}{\textwidth}{c X}
 		\textbf{classi}
@@ -885,7 +885,7 @@ durante l'esecuzione del programma. Una variabile può contenere solo dati di sp
 	\item[-] \textbf{dichiarazione}: \verb|int a;| \\
 	viene riservato uno spazio in memoria in grado di contenere valori del tipo indicato al posto di \verb|tipo|
 	\item[-] \textbf{inizializzazione}: \verb|int a = 0;| \\
-	viene dichiara una variabile e le viene assegnato un valore inziale
+	viene dichiara una variabile e le viene assegnato un valore iniziale
 	\item[-] \textbf{assegnazione}: \verb|a = 345;| \\
 	viene salvato un valore in una variabile
 \end{itemize}
@@ -945,7 +945,7 @@ Per convertire un valore di un determinato tipo di dato in un altro, esistono du
 	tra parentesi il nuovo tipo di dato, davanti al valore da convertire
 \end{itemize}
 
-\subsubsection*{Oveflow}
+\subsubsection*{Overflow}
 L'overflow avviene quando si supera il valore massimo (o minimo) consentito da un determinato tipo di dato. Nei numeri
 interi, i valori hanno comportamento \say{ciclico} quando si supera il valore superiore, si ricomincia dal valore inferiore 
 e viceversa.
@@ -1012,7 +1012,7 @@ In ordine di precedenza:
 \end{enumerate}
 
 \subsubsection*{Costanti}
-Le costanti sono un tipo particlare di variabili che contengono un valore fisso per tutta la durata dell'esecuzione.
+Le costanti sono un tipo particolare di variabili che contengono un valore fisso per tutta la durata dell'esecuzione.
 il valore è assegnato al momento della dichiarazione. In genere le costanti si indicano con lettere maiuscole.
 \verb|final double PI = 3,14...|
 
@@ -1029,7 +1029,7 @@ classe String.
 
 \subsection{Metodi}
 I metodi sono blocchi di codice racchiusi da parentesi graffe che contengono istruzioni che risolvono un determinato problema.
-Un programma eseguibile deve necessariamente avere un metodo main defininto come \verb|public static void main(String[] args) { }|.
+Un programma eseguibile deve necessariamente avere un metodo main definito come \verb|public static void main(String[] args) { }|.
 
 \subsubsection*{Struttura}
 \begin{lstlisting}[language=Java]
@@ -1042,7 +1042,7 @@ tipoRestituito nomeMetodo (parametriFormali) {
 La prima riga del metodo viene chiamata firma.
 
 Un metodo può ricevere in input dei parametri espliciti indicati tra le parentesi tonde e restituire in output un valore di ritorno
-il cui tipo è specicificato prima del nome del metodo e il valore viene indicato alla fine del metodo dopo la parola return.
+il cui tipo è specificato prima del nome del metodo e il valore viene indicato alla fine del metodo dopo la parola return.
 Se un metodo non restituisce nessun valore si utilizza \verb|void| al posto del tipoRestituito e il return viene omesso o 
 indicato senza specificare il valoreRestituito.
 
@@ -1083,7 +1083,7 @@ d'istanza, riducendone l'accessibilità, e creando dei metodi di accesso e di mo
 	\item[-] impedire che l'oggetto venga messo in uno stato inconsistente
 	\item[-] l'utilizzatore non deve preoccuparsi dei dettagli implementativi
 	\item[-] se si modifica l'implementazione di un metodo, non serve modificarne i programmi in cui è impiegato
-	\item[-] se c'è un errore nelle variabili d'istanza, va cercato nei metodi della classse o nelle loro invocazioni
+	\item[-] se c'è un errore nelle variabili d'istanza, va cercato nei metodi della classe o nelle loro invocazioni
 \end{itemize}
 
 \subsubsection*{Accessibilità}
@@ -1218,7 +1218,7 @@ equals in modo che non confronti gli indirizzi, ma le variabili d'istanza).
 
 Una classe non estendibile ha attributo \verb|final| prima del nome della classe.
 
-Per sapre se una classe è un'istanza di una specifica classe o di una sua sottoclasse si utilizza la parola chiave \verb|instanceof|
+Per sapere se una classe è un'istanza di una specifica classe o di una sua sottoclasse si utilizza la parola chiave \verb|instanceof|
 (usata nel seguente modo \verb|Classe1 instanceof Classe2|). L'espressione restituisce true se Classe1 è una classe dello stesso tipo di Classe2, o una sua
 sottoclasse, altrimenti restituisce false.
 
@@ -1229,12 +1229,12 @@ sottoclasse, altrimenti restituisce false.
 È sempre possibile eseguire il casting da una sottoclasse ad una sua superclasse, senza generare errori in compilazione o in esecuzione.
 Al contrario per eseguire il casting da una superclasse ad una sua sottoclasse è necessario esplicitare il tipo della sottoclasse tra
 parentesi tonde e, se non è possibile eseguire la conversione, viene lanciata \verb|ClassCastException| durante l'esecuzione.
-Prima di eseguire la conversione esplicita è raccomandato verficare che sia possibile utilzzando \verb|instanceof|.
+Prima di eseguire la conversione esplicita è raccomandato verificare che sia possibile utilizzando \verb|instanceof|.
 
 \subsubsection*{Polimorfismo}
 Quando viene eseguito il casting da una sottoclasse ad una superclasse, il \say{nuovo} riferimento permette di utilizzare solo i metodi
 definiti per la superclasse, pena un errore in compilazione. \\
-Se non è stato fatto l'overloading del metodo della superclasse, allora in fase di eseguzione verrà chiamato il metodo della superclasse.
+Se non è stato fatto l'overloading del metodo della superclasse, allora in fase di esecuzione verrà chiamato il metodo della superclasse.
 Se, invece, è stato eseguito l'overloading del metodo in qualche sottoclasse, in fase di esecuzione verrà chiamato il metodo oveloaded
 della sottoclasse più specifica.
 Es. se è stato fatto l'overloading di \verb|toString| e viene chiamato da un oggetto non Object dopo il cast ad Object, verrà chiamato
@@ -1270,7 +1270,7 @@ Viceversa se la classe interna è private non è possibile fare nulla (non si po
 se questi sono definiti public).
 
 \subsubsection*{Pacchetti e organizzazione}
-Più classi che svolgono compiti simili vengono raggiuppatte in pacchetti. Ad esempio il pacchetto \verb|java.lang| racchiude la classe
+Più classi che svolgono compiti simili vengono raggruppate in pacchetti. Ad esempio il pacchetto \verb|java.lang| racchiude la classe
 \verb|System|, la classe \verb|String| e la classe \verb|Math|.
 
 Per utilizzare delle classi che si trovano in file diversi in cartelle diverse, bisogna inserire all'inizio del programma (fuori dalle classi)
@@ -1292,13 +1292,13 @@ Alcuni metodi forniti dalla classe:
 		\midrule
 		\verb|char charAt(int)| & restituisce il carattere all'indice passato come parametro \\
 		\midrule
-		\verb|int compareTo(String)| & restituisce 1 se il parametro esplicito precede quello esplicito, -1 se avviene l'oppposto e 0 se sono uguali \\
+		\verb|int compareTo(String)| & restituisce 1 se il parametro esplicito precede quello esplicito, -1 se avviene l'opposto e 0 se sono uguali \\
 		\midrule
 		\verb|boolean equals(Object)| & restituisce true se le due stringhe sono uguali, false altrimenti \\
 		\midrule
-		\verb|boolean equalsIgnoreCase(String)| & analogo al metodo prima, ingnorando maiuscole e minuscole \\
+		\verb|boolean equalsIgnoreCase(String)| & analogo al metodo prima, ignorando maiuscole e minuscole \\
 		\midrule
-		\verb|int indexOf(char)| & restiuisce l'indice di un dato carattere/stringa nell'intervallo di indici specificato (se specificato) \\
+		\verb|int indexOf(char)| & restituisce l'indice di un dato carattere/stringa nell'intervallo di indici specificato (se specificato) \\
 		\midrule
 		\verb|int length()| & restituisce la lunghezza della stringa \\
 		\midrule
@@ -1358,7 +1358,7 @@ Questa struttura verrà approfondita più avanti.
 
 
 \subsubsection*{Classe java.io.PrintWriter}
-Classe per scrivre su file utilizzando i metodi normalmente impiegati per lo standard output.
+Classe per scrivere su file utilizzando i metodi normalmente impiegati per lo standard output.
 
 Alcuni metodi forniti dalla classe:
 \begin{center}
@@ -1384,9 +1384,9 @@ Alcuni metodi forniti dalla classe:
 \begin{center}
 	\begin{tabularx}{\textwidth}{l X}
 		\toprule
-		\verb|Random()| & istanzia un generatore di numeri casuali, il seme è preso dall'orologio del computer \\
+		\verb|Random()| & istanza un generatore di numeri casuali, il seme è preso dall'orologio del computer \\
 		\midrule
-		\verb|Random(long)| & istanzia un generatore di numeri casuali, il seme è passato come parametro \\
+		\verb|Random(long)| & istanza un generatore di numeri casuali, il seme è passato come parametro \\
 		\midrule
 		\verb|int nextInt()| & restituisce un numero casuale intero nell'intervallo \(\left[0, 2^{32}\right)\) \\
 		\midrule
@@ -1455,7 +1455,7 @@ in una determinata parte del codice. Possono essere su una singola riga \verb|\\
 Esiste uno standard di commentazione che permette di creare una documentazione nello stesso stile di quella di java,
 con il  comando \verb|javadoc NomeFile.java|.Si prevede un commento su più righe posto prima di un metodo o una classe
 e in tale commento vengono descritti la funzione della classe, i parametri (preceduti da \verb|@param|), il valore di
-ritorno (preceduto da \verb|@return|) ed eventuali eccezioni (precedute da \verb|@throws|)) che possono essere lanciate.
+ritorno (preceduto da \verb|@return|) ed eventuali eccezioni (precedute da \verb|@throws|) che possono essere lanciate.
 
 Per generare la documentazione basta eseguire il comando \verb|javadoc NomeFile.java| e verranno creati i file necessari
 per visualizzare la documentazione nello stesso stile di quella di Java.
@@ -1553,7 +1553,7 @@ Il confronto tra due oggetti usando il simbolo \verb|==|, confronta gli indirizz
 oggetti, si utilizza il metodo \verb|boolean equals(Object obj)| (ereditato dalla classe Object) di cui spesso si fa l'overloading
 per adattarlo alla classe in cui viene utilizzato.
 
-Per ordinare due oggetti si utlizza il metodo \verb|int compareTo(Comparable obj)|, che ogni classe che implementa l'interfaccia
+Per ordinare due oggetti si utilizza il metodo \verb|int compareTo(Comparable obj)|, che ogni classe che implementa l'interfaccia
 \verb|Comparable| deve avere.
 
 \subsubsection*{De Morgan e doppia negazione}
@@ -1565,7 +1565,7 @@ Le leggi di De Morgan e della doppia negazione servono per eseguire semplificazi
 \subsubsection*{Cortocircuito logico}
 Dato che l'operazione and è vera se e solo se entrambe le condizioni/variabili sono vere, se la prima è falsa, il risultato sarà
 sicuramente falso indipendentemente dal valore della seconda. Analogamente l'operazione or è vera se e solo se almeno una delle
-due condiozioni/variabili è vera, per cui se la prima è vera, il risultato sarà vero.
+due condizioni/variabili è vera, per cui se la prima è vera, il risultato sarà vero.
 
 L'elaboratore termina la valutazione dell'espressione logica non appena si ottiene il risultato, per cui nelle situazioni sopra,
 la seconda condizione/variabile non viene nemmeno controllata
@@ -1578,7 +1578,7 @@ se \verb|s| punta a null, non è necessario eseguire la seconda condizione, che 
 
 \subsection{Selezioni}
 Le selezioni sono delle strutture logiche composte da una condizione e una serie di istruzioni che vengono eseguite solo se la
-la condizione è verificata (\verb|if|). Opzionalmente è possibile aggiungere un secondo blocco di istruzioni da eseguire solo
+condizione è verificata (\verb|if|). Opzionalmente è possibile aggiungere un secondo blocco di istruzioni da eseguire solo
 se la condizione non è verificata (\verb|else|).
 
 \subsubsection*{If - else}
@@ -1670,7 +1670,7 @@ do {
 
 \subsubsection*{For}
 Struttura di iterazione a conteggio che prevede l'inizializzazione (e l'eventuale dichiarazione) di una variabile contatore che
-viene incrementata di un certo valore (generamente 1). In questo modo si tiene traccia di quante iterazioni sono state svolte.
+viene incrementata di un certo valore (generalmente 1). In questo modo si tiene traccia di quante iterazioni sono state svolte.
 \begin{lstlisting}[language=Java]
 for (dichiarazione e inizializzazione; condizione; incremento) {
 	// istruzioni eseguite finche' condizione e' true
@@ -1693,7 +1693,7 @@ per evitare di incorrere in programmi in stile \say{spaghetti-code}.
 % ---------------------------------- Note sulla memoria in Java -----------------------------------
 \subsection{Note sulla memoria in Java}
 \subsubsection*{Stack e Heap}
-La memoria di esecuzione, in Java, si divide in due parti, lo stack e l'heap. Entrambi si trovano finisicamente nella RAM, lo stack
+La memoria di esecuzione, in Java, si divide in due parti, lo stack e l'heap. Entrambi si trovano fisicamente nella RAM, lo stack
 si espande dalla posizione iniziale dello spazio riservato al programma verso la memoria alta con indirizzi crescenti, mentre l'heap
 si espande dalla posizione finale dello spazio riservato al programma verso la memoria bassa con indirizzi decrescenti.
 
@@ -1724,13 +1724,13 @@ record di attivazione che al momento è \say{aperto}.
 % ------------------------------ Reindirizzamento del flusso di i/o -------------------------------
 \subsection{Reindirizzamento dei flussi i/o}
 \subsubsection*{Reindirizzamento del flusso di input}
-È possibile reindirizzare il flusso di standar input in modo che i dati di ingresso non vengano forniti dall'utente, ma provengano
+È possibile reindirizzare il flusso di standard input in modo che i dati di ingresso non vengano forniti dall'utente, ma provengano
 da un file. Questo permette un risparmio di tempo in fase di debug nell'evitare di dover reinserire molte volte gli stessi dati.
 Per fare ciò è necessario eseguire il programma specificando il file da cui prendere i dati nel seguente modo:
 
 \verb|java NomeFile.java < FileDiInput.txt|
 
-\subsubsection*{Reindirizzamento del flusso di ouput}
+\subsubsection*{Reindirizzamento del flusso di output}
 Analogo discorso per il flusso di standard output, è possibile salvare i messaggi di output e i risultati di elaborazione in un file
 specificando il file in cui scrivere al momento dell'esecuzione:
 
@@ -1761,7 +1761,7 @@ che equivale a:
 \subsection{Eccezioni in Java}
 Le eccezioni sono uno strumento del linguaggio Java per gestire errori che possono incorrere durante l'esecuzione del programma.
 Vengono lanciate da un metodo di fronte un errore durante l'esecuzione di tale metodo. L'eccezione si propaga nello stack dei record
-di attivazione facendo terminare anticipatamente ogni metodo finché non viene catturata e gestita opportumanete.
+di attivazione facendo terminare anticipatamente ogni metodo finché non viene catturata e gestita opportunamente.
 Se non viene catturata il programma termina l'esecuzione riportando l'eccezione lanciata.
 
 \subsubsection*{Throw}
@@ -1796,7 +1796,7 @@ try (/* dichiarazione delle risorse */ ... ) {
 \end{lstlisting}
 
 \subsubsection*{Eccezioni checked e unchecked}
-Le eccezioni sono classi che estendo la classe \verb|Exception| ed hanno una specifica struttra gerarchica. È possibile creare
+Le eccezioni sono classi che estendo la classe \verb|Exception| ed hanno una specifica struttura gerarchica. È possibile creare
 una eccezione personalizzata estendo \verb|RuntimeException|. Si dividono in tre categorie:
 \begin{enumerate} [topsep=3pt, itemsep=0pt]
 	\item \textbf{Errors}: lanciate in caso di problemi della JVM
@@ -1918,7 +1918,7 @@ Le istruzioni a tempo costante sono:
 La complessità spaziale è la misura della dimensione di memoria occupata da un programma. Per calcolarla è necessario definire
 delle istruzioni che occupano memoria in tempo costante e calcolare il numero di tali istruzioni in base alla dimensione dell'input.
 Le istruzioni a \say{memoria costante} sono le inizializzazioni di una variabile, un array di \(n\) elementi è considerato come
-inizalizzazione di \(n\) variabili.
+inizializzazione di \(n\) variabili.
 
 \newpage
 
@@ -1956,7 +1956,7 @@ Un array è una sequenza di celle di memoria di numero costante, ordinata in qua
 dato che i valori contenuti devono essere tutti dello stesso tipo. Per dichiarare un array è necessario specificare il tipo
 di dato da memorizzare e il numero di celle. Le celle sono numerate da \(0\) a \(n-1\) con \(n\) dimensione dell'array e per
 accedere ad una specifica cella è necessario indicarne l'indice racchiuso tra le parentesi quadre. Il tempo di accesso ad una
-cella di un array è di tempo costante (non dipende dalla posizione relativa della cella nll'array). La dimensione dell'array
+cella di un array è di tempo costante (non dipende dalla posizione relativa della cella nell'array). La dimensione dell'array
 è contenuta nella variabile d'istanza (public final) \verb|length| ed essendo costante non può essere modificata.
 
 \begin{lstlisting}[language=Java]
@@ -2018,11 +2018,11 @@ grande di celle e si tiene traccia del numero di celle occupate (dimensione logi
 all'array, viene incrementata la dimensione logica. Nel caso in cui è necessario passarlo come parametro, serve passare anche
 la dimensione logica.
 
-Questa tecnica è utile qunado è necessario memorizzare un numero indefinito di dati (es. input di numeri da parte dell'utente)
+Questa tecnica è utile quando è necessario memorizzare un numero indefinito di dati (es. input di numeri da parte dell'utente)
 di cui non si conosce a prescindere la quantità.
 
 \subsubsection*{Input da riga di comando}
-È possibile eeseguire l'input di dati direttamente da riga di comando inserendoli, separati da uno spazio, immediatamente dopo
+È possibile eseguire l'input di dati direttamente da riga di comando inserendoli, separati da uno spazio, immediatamente dopo
 il nome della classe eseguibile: \verb|java NomeClasse param1 param2 param3 ...|
 
 I parametri vengono memorizzati nell'array di stringhe \verb|args| presente nella firma del main.
@@ -2142,7 +2142,7 @@ Classe presente nel pacchetto \verb|java.util|, implementato con array riempito 
 \verb|ArrayList<OggettiDaSalvare> nomeArray = new ArrayList<OggettiDaSalvare>();|
 
 \subsubsection*{Metodi}
-Alcuni dei metodi principali (\verb|T| è il tipo di oggetti da salvare specificato nella dichiatazione):
+Alcuni dei metodi principali (\verb|T| è il tipo di oggetti da salvare specificato nella dichiarazione):
 
 \begin{center}
 	\begin{tabularx}{\textwidth}{l X}
@@ -2340,7 +2340,7 @@ Struttura
 Struttura dati in cui un elemento può avere più successori, se ogni elemento ha due successori, si dice albero binario.
 
 \subsection{Grafi - no esame}
-Struttura dati in cui un elmeento può avere più successori e più predecessori, creando delle reti di nodi.
-Si puù parlare di grafi diretti/indiretti, semplici/multigrafi, connessi/non connessi, pesati/non pesati, \dots
+Struttura dati in cui un elemento può avere più successori e più predecessori, creando delle reti di nodi.
+Si può parlare di grafi diretti/indiretti, semplici/multigrafi, connessi/non connessi, pesati/non pesati, \dots
 
 \end{document}

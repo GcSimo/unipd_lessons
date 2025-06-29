@@ -66,28 +66,23 @@ L'insieme è un concetto primitivo, per cui non ha definizione. È inteso come c
 	\varnothing &= \text{ insieme vuoto }
 \end{align*}
 
-\begin{center}
-	\begin{tabular}{c l}
-		\(a \in A\) & a (elemento) appartiene ad A (insieme) \\
-		\midrule
-		\(A \subseteq B\) & A è un sottoinsieme di B, \(\varnothing\) è sottinsieme di tutti gli insiemi \\
-		\midrule
-		\multirow{2}{*}{\(A = B\)} & gli insiemi A e B hanno gli stessi elementi \\
-		& \(A = B \Leftrightarrow A \subseteq B \land B \subseteq A\)
-	\end{tabular}
-\end{center}
-
-
 \subsection{Operazioni}
 \begin{center}
 	\begin{tabularx}{\textwidth}{l c X}
-		\textbf{unione} & \(A \cup B\) & insieme costituito dagli elementi di A e dagli elementi di B \\
+		\textbf{inclusione di elementi} & \(a \in A\) & a (elemento) appartiene ad A (insieme) \\
 		\midrule
-		\textbf{intersezione} & \(A \cap B\) & insieme costituito dagli elementi che appartengono sia ad A che a B \\
+		\textbf{inclusione tra insiemi} & \(A \subseteq B\) & A è un sottoinsieme di B, \(\varnothing\) è sottoinsieme di tutti gli insiemi \\
 		\midrule
-		\textbf{differenza} & \(A \; \backslash \; B\) & insieme costituito dagli elementi di A che non apaprtengono anche a B \\
+		\multirow{2}{*}{\textbf{uguaglianza}} & \multirow{2}{*}{\(A = B\)} & gli insiemi A e B hanno gli stessi elementi \\
+		& & \(A = B \Leftrightarrow A \subseteq B \land B \subseteq A\) \\
 		\midrule
-		\multirow{2}{*}{\textbf{prodotto catesiano}} & 	\multirow{2}{*}{\(A \times B\)} & insieme delle coppie ordinate di elementi formate da un elmeento di A e da un elmeneto di B \\
+		\textbf{unione} & \(A \cup B\) & insieme degli elementi di A e degli elementi di B \\
+		\midrule
+		\textbf{intersezione} & \(A \cap B\) & insieme degli elementi che appartengono sia ad A che a B \\
+		\midrule
+		\textbf{differenza} & \(A \; \backslash \; B\) & insieme degli elementi di A che non appartengono anche a B \\
+		\midrule
+		\multirow{2}{*}{\textbf{prodotto cartesiano}} & \multirow{2}{*}{\(A \times B\)} & insieme delle coppie ordinate di elementi formate da un elemento di A e da un elemento di B \\
 		& & \(A \times B = \{ (a, b) \text{ t.c. } a \in A \land b \in B \}\)
 	\end{tabularx}
 \end{center}
@@ -183,7 +178,7 @@ Significato insiemistico: numero di riordinamenti di una famiglia di \(n\) eleme
 \subsubsection*{Definizione}
 \[\binom{n}{k} := \frac{n!}{k! \cdot (n - k)!}\]
 per \(n, k \in \mathbb{R}\) \\
-Significato insiemistico: numero di sottoinsiemi distiniti di \(k\) elementi che si possono formare
+Significato insiemistico: numero di sottoinsiemi distinti di \(k\) elementi che si possono formare
 in un insieme di \(n\) elementi.
 
 \subsubsection*{Proprietà}
@@ -525,7 +520,7 @@ per cui \(\mathbb{R} \subset \mathbb{C}\) e \(\mathbb{R} = \left\{ z \in \mathbb
 	\item \(\displaystyle z^{-1} = \frac{1}{z} = \frac{x}{x^2 + y^2} - i \cdot \frac{y}{x^2 + y^2}\) inverso di \(z\)
 \end{enumerate}
 Definite queste proprietà, l'insieme \(\mathbb{C}\) è un campo. Dato che non è possibile stabilire una relazione d'ordine \(\mathbb{C}\)
-non è un campo ordinato e tantomento non è totalmente ordinato.
+non è un campo ordinato e tanto mento non è totalmente ordinato.
 
 
 \subsection{Coniugato}
@@ -679,7 +674,7 @@ Un numero complesso \(z\) può essere rappresentato in forma esponenziale:
 con
 \begin{align*}
 	\rho &= \text{ modulo di } z\\
-	e^{i\vartheta} &= \cos \vartheta + i \sin \vartheta \quad \text{ (Fomula di Eulero) } \\
+	e^{i\vartheta} &= \cos \vartheta + i \sin \vartheta \quad \text{ (Formula di Eulero) } \\
 	\cos \vartheta &= \frac{e ^ {i \vartheta} + e ^ {-i \vartheta}}{2} \qquad \sin \vartheta = \frac{e ^ {i \vartheta} - e ^ {-i \vartheta}}{2i}
 \end{align*}
 Il coniugato di  \(z = \rho e ^ {i \vartheta}\) è \(\overline{z} = \rho e ^ {-i \vartheta}\) \\
@@ -717,7 +712,7 @@ Siano \(z, z_1, z_2 \in \mathbb{C} \; \backslash \left\{ 0 \right\}\):
 \begin{itemize}
 	\item[H:] Sia \(n \in \mathbb{N} \; \backslash \left\{ 0 \right\}\) e \(P(z) = a_n z^n + a_{n-1} z^{n-1} + a_{n-2} z^{n-2} + \; \dots \; + a_0\)
 	con \(a_n \neq 0\), \(a_j \in \mathbb{C} \; \forall j \in \left[0; n\right]\) 
-	\item[T:] Allora esiste almento una radice di \(P\), cioè una soluzione dell'equazione \(P(z) = 0\), con \(z \in \mathbb{C}\).
+	\item[T:] Allora esiste almeno una radice di \(P\), cioè una soluzione dell'equazione \(P(z) = 0\), con \(z \in \mathbb{C}\).
 	La soluzione \(z_0\) è chiamata zero di \(P\).
 \end{itemize}
 
@@ -821,7 +816,7 @@ Le equazioni di secondo grado della forma \(a \cdot z^2 + b \cdot z + c = 0\) ha
 
 \subsubsection*{Disequazioni in C}
 Dato che \(\mathbb{C}\) non è un campo, non si possono risolvere disequazioni in \(\mathbb{C}\). In genere i numeri complessi appaiono
-sotto moduolo e le soluzioni sono porzioni del piano di Gauss definite in funzione di \(x\) e \(y\).
+sotto modulo e le soluzioni sono porzioni del piano di Gauss definite in funzione di \(x\) e \(y\).
 
 \newpage
 
@@ -891,7 +886,7 @@ sotto moduolo e le soluzioni sono porzioni del piano di Gauss definite in funzio
 	\item \textbf{\(f\) limitata sup.}: se \(\Img f\) è limitata superiormente, ovvero se \(\exists M \in \mathbb{R}\) t.c. \(f(x) \leq M\), \(\forall x \in \dom f\)
 	\item \textbf{\(f\) limitata inf.}: se \(\Img f\) è limitata inferiormente, ovvero se \(\exists m \in \mathbb{R}\) t.c. \(f(x) \geq m\), \(\forall x \in \dom f\)
 	\item \textbf{\(f\) limitata}: se \(\Img f\) è limitata superiormente e inferiormente: \(\exists m, M \in \mathbb{R}\) t.c. \(m \leq f(x) \leq M\), \(\forall x \in \dom f\)
-	\item \textbf{maggioranti, minoranti, massimi, minini, sup. e inf. di \(f\)}: un maggiorante, minorante, massimo, minimo, estremo inferiore, estremo superiore di \(f\) è definito come magg\dots di \(\Img f\)
+	\item \textbf{maggioranti, minoranti, massimi, minimi, sup. e inf. di \(f\)}: un maggiorante, minorante, massimo, minimo, estremo inferiore, estremo superiore di \(f\) è definito come magg\dots di \(\Img f\)
 \end{enumerate}
 
 % variante tabella
@@ -1098,7 +1093,7 @@ In altre parole ogni intorno di \(r\) deve contenere (almeno) un elemento di \(A
 \subsection{Punti isolati}
 Sia \(A \subseteq \mathbb{R}\) con \(A \neq \varnothing\), \(r \in \mathbb{R}^*\) è punto isolato di \(A\) se non è un punto di accumulazione,
 ovvero se \(\exists\) un intorno \(U\) di \(r\) t.c. \(U \cap A = \left\{ r \right\}\). \\
-Un punto isolato di \(A\) deve necessariamente appartenere all'insieme \(A\), inolte \(\pm \infty\) non possono essere punti isolati, ma soltanto punti di accumulazione.
+Un punto isolato di \(A\) deve necessariamente appartenere all'insieme \(A\), inoltre \(\pm \infty\) non possono essere punti isolati, ma soltanto punti di accumulazione.
 
 \newpage
 
@@ -1194,7 +1189,7 @@ Se il limite esiste, è unico.
 	dalle definizioni: \(\displaystyle \lim_{x \to x_0} f(x) = l_1 \Rightarrow \exists V_1\) intorno di \(x_0\) t.c. \(f(x) \in U_1\) \(\forall x \in V_1 \cap \dom f \; \backslash \left\{ x_0 \right\}\) \\
 	\(\displaystyle \lim_{x \to x_0} f(x) = l_2 \Rightarrow \exists V_2\) intorno di \(x_0\) t.c. \(f(x) \in U_2\) \(\forall x \in V_2 \cap \dom f \; \backslash \left\{ x_0 \right\}\) \\
 	si considera \(V = V_1 \cap V_2\) per cui \(\forall x \in V \cap \dom f \; \backslash \left\{ x_0 \right\}\) vale \(f(x) \in U_1 \cap U_2 = \varnothing\) \\
-	cioè \(\nexists x \in V \cap \dom f \; \backslash \left\{ x_0 \right\}\) che è in contaddizione con il fatto che \(x_0\) è un punto di accumulazione di \(\dom f\),
+	cioè \(\nexists x \in V \cap \dom f \; \backslash \left\{ x_0 \right\}\) che è in contraddizione con il fatto che \(x_0\) è un punto di accumulazione di \(\dom f\),
 	per cui l'ipotesi che \(l_1 \neq l_2\) è sbagliata. \qed	
 \end{itemize}
 
@@ -1298,10 +1293,10 @@ Ovvero \(l > 0 \Rightarrow f(x) > 0, l < 0 \Rightarrow f(x) < 0\)
 	\item[T\(_1\):] allora \(f\) è definitivamente strettamente positiva per \(x \to x_0\)
 	\item[Dim\(_1\):] Nel caso in cui \(l = + \infty\) si ottiene che \(\displaystyle \lim_{x \to x_0} f(x) = + \infty\) \\
 	Dalla def. di limite si ottiene che \(\forall M \in \mathbb{R}\) \(\exists U\) intorno di \(x_0\) t.c. \(f(x) > M\) \(\forall x \in \dom f \cap U \; \backslash \left\{ x_0 \right\}\) \\
-	scegiendo \(M = 0\) si ottiene che \(f(x) > 0\) \(\forall x \in \dom f \cap U \; \backslash \left\{ x_0 \right\}\)
+	scegliendo \(M = 0\) si ottiene che \(f(x) > 0\) \(\forall x \in \dom f \cap U \; \backslash \left\{ x_0 \right\}\)
 	\item[] Nel caso in cui \(l = \left( 0, + \infty \right)\) si ottiene che \(\displaystyle \lim_{x \to x_0} f(x) = l\) con \(l > 0\) \\
 	Dalla def. di limite si ottiene che \(\forall \varepsilon > 0\) \(\exists U\) intorno di \(x_0\) t.c. \(\left| f(x) - l \right| < \varepsilon\) \(\forall x \in \dom f \cap U \; \backslash \left\{ x_0 \right\}\) \\
-	scegiendo \(\varepsilon = l\) si ottiene che \(\left| f(x) - l \right| < l \quad \Leftrightarrow \quad -l < f(x) - l < l \quad \Leftrightarrow \quad 0 < f(x) < 2l \quad \Leftrightarrow \\
+	scegliendo \(\varepsilon = l\) si ottiene che \(\left| f(x) - l \right| < l \quad \Leftrightarrow \quad -l < f(x) - l < l \quad \Leftrightarrow \quad 0 < f(x) < 2l \quad \Leftrightarrow \\
 	\Leftrightarrow f(x) > 0\) \(\forall x \in \dom f \cap U \; \backslash \left\{ x_0 \right\}\), ovvero la tesi. \qed
 
 	\item[H\(_2\):] se \(l \in \left( - \infty, 0 \right) \cup \left\{- \infty\right\}\)
@@ -1323,8 +1318,8 @@ Ovvero \(f(x) \geq 0 \Rightarrow l \geq 0, f(x) \leq 0 \Rightarrow l \leq 0\)
 	\item[T\(_2\):] allora \(l \leq 0\)
 	\item[Dim\(_2\):] analogamente alla Dim\(_1\). \qed
 \end{itemize}
-Da osserva che il teorema diventa falso se si sostiuisce \(\geq\) o \(\leq\) al posto di \(>\) o \(<\), dato che quando se \(l = 0\) non è possibile dedurre nessuna delle due conclusioni del teorema. \\
-Inoltre il corollario diventa falso quando si sostiuisce \(>\) o \(<\) al posto di \(\geq\) o \(\leq\), per esempio \(f(x) = x^2 > 0\) definitivamente per \(x \to x_0 = 0\), ma \(\displaystyle \lim_{x \to 0} f(x) = l = 0 \ngtr 0\).
+Da osserva che il teorema diventa falso se si sostituisce \(\geq\) o \(\leq\) al posto di \(>\) o \(<\), dato che quando se \(l = 0\) non è possibile dedurre nessuna delle due conclusioni del teorema. \\
+Inoltre il corollario diventa falso quando si sostituisce \(>\) o \(<\) al posto di \(\geq\) o \(\leq\), per esempio \(f(x) = x^2 > 0\) definitivamente per \(x \to x_0 = 0\), ma \(\displaystyle \lim_{x \to 0} f(x) = l = 0 \ngtr 0\).
 
 \newpage
 
@@ -1362,7 +1357,7 @@ Sia la dimostrazione per il caso limitato, sia quella per i casi illimitati, val
 \begin{itemize}
 	\item[H\(_1 \Rightarrow\) T\(_1\)] per \(x \in \left( 0, \displaystyle \frac{\pi}{2} \right) \quad \Rightarrow \quad 0 < \sin x \leq x \leq \tan x\)
 	\item[Dim\(_1\):] Disegnando un arco di circonferenza di raggio \(r = 1\) con centro sull'origine \(O\) e chiamando \(P\) un punto sulla circonferenza, \(H\) la sua proiezione sull'asse \(x\),
-	\(Q\) il punto di intersezione del semiasse positivo \(x\) con la circonferenza e \(R\), l'interesezione tra la perpendicolare a \(x\) per \(Q\) e la retta \(OP\): \\
+	\(Q\) il punto di intersezione del semiasse positivo \(x\) con la circonferenza e \(R\), l'intersezione tra la perpendicolare a \(x\) per \(Q\) e la retta \(OP\): \\
 	Si osserva che \(\overset{\triangle}{\text{OPH}}\) è contenuto nel settore circolare \(\overset{\smallfrown}{\text{OPQ}}\) che è contenuto in \(\overset{\triangle}{\text{ORQ}}\), per cui \\
 	\(\displaystyle 0 < A_{\overset{\triangle}{\text{OPH}}} \leq A_{\overset{\smallfrown}{\text{OPQ}}} \leq A_{\overset{\triangle}{\text{ORQ}}} \; \Leftrightarrow \;
 	0 < \frac{r \cdot \sin x}{2} \leq \frac{r ^ 2 \cdot x }{2} \leq \frac{r \cdot \tan x}{2} \; \Leftrightarrow \; 0 < \sin x \leq x \leq \tan x \) \qed
@@ -1429,7 +1424,7 @@ Per i casi 2, 3 e 4 in cui \(f(x) = - \infty\), bisogna invertire il segno del r
 	\item[T:] \(l_f \leq l_g\) definitivamente per \(x \to x_0\)
 	\item[Dim:] per \(l_f = -\infty\), \(l_g = + \infty\), \(l_f = l_g = + \infty\), o per \(l_f = l_g = - \infty\) la tesi è verificata, negli altri casi: \\
 	definiamo \(h(x) = g(x) - f(x)\) t.c. \(h(x) \geq 0\) per ipotesi, definitivamente per \(x \to x_0\) \\
-	Per il teorema di permamenza del segno: \(\displaystyle 0 \leq \lim_{x \to x_0} h(x) = \lim_{x \to x_0} g(x) - \lim_{x \to x_0} f(x) = l_g - l_f\) \\
+	Per il teorema di permanenza del segno: \(\displaystyle 0 \leq \lim_{x \to x_0} h(x) = \lim_{x \to x_0} g(x) - \lim_{x \to x_0} f(x) = l_g - l_f\) \\
 	per cui \(0 \leq l_g - l_f\) ovvero la tesi \qed
 \end{itemize}
 Si osserva che il teorema vale soltanto con il \(\leq\) e non con il \(<\), in quando se \(f(x) = 0\) e \(g(x) = x^2\),
@@ -1452,7 +1447,7 @@ Si osserva che il teorema vale soltanto con il \(\leq\) e non con il \(<\), in q
 	\item[Dim:] per H\(_2\): \(\forall \eta > 0\) \(\exists \delta > 0\) t.c. \(0 < \left| x - x_0 \right| < \delta \Rightarrow \left| f(x) - y_0 \right| < \eta\) \\
 	per H\(_3\): \(\forall \varepsilon > 0\) \(\exists \eta > 0\) t.c. \(0 < \left| y - y_0 \right| < \eta \Rightarrow \left| g(y) - l \right| < \varepsilon\) \\
 	per H\(_4\): \(\left| f(x) - y_0 \right| \neq 0 \) \\
-	concatendando H\(_2\) e H\(_3\): \(\forall \varepsilon > 0\) \(\exists \delta > 0\) t.c. \(0 < \left| x - x_0 \right| < \delta \Rightarrow \left| g(f(x)) - l \right| < \varepsilon\) \\
+	concatenando H\(_2\) e H\(_3\): \(\forall \varepsilon > 0\) \(\exists \delta > 0\) t.c. \(0 < \left| x - x_0 \right| < \delta \Rightarrow \left| g(f(x)) - l \right| < \varepsilon\) \\
 	ovvero \(\displaystyle \lim_{x \to x_0} g(f(x)) = l\) \qed
 \end{itemize}
 
@@ -1539,7 +1534,7 @@ con \(\displaystyle \lim_{x \to x_0} f(x) = y_0\) e \(g \circ f\) è ben definit
 	per \(\alpha \leq 1\) si ha che \(\displaystyle \lim_{x \to + \infty} \frac{a^x}{x^\alpha} = + \infty\) \\
 	per \(\alpha > 1\) si esegue \(\displaystyle \lim_{x \to + \infty} \left(\frac{a^x}{x^\alpha}\right)^\frac{\beta}{\beta} = \lim_{x \to + \infty} \left(\frac{a^\frac{x}{\beta}}{x^\frac{\alpha}{\beta}}\right)^\beta\)
 	e \(\displaystyle \beta > \alpha \Rightarrow \frac{\alpha}{\beta} < 1\) ovvero caso precedente \qed
-	\item[Dim\(_2\):] sostiuisco \(t = \log x\) e ottengo il caso 1. \qed
+	\item[Dim\(_2\):] sostituisco \(t = \log x\) e ottengo il caso 1. \qed
 \end{itemize}
 
 \newpage
@@ -1570,7 +1565,7 @@ Siano \(f\) e \(g\) due funzioni definite su \(X \subseteq R\) e \(x_0\) punto d
 \begin{enumerate}
 	\item se \(f \sim g\) per \(x \to x_0\), allora \(\displaystyle \lim_{x \to x_0} f(x)\) e \(\displaystyle \lim_{x \to x_0} f(x)\) o non esistono o esistono e coincidono
 	\item se \(f \sim g\) per \(x \to x_0\) e \(g \sim h\) per \(x \to x_0\), allora \(f \sim h\) per \(x \to x_0\)
-	\item se \(f \sim f'\), \(g \sim g'\) e \(h \sim h'\) per \(x \to x_0\), allroa \(\displaystyle \frac{f \cdot g}{h} \sim \frac{f' \cdot g'}{h'}\) per \(x \to x_0\)
+	\item se \(f \sim f'\), \(g \sim g'\) e \(h \sim h'\) per \(x \to x_0\), allora \(\displaystyle \frac{f \cdot g}{h} \sim \frac{f' \cdot g'}{h'}\) per \(x \to x_0\)
 \end{enumerate}
 
 \subsubsection*{Esempi di funzioni asintotiche}
@@ -1689,7 +1684,7 @@ ed \(f \neq 0\) definitivamente per \(x \to x_0\), allora:
 \newpage
 
 
-\section{Succesioni}
+\section{Successioni}
 \subsubsection*{Definizione}
 Sia \(A \subseteq \mathbb{N}\) illimitato, una successione (a valori reali) è una funzione da \(A\) in \(\mathbb{R}\). \\
 Una successione \(a : A \to \mathbb{R}\) si indica come \(a_n\) o \(\left\{ a_n \right\}_{n \in A}\).
@@ -1702,15 +1697,15 @@ per \(n \to +\infty\)}.
 \subsubsection*{Carattere di una successione}
 Data \(\left\{ a_n \right\}_{n \in \mathbb{N}}\) successione a valori reali con dominio \(\mathbb{N}\) e \(\displaystyle \lim_{n \to +\infty} a_n = l \in \mathbb{R}^*\), se:
 \begin{itemize}
-	\item \(\exists \; l \in \mathbb{R}\), la succesione \(a_n\) è convergente
-	\item \(\exists \; l = 0\), la succesione \(a_n\) è in particolare infinitesima
-	\item \(\exists \; l = \pm \infty\), la succesione \(a_n\) è divergente
-	\item \(\nexists \; l\), la succesione \(a_n\) è irregolare
+	\item \(\exists \; l \in \mathbb{R}\), la successione \(a_n\) è convergente
+	\item \(\exists \; l = 0\), la successione \(a_n\) è in particolare infinitesima
+	\item \(\exists \; l = \pm \infty\), la successione \(a_n\) è divergente
+	\item \(\nexists \; l\), la successione \(a_n\) è irregolare
 \end{itemize}
 
 \subsection{Sottosuccessioni}
 \subsubsection*{Definizione}
-Data \(\left\{ a_n \right\}_{n \in \mathbb{N}}\), una sottosuccesione (o successione estratta) di \(a_n\) è una successione della forma \(\left\{ a_{n_k} \right\}_{k \in \mathbb{N}}\)
+Data \(\left\{ a_n \right\}_{n \in \mathbb{N}}\), una sottosuccessione (o successione estratta) di \(a_n\) è una successione della forma \(\left\{ a_{n_k} \right\}_{k \in \mathbb{N}}\)
 con \(n_k : \mathbb{N} \to \mathbb{N}\) successione strettamente crescente.
 
 \subsubsection*{Convergenza con sottosuccessioni}
@@ -1722,7 +1717,7 @@ Una successione ha come limite \(l \in \mathbb{R}^*\), se ogni sottosuccessione 
 Una successione è irregolare (non ha limite), se esistono due sottosuccessioni che hanno limite diverso.
 
 \subsubsection*{Teorema Bolzano - Weierstrass}
-Se una succesione \(\left\{ a_n \right\}_{n \in \mathbb{N}}\) è limitata, allora ha una sottosuccesione convergente.
+Se una successione \(\left\{ a_n \right\}_{n \in \mathbb{N}}\) è limitata, allora ha una sottosuccessione convergente.
 
 \subsubsection*{Teorema ponte}
 \begin{itemize}
@@ -1768,9 +1763,9 @@ Sia una serie \(\displaystyle S_n = \sum_{k = 0}^{n} a_k\), se \(\displaystyle S
 Se una serie converge assolutamente, converge anche semplicemente (ovvero non assolutamente). \\
 \textbf{Breve dim.}: una serie \(S_n := S_{n-1} + a_k\) converge se \(S_n - S_{n-1} = 0\) per \(n \to +\infty\), ovvero se \(a_k = 0\). \qed
 
-\subsection{Serie a termini positivi (conv o diverge a infinito)}
+\subsection{Serie a termini positivi (converge o diverge a infinito)}
 Una serie è a termini positivi se ogni termine è \(\geq 0\) \\ 
-Una serie a termini postivi può solo convergere o divergere a \(+ \infty\) \\
+Una serie a termini positivi può solo convergere o divergere a \(+ \infty\) \\
 \textbf{Breve dim.}: data \(S_n := S_{n-1} + a_k\), se \(a_k \geq 0\), allora \(S_n \geq 0\) ovvero converge o diverge a \(+\infty\). \qed
 
 \subsubsection*{Confronto}
@@ -1862,7 +1857,7 @@ Se esiste il limite del rapporto, esiste limite della radice e coincidono, ma no
 \(\displaystyle S_n = \sum_{k = 1}^{n} \frac{x^k}{k!}\) con parametro \(x \in \mathbb{R}\)
 \begin{itemize}
 	\item per \(x > 0\) la serie ha termini positivi
-	\item per \(x < 0\) la serie ha termini di di segno alterno
+	\item per \(x < 0\) la serie ha termini di segno alterno
 	\item per \(x = 0\) si ha la forma \(0^0\), da definire
 \end{itemize}
 La serie è assolutamente convergente e uguale a \(e^x\)
@@ -1870,7 +1865,7 @@ La serie è assolutamente convergente e uguale a \(e^x\)
 \subsubsection*{Serie a segno alterno}
 \(\displaystyle S_n = \sum_{k = 1}^{n} (-1)^k \cdot a_k\) con \(a_k > 0\)
 \begin{itemize}
-	\item per \(k\) pari, il teminine ha segno positivo
+	\item per \(k\) pari, il termine ha segno positivo
 	\item per \(k\) dispari, in termine ha negativo
 \end{itemize}
 
@@ -1883,7 +1878,7 @@ Se \(\displaystyle \lim_{k \to +\infty} a_k = 0\) (cond. necess.) e \(a_k\) defi
 \section{Funzioni continue}
 \subsection{Continuità}
 \subsubsection*{Definizione}
-Sia \(f:D \to \mathbb{R}\) e \(x_0 \in D\), \(f\) è continua in \(x_0\) se è verficata una delle seguenti proprietà:
+Sia \(f:D \to \mathbb{R}\) e \(x_0 \in D\), \(f\) è continua in \(x_0\) se è verificata una delle seguenti proprietà:
 \begin{itemize}
 	\item[-] \(x_0\) è punto isolato di \(D\)
 	\item[-] \(x_0\) è punto di accumulazione di \(D\) ed \(\displaystyle \exists \lim_{x \to x_0} f(x) = f(x_0)\)
@@ -1957,7 +1952,7 @@ tale che \(f(c) = 0\)
 
 \subsubsection*{Dimostrazione}
 Viene impiegato il metodo di bisezione \\
-Cosidero \(f(a) > 0\) e \(f(b) < 0\) senza perdere generalità e \(\displaystyle c_1 = \frac{a + b}{2}\), distinguo tre casi:
+Considero \(f(a) > 0\) e \(f(b) < 0\) senza perdere generalità e \(\displaystyle c_1 = \frac{a + b}{2}\), distinguo tre casi:
 \begin{enumerate} [topsep=3pt, itemsep=0pt]
 	\item \(f(c_1) = 0 \quad \rightarrow \quad\) scelgo \(c = c_1\)
 	\item \(f(c_1) > 0 \quad \rightarrow \quad\) scelgo \(a_1 = c_1\) e \(b_1 = b\)
@@ -1977,7 +1972,7 @@ Ripeto il procedimento \(n\) volte ottenendo tre sequenze \(a_n\), \(b_n\) e \(c
 	\end{cases}\)
 \end{itemize}
 nel caso in cui per uno specifico \(n\) vale \(f(c_n) = 0\), scelgo \(c = c_n\) e concludo, nel caso in cui non esista un \(n\)
-per cui è verificata la condizione sopra, ottengo due succesioni:
+per cui è verificata la condizione sopra, ottengo due successioni:
 \begin{itemize} [topsep=3pt, itemsep=0pt]
 	\item[-] \(a_n\) crescente e limitata superiormente
 	\item[-] \(b_n\) decrescente e limitata inferiormente
@@ -2138,7 +2133,7 @@ La derivata di una funzione pari è dispari e la derivata di una funzione dispar
 \subsubsection*{Punti di massimo o minimo}
 Sia \(I\) un intervallo e \(x_0 \in I\), sia \(f:I \to \mathbb{R}\) una funzione, \(x_0\) è un punto di estremo (massimo o minimo) relativo
 per \(f\) quando \(\exists \; \delta > 0\) t.c. \(x_0\) è punto di estremo di \(f\) su \(\left(x_0 - \delta, x_0 + \delta\right) \cap \dom f\).
-Anche gli estemi dell'intervallo possono essere punti di estremo relativo.
+Anche gli estremi dell'intervallo possono essere punti di estremo relativo.
 
 \subsubsection*{Punti stazionari}
 \(x_0\) è punto stazionario, se \(f'(x_0) = 0\). I punti stazionari possono essere di tre tipi:
@@ -2164,7 +2159,7 @@ allora la derivata vale \(f'(x_0) = 0\)
 
 \subsubsection*{Dimostrazione}
 Consideriamo il caso in cui \(x_0\) è massimo locale (il caso in cui è minimo è analogo) \\
-Dalla definizione di masismo si ottiene che \(\exists \; \delta > 0\) t.c. \(f(x_0) \geq f(x)\) \(\forall x \in \left(x_0 - \delta, x_0 + \delta\right)\) \\
+Dalla definizione di massimo si ottiene che \(\exists \; \delta > 0\) t.c. \(f(x_0) \geq f(x)\) \(\forall x \in \left(x_0 - \delta, x_0 + \delta\right)\) \\
 Calcolando \(f_-'(x_0)\) e \(f_+'(x_0)\):
 \begin{itemize} [topsep=3pt, itemsep=0pt]
 	\item[-] \(\displaystyle f'_-(x_0) = \lim_{h \to 0^-} \frac{f(x_0 + h) - f(x_0)}{h} \leq 0\) per teorema di permanenza del segno
@@ -2198,7 +2193,7 @@ che \(\displaystyle f(c) = \frac{f(b) - f(a)}{b - a}\)
 
 \subsubsection*{Dimostrazione}
 Consideriamo una funzione \(\displaystyle h(x) = f(x) - \frac{f(b) - f(a)}{b- a} \cdot \left(x - a\right)\), in questo modo \(h(a) = h(b) = f(a)\)
-ed è possibil applicare il teorema di Rolle, ovvero \(\exists \; c \in \left(a, b\right)\) t.c. \(h'(c) = 0\). \\
+ed è possibili applicare il teorema di Rolle, ovvero \(\exists \; c \in \left(a, b\right)\) t.c. \(h'(c) = 0\). \\
 \(\displaystyle h'(c) = f'(c) - \frac{f(b) - f(a)}{b - a} = 0\), ovvero \(\displaystyle f'(c) = \frac{f(b) - f(a)}{b - a}\)
 \qed
 
@@ -2434,7 +2429,7 @@ con l'approssimazione del polinomio di Taylor.
 	\item[4] \textbf{punti di discontinuità} \\
 	si studiano i punti di discontinuità
 	\item[5.1] \textbf{derivabilità} \\
-	si calcola la derivata prima e si studiano i punti di non derivalibità
+	si calcola la derivata prima e si studiano i punti di non derivabilità
 	\item[5.2] \textbf{monotonia} \\
 	si studia il segno della derivata, cercando gli intervalli di monotonia
 	\item[5.3] \textbf{massimi, minimi, sup e inf} \\
@@ -2508,7 +2503,7 @@ Dato che \(f\) è continua in \(x_0\), dalla definizione di limite e continuità
 tale che \(\forall x \in \left(x_0 - \delta, x_0 + \delta\right)\) vale \(f(x_0) - \varepsilon < f(x) < f(x_0) + \varepsilon\) \\
 Dato che per \(x \in \left(x_0 - \delta, x_0 + \delta\right)\) si ha \(\displaystyle F(x) - F(x_0) = \int_{a}^{x} f(t)\; dt - \int_{a}^{x_0} f(t) \; dx = \int_{x}^{x_0} f(t)\; dt\), \\
 Dal teorema della media integrale si ha \(\displaystyle \inf_{\left[x_0, x\right]} f \leq \frac{1}{x-x_0} \int_{x_0}^{x} f(t)\; dt \leq \sup_{\left[x_0, x\right]} f\), \\
-per la definzione di continuità \(\displaystyle f(x_0) - \varepsilon \leq f(c) \leq f(x_0) + \varepsilon\) con \(c \in \left[x, x_0\right] \subset \left(x_0 - \delta, x_0 + \delta\right)\), \\
+per la definizione di continuità \(\displaystyle f(x_0) - \varepsilon \leq f(c) \leq f(x_0) + \varepsilon\) con \(c \in \left[x, x_0\right] \subset \left(x_0 - \delta, x_0 + \delta\right)\), \\
 considerando che \(\displaystyle f(c) = \frac{1}{x-x_0} \int_{x_0}^{x} f(t)\; dt\) ed unendo le due disuguaglianze sopra si ottiene: \\
 \(\displaystyle f(x_0) - \varepsilon \leq \inf_{\left[x_0, x\right]} f \leq \frac{1}{x-x_0} \int_{x_0}^{x} f(t)\; dt \leq \sup_{\left[x_0, x\right]} f \leq f(x_0) + \varepsilon\) \\
 \(\displaystyle f(x_0) - \varepsilon \leq \frac{1}{x-x_0} \int_{x_0}^{x} f(t)\; dt \leq f(x_0) + \varepsilon\) \\
@@ -2549,7 +2544,7 @@ Sia \(H = F - G\), allora \(H'(x) = F'(x) - G'(x) = f(x) - f(x) = 0\), da cui si
 \subsection{Strumenti per il calcolo integrale}
 \begin{enumerate}
 	\item tavola degli integrali di funzioni elementari ricavata da quella delle derivate, per il teorema fondamentale del calcolo di integrali
-	\item intergazione per parti, dalla regola di derivazione di un prodotto
+	\item integrazione per parti, dalla regola di derivazione di un prodotto
 	\item integrazione per sostituzione, dalla regola di derivazione di funzioni composte
 \end{enumerate}
 

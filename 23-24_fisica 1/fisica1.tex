@@ -54,14 +54,14 @@
 
 \title{Appunti di Fisica 1}
 \author{Giacomo Simonetto}
-\date{Secondo semetre 2023-24}
+\date{Secondo semestre 2023-24}
 
 \begin{document}
 
 % -------------------------------------- Copertina e indice ---------------------------------------
 \maketitle
 \begin{abstract}
-	Appunti del corso di Fisica 1 - (Meccanica e termodinamica) della facoltà di Ingegneria Informatica dell'Università di Padova.
+	Appunti del corso di Fisica 1 (Meccanica e termodinamica) della facoltà di Ingegneria Informatica dell'Università di Padova.
 \end{abstract}
 
 \newpage
@@ -85,7 +85,7 @@ elettromagnetica, debole e forte (teoria delle forze unificate). La forza gravit
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] è molto meno intensa delle altre
 	\item[-] ha solo "carica" positiva (non esiste massa negativa)
-	\item[-] spazio e forza gravitazionale non possono essere sepatati
+	\item[-] spazio e forza gravitazionale non possono essere separati
 	\item[-] non si è ancora riusciti a comprenderla quantisticamente
 \end{itemize}
 
@@ -117,40 +117,40 @@ La velocità è lo spazio percorso in un tempo piccolo. \[\vec{v}(t) = \dt \vec{
 Per ottenere la posizione dalla velocità: \[\vec{r}(t) = \vec{r_0} + \int_{t0}^{t1} \vec{v}(\tau) \, d\tau\]
 
 \subsubsection*{Accelerazione}
-L'accelerazione è la variazione della velocità nel tempo. \[\vec{a}(t) = \dt \vec{v}(t) = \frac{d^2}{dx^2} \, \vec{r}(t) \qquad \left[a\right] = \frac{m}{s^2}\]
+L'accelerazione è la variazione della velocità nel tempo. \[\vec{a}(t) = \dt \vec{v}(t) = \frac{d^2}{dt^2} \, \vec{r}(t) \qquad \left[a\right] = \frac{m}{s^2}\]
 Per ottenere la velocità dall'accelerazione: \[\vec{v}(t) = \vec{v_0} + \int_{t0}^{t1} \vec{a}(\tau) \, d\tau\]
 Per ottenere la posizione dall'accelerazione: \[\vec{r}(t) = \vec{r_0} + \int_{t0}^{t1} \left( \vec{v_0}(\tau) + \int_{t0}^{t1} \vec{a}(\tau) \, d\tau \right) \, d\tau \quad \left(= \vec{r_0} + \vec{v_0}(t-t_0) + \iint_{t_0}^{t_1} \vec{a}(\tau) \, d\tau^2 \right)\]
 
 \subsubsection*{Moto uniformemente accelerato}
 Moto con accelerazione costante, le leggi orarie sono:
 \[ \begin{cases}
-	\vec{r}(t) = \vec{r_0} + \vec{v_0}(t-t_0) + \frac{1}{2}\vec{a}(t-t_0)^2 \\
-	\vec{v}(t) = \vec{v_0} + \vec{a}(t-t_0)
+	\vec{r}(t) = \vec{r_0} + \vec{v_0} \, (t-t_0) + \frac{1}{2} \, \vec{a} \,(t-t_0)^2 \\
+	\vec{v}(t) = \vec{v_0} + \vec{a} \, (t-t_0)
 \end{cases} \]
 Per convenzione si sceglie \(t_0 = 0\):
 \[ \begin{cases}
-	\vec{r}(t) = \vec{r_0} + \vec{v_0}t + \frac{1}{2}\vec{a}t^2 \\
-	\vec{v}(t) = \vec{v_0} + \vec{a}t
+	\vec{r}(t) = \vec{r_0} + \vec{v_0} \, t + \frac{1}{2} \, \vec{a} \, t^2 \\
+	\vec{v}(t) = \vec{v_0} + \vec{a} \, t
 \end{cases} \]
 
 Si osserva che per trovare \(\vec{r}(t)\) a partire dall'accelerazione è necessario conoscere i due dati iniziali \(\vec{r_0}\)
 (posizione) e \(\vec{v_0}\) (velocità), in quanto sono stati fatti due integrali nel calcolo.
 
-Ogni vettore \(\vec{r}(t)\), \(\vec{v}(t)\) e \(\vec{a}(t)\) può essere scomposto nelle tre componenti \(x, y, z\) degli assi cartesiani
+Ogni vettore \(\vec{r}(t)\), \(\vec{v}(t)\) e \(\vec{a}(t)\) può essere scomposto nelle tre componenti \(\ux, \uy, \uz\) degli assi cartesiani
 ottenendo tre equazioni del moto, una per ogni asse.
 
 Esempi di applicazioni:
 \begin{itemize}
 	\item[-] caduta di un grave (da fermo e con moto orizzontale)
 	\item[-] moto di due automobili sulla stessa retta
-	\item[-] moto di un proiettile (con angolo inziale \(\theta\) rispetto al suolo)
+	\item[-] moto di un proiettile (con angolo iniziale \(\theta\) rispetto al suolo)
 \end{itemize}
 
 \newpage
 
 \subsection{Moto armonico semplice in una dimensione}
 \begin{align*}
-	x(t) &= A \cos (\omega t + \varphi_0) = A \cos (\omega (t - t_0)) \qquad \text{con } -\omega t_0 = \varphi_0 \\
+	x(t) &= A \cos (\omega t + \varphi_0) \quad (= A \cos (\omega (t - t_0)) \qquad \text{con } -\omega t_0 = \varphi_0) \\
 	v(t) &= - A \omega \sin (\omega t + \varphi_0) \\
 	a(t) &= -A \omega^2 \cos (\omega t + \varphi_0) = -\omega^2 x(t)
 \end{align*}
@@ -159,6 +159,7 @@ Esempi di applicazioni:
 	\item[-] \(\omega\) velocità angolare, \(\left[\omega\right] = \frac{rad}{s}\)
 	\item[-] \(\varphi_0\) sfasamento iniziale, \(\left[\varphi_0\right] = rad\)
 	\item[-] si osserva che \(\left[A\right] = m\), \(\left[A\omega\right] = \frac{m}{s}\), \(\left[A\omega^2\right] = \frac{m}{s^2}\)
+	\item[-] si ha inoltre che \(\omega = v/r, \quad T = 2\pi / \omega\)
 \end{itemize}
 
 \subsection{Moto circolare uniforme sul piano xy}
@@ -201,7 +202,7 @@ Esempi di applicazioni:
 	\(\displaystyle \Img (\cos \theta) = \frac{1}{2i} \cdot \left(\frac{e^{i\theta}+e^{-i\theta}}{2} - \frac{e^{-i\theta}+e^{i\theta}}{2}\right) = \frac{0}{2i} = 0\) \\
 	\(\displaystyle \Img (\sin \theta) = \frac{1}{2i} \cdot \left(\frac{e^{i\theta}-e^{-i\theta}}{2i} - \frac{e^{-i\theta}-e^{i\theta}}{2i}\right) = \frac{0}{2i} = 0\)
 	\item[-] si osserva che \(\left|\cos \theta\right| \leq 1\), \(\left|\sin \theta\right| \leq 1\): \\
-	\(\displaystyle \left|\cos \theta\right| = \left|\frac{e^{i\theta)}+e^{-i\theta}}{2}\right| = \frac{1}{2}\left|e^{i\theta} + e^{-i\theta}\right| \leq \frac{1}{2}\left|1 \cdot e^{i\theta}\right| + \left|1 \cdot e^{-i\theta}\right|= \frac{1}{2} (1+1) = 1\) \\
+	\(\displaystyle \left|\cos \theta\right| = \left|\frac{e^{i\theta}+e^{-i\theta}}{2}\right| = \frac{1}{2}\left|e^{i\theta} + e^{-i\theta}\right| \leq \frac{1}{2}\left|1 \cdot e^{i\theta}\right| + \left|1 \cdot e^{-i\theta}\right|= \frac{1}{2} (1+1) = 1\) \\
 	\(\displaystyle \left|\sin \theta\right| = \dots\)
 \end{itemize}
 
@@ -302,6 +303,8 @@ con \(\vec{u_c}\) versore perpendicolare al piano di \(\vec{a}\) e \(\vec{b}\).
 \end{itemize}
 Sia \(\vec{r}(t)\) vettore qualsiasi, la sua derivata è definita come
 \[\dt \vec{r}(t) = \frac{d \vmod{\vec{r}(t)}}{dt} \; \vec{u_r}(t) + \vmod{\vec{r}(t)} \frac{d \, \theta(t)}{dt} \; \uper(t)\]
+Si nota che è presente una componente parallela al vettore, data dalla variazione di \(\vmod{\vec{r}(t)}\) nel tempo e una
+componete perpendicolare data dalla variazione di \(\theta\) nel tempo.
 
 \newpage
 
@@ -313,13 +316,13 @@ Se su un corpo non agisce alcuna forza, allora questo si muove a velocità costa
 \subsection{Seconda legge della dinamica - legge di Newton}
 Definita \(\vec{p} = m \vec{v}\) la quantità di moto, ovvero la variazione della quantità di moto rispetto al tempo è pari alla
 risultante di tutte le forze che agiscono sul corpo:
-\[\vec{F}(t) = \dt \vec{p}(t) \quad \Rightarrow \quad \vec{F}(t) = m \, \vec{a}(t)\]
+\[\vec{F}(t) = \dt \vec{p}(t), \quad \vec{p} = m \cdot \vec{v} \quad \Rightarrow \quad \vec{F}(t) = m \, \vec{a}(t)\]
 
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] la quantità di moto ha unità di misura \(\displaystyle \left[\vec{p}\right] = kg \cdot \frac{m}{s}\)
+	\item[-] la quantità di moto \(\vec{p}\) ha unità di misura \(\displaystyle \left[\vec{p}\right] = kg \cdot \frac{m}{s}\)
 	\item[-] la forza ha come unità di misura \(\displaystyle \left[\vec{F}\right] = kg \cdot \frac{m}{s^2} = N\)
 	\item[-] se \(\vec{F} = \vec{0}\) allora \(m \, \vec{a} = 0 \; \Rightarrow \; \vec{a} = 0 \; \Rightarrow \; \vec{v}\) costante
-	\item[-] la massa rappresenta un ostacolo al moto (più precisamente alla variazione della velocità), per questo viene chiamata massa inerziale.
+	\item[-] la massa rappresenta un ostacolo al moto (più precisamente alla variazione della velocità), per questo viene chiamata massa inerziale
 	\item[-] la forza si ricava sperimentalmente e in generale ha la forma \(\vec{F}(t) = \vec{F}(\vec{r}(t), \vec{v}(t), t)\), ovvero può dipendere
 	dalla posizione, dalla velocità o dal tempo
 \end{itemize}
@@ -331,8 +334,8 @@ Se un corpo \(A\) esercita una forza \(\vec{F}_{AB}\) su un corpo \(B\), allora 
 Dati due sistemi di riferimento \(O\) e \(O'\), le equazioni del moto di un punto \(P\) rispetto a \(O'\) sono:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(\vec{r'}(t) = \vec{r}(t) + \vec{r}_{OO'}(t)\)
-	\item[-] \(\vec{v'}(t) = \vec{v}(t) + \dt \vec{r}_{OO'}(t)\)
-	\item[-] \(\vec{a'}(t) = \vec{a}(t) + \dts \vec{r}_{OO'}(t)\)
+	\item[-] \(\displaystyle\vec{v'}(t) = \vec{v}(t) + \dt \vec{r}_{OO'}(t)\)
+	\item[-] \(\displaystyle\vec{a'}(t) = \vec{a}(t) + \dts \vec{r}_{OO'}(t)\)
 \end{itemize}
 
 \subsubsection*{Sistemi di riferimento inerziali}
@@ -354,7 +357,7 @@ La forza gravitazionale tra un corpo \(A\) di massa \(m_A\) e un corpo \(B\) di 
 \end{itemize}
 
 \subsubsection*{Massa gravitazionale}
-Le masse nella formula vengono dette masse gravitazionali in quanto sono considerate respondabili del moto di attrazione gravitazionale.
+Le masse nella formula vengono dette masse gravitazionali in quanto sono considerate responsabili del moto di attrazione gravitazionale.
 Nel teorema della relatività generale verrà dimostrato che la massa inerziale e gravitazionale corrispondono.
 
 \subsubsection*{Accelerazione gravitazionale e forza peso}
@@ -387,7 +390,7 @@ opposta alla somma delle forze entranti, definita come:
 \[\vec{F}_\perp = \vmod{\vec{F}_{\text{tot},\perp}} \uper = -\vec{F}_{\text{tot},\perp}\]
 
 \subsection{Forza di attrito radente}
-Forza di attrito esercitata dallo strisciamento di un corpo sulla superficie definita come:
+Forza di attrito esercitata dallo strisciamento di un corpo sulla superficie è definita come:
 \[\vec{F}_\text{attrito radente} = \begin{cases}
 	-\vec{F}_{\parallel} &\text{se} \; \vmod{\vec{F}_\parallel} < \mu_s \vmod{\vec{F}_\perp}\\
 	-\mu_d \, \vmod{\vec{F}_\perp} \, \uv &\text{altrimenti}
@@ -424,7 +427,7 @@ Data una generica forza \(\vec{F}_x\) lungo \(\ux\), l'equazione del moto dalla 
 	\item[-] \(f(t)\) è la componente dipendente dal tempo, può essere costante (es. \(mg\)) o periodica (es. risonanza)
 \end{itemize}
 
-Dall'equazione sopra si deriva l'equazione differenzale \eqref{diff} e la sua omogenea associata \eqref{omog}:
+Dall'equazione sopra si deriva l'equazione differenziale \eqref{diff} e la sua omogenea associata \eqref{omog}:
 \begin{equation}
 	\label{diff}
 	\left(\dts + \frac{b}{m} \dt + \frac{k}{m}\right) x(t) = \frac{f(t)}{m}
@@ -438,7 +441,7 @@ Le soluzioni di \eqref{diff} si scrivono nella forma:
 \[X(t) = \lambda_1 x_1(t) + \lambda_2 x_2(t) + x_s(t)\]
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(x_1(t)\) e \(x_2(t)\) sono soluzioni generiche della omogenea associata
-	\item[-] \(x_s(t)\) è una soluzione particolare della differenzale
+	\item[-] \(x_s(t)\) è una soluzione particolare della differenziale
 	\item[-] \(\lambda_1\) e \(\lambda_2\) sono parametri liberi da determinare in funzione delle condizioni iniziali
 \end{itemize}
 
@@ -455,10 +458,10 @@ Le soluzioni di \eqref{diff} si scrivono nella forma:
 
 \subsubsection*{Piano inclinato scabro}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] le forze presenti sono \(\vec{F}_P = -m \, g \, \uz\), \(\vec{F}_R = \vmod{\vec{F}_\perp} \uper\), \(\vec{F}_A\) forza di attrito
+	\item[-] le forze presenti sono \(\vec{F}_P = -m \, g \, \uz\), \(\vec{F}_R = \vmod{\vec{F}_\perp} \uper\), \(\vec{F}_A\) forza di attrito radente
 	\item[-] si scompongono le forze lungo la direzione \(\parallel\) e \(\perp\) al piano e si applica la seconda legge della dinamica
 	\item[-] per \(\mu_s < \tan \theta\) il corpo non si muove
-	\item[-] lungo \(\upar\) si ha \(a_\parallel = 0\), lungo \(\uper\) si ha \(a_\perp = g \, \sin \theta \, (1-\mu_d \cot \theta)\)
+	\item[-] lungo \(\upar\) si ha \(a_\parallel = 0\), lungo \(\uper\) si ha \(a_\perp = g \, \sin \theta \, (1 \pm \mu_d \cot \theta) \quad\) (+ in salita, \(-\) in discesa)
 	\item[-] il moto è uniformemente accelerato con accelerazione minore di \(g\)
 	\item[-] per trovare le equazioni del moto in funzione dell'altezza si utilizza il teorema di conservazione dell'energia meccanica:
 	\(v(h_1) = \begin{cases}
@@ -470,7 +473,7 @@ Le soluzioni di \eqref{diff} si scrivono nella forma:
 \newpage
 
 \subsection{Oscillatore armonico semplice}
-Moto di un corpo attaccatto all'estremità di una molla con costante elastica \(k\) che si muove lungo una direzione (\(\ux\)),
+Moto di un corpo attaccato all'estremità di una molla con costante elastica \(k\) che si muove lungo una direzione (\(\ux\)),
 con \(x=0\) posizione di riposo della molla. La forza che agisce sul corpo è la forza elastica e dipende solo dalla posizione:
 \[m \, a_x = -k \, x(t) \quad \Rightarrow \quad \dts x(t) + \frac{k}{m} x(t) = 0\]
 L'equazione del moto che soddisfa la differenziale sopra corrisponde a quella del moto armonico:
@@ -483,7 +486,7 @@ L'equazione del moto che soddisfa la differenziale sopra corrisponde a quella de
 
 L'equazione del moto dipende dai due parametri \(A\) e \(\varphi_0\) da definire in base alle condizioni iniziali, ad esempio
 si possono esprimere in funzione delle condizioni iniziali \(x_0\) e \(v_0\):
-\[x_0 = A \cos \varphi_0 \qquad v_0 = -A \omega \sin \varphi_0 \qquad \tan \varphi_0 = -\frac{v_0}{\omega \, x_0} \qquad A = \sqrt{{x_0}^2 + \left(\frac{v_0}{\omega}\right)^2}\]
+\[x_0 = A \cos \varphi_0 \qquad v_0 = -A \omega \sin \varphi_0 \qquad \tan \varphi_0 = -\frac{v_0}{\omega \, x_0} \qquad A = \sqrt{{x_0}^2 + \left(\frac{v_0}{\omega}\right)^2} \qquad T = \frac{2\pi}{\omega}\]
 
 L'equazione si può riscrivere come composizione di funzioni goniometriche esplicitando i due parametri dipendenti dalle condizioni iniziali:
 \[x(t) = A_1 \cos (\omega t) + A_2 \sin (\omega t) \quad v(t) = -A_1 \omega \sin (\omega t) + A_2 \omega \cos (\omega t) \quad a(t) = -A_1 \omega^2 \cos (\omega t) - A_2 \omega^2 \sin (\omega t)\]
@@ -504,12 +507,13 @@ dovuta alla presenza della forza peso:
 	\item[-] \(\omega\) velocità angolare, \(\left[\omega\right] = \frac{rad}{s}\)
 	\item[-] \(\varphi_0\) sfasamento iniziale, \(\left[\varphi_0\right] = rad\)
 	\item[-] \(\displaystyle \Delta l = - \frac{m \, g}{k}\) spostamento della posizione di equilibrio dovuta alla forza peso
-	\item[-] \(\tilde{z}(t) = z(t) - \Delta l\) equazione della posizione introdotta traslando il punto di riposo della molla di \(\Delta l\) affiché \(\tilde{z}(t) = 0\) per \(\displaystyle z(t) = -\frac{m \, g}{k}\)
+	\item[-] \(\tilde{z}(t) = z(t) - \Delta l\) equazione della posizione introdotta traslando il punto di riposo della molla di \(\Delta l\) affinché
+	\(\tilde{z}(t) = 0\) per \(\displaystyle z(t) = -\frac{m \, g}{k}\), ovvero ci si riconduce al caso dell'oscillatore armonico semplice
 \end{itemize}
 
 \newpage
 
-\subsection{Oscillatore armonico smorzato (con forza peso e attrito)}
+\subsection{Oscillatore armonico smorzato (con forza peso e attrito viscoso)}
 Analoga situazione precedente, con l'introduzione della forza di attrito viscoso con coefficiente di attrito \(b\). L'equazione
 delle forze in gioco è:
 \begin{multline*}
@@ -529,7 +533,7 @@ in base alla condizione di esistenza della radice si considerano i casi \(\gamma
 	\begin{itemize}[topsep=3pt, itemsep=0pt]
 		\item[-] \(z_1, z_2\) parametri da determinare in base alla situazione iniziale, per \(t_0 = 0 \quad \Rightarrow \quad \tilde{z}(0) = z_1 + z_2\)
 		\item[-] la componente \(z_2 \, e^{\lambda_2 t}\) va a 0 più velocemente rispetto a \(z_1 \, e^{\lambda_1 t}\), per cui
-		il comportamento prevalente dipende dal secondo contributo
+		il comportamento prevalente dipende dal primo contributo
 		\item[-] il grafico spazio-tempo è un'esponenziale con esponenti negativi crescenti, può essere simmetrica rispetto
 		all'asse orizzontale in base al segno di \(\tilde{z}(0)\)
 	\end{itemize}
@@ -556,7 +560,7 @@ in base alla condizione di esistenza della radice si considerano i casi \(\gamma
 		\item[-] eq. \eqref{eq2} si ottiene in funzione dei parametri \(A\) e \(B\): gli esponenziali complessi si riconducono alle formule di Eulero per seni e coseni
 		\item[-] eq. \eqref{eq3} si uniscono le equazioni precedenti con \(A\) e \(B\) al posto di \(z_{1,2}\)
 		\item[-] eq. \eqref{eq4} si utilizza \(C\) e \(\varphi_0\) al posto di \(A\) e \(B\)
-		\item[-] si osserva che il moto è armonico, esponenzialmente smorzato, in quanto l'ampiezza di riduce esponenzialmente
+		\item[-] si osserva che il moto è armonico, esponenzialmente smorzato, in quanto l'ampiezza di riduce esponenzialmente di un fattore \(e^{-\gamma t}\)
 		\item[-] il periodo di oscillazione vale \(\displaystyle T = \frac{2 \pi}{\sqrt{\left|\gamma^2 - \omega^2\right|}}\)
 	\end{itemize}
 	\item il caso \(\gamma = \omega\) non viene trattato perché non capiterà mai nella realtà
@@ -574,34 +578,35 @@ in base alla condizione di esistenza della radice si considerano i casi \(\gamma
 \end{itemize}
 La somma delle forze è \(F = -k \, \tilde{z}(t) - b \, v(t) + F_0 \sin (\Omega t)\) per cui:
 \[m \, a_z(t) = -k \, \tilde{z}(t) - b \, v(t) + F_0 \sin (\Omega t) \quad \Rightarrow \quad \left(\dts + 2\gamma \dt + \omega^2\right) \tilde{z}(t) = \frac{F_0}{m} \sin (\Omega t)\]
-La soluzione è una combinazione lineare di \(z_s(t) = A \sin (\omega t + \Phi)\) soluzione particolare e
-\(B \, e^{\lambda_1 t} + C \, e^{\lambda_2 t}\) soluzioni dell'omogenea associata:
-\[\tilde{z}(t) = A \sin (\Omega t + \Phi) + B \, e^{\lambda_1 t} + C \, e^{\lambda_2 t}\]
-\[\tan \Phi = - \frac{2 \, \gamma \, \Omega}{\omega^2 - \Omega^2} \qquad A = \frac{F_0}{m \, \sqrt{(\omega^2 + \Omega^2)^2 + 4 \gamma^2 \Omega^2}} \qquad \lambda_{1,2} = -\gamma \pm \sqrt{\gamma^2 - \omega^2} \qquad 2\gamma = \frac{b}{m} \quad \omega^2 = \frac{k}{m}\]
+La soluzione è una combinazione lineare di \(z_s(t) = A \sin (\omega t + \Phi)\) soluzione particolare della differenziale e
+\(B \, e^{\lambda_1 t} + C \, e^{\lambda_2 t}\) soluzioni dell'omogenea associata (oscillatore armonico smorzato):
+\[\tilde{z}(t) = A \sin (\Omega t + \Phi) + B \, e^{\lambda_1 t} + C \, e^{\lambda_2 t} \qquad \Omega \; \text{pulsazione del forzante}, \quad \Phi \; \text{sfasamento del forzante}\]
+\[\tan \Phi = - \frac{2 \, \gamma \, \Omega}{\omega^2 - \Omega^2} \qquad A = \frac{F_0}{m \, \sqrt{(\omega^2 - \Omega^2)^2 + 4 \gamma^2 \Omega^2}} \qquad \lambda_{1,2} = -\gamma \pm \sqrt{\gamma^2 - \omega^2} \qquad 2\gamma = \frac{b}{m} \quad \omega^2 = \frac{k}{m}\]
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(A, \Phi\) parametri fissati in termini di \(\omega^2\), \(\gamma\), \(\frac{F_0}{m}\), \(\Omega\)
 	\item[-] \(B, C\) determinati in funzione di \(z_0\) e \(v_0\)
-	\item[-] per \(\displaystyle \lim_{t \to +\infty} B \, e^{\lambda_1 t} + C \, e^{\lambda_2 t} = 0\) per cui il moto è determinato
-	soltanto da \(\tilde{z}(t) = A \sin (\Omega t + \Phi)\) e dipende solamente da \(A\) e \(\Phi\)
-	\item[-] studiando \(A\) per \(\frac{F_0}{m}\) fissato:
-	\begin{itemize}[topsep=3pt, itemsep=0pt]
-		\item[-] per \(\gamma\) (smorzamento) grande si ha \(\displaystyle A \approx \frac{F_0}{m (2 \gamma \Omega + \text{errore})}\)
-		per cui il grafico (\(A(\Omega)\) in funzione di \(\Omega\)) rappresenta un ramo di iperbole: se la frequeza del forzante
-		è bassa, lo sarà anche l'ampiezza del movimento, viceversa se la frequenza è alta, l'ampiezza sarà minore
+	\item[-] si osserva che \(\displaystyle \lim_{t \to +\infty} B \, e^{\lambda_1 t} + C \, e^{\lambda_2 t} = 0\) per cui il moto a \(+\infty\) è determinato
+	esclusivamente da \(\tilde{z}(t) = A \sin (\Omega t + \Phi)\) e dipende solamente da \(A\) e \(\Phi\)
+	\item[-] studiando \(A\) per \(\frac{F_0}{m}\) fissato (moto a \(+\infty\) con forzante fisso):
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
+		\item[-] per \(\gamma\) (smorzamento) grande si ha \(\displaystyle A \approx \frac{F_0}{2 m \, \gamma \, \Omega}\)
+		per cui il grafico (\(A(\Omega)\) in funzione di \(\Omega\)) rappresenta un ramo di iperbole: se la frequenza del forzante
+		è bassa, l'ampiezza del movimento sarà grande, viceversa se la frequenza è alta, l'ampiezza sarà minore
 		\item[-] per \(\gamma\) piccolo si ha sempre un ramo di iperbole, con un punto di massimo quando \(\omega = \Omega\) ovvero
 		quando il denominatore è prossimo allo 0: se la frequenza del forzante è vicina a quella del moto armonico, il moto armonico
-		e il moto generato dal forzante vanno in interferenza costruttiva (risonanza) e \(\displaystyle A_{max} \approx \frac{F_0}{2 \, m \, \gamma \, \omega}\)
+		e il moto generato dal forzante vanno in interferenza costruttiva (risonanza) e \(\displaystyle A_{max} \approx \frac{F_0}{2 \, m \, \gamma \, \omega} = \frac{F_0}{2 \, m \, \gamma \, \Omega}\),
+		l'altezza del picco è tanto maggiore, quanto più \(\gamma\) è piccola 
 	\end{itemize}
-	\item[-] studiando \(\Phi\):
-	\begin{itemize}[topsep=3pt, itemsep=0pt]
+	\item[-] studiando \(\Phi\) (con \(0 < \Phi < 90^\circ\)):
+	\begin{itemize}[topsep=0pt, itemsep=0pt]
 		\item[-] se \(\Omega \approx \omega\) si ha \(\tan \Phi \approx \infty\) per cui \(\Phi \approx 90^\circ\), cioè quando la
-		frequenza del forzante e del moto armonico sono simili si ha ampiezza massima \(A_{max}\) e lo sfasamento tra il forzante e
-		il moto è di circa 90°, ovvero si ha quadratura di fase
+		frequenza del forzante e quella del moto armonico sono simili si ha ampiezza massima \(A_{max}\) e lo sfasamento tra il forzante
+		e il moto è di circa 90°, ovvero si ha quadratura di fase, inoltre si ha \(A_\text{max}\)
 		\item[-] se \(\Omega \gg \omega\) si ha \(\tan \Phi \approx \frac{2 \gamma}{\Omega}\) per cui \(\Phi \approx 0^\circ\), cioè
 		quando la frequenza del forzante è maggiore di quella del moto, lo sfasamento tra forzante e moto è circa 0° e il moto si
 		dice in fase
 	\end{itemize}
-	\item[-] quando si parla di grandezze piccole, si indende trascurabili rispetto alle altre (per ordine di grandezza circa 10/100)
+	\item[-] quando si parla di grandezze piccole, si intende trascurabili rispetto alle altre (per ordine di grandezza circa 10/100)
 \end{itemize}
 
 \newpage
@@ -610,7 +615,7 @@ La soluzione è una combinazione lineare di \(z_s(t) = A \sin (\omega t + \Phi)\
 Corpo in caduta libera soggetto alla forza peso e alla forza di attrito viscoso con equazione delle forze:
 \[m \, a_z(t) = -m \, g -b \, v_z \qquad \Rightarrow \qquad \dt v_z(t) + \frac{b}{m} v_z(t) = -g\]
 Combinando la soluzione dell'omogenea \(\displaystyle v_z(t) = v_0 \, e^{- \frac{b}{m} t}\) e la soluzione particolare della
-differenziale \(\displaystyle {v_z}_s(t) = -\frac{m g}{b}\) (e integrandole per trovare la posizione) si ottengolo le equazioni:
+differenziale \(\displaystyle {v_z}_s(t) = -\frac{m g}{b}\) (e integrandole per trovare la posizione) si ottengono le equazioni:
 \begin{align*}
 	v_z(t) &= -\frac{mg}{b} + v_0 \, e^{-\frac{b}{m}t} \\
 	z(t) &= z_0 -\frac{mg}{b}t + v_0 \frac{m}{b} \left(1-e^{-\frac{b}{m}t}\right)
@@ -627,7 +632,7 @@ sull'altra estremità del filo. Le forze possono cambiare direzione se il filo c
 \subsubsection*{Macchina di Atwood}
 Nell'esempio della macchina di Atwood (detta carrucola per gli amici) con due corpi \(A\) e \(B\) con masse \(m_1\) e \(m_2\)
 l'equazione delle forze lungo \(\uz\) sono:
-\[m_1 \, a_1(t) = -m_1 g + T \qquad m_2 \, a_2(t) = -m_2 g + T \]
+\[m_1 \, a_1(t) = -m_1 g + T \qquad\qquad m_2 \, a_2(t) = -m_2 g + T \]
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(T\) è la tensione applicata al filo
 	\item[-] \(a_1(t) = -a_2(t) = a(t)\) è la stessa per entrambi i corpi (a meno di un segno) in quanto legati dal filo
@@ -641,9 +646,10 @@ Si osserva le soluzioni sono simmetriche per i due corpi, infatti il problema è
 
 \subsubsection*{Moto circolare con filo}
 Dato un oggetto che si muove di moto circolare, vincolato al centro da un filo ideale, si hanno:
-\[\vec{r}(t) = R \; \ur(t) \quad \vec{v}(t) = R \, \omega(t) \; \uper(t) \quad \vec{a}(t) = R \, \alpha(t) \; \uper() - R \, \omega^2(t) \; \ur(t) \quad \; \omega(t) = \dt \theta(t), \; \alpha(t) = \dts \theta(t)\]
+\[\vec{r}(t) = R \; \ur(t), \;\; \vec{v}(t) = R \, \omega(t) \; \uper(t), \;\; \vec{a}(t) = R \, \alpha(t) \; \uper(t) - R \, \omega^2(t) \; \ur(t), \;\, \omega(t) = \dt \theta(t), \; \alpha(t) = \dts \theta(t)\]
 La tensione del filo è data dal prodotto della massa per l'accelerazione centripeta:
-\[\vec{T} = m \, \vec{a}(t) = R \, \alpha(t) \; \uper(t) - R \, \omega^2(t) \; \ur(t) \qquad \text{per} \; \alpha(t) = 0 \quad \Rightarrow \quad \vec{T} = - m \, R \, \omega^2 \; \ur(t)\] 
+\[\vec{T} = m \, \vec{a}(t) = m \, R \, \alpha(t) \; \uper(t) - m \, R \, \omega^2(t) \; \ur(t) \qquad \text{per} \; \alpha(t) = 0 \quad \Rightarrow \quad \vec{T} = - m \, R \, \omega^2 \; \ur(t)\]
+\[a_\text{centripeta} = R \, \omega^2 = v^2/R \quad \Rightarrow \quad \vec{T} = m \, a_\text{centripeta} \, \ur(t)\]
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(\alpha(t)\) accelerazione angolare, \(\omega(t)\) velocità angolare, \(R\) raggio del moto
 	\item[-] \(\ur\) versore con stesso orientamento di \(R\), \(\uper\) versore perpendicolare a \(\ur\)
@@ -652,16 +658,17 @@ La tensione del filo è data dal prodotto della massa per l'accelerazione centri
 \newpage
 
 \subsection{Pendolo semplice}
-Corpo di massa \(m\) attaccato ad un filo ideale che oscilla sul piano \(\ux - \uz\) ha equazioni del moto:
+Corpo di massa \(m\) attaccato ad un filo ideale che oscilla sul piano \(xz\) ha equazioni del moto:
 \[m \, \vec{a}(t) = - mg \; \uz - T \; \ur(t) \quad \Rightarrow \quad \begin{cases}
-	\displaystyle mR  \, \dts \theta(t) = -mg \sin (\theta(t)) &\text{lungo} \; \uper(t) \\
+	\displaystyle mR  \, \alpha(t) = -mg \sin (\theta(t)) &\text{lungo} \; \uper(t) \\
 	\displaystyle -mR \, \omega^2 = mg \cos (\theta(t)) + T &\text{lungo} \; \ur(t)
 \end{cases}\]
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] la formula sopra usa (dal moto circolare) \(\vec{a}(t) = R \, \dts \theta(t) \; \uper(t) - R \, \omega^2 \; \ur(t)\)
+	\item[-] la formula sopra usa (dal moto circolare) \(\vec{a}(t) = R \, \alpha(t) \; \uper(t) - R \, \omega^2 \; \ur(t)\)
 	\item[-] dalla seconda equazione si ottiene \(\vec{T} = -mg \cos \theta(t) \; \ur(t) - mR \, \omega^2 \; \ur(t)\)
 	\item[-] la risultante delle forze lungo \(\uper\) ha la forma di una forza di richiamo \(F = -k f(\theta(t))\), anche se non
-	dipende linearmente dall'angolo \(\theta\)
+	dipende linearmente dall'angolo \(\theta\). Per \(\theta\) piccoli è linearizzabile con una retta e si osserva che per \(\theta \to 0\)
+	si ottiene l'equazione di un pendolo semplice similmente alle forze di richiamo che danno origine ad un moto armonico)
 	\item[-] per ottenere le equazioni del moto, è necessario risolvere la differenziale
 \end{itemize}
 Non è possibile risolvere la differenziale in termini di funzioni elementari, ma si osserva che per angoli piccoli (\(\theta < 1/4 \; \text{rad} \approx 15^\circ\)),
@@ -676,20 +683,21 @@ dallo sviluppo di Taylor si ha \(\sin \theta(t) = \theta(t) + \!\) errore trascu
 \end{itemize}
 
 \subsection{Pendolo conico}
-Corpo appeso ad un filo ideale che si muove di moto circolare (pendolo lungo una circonferenza)
-\[m \, a_z(t) \; \uz + mR \dts \theta(t) \uper(t) - mR\left(\dt \theta(t)\right)^2 \; \ur(t) = - mg \, \uz + T \cos \alpha \, \uz - T \sin \alpha \; \ur(t) \]
+Corpo appeso ad un filo ideale che si muove di moto circolare (pendolo lungo una circonferenza) sul piano \(xy\), si nota che
+\(\alpha(t)\) è l'accelerazione angolare e \(\alpha\) è l'angolo tra pendolo e la verticale (costante)
+\[m \, a_z(t) \; \uz + mR\alpha(t)\;\uper(t) - mR\omega^2(t) \; \ur(t) = - mg \, \uz + T \cos \alpha \, \uz - T \sin \alpha \; \ur(t)\]
 Scomponendo lungo le componenti si ha:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] lungo \(\uz\): \(\displaystyle \quad m \, a_z = -mg + T \cos \alpha \qquad \text{per ipotesi} \; v_z = a_z = 0 \quad \Rightarrow \quad T = \frac{mg}{\cos \alpha}\)
-	\item[-] lungo \(\uper\): \(\displaystyle \quad mR \, \dts \theta(t) = 0 \quad \Rightarrow \quad \dts \theta(t) = 0 \quad \Rightarrow \quad \text{il corpo ha velocità angolare costante}\)
+	\item[-] lungo \(\uper\): \(\displaystyle \quad mR \, \alpha(t) = 0 \quad \Rightarrow \quad \alpha(t) = 0 \quad \Rightarrow \quad \text{il corpo ha velocità angolare costante}\)
 	\item[-] lungo \(\ur\): \(\displaystyle \quad -mR \omega^2 = -T \sin \alpha \quad \Rightarrow \quad \omega^2 = \frac{T \sin \alpha}{mR} = \frac{\tan \alpha}{R}\)
 \end{itemize}
 Il moto è circolare uniforme con velocità angolare costante \(\displaystyle \omega = \sqrt{\frac{T \sin \alpha}{mR}} = \sqrt{\frac{\tan \alpha}{R}}\) \\
-L'equazione della posizione è \(\displaystyle \vec{r}(t) = - l \cos \alpha \; \uz + R \cos (\omega t + \varphi_0) \; \ux + R \sin (\omega t + \varphi_0) \; \uy\)
+L'equazione della posizione è \(\displaystyle \vec{r}(t) = \begin{array}{l} R \cos (\omega t + \varphi_0) \; \ux + R \sin (\omega t + \varphi_0) \; \uy - l \cos \alpha \; \uz \\ (R \cos (\omega t + \varphi_0), \;\, R \sin (\omega t + \varphi_0),\;\, -l\cos \alpha)\end{array}\)
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(l\) lunghezza del filo
 	\item[-] \(\alpha\) angolo tra il filo e la perpendicolare
-	\item[-] \(\omega\) velocità angolare
+	\item[-] \(\omega\) velocità angolare, \(\omega^2 = \tan \alpha / R\)
 	\item[-] \(R\) raggio del moto \(R = l \sin \alpha\)
 \end{itemize}
 
@@ -734,7 +742,7 @@ Il lavoro ha le seguenti proprietà:
 	\item Se \(\vec{F}\) non dipende dal tempo \(\displaystyle \vec{F} = \ftau\),
 	allora \(W_{\vec{F}}[\Gamma]\) dipende solo dalla traiettoria \(\left\{ \vec{\gamma}(\tau), \; \tau \in \left[ t_0, t_1 \right] \right\}\), ma
 	non dalla parametrizzazione della curva (ovvero dal modo di percorrenza come velocità, accelerazione, \dots)
-	\item Se \(\vec{\gamma}\) è la traiettoria \(\vec{r}(t)\), allora \(\displaystyle W_{\vec{F}}[{\vec{r}(t)}] = \Delta E_k = E_k(\vec{v}_1) - E_k(\vec{v}_0)\)
+	\item Se \(\vec{\gamma}\) è la traiettoria \(\vec{r}(t)\), allora \(\displaystyle W_{\vec{F}}[{\vec{r}(t)}] = \Delta E_k = E_k(\vec{v}_f) - E_k(\vec{v}_i)\)
 	con \(\displaystyle E_k = \frac{1}{2} m \vmod{\vec{v}}^2\), ovvero il lavoro è uguale alla variazione di energia cinetica \(E_k\)
 	\item il lavoro e l'energia cinetica si misurano in \([W] = [E_k] = N \cdot m = J\) (joule)
 \end{enumerate}
@@ -835,12 +843,16 @@ costante lungo il moto.
 \end{itemize}
 
 \subsubsection*{Potenziali da ricordare}
-\begin{align*}
-	&\vec{F}_\text{peso}: E_p = mgz &E_p = 0 \; \text{per} \; z = 0 \\
-	&\vec{F}_\text{elastica}: E_\text{el} = \frac{1}{2} k \vmod{\vec{r}}^2 &E_\text{el} = 0 \; \text{per} \; \vec{r} = 0 \\
-	&\vec{F}_\text{gravitazionale}: E_G = -G \, \frac{m_1 \, m_2}{\vmod{\vec{r}}} &E_G = 0 \; \text{per} \; \vmod{\vec{r}} \to \infty
-\end{align*}
-
+\begin{center}
+	\begin{tabular}{l | c | c | l}
+		\(\vec{F}_\text{peso}\) & \(E_p = mgz\) & \(W = - mg \Delta z\) &  \(E_p = 0 \; \text{per} \; z = 0\) \\
+		\midrule
+		\(\vec{F}_\text{elastica}\) & \(E_\text{el} = \,^1\!/_2 \, k \vmod{\vec{r}}^2\) & \(W = -^1\!/_2 \, k(r_i^2 - r_f^2)\) & \(E_\text{el} = 0 \; \text{per} \; \vec{r} = 0\) \\
+		\midrule
+		\(\vec{F}_\text{gravitazionale}\) & \(E_G = -G \, m_1 \, m_2 / \vmod{\vec{r}}\) & - & \(E_G = 0 \; \text{per} \; \vmod{\vec{r}} \to \infty\)
+	\end{tabular}
+	
+\end{center}
 \newpage
 
 \subsubsection*{Potenziali in 1D}
@@ -899,12 +911,12 @@ Il lavoro (integrale della forza per la velocità rispetto al tempo) lungo il mo
 \[W_{\vec{F}}[\Gamma_\text{moto}] = \int_{t_0}^{t_1} \vec{F}(\vec{\gamma}(\tau)) \cdot \dtau \gamma(\tau) \; d\tau = \Delta E_k \qquad \qquad \dt E_k = \vec{F} \cdot \vec{v} = W\]
 
 \subsection{Impulso - teorema dell'impulso}
-L'impulso di una forza (integrale della forza rispetto al tempo) ci da la variazione della quantità di moto.
+L'impulso di una forza (integrale della forza rispetto al tempo) ci dà la variazione della quantità di moto.
 \[\vec{I}_{\vec{F}}[\Gamma_\text{moto}] = \int_{t_0}^{t_1} \vec{F}(\vec{\gamma}(\tau)) \; d\tau = \Delta \vec{p} \qquad \qquad \quad \dt \vec{p} = \vec{F}\]
 
 \subsection{Momento angolare - teorema del momento angolare}
-L'integrale del momento di una forza rispetto al tempo ci da la variazione del momento angolare.
-\[\vec{\mathcal{M}}_{\vec{F}}[\Gamma_\text{moto}] = \int_{t_0}^{t_1} \vec{\gamma}(\tau) \times \vec{F}(\vec{\gamma}(\tau)) \; d\tau = \Delta \vec{L} = \Delta (\vec{r} \times m \vec{v}) \qquad \quad \dt \vec{L} = \vec{r} \times \vec{F} = M\]
+L'integrale del momento di una forza rispetto al tempo ci dà la variazione del momento angolare.
+\[\vec{\mathcal{M}}_{\vec{F}}[\Gamma_\text{moto}] = \int_{t_0}^{t_1} \vec{\gamma}(\tau) \times \vec{F}(\vec{\gamma}(\tau)) \; d\tau = \Delta \vec{L} = \Delta (\vec{r} \times m \vec{v}) \qquad \quad \dt \vec{L} = \vec{r} \times \vec{F} = \vec{M} \qquad \begin{array}{c} \vec{L} = \vec{r} \times \vec{p} \\ \vec{M} = \vec{r} \times \vec{F} \end{array}\]
 
 \subsection{Osservazioni sulla conservazione del momento angolare}
 \begin{itemize}
@@ -926,7 +938,7 @@ Siano dati un punto \(P\) e due sistemi di riferimento:
 
 \subsection{Posizione}
 L'equazione della posizione di \(P\) in \(O\) rispetto ad \(O'\) è data dall'equazione:
-\[\vec{r}(t) = \vec{r}_{OO'}(t) + \vec{r'}(t)\]
+\[\vec{r}(t) = \vec{r'}(t) + \vec{r}_{OO'}(t)\]
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(\vec{r}(t)\) vettore posizione di \(P\) rispetto a \(O\)
 	\item[-] \(\vec{r'}(t)\) vettore posizione di \(P\) rispetto a \(O'\)
@@ -935,17 +947,17 @@ L'equazione della posizione di \(P\) in \(O\) rispetto ad \(O'\) è data dall'eq
 
 \subsection{Velocità}
 L'equazione della velocità di \(P\) in \(O\) rispetto ad \(O'\) è data dall'equazione:
-\[\vec{v}(t) = \vec{v}_{OO'}(t) + \vec{v'}(t) + \vec{\omega}(t) \times \vec{r'}(t)\]
+\[\vec{v}(t) = \vec{v'}(t) + \vec{v}_{OO'}(t) + \vec{\omega}(t) \times \vec{r'}(t)\]
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(\vec{v}(t)\) vettore velocità di \(P\) rispetto a \(O\)
 	\item[-] \(\vec{v'}(t)\) vettore velocità di \(P\) rispetto a \(O'\)
 	\item[-] \(\vec{v}_{OO'}(t)\) vettore velocità di \(O'\) rispetto ad \(O\)
-	\item[-] \(\vec{\omega}\) velocità angolare di \(O'\) rispetto a \(O\), vettore con modulo \(\vmod{\dt \theta(t)}\) ortogonale al piano di \(\ur\) e \(\uv\)
+	\item[-] \(\vec{\omega}\) velocità angolare di \(O'\) rispetto a \(O\), vettore con modulo \(\vmod{\dt \theta(t)}\) e verso \(\perp\) al piano di \(\ur\) e \(\uv\)
 \end{itemize}
 
 \subsection{Accelerazione}
 L'equazione della velocità di \(P\) in \(O\) rispetto ad \(O'\) è data dall'equazione:
-\[\vec{a}(t) = \vec{a}_{OO'}(t) + \vec{a'}(t) + 2 \, \vec{\omega}(t) \times \vec{v'}(t) + \vec{\alpha}(t) \times \vec{r'}(t) + \vec{\omega}(t) \times [\vec{\omega}(t) \times \vec{r'}(t)]\]
+\[\vec{a}(t) = \vec{a'}(t) + \vec{a}_{OO'}(t) + 2 \, \vec{\omega}(t) \times \vec{v'}(t) + \vec{\alpha}(t) \times \vec{r'}(t) + \vec{\omega}(t) \times [\vec{\omega}(t) \times \vec{r'}(t)]\]
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(\vec{a}(t)\) vettore velocità di \(P\) rispetto a \(O\)
 	\item[-] \(\vec{a'}(t)\) vettore velocità di \(P\) rispetto a \(O'\)

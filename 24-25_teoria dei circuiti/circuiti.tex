@@ -1276,7 +1276,7 @@ h = \left( \begin{matrix}
 	i_1 = g_{11} v_1 + g_{12} i_2 \\
 	v_2 = g_{21} v_1 + g_{22} i_2
 \end{cases} \quad \Leftrightarrow \quad
-\binom{i_1}{v_2} = h \cdot \binom{v_1}{i_2} \qquad
+\binom{i_1}{v_2} = g \cdot \binom{v_1}{i_2} \qquad
 g = \left( \begin{matrix}
 	g_{11} = \frac{i_1}{v_1} \Big|_{i_2=0} = [S] & g_{12} = \frac{i_1}{i_2} \Big|_{v_1=0} = [/] \\[8pt]
 	g_{21} = \frac{v_2}{v_1} \Big|_{i_2=0} = [/] & g_{22} = \frac{v_2}{i_2} \Big|_{v_1=0} = [\Omega]
@@ -1309,7 +1309,7 @@ T = \left( \begin{matrix}
 	-i_2 = C' v_1 + D' i_1
 \end{cases} \quad \Leftrightarrow \quad
 \binom{v_2}{-i_2} = T' \cdot \binom{v_1}{i_1} \qquad
-T = \left( \begin{matrix}
+T' = \left( \begin{matrix}
 	A' = \frac{v_2}{v_1} \Big|_{i_1=0} & B' = \frac{v_2}{i_1} \Big|_{v_1=0} \\[8pt]
 	C' = -\frac{i_2}{v_1} \Big|_{i_1=0} & D' = -\frac{i_2}{i_1} \Big|_{v_1=0}
 \end{matrix} \right)\]
@@ -1338,7 +1338,7 @@ i riferimenti alla porta 2.
 
 \begin{center}
 	% --- primo circuito ---
-	\begin{minipage}{0.3\textwidth}
+	\begin{minipage}{0.25\textwidth}
 		\centering
 		\begin{circuitikz}
 			\draw (0,0) -- (1,0) -- (1,1.5) -- (0,1.5) -- (0,0);
@@ -1369,9 +1369,9 @@ i riferimenti alla porta 2.
 		\centering
 		\(\Longrightarrow\)
 	\end{minipage}
-	\begin{minipage}{0.5\textwidth}
+	\begin{minipage}{0.55\textwidth}
 		\centering
-		\(\begin{cases}
+		\(\left(\begin{matrix} v_1 \\ v_2 \end{matrix}\right) = R \left(\begin{matrix} i_1 \\ i_2 \end{matrix}\right) \quad\leftrightarrow\quad \begin{cases}
 			v_1 = R_{11} i_1 + R_{12} i_2 \\
 			v_2 = R_{21} i_1 + R_{22} i_2
 		\end{cases}\)
@@ -1383,7 +1383,7 @@ i riferimenti alla porta 2.
 	\end{minipage}
 
 	% --- secondo circuito ---
-	\begin{minipage}{0.3\textwidth}
+	\begin{minipage}{0.25\textwidth}
 		\centering
 		\begin{circuitikz}
 			\draw (0,0) -- (1,0) -- (1,1.5) -- (0,1.5) -- (0,0);
@@ -1414,14 +1414,15 @@ i riferimenti alla porta 2.
 		\centering
 		\(\Longrightarrow\)
 	\end{minipage}
-	\begin{minipage}{0.5\textwidth}
+	\begin{minipage}{0.55\textwidth}
 		\centering
-		\(\begin{cases}
-			v_1 = R_{11}^* i_1 - R_{12}^* i_2 \\
-			v_2 = -R_{21}^* i_1 + R_{22}^* i_2
-		\end{cases} \quad \begin{cases}
-			v_1 = R_{11}^* i_1 + R_{12}^* i_2^* \\
-			v_2^* = R_{21}^* i_1 + R_{22}^* i_2^*
+		\(\left(\begin{matrix} v_1 \\ -v_2 \end{matrix}\right) = R \left(\begin{matrix} i_1 \\ -i_2 \end{matrix}\right) \;\leftrightarrow\; \begin{cases}
+			v_1 = R_{11} i_1 - R_{12} i_2 \\
+			v_2 = -R_{21} i_1 + R_{22} i_2
+		\end{cases}\) \\[5pt]
+		\(\left(\begin{matrix} v_1 \\ v_2 \end{matrix}\right) = R^* \left(\begin{matrix} i_1 \\ i_2 \end{matrix}\right) \;\leftrightarrow\; \begin{cases}
+			v_1 = R_{11}^* i_1 + R_{12}^* i_2 \\
+			v_2 = R_{21}^* i_1 + R_{22}^* i_2
 		\end{cases}\)
 	\end{minipage}
 	
@@ -1435,11 +1436,6 @@ i riferimenti alla porta 2.
 		\centering
 		grandezze corrispondenti:
 	\end{minipage}
-	\begin{minipage}{0.15\textwidth}
-		\centering
-		\(\begin{cases} i_2^* = -i_2 \\ v_2^* = -v_2 \end{cases}\)
-	\end{minipage}
-	e
 	\begin{minipage}{0.4\textwidth}
 		\centering
 		\(R^* = \left(\begin{matrix} R_{11}^* & R_{12}^* \\ R_{21}^* & R_{22}^* \end{matrix}\right) = \left(\begin{matrix} R_{11} & -R_{12} \\ -R_{21} & R_{22} \end{matrix}\right)\)
@@ -1498,11 +1494,19 @@ in ingresso di un certo fattore \(n\) detto rapporto di trasformazione.
 		\centering
 		\includegraphics[width=\textwidth]{trasformatore.png}
 	\end{minipage}
-	\begin{minipage}{0.4\textwidth}
+	\begin{minipage}{0.07\textwidth}
+		\(\big.\)
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
 		\[\begin{cases}
 			\displaystyle v_1(t) = n \, v_2(t) \\[7pt]
 			\displaystyle i_1(t) = -\frac{1}{n} i_2(t)
 		\end{cases}\]
+	\end{minipage}
+	\begin{minipage}{0.25\textwidth}
+		\[T = \left(\begin{matrix}
+			h & 0 \\ 0 & 1/h
+		\end{matrix}\right)\]
 	\end{minipage}
 \end{center}
 Siccome non è possibile isolare \(i_1\) e \(i_2\), oppure \(v_1\) e \(v_2\), non è possibile usare le rappresentazioni controllate
@@ -1849,16 +1853,16 @@ In base allo sfasamento le due sinusoidi si dicono:
 La trasformata di Steinmetz converte equazioni di onde sinusoidali isofrequenziali in numeri complessi detti fasori. La trasformazione
 permette uno studio facilitato delle equazioni.
 \begin{align*}
-	a(t) = A_M \sin (\omega t + \alpha) \quad \rightarrow \quad \overline{A} = S\left[a(t)\right] = \frac{A_M}{\sqrt{2}} e^{j\alpha} = Ae^{j\alpha} \\
-	\overline{A} = Ae^{j\alpha} \quad \rightarrow \quad a(t) = S^{-1}\left[\;\overline{A}\;\right] = \sqrt{2} A \sin(\omega t + \alpha) = A_M \sin (\omega t + \alpha)
+	a(t) = A_M \sin (\omega t + \alpha) \quad \rightarrow \quad \bar{A} = S\left[a(t)\right] = \frac{A_M}{\sqrt{2}} e^{j\alpha} = Ae^{j\alpha} \\
+	\bar{A} = Ae^{j\alpha} \quad \rightarrow \quad a(t) = S^{-1}\left[\;\bar{A}\;\right] = \sqrt{2} A \sin(\omega t + \alpha) = A_M \sin (\omega t + \alpha)
 \end{align*}
 La trasformata è lineare in \(\mathbb{R}\):
-\[S[\lambda a(t) + \mu b(t)] = \lambda S[a(t)] + \mu S[b(t)] \qquad S^{-1}\left[\lambda\overline{A} + \mu\overline{B}\;\right] = \lambda S^{-1}\left[\;\overline{A}\;\right] + \mu S^{-1}\left[\;\overline{B}\;\right]\]
+\[S[\lambda a(t) + \mu b(t)] = \lambda S[a(t)] + \mu S[b(t)] \qquad\qquad S^{-1}\left[\lambda\bar{A} + \mu\bar{B}\;\right] = \lambda S^{-1}\left[\;\bar{A}\;\right] + \mu S^{-1}\left[\;\bar{B}\;\right]\]
 
 \subsubsection*{Fasori e numeri complessi}
 Il fasore è definito come immagine di una sinusoide attraverso la trasformata di Steinmetz. Nel piano complesso è rappresentato da
 un vettore.
-\[\overline{A} = S[a(t)] = \quad \begin{cases} Ae^{j\alpha} &\text{forma polare} \\ A\cos\alpha + jA\sin\alpha &\text{forma cartesiana}\end{cases}\]
+\[\bar{A} = S[a(t)] = \quad \begin{cases} Ae^{j\alpha} &\text{forma polare} \\ A\cos\alpha + jA\sin\alpha &\text{forma cartesiana}\end{cases}\]
 L'angolo tra i fasori nel piano corrisponde al loro sfasamento:
 \begin{center}
 	\begin{minipage}{0.5\textwidth}
@@ -1870,8 +1874,8 @@ L'angolo tra i fasori nel piano corrisponde al loro sfasamento:
 	\end{minipage}
 	\begin{minipage}{0.49\textwidth}
 		\begin{itemize}
-			\item \(\overline{A}\) in anticipo su \(\overline{B}\) \(\;\; \rightarrow \;\;\) angolo di \(\overline{A}\) maggiore
-			\item \(\overline{A}\) in ritardo su \(\overline{B}\) \(\;\; \rightarrow \;\;\) angolo di \(\overline{B}\) maggiore
+			\item \(\bar{A}\) in anticipo su \(\bar{B}\) \(\;\; \rightarrow \;\;\) angolo di \(\bar{A}\) maggiore
+			\item \(\bar{A}\) in ritardo su \(\bar{B}\) \(\;\; \rightarrow \;\;\) angolo di \(\bar{B}\) maggiore
 		\end{itemize}
 	\end{minipage}
 \end{center}
@@ -1879,17 +1883,19 @@ L'angolo tra i fasori nel piano corrisponde al loro sfasamento:
 \subsubsection*{Operazioni tra fasori}
 \begin{itemize}
 	\item \textbf{somma tra fasori} (somma di sinusoidi):
-	\[\overline{C} = \overline{A} + \overline{B} = [\Real(A) + \Real(B)] + j [\Img(A) + \Img(B)] = \Real(C) + \Img(C)\]
+	\[\bar{C} = \bar{A} + \bar{B} = [\Real(A) + \Real(B)] + j [\Img(A) + \Img(B)] = \Real(C) + j \Img(C)\]
 	\item \textbf{prodotto per uno scalare reale}:
-	\[\overline{C} = k \overline{A} = k A e^{j\alpha} = \left|k\right| A e^{\alpha \pm n \pi} = Ce^{j\gamma}
+	\[\bar{C} = k \bar{A} = k A e^{j\alpha} = \left|k\right| A e^{\alpha \pm n \pi} = Ce^{j\gamma}
 	\qquad\quad C = \left|k\right| A \qquad \gamma = \begin{cases} \alpha & k > 0 \\ \alpha \pm \pi & k < 0 \end{cases}\]
 	\item \textbf{prodotto per uno scalare immaginario} (derivata temporale, anticipo di \(\pi/2\)):
-	\[\overline{C} = j\omega \overline{A} = \omega A e^{j\alpha}e^{j \pi / 2} = \omega A e^{j(\alpha + \pi/2)} = Ce^{j\gamma}
+	\[\bar{C} = j\omega \bar{A} = \omega A e^{j\alpha}e^{j \pi / 2} = \omega A e^{j(\alpha + \pi/2)} = Ce^{j\gamma}
 	\qquad\quad C = \omega A \qquad \gamma = \alpha + \pi/2\]
 	\item \textbf{prodotto per il proprio coniugato} (il risultato è un numero complesso, ma non è un fasore):
-	\[\dot{P} = \overline{A} \check{B} = Ae^{j\alpha}Be^{-j\beta} = AB e^{j\varphi} = AB\cos\varphi + jAB\sin\varphi\]
+	\[\dot{P} = \bar{A} \check{B} = Ae^{j\alpha}Be^{-j\beta} = AB e^{j\varphi} = AB\cos\varphi + jAB\sin\varphi\]
 	\item \textbf{rapporto tra fasori} (il risultato è un numero complesso, ma non è un fasore):
-	\[\dot{O} = \frac{\overline{A}}{\overline{B}} = \frac{A}{B} e^{j\alpha - j\beta} = Oe^{j\varphi} \qquad\quad \overline{A} = \dot{O} \overline{B} \qquad \dot{O} = \text{operatore complesso}\]
+	\[\dot{O} = \frac{\bar{A}}{\bar{B}} = \frac{A}{B} e^{j\alpha - j\beta} = Oe^{j\varphi} \qquad\quad \bar{A} = \dot{O} \bar{B} \qquad \dot{O} = \text{operatore complesso}\]
+	\item \textbf{derivata temporale} (corrisponde a moltiplicare per \(j\) o ad aggiungere uno sfasamento di \(\pi/2\)):
+	\[\frac{d \, a(t)}{dt} = A_M \omega \cos(\omega t + \alpha) = A_M \omega \sin(\omega t + \alpha + \pi/2 ) \quad\Leftrightarrow\quad \omega A e^{j(\alpha + \pi/2)} = j \omega A e^{j\alpha}\]
 \end{itemize}
 
 \newpage
@@ -1935,7 +1941,7 @@ Si definisce il fattore di potenza come rapporto tra la potenza attiva e quella 
 \subsubsection*{Potenza complessa}
 La potenza complessa contiene tutte le informazioni delle potenze attiva, reattiva e apparente in AC. La parte reale è legata al
 lavoro elettrico, la parte immaginaria è legata all'accumulo di energia.
-\[\dot{S} = \overline{U} \check{I} = UI e^{j\alpha} e^{-j\beta} = UI e^{j\varphi} = UI(cos\varphi + j \sin\varphi) = P + jQ\]
+\[\dot{S} = \bar{U} \check{I} = UI e^{j\alpha} e^{-j\beta} = UI e^{j\varphi} = UI(cos\varphi + j \sin\varphi) = P + jQ\]
 \[P = \Real(\dot{S}) \qquad Q = \Img(\dot{S}) \qquad S = \left|\dot{S}\right|\]
 
 \subsection{Bipoli in regime sinusoidale}
@@ -1970,10 +1976,10 @@ lavoro elettrico, la parte immaginaria è legata all'accumulo di energia.
 \begin{center}
 	\begin{minipage}{0.25\textwidth}
 		\begin{circuitikz}
-			\draw (0,0) to[V, i<_=i] (3,0);
+			\draw (0,0) to[V, i_>=i] (3,0);
 			\draw (1.5,0) [circ, thick, fill, color=white] circle(0.39);
-			\node[] at (0,0.2) {+};
-			\node[] at (3,0.2) {--};
+			\node[] at (0,0.2) {--};
+			\node[] at (3,0.2) {+};
 			\node[] at (1.5,0.7) {\(e(t)\)};
 			\node[] at (1.5,0) {\(\underline{\sim}\)};
 		\end{circuitikz}
@@ -1990,10 +1996,10 @@ lavoro elettrico, la parte immaginaria è legata all'accumulo di energia.
 \begin{center}
 	\begin{minipage}{0.25\textwidth}
 		\begin{circuitikz}
-			\draw (0,0) to[V, i<_=i] (3,0);
+			\draw (0,0) to[V, i_>=i] (3,0);
 			\draw (1.5,0) [circ, thick, fill, color=white] circle(0.39);
-			\node[] at (0,0.2) {+};
-			\node[] at (3,0.2) {--};
+			\node[] at (0,0.2) {--};
+			\node[] at (3,0.2) {+};
 			\node[] at (1.5,0.7) {\(j(t)\)};
 			\node[] at (1.5,0) {\(\underline{\sim}\)};
 		\end{circuitikz}
@@ -2008,21 +2014,21 @@ lavoro elettrico, la parte immaginaria è legata all'accumulo di energia.
 \end{center}
 
 \subsubsection*{Bipoli lineari in AC}
-Un bipolo si dice lineare in AC se la sua caratteristica esterna è combinazione lineare dei fasori \(\overline{U}\) e \(\overline{I}\)
-(analogo ai bipoli lineari in DC): \(\;\; a_n\overline{U} + b_n\overline{I} = c_n\)
+Un bipolo si dice lineare in AC se la sua caratteristica esterna è combinazione lineare dei fasori \(\bar{U}\) e \(\bar{I}\)
+(analogo ai bipoli lineari in DC): \(\;\; a_n\bar{U} + b_n\bar{I} = c_n\)
 
 \subsubsection*{Bipoli passivi in AC}
-Un bipolo si dice passivo in AC se può solo assorbire potenza attiva: \(P = UI \cos\varphi > 0 \;\; \rightarrow \;\; -\pi/2 \leq \varphi \leq \pi/2\)
+Un bipolo si dice passivo in AC se può solo assorbire potenza attiva: \[P = UI \cos\varphi > 0 \;\; \rightarrow \;\; -\pi/2 \leq \varphi \leq \pi/2\]
 
 \subsubsection*{Impedenza di un bipolo passivo}
-\[\dot{Z} = \frac{\overline{U}}{\overline{I}} = \frac{Ue^{j\alpha}}{Ie^{j\beta}} = \frac{U}{I} e^{j\varphi} \qquad\qquad
+\[\dot{Z} = \frac{\bar{U}}{\bar{I}} = \frac{Ue^{j\alpha}}{Ie^{j\beta}} = \frac{U}{I} e^{j\varphi} \qquad\qquad
 Z = \left|\dot{Z}\right| = \frac{U_\text{eff}}{I_\text{eff}} = [\Omega] \qquad \varphi = \text{arg} \dot{Z} = \arctan\left(\frac{\Img(\dot{Z})}{\Real(\dot{Z})}\right) = [rad]\]
 
 \subsubsection*{Ammettenza di un bipolo passivo}
-\[\dot{Y} = \dot{Z}^{-1} = \frac{\overline{I}}{\overline{U}} = \frac{Ie^{j\beta}}{Ue^{j\alpha}} = \frac{I}{U} e^{-j\varphi}\]
+\[\dot{Y} = \dot{Z}^{-1} = \frac{\bar{I}}{\bar{U}} = \frac{Ie^{j\beta}}{Ue^{j\alpha}} = \frac{I}{U} e^{-j\varphi}\]
 
 \subsubsection*{Potenze in un bipolo passivo}
-\[\dot{S} = \overline{U} I^* = \dot{Z} \overline{I} I^* = \dot{Z} I^2 \qquad\qquad \begin{aligned}
+\[\dot{S} = \bar{U} I^* = \dot{Z} \bar{I} I^* = \dot{Z} I^2 \qquad\qquad \begin{aligned}
 	&\text{potenza apparente} \quad\! S = \left|Z\right| I^2 = ZI^2 \\
 	&\;\;\text{potenza attiva} \qquad P = \Real(Z) I^2 = ZI^2 \cos\varphi \\
 	&\;\text{potenza reattiva} \quad\;\, Q = \Img(Z) I^2 = ZI^2 \sin \varphi
@@ -2045,7 +2051,7 @@ Z = \left|\dot{Z}\right| = \frac{U_\text{eff}}{I_\text{eff}} = [\Omega] \qquad \
 	\end{minipage}
 \end{center}
 \begin{align*}
-	&\dot{Z}_\text{impedenza} = \frac{\overline{U}}{\overline{I}} = \frac{R \overline{I}}{\overline{I}} = R \qquad \dot{Y}_\text{ammettenza} = \frac{1}{\dot{Z}} = \frac{1}{R} = G \qquad R_\text{resistenza} = \frac{U_M}{I_M} = \frac{U}{I} \\
+	&\dot{Z}_\text{impedenza} = \frac{\bar{U}}{\bar{I}} = \frac{R \bar{I}}{\bar{I}} = R \qquad \dot{Y}_\text{ammettenza} = \frac{1}{\dot{Z}} = \frac{1}{R} = G \qquad R_\text{resistenza} = \frac{U_M}{I_M} = \frac{U}{I} \\
 	&p(t)_\text{istantanea} = R i^2 \qquad S_\text{apparente} = RI^2 \qquad P_\text{attiva} = RI^2 \cos\varphi = RI^2 \qquad Q_\text{reattiva} = RI^2 \sin\varphi = 0
 \end{align*}
 
@@ -2067,7 +2073,7 @@ Z = \left|\dot{Z}\right| = \frac{U_\text{eff}}{I_\text{eff}} = [\Omega] \qquad \
 	\end{minipage}
 \end{center}
 \begin{align*}
-	&\dot{Z}_\text{impedenza} = \frac{\overline{U}}{\overline{I}} = \frac{U}{I} e^{j\pi/2} = j \omega L = j X_L \qquad {X_L}_\text{reattanza induttiva} = \omega L = [\Omega] \\
+	&\dot{Z}_\text{impedenza} = \frac{\bar{U}}{\bar{I}} = \frac{U}{I} e^{j\pi/2} = j \omega L = j X_L \qquad {X_L}_\text{reattanza induttiva} = \omega L = [\Omega] \\
 	&\dot{Y}_\text{ammettenza} = \frac{1}{\dot{Z}} = \frac{1}{j\omega L} = -\frac{j}{\omega L}= j B_L  \qquad\; {B_L}_\text{scuscettanza induttiva} = -\frac{1}{\omega L} = [S_{iemens}] \\
 	&u(t) = \frac{1}{2}Li^2(t) \geq 0 \qquad S_\text{apparente} = \left|X_L\right| I^2 \qquad P_\text{attiva} = S \cos\varphi = 0 \qquad Q_\text{reattiva} = S \sin\varphi = X_L I^2
 \end{align*}
@@ -2089,7 +2095,7 @@ Z = \left|\dot{Z}\right| = \frac{U_\text{eff}}{I_\text{eff}} = [\Omega] \qquad \
 	\end{minipage}
 \end{center}
 \begin{align*}
-	&\dot{Z}_\text{impedenza} = \frac{\overline{U}}{\overline{I}} = \frac{U}{I} e^{-j\pi/2} = - \frac{j}{\omega C} = j X_C \qquad {X_C}_\text{reattanza capacitiva} = \frac{1}{\omega C} = [\Omega] \\
+	&\dot{Z}_\text{impedenza} = \frac{\bar{U}}{\bar{I}} = \frac{U}{I} e^{-j\pi/2} = - \frac{j}{\omega C} = j X_C \qquad {X_C}_\text{reattanza capacitiva} = -\frac{1}{\omega C} = [\Omega] \\
 	&\dot{Y}_\text{ammettenza} = \frac{1}{\dot{Z}} = -\frac{\omega C}{j} = j \omega C = j B_L  \qquad\quad\;\; {B_C}_\text{scuscettanza capacitiva} = \omega C = [S_{iemens}] \\
 	&u(t) = \frac{1}{2}Cu^2(t) \geq 0 \qquad S_\text{apparente} = \left|X_L\right| I^2 \qquad P_\text{attiva} = S \cos\varphi = 0 \qquad Q_\text{reattiva} = S \sin\varphi = X_L I^2
 \end{align*}
@@ -2118,25 +2124,25 @@ Z = \left|\dot{Z}\right| = \frac{U_\text{eff}}{I_\text{eff}} = [\Omega] \qquad \
 \subsection{Leggi di Kirchhoff, serie e paralleli in AC}
 \subsubsection*{Legge di Kirchhoff per correnti}
 Dato un insieme di taglio \(\mathcal{T}\), la legge di Kirchhoff per i fasori delle correnti  vale:
-\[\sum_{h \in \mathcal{T}} = \alpha_h \overline{I}_h = \overline{0} \qquad \qquad \begin{cases}\alpha = 1 &\text{correnti uscenti} \\ \alpha = -1 &\text{correnti entranti}\end{cases}\]
+\[\sum_{h \in \mathcal{T}} \alpha_h \bar{I}_h = \bar{0} \qquad \qquad \begin{cases}\alpha = 1 &\text{correnti uscenti} \\ \alpha = -1 &\text{correnti entranti}\end{cases}\]
 
 \subsubsection*{Legge di Kirchhoff per tensioni}
 Data una maglia \(\mathcal{M}\), la legge di Kirchhoff per i fasori delle tensioni vale:
-\[\sum_{h \in \mathcal{M}} = \beta_h \overline{U}_h = \overline{0} \qquad \qquad \begin{cases}\beta = 1 &\text{tensioni concordi con maglia} \\ \beta = -1 &\text{tensioni discordi con maglia}\end{cases}\]
+\[\sum_{h \in \mathcal{M}} \beta_h \bar{U}_h = \bar{0} \qquad \qquad \begin{cases}\beta = 1 &\text{tensioni concordi con maglia} \\ \beta = -1 &\text{tensioni discordi con maglia}\end{cases}\]
 
 \subsubsection*{Serie di impedenze}
 Data una serie di impedenze, l'impedenza equivalente è \(\dot{Z}_{eq} = \dot{Z}_1 + \dot{Z}_2 + ... + \dot{Z}_n\)
 
 \subsubsection*{Partitore di tensione}
 In un partitore di tensione, la tensione è proporzionale all'impedenza:
-\[\overline{U}_k = \frac{\dot{Z}_k}{\sum_j \dot{Z}_j} \overline{U}_{tot} \qquad\qquad \overline{U}_1 = \frac{\dot{Z}_1}{\dot{Z}_1 + \dot{Z}_2} \overline{U}_{tot} \qquad \overline{U}_2 = \frac{\dot{Z}_2}{\dot{Z}_1 + \dot{Z}_2} \overline{U}_{tot}\]
+\[\bar{U}_k = \frac{\dot{Z}_k}{\sum_j \dot{Z}_j} \bar{U}_{tot} \qquad\qquad \bar{U}_1 = \frac{\dot{Z}_1}{\dot{Z}_1 + \dot{Z}_2} \bar{U}_{tot} \qquad \bar{U}_2 = \frac{\dot{Z}_2}{\dot{Z}_1 + \dot{Z}_2} \bar{U}_{tot}\]
 
 \subsubsection*{Parallelo di impedenze}
 Dato un parallelo di impedenze, l'impedenza equivalente è \(\dot{Z}_{eq} = \left(\frac{1}{\dot{Z}_1} + \frac{1}{\dot{Z}_2} + ... + \frac{1}{\dot{Z}_n}\right)^{-1}\)
 
 \subsubsection*{Partitore di corrente}
 In un partitore di corrente, la corrente è proporzionale all'ammettenza:
-\[\overline{I}_k = \frac{\dot{Y}_k}{\sum_j \dot{Y}_j} \overline{I}_{tot} \qquad\qquad \overline{I}_1 = \frac{\dot{Z}_2}{\dot{Z}_1 + \dot{Z}_2} \overline{I}_{tot} \qquad \overline{I}_2 = \frac{\dot{Z}_1}{\dot{Z}_1 + \dot{Z}_2} \overline{I}_{tot}\]
+\[\bar{I}_k = \frac{\dot{Y}_k}{\sum_j \dot{Y}_j} \bar{I}_{tot} \qquad\qquad \bar{I}_1 = \frac{\dot{Z}_2}{\dot{Z}_1 + \dot{Z}_2} \bar{I}_{tot} \qquad \bar{I}_2 = \frac{\dot{Z}_1}{\dot{Z}_1 + \dot{Z}_2} \bar{I}_{tot}\]
 
 \subsection{Rete simbolica}
 \subsubsection*{Rete lineare e analisi nel tempo}
@@ -2153,51 +2159,51 @@ di Steinmetz ottenendo una rete simbolica analizzabile con i fasori con le segue
 \end{itemize}
 
 \begin{align*}
-	&\text{bipoli passivi} \;\; \rightarrow \;\; \overline{U} = \dot{Z} \overline{I} \qquad\qquad\quad \overline{I} = \dot{Y} \overline{U} \\
-	&\;\, \text{GIT e GIC} \quad \rightarrow \;\; \overline{U} = \overline{E} = Ee^{j\alpha} \qquad \overline{I} = \overline{J} = Je^{j\beta} \\
-	&\text{GLT e GLC} \quad \rightarrow \;\; \overline{U} = \overline{E} - \dot{Z} \overline{I} \qquad\quad \overline{I} = \overline{J} - \dot{Y} \overline{U}
+	&\text{bipoli passivi} \;\; \rightarrow \;\; \bar{U} = \dot{Z} \bar{I} \qquad\qquad\quad \bar{I} = \dot{Y} \bar{U} \\
+	&\;\, \text{GIT e GIC} \quad \rightarrow \;\; \bar{U} = \bar{E} = Ee^{j\alpha} \qquad \bar{I} = \bar{J} = Je^{j\beta} \\
+	&\;\text{GLT e GLC} \!\!\quad \rightarrow \;\; \bar{U} = \bar{E} - \dot{Z} \bar{I} \qquad\quad \bar{I} = \bar{J} - \dot{Y} \bar{U}
 \end{align*}
 
 \subsubsection*{Teorema di sostituzione}
-È possibile sostituire un lato della rete con \(\overline{U}\) e \(\overline{I}\) con un GIT di tensione \(\overline{E} = \overline{U}\)
-o con un GIC di \(\overline{J} = \overline{I}\).
+È possibile sostituire un lato della rete con \(\bar{U}\) e \(\bar{I}\) con un GIT di tensione \(\bar{E} = \bar{U}\)
+o con un GIC di \(\bar{J} = \bar{I}\).
 
 \subsubsection*{Sovrapposizione degli effetti}
-\[\overline{U}_h = \sum_r \overline{U}_{h,E_r} + \sum_s \overline{U}_{h,J_s} \qquad \qquad \begin{aligned} &\overline{U}_{h,E_r} = \text{costributo dell'r-esimo GIT} \\ &\overline{U}_{h,J_s} = \text{costributo dell's-esimo GIC}\end{aligned}\]
-\[\overline{I}_h = \sum_r \overline{I}_{h,E_r} + \sum_s \overline{I}_{h,J_s} \qquad \qquad \begin{aligned} &\overline{I}_{h,E_r} = \text{costributo dell'r-esimo GIT} \\ &\overline{I}_{h,J_s} = \text{costributo dell's-esimo GIC}\end{aligned}\]
+\[\bar{U}_h = \sum_r \bar{U}_{h,E_r} + \sum_s \bar{U}_{h,J_s} \qquad \qquad \begin{aligned} &\bar{U}_{h,E_r} = \text{costributo dell'r-esimo GIT} \\ &\bar{U}_{h,J_s} = \text{costributo dell's-esimo GIC}\end{aligned}\]
+\[\bar{I}_h = \sum_r \bar{I}_{h,E_r} + \sum_s \bar{I}_{h,J_s} \qquad \qquad \begin{aligned} &\bar{I}_{h,E_r} = \text{costributo dell'r-esimo GIT} \\ &\bar{I}_{h,J_s} = \text{costributo dell's-esimo GIC}\end{aligned}\]
 
 \subsubsection*{Metodo delle correnti di anello (poco usato)}
-\[\dot{Z}_{A_{kk}} \overline{I}_{A_k} - \sum_h \dot{Z}_{A_{kh}} \overline{I}_{A_h} = \overline{E}_{A_k} \qquad
+\[\dot{Z}_{A_{kk}} \bar{I}_{A_k} - \sum_h \dot{Z}_{A_{kh}} \bar{I}_{A_h} = \bar{E}_{A_k} \qquad
 \begin{aligned}
 	\dot{Z}_{A_{kk}} &= \sum \text{impedenze della maglia } A_k \\
 	\dot{Z}_{A_{kh}} &= \sum \text{impedenze in comune alle maglie } A_k \text{ e } A_h \\
-	\overline{E}_{A_k} &= \sum \text{fem di anello della maglia } A_k \text{ con conv. generatore} \\
-	\overline{I}_{A_k} &= \text{corrente di anello della maglia } A_k \\
-	\overline{I}_{A_h} &= \text{corrente di anello della maglia } A_h
+	\bar{E}_{A_k} &= \sum \text{fem di anello della maglia } A_k \text{ con conv. generatore} \\
+	\bar{I}_{A_k} &= \text{corrente di anello della maglia } A_k \\
+	\bar{I}_{A_h} &= \text{corrente di anello della maglia } A_h
 \end{aligned}\]
 
 \subsubsection*{Metodo dei potenziali nodali (poco usato)}
-\[\dot{Y}_{N_{kk}} \overline{U}_{N_k} - \sum_{h} \dot{Y}_{N_{kh}} \overline{U}_{N_h} = \overline{J}_{N_k} \qquad
+\[\dot{Y}_{N_{kk}} \bar{U}_{N_k} - \sum_{h} \dot{Y}_{N_{kh}} \bar{U}_{N_h} = \bar{J}_{N_k} \qquad
 \begin{aligned}
 	\dot{Y}_{N_{kk}} &= \sum \text{ammettenze incidenti al nodo } N_k \\
 	\dot{Y}_{N_{kh}} &= \sum \text{ammettenze comprese tra i nodi } N_k \text{ e } N_h \\
-	\overline{J}_{N_k} &= \sum \text{correnti dei GIC impresse su } N_k \text{ (+ se entranti)} \\
-	\overline{U}_{N_k} &= \text{potenziale del nodo } N_k \\
-	\overline{U}_{N_h} &= \text{potenziale del nodo } N_h
+	\bar{J}_{N_k} &= \sum \text{correnti dei GIC impresse su } N_k \text{ (+ se entranti)} \\
+	\bar{U}_{N_k} &= \text{potenziale del nodo } N_k \\
+	\bar{U}_{N_h} &= \text{potenziale del nodo } N_h
 \end{aligned}\]
 
 \subsubsection*{Teorema di Thévenin}
 \begin{align*}
-	\overline{U}_{eq} &= \overline{E}_{ab} = \overline{U}_{0,ab} = \text{fasore della tensione a vuoto della porta ab} \\
-	\dot{Z}_{eq} &= \dot{Z}_{ab} = \frac{\overline{U}_{0,ab}}{\overline{I}_{cc,ab}} = \text{impedenza della rete inerte (con tutti i GIT/GIC spenti)} \\
-	\overline{U}_{ab} &= \overline{U}_{0,ab} - \dot{Z}_{eq} \; \overline{I}_{cc,ab} \;\;\rightarrow\;\; \text{equazione del GLT}
+	\bar{U}_{eq} &= \bar{E}_{ab} = \bar{U}_{0,ab} = \text{fasore della tensione a vuoto della porta ab} \\
+	\dot{Z}_{eq} &= \dot{Z}_{ab} = \frac{\bar{U}_{0,ab}}{\bar{I}_{cc,ab}} = \text{impedenza della rete inerte (con tutti i GIT/GIC spenti)} \\
+	\bar{U}_{ab} &= \bar{U}_{0,ab} - \dot{Z}_{eq} \; \bar{I}_{cc,ab} \;\;\rightarrow\;\; \text{equazione del GLT}
 \end{align*}
 
 \subsubsection*{Teorema di Norton}
 \begin{align*}
-	\overline{I}_{eq} &= \overline{J}_{ab} = \overline{I}_{cc,ab} = \text{fasore della corrente di cortocircuito della porta ab} \\
-	\dot{Z}_{eq} &= \dot{Z}_{ab} = \frac{\overline{U}_{0,ab}}{\overline{I}_{cc,ab}} = \text{impedenza della rete inerte (con tutti i GIT/GIC spenti)} \\
-	\overline{I}_{ab} &= \overline{I}_{cc,ab} - \frac{\overline{U}_{ab}}{\dot{Z}_{eq}} \;\;\rightarrow\;\; \text{equazione del GLC}
+	\bar{I}_{eq} &= \bar{J}_{ab} = \bar{I}_{cc,ab} = \text{fasore della corrente di cortocircuito della porta ab} \\
+	\dot{Z}_{eq} &= \dot{Z}_{ab} = \frac{\bar{U}_{0,ab}}{\bar{I}_{cc,ab}} = \text{impedenza della rete inerte (con tutti i GIT/GIC spenti)} \\
+	\bar{I}_{ab} &= \bar{I}_{cc,ab} - \frac{\bar{U}_{ab}}{\dot{Z}_{eq}} \;\;\rightarrow\;\; \text{equazione del GLC}
 \end{align*}
 
 \subsubsection*{Convenzione delle potenze complesse}
@@ -2227,7 +2233,7 @@ o con un GIC di \(\overline{J} = \overline{I}\).
 			\node[] at (-0.4,-0.75) {u(t)};
 		\end{circuitikz}
 		\begin{align*}
-			&\quad\overline{U} = \dot{Z} \overline{I} \qquad \dot{Z}(\omega) = R + jX(\omega) \\
+			&\quad\bar{U} = \dot{Z} \bar{I} \qquad \dot{Z}(\omega) = R + jX(\omega) \\
 			&X(\omega) = X_L(\omega) + X_C(\omega) = \omega L - \frac{1}{\omega C} 
 		\end{align*}
 	\end{minipage}
@@ -2276,9 +2282,9 @@ Il fattore di merito indica l'ampiezza della campana di risonanza e, in generale
 
 \subsubsection*{Analisi dei fasori di correnti, tensioni e potenze in risonanza}
 \begin{align*}
-	\overline{U}_L = - \overline{U}_C \qquad &\text{i fasori sono uguali e opposti tra loro e si cancellano a vicenda} \\
-	\overline{U}_L = j \omega_0 L \, \overline{I} \qquad &\text{la corrente è in ritardo (e in quadratura) rispetto alla tensione nell'induttanza} \\
-	\overline{U}_C = - j \frac{1}{\omega_0 C} \, \overline{I} \qquad &\text{la corrente è in anticipo (e in quadratura) rispetto alla tensione nel condensatore} \\
+	\bar{U}_L = - \bar{U}_C \qquad &\text{i fasori sono uguali e opposti tra loro e si cancellano a vicenda} \\
+	\bar{U}_L = j \omega_0 L \, \bar{I} \qquad &\text{la corrente è in ritardo (e in quadratura) rispetto alla tensione nell'induttanza} \\
+	\bar{U}_C = - j \frac{1}{\omega_0 C} \, \bar{I} \qquad &\text{la corrente è in anticipo (e in quadratura) rispetto alla tensione nel condensatore} \\
 	Q_L + Q_C = 0 \qquad &\text{le potenze reattive sono opposte, induttore e condensatore agiscono in cortocircuito}
 \end{align*}
 Siccome vale \(U_L = U_C = Q_0 \, U_\text{serie}\), se \(Q_0 > 1\) le tensioni all'interno dei singoli componenti vengono amplificate.
@@ -2295,7 +2301,7 @@ influire sulla potenza istantanea del circuito.
 
 \vspace{20pt}
 
-\subsection{Analisi in frequenza e risonanza in un parallelo RLC}
+\subsection{Analisi in frequenza e antisonanza in un parallelo RLC}
 \subsubsection*{Circuito ed equazioni caratteristiche}
 \begin{center}
 	\begin{minipage}{0.4\textwidth}
@@ -2308,7 +2314,7 @@ influire sulla potenza istantanea del circuito.
 			\node[] at (-0.4,-1) {u(t)};
 		\end{circuitikz}
 		\begin{align*}
-			&\quad \overline{I} = \dot{Y} \overline{U} \qquad\quad \dot{Y} = G + jB(\omega) \\
+			&\quad \bar{I} = \dot{Y} \bar{U} \qquad\quad \dot{Y} = G + jB(\omega) \\
 			&B(\omega) = B_L(\omega) + B_C(\omega) = -\frac{1}{\omega L} + \omega C
 		\end{align*}
 	\end{minipage}
@@ -2349,10 +2355,10 @@ In base al valore di \(\omega\) si avranno due comportamenti
 
 \subsubsection*{Analisi dei fasori di correnti, tensioni e potenze in antisonanza}
 \begin{align*}
-	\overline{I}_L = - \overline{I}_C \qquad &\text{i fasori sono uguali ed opposti tra loro e si cancellano a vicenda} \\
-	\overline{I}_C = j \omega_0 C \overline{U} \qquad &\text{la tensione è in ritardo (e in quadratura) rispetto alla corrente nel condensatore} \\
-	\overline{I}_L = - j \frac{1}{\omega_0 L} \overline{U} \qquad &\text{la tensione è in anticipo (e in quadratura) rispetto alla corrente nell'induttanza} \\
-	Q_L + Q_C = 0 \qquad &\text{le potenze reattive sono opposte, indutt. e condensatore formano un circuito aperto}
+	\bar{I}_L = - \bar{I}_C \qquad &\text{i fasori sono uguali ed opposti tra loro e si cancellano a vicenda} \\
+	\bar{I}_C = j \omega_0 C \bar{U} \qquad &\text{la tensione è in ritardo (e in quadratura) rispetto alla corrente nel condensatore} \\
+	\bar{I}_L = - j \frac{1}{\omega_0 L} \bar{U} \qquad &\text{la tensione è in anticipo (e in quadratura) rispetto alla corrente nell'induttanza} \\
+	Q_L + Q_C = 0 \qquad &\text{le potenze reatt. sono opposte, induttore e condensatore formano un circuito aperto}
 \end{align*}
 Siccome vale \(I_L = I_C = Q_0 I_\text{parallelo}\), se \(Q_0 > 0\) le correnti all'interno dei singoli componenti vengono amplificate.
 
@@ -2362,7 +2368,7 @@ Siccome vale \(I_L = I_C = Q_0 I_\text{parallelo}\), se \(Q_0 > 0\) le correnti 
 	p_L(t) &= u(t) i_L(t) = - u(t) i_C(t) = - p_C(t) \quad \rightarrow \quad p_L(t) + p_C(t) = 0 \\
 	\omega_L(t) &= \frac{1}{2} Li(t)^2, \qquad \omega_C(t) = \frac{1}{2} Cu(t)^2 \quad \rightarrow \quad \omega_{LC} = \text{costante}
 \end{align*}
-Si osserva che, in antisonanza, il condensatore e l'induttanza agiscono come circuito aperto e si scambiano energia a vicenda, senza
+Si osserva che, in antisonanza, il condensatore e l'induttore agiscono come circuito aperto e si scambiano energia a vicenda, senza
 influire sulla potenza istantanea del circuito.
 
 \vspace{20pt}
@@ -2535,7 +2541,7 @@ Le costanti di integrazione \(Y_1, \dots Y_p\) si determinano imponendo le condi
 	\item[4.] soluzione dell'omogenea
 	\[RC s + 1 = 0 \;\; \rightarrow \;\; s = -\frac{1}{RC}, \quad \tau = RC, \quad u_o(t) = U_0 e^{st} = U_0 e^{-t/\tau}\]
 	\item[5.] soluzione completa e calcolo delle costanti con condizioni iniziali \(u_C(0) = 0\)
-	\[u_C(t) = U_P + U_0 e^{-t/\tau} \;\; \rightarrow\;\; U_P = U_0 = E \;\; \rightarrow \;\; u_C(t) = E(1-e^{-t/\tau}), \quad i(t) = \frac{E}{R} e^{-t/\tau}\]
+	\[u_C(t) = U_P + U_0 e^{-t/\tau} \;\; \rightarrow\;\; U_P = -U_0 = E \;\; \rightarrow \;\; u_C(t) = E(1-e^{-t/\tau}), \quad i(t) = \frac{E}{R} e^{-t/\tau}\]
 \end{itemize}
 
 \subsection{Scarica del condensatore in circuito RC}

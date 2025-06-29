@@ -79,7 +79,7 @@
 
 \title{Appunti di Dati e algoritmi}
 \author{Giacomo Simonetto}
-\date{Primo semetre 2024-25}
+\date{Primo semestre 2024-25}
 
 \begin{document}
 
@@ -115,7 +115,7 @@ Un problema computazionale è composto da tre componenti:
 	\item[-] \(S\) l'insieme delle soluzioni (output)
 	\item[-] \(\pi \subseteq I \times S\) una relazione che associa ad ogni elemento di \(I\) un corrispettivo elemento di \(S\).
 \end{itemize}
-Se esistono più soluzioni per una generica istanza, l'algorimto ne calcola una arbitraria
+Se esistono più soluzioni per una generica istanza, l'algoritmo ne calcola una arbitraria
 
 \subsection{Algoritmo}
 Un algoritmo è una procedura computazionale che trasforma un dato input in un output eseguendo una sequenza di passi elementari.
@@ -131,7 +131,7 @@ Il problema che risolve l'algoritmo è un problema computazionale, ovvero trova 
 Per descrivere le azioni di un algoritmo si utilizza lo pseudocodice nella seguente struttura:
 
 \begin{algo}{MyAlgoritm}{parametri}{descrizione dell'input}{descrizione dell'output}
-	\State descrizione dell'algorimo in pseudocodice
+	\State descrizione dell'algoritmo in pseudocodice
 	\State \dots
 	\State \dots
 \end{algo}
@@ -141,7 +141,7 @@ Per descrivere le azioni di un algoritmo si utilizza lo pseudocodice nella segue
 La taglia di un'istanza è l'indice di misura della dimensione dei dati di input, scelto in base all'algoritmo.
 
 \subsubsection*{Complessità temporale}
-La complessità temporare indica una stima asintotica del numero di operazioni elementari eseguite dall'algoritmo per una certa
+La complessità temporale indica una stima asintotica del numero di operazioni elementari eseguite dall'algoritmo per una certa
 istanza. Suggerisce una stima del tempo di esecuzione di un algoritmo per una certa istanza ed è utilizzata per confrontare
 algoritmi diversi in base alla loro efficienza computazionale.
 
@@ -202,7 +202,7 @@ Per verificare la correttezza di un ciclo si utilizza un processo induttivo:
 	\item[1.] si determina l'invariante per il ciclo
 	\item[2.] si dimostra che l'invariante vale per l'iterazione -1 (ovvero prima dell'inizio del ciclo)
 	\item[3.] si verifica che se vale per una certa iterazione \(i\), allora vale per l'iterazione \(i+1\)
-	\item[4.] si verifica che l'invariante alla fine del ciclo combacia con la condizion di correttezza della soluzione
+	\item[4.] si verifica che l'invariante alla fine del ciclo combacia con la condizione di correttezza della soluzione
 \end{itemize}
 
 \subsection{Algoritmi ricorsivi}
@@ -320,7 +320,7 @@ Un albero radicato è una collezione di nodi vuota o con le seguenti proprietà:
 	\State return $d$
 \end{algo}
 
-\subsubsection*{Atezza di un nodo}
+\subsubsection*{Altezza di un nodo}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] L'algoritmo calcola prima l'altezza dei discendenti di \(v\) e prosegue verso l'alto fino a \(v\)
 	\item[-] La complessità dell'algoritmo è \(\Theta(n)\), più precisamente \(\Theta(n_v)\), con \(n_v=\) \# nodi del sottoalbero \(T_v\).
@@ -368,8 +368,8 @@ Un albero radicato è una collezione di nodi vuota o con le seguenti proprietà:
 
 \section{Alberi binari}
 \subsection{Introduzione}
-\subsubsection*{Definzione di albero binario}
-Un albero binario è un albero ordinato in cui ogni nodo ha al più die figli. Ogni nodo è etichettato come figlio sinistro o figlio
+\subsubsection*{Definizione di albero binario}
+Un albero binario è un albero ordinato in cui ogni nodo ha al più due figli. Ogni nodo è etichettato come figlio sinistro o figlio
 destro, in base alla posizione di ordinamento.
 
 \subsubsection*{Altre definizioni}
@@ -432,7 +432,7 @@ detto che sia \(O(\log n)\).
 
 \subsection{Parser Tree}
 \subsubsection*{Definizione}
-Il Parse Tree \(T\) associato ad una espressioe aritmetica \(E\) (con operatori solo binari) è un albero binario proprio in cui
+Il Parse Tree \(T\) associato ad una espressione aritmetica \(E\) (con operatori solo binari) è un albero binario proprio in cui
 i nodi foglia contengono le variabili/costanti di \(E\) e i nodi interni contengono gli operatori di \(E\), in modo tale che:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] se \(E = a\), con \(a\) costante/variabile, allora \(T\) è costituito da un'unica foglia contenente \(a\)
@@ -449,7 +449,7 @@ i nodi foglia contengono le variabili/costanti di \(E\) e i nodi interni conteng
 	\If{($T$.isExternal($v$))}
 		\State $L$.addLast($v$.getElement())
 	\Else
-		\State $L$.addLast(\say{(}))
+		\State $L$.addLast(\say{(})
 		\State infix($T$, $T$.left($v$), $L$)
 		\State $L$.addLast($v$.getElement())
 		\State infix($T$, $T$.right($v$), $L$)
@@ -581,7 +581,7 @@ e di conseguenza la relativa rimozione è necessario applicare un algoritmo di r
 Nell'implementazione con la \textbf{lista ordinata}, l'accesso alla chiave minima e la relativa rimozione impiegano tempo costante,
 ma per l'inserimento è necessario applicare l'algoritmo di \verb|insertionsort| che impiega tempo lineare.
 
-Nell'implementazione con lo \textbf{heap}, l'inserimento e la rimozione impiegno un tempo logaritmico, per come definiti i metodi
+Nell'implementazione con lo \textbf{heap}, l'inserimento e la rimozione impiegano un tempo logaritmico, per come definiti i metodi
 di inserimento e rimozione nell'heap (up heap bubbling e down heap bubbling), mentre l'accesso alla chiave minima impiega tempo
 costante. Quest'ultima implementazione offre una migliore efficienza computazionale e anche una migliore efficienza spaziale (se
 l'heap è implementato efficientemente con un array).
@@ -612,7 +612,7 @@ La rappresentazione Level numbering permette di assegnare un indice a ciascun no
 	\item[3.] il padre di \(p[i]\) ha indice \(\lfloor (i-1)/2 \rfloor\) e si trova in posizione \(P[\lfloor (i-1)/2 \rfloor]\)
 \end{itemize}
 Si osserva che i nodi di ciascun livello hanno indici crescenti da sinistra verso destra. In questo modo è possibile rappresentare
-uno heap su un array, ottenuto giustapponendo i nodi di ogni livello mantenendo le posizioni recicproche dei nodi da sinistra verso
+uno heap su un array, ottenuto giustapponendo i nodi di ogni livello mantenendo le posizioni reciproche dei nodi da sinistra verso
 destra. Tale rappresentazione è space efficient perché c'è corrispondenza 1:1 tra un albero binario completo e un array.
 
 \subsubsection*{Nodo Last}
@@ -695,7 +695,7 @@ numbering si trova nell'ultima cella dell'array con indice \(\lfloor n-1 \rfloor
 \subsection{Costruzione di un heap inplace}
 \subsubsection*{Costruzione di un heap da un array, con approccio Top-Down}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] L'algoritmo inserisce le chiavi una ad una, incrementanto \(j\) e costruisce l'heap con un up-heap bubbling per
+	\item[-] L'algoritmo inserisce le chiavi una ad una, incrementando \(j\) e costruisce l'heap con un up-heap bubbling per
 	ogni chiave inserita
 	\item[-] La complessità dell'algoritmo è \(\Theta(n \log n)\), ovvero la ripetizione di \(n\) volte dell'up-heap bubbling
 	con complessità \(\Theta(\log n)\)
@@ -736,7 +736,7 @@ numbering si trova nell'ultima cella dell'array con indice \(\lfloor n-1 \rfloor
 \subsubsection*{Ordinamento di un array attraverso una priority queue implementata come heap su array}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] L'algoritmo si sviluppa in due fasi:
-	\subitem fase1: creazione di un max-heap inplace con approcco bottom-up, con complessità \(\Theta(n)\)
+	\subitem fase1: creazione di un max-heap inplace con approccio bottom-up, con complessità \(\Theta(n)\)
 	\subitem fase2: estrazione delle chiavi inplace con leggere modifiche, con complessità \(\Theta(n \log n)\)
 	\item[-] La complessità dell'algoritmo è \(\Theta(n \log n)\),
 \end{itemize}
@@ -794,7 +794,7 @@ public interface Map<K,V>{
 \subsection{Implementazioni e relativa complessità}
 \begin{center}
 	\begin{tabular}{c | c | c | c | c}
-		\textbf{metodo} & \textbf{position-based list} & \textbf{array} & \textbf{tabella hash} & \textbf{MWST, (2,4)-Treee, RB-Tree} \\
+		\textbf{metodo} & \textbf{position-based list} & \textbf{array} & \textbf{tabella hash} & \textbf{MWST, (2,4)-Tree, RB-Tree} \\
 		\toprule
 		\verb|get| & \(O(n)\) & \(O(1)\) & \(O(1 + \lambda)\) & \(O(\log n)\) \\
 		\midrule
@@ -821,7 +821,7 @@ Simile all'implementazione precedente, ma utilizzando le hash table e le funzion
 occupata a discapito di una lievemente peggiore complessità computazionale. La complessità dipende dal load factor \(\lambda\)
 o indice di riempimento medio della tabella hash. Il load factor \(\lambda\) rappresenta un trade-off tra lo spazio occupato in
 memoria e la complessità computazionale, per \(\lambda\) grandi si avrà migliore complessità spaziale e peggiore complessità
-computazionale, vicecersa per \(\lambda\) piccoli si avrà il contrario. In genere si sceglie \(\lambda < 0.9\) e se
+computazionale, viceversa per \(\lambda\) piccoli si avrà il contrario. In genere si sceglie \(\lambda < 0.9\) e se
 \(\lambda \in O(1)\), la complessità finale è \(O(1)\). 
 
 \subsubsection*{Implementazione con alberi binari di ricerca}
@@ -842,7 +842,7 @@ Una tabella hash è una struttura che possiede i seguenti elementi:
 \end{itemize}
 
 \subsubsection*{Funzione di hash}
-Una buona funione di Hash deve essere il più possibile un processo random:
+Una buona funzione di Hash deve essere il più possibile un processo random:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(P[h(k) = i] = 1/N\), ovvero la distribuzione delle chiavi dei bucket deve tendere all'uniforme
 	\item[-] \(P[h(k) = i \; | \;  h(k') = j] = P[h(k) = i]\), ovvero gli assegnamenti devono essere indipendenti tra loro
@@ -876,7 +876,7 @@ si utilizzano due funzioni di compressione:
 Per la risoluzione delle collisioni ricorre a due metodi:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \textbf{Separate Chaining}: ogni bucket è visto come una \(Map\) più piccola implementata come lista
-	\item[-] \textbf{Open Adressing}: consiste nel salvare le entry direttamente nelle celle del bucket array, senza far ricorso
+	\item[-] \textbf{Open Addressing}: consiste nel salvare le entry direttamente nelle celle del bucket array, senza far ricorso
 	a strutture aggiuntive, ma si complica la loro gestione; non affrontato a lezione
 \end{itemize}
 
@@ -890,7 +890,7 @@ Per la risoluzione delle collisioni ricorre a due metodi:
 	\item[-] La complessità dell'algoritmo al caso medio è \(\Theta(1+\lambda)\).
 \end{itemize}
 \begin{algo}{get}{$k$}{chiave $k$ dell'elemento cercato e riferimento implicito al bucket array $A$}{valore della entry con chiave $k$}
-	\If{($\exists$ entry $(k,x) \in A[h(k)]$))}
+	\If{($\exists$ entry $(k,x) \in A[h(k)]$)}
 		\State return $x$
 	\Else
 		\State return null
@@ -904,7 +904,7 @@ Per la risoluzione delle collisioni ricorre a due metodi:
 	\item[-] La complessità dell'algoritmo al caso medio è \(\Theta(1+\lambda)\).
 \end{itemize}
 \begin{algo}{put}{$k$, $v$}{entry $(k,v)$ da inserire e riferimento implicito al bucket array $A$}{vecchio valore della entry $(k,v)$ se presente}
-	\If{($\exists$ entry $(k,x) \in A[h(k)]$))}
+	\If{($\exists$ entry $(k,x) \in A[h(k)]$)}
 		\State sostituisci $x$ con $v$
 		\State return $x$
 	\Else
@@ -921,7 +921,7 @@ Per la risoluzione delle collisioni ricorre a due metodi:
 	\item[-] La complessità dell'algoritmo al caso medio è \(\Theta(1+\lambda)\).
 \end{itemize}
 \begin{algo}{get}{$k$}{chiave $k$ dell'elemento cercato e riferimento implicito al bucket array $A$}{valore della entry con chiave $k$}
-	\If{($\exists$ entry $(k,x) \in A[h(k)]$))}
+	\If{($\exists$ entry $(k,x) \in A[h(k)]$)}
 		\State rimuovi $(k,x)$ da \(A[h(k)]\)
 		\State decrementa di 1 la $size$ della hashTable
 		\State return $x$
@@ -948,7 +948,7 @@ contenente \(n_i\) entry, ovvero \(O(n_i + 1)\). Si ha, quindi:
 	\item[-] se \(\lambda \in O(1)\), allora la complessità finale sarà \(\Theta(1)\)
 	\item[-] in generale si mantiene \(\lambda < 0.9\), in Java \(\lambda \leq 0.75\)
 	\item[-] il load factor \(\lambda\) rappresenta un trade-off tra lo spazio occupato in memoria e la complessità computazionale,
-	per \(\lambda\) grandi si avrà migliore complessità spaziale e peggiore complessità computazionale, vicecersa per \(\lambda\)
+	per \(\lambda\) grandi si avrà migliore complessità spaziale e peggiore complessità computazionale, viceversa per \(\lambda\)
 	piccoli si avrà migliore complessità computazionale, ma peggiore complessità spaziale.
 \end{itemize}
 
@@ -1001,7 +1001,7 @@ prestazioni di una comune lista concatena. Le possibili soluzioni sono:
 	\item[-] rendere i nodi più capienti per assorbire meglio gli effetti di inserimento e rimozione (MW Search Tree o (2,4)-Tree)
 \end{itemize}
 
-\subsubsection*{Algortimo di accesso - get}
+\subsubsection*{Algoritmo di accesso - get}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] L'algoritmo si basa sulla ricerca vista sopra.
 	\item[-] La complessità dell'algoritmo è \(\Theta(h)\), che può diventare \(\Theta(n)\) se l'albero è molto sbilanciato.
@@ -1015,7 +1015,7 @@ prestazioni di una comune lista concatena. Le possibili soluzioni sono:
 	\EndIf
 \end{algo}
 
-\subsubsection*{Algortimo di inserimento - insert}
+\subsubsection*{Algoritmo di inserimento - insert}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] L'algoritmo si basa sulla ricerca vista sopra.
 	\item[-] La complessità dell'algoritmo è \(\Theta(h)\), che può diventare \(\Theta(n)\) se l'albero è molto sbilanciato.
@@ -1033,7 +1033,7 @@ prestazioni di una comune lista concatena. Le possibili soluzioni sono:
 	\EndIf
 \end{algo}
 
-\subsubsection*{Algortimo di rimozione - remove}
+\subsubsection*{Algoritmo di rimozione - remove}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] L'algoritmo si sviluppa in due casi:
 	\begin{itemize}[topsep=0pt, itemsep=0pt]
@@ -1049,13 +1049,13 @@ prestazioni di una comune lista concatena. Le possibili soluzioni sono:
 	\If{($T$.isInternal($w$))}
 		\State $avlue \gets w$.getElement().getValue()
 		\State decrementa di 1 il numero di entry di $T$
-		\State \Comment Caso 1: $w$ interno con almento un figlio foglia
+		\State \Comment Caso 1: $w$ interno con almeno un figlio foglia
 		\If{($T$.isExternal($T$.left($w$)) OR $T$.isExternal($T$.right($w$)))}
 			\State $u_L \gets T$.left($w$) $\;\; - \;\;$ $u_R \gets T$.right($w$)
-			\If{$T$.isExternal($u_L$)} \Comment Caso 1.1: la foglia è il figlo sinistro
+			\If{$T$.isExternal($u_L$)} \Comment Caso 1.1: la foglia è il figlio sinistro
 				\State cancella $w$ e $u_L$
 				\State fai salire $u_R$ al posto di $w$
-			\Else \Comment Caso 1.2: la foglia è il figlo destro
+			\Else \Comment Caso 1.2: la foglia è il figlio destro
 				\State cancella $w$ e $u_R$
 				\State fai salire $u_L$ al posto di $w$
 			\EndIf
@@ -1073,7 +1073,7 @@ prestazioni di una comune lista concatena. Le possibili soluzioni sono:
 \newpage
 
 \subsection{Multi-Way Search Tree - MWST}
-\subsubsection*{Definzinione}
+\subsubsection*{Definizione}
 Un  Multi-Way Search Tree è un albero ordinato tale che ogni nodo interno ha \(d \geq\) 2 figli (\(v_1, v_2, \dots v_d\)) detto
 \(d-node\) che soddisfa le seguenti caratteristiche:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
@@ -1109,7 +1109,7 @@ Un  Multi-Way Search Tree è un albero ordinato tale che ogni nodo interno ha \(
 	\EndIf
 \end{algo}
 
-\subsubsection*{Algortimo di accesso - get}
+\subsubsection*{Algoritmo di accesso - get}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] L'algoritmo si basa sulla ricerca vista sopra.
 	\item[-] La complessità dell'algoritmo è \(\Theta(h \cdot d_{max})\).
@@ -1127,7 +1127,7 @@ Un  Multi-Way Search Tree è un albero ordinato tale che ogni nodo interno ha \(
 \newpage
 
 \subsection{(2,4)-Tree}
-\subsubsection*{Definzinione}
+\subsubsection*{Definizione}
 Un (2,4)-Tree è un MWS-Tree tale che:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] ogni nodo interno è un \(d\)-node con \(2 \leq d \leq 4\) con \(d\) figli e \(d-1\) entry
@@ -1179,7 +1179,7 @@ Un (2,4)-Tree è un MWS-Tree tale che:
 		\item[2.] altrimenti spezzo il nodo in due \((e1, e_2, e_3, e_4) \rightarrow (e_1,e_2), (e_4)\) e inserisco la entry
 		\say{centrale} \((e_3)\) nel padre; se il padre è in overflow, invoco lo split sul padre
 	\end{itemize}
-	\item[-] La complessità dell'algoritmo è \(\Theta(\log n)\) in quanto ogni invocazione ha costo \(O(1)\) e \# incocazioni
+	\item[-] La complessità dell'algoritmo è \(\Theta(\log n)\) in quanto ogni invocazione ha costo \(O(1)\) e \# invocazioni
 	è proporzionale all'altezza dell'albero \(\Theta(\log n)\)
 \end{itemize}
 \begin{algo}{split}{$u$}{nodo in overflow e riferimento implicito al (2,4)-Tree $T$}{albero senza nodi in overflow}
@@ -1196,7 +1196,7 @@ Un (2,4)-Tree è un MWS-Tree tale che:
 	\EndIf
 \end{algo}
 
-\subsubsection*{Algortimo di rimozione - remove}
+\subsubsection*{Algoritmo di rimozione - remove}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] L'algoritmo si basa sulla ricerca vista sopra e sul fatto che un nodo più contenete più entry
 	\item[-] La complessità dell'algoritmo è \(\Theta(\log n)\) data dalla MWTreeSearch (\(\Theta(\log n)\)) e dal delete (\(\Theta(\log n)\))
@@ -1235,7 +1235,7 @@ Un (2,4)-Tree è un MWS-Tree tale che:
 		due fratelli dal padre al fratello,	aggiungo il sottoalbero del nodo in underflow al fratello e richiamo ricorsivamente
 		delete sul padre per la entry spostata
 	\end{itemize}
-	\item[-] La complessità dell'algoritmo è \(\Theta(\log n)\) in quanto ogni invocazione ha costo \(O(1)\) e \# incocazioni
+	\item[-] La complessità dell'algoritmo è \(\Theta(\log n)\) in quanto ogni invocazione ha costo \(O(1)\) e \# invocazioni
 	è proporzionale all'altezza dell'albero \(\Theta(\log n)\)
 \end{itemize}
 \begin{algo}{delete}{$u$, $e$}{nodo $u$, entry $e \in u$ da rimuovere e riferimento implicito al (2,4)-Tree $T$}{albero senza nodi in underflow}
@@ -1246,7 +1246,7 @@ Un (2,4)-Tree è un MWS-Tree tale che:
 \vspace{4em}
 
 \subsection{Red-Black Tree}
-\subsubsection*{Definzinione}
+\subsubsection*{Definizione}
 Un Red-Black Tree (RB-Tree) è un albero binario di ricerca i cui nodi hanno un colore rosso o nero e in cui valgono le seguenti
 proprietà:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
@@ -1257,7 +1257,7 @@ proprietà:
 \end{itemize}
 
 \subsubsection*{Correlazione tra (2,4)-Tree e Red-Black Tree}
-Si osseerva che è possibile trasformare un (2,4)-Tree in un Red-Black Tree e viceversa:
+Si osserva che è possibile trasformare un (2,4)-Tree in un Red-Black Tree e viceversa:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] se ho un solo nodo nero e due foglie \(\rightarrow\) 2-nodo con una entry e due foglie
 	\item[-] se ho un nodo nero con un figlio rosso e tre foglie totali \(\rightarrow\) 3-nodo con due entry e 3 foglie
@@ -1297,14 +1297,14 @@ in parallelo attraverso un indice secondario realizzato tramite una multimappa.
 È possibile implementare una multimappa tramite una mappa in cui le entry sono coppie \((k, L_k)\) con \(k\) chiave e \(L_k\) una
 lista che memorizza i valori associati alla chiave. Nel caso in cui si vuole inserire più entry uguali (stessa chiave e valore),
 si può decidere se bloccare l'inserimento della seconda o memorizzarle entrambe. In quest'ultimo caso, al momento della rimozione
-si può decidee se rimuoverne solo una o tutte le entry uguali.
+si può decidere se rimuoverne solo una o tutte le entry uguali.
 
 \subsubsection*{Complessità}
 Per migliore praticità si definisce \(n =\) \# chiavi distinte e \(s = \max_k |L_k|\) massima lunghezza delle liste associate
 alle chiavi. Di seguito i metodi e le relative complessità:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] get(k) ha complessità \(\Theta(\log n)\) (come quella della mappa, utlizzando la nuova definizione di \(n\))
-	\item[-] put(k,v) ha complessità \(\Theta(\log n)\) (come quella della mappa, utlizzando la nuova definizione di \(n\))
+	\item[-] get(k) ha complessità \(\Theta(\log n)\) (come quella della mappa, utilizzando la nuova definizione di \(n\))
+	\item[-] put(k,v) ha complessità \(\Theta(\log n)\) (come quella della mappa, utilizzando la nuova definizione di \(n\))
 	\item[-] remove(k,v) ha complessità \(\Theta(\log n + s)\)
 \end{itemize}
 
@@ -1321,7 +1321,7 @@ Un grafo \(G\) è definito come una coppia di insiemi (o collezioni se esistono 
 	\item[-] \textbf{arco orientato}: un arco \((u,v) \in E\) si dice orientato se è stato definito un orientamento \((u \to v)\)
 	tra i vertici su cui insiste
 	\item[-] \textbf{arco multiplo}: un arco si dice multiplo se compare più volte nell'insieme \(E\)
-	\item[-] \textbf{self loop}: un arco si dice self loop se insisiste su un unico vertice, ad esempio \((u,u) \in E\)
+	\item[-] \textbf{self loop}: un arco si dice self loop se insiste su un unico vertice, ad esempio \((u,u) \in E\)
 	\item[-] \textbf{vertici adiacenti}: due vertici \(u\), \(v\) si dicono adiacenti se esiste un arco \((u,v) \in E\) che li collega
 	\item[-] \textbf{vicini di un vertice}: i vicini di un vertice \(v\) sono tutti i vertici \(u\) tali che \((u,v) \in E\)
 	\item[-] \textbf{grado di un vertice}: il grado di un vertice \(v \in V\), degree(\(v\)), è il numero di archi incidenti su \(v\)
@@ -1334,7 +1334,7 @@ Un grafo \(G\) è definito come una coppia di insiemi (o collezioni se esistono 
 	pesi degli archi nel caso di archi pesati
 	\item[-] \textbf{cammino semplice}: un cammino si dice semplice se non ha vertici ripetuti
 	\item[-] \textbf{cammino minimo}: un cammino tra \(x\) e \(y\) si dice minimo se la sua lunghezza è la minima possibile
-	\item[-] \textbf{distanza tra vertici}: dati due vertici \(x\), \(y\) la loro distanta distanza(\(x\),\(y\)) è pari alla lunghezza
+	\item[-] \textbf{distanza tra vertici}: dati due vertici \(x\), \(y\) la loro distanza distanza(\(x\),\(y\)) è pari alla lunghezza
 	del cammino minimo che li congiunge, se non esiste cammino minimo, distanza(\(x\),\(y\)) = \(+\infty\)
 	\item[-] \textbf{ciclo}: un ciclo è un cammino in cui \(u_1 = u_k\), la lunghezza del ciclo è analoga a prima
 	\item[-] \textbf{ciclo semplice}: un ciclo si dice semplice se non ha vertici ripetuti ad eccezione degli estremi
@@ -1390,7 +1390,7 @@ Sia \(G = (V,E)\) grafo semplice non diretto con \(|V| = n\) e \(|E| = n\), allo
 \subsubsection*{Implementazione / rappresentazioni}
 Un grafo può essere rappresentato/implementato in tre modi:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[-] \textbf{struttre base}: \\
+	\item[-] \textbf{strutture base}: \\
 	utilizzo due liste \(L_V\) e \(L_E\) per rappresentare rispettivamente vertici e archi; questo metodo risulta scomodo negli
 	algoritmi in cui è necessario esplorare i vertici adiacenti, per cui non viene molto utilizzata
 	\item[-] \textbf{liste di adiacenza}: \\
@@ -1413,13 +1413,13 @@ Un grafo può essere rappresentato/implementato in tre modi:
 
 \subsection{Breadth First Search - BFS}
 \subsubsection*{Algoritmo}
-L'algoritmo di Breath First Search o BFS prevede che:
+L'algoritmo di Breadth First Search o BFS prevede che:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] prima si visitano tutti i vertici adiacenti e infine si passa ai vicini dei vicini
 	\item[-] ogni vertice ha un campo \(I\!D\) che vale 1 se è stato visitato, 0 altrimenti
 	\item[-] ogni arco ha un campo \(e.label\) per memorizzare una opportuna etichetta o null altrimenti
-	\item[-] incidentEdges(\(v\)) resituisce un iteratore agli archi incidenti su \(v\)
-	\item[-] opposite(\(v\), \(e\)), con \(e = (v,w)\) arco insistente su \(v\), resituisce \(w\)
+	\item[-] incidentEdges(\(v\)) restituisce un iteratore agli archi incidenti su \(v\)
+	\item[-] opposite(\(v\), \(e\)), con \(e = (v,w)\) arco insistente su \(v\), restituisce \(w\)
 \end{itemize}
 Durante l'esecuzione della BFS,
 \begin{itemize}[topsep=3pt, itemsep=0pt]
@@ -1445,7 +1445,7 @@ Durante l'esecuzione della BFS,
 					\If{(\(w.I\!D = 0\))} \Comment se vertice ancora da visitare
 						\State \(e.label \gets\) \verb|DISCOVERY EDGE| \Comment \(e = (v,w)\) diventa DISCOVERY
 						\State visita vertice \(w\) e \(w.I\!D = 1\) \Comment visito \(w\)
-						\State inserisci \(w\) in \(L_{i+1}\) \Comment inserico \(w\) nella rispettiva lista
+						\State inserisci \(w\) in \(L_{i+1}\) \Comment inserisco \(w\) nella rispettiva lista
 					\Else \Comment se vertice già visitato
 						\State \(e.label \gets\) \verb|DISCOVERY EDGE|
 					\EndIf
@@ -1532,7 +1532,7 @@ La complessità di BFS è proporzionale al numero di archi della componente conn
 	\item[-] La complessità dell'algoritmo è \(\Theta(|E| + |V|)\), come per BFSComplete
 	\item[-] Si usa la BFS modificata che per ogni vertice usa \(v.parent\) per il padre e \(v.edge\) per l'arco al padre
 \end{itemize}
-\begin{algo}{}{$G$, $s$, $t$}{grafo $G = (V,E)$ connesso, $s,t \in V$}{lista $L$ con gli archi del cammino minimo da \(t\) a \(s\)}
+\begin{algo}{ShortestPath}{$G$, $s$, $t$}{grafo $G = (V,E)$ connesso, $s,t \in V$}{lista $L$ con gli archi del cammino minimo da \(t\) a \(s\)}
 	\ForAll{$v$}{$V$}  \(v.I\!D \gets 0, \quad v.parent \gets \text{null}, \quad v.edge \gets \text{null}\)
 	\EndFor
 	\ForAll{$e$}{$E$} \(e.label \gets \text{null}\)
@@ -1541,7 +1541,7 @@ La complessità di BFS è proporzionale al numero di archi della componente conn
 	\If{(\(t.I\!D = 0\))} return null
 	\Else
 		\State \(L \gets\) lista vuota, e \(w \gets t\)
-		\While{(\(w \neq s\)))}
+		\While{(\(w \neq s\))}
 			\State aggiungi \(w.edge\) a \(L\)
 			\State \(w \gets w.parent\)
 		\EndWhile
@@ -1560,7 +1560,7 @@ La complessità di BFS è proporzionale al numero di archi della componente conn
 		\item[-] restituisce un cross edge appena lo trova, altrimenti restituisce null
 	\end{itemize}
 \end{itemize}
-\begin{algo}{}{$G$}{grafo $G = (V,E)$ connesso}{lista $L$ con gli archi di un ciclo in \(G\)}
+\begin{algo}{FindCycle}{$G$}{grafo $G = (V,E)$ connesso}{lista $L$ con gli archi di un ciclo in \(G\)}
 	\ForAll{$v$}{$V$} \(v.I\!D \gets 0, \quad v.parent \gets \text{null}, \quad v.edge \gets \text{null}\)
 	\EndFor
 	\ForAll{$e$}{$E$} \(e.label \gets \text{null}\)
@@ -1575,7 +1575,7 @@ La complessità di BFS è proporzionale al numero di archi della componente conn
 		\ElsIf{(\(u.I\!D < v.I\!D\))}
 			\State aggiungi \(v.edge\) a \(L, \quad v \gets v.parent\)
 		\EndIf
-		\While{(\(u \neq v\)))} \Comment algoritmo modificato per LowestCommonAncestor
+		\While{(\(u \neq v\))} \Comment algoritmo modificato per LowestCommonAncestor
 			\State aggiungi \(u.edge\) a \(L, \quad u \gets u.parent\)
 			\State aggiungi \(v.edge\) a \(L, \quad v \gets v.parent\)
 		\EndWhile
@@ -1592,8 +1592,8 @@ L'algoritmo di Depth First Search o DFS prevede che:
 	\item[-] prima viene visitato un vertice e ricorsivamente i suoi discendenti e infine si passa ai vertici adiacenti
 	\item[-] ogni vertice ha un campo \(I\!D\) che vale 1 se È stato visitato, 0 altrimenti
 	\item[-] ogni arco ha un campo \(e.label\) per memorizzare una opportuna etichetta o null altrimenti
-	\item[-] incidentEdges(\(v\)) resituisce un iteratore agli archi incidenti su \(v\)
-	\item[-] opposite(\(v\), \(e\)), con \(e = (v,w)\) arco insistente su \(v\), resituisce \(w\)
+	\item[-] incidentEdges(\(v\)) restituisce un iteratore agli archi incidenti su \(v\)
+	\item[-] opposite(\(v\), \(e\)), con \(e = (v,w)\) arco insistente su \(v\), restituisce \(w\)
 \end{itemize}
 Durante l'esecuzione della DFS,
 \begin{itemize}[topsep=3pt, itemsep=0pt]
@@ -1734,7 +1734,7 @@ Alla fine dell'esecuzione dell'algoritmo di Dijkstra su una componente connessa 
 	e non ha vertici \say{scopritori}
 	\item[-] se \(v.D < +\infty\), il cammino ottenuto risalendo di padre in padre da \(v\) è il cammino minimo da \(s\) a \(v\),
 	con \(d(s,v) = v.D\)
-	\item[-] (nota invariante del for:) al momento dell'estrazione di una entry \((u.D, u)\), il campo \(u.D = d(s,u)\)
+	\item[-] (nota invariante del for): al momento dell'estrazione di una entry \((u.D, u)\), il campo \(u.D = d(s,u)\)
 \end{itemize}
 
 \subsubsection*{Complessità}
@@ -1765,7 +1765,7 @@ Complessivamente si hanno \(n\) removeMin() e \(\leq m\) edge relaxations, ovver
 		\bottomrule
 	\end{tabular}
 \end{center}
-Per cui in torale si avrà:
+Per cui in totale si avrà:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] con l'heap la complessità è \(\Theta(n+m) \log n\)
 	\item[-] con la lista la complessità è \(\Theta(n^2)\)
@@ -1880,7 +1880,7 @@ generali sono le seguenti:
 	\item[-] \textbf{input}: sequenza \(S\) con \(n\) chiavi da ordinare
 	\item[-] \textbf{output}: sequenza \(S\) ordinata in senso non decrescente
 \end{itemize}
-Gli algoritmi si raggiuppano in due categorie:
+Gli algoritmi si raggruppano in due categorie:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \textbf{metodi basati sul confronto}: \\
 	I metodi studiati basati sul confronto sono MergeSort, HeapSort, QuickSort, RandomizedQuickSort e InsertionSort. Si può dimostrare
@@ -1954,8 +1954,8 @@ per cui la complessità complessiva è \(\Theta(n \log n)\).
 \end{algo}
 
 \subsubsection*{Analisi}
-L'algoritmo si basa sul design patter divode-et-impera. La complessità del metodo Partition è \(\Theta(b-a+1)\). Analizzando
-l'albero della ricorsione si oserva che nel caso peggiore una chiave viene sempre sistemata, per cui la taglia aggregata
+L'algoritmo si basa sul design pattern divide-et-impera. La complessità del metodo Partition è \(\Theta(b-a+1)\). Analizzando
+l'albero della ricorsione si osserva che nel caso peggiore una chiave viene sempre sistemata, per cui la taglia aggregata
 diminuisce di 1 ad ogni livello. In totale ci saranno \(n\) livelli con taglia aggregata del livello \(i\) di \(n-i\), per
 cui complessivamente si ha una complessità complessiva di \(\Theta(n^2)\).
 

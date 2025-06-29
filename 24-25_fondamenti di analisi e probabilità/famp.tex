@@ -125,7 +125,7 @@ solo se uno è multiplo dell'altro.
 	\item[-] Data una curva \(f(t)\), per ottenere il sostegno di tale curva, bisogna eliminare il parametro \(t\), passando dalla
 	forma parametrica a quella cartesiana.
 	\item[-] Viceversa se, dato un sostegno, si vuole ottenere una curva, bisogna introdurre una parametrizzazione del sostegno,
-	passando dalla forma cartesiana a quella paremtrica.
+	passando dalla forma cartesiana a quella parametrica.
 \end{itemize}
 
 \subsection{Limiti di funzioni vettoriali}
@@ -136,9 +136,32 @@ solo se uno è multiplo dell'altro.
 \end{align*}
 \[\lim_{t \to t_0} (f_1(t), f_2(t), \dots f_n(t)) = (\ell_1, \ell_2, \dots \ell_n) \quad \Leftrightarrow \quad \lim_{t \to t_0} f_1(t) = \ell_1, \; \lim_{t \to t_0} f_2(t) = \ell_2, \dots \lim_{t \to t_0} f_n(t) = \ell_n\]
 
+\subsubsection*{Unicità del limite}
+Il limite per \(\lim_{\vec{x} \to \vec{x}_0}\) in più variabili esiste se si ottiene sempre lo stesso valore avvicinandosi lungo
+una qualsiasi retta, parabola, \dots al punto \(\vec{x}_0\). Il calcolo può risultare complesso siccome ci sono infiniti modi per
+avvicinarsi ad un punto.
+
 \subsubsection*{Continuità}
-Una funzione è continua se \(\lim_{t \to t_0} f(t) = f(t_0)\). Nel caso di funzioni vettoriali, essa è continua se ogni sua componente
+Una funzione è continua per \(t \to t_0\) se \(\displaystyle\lim_{t \to t_0} f(t) = f(t_0)\). Nel caso di funzioni vettoriali, essa è continua se ogni sua componente
 è continua.
+
+\subsubsection*{Passaggio in coordinate polari}
+Per calcolare il limite può essere comodo passare alle coordinate polari (in base al tipo di parametrizzazione e a come è definita
+la funzione ci sono due metodi):
+\[f(x,y) \;\;\Leftrightarrow \;\; f(\rho\cos(t),\rho\sin(t)) \qquad \begin{cases}
+	x = \rho\cos(t) \\
+	y = \rho\sin(t)
+\end{cases} \;\;\begin{cases}
+	\rho = \sqrt{x^2 + y^2} \\
+	t = \arctan (y/x)
+\end{cases}\]
+\[f(t) = (f_1(t),f_2(t)) \;\;\Leftrightarrow \;\; f(t) = (\rho(t)\cos(t),\rho(t)\sin(t)) \qquad \begin{cases}
+	f_1(t) = \rho(t)\cos(t) \\
+	f_2(t) = \rho(t)\sin(t) \\
+	\rho(t) = \sqrt{f_1(t)^2 + f_2(t)^2}
+\end{cases}\]
+Sono conservate le varie proprietà come il teorema di permanenza del segno, le proprietà dei limiti, il teorema dei carabinieri
+e le diverse proprietà di continuità (continuità di composizione, operazioni e proiezioni di funzioni continue).
 
 \newpage
 
@@ -157,7 +180,7 @@ Se \(f\) è derivabile in \(t_0\) e \(f'(t_0) \neq 0\):
 	\item[-] la retta tangente alla curva è \(\left\{ f(t_0) + f'(t_0) \lambda, \; \lambda \in \Rn \right\}\)
 \end{itemize}
 Si parla di tangenza alla curva e non al sostegno perché una funzione può passare per lo stesso punto in due momenti diversi. In
-questo caso si avrebbero due tangenti diverse per uno stesso punto del sostegno, quando invece sarebbero due tangeti associate a
+questo caso si avrebbero due tangenti diverse per uno stesso punto del sostegno, quando invece sarebbero due tangenti associate a
 due valori diversi del parametro della curva.
 
 \subsubsection*{Funzioni o curve differenziabili e approssimazioni di primo ordine}
@@ -202,15 +225,15 @@ La i-esima derivata parziale di \(f\) in \(p\) è la derivata direzionale lungo 
 \subsubsection*{Continuità e derivate direzionali}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] Una funzione può non essere continua in un punto \(p\), ma avere lo stesso derivate parziali e direzionali. In questo
-	caso si sfrutta la definzione di derivata per calcolarne il valore.
+	caso si sfrutta la definizione di derivata per calcolarne il valore.
 \end{itemize}
 
 \subsubsection*{Proprietà delle derivate direzionali}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
-	\item[1.] \(D_u (f(p) + g(p)) = D_u f(p) + D_u f(p)\)
-	\item[2.] \(D_u (f(p)g(p)) = D_u f(p) \; g(p) + f(p) D_u g(p)\)
-	\item[3.] \(D_u (c f(p)) = c D_u f(p)\)
-	\item[4.] \(D_u (\varphi \circ p)(p)) = D_u \varphi(f(p)) = \varphi(f(p)) D_u f(p)\)
+	\item[1.] \(D_{\vec{u}} (f(p) + g(p)) = D_{\vec{u}} f(p) + D_u f(p)\)
+	\item[2.] \(D_{\vec{u}} (f(p)g(p)) = D_{\vec{u}} f(p) \; g(p) + f(p) D_u g(p)\)
+	\item[3.] \(D_{\vec{u}} (c f(p)) = c D_{\vec{u}} f(p)\)
+	\item[4.] \(D_{\vec{u}} (\varphi \circ p)(p)) = D_{\vec{u}} \varphi(f(p)) = \varphi(f(p)) D_u f(p)\)
 \end{itemize}
 
 \subsection{Gradiente}
@@ -233,29 +256,30 @@ Una funzione \(f\) è di classe \(C^1\) in un aperto se:
 	\item[-] \(f\) ha derivate parziali continue
 \end{itemize}
 In una funzione \(C^1\), le derivate direzionali e il gradiente hanno la seguente relazione:
-\[\forall u \in \Rn \qquad D_u f(p) = \nab f(p) \cdot \vec{u} = \partial_{x_1} f(p) u_1 + \partial_{x_2} f(p) u_2 + \dots \partial_{x_n} f(p) u_n\]
+\[\forall \vec{u} \in \Rn \qquad D_u f(p) = \nab f(p) \cdot \vec{u} = \partial_{x_1} f(p) u_1 + \partial_{x_2} f(p) u_2 + \dots \partial_{x_n} f(p) u_n\]
 Osservazione: se in una funzione generica la derivata parziale \(D_{(u_1, u_2)} f(p)\) non è esprimibile come combinazione
-lineare delle derivate parziali, allora non è \(C^1\). In altre parole se non vale l'equazione \(D_u f(p) = \nab f(p) \cdot \vec{u}\), allora \(f \notin C^1\).
+lineare delle derivate parziali, allora non è \(C^1\). In altre parole se non vale l'equazione \(D_{\vec{u}} f(p) = \nab f(p) \cdot \vec{u}\), allora \(f \notin C^1\).
 
 \subsubsection*{Direzione di massima e minima crescita}
 Se \(f\) è \(C^1\) in un intorno di \(p\), la direzione lungo cui si ha la massima pendenza è la direzione del vettore gradiente.
 Viceversa la direzione di minore crescita è opposta a quella di massima crescita.
 \begin{align*}
-	D_{u_{max}} f(p) &= \left| \nab f(p)\right| \qquad \quad \Leftrightarrow \qquad u_{max} = \frac{\nab f(p)}{\left| \nab f(p) \right|} \\
-	D_{u_{min}} f(p) &= -\left| \nab f(p)\right| \qquad \Leftrightarrow \qquad u_{min} = -\frac{\nab f(p)}{\left| \nab f(p) \right|}
+	D_{\vec{u}_{max}} f(p) &= \left| \nab f(p)\right| \qquad \quad \Leftrightarrow \qquad \vec{u}_{max} = \frac{\nab f(p)}{\left| \nab f(p) \right|} \\
+	D_{\vec{u}_{min}} f(p) &= -\left| \nab f(p)\right| \qquad \Leftrightarrow \qquad \vec{u}_{min} = -\frac{\nab f(p)}{\left| \nab f(p) \right|}
 \end{align*}
 
 \subsection{Spazio tangente e differenziabilità}
 \subsubsection*{Spazio tangente}
 Lo spazio tangente al grafico di una curva \(f(p)\) in un punto \(p\) è l'insieme dei punti: \\
 (n.b.: \(x\) è un punto sul piano, come lo è anche \(p\), non è una coordinata)
-\[\left\{ (x,z) \; \tc \; z = f(p) + \nab f(p) \cdot (x-p)\right\}\] 
+\[\left\{ (\vec{x},z) \; \tc \; z = f(\vec{p}) + \nab f(\vec{p}) \cdot (\vec{x}-\vec{p})\right\}\]
+\[\left\{ (x_1,x_2,\dots,z) \; \tc \; z = f(p_1,p_2, \dots) + \nab f(p_1,p_2, \dots) \cdot ((x_1,x_2, \dots) - (p_1,p_2, \dots))\right\}\]
 
 \subsubsection*{Differenziabilità}
 Una funzione è differenziabile in un punto \(p\) se la funzione \(f\) è approssimabile al piano tangente in \(p\) in un suo intorno
 con un errore trascurabile. \(L(x)\) è la funzione affine detta linearizzazione di \(f\) in \(p\)
 \begin{align*}
-	f(x) &=  f(p) + \nab f(p) \cdot (x-p) + R(x), \qquad \lim_{x \to p} \frac{R(x)}{\left|x-p\right| = 0} \\
+	f(x) &=  f(p) + \nab f(p) \cdot (x-p) + R(x), \qquad \lim_{x \to p} \frac{R(x)}{\left|x-p\right|} = 0 \\
 	L(x) &:= f(p) + \nab f(p) \cdot (x-p)
 \end{align*}
 Per sapere se una funzione è differenziabile bisogna controllare che il resto \(R(x) = o(\left|x-p\right|)\), cioè bisogna risolvere
@@ -279,7 +303,7 @@ Per la regola della catena (con funzione a due variabili e in generale a \(n\) v
 \subsubsection*{Gradiente e curve di livello}
 Il gradiente è perpendicolare alle curve di livello. Nelle curve di livello vale:
 \[f(r(t)) = \text{costante} \quad \Rightarrow \quad \dt f(r(t)) = 0 \quad \Rightarrow \quad \nab f(r(t)) \cdot r'(t) = 0 \quad \Rightarrow \quad \nab f(r(t)) \perp r'(t)\]
-con \(r'(t)\) un vettore con la stessa direzione della tangete alla curva di livello, per un certo \(t\).
+con \(r'(t)\) un vettore con la stessa direzione della tangente alla curva di livello, per un certo \(t\).
 
 \newpage
 
@@ -351,6 +375,11 @@ di \(\mu\) sulla curva \(r\) vale:
 La lunghezza di una curva è l'integrale curvilineo con \(\mu = 1\):
 \[\text{Lunghezza} := \int_r \; ds = \int_a^b \left| r'(t) \right| \, dt\]
 
+\subsubsection*{Massa di un filo con densità \(\mu\)}
+La massa di un filo/curva è l'integrale curvilineo con \(\mu\) che rappresenta la densità:
+\[\text{Massa} := \int_r \mu \; ds = \int_a^b \mu \left| r'(t) \right| \, dt\]
+
+
 \subsubsection*{Baricentro di una curva}
 Il baricentro di una curva \(r\) con densità \(\mu(x)\) è definito come:
 \[\text{Baricentro} := \frac{\displaystyle \int_{r} (x_1, x_2, \dots x_n) \mu(x) \; ds }{\displaystyle \int_r \mu \; ds} = \frac{\displaystyle \int_{r} x_1 \mu(x) \; ds + \int_{r} x_2 \mu(x) \; ds + \dots + \int_{r} x_n \mu(x) \; ds }{\displaystyle \int_r \mu \; ds}\]
@@ -362,7 +391,7 @@ Per \(\mu = 1\) si ottiene il baricentro geometrico:
 	\item[1.] \(\displaystyle \int_r (\mu(x) + \nu(x)) \; ds = \int_r \mu(x) \; ds + \int_r \nu(x) \; ds\)
 	\item[2.] se \(c =\) costante, allora \(\displaystyle \int_r c\mu(x) \; ds = c \int_r \mu(x) \; ds\)
 	\item[3.] se \(\mu \leq \nu\), allora \(\displaystyle \int_r \mu(x) \; ds \leq \int_r \nu(x) \; ds\)
-	\item[4.] cammino inverso: \(\displaystyle \int_{r^{-1}} \mu(x) \; ds = \int_r \mu(x) \; ds\)
+	\item[4.] cammino inverso: \(\displaystyle \int_{r^{-1}} \mu(x) \; ds = \int_r \mu(x) \; ds \qquad\) non cambia segno perché si usa il modulo di \(r'(t)\)
 	\item[5.] giustapposizione di cammini: \(\displaystyle \int_{r_1,r_2} \mu(x) \; ds = \int_{r_1} \mu(x) \; ds + \int_{r_2} \mu(x) \; ds\) 
 \end{itemize}
 
@@ -410,7 +439,7 @@ Se la forza è costante e \(r(t) = P + t \overline{PQ}\) il lavoro diventa: \(\d
 \subsubsection*{Notazioni alternative}
 \begin{itemize}
 	\item[1.] \(\displaystyle \int_r \vec{F} \cdot d\vec{r} = \int_r F_1(x,y) dx + F_2(x,y) dy\)
-	\item[2.] \(\displaystyle \int_r \vec{F} \cdot d\vec{r} = \int_r \vec{F} \cdot \vec{T} \; ds \quad\) con \(\displaystyle \vec{T}(x) = \vec{T}(\vec{r}(t)) := \frac{\vec{r'}(t)}{\left|\vec{r'}(t)\right|}\) detto campo dei vettori tangenti
+	\item[2.] \(\displaystyle \int_r \vec{F} \cdot d\vec{r} = \int_r \vec{F} \cdot \vec{T} \; ds \quad\) con \(\displaystyle \vec{T}(x) = \vec{T}(\vec{r}(t)) := \frac{\vec{r'}(t)}{\left|\vec{r'}(t)\right|}\) detto campo dei vettori tangenti a \(r\)
 	\item[3.] \(\displaystyle \int_r \vec{F} \cdot d\vec{r} = \int_r (F_1(x), \dots F_n(x)) \cdot (dx_1, \dots dx_n) = \int_r F_1(x)dx_1 + \dots F_n(x) dx_n \quad\) not. termodinamica
 \end{itemize}
 %Dimostrazioni:
@@ -451,7 +480,7 @@ Se \(F: \Rn \to \Rn\) è un campo \(C^1\) e conservativo, allora è anche irrota
 Dimostrazione:
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[1.] \(F\) conservativo \(\;\; \Leftrightarrow \;\; \nab U = F \;\; \Leftrightarrow \;\; \partial_{x_i}U = F_i\)
-	\item[2.] \(F \in C^1 \;\; \Leftrightarrow \;\; \partial_{x_i} F_j = \partial_{x_j} F_i\) per Terorema di Schwarz
+	\item[2.] \(F \in C^1 \;\; \Leftrightarrow \;\; \partial_{x_i} \partial_{x_j} U = \partial_{x_j} \partial_{x_i} U\) per Teorema di Schwarz
 	\item[3.] per 1. si ha \(\partial_{x_i} F_j = \partial_{x_i} \partial_{x_j} U \;\;\) e \(\;\;\partial_{x_j} F_i = \partial_{x_j} \partial_{x_i} U\)
 	\item[4.] per 2. si ha \(\partial_{x_i} F_j = \partial_{x_j} F_i\) ovvero che \(F\) è irrotazionale
 \end{itemize}
@@ -504,8 +533,8 @@ Osservazioni:
 \section{Integrali doppi}
 \subsection{Integrali doppi su rettangoli}
 \subsubsection*{Integrali doppi alla Riemann}
-Data una funzione \(f:[a,b] \times [c,d] \to \R\), il volume del trapeziode sotteso dalla funzione è dato dalla somma di Riemann
-dei parallepipedi ottenuti dividendo il dominio in piccoli rettangoli con lato tendente a 0 e si indica:
+Data una funzione \(f:[a,b] \times [c,d] \to \R\), il volume del trapezoide sotteso dalla funzione è dato dalla somma di Riemann
+dei parallelepipedi ottenuti dividendo il dominio in piccoli rettangoli con lato tendente a 0 e si indica:
 \[\int_{[a,b] \times [c,d]} f(x,y) \; dx \, dy\]
 
 \subsubsection*{Integrale iterato sui rettangoli}
@@ -513,7 +542,7 @@ L'integrale doppio può essere scritto come integrale iterato:
 \[\int_{[a,b] \times [c,d]} f(x,y) \; dx \, dy = \int_{a}^{b} \int_{c}^{d} f(x,y) \; dy \, dx = \int_{c}^{d} \int_{a}^{b} f(x,y) \; dx \, dy\]
 
 \subsubsection*{Formula di riduzione sui rettangoli}
-Si osserva che è possibile ottere l'area di una fetta verticale lungo un asse integrando solo lungo \(x\) o \(y\):
+Si osserva che è possibile ottenere l'area di una fetta verticale lungo un asse integrando solo lungo \(x\) o \(y\):
 \[\int_{a}^{b} f(x,y) \; dx = {A(y)}_\text{area fetta \(\perp\) a y} \qquad \int_{c}^{d} f(x,y) \; dy = {A(x)}_\text{area fetta \(\perp\) a x}\]
 Quindi per risolvere l'integrale doppio posso prima risolverlo integrando per una variabile trovando l'area di una fetta verticale
 e successivamente integrare l'area trovata rispetto all'altra variabile.
@@ -651,6 +680,16 @@ Il sostegno di una superficie \(p\) è \(p(D) \subset \Rt\), che è \(C^1\) se \
 	\[p(u,v) = ((R + v \cos (u/2) \cos u), \;\; (R + v \cos (u/2)) \sin u, \;\; v \sin (u/2))\]
 	\item[-] \textbf{Superficie sferica}:
 	\[\varphi(\rho, \phi, \theta) = (\rho \sin \phi \cos \theta, \rho \sin \phi \sin \theta, \rho \cos \phi) \quad \rho \in [0,+\infty[, \; \phi \in [0, \pi], \; \theta \in [0, 2\pi]\]
+	\[\phi_\text{latitudine} \begin{array}{l}
+		\phi = 0 \;\; \rightarrow \;\; \text{polo Nord} \\
+		\phi = \pi \;\;\rightarrow \;\; \text{polo Sud}
+	\end{array} \qquad \theta_\text{longitudine} \begin{array}{l}
+		\theta = 0 \;\; \rightarrow \;\; \text{asse x} \\
+		\theta = \pi/2 \;\; \rightarrow \;\; \text{asse y}
+	\end{array} \;\; \begin{array}{l}
+		\theta = \pi \;\;\rightarrow \;\; \text{asse -x} \\
+		\theta = 3\pi/2 \;\; \rightarrow \;\; \text{asse -y} \\
+	\end{array}\]
 \end{itemize}
 
 \subsection{Area di una superficie parametrica}
@@ -681,7 +720,7 @@ L'area di una superficie parametrica \(p\) è l'integrale su \(D\) dell'elemento
 \newpage
 
 \subsection{Area di un trapezoide di una funzione sopra ad una curva}
-\subsubsection*{Trapeziode di una funzione su una curva}
+\subsubsection*{Trapezoide di una funzione su una curva}
 Definita \(r: [a,b] \to \R_x \times \R_y, \; r(t) = (r_1(t),r_2(t))\) una curva \(C^1\) sul piano \(x,y\) e \(h : r([a,b]) \to [0,+\infty[_z\)
 una funzione continua positiva che associa ad ogni punto della curva un certo valore lungo l'asse \(z\), si definisce il trapezoide
 definito come il sostegno della superficie \(p\) compresa tra la curva \(r\) e il sostegno della funzione \(h\):
@@ -690,11 +729,11 @@ definito come il sostegno della superficie \(p\) compresa tra la curva \(r\) e i
 	p(t,z) &= (r_1(t), r_2(t), z) \qquad (t,z) \in D, \; D = \left\{(t,z) : t \in [a,b], 0 \leq z \leq h(r(t))\right\}
 \end{align*}
 
-\subsubsection*{Area del trapezioide}
+\subsubsection*{Area del trapezoide}
 L'area del trapezoide è definita come l'integrale della funzione \(h\) sulla curva \(r\):
 \[\text{Area}(\text{Trap}_r(h)) := \int_r h \; ds = \int_a^b h(r(t)) \left|r'(t)\right| \, dt\]
 
-\subsubsection*{Calcolo dell'elemento d'area della superficie del trapeziode}
+\subsubsection*{Calcolo dell'elemento d'area della superficie del trapezoide}
 Se si parte da \(p(t,z) = (r_1(t), r_2(t), z)\) e si calcola l'elemento d'area \(\left|p_t \times p_z\right| = \sqrt{{r_1'}^2(t) + {r_2'}^2(t)} = \left|r'(t)\right|\),
 per cui per definizione di area di una superficie è:
 \[\int_D \left|p_t \times p_z\right| \, dt \, dz = \int_D \left|r'(t)\right| \, dt \, dz = \int_a^b \int_0^{h(r(t))} \left|r'(t)\right| \, dz \, dt = \int_a^b h(r(t)) \left|r'(t)\right| \, dt\]
@@ -734,9 +773,9 @@ fatta ruotare per generare \(p\):
 \end{align*}
 
 \subsubsection*{Superficie di rotazione generata da una curva cartesiana}
-Sia \(z = h(x)\) una curva cartesiana, la superficie ottenuta ruotando \(h\) attorno all'asse \(z\) è una superficie cartesiana \(z = h(\sqrt{x^2+y^2})\)
-con \(\sqrt{x^2+y^2}\) la distanza del punto \((x,y)\) rispetto all'asse \(z\) e con elemento d'area \(\sqrt{ 1 + \left| \nab \; h \left(\sqrt{x^2 + y^2}\right)\right|}\)
-e area \(\displaystyle \int_D \sqrt{ 1 + \left| \nab \; h \left(\sqrt{x^2 + y^2}\right)\right|} \; dx \, dy\)
+Sia \(z = h(\vec{x})\) una curva cartesiana, la superficie ottenuta ruotando \(h\) attorno all'asse \(z\) è una superficie cartesiana \(z = h(\rho)\)
+con \(\rho = \sqrt{x^2+y^2}\) la distanza del punto \((x,y)\) rispetto all'asse \(z\). Ha elemento d'area \(\sqrt{ 1 + \left| \nab \; h(\rho)\right|}\)
+e area \(\displaystyle \int_D \sqrt{ 1 + \left| \nab \; h(\rho)\right|^2} \; dx \, dy = \int_D \sqrt{ 1 + \left| \nab \; h \left(\sqrt{x^2 + y^2}\right)\right|^2} \; dx \, dy\)
 
 \subsection{Integrale superficiale}
 \subsubsection*{Definizione}
@@ -754,8 +793,8 @@ Date due superfici equivalenti \(p_1\) e \(p_2\) e \(f\) una funzione continua, 
 Dato un cammino \(r\) e un campo \(F\) continuo, il flusso di \(F\) attraverso \(r\) è:
 \[\text{Flusso} := \int_r \det \left(\begin{matrix} F_1 & dx \\ F_2 & dy \end{matrix}\right)\]
 \begin{align*}
-	\text{Flusso} := \; &1. \;\int_a^b \det \left(\begin{matrix} F_1(r(t)) & r_1'(t) \\[3pt] F_2(r(t)) & r_2'(t) \end{matrix}\right) \, dt = \int_a^b F_1(r(t)) \, r_2'(t) - F_2(r(t)) r_1'(t) \; dt \\
-	&2. \; \int_r \det \left(\begin{matrix} F_1(x,y) & dx \\[3pt] F_2(x,y) & dy \end{matrix}\right) = \int_r F_1(x,y) \; dy - F_2(x,y) \; dx \\
+	\text{Flusso} := \; &1. \; \int_r \det \left(\begin{matrix} F_1(x,y) & dx \\[3pt] F_2(x,y) & dy \end{matrix}\right) = \int_r F_1(x,y) \; dy - F_2(x,y) \; dx \\
+	&2. \; \int_a^b \det \left(\begin{matrix} F_1(r(t)) & r_1'(t) \\[3pt] F_2(r(t)) & r_2'(t) \end{matrix}\right) \, dt = \int_a^b F_1(r(t)) \, r_2'(t) - F_2(r(t)) r_1'(t) \; dt \\
 	&3. \; \int_r \vec{F} \cdot \vec{N}_r \; ds, \quad \text{con} \; \vec{N}_\text{normale a \(p\)} = \frac{1}{\left|r'(t)\right|} \left(\begin{matrix} r_1'(t) \\ -r_2'(t) \end{matrix}\right)
 \end{align*}
 \begin{align*}
@@ -764,7 +803,7 @@ Dato un cammino \(r\) e un campo \(F\) continuo, il flusso di \(F\) attraverso \
 	= &\int_r \vec{F} \cdot \vec{N}_r \; ds
 \end{align*}
 
-\subsection{Domini Stokiani}
+\subsection{Domini stokiani}
 \subsubsection*{Definizione}
 Un dominio \(D \subset \Rd\) si dice stokiano se:
 \begin{itemize}
@@ -794,7 +833,7 @@ Dato un campo \(F = (F_1, F_2)\) di classe \(C^1\) su aperto \(D\), la divergenz
 
 \subsubsection*{Teorema della divergenza}
 Il flusso di un campo \(F = (F_1, F_2)\) di classe \(C^1\) su aperto stokiano \(D\) è:
-\[\int_{\partial^+D} \vec{F} \cdot \vec{N} \; ds = \int_D \diver F \; dx \, dy\]
+\[\int_{\partial^+D} \vec{F} \cdot \vec{N} \; ds = \int_D \diver F \; dx \, dy \qquad\qquad \int_{\partial^+D} F_1 \, dy - F_2 \,dx = \int_D \partial_xF_1 + \partial_yF2 \; dx \, dy\]
 
 \subsubsection*{Interpretazione}
 I punti in cui \(\diver F(x,y) < 0\) sono punti di compressione, ovvero dove il flusso di entrata è maggiore di quello in uscita.
@@ -802,7 +841,7 @@ Quelli in cui \(\diver F(x,y) > 0\) sono punti di espansione, dove il flusso in 
 dove \(\diver F(x,y) = 0\) il flusso in entrata è pari a quello in uscita.
 
 \subsubsection*{Dimostrazione del Principio di Archimede}
-Ho un solido \(D\) immmerso in un fluido con densità costante \(\mu\). Il fluido agisce con una forza data dalla formula
+Ho un solido \(D\) immerso in un fluido con densità costante \(\mu\). Il fluido agisce con una forza data dalla formula
 \(\mu g y \vec{N}\) sul bordo di \(D\). Si vuole calcolare la risultante di tutte le forze agenti sul bordo di \(D\). \\
 Il vettore \(\vec{N}\) è definito come segue \(\vec{N} := (N_1, N_2)\).
 \begin{align*}
@@ -858,7 +897,7 @@ Data un'equazione differenziale, il problema di Cauchy di un'equazione differenz
 \end{cases}\)
 La soluzione generale che risolve anche il problema di Cauchy è detta soluzione del problema di Cauchy,
 
-\subsubsection*{Esistenza e unicità della soluzione locale}
+\subsubsection*{Teorema di esistenza e unicità della soluzione locale}
 Sia \(D = I \times \R\), \(f: D \to \R\) funzione continua, se valgono
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[-] \(\partial_y f(t,y)\) esiste continua
@@ -901,9 +940,9 @@ Un'equazione differenziale \(y' = f(t,y)\) è detta lineare del primo ordine se 
 \section{Combinatoria}
 \subsection{Cardinalità}
 \subsubsection*{Notazione}
-La cardinalità di un'insieme \(X\) finito è il numero dei suoi elementi distinti e si indica con \(|X|\) o \(\#X\)
+La cardinalità di un insieme \(X\) finito è il numero dei suoi elementi distinti e si indica con \(|X|\) o \(\#X\)
 
-\subsubsection*{Prioprietà}
+\subsubsection*{Proprietà}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
 	\item[1.] se \(A\) e \(B\) sono disgiunti, ovvero \(A \cap B = \varnothing\), allora \(|A \cup B| = |A| + |B|\)
 	\item[2.] \(|A\cup B| = |A| + |B| - |A \cap B|\)
@@ -940,7 +979,7 @@ il numero di ripetizioni/molteplicità degli elementi della sequenza. Si nota ch
 ricade nel caso delle permutazioni senza ripetizione.
 
 \subsection{Spartizioni}
-Una \(n\)-spartizione è una \(n\)-upla ordinata \(C_1, \dots C_n\) di sottoinsiemi a due a due disgiuti di \(I_k\) eventualmente
+Una \(n\)-spartizione è una \(n\)-upla ordinata \(C_1, \dots C_n\) di sottoinsiemi a due a due disgiunti di \(I_k\) eventualmente
 anche vuoti tali che \(C_1 \cup \dots \cup C_n = I_k\). Per la corrispondenza biiettiva tra spartizioni e sequenze con ripetizione
 illustrata sotto, il numero di \(n\)-sparizioni di \(I_k\) è pari al numero delle \(k\)-sequenze con ripetizione di \(I_n\), ovvero
 è \(n^k\).
@@ -956,7 +995,7 @@ di \(I_n\) si indica con \(\displaystyle C(n,k) = \binom{n}{k} = \frac{n!}{k! (n
 
 \subsubsection*{Corrispondenza biunivoca tra sottoinsiemi, spartizioni e sequenze}
 Si osserva che esiste una corrispondenza biunivoca tra le \(2\)-spartizioni di \(I_n\) e i sottoinsiemi di \(I_n\). Infatti, data
-una sparzione \((C_1,C_2 = C_1^c)\) è possibile ottenere un sottoinsieme \(A \subseteq I_n\) tale che \(A = C_1\). Per cui il numero
+una spartizione \((C_1,C_2 = C_1^c)\) è possibile ottenere un sottoinsieme \(A \subseteq I_n\) tale che \(A = C_1\). Per cui il numero
 di sottoinsiemi di \(I_n\) è pari al numero delle \(2\)-spartizioni di \(I_n\). Siccome le \(2\)-spartizioni di \(I_n\) sono in 
 corrispondenza biunivoca con le \(n\)-sequenze di \(I_2\), allora: \\
 \(|\text{sottoinsiemi di } I_n| = |2\text{-spartizioni di } I_n| = |n\text{-sequenze di } I_2| = n^2\)
@@ -1032,7 +1071,7 @@ tale che:
 La probabilità è uniforme su \(\Omega\) se per ogni elemento \(\omega\) di \(\Omega\) si ha: \[\displaystyle P(\omega) = \frac{1}{|\Omega|}\]
 
 \subsubsection*{Considerazioni per la risoluzione di esercizi}
-In una esrazione senza reimmissione, la probabilità di estrarre una pallina alla prima estrazione è uguale alla probabilità di
+In una estrazione senza reimmissione, la probabilità di estrarre una pallina alla prima estrazione è uguale alla probabilità di
 estrarre la medesima pallina all'ultima estrazione.
 
 \newpage
@@ -1108,8 +1147,8 @@ Indipendenza di eventi a due a due non implica l'indipendenza di tutti gli event
 Una variabile aleatoria definita su uno spazio campionario \(\Omega\) è una funzione \(X: \Omega \to \R\). \\
 Una variabile aleatoria è detta discreta se \(\text{Im}(X)\) è un insieme finito numerabile \(\{x_1, x_2, \dots\}\)
 
-\subsubsection*{Denistà di una variabile aleatoria discreta}
-La densità discreta di una variabile aletoria discreta è una funzione \[p_x : \R \to [0,1], \quad x \mapsto P(X = x)\]
+\subsubsection*{Densità di una variabile aleatoria discreta}
+La densità discreta di una variabile aleatoria discreta è una funzione \[p_x : \R \to [0,1], \quad x \mapsto P(X = x)\]
 
 \subsubsection*{Proprietà della densità discreta}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
@@ -1118,7 +1157,7 @@ La densità discreta di una variabile aletoria discreta è una funzione \[p_x : 
 \end{itemize}
 
 \subsubsection*{Distribuzione di una variabile aleatoria}
-La distribuzione discreta di una variabile aletoria discreta è una funzione \[F_X : \R \to [0,1], \quad x \mapsto P(X \leq x)\]
+La distribuzione discreta di una variabile aleatoria discreta è una funzione \[F_X : \R \to [0,1], \quad x \mapsto P(X \leq x)\]
 
 \subsubsection*{Proprietà della distribuzione discreta}
 \begin{itemize}[topsep=3pt, itemsep=0pt]
@@ -1374,7 +1413,7 @@ Come valore di \(n\) sufficientemente grande si intende \(1/n << p << 1-1/n\)
 \newpage
 
 \subsection{Variabili congiunte continue}
-\subsubsection*{Definzione}
+\subsubsection*{Definizione}
 Una variabile congiunta continua è una coppia di variabili aleatorie \((X,Y) : \Omega \to \Rd\) tali per cui esiste la densità
 congiunta continua \[f_{X,Y} : \Rd \to [0, +\infty[ \qquad \qquad P((X,Y) \in A) = \int_A f_{X,Y} (x,y) \; dx \, dy\]
 Si osserva che \(f_{X,Y} \geq 0\) e \(\displaystyle \int_{\R \times \R} f_{X,Y}(x,y) \; dx \, dy = 1\)
@@ -1411,9 +1450,9 @@ Siano \(X,Y\) continue indipendenti, \(\forall (x,y) \in \Rd\) si ha:
 \[P((x,y) \in A \times B) = \int_{A \times B} f_X(x) f_Y(y) \; dx \, dy = \left(\int_A f_X(x)\; dx\right) \cdot \left(\int_B f_Y(y) \; dy\right) = P(x \in A) \cdot P(y \in B)\]
 
 \subsubsection*{Criterio dell'indipendenza}
-Quando due variabili congiunte \((X,Y)\) sono indipendenti, l'insime dove \(f_{X,Y} \neq 0\) è un prodotto:
+Quando due variabili congiunte \((X,Y)\) sono indipendenti, l'insieme dove \(f_{X,Y} \neq 0\) è un prodotto:
 \[C := \{(x,y) \in \Rd : f_{X,Y} \neq 0\} = \{x \in \R : f_X(x) \neq 0\} \cdot \{y \in \R :f_Y(y) \neq 0\}\]
-Non vale il vicecersa: se l'insieme dove \(f_{X,Y} \neq 0\) è un prodotto, non è detto che \((X,Y)\) siano indipendenti.
+Non vale il viceversa: se l'insieme dove \(f_{X,Y} \neq 0\) è un prodotto, non è detto che \((X,Y)\) siano indipendenti.
 
 \subsubsection*{Varianza di somme indipendenti}
 Siano \((X,Y)\) indipendenti
@@ -1425,7 +1464,7 @@ Siano \(X_1, X_2, \dots\) una famiglia numerabile di variabili aleatorie indipen
 \[\lim_{x \to +\infty} P\left(\left|\frac{X_1 + X_2 + \dots + X_n}{n} - \mu\right| < \varepsilon\right) = 1\]
 
 \subsubsection*{Legge forte dei grandi numeri}
-Siano \(X_1, X_2, \dots\) una famiglia numerabile di variabili aleatorie indipendenti e identicamente distribuitecon \(E[X_i] = \mu\), allora:
+Siano \(X_1, X_2, \dots\) una famiglia numerabile di variabili aleatorie indipendenti e identicamente distribuite con \(E[X_i] = \mu\), allora:
 \[P\left(\lim_{x \to +\infty} \frac{X_1 + X_2 + \dots + X_n}{n} = \mu\right) = 1\]
 
 \end{document}
