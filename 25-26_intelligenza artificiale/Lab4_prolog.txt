@@ -1,0 +1,2 @@
+https://swish.swi-prolog.org/p/Lab4_prolog.swinb
+https://swish.swi-prolog.org/p/Lab4_exercises.swinb

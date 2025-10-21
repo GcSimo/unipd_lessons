@@ -11,7 +11,7 @@
 - facilmente integrabile con altri linguaggi come C, C++ e Java
 - elimina elementi di complessità come ``{}`` e ``;`` ma si basa pesantemente sull'indentazione
 
-### Struttura del codice
+## Struttura del codice
 - il codice Python è strutturato in blocchi indentati
 - keywords: ``if``, ``for``, ``while``, ``def``, ``class``, ``try``, ``except``, ``with``
 
@@ -254,4 +254,165 @@ else
 ```python
 # file: main.py
 import my_module  # stampa "This code runs only when the script is imported as a module."
+```
+
+## Programmazione orientata agli oggetti (OOP) in Python
+La programmazione orientata agli oggetti (OOP) è un paradigma di programmazione che utilizza "oggetti" con attributi e metodi per modellare concetti del mondo reale. È costituita da:
+- classi: modelli definiti dall'utente che rappresentano un tipo di oggetto
+- oggetti: istanze di una classe
+- attributi: variabili o proprietà associate ad un oggetto
+- metodi: funzioni associate ad un oggetto che descrivono il comportamento dell'oggetto
+
+### Definizione di una classe
+```python
+# definizione della classe Student
+class Student:
+    school_name = "Unipd" # attributo di classe
+
+	# costruttore
+    def __init__(self, name, surname, id, degree):
+		# attributi dell'istanza con inizializzazione
+        self.name = name
+		self.surname = surname
+		self.id = id
+		self.degree = degree
+
+	# metodo della classe
+    def __str__(self):
+        return f"Hello, my name is {self.name} {self.surname} and I study {self.degree}."
+```
+
+**Costruttore**:
+- il metodo ``__init__(self, ...)`` è il costruttore della classe, viene chiamato automaticamente quando si crea un oggetto della classe
+- se non viene definito un costruttore, Python ne crea uno di default che non accetta parametri
+
+**Attributi dell'istanza e della classe**:
+- gli attributi dell'oggetto vengono definiti all'interno del metodo ``__init__`` usando la sintassi ``self.attributo = valore`` e sono specifici per ogni istanza della classe
+- gli attributi condivisi tra tutte le istanze della classe si definiscono come variabili di classe
+- gli attributi dell'oggetto sono salvati in un dizionario accessibile tramite ``self.__dict__`` e possono essere aggiunti, modificati o rimossi dinamicamente accedendo a tale dizionario, in particolare è possible fare in modo che sia l'utente a decidere gli attributi dell'istanza passando un numero variabile di argomenti al costruttore tramite ``**kwargs``
+
+```python
+# costruttore che accetta attributi dinamici
+def __init__(self, **kwargs):
+	self.__dict__.update(**kwargs)
+
+# Aggiunge un nuovo attributo dinamicamente
+self.__dict__['new_attribute'] = value 
+
+# Rimuove un attributo esistente
+del self.__dict__['existing_attribute']
+```
+
+**Metodi della classe**:
+- i metodi della classe devono avere come primo parametro ``self``, che rappresenta l'istanza dell'oggetto, passato implicitamente al metodo quando viene chiamato
+
+**Stampa di un oggetto**:
+- quando si stampa un oggetto, viene mandato in output l'indirizzo di memoria dell'oggetto
+- per stampare una rappresentazione più significativa dell'oggetto, è necessario effettuare l'override del metodo ``__str__(self)``
+
+**Override degli operatori**
+- è possibile definire il comportamento degli operatori per gli oggetti di una classe sovrascrivendo i metodi speciali come ``__add__(self,y)``, ``__sub__(self,y)``, ``__mul__(self,y)``, ... (vedi tabella sotto)
+
+| Metodo                      | Sintassi       | Descrizione                                                             |
+| --------------------------- | -------------- | ----------------------------------------------------------------------- |
+| ``__add__(self, y)``        | ``x + y``      | Somma di due oggetti. Il tipo di ``x`` determina quale operatore usare. |
+| ``__contains__(self, y)``   | ``y in x``     | Verifica se ``y`` è contenuto in ``x`` (collezione).                    |
+| ``__eq__(self, y)``         | ``x == y``     | Restituisce ``True`` o ``False`` a seconda dei valori di ``x`` e ``y``. |
+| ``__ge__(self, y)``         | ``x >= y``     | Idem sopra, per maggiore o uguale.                                      |
+| ``__getitem__(self, y)``    | ``x[y]``       | Restituisce l'elemento alla posizione ``y`` in ``x``.                   |
+| ``__gt__(self, y)``         | ``x > y``      | Ritorna ``True`` o ``False`` a seconda dei valori.                      |
+| ``__hash__(self)``          | ``hash(x)``    | Restituisce un valore hash intero per ``x``.                            |
+| ``__int__(self)``           | ``int(x)``     | Restituisce una rappresentazione intera di ``x``.                       |
+| ``__del__(self)``           | ``del x``      | Eseguito quando un'istanza viene cancellata dalla memoria.              |
+| ``__iter__(self)``          | ``for v in x`` | Restituisce un oggetto iteratore per ``x``.                             |
+| ``__le__(self, y)``         | ``x <= y``     | Confronto "minore o uguale a".                                          |
+| ``__len__(self)``           | ``len(x)``     | Restituisce la dimensione (lunghezza) di ``x``.                         |
+| ``__lt__(self, y)``         | ``x < y``      | Confronto "minore di".                                                  |
+| ``__mod__(self, y)``        | ``x % y``      | Ritorna il resto della divisione tra ``x`` e ``y``.                     |
+| ``__mul__(self, y)``        | ``x * y``      | Prodotto tra ``x`` e ``y``.                                             |
+| ``__ne__(self, y)``         | ``x != y``     | Confronto "diverso da".                                                 |
+| ``__neg__(self)``           | ``-x``         | Restituisce la negazione unaria di ``x``.                               |
+| ``__repr__(self)``          | ``repr(x)``    | Ritorna una stringa adatta a essere interpretata da ``eval()``.         |
+| ``__setitem__(self, i, y)`` | ``x[i] = y``   | Imposta il valore ``y`` nella posizione ``i`` di ``x``.                 |
+| ``__str__(self)``           | ``str(x)``     | Ritorna una rappresentazione leggibile dell’oggetto ``x``.              |
+| ``__sub__(self, y)``        | ``x - y``      | Differenza tra due oggetti.                                             |
+
+**Empty class**
+- per creare una classe vuota si può usare la keyword ``pass``
+
+```python
+class EmptyClass:
+	pass
+```
+
+### Creazione di un oggetto
+Per creare un oggetto a partire da una classe si utilizza la sintassi `nome_oggetto = NomeClasse(parametri)`. Gli attributi possono essere accessibili tramite la notazione punto.
+
+```python
+student1 = Student("Mario", "Rossi", 12345, "Informatica")
+print(student1)  # Output: Hello, my name is Mario Rossi and I study Informatica.
+print(student1.name)  # Output: Mario
+print(student1.school_name)  # Output: Unipd
+```
+
+**Copia di oggetti**:
+- gli oggetti sono assegnati per riferimento, quindi se si assegna un oggetto ad una nuova variabile, entrambe le variabili punteranno allo stesso oggetto in memoria
+- per creare una copia indipendente di un oggetto, è necessario utilizzare il modulo `copy`, che fornisce due metodi per copiare oggetti:
+  - shallow copy: crea un nuovo oggetto, ma gli attributi che sono oggetti vengono copiati per riferimento
+  - deep copy: crea un nuovo oggetto e copia ricorsivamente tutti gli oggetti contenuti
+
+```python
+import copy
+student2 = student1  # riferimento allo stesso oggetto
+student3 = copy.copy(student1)  # shallow copy
+student4 = copy.deepcopy(student1)  # deep copy
+```
+
+### Polimorfismo
+- il polimorfismo permette di invocare con lo stesso nome, due metodi diversi ottenere comportamenti differenti in base all'oggetto che li invoca
+
+```python
+class Dog:
+	def speak(self):
+		return "Woof!"
+
+class Cat:
+	def speak(self):
+		return "Meow!"
+
+def main():
+	my_pets = [Dog(), Cat()]
+	for pet in my_pets:
+		print(pet.speak())
+
+if __name__ == "__main__":
+	main()
+```
+
+### Ereditarietà
+- l'ereditarietà permette di creare una nuova classe (classe derivata) che eredita attributi e metodi da una classe esistente (classe base)
+- per accedere ai metodi e attributi della classe base si usa la funzione ``super()``
+- è possibile sovrascrivere (override) i metodi della classe base nella classe derivata per fornire un comportamento specifico
+
+```python
+class Person:
+	def __init__(self, name, age):
+		self.name = name
+		self.age = age
+
+	def introduce(self):
+		return f"My name is {self.name} and I am {self.age} years old."
+
+class Employee(Person):
+	def __init__(self, name, age, job):
+		super().__init__(name, age)
+		self.job = job
+
+	def introduce(self):
+		return f"My name is {self.name}, I am {self.age} years old and my job is {self.job}."
+
+person = Person("Bob", 25)
+print(person.introduce())  # Output: My name is Bob and I am 25 years old.
+employee = Employee("Alice", 30, "Engineer")
+print(employee.introduce())  # Output: My name is Alice, I am 30 years old and my job is Engineer.
 ```
