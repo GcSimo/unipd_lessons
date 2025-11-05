@@ -1,4 +1,38 @@
 \section{Introduzione}
+
+\subsection{Definizioni fondamentali}
+\begin{itemize}
+	\item \textbf{elettronica}: studia e realizza sistemi elettronici;
+	\item \textbf{sistema elettronico}: è un insieme di componenti elettronici (sensori, circuiti e attuatori) che raccolgono
+	informazioni dal mondo reale attraverso sensori, le elaborano attraverso circuiti elettronici e prendono decisioni o
+	comandano azioni con degli attuatori;
+	\item \textbf{segnale}: supporto fisico di natura qualunque (elettrica, acustica, ottica) a cui si associa un'informazione
+	allo scopo di poterla trasferire da una sorgente ad un utilizzatore, può essere digitale (ampiezza e tempo discreti) o
+	analogico (ampiezza e tempo continui);
+	\item \textbf{sensore}: dispositivo che converte un segnale esterno (come temperatura, pressione, luce, suono) in una grandezza
+	elettrica (come corrente o tensione);
+	\item \textbf{circuito elettronico}: rete di componenti elettrici passivi (R, L, C) e attivi (diodi, transistor) che elaborano
+	segnali elettrici (tensione e corrente). In base al tipo di segnale elaborato si distingue in:
+	\begin{itemize}[topsep=0pt]
+		\item \textbf{circuito analogico}: elabora segnali analogici;
+		\item \textbf{circuito digitale}: elabora segnali digitali;
+		\item \textbf{circuito misto}: opera in entrambi i domini del segnale.
+	\end{itemize}
+	Siccome i segnali provenienti dal mondo reale sono sempre analogici, in generale non esiste un sistema completamente digitale.
+	Ogni sistema digitale, infatti, comprende un ADC (Analog-to-Digital Converter) in ingresso e un DAC (Digital-to-Analog Converter)
+	in uscita.
+
+	In base alla realizzazione fisica, un circuito elettronico si distingue in:
+	\begin{itemize}
+		\item \textbf{circuito a elementi discreti}: realizzato con componenti costruiti separatamente che poi vengono montati su
+		un supporto (breadboard, PCB) e collegati tra loro tramite fili o piste conduttive;
+		\item \textbf{circuito integrato (IC)}: tutti i componenti sono miniaturizzati e vengono montati su un unico chip di silicio
+		(es. microchip).
+	\end{itemize}
+	Un sistema elettronico completo è formato da circuiti integrati e componenti discreti montati in una scheda in cui sono
+	realizzate le interconnessioni metalliche tra i terminali dei componenti
+\end{itemize}
+
 \subsection{Settori dell'elettronica}
 \begin{itemize}
 	\item \textbf{elettronica analogica}: progettazione e analisi di circuiti che elaborano segnali analogici;
@@ -13,38 +47,295 @@
 	\item \textbf{informatica}: dispositivi e sistemi elettronici per la gestione dei dati.
 \end{itemize}
 
-\subsection{Definizioni fondamentali}
-\begin{itemize}
-	\item \textbf{elettronica}: studia e realizza sistemi elettronici;
-	\item \textbf{sistema elettronico}: è un insieme di componenti elettronici (sensori, circuiti e attuatori) che raccolgono
-	informazioni dal mondo reale attraverso sensori, le elaborano attraverso circuiti elettronici e prendono decisioni o
-	comandano azioni con degli attuatori;
-	\item \textbf{segnale}: supporto fisico di natura qualunque (elettrica, acustica, ottica) a cui si associa un'informazione
-	allo scopo di poterla trasferire da una sorgente ad un utilizzatore, può essere digitale (ampiezza e tempo discreti) o
-	analogico (ampiezza e tempo continui);
-	\item \textbf{sensore}: dispositivo che converte un segnale esterno in una grandezza elettrica (corrente o tensione);
-	\item \textbf{circuito elettronico}: rete di componenti elettrici passivi (R, L, C) e attivi (diodi, transistor) per
-	l'elaborazione di segnali elettrici (tensione e corrente). In base al tipo di segnale elaborato si distingue in:
-	\begin{itemize}[topsep=0pt]
-		\item \textbf{circuito analogico}: elabora segnali analogici;
-		\item \textbf{circuito digitale}: elabora segnali digitali;
-		\item \textbf{circuito misto}: opera in entrambi i domini del segnale.
-	\end{itemize}
-	Siccome i segnali provenienti dal mondo reale sono sempre analogici, in generale non esiste un sistema completamente digitale,
-	per cui ogni sistema digitale prevede un ADC (Analog-to-Digital Converter) in ingresso e un DAC (Digital-to-Analog Converter)
-	in uscita.
+\newpage
 
-	In base alla realizzazione fisica si distingue in:
-	\begin{itemize}
-		\item \textbf{circuito a elementi discreti}: realizzato con componenti singoli collegati tra loro (breadboard, circuiti
-		stampati);
-		\item \textbf{circuito integrato (IC)}: realizzato con componenti miniaturizzati su un unico chip di silicio (circuiti
-		integrati, microchip).
-	\end{itemize}
-	Un sistema elettronico completo è formato da circuiti integrati e componenti discreti montati in una scheda in cui sono
-	realizzate le interconnessioni metalliche tra i terminali dei componenti
+
+\subsection{Richiamo di teoria dei circuiti}
+\subsubsection*{Leggi di Kirchoff}
+\begin{itemize}
+	\item \textbf{Legge delle correnti (LKC)}: la somma delle correnti entranti in un nodo è uguale alla somma delle correnti uscenti.
+	\item \textbf{Legge delle tensioni (LKT)}: la somma delle tensioni lungo una maglia è uguale a zero.
 \end{itemize}
 
+\subsubsection*{Elementi passivi}
+\begin{center}
+	\begin{tabular}{l c c c }
+		\textbf{resistore (R)}: & \begin{circuitikz}[baseline=(current bounding box.center)]
+			\draw (0,0) to[R] (2,0);
+			\draw [->] (0.3,0.4) -- (1.7,0.4) node[midway, above] {\(i_R\)};
+			\node at (0.3,-0.4) {+};
+			\node at (1,-0.4) {\(v_R\)};
+			\node at (1.7,-0.4) {--};
+		\end{circuitikz} & \(\displaystyle \qquad v_R(t) = R \cdot i_R(t)\) & \(\displaystyle i_R(t) = \frac{v_R(t)}{R}\qquad\quad\;\) \\
+		\midrule
+		
+		\textbf{condensatore (C)}: & \begin{circuitikz}[baseline=(current bounding box.center)]
+			\draw (0,0) to[C] (2,0);
+			\draw [->] (0.2,0.5) -- (1.8,0.5) node[midway, above] {\(i_C\)};
+			\node at (0.3,-0.6) {+};
+			\node at (1,-0.7) {\(v_C\)};
+			\node at (1.7,-0.6) {--};
+		\end{circuitikz} & \(\displaystyle \qquad i_C(t) = C \frac{d v_C(t)}{d t}\) & \(\displaystyle v_C(t) = \frac{1}{C} \int_0^t i_C(t) \, dt\) \\
+		\midrule
+		
+		\textbf{induttore (L)}: & \begin{circuitikz}[baseline=(current bounding box.center)]
+			\draw (0,0) to[L] (2,0);
+			\draw [->] (0.3,0.4) -- (1.7,0.4) node[midway, above] {\(i_L\)};
+			\node at (0.3,-0.4) {+};
+			\node at (1,-0.4) {\(v_L\)};
+			\node at (1.7,-0.4) {--};
+		\end{circuitikz} & \(\displaystyle \qquad v_L(t) = L \frac{d i_L(t)}{d t}\) & \(\displaystyle i_L(t) = \frac{1}{L} \int_0^t v_L(t) \,dt\)
+	\end{tabular}
+\end{center}
 
-\section{Richiamo di teoria dei circuiti}
+\subsubsection*{Elementi attivi}
+\begin{center}
+	\begin{tabular}{p{3.5cm} c p{8.6cm}}
+		\textbf{generatore ideale di tensione} (GIT): &
+		\begin{circuitikz}[baseline=(current bounding box.center), american voltages, american currents] \draw (0,0) to[V] (2,0); \end{circuitikz} &
+		fornisce una tensione costante indipendentemente dalla corrente che lo attraversa \\[0.7cm]
+		\midrule
+		\textbf{generatore ideale di corrente} (GIC): &
+		\begin{circuitikz}[baseline=(current bounding box.center), american voltages, american currents] \draw (0,0) to[I] (2,0); \end{circuitikz} &
+		fornisce una corrente costante indipendentemente dalla tensione ai suoi capi \\[0.7cm]
+		\midrule
+		\textbf{diodi e transistor}: & \dots & componenti non lineari che verranno studiati successivamente.
+	\end{tabular}
+\end{center}
 
+\subsubsection*{Principi di analisi dei circuiti}
+\begin{itemize}
+	\item \textbf{partitore di tensione}: due resistori in serie dividono la tensione in ingresso \(V_{in}\) in due tensioni
+	\(V_{1}\) e \(V_{2}\) direttamente proporzionali alle resistenze (inversamente proporzionali alle conduttanze):
+	\[ V_{1} = V_{in} \cdot \frac{R_1}{R_1 + R_2} \qquad\qquad V_{2} = V_{in} \cdot \frac{R_2}{R_1 + R_2}\]
+	\item \textbf{partitore di corrente}: due resistori in parallelo dividono la corrente in ingresso \(I_{in}\) in due correnti
+	\(I_{1}\) e \(I_{2}\) inversamente proporzionali alle resistenze (direttamente proporzionali alle conduttanze):
+	\[ I_{1} = I_{in} \cdot \frac{R_2}{R_1 + R_2} \qquad\qquad I_{2} = I_{in} \cdot \frac{R_1}{R_1 + R_2}\]
+	\item \textbf{sovrapposizione degli effetti}: dato un sistema lineare con \(C_1\), \(C_2\) possibili ingressi ed \(E_1\),
+	\(E_2\) effetti prodotti in uscita dai due ingressi, se il sistema viene perturbato con un ingresso dato dalla composizione
+	lineare dei due ingressi \(C = p_1 C_1 + p_2 C_2\) con \(p_1\) e \(p_2\) pesi dei due ingressi, l'effetto risultante in uscita
+	sarà la composizione lineare dei due effetti \(E = p_1 E_1 + p_2 E_2\).
+
+	In particolare in un circuito lineare con più generatori, la risposta (tensione o corrente) in un componente è uguale alla
+	somma algebrica delle risposte dovute a ciascun generatore preso singolarmente, con gli altri generatori sostituiti dai loro
+	rispettivi cortocircuiti (generatore di tensione ideale) o circuiti aperti (generatore di corrente ideale).
+\end{itemize}
+
+\subsubsection*{Potenziali, tensioni e nodi di riferimento}
+\begin{itemize}
+	\item Il potenziale elettrico è definito a meno di una costante, per cui anche la soluzione di una rete elettrica (data dai
+	potenziali ai vari nodi) non è univoca, ma è definita a meno di una costante.
+	\item Per rendere univoca la soluzione, si sceglie un nodo di riferimento a cui si assegna potenziale nullo e si calcolano
+	i potenziali degli altri nodi rispetto a questo.
+	\item Le tensioni, invece, sono sempre definite univocamente come differenze di potenziale tra due nodi.
+\end{itemize}
+
+\vspace{0.2cm}\noindent
+Esistono tre tipi di nodi di riferimento comunemente usati:
+\begin{center}
+	\begin{tabular}{m{3cm} c m{10.1cm}}
+		nodo con potenziale di riferimento: &
+		\begin{circuitikz} \draw (0, 0) node[sground]{}; \end{circuitikz} &
+		nodo con il potenziale di riferimento scelto arbitrariamente a \(0 V\) \\[0.3cm]
+		\midrule
+		nodo di massa: &
+		\begin{circuitikz} \draw (0, 0) node[cground, scale=0.8]{}; \end{circuitikz}&
+		nodo collegato al telaio metallico del dispositivo elettronico \\[0.3cm]
+		\midrule
+		nodo di terra: &
+		\begin{circuitikz} \draw (0, 0) node[ground]{}; \end{circuitikz} &
+		nodo collegato fisicamente alla terra tramite un conduttore metallico per motivi di sicurezza; di solito coincide con il nodo
+		di massa; il potenziale di terra è molto stabile e indipendentemente dalle correnti che gli elettrodomestici prelevano o
+		immettono in esso
+	\end{tabular}
+\end{center}
+
+\subsubsection*{Rappresentazione elettronica di un circuito}
+Un circuito elettronico può essere rappresentato in due modi equivalenti:
+\begin{itemize}
+	\item \textbf{notazione a maglie}: rappresentazione del circuito in maglie e nodi
+	\item \textbf{notazione elettronica}: scelto il nodo di riferimento, tutti i terminali collegati a tale nodo sono marcati con il
+	simbolo del nodo di riferimento, inoltre i nodi di cui si conosce già il potenziale (ad esempio quelli collegati a generatori di
+	tensione ideali) sono marcati con il loro valore di potenziale.
+\end{itemize}
+
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\begin{circuitikz}[american]
+			% Definisco i nodi di riferimento (per chiarezza e per replicare la struttura)
+			\coordinate (A) at (0.5, 3);   % Nodo superiore sinistro (sopra Vs)
+			\coordinate (B) at (2, 3);   % Nodo superiore sopra R1
+			\coordinate (C) at (4, 3);   % Nodo superiore sopra i_S
+			\coordinate (D) at (2, 1.5); % Nodo centrale sotto R1
+			\coordinate (E) at (4, 1.5); % Nodo centrale sotto i_S
+			\coordinate (F) at (4, 0);   % Nodo inferiore destro (sotto R3)
+			\coordinate (G) at (0.5, 0);   % Nodo inferiore sinistro (sotto Vs)
+			\coordinate (H) at (2, 0);   % Nodo inferiore sotto C
+	
+			% Disegno il circuito
+			\draw (A) to [V, l_=\(V_S\)] (G); % Generatore di tensione Vs
+			\draw (G) -- (F); % Linea inferiore
+			\draw (A) -- (C); % Linea superiore
+			\draw (B) to [R, l_=\(R_1\), *-*] (D); % Resistenza R1
+			\draw (D) to [C, *-*] (H); % Condensatore C
+			\draw (C) to [I, l_=\(I_S\)] (E); % Generatore di corrente IS
+			\draw (D) to [R, l_=\(R_2\), *-*] (E); % Resistenza R2
+			\draw (E) to [R, l_=\(R_3\)] (F); % Resistenza R3
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.05\textwidth}
+		\centering
+		\(\longrightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}[american]
+			% Definisco i nodi di riferimento (per chiarezza e per replicare la struttura)
+			\coordinate (B) at (2, 3);   % Nodo superiore sopra R1
+			\coordinate (C) at (4, 3);   % Nodo superiore sopra i_S
+			\coordinate (D) at (2, 1.5); % Nodo centrale sotto R1
+			\coordinate (E) at (4, 1.5); % Nodo centrale sotto i_S
+			\coordinate (F) at (4, 0);   % Nodo inferiore destro (sotto R3)
+			\coordinate (H) at (2, 0);   % Nodo inferiore sotto C
+	
+			% Disegno il circuito
+			\draw (B) to [R, l_=\(R_1\)] (D); % Resistenza R1
+			\draw (D) to [C] (H); % Condensatore C
+			\draw (C) to [I, l_=\(I_S\)] (E); % Generatore di corrente IS
+			\draw (D) to [R, l_=\(R_2\), *-*] (E); % Resistenza R2
+			\draw (E) to [R, l_=\(R_3\)] (F); % Resistenza R3
+	
+			% Nodo di riferimento a massa
+			\draw (H) node[sground]{};
+			\draw (F) node[sground]{};
+			\draw (B) node[rground, rotate=180]{};
+			\draw (C) node[rground, rotate=180]{};
+			\node at (2, 3.7) {\(V_S\)};
+			\node at (4, 3.7) {\(V_S\)};
+		\end{circuitikz}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Potenza ed energia}
+Per definire la potenza e l'energia consumata da un componente, si definiscono:
+\begin{itemize}
+	\item \textbf{convenzione degli utilizzatori}: la corrente entra nel terminale positivo della tensione, se la potenza o l'energia è positiva, il componente assorbe energia.
+	\item \textbf{convenzione dei produttori}: la corrente entra nel terminale negativo della tensione, se la potenza o l'energia erogata è positiva, il componente fornisce energia.
+\end{itemize}
+Si definiscono quindi:
+\begin{itemize}
+	\item \textbf{potenza istantanea}: \(\displaystyle p(t) = v(t) \cdot i(t)\) misurata in Watt [W] \(=\) [J/sec]
+	\item \textbf{energia}: \(\displaystyle E = \int_{t_1}^{t_2} p(t) \, dt = \int_{t_1}^{t_2} v(t) \cdot i(t) \, dt\) misurata in Joule [J] \(=\) [W \(\cdot\) sec]
+\end{itemize}
+
+\newpage
+
+\subsection{Reti in regime transitorio}
+\subsubsection*{Introduzione}
+\begin{itemize}
+	\item una rete si dice in regime transitorio quando le variabili elettriche (tensione e corrente) variano nel tempo passando da uno stato iniziale a uno stato finale di equilibrio
+	\item un esempio di reti in regime transitorio sono i circuiti in cui sono presenti componenti reattivi (condensatori e induttori) e interruttori che modificano la configurazione del circuito
+	\item il transitorio è l'intervallo di tempo che impiegano le variabili elettriche per passare dallo stato iniziale allo stato finale di equilibrio
+\end{itemize}
+
+\subsubsection*{Componenti reattivi}
+\begin{center}
+	\begin{tabular}{l c c c }
+		componente & schema & in regime stazionario & in regime transitorio \\
+		\toprule
+		\textbf{condensatore}: & \begin{circuitikz}[baseline=(current bounding box.center)]
+			\draw (0,0) to[C] (2,0);
+			\draw [->] (0.2,0.5) -- (1.8,0.5) node[midway, above] {\(i_C\)};
+			\node at (0.3,-0.6) {+};
+			\node at (1,-0.7) {\(v_C\)};
+			\node at (1.7,-0.6) {--};
+		\end{circuitikz} & circuito aperto \(i_C = 0\) & \(\displaystyle i_C(t) = C \frac{d v_C(t)}{d t}\) \\
+		\midrule
+		\textbf{induttore (L)}: & \begin{circuitikz}[baseline=(current bounding box.center)]
+			\draw (0,0) to[L] (2,0);
+			\draw [->] (0.3,0.4) -- (1.7,0.4) node[midway, above] {\(i_L\)};
+			\node at (0.3,-0.4) {+};
+			\node at (1,-0.4) {\(v_L\)};
+			\node at (1.7,-0.4) {--};
+		\end{circuitikz} & cortocircuito \(v_L = 0\) & \(\displaystyle v_L(t) = L \frac{d i_L(t)}{d t}\)
+	\end{tabular}
+\end{center}
+
+
+\subsubsection*{Carica di un condensatore}
+\begin{itemize}
+	\item condizioni iniziali (\(t < 0\)): interruttore inizialmente aperto \(\quad \rightarrow \quad v_C(0) = 0, \quad i_C(0) = 0\)
+	\item nel transitorio (\(t \geq 0\)): \(i_C(t) = C \frac{d v_C(t)}{d t}, \quad i_R = \frac{v_R(t)}{R}, \quad v_A = v_R(t) + v_C(t), \quad i_R(t) = i_C(t)\)
+	\item dalla legge delle correnti si ottiene un'equazione differenziale del primo ordine:
+	\[C \frac{dv_C(t)}{d t} = \frac{v_R(t)}{R} = \frac{v_A - v_C(t)}{R} \quad \rightarrow \quad \frac{dv_C(t)}{dt} = -\frac{v_C(t)}{RC} + \frac{v_A}{RC} \quad \rightarrow \quad v_C(t) = A \cdot e^{-\frac{t}{RC}} + B\]
+	\item si sostituisce la soluzione generale nell'equazione differenziale e si impongono le condizioni iniziali:
+	\[-\frac{1}{RC} A \cdot e^{-\frac{t}{RC}} = -\frac{1}{RC} A \cdot e^{-\frac{t}{RC}} - \frac{1}{RC} B + \frac{v_A}{RC} \quad \rightarrow \quad B = v_A\]
+	\[v_C(0) = 0 \quad \rightarrow \quad A + B = 0 \quad \rightarrow \quad A = -B = -v_A \]
+	\item si ottengono quindi le espressioni delle variabili elettriche durante il transitorio:
+	\[v_C(t) = v_A -v_A \cdot e^{-\frac{t}{RC}} \qquad v_R(t) = v_A e^{-\frac{t}{RC}} \qquad i_C(t) = i_R(t) = \frac{v_A}{R} e^{-\frac{t}{RC}}\]
+	\item l'istante in cui la tensione sul condensatore raggiunge metà del suo valore di regime è:
+	\[\frac{v_A}{2} = v_A - v_A \cdot e^{-\frac{t_{1/2}}{RC}} \quad \rightarrow \quad t_{1/2} = \ln(2) \cdot RC \approx 0.69 RC\]
+	\item analizzando il bilancio energetico del circuito si ottiene che metà dell'energia fornita dal generatore viene
+	immagazzinata nel condensatore e metà viene dissipata dalla resistenza come calore:
+	\[E_{v_A} = \int_{0}^{\infty} v_A \cdot i(t) dt = C \cdot v_A^2 \qquad\! E_R = \int_{0}^{\infty} R \cdot i^2(t) dt = \frac{C \cdot v_A^2}{2} \qquad\! E_C = \int_{0}^{\infty} v_C(t) \cdot i(t) dt = \frac{C \cdot v_A^2}{2}\]
+\end{itemize}
+
+\begin{minipage}{0.4\textwidth}
+	\centering
+	\begin{circuitikz}[american, scale=1.2]
+		\coordinate (A) at (0, 2);   % Nodo superiore sinistro (sopra VA)
+		\coordinate (B) at (0, 0);     % Nodo inferiore sinistro (sotto VA)
+		\coordinate (C) at (3, 2);   % Nodo superiore destro (dopo R)
+		\coordinate (D) at (3, 0);     % Nodo inferiore destro (sotto C)
+		\coordinate (E) at (1.2, 2); % Nodo tra interruttore e resistore
+		\coordinate (F) at (1.2, 0);   % Nodo tra generatore e condensatore
+
+		\draw (A) to [V, l_=\(v_A\)] (B);
+		\draw (A) to [ospst] (E); 
+		\draw (E) to [R, l_=\(R\), v^=\(v_R\), i_>=\(i_R\)] (C);
+		\draw (C) -- (D); 
+		\draw (D) to [C, l_=\(C\), v^=\(v_C\), i_>=\(i_C\)] (F);
+		\draw (F) -- (B);
+	\end{circuitikz}	
+\end{minipage}
+\begin{minipage}{0.55\textwidth}
+	\centering
+	\includegraphics[width=0.8\textwidth]{immagini/1_intro/rc_carica.png}
+\end{minipage}
+
+\subsubsection*{Scarica di un condensatore}
+\begin{itemize}
+	\item condizioni iniziali (\(t < 0\)): interruttore inizialmente aperto \(\quad \rightarrow \quad v_C(0) = v_A, \quad i_C(0) = 0\)
+	\item nel transitorio (\(t \geq 0\)): \(i_C(t) = C \frac{d v_C(t)}{d t}, \quad i_R = \frac{v_R(t)}{R}, \quad v_R(t) = v_C(t), \quad i_R(t) + i_C(t) = 0\)
+	\item dalla legge delle correnti si ottiene un'equazione differenziale del primo ordine:
+	\[C \frac{dv_C(t)}{d t} = \frac{v_R(t)}{R} \quad \rightarrow \quad \frac{dv_C(t)}{dt} = -\frac{v_C(t)}{RC} \quad \rightarrow \quad v_C(t) = A \cdot e^{-\frac{t}{RC}}\]
+	\item siccome l'equazione è omogenera, è sufficiente imporre le condizioni iniziali:
+	\[v_C(0) = v_A \quad \rightarrow \quad A = v_A \]
+	\item si ottengono quindi le espressioni delle variabili elettriche durante il transitorio:
+	\[v_C(t) = v_R(t) = v_A \cdot e^{-\frac{t}{RC}} \qquad i_C(t) = -\frac{v_A}{R} e^{-\frac{t}{RC}} \qquad i_R(t) = \frac{v_A}{R} e^{-\frac{t}{RC}}\]
+	\item l'istante in cui la tensione sul condensatore raggiunge metà del suo valore di regime è:
+	\[\frac{v_A}{2} = v_A - v_A \cdot e^{-\frac{t_{1/2}}{RC}} \quad \rightarrow \quad t_{1/2} = \ln(2) \cdot RC \approx 0.69 RC\]
+	\item analizzando il bilancio energetico del circuito si ottiene tutta l'energia immagazzinata nel condensatore viene dissipata
+	dalla resistenza come calore e il condensatore rimane scarico alla fine del transitorio:
+	\[E_R = \int_{0}^{\infty} R \cdot {i_R}^2(t) dt = \frac{C \cdot v_A^2}{2} \qquad\qquad E_C = \int_{0}^{\infty} v_C(t) \cdot i_C(t) dt = -\frac{C \cdot v_A^2}{2}\]
+\end{itemize}
+
+\begin{minipage}{0.4\textwidth}
+	\centering
+	\begin{circuitikz}[american, scale=1.2]
+    \coordinate (A) at (0, 0);
+	\coordinate (B) at (0, 2);
+	\coordinate (C) at (2, 2);
+	\coordinate (D) at (2, 0);
+
+    \draw (B) to [R, l=\(R\), v=\(v_R\), i>=\(i_R\)] (A);
+    \draw (B) to [ospst] (C); 
+    \draw (D) to [C, l=\(C\), v<=\(v_C\), i<=\(i_C\)] (C);
+	\draw (D) -- (A);
+\end{circuitikz}
+\end{minipage}
+\begin{minipage}{0.55\textwidth}
+	\centering
+	\includegraphics[width=0.8\textwidth]{immagini/1_intro/rc_scarica.png}
+\end{minipage}

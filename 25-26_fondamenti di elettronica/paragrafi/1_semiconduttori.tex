@@ -1,3 +1,276 @@
 \section{Semiconduttori}
+\subsection{Classificazione e proprietà elettriche dei semiconduttori}
+\subsubsection*{Classificazione dei materiali}
+In base alla resisitività elettrica \(\rho\) dei materiali, questi si dividono in:
+\begin{itemize}
+	\item conduttori: \(\rho < 10^{-3} \Omega \cdot \m\)
+	\item semiconduttori: \(10^{-3} \Omega \cdot \m < \rho < 10^{5} \Omega \cdot \m\)
+	\item isolanti: \(\rho > 10^{5} \Omega \cdot \m\)
+\end{itemize}
 
-\section{Drogaggio dei semiconduttori}
+\subsubsection*{Classificazione chimica dei semiconduttori}
+I semiconduttori sono composti dagli elementi chimici di transizione, come il silicio (Si) e il germanio (Ge). In base alla loro
+composizione chimica si classificano in:
+\begin{itemize}
+	\item \textbf{semiconduttori a elemento singolo}: se sono formati da un solo elemento chimico, come silicio (Si) e germanio (Ge)
+	\item \textbf{semiconduttori composti}: se sono formati da più elementi, come arseniuro di gallio (GaAs), fosfuro di indio (InP),
+	nitruro di gallio (GaN), tellururo di cadmio (CdTe), ...
+	\item \textbf{semiconduttori intrinseci}: se sono puri, cioè non contengono impurità
+\end{itemize}
+
+\subsubsection*{Struttura del silicio}
+Il silicio (Si) ha 14 protoni, 14 neutroni e 14 elettroni. Possiede 4 elettroni nel guscio più esterno, detti elettroni di valenza.
+Tali elettroni sono quelli che partecipano alla formazione dei legami chimici e di conseguenza il silicio è in grado di formare
+4 legami covalenti con altri atomi. In un cristallo di silicio, ogni atomo di silicio condivide i suoi 4 elettroni di valenza
+con 4 atomi di silicio vicini, formando così una struttura cristallina tetraedrica e periodica (simile a quella del carbonio).
+
+\subsubsection*{Conducibilità elettica nei metalli, negli isolanti e nei semiconduttori}
+Un materiale conduce corrente elettrica se possiede elettroni liberi in grado di muoversi all'interno del reticolo cristallino.
+La differenza tra metalli, isolanti e semiconduttori risiede nel comportamento degli elettroni di valenza:
+\begin{itemize}
+	\item nei metalli, gli elettroni di legame sono condivisi tra più atomi e formano una nube di elettroni liberi che si muovono
+	liberamente all'interno del reticolo cristallino, permettendo così la conduzione elettrica
+	\item negli isolanti, gli elettroni di valenza sono fortemente vincolati ai loro atomi e non possono muoversi liberamente
+	all'interno del reticolo cristallino, per cui sono scarsi conduttori di elettricità
+	\item nei semiconduttori si hanno comportamenti simili agli isolanti, però i legami tra gli atomi sono più deboli e con poca
+	energia è possibile rompere tali legami liberando gli elettroni di valenza, che possono così condurre corrente elettrica
+\end{itemize}
+L'energia necessaria a liberare un elettrone di valenza è detta \textbf{energy gap} (o band gap) e varia a seconda del materiale.
+Di seguito una tabella con i valori di energy gap per alcuni materiali comuni:
+
+\begin{center}
+	\begin{tabular}{l c | l c}
+		\toprule
+		Materiale & Energy gap & Materiale & Energy gap \\
+		\midrule
+		Silicio (Si) & 1.124 eV & Germanio (Ge) & 0.66 eV \\
+		Arseniuro di gallio (GaAs) & 1.42 eV & Nitruro di gallio (GaN) & 3.4 eV \\
+		Fosfuro di indio (InP) & 1.35 eV & Seleniuro di cadmio (CdSe) & 1.74 eV \\
+		Stagno (Sn) & 0.082 eV & Rame (Cu) & \say{0} eV \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+\subsubsection*{Elettroni liberi e lacune}
+Quando un elettrone di valenza acquisisce sufficiente energia per liberarsi dal legame con il suo atomo, esso diventa un elettrone
+libero in grado di muoversi liberamente all'interno del reticolo cristallino. Il legame incompleto per la mancanza di un elettrone
+è detto lacuna (o hole in inglese) e si comporta come una carica positiva mobile all'interno del reticolo cristallino.
+
+La lacuna può essere colmata da un elettrone di valenza di un atomo vicino, che a sua volta lascia una nuova lacuna. In questo modo,
+la lacuna sembra muoversi all'interno del reticolo cristallino, permettendo così la conduzione elettrica.
+
+Gli elettroni liberi e e le lacune sono detti portatori di carica negativa per gli elettroni, positiva per le lacune.
+
+\subsubsection*{Concentrazione di elettorni e lacune in un semiconduttore intrinseco}
+In un semiconduttore intrinseco, la concentrazione di elettroni liberi \(n\) e la concentrazione di lacune \(p\) sono uguali e
+per definizione si indicano con \(n_i\):
+\[n = p = n_i \qquad n \cdot p = {n_i}^2\]
+La concentrazione di portatori di carica in un semiconduttore intrinseco dipende dalla temperatura \(T\) e dall'energy gap \(E_g\)
+del materiale, secondo la seguente formula, dove \(B\) è una costante dipendente dal materiale e \(k_B\) è la costante di Boltzmann.
+\[n_i = BT^{3/2} e^{-E_g/2k_BT}\]
+Si osserva che la concentrazione di portatori di carica aumenta all'aumentare della temperatura. Nel silicio a temperatura
+ambiente (300 K), la concentrazione di portatori di carica è circa \(n_i = 1.45 \times 10^{10} \, \cm^{-3}\).
+
+\subsection{Drogaggio dei semiconduttori}
+Il drogaggio di un semiconduttore consiste nell'aggiunta di impurità al semiconduttore intrinseco per modificarne le proprietà
+elettriche, senza alterare la struttura del reticolo. Le impurità sono atomi di elementi chimici con un numero di elettroni di
+valenza diverso da quello del semiconduttore intrinseco che produrranno un eccesso di elettroni liberi o di lacune, migliorando
+la conducibilità elettrica del materiale.
+
+\subsubsection*{Drogaggio di tipo n}
+Il drogaggio di tipo n si ottiene aggiungendo al silicio intrinseco atomi di un elemento chimico con 5 elettroni di valenza,
+come il fosforo (P), l'arsenico (As) o l'antimonio (Sb). Questi atomi, facendo 4 legami covalenti con gli atomi di silicio vicini,
+hanno un elettrone in più che non può essere utilizzato per il legame e diventa un elettrone libero. Per questo motivo sono
+detti donatori.
+
+\subsubsection*{Drogaggio di tipo p}
+Il drogaggio di tipo p si ottiene aggiungendo al silicio intrinseco atomi di un elemento chimico con 3 elettroni di valenza,
+come il boro (B), l'alluminio (Al) o il gallio (Ga). Questi atomi fanno sempre 4 legami covalenti con gli atomi di silicio vicini,
+ma avendo un elettrone in meno, creano una lacuna. Per questo motivo sono detti accettori.
+
+\subsubsection*{Equilibrio termodinamico e legge di azione di massa}
+In un semiconduttore si hanno due processi opposti che avvengono contemporaneamente:
+\begin{itemize}
+	\item la \textbf{generazione} di coppie elettrone-lacuna, per cui si formano un elettrone libero e una lacuna dovuti alla
+	rottura di un legame covalente; si indica con \(G = f_1(T)\) il tasso di generazione, ovvero il numero di coppie
+	elettrone-lacuna generate per unità di volume e di tempo (\([\cm^{-3} \s^{-1}]\)), che dipende dalla temperatura \(T\)
+	\item la \textbf{ricombinazione} di coppie elettrone-lacuna, in cui un elettrone libero si ricombina con una lacuna; si indica
+	con \(R = n \ccdot p \ccdot f_2(T)\) il tasso di ricombinazione, ovvero il numero di coppie elettrone-lacuna che si
+	ricombinano per unità di volume e di tempo (\([\cm^{-3} \s^{-1}]\)) e dipende dalle concentrazioni di elettroni \(n\) e di
+	lacune \(p\) e dalla temperatura \(T\)
+\end{itemize}
+
+Quando il semiconduttore si trova a temperatura costante e senza sollecitazioni esterne, raggiunge uno stato di
+\textbf{equilibrio termodinamico} in cui:
+\begin{itemize}
+	\item la concentrazione di elettroni \(n\) e la concentrazione di lacune \(p\) rimangono costanti nel tempo
+	\item la velocità di generazione di coppie elettrone-lacuna è uguale alla velocità di ricombinazione
+\end{itemize}
+Imponendo l'equilibrio tra generazione e ricombinazione si ottiene la \textbf{legge di azione di massa}:
+\[G = R \;\;\rightarrow\;\; f_1(T) = n \cdot p \cdot f_2(T) \;\;\rightarrow\;\; n \cdot p = \frac{f_1(T)}{f_2(T)} \;\;\rightarrow\;\; {n_i}^2 = n \cdot p\]
+
+\subsubsection*{Concentrazione dei portatori in un semiconduttore drogato di tipo n}
+In un semiconduttore drogato esclusivamente di tipo n si hanno le seguenti particelle cariche:
+\begin{itemize}
+	\item elettroni liberi \(n\) (intrinseci e donati dagli atomi di impurità)
+	\item lacune \(p\) (intrinseche)
+	\item ioni donatori \(N_D^+\) (atomi di impurità che hanno ceduto un elettrone libero)
+\end{itemize}
+Siccome il drogaggio non altera la carica complessiva del semiconduttore, si ha:
+\[-q n +q p + q N_D = 0 \;\;\rightarrow\;\; n - p - N_D = 0 \;\;\rightarrow\;\; n - {n_i}^2/n - N_D = 0 \;\;\rightarrow\;\; n^2 - n N_D - {n_i}^2 = 0\]
+\[n = \frac{N_D \pm \sqrt{{N_D}^2 + 4{n_i}^2}}{2} = N_D \frac{1+\sqrt{1 + 4{n_i}^2/{N_D}^2}}{2} \quad \stackrel{N_D \gg n_i}{\longrightarrow} \quad n \approx N_D, \quad p = \frac{{n_i}^2}{N_D}\]
+La concentrazione di elettroni \(n\) è maggiore della concentrazione di lacune \(p\), per cui gli elettroni si definiscono
+\textbf{portatori maggioritari}, mentre le lacune si definiscono \textbf{portatori minoritari}.
+
+\subsubsection*{Concentrazione dei portatori in un semiconduttore drogato di tipo p}
+In un semiconduttore drogato esclusivamente di tipo p si hanno le seguenti particelle cariche:
+\begin{itemize}
+	\item elettroni liberi \(n\) (intrinseci)
+	\item lacune \(p\) (intrinseche e dovute agli atomi di impurità)
+	\item ioni accettori \(N_A^-\) (atomi di impurità che hanno accettato un elettrone libero)
+\end{itemize}
+Siccome il drogaggio non altera la carica complessiva del semiconduttore, si ha:
+\[-q n +q p - q N_A = 0 \;\;\rightarrow\;\; p - n - N_A = 0 \;\;\rightarrow\;\; p - {n_i}^2/p - N_A = 0 \;\;\rightarrow\;\; p^2 - p N_A - {n_i}^2 = 0\]
+\[p = \frac{N_A \pm \sqrt{{N_A}^2 + 4{n_i}^2}}{2} = N_A \frac{1+\sqrt{1 + 4{n_i}^2/{N_A}^2}}{2} \quad \stackrel{N_A \gg n_i}{\longrightarrow} \quad p \approx N_A, \quad n = \frac{{n_i}^2}{N_A}\]
+La concentrazione di lacune \(p\) è maggiore della concentrazione di elettroni \(n\), per cui le lacune si definiscono
+\textbf{portatori maggioritari}, mentre gli elettroni si definiscono \textbf{portatori minoritari}.
+
+\subsubsection*{Concentrazione dei portatori in un semiconduttore drogato sia di tipo n che di tipo p}
+In un semiconduttore drogato sia di tipo n che di tipo p si hanno le seguenti particelle cariche:
+\begin{itemize}
+	\item elettroni liberi \(n\) (intrinseci e donati dagli atomi di impurità di tipo n)
+	\item lacune \(p\) (intrinseche e dovute agli atomi di impurità di tipo p)
+	\item ioni donatori \(N_D^+\) (atomi di impurità di tipo n che hanno ceduto un elettrone libero)
+	\item ioni accettori \(N_A^-\) (atomi di impurità di tipo p che hanno accettato un elettrone libero)
+\end{itemize}
+Siccome il drogaggio non altera la carica complessiva del semiconduttore, si ha:
+\[-q n +q p + q N_D - q N_A = 0 \;\;\rightarrow\;\; n - p - N_D + N_A = 0\]
+Se \(N_D > N_A\) si comporta come un semiconduttore di tipo n con drogaggio netto \(N_D' = N_D - N_A\):
+\[n^2 - n (N_D - N_A) - {n_i}^2 = 0 \quad \stackrel{N_D - N_A \gg n_i}{\longrightarrow} \quad n \approx N_D - N_A, \quad p = \frac{{n_i}^2}{N_D - N_A}\]
+Viceversa se \(N_A > N_D\) si comporta come un semiconduttore di tipo p con drogaggio netto \(N_A' = N_A - N_D\):
+\[p^2 - p (N_A - N_D) - {n_i}^2 = 0 \quad \stackrel{N_A - N_D \gg n_i}{\longrightarrow} \quad p \approx N_A - N_D, \quad n = \frac{{n_i}^2}{N_A - N_D}\]
+
+\subsection{Corrente elettrica e conducibilità nei semiconduttori}
+\subsubsection*{Cause del moto dei portatori di carica}
+Lo spostamento dei portatori di carica nei semiconduttori è influenzata da tre meccanismi fisici:
+\begin{itemize}
+	\item \textbf{temperatura}: l'aumento della temperatura provoca un aumento di energia interna (e di conseguenza di energia
+	cinetica) dei portatori di carica, che si muovono più velocemente all'interno del reticolo cristallino
+	\item \textbf{campo elettrico}: un campo elettrico esercita una forza sui portatori di carica che di conseguenza induce
+	un movimento ordinato dei portatori di carica, essendo questi ultimi carichi elettricamente
+	\item \textbf{gradiente di concentrazione}: una differenza di concentrazione di portatori di carica in due regioni del
+	semiconduttore provoca un flusso di portatori dalla regione a concentrazione maggiore verso la regione a concentrazione
+	minore, questo fenomeno è detto principio di diffusione
+\end{itemize}
+
+\subsubsection*{Moto dei portatori di carica dovuto alla sola energia cinetica / agitazione termica}
+In assenza di campo elettrico e di gradiente di concentrazione, i portatori di carica si muovono casualmente all'interno
+del reticolo cristallino a causa della loro energia cinetica. Questo moto casuale produce uno spostamento medio nullo,
+poiché i portatori di carica si muovono in tutte le direzioni con uguale probabilità.
+
+\subsubsection*{Moto dei portatori di carica dovuto al campo elettrico}
+Quando si applica un campo elettrico \(E\) al semiconduttore, i portatori di carica subiscono una forza \(F_E\) dovuta al campo
+elettrico che induce un movimento ordinato dei portatori di carica:
+\begin{itemize}
+	\item gli elettroni liberi, essendo cariche negative, si muovono in direzione opposta al campo elettrico
+	\item le lacune, essendo cariche positive, si muovono in direzione del campo elettrico
+\end{itemize}
+Il moto ordinato dei portatori di carica dovuto al campo elettrico si sovrappone al moto casuale dovuto all'agitazione
+termica, producendo uno spostamento medio non nullo dei portatori di carica nella direzione del campo elettrico (per le lacune)
+o in direzione opposta al campo elettrico (per gli elettroni).
+
+La velocità di deriva dei portatori dipende linearmente al campo elettrico (approssimando per campi non troppo elevati):
+\[\begin{cases}
+	v_n = - \mu_n \ccdot E & \text{per gli elettroni } \rightarrow \text{ moto opposto a } E \\
+	v_p = \mu_p \ccdot E & \text{per le lacune } \rightarrow \text{ moto concorde a } E
+\end{cases}\]
+con \(v_n\) e \(v_p\) velocità di deriva degli elettroni e delle lacune (\([\cm/\s]\)), \(E\) il campo elettrico (\([\V/\cm]\))
+e \(\mu_n\) e \(\mu_p\) le mobilità degli elettroni e delle lacune rispettivamente (\([\cm^2/\V\s]\)). In generale
+\(\mu_n / \mu_p \approx 3\) siccome gli elettroni si muovono più facilmente delle lacune. Negli esercizi si assume
+\(\mu_n = 1000 \; \cm^2/\V\s\) e \(\mu_p = 300 \; \cm^2/\V\s\) per il silicio intrinseco a temperatura ambiente.
+
+\subsubsection*{Corrente di deriva}
+Analizzando la quantità di carica che attraversa una sezione di area \(A\) in un intervallo di tempo \(dt\), si ottiene la corrente di deriva:
+\begin{align*}
+	\#_\text{elettroni} &= n \ccdot A \ccdot dx &\rightarrow \quad I_n &= \frac{-q \ccdot \#_\text{elettr.}}{dt} = \frac{-q \ccdot n \ccdot A \ccdot dx}{dt} = -q \ccdot n \ccdot A \ccdot v_n &\rightarrow \quad {j_n}^\text{drift} &= \frac{I_n}{A} = -q \ccdot n \ccdot v_n \\
+	\#_\text{lacune} &= p \ccdot A \ccdot dx  &\rightarrow \quad I_p &= \frac{q \ccdot \#_\text{lacune}}{dt} = \frac{q \ccdot p \ccdot A \ccdot dx}{dt} = q \ccdot p \ccdot A \ccdot v_p &\rightarrow \quad {j_p}^\text{drift} &= \frac{I_p}{A} = q \ccdot p \ccdot v_p	
+\end{align*}
+\[{J_\text{tot}}^\text{drift} = J_n + J_p = -q \ccdot n \ccdot v_n + q \ccdot p \ccdot v_p = q (n \mu_n + p \mu_p) E\]
+Si nota quindi che la densità di corrente di deriva totale \(J_\text{drift,tot}\) è proporzionale e concorde al campo elettrico
+\(E\), per una costante di proporzionalità detta resistività elettrica \(\rho\):
+\[{j_\text{tot}}^\text{drift} = \frac{E}{\rho}, \quad \rho = \frac{1}{q(n \mu_n + p \mu_p)} \qquad \begin{cases}
+	{j_\text{tot}}^\text{drift} = q N_D \mu_n E, \quad \rho = 1 / q N_D \mu_n & \text{se drogato di tipo n} \\
+	{j_\text{tot}}^\text{drift} = q N_A \mu_p E, \quad \rho = 1 / q N_A \mu_p & \text{se drogato di tipo p} \\
+\end{cases}\]
+
+\subsubsection*{Moto dei portatori di carica dovuto al gradiente di concentrazione}
+Quando si mettono in contatto due regioni di un semiconduttore con diversa concentrazione di portatori di carica, si crea
+un gradiente di concentrazione che induce un flusso di portatori dalla regione a concentrazione maggiore verso la regione
+a concentrazione minore. Questo fenomeno è detto principio di diffusione e si verifica in natura per tutte le particelle
+libere di muoversi.
+
+Per analizzare il moto dei portatori di carica dovuto al gradiente di concentrazione, si definisce il flusso per unità di areaù
+in un intervallo di tempo \(dt\), misurato in \([\cm^{-2}\s^{-1}]\):
+\[\phi(x) = - D \frac{dC(x)}{dx} \qquad \phi(x)_n = - D_n \frac{dn(x)}{dx} \qquad \phi(x)_p = - D_p \frac{dp(x)}{dx}\]
+con \(C(x)\) la concentrazione di particelle in funzione della posizione \(x\) (\([\cm^{-3}]\)) e \(D\) il coefficiente
+di diffusione (\([\cm^2/\s]\)). Il segno \say{\(-\)} indica che il flusso avviene in direzione opposta al gradiente.
+
+\subsubsection*{Corrente di diffusione}
+Analizzando la quantità di carica associata al flusso dei portatori si ottiene la corrente di diffusione:
+\[{j_n}^\text{diff} = -q \phi(x)_n = + q D_n \frac{dn(x)}{dx} \qquad {j_p}^\text{diff} = + q \phi(x)_p = - q D_p \frac{dp(x)}{dx} \qquad [\C\,\cm^{-2}\s^{-1}] = [\A\,\cm^{-2}]\]
+Si osserva che il verso della la densità di corrente di diffusione dipende dal tipo di portatore:
+\begin{itemize}
+	\item la corrente degli elettroni ha lo stesso verso della concentrazione (cariche negative)
+	\item la corrente delle lacune ha verso opposto alla concentrazione (cariche positive)
+\end{itemize}
+
+\subsubsection*{Corrente totale in un semiconduttore}
+La corrente totale in un semiconduttore è data dalla somma della corrente di deriva e della corrente di diffusione degli
+elettroni e delle lacune:
+\[j_n = {j_n}^\text{drift} + {j_n}^\text{diff} = -q n \mu_n E + q D_n \frac{dn(x)}{dx} \qquad\qquad j_p = {j_p}^\text{drift} + {j_p}^\text{diff} = q p \mu_p E - q D_p \frac{dp(x)}{dx}\]
+Le costanti \(D_n\), \(D_p\), \(\mu_n\), \(\mu_p\) sono correlate tra loro dalla relazione di Einstein:
+\[\frac{D_n}{\mu_n} = \frac{D_p}{\mu_p} = \frac{k_B T}{q} = V_T\]
+dove \(k_B\) è la costante di Boltzmann, \(T\) la temperatura assoluta, \(q\) la carica elementare e \(V_T\) è il potenziale
+termico. Si ottiene quindi la seguente espressione per la corrente totale:
+\[j_n = q \mu_n \left(n E + V_T \frac{dn(x)}{dx}\right) \qquad\qquad j_p = q\mu_p \left(p E - V_T \frac{dp(x)}{dx}\right)\]
+
+\subsection{Semiconduttori in equilibrio}
+\subsubsection*{Correnti in un semiconduttore in equilibrio}
+Quando un semiconduttore si trova in equilibrio termodinamico, la somma delle correnti di deriva e di diffusione
+per ciascun tipo di portatore di carica è nulla (che implica corrente totale nulla):
+\[j_n = {j_n}^\text{drift} + {j_n}^\text{diff} = 0 \qquad\qquad j_p = {j_p}^\text{drift} + {j_p}^\text{diff} = 0 \qquad \Rightarrow \qquad j_\text{tot} = j_n + j_p = 0\]
+
+\subsubsection*{Gradienti di potenziale e concentrazione}
+Se in un semiconduttore in equilibrio si ha un gradiente di concentrazione di portatori di carica (\(n_2 - n_1\) per gli elettroni
+o \(p_2 - p_1\) per le lacune), si deve necessariamente avere un gradiente di potenziale \(v_2-v_1\) tale da bilanciare la corrente
+di diffusione con la corrente di deriva, in modo che la corrente totale sia nulla. Si ottiene quindi la seguente relazione:
+\[\frac{n_2}{n_1} = \frac{p_1}{p_2} = e^{\tfrac{(v_2-v_1)}{V_T}}\]
+Viceversa se in un semiconduttore in equilibrio si ha un gradiente di potenziale \(v_2 - v_1\), si deve necessariamente avere un
+gradiente di concentrazione di portatori di carica tale da bilanciare la corrente di deriva con la corrente di diffusione:
+\[\frac{v_2-v_1}{V_T} = \ln\left(\frac{n_2}{n_1}\right) = \ln\left(\frac{p_1}{p_2}\right)\]
+Le due relazioni precedenti sono equivalenti e si ottengono imponendo la condizione di equilibrio \(j_n = 0\) e \(j_p = 0\),
+utilizzando \(E = - dV / dx\) e risolvendo le due equazioni differenziali ottenute.
+
+\subsubsection*{Considerazioni sulle correnti, gradienti e potenziali in equilibrio}
+In un semiconduttore in equilibrio termodinamico in cui è presente un gradiente di concentrazione di portatori di carica e un
+gradiente di potenziale, valgono le seguenti considerazioni:
+
+\begin{itemize}
+	\item[1. -] \({j_n}^\text{drift}\) ha verso opposto al gradiente di potenziale e concorde con il campo elettrico
+	\item \({j_p}^\text{drift}\) ha verso opposto al gradiente di potenziale e concorde con il campo elettrico
+	\item i gradienti di potenziale per gli elettroni e per le lacune sono uguali tra loro, per cui \(j^\text{drift}\) ha
+	complessivamente verso opposto al gradiente di potenziale e concorde con il campo elettrico
+	\item[2. -] \({j_n}^\text{diff}\) ha verso concorde con il gradiente di concentrazione degli elettroni
+	\item \({j_p}^\text{diff}\) ha verso opposto al gradiente di concentrazione delle lacune
+	\item i gradienti di concentrazione degli elettroni e delle lacune sono opposti tra loro (per la legge di azione di massa),
+	per cui \(j^\text{diff}\) ha complessivamente verso concorde al gradiente di concentrazione degli elettroni e verso opposto
+	al gradiente di concentrazione delle lacune
+	\item[3. -] siccome la corrente totale deve essere nulla, la corrente di deriva e la corrente di diffusione devono avere verso
+	opposto da cui si conclude che:
+	\item il gradiente di potenziale e il gradiente di concentrazione degli elettroni hanno lo stesso verso
+	\item il gradiente di potenziale e il gradiente di concentrazione delle lacune hanno verso opposto
+\end{itemize}
+
+\begin{center}
+	\includegraphics[width=\textwidth]{immagini/2_semiconduttori/correnti_equilibrio.png}
+\end{center}

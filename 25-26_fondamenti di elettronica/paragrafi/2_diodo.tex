@@ -1,0 +1,275 @@
+\section{Giunzione PN e diodi}
+\subsection{Giunzione pn all'equilibrio}
+\subsubsection*{Struttura base}
+Una giunzione pn si ottiene unendo due regioni di semiconduttore drogate in modo diverso: una regione di tipo p (con eccesso di
+lacune) e una regione di tipo n (con eccesso di elettroni).
+
+\subsubsection*{Equilibrio tra diffusione e potenziale}
+\begin{itemize}
+	\item Quando le due regioni si uniscono, si forma un \textbf{gradiente di concentrazione} dei portatori di carica che induce
+	uno spostamento di elettroni dalla regione n alla regione p e uno spostamento di lacune dalla regione p alla regione n;
+	si forma in questo modo una corrente di diffusione dalla regione n alla regione p.
+	\item Lo spostamento dei portatori induce la formazione di ioni fissi (ioni positivi nella regione n per assenza di elettroni
+	e ioni negativi nella regione p per assenza di lacune) che generano un campo elettrico e un \textbf{potenziale di giunzione};
+	si forma in questo modo anche una corrente di deriva dalla regione p alla regione n che si oppone alla corrente di diffusione.
+	\item All'equilibrio le due correnti si bilanciano, ma rimane una regione in prossimità della giunzione in cui non ci sono
+	portatori di carica liberi e sono presenti solo ioni fissi dovuti all'assenza di portatori di carica.
+	\item Si formano in questo modo tre regioni:
+	\begin{enumerate}[topsep=-2pt, itemsep=0pt]
+		\item \textbf{regione di svuotamento} o \textbf{regione di carica spaziale} (RCS): zona in prossimità della giunzione
+		priva di portatori di carica liberi (svuotamento) in cui sono presenti solo ioni fissi (carica spaziale);
+		\item \textbf{regione quasi neutra} (RQN) \textbf{di tipo p}: zona lontana dalla giunzione che non risente della giunzione
+		pn e mantiene le caratteristiche di un semiconduttore di tipo p;
+		\item \textbf{regione quasi neutra} (RQN) \textbf{di tipo n}: zona lontana dalla giunzione che non risente della giunzione
+		pn e mantiene le caratteristiche di un semiconduttore di tipo n.
+	\end{enumerate}
+\end{itemize}
+
+\vspace{2cm}
+\begin{center}
+	\includegraphics[width=0.85\textwidth]{immagini/3_giunzioni_pn_e_diodi/pn_eq1.png}
+\end{center}
+
+\newpage
+
+\subsubsection*{Carica elettrica all'equilibrio}
+La carica elettrica nelle regioni quasi neutre è nulla, siccome non vengono alterate le concentrazioni di portatori di carica
+liberi (e il drogaggio non modifica la carica complessiva). Nella regione di svuotamento, invece, la carica elettrica è data
+dalla somma delle cariche degli ioni fissi e dipende dalle concentrazioni di drogaggio \(N_A\) e \(N_D\):
+\[\rho(x) = \begin{cases}
+	-q N_A & -x_p \leq x \leq 0 \quad \text{(regione p)}\\
+	+q N_D & 0 < x \leq x_n \quad \text{(regione n)}\\
+\end{cases} \qquad \rightarrow \qquad Q_p = -q N_A x_p, \quad Q_n = +q N_D x_n\]
+Siccome non ci sono stati scambi di cariche con l'esterno, la carica totale deve rimanere nulla:
+\[Q_p + Q_n = 0 \quad \Rightarrow \quad N_A x_p = N_D x_n\]
+
+\subsubsection*{Campo elettrico all'equilibrio}
+Il campo elettrico nella regione di carica spaziale si calcola:
+\[\frac{dE(x)}{dx} = -\frac{\rho(x)}{\varepsilon} = \begin{cases}
+	-q N_A / \varepsilon & -x_p \leq x \leq 0 \\
+	+q N_D / \varepsilon & 0 < x \leq x_n
+\end{cases} \quad \Rightarrow \quad E(x) = \begin{cases}
+	-q N_A (x + x_p) / \varepsilon & -x_p \leq x \leq 0 \\
+	+q N_D (x_n - x) / \varepsilon & 0 < x \leq x_n
+\end{cases}\]
+Il campo elettrico è nullo nelle regioni quasi neutre e raggiunge il valore massimo in \(x = 0\):
+\[E_{max} = E(0) = -\frac{q N_A x_p}{\varepsilon} = -\frac{q N_D x_n }{\varepsilon}\]
+
+\subsubsection*{Potenziale elettrico all'equilibrio e potenziale di contatto}
+La differenza di potenziale elettrico si calcola risolvendo l'integrale del campo elettrico \(dV(x)/dx = -E(x)\). In particolare
+si definiscono i potenziali nelle due regioni quasi neutre \(V_1\) in \(x = -x_p\) e \(V_2\) in \(x = x_n\) e si calcola il
+potenziale intrinseco di giunzione o potenziale di contatto \(V_0 = V_2 - V_1\) tra le due estremità della regione di svuotamento ponendo \(V_1 = 0\):
+\[V_0 = \int_{-x_p}^{x_n} E(x) \, dx = \frac{-E(0) \cdot (x_n + x_p)}{2}\]
+
+\subsubsection*{Potenziale di contatto e concentrazioni di drogaggio}
+Il potenziale di contatto può essere espresso in funzione delle concentrazioni di drogaggio \(N_A\) e \(N_D\) e delle concentrazioni
+intrinseche di portatori di carica \(n_i\):
+\[V_0 = V_2 - V_1 = V_T \ln \left(\frac{n_2}{n_1}\right) = V_T \ln{\left(\frac{N_A N_D}{{n_i}^2}\right)}\]
+
+\subsubsection*{Schema riassuntivi per una giunzione pn in equilibrio}
+\begin{minipage}{0.45\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{immagini/3_giunzioni_pn_e_diodi/pn_eq_2.1.png}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+	\centering
+	\includegraphics[width=0.95\textwidth]{immagini/3_giunzioni_pn_e_diodi/pn_eq_2.2.png}
+\end{minipage}
+
+\subsubsection*{Ampiezza della regione di svuotamento all'equilibrio}
+L'ampiezza della regione di svuotamento \(W = x_n + x_p\) dipende dalle concentrazioni dei drogaggi e dal potenziale di contatto:
+\[V_0 = \frac{-E(0) \cdot W}{2}, \quad x_n N_D = x_p N_A \quad \rightarrow \quad W = \frac{2 V_0}{-E(0)} = \frac{2 \varepsilon V_0}{q N_A x_p} = \sqrt{\frac{2 \varepsilon V_0}{q} \left(\frac{1}{N_A} + \frac{1}{N_D}\right)}\]
+\[x_n = W\frac{N_A}{N_A + N_D} \qquad x_p = W\frac{N_D}{N_A + N_D}\]
+Si osserva che l'ampiezza della regione di svuotamento è inversamente proporzionale alle concentrazioni di drogaggio, per cui
+aumentando i drogaggi diminuisce l'ampiezza della regione di svuotamento. Inoltre la regione di svuotamento ripartisce in maniera
+inversamente proporzionale ai drogaggi, ovvero si allarga maggiormente nella regione meno drogata.
+
+\subsubsection*{Regione pn con elettrodi metallici}
+Una giunzione pn, per essere utilizzabile in un circuito, deve essere collegata alle due estremità a due elettrodi metallici.
+Gli elettrodi, essendo buoni conduttori, inducono una locale ridistribuzione dei portatori di carica (spostamento di lacune dalla
+regione p all'elettrodo e di elettroni dalla regione n all'elettrodo). Questo effetto ha le stesse dinamiche di una giunzione pn,
+in particolare si formano due regioni di carica spaziale che inducono una differenza di potenziale \(V_1\) e \(V_2\) tra gli
+elettrodi e la giunzione che controbilanciano il potenziale di contatto \(V_0\). All'equilibrio si ha \(V_1 + V_0 + V_2 = 0\),
+per cui la differenza di potenziale tra gli elettrodi è nulla.
+
+\begin{center}
+	\includegraphics[width=0.7\textwidth]{immagini/3_giunzioni_pn_e_diodi/pn_eq3.png}
+\end{center}
+
+\newpage
+
+\subsection{Giunzione pn polarizzata}
+\subsubsection*{Polarizzazione diretta e inversa}
+Si collega una giunzione pn ad un generatore di tensione \(V_A\) con polo positivo connesso alla regione p e polo negativo alla
+regione n. In questo modo si ha una polarizzazione della giunzione che può essere:
+\begin{itemize}
+	\item \textbf{polarizzazione diretta} se \(V_A > 0\)
+	\item \textbf{polarizzazione inversa} se \(V_A < 0\)
+\end{itemize}
+Inoltre si definisce il potenziale di riferimento come il potenziale della regione n (\(V_n = 0V\)). In questo modo la regione
+p ha un potenziale \(V_p = -V_0\), uguale ed opposto al potenziale intrinseco o di contatto.
+
+\subsubsection*{Giunzione in polarizzazione diretta}
+In polarizzazione diretta la tensione applicata \(V_A > 0\) riduce la differenza di potenziale tra le due regioni quasi neutre,
+ottenendo: \(V_p - V_n = -V_0 + V_A\). Di conseguenza il campo elettrico nella regione di svuotamento diminuisce in modulo e
+l'ampiezza della regione di svuotamento si riduce:
+\[W(V_0 - V_A) = \sqrt{\frac{2 \varepsilon (V_0 - V_A)}{q} \left(\frac{1}{N_A} + \frac{1}{N_D}\right)} < W(V_0)\]
+Siccome il campo elettrico e il potenziale si riducono, la corrente di deriva diminuisce e prevale il fenomeno di diffusione 
+che induce un flusso di elettroni dalla regione n alla regione p e di lacune dalla regione p alla regione n. Siccome la regione
+n è ricca di elettroni e la regione p è ricca di lacune, questo flusso è detto flusso dei portatori maggioritari. Si induce in
+questo modo una \textbf{elevata corrente di diffusione dei maggioritari} che attraversa la giunzione pn dalla regione p alla regione n.
+
+\subsubsection*{Giunzione in polarizzazione inversa}
+In polarizzazione inversa la tensione applicata \(V_A < 0\) aumenta la differenza di potenziale tra le due regioni quasi neutre,
+ottenendo: \(V_p - V_n = -V_0 - |V_A|\). Di conseguenza il campo elettrico nella regione di svuotamento aumenta in modulo e
+l'ampiezza della regione di svuotamento si allarga:
+\[W(V_0 + |V_A|) = \sqrt{\frac{2 \varepsilon (V_0 + |V_A|)}{q} \left(\frac{1}{N_A} + \frac{1}{N_D}\right)} > W(V_0)\]
+Siccome il campo elettrico e il potenziale si aumentano, la corrente di deriva prevale sulla corrente di diffusione. Si ha in questo
+modo un flusso di elettroni dalla regione p alla regione n e di lacune dalla regione n alla regione p. Siccome la regione
+p è povera di elettroni e la regione n è povera di lacune, questo flusso è detto flusso dei portatori minoritari. Si induce in
+questo modo una \textbf{debole corrente di deriva dei minoritari} che attraversa la giunzione pn dalla regione n alla regione p.
+\[J = (\mu_n n + \mu_p p) \, qE \qquad \text{con} \; n \approx p \approx 0\]
+
+\begin{center}
+	\includegraphics[width=0.7\textwidth]{immagini/3_giunzioni_pn_e_diodi/pn_pol2.png}
+\end{center}
+
+\subsection{Giunzione pn polarizzata vista come diodo}
+\subsubsection*{Relazione tensione-corrente in un diodo}
+Si assegnano dei riferimenti ai due terminali della giunzione pn in modo da renderla schematizzabile e utilizzabile come diodo
+in un circuito elettrico:
+\begin{itemize}
+	\item \textbf{anodo}: terminale positivo, collegato alla regione p
+	\item \textbf{catodo}: terminale negativo, collegato alla regione n
+\end{itemize}
+\begin{center}
+	\includegraphics[width=0.55\textwidth]{immagini/3_giunzioni_pn_e_diodi/diodo_1.png}
+\end{center}
+Definiti i riferimenti di tensione e corrente in un diodo (o giunzione pn polarizzata), si può definire la relazione tensione-corrente
+che lega la tensione applicata \(V_A\) alla corrente \(I\) che attraversa il diodo:
+\[i_D = I_S \left(e^{\tfrac{v_D}{\eta V_T}} - 1\right)\]
+\begin{itemize}
+	\item \(i_D\) e \(v_D\) sono la corrente e la tensione nel diodo, con riferimento positivo dall'anodo al catodo;
+	\item \(I_S\) è la corrente di saturazione inversa, ovvero la debole corrente che attraversa il diodo quando è collegato
+	in polarizzazione inversa (tipicamente dell'ordine di qualche nA);
+	\item \(\eta\) è il coefficiente di idealità del diodo, che dipende dal materiale e dal processo di fabbricazione (tipicamente
+	compreso tra 1 e 2);
+	\item \(V_T = k_B T / q\) è il potenziale termico (del valore di circa 25mV a temperatura ambiente).
+\end{itemize}
+\begin{minipage}{0.65\textwidth}
+Analizzando la curva caratteristica del diodo si osserva che in polarizzazione diretta (\(v_D > 0\)) la corrente cresce
+esponenzialmente con la tensione applicata, mentre in polarizzazione inversa (\(v_D < 0\)) la corrente si stabilizza ad un valore
+negativo pari a \(-I_S\).
+\end{minipage}
+\begin{minipage}{0.34\textwidth}
+	\centering
+	\includegraphics[width=0.8\textwidth]{immagini/3_giunzioni_pn_e_diodi/diodo_2.png}
+\end{minipage}
+
+\subsubsection*{Capacità della giunzione in polarizzazione inversa}
+Analizzando la carica elettrica presente nella regione di carica spaziale di una giunzione pn in polarizzazione inversa si osserva che:
+\[\begin{array}{l}
+	Q_n = q N_D x_n = q N_D \frac{N_A}{N_A + N_D} W = \sqrt{2 q \varepsilon (V_0 - V_A) \frac{N_A N_D}{N_A + N_D}} \\
+	Q_p = q N_A x_p = q N_A \frac{N_D}{N_A + N_D} W = \sqrt{2 q \varepsilon (V_0 - V_A) \frac{N_A N_D}{N_A + N_D}}
+\end{array} \qquad Q_n = -Q_p\]
+Si osserva quindi che la carica dipende dalla tensione applicata \(V_A\). La giunzione pn in polarizzazione inversa equivale ad un
+condensatore con capacità non lineare data da:
+\[C = \frac{dQ}{dV_A} = \sqrt{\frac{q \varepsilon}{2(V_0 - V_A)} \frac{N_A N_D}{N_A + N_D}} = \frac{\varepsilon}{W}\]
+
+\newpage
+
+\subsubsection*{Coefficiente di idealità}
+\begin{minipage}{0.65\textwidth}
+	Facendo variare il coefficiente di idealità \(\eta\) tra 1 e 2 si osserva che avvene una traslazione orizzontale della curva
+	caratteristica del diodo. Minore è il valore di \(\eta\), più la curva sale rapidamente in polarizzazione diretta. In genere
+	si utilizza \(\eta = 1\) per correnti basse e \(\eta = 2\) per correnti elevate.
+	\vspace{1.2cm}
+\end{minipage}
+\begin{minipage}{0.34\textwidth}
+	\centering
+	\includegraphics[width=0.77\textwidth]{immagini/3_giunzioni_pn_e_diodi/diodo_3.png}
+\end{minipage}
+
+\subsubsection*{Modello semplificato del diodo}
+Si osserva che la curva caratteristica del diodo può essere approssimata con un modello semplificato definito in funzione della
+tensione applicata \(v_D\) e di conseguenza della polarizzazione del diodo:
+\begin{itemize}
+	\item per \(v_D < V_{ON} \rightarrow i_D = 0\) il diodo è in interdizione e si comporta come un circuito aperto in condizioni
+	stazionarie oppure come condensatore non lineare in condizioni non stazionarie;
+	\item per \(v_D = V_{ON} \rightarrow i_D > 0\) il diodo è in conduzione e si comporta come un generatore ideale di tensione
+	con tensione \(V_{ON}\).
+\end{itemize}
+La tensione \(V_{ON}\) è detta tensione di soglia del diodo e divide le due regioni di funzionamento. Tipicamente per un diodo
+al silicio si assume \(V_{ON} = 0.7V\), mentre per un diodo al germanio si assume \(V_{ON} = 0.3V\).
+
+\begin{center}
+	\includegraphics[width=0.7\textwidth]{immagini/3_giunzioni_pn_e_diodi/diodo_4.png}
+\end{center}
+
+\vspace{0.3cm}
+
+\subsection{Applicazioni speciali dei diodi}
+\subsubsection*{Applicazioni generali}
+I diodi sono componenti fondamentali in molti circuiti elettronici e trovano applicazione in diversi ambiti:
+\begin{itemize}
+	\item \textbf{raddrizzatori}: i diodi vengono utilizzati nei circuiti raddrizzatori per convertire la corrente alternata (AC)
+	in corrente continua (DC), permettendo il funzionamento di dispositivi elettronici alimentati a corrente continua;
+	\item \textbf{protezione da inversioni di polarità}: i diodi proteggono i circuiti elettronici da danni causati da inversioni
+	accidentali di polarità della tensione di alimentazione;
+	\item \textbf{limitatori di tensione}: i diodi limitano la tensione in un circuito, proteggendo i componenti sensibili
+	da sovratensioni;
+	\item \textbf{LED (Light Emitting Diode)}: i diodi LED emettono luce quando attraversati da corrente elettrica, trovando
+	applicazione in display, indicatori luminosi e illuminazione;
+	\item \textbf{fotorilevatore}: i diodi a semiconduttore possono essere utilizzati come sensori di luce, convertendo l'energia
+	luminosa in corrente elettrica.
+\end{itemize}
+
+\newpage
+
+\subsubsection*{Fotodiodo}
+Il fotodiodo è una giunzione pn collegata in polarizzazione inversa con l'area di svuotamento esposta alla luce. Quando la luce
+colpisce la regione di svuotamento, genera coppie elettrone-lacuna (fotogenerazione) che vengono separate dal campo elettrico
+presente nella regione, generando una corrente detta fotocorrente. La fotocorrente è proporzionale all'intensità della luce
+incidente. Viene utilizzato in applicazioni come sensori di luce e telecomunicazioni ottiche.
+\[i_\text{D} = I_S \left(e^{\tfrac{v_D}{\eta V_T}} - 1\right) - I_{PH} \qquad\qquad I_{PH} = R \cdot P_0 \qquad\qquad \begin{array}{l}
+	I_{PH}: \text{ fotocorrente (A)} \\
+	P_0: \text{ potenza ottica incidente (W)} \\
+	R: \text{ responsività (A/W)}
+\end{array}\]
+La curva caratteristica risulta spostata verso il basso di un valore pari alla fotocorrente \(I_{PH}\). È possibile schematizzare
+un fotodiodo come un diodo ideale in parallelo ad una sorgente di corrente pari a \(I_{PH}\).
+
+\begin{center}
+	\includegraphics[width=0.7\textwidth]{immagini/3_giunzioni_pn_e_diodi/diodo_5.png}
+\end{center}
+
+\subsubsection*{LED (Light Emitting Diode) o diodi a emissione luminosa}
+I LED sono giunzioni pn in polarizzazione diretta con l'area di svuotamento \say{scoperta}. Quando una corrente attraversa il LED,
+le lacune dalla regione p si ricombinano con gli elettroni dalla regione n nella regione di svuotamento, rilasciando energia sotto
+forma di fotoni (emissione di luce).
+
+La lunghezza d'onda della luce emessa dipende dalla differenza di energia tra la banda di conduzione e la banda di valenza
+(energy gap) propria di ogni semiconduttore. Si utilizzano, infatti, semiconduttori diversi per ottenere colori diversi.
+
+Un parametro importante è la tensione di accensione \(V_{ON}\) dei LED, ovvero la tensione a cui il LED inizia a emettere luce.
+In genere è superiore alla tensione di soglia in quanto non basta fornire energia per permettere il passaggio della corrente, ma
+è necessario fornire energia sufficiente per permettere l'emissione dei fotoni.
+\[V_{ON} > \frac{hc}{\lambda q} \qquad \begin{array}{l}
+	h: \text{ costante di Planck} (6.626 \times 10^{-34} \J\s) \\
+	c: \text{ velocità della luce} (3.0 \times 10^{8} \m/\s) \\
+	\lambda: \text{ lunghezza d'onda della luce emessa} \\
+	q: \text{ carica dell'elettrone } (1.6 \times 10^{-19} \C)
+\end{array} \quad \begin{array}{l l}
+	\lambda = 620 \;\nm\; \text{(rosso)} & V_{ON} \approx 2.0 - 2.2 \V \\
+	\lambda = 520 \;\nm\; \text{(giallo)} & V_{ON} \approx 2.1 - 2.2 \V \\
+	\lambda = 510 \;\nm\; \text{(verde)} & V_{ON} \approx 2.5 - 3.3 \V \\
+	\lambda = 470 \;\nm\; \text{(blu)} & V_{ON} \approx 3.2 - 3.3 \V
+\end{array}\]
+Non esiste nessun semiconduttore che emetta luce bianca: per creare un \say{LED bianco} si utilizza un LED blu con un rivestimento
+di fosforo (giallo) che converte parte della luce blu in luce gialla. Dalla combinazione delle due luci si ottiene la luce bianca
+percepita dall'occhio umano. In base alla quantità di fosforo utilizzata si possono ottenere diverse tonalità di bianco (caldo,
+neutro, freddo).
+
+\begin{center}
+	\includegraphics[width=0.27\textwidth]{immagini/3_giunzioni_pn_e_diodi/diodo_6.png}
+\end{center}

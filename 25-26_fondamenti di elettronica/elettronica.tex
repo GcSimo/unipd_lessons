@@ -12,6 +12,7 @@
 \usepackage{graphicx} % per immagini
 \usepackage{multicol} % per pagina in colonne
 \usepackage{dirtytalk} % per le ""
+\usepackage{circuitikz} % per disegni di circuiti elettrici
 
 % per margini
 \geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
@@ -28,8 +29,24 @@
 % percorso delle immagini da inserire
 \graphicspath{{./}}
 
+% unità di misura
+\newcommand\m{\text{m}} % metri
+\newcommand\cm{\text{cm}} % centimetri
+\newcommand\mm{\text{mm}} % millimetri
+\newcommand\nm{\text{nm}} % nanometri
+\newcommand\s{\text{s}} % secondi
+\newcommand\V{\text{V}} % volt
+\newcommand\A{\text{A}} % ampere
+\newcommand\C{\text{C}} % coulomb
+\newcommand\F{\text{F}} % farad
+\newcommand\J{\text{J}} % joule
+\newcommand\W{\text{W}} % watt
+
+% cdot compatto
+\newcommand\ccdot{\!\cdot\!}
 
 % --- altro che si può eliminare ---
+
 
 \title{Appunti di Fondamenti di elettronica}
 \author{Giacomo Simonetto}
@@ -48,9 +65,9 @@
 
 \newpage
 
-\include{paragrafi/0_introduzione}
-\include{paragrafi/1_semiconduttori}
-\include{paragrafi/2_diodo}
+%\include{paragrafi/0_introduzione}
+%\include{paragrafi/1_semiconduttori}
+%\include{paragrafi/2_diodo}
 \include{paragrafi/3_mosfet}
 
 \end{document}
