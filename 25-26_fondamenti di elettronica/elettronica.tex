@@ -13,6 +13,7 @@
 \usepackage{multicol} % per pagina in colonne
 \usepackage{dirtytalk} % per le ""
 \usepackage{circuitikz} % per disegni di circuiti elettrici
+\usepackage{calc} % per calcoli con le coordinate
 
 % per margini
 \geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
@@ -25,6 +26,7 @@
 
 % per elenchi puntati
 \setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
+\setlist[enumerate]{partopsep=0pt, topsep=3pt, itemsep=0pt}
 
 % percorso delle immagini da inserire
 \graphicspath{{./}}
@@ -35,6 +37,7 @@
 \newcommand\mm{\text{mm}} % millimetri
 \newcommand\nm{\text{nm}} % nanometri
 \newcommand\s{\text{s}} % secondi
+\newcommand\ps{\text{ps}} % picosecondi
 \newcommand\V{\text{V}} % volt
 \newcommand\A{\text{A}} % ampere
 \newcommand\C{\text{C}} % coulomb
@@ -65,9 +68,16 @@
 
 \newpage
 
-%\include{paragrafi/0_introduzione}
-%\include{paragrafi/1_semiconduttori}
-%\include{paragrafi/2_diodo}
-\include{paragrafi/3_mosfet}
+%\include{paragrafi/1_introduzione}
+%\include{paragrafi/2_semiconduttori}
+%\include{paragrafi/3_diodo}
+%\include{paragrafi/4_mosfet}
+%\include{paragrafi/5_circuiti_mosfet}
+\include{paragrafi/6_segnali_digitali}
+%\include{paragrafi/7_invertitore}
+%\include{paragrafi/8_logica_statica_complementare}
+%\include{paragrafi/9_pass_transistor}
+%\include{paragrafi/10_tecniche_di_fabbricazione}
+
 
 \end{document}
