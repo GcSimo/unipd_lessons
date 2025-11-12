@@ -277,7 +277,7 @@ Il transistor si comporta come una resistenza non lineare (dipendente da \(V_{GS
 			V_{GS} &> V_{TN} + V_{DS} & \text{source in conduzione}
 		\end{align*}
 		\[I_{DS} = k_n V_{DS} \left( V_{GS} - V_{TN} - \frac{V_{DS}}{2} \right)\]
-		\[k_n = k_n' \cdot Z_n \qquad k_n' = \mu_n \varepsilon / T_{OX} \qquad Z_n = L/W\]
+		\[k_n = k_n' \cdot Z_n \qquad k_n' = \mu_n \varepsilon / T_{OX} \qquad Z_n = W_n/L_n\]
 	\end{minipage}
 \end{center}
 
@@ -304,7 +304,7 @@ nella RCS spinti dal campo elettrico tra source e drain. In questo modo si ha ug
 			&\rightarrow \;\; V_{DS} > V_{GS} - V_{TN}
 		\end{align*}
 		\[I_{DS} = \frac{k_n}{2} (V_{GS} - V_{TN})^2\]
-		\[k_n = k_n' \cdot Z_n \qquad k_n' = \mu_n \varepsilon / T_{OX} \qquad Z_n = L/W\]
+		\[k_n = k_n' \cdot Z_n \qquad k_n' = \mu_n \varepsilon / T_{OX} \qquad Z_n = W_n/L_n\]
 	\end{minipage}
 \end{center}
 
@@ -434,7 +434,7 @@ equazione per la corrente \(I_{DS}\):
 	\item per \(V_{GS} < V_{TN}\) mosfet in interdizione e \(I_{DS} = 0\)
 	\item per \(V_{GS} > V_{TN}\) mosfet in conduzione con \(I_{DS}\) che dipende da \(V_{MIN}\):
 	\begin{align*}
-		I_{DS} &= k_n' Z_n V_{MIN} \left(V_{GS} - V_{TN} - \frac{V_{MIN}}{2}\right) (1 + \lambda_n V_{DS}) \qquad k_n' = \frac{\mu_n \varepsilon}{T_{OX}} \qquad Z_n = \frac{L}{W} \\
+		I_{DS} &= k_n' Z_n V_{MIN} \left(V_{GS} - V_{TN} - \frac{V_{MIN}}{2}\right) (1 + \lambda_n V_{DS}) \qquad k_n' = \frac{\mu_n \varepsilon}{T_{OX}} \qquad Z_n = \frac{W_n}{L_n} \\
 		V_{MIN} &= \min \left\{\begin{array}{l l}
 			V_{DS} & \text{regime lineare} \\
 			V_{GS} - V_{TN} & \text{saturazione per pinchoff} \\
@@ -505,7 +505,7 @@ Le aree di lavoro del PMOSFET sono analoghe a quelle del NMOSFET, ma con le pola
 	il condensatore è in regime di svuotamento e non c'è corrente tra drain e source \(I_{DS} = 0\)
 	\item \textbf{PMOSFET in conduzione lineare} per \(V_{DS} > V_{GS} - V_{TP} \; \Leftrightarrow \; 0 > V_{TP} > V_{GD} > V_{GS}\): \\
 	si ha una corrente \(I_{DS}\) tra source e drain data dal movimento delle lacune nel canale di tipo p
-	\[I_{DS} = k_p V_{DS} \left(V_{GS} - V_{TP} - \frac{V_{DS}}{2}\right) \qquad k_p = k_p' \cdot Z_p \qquad k_p' = \mu_p \varepsilon / T_{OX} \qquad Z_p = L/W\]
+	\[I_{DS} = k_p V_{DS} \left(V_{GS} - V_{TP} - \frac{V_{DS}}{2}\right) \qquad k_p = k_p' \cdot Z_p \qquad k_p' = \mu_p \varepsilon / T_{OX} \qquad Z_p = W_p/Z_p\]
 	\item \textbf{PMOSFET in saturazione per pinchoff} per \(V_{DS} < V_{GS} - V_{TP} \; \Leftrightarrow \; 0 > V_{GD} > V_{TP} > V_{GS}\): \\
 	il condensatore è in regime misto e si ha una corrente \(I_{DS}\) costante rispetto a \(V_{DS}\):
 	\[I_{DS} = \frac{k_p}{2} (V_{GS} - V_{TP})^2\]
@@ -576,7 +576,7 @@ Anche per il PMOSFET si può utilizzare un'unica equazione per la corrente \(I_{
 	\item per \(V_{GS} > V_{TP}\) mosfet in interdizione e \(I_{DS} = 0\)
 	\item per \(V_{GS} < V_{TP}\) mosfet in conduzione con \(I_{DS}\) che dipende da \(V_{MAX}\):
 	\begin{align*}
-		I_{DS} &= k_p' Z_p V_{MAX} \left(V_{GS} - V_{TP} - \frac{V_{MAX}}{2}\right) (1 + \lambda_p V_{DS}) \qquad k_p' = \frac{\mu_p \varepsilon}{T_{OX}} \qquad Z_p = \frac{L}{W} \\
+		I_{DS} &= k_p' Z_p V_{MAX} \left(V_{GS} - V_{TP} - \frac{V_{MAX}}{2}\right) (1 + \lambda_p V_{DS}) \qquad k_p' = \frac{\mu_p \varepsilon}{T_{OX}} \qquad Z_p = \frac{W_p}{L_p} \\
 		V_{MAX} &= \max \left\{\begin{array}{l l}
 			V_{DS} & \text{regime lineare} \\
 			V_{GS} - V_{TP} & \text{saturazione per pinchoff} \\

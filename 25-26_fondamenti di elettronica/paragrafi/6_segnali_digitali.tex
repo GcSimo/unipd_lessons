@@ -1,1 +1,207 @@
 \section{Breve cenno ai segnali digitali}
+\subsection{Segnali binari logici ed elettrici}
+
+\begin{itemize}
+	\item \textbf{segnale digitale}: segnale ad ampiezza discreta e a tempo discreto. Viene detto anche segnale numerico perché
+	tempo e ampiezza possono essere rappresentati con numeri
+	\item \textbf{segnale binario}: segnale digitale che può assumere solo due valori distinti, uno il negato dell'altro. In base
+	al dominio può essere rappresentato in modi diversi:
+	\begin{itemize}[topsep=0pt]
+		\item nel \textbf{dominio logico} è rappresentato con una variabile booleana che può assumere i valori logici
+		\textit{True} (1) e \textit{False} (0).
+		\item nel \textbf{dominio elettrico} è rappresentato con due livelli di tensione distinti, uno alto \(V_H\) (HIGH)
+		e uno basso \(V_L\) (LOW), che corrispondono al potenziale più alto e più basso del circuito.
+	\end{itemize}
+\end{itemize}
+
+\subsection{Circuiti e porte logiche}
+Un \textbf{circuito logico} è un componente elettronico che elabora segnali digitali binari ed è formato da più transistor.
+È costituito da uno o più ingressi e da una o più uscite che possono assumere i due valori di tensione \(V_H\) e \(V_L\).
+In particolare il valore dell'uscita è esprimibile come funzione logica degli ingressi.
+
+Esistono due famiglie di circuiti logici:
+\begin{itemize}
+	\item \textbf{circuiti combinatori}: l'uscita dipende solo dagli ingressi in un dato istante di tempo
+	\item \textbf{circuiti sequenziali}: l'uscita dipende dagli ingressi in un dato istante di tempo e anche dall'uscita
+	dell'istante precedente, vengono anche detti circuiti con memoria.
+\end{itemize}
+
+Per semplificare la notazione si assumono le seguenti convenzioni sui livelli di tensione:
+\begin{itemize}
+	\item il livello logico alto è rappresentato con \(V_{H} = V_{DD} > 0\), ovvero il potenziale maggiore del circuito;
+	\item il livello logico basso è rappresentato con \(V_{L} = 0 \V \), ovvero il potenziale minore del circuito;
+	\item si nominano i nodi delle reti logiche con variabili booleane \(A, B, C, \ldots\) per indicare che i valori di potenziale
+	che possono assumere sono \(V_L = 0 \V\) o \(V_H = V_{DD}\).
+\end{itemize}
+
+\subsubsection*{Porte logiche e circuiti logici fondamentali}
+Una \textbf{porta logica} è un circuito logico combinatorio che implementa una specifica funzione logica booleana.
+Di seguito sono riportate le porte logiche e i circuiti logici fondamentali.
+
+\begin{center}
+	\begin{tabular}{ l | c | c | c | c }
+		\textbf{circuito} & Funzione identità & Porta AND & Porta OR & Porta XOR \\
+		\toprule
+		\textbf{simbolo} & \begin{circuitikz}
+			\ctikzset{logic ports=ieee}
+			\draw (0,0) node[buffer port, scale=0.8] (ID) {} (ID.in) node[left] {A} (ID.out) node[right] {Y};
+		\end{circuitikz} & \begin{circuitikz}
+			\ctikzset{logic ports=ieee}
+			\draw (0,0) node[and port, scale=0.8] (AND) {} (AND.in 1) node[left] {A} (AND.in 2) node[left] {B} (AND.out) node[right] {Y};
+		\end{circuitikz} & \begin{circuitikz}
+			\ctikzset{logic ports=ieee}
+			\draw (0,0) node[or port, scale=0.8] (OR) {} (OR.in 1) node[left] {A} (OR.in 2) node[left] {B} (OR.out) node[right] {Y};
+		\end{circuitikz} & \begin{circuitikz}
+			\ctikzset{logic ports=ieee}
+			\draw (0,0) node[xor port, scale=0.8] (XOR) {} (XOR.in 1) node[left] {A} (XOR.in 2) node[left] {B} (XOR.out) node[right] {Y};
+		\end{circuitikz} \\
+		\midrule
+		\textbf{funzione} & \(Y = A\) & \(Y = A \cdot B\) & \(Y = A + B\) & \(Y = A \oplus B\) \\
+		\midrule
+		\textbf{tab. di verità} &
+		\begin{tabular}{c | c}
+			A & Y \\
+			\toprule
+			0 & 0 \\
+			1 & 1 \\
+		\end{tabular} & \begin{tabular}{c c | c}
+			A & B & Y \\
+			\toprule
+			0 & 0 & 0 \\
+			0 & 1 & 0 \\
+			1 & 0 & 0 \\
+			1 & 1 & 1 \\
+		\end{tabular} &
+		\begin{tabular}{c c | c}
+			A & B & Y \\
+			\toprule
+			0 & 0 & 0 \\
+			0 & 1 & 1 \\
+			1 & 0 & 1 \\
+			1 & 1 & 1 \\
+		\end{tabular} &
+		\begin{tabular}{c c | c}
+			A & B & Y \\
+			\toprule
+			0 & 0 & 0 \\
+			0 & 1 & 1 \\
+			1 & 0 & 1 \\
+			1 & 1 & 0 \\
+		\end{tabular} \\
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{ l | c | c | c | c }
+		\textbf{circuito} & Invertitore NOT & Porta NAND & Porta NOR & Porta XNOR \\
+		\toprule
+		\textbf{simbolo} & \begin{circuitikz}
+			\ctikzset{logic ports=ieee}
+			\draw (0,0) node[not port, scale=0.8] (NOT) {} (NOT.in) node[left] {A} (NOT.out) node[right] {Y};
+		\end{circuitikz} & \begin{circuitikz}
+			\ctikzset{logic ports=ieee}
+			\draw (0,0) node[nand port, scale=0.8] (NAND) {} (NAND.in 1) node[left] {A} (NAND.in 2) node[left] {B} (NAND.out) node[right] {Y};
+		\end{circuitikz} & \begin{circuitikz}
+			\ctikzset{logic ports=ieee}
+			\draw (0,0) node[nor port, scale=0.8] (NOR) {} (NOR.in 1) node[left] {A} (NOR.in 2) node[left] {B} (NOR.out) node[right] {Y};
+		\end{circuitikz} & \begin{circuitikz}
+			\ctikzset{logic ports=ieee}
+			\draw (0,0) node[xnor port, scale=0.8] (XNOR) {} (XNOR.in 1) node[left] {A} (XNOR.in 2) node[left] {B} (XNOR.out) node[right] {Y};
+		\end{circuitikz} \\
+		\midrule
+		\textbf{funzione} & \(Y = \overline{A}\) & \(Y = \overline{A \cdot B}\) & \(Y = \overline{A + B}\) & \(Y = \overline{A \oplus B}\) \\
+		\midrule
+		\textbf{tab. di verità} &
+		\begin{tabular}{c | c}
+			A & Y \\
+			\toprule
+			0 & 1 \\
+			1 & 0 \\
+		\end{tabular} & \begin{tabular}{c c | c}
+			A & B & Y \\
+			\toprule
+			0 & 0 & 1 \\
+			0 & 1 & 1 \\
+			1 & 0 & 1 \\
+			1 & 1 & 0 \\
+		\end{tabular} &
+		\begin{tabular}{c c | c}
+			A & B & Y \\
+			\toprule
+			0 & 0 & 1 \\
+			0 & 1 & 0 \\
+			1 & 0 & 0 \\
+			1 & 1 & 0 \\
+		\end{tabular} &
+		\begin{tabular}{c c | c}
+			A & B & Y \\
+			\toprule
+			0 & 0 & 1 \\
+			0 & 1 & 0 \\
+			1 & 0 & 0 \\
+			1 & 1 & 1 \\
+		\end{tabular}
+	\end{tabular}
+\end{center}
+
+\newpage
+
+\begin{center}
+	\begin{tabularx}{\textwidth}{ m{3cm} | >{\centering\arraybackslash}m{4cm} | X }
+		\textbf{circuito} & \textbf{simbolo} & \textbf{descrizione} \\
+		\toprule
+		\textbf{Multiplexer (MUX)} & \begin{circuitikz}
+			\draw (0, 0) node[muxdemux, muxdemux def={w=2, Rh=4, Lh=5.5, NL=8, NR=1, NB=0, NT=3}, anchor=center] (MUX) {MUX};
+			\draw (MUX.lpin 1) node[left] {$D_0$}; \draw (MUX.lpin 2) node[left] {$D_1$}; \draw (MUX.lpin 3) node[left] {$D_2$}; \draw (MUX.lpin 4) node[left] {$D_3$};
+			\draw (MUX.lpin 5) node[left] {$D_4$}; \draw (MUX.lpin 6) node[left] {$D_5$}; \draw (MUX.lpin 7) node[left] {$D_6$}; \draw (MUX.lpin 8) node[left] {$D_7$};
+			\draw (MUX.tpin 1) node[above] {$S_1$}; \draw (MUX.tpin 2) node[above] {$S_0$}; \draw (MUX.tpin 3) node[above] {$S_2$}; \draw (MUX.rpin 1) node[right] {Y};
+		\end{circuitikz} & Dispositivo che seleziona quale tra \(2^n\) segnali di ingresso \(D_0, D_1, \ldots, D_{2^n-1}\)
+		trasmettere alla porta di uscita \(Y\), tramite \(n\) segnali di controllo \(S_0, S_1, \ldots, S_{n-1}\). \\
+		\midrule
+		\textbf{Decoder (DEC)} & \begin{circuitikz}
+			\draw (0, 0) node[demux, muxdemux def={w=2, Rh=5.5, Lh=4, NR=8, NL=3, NB=0, NT=0}, anchor=center] (DEC) {DEC};
+			\draw (DEC.rpin 1) node[right] {$D_0$}; \draw (DEC.rpin 2) node[right] {$D_1$}; \draw (DEC.rpin 3) node[right] {$D_2$}; \draw (DEC.rpin 4) node[right] {$D_3$};
+			\draw (DEC.rpin 5) node[right] {$D_4$}; \draw (DEC.rpin 6) node[right] {$D_5$}; \draw (DEC.rpin 7) node[right] {$D_6$}; \draw (DEC.rpin 8) node[right] {$D_7$};
+			\draw (DEC.lpin 1) node[left] {$A_0$}; \draw (DEC.lpin 2) node[left] {$A_1$}; \draw (DEC.lpin 3) node[left] {$A_2$};
+		\end{circuitikz} & Dispositivo che decodifica un segnale di ingresso \(A\) di \(n\) bit in \(2^n\) segnali di uscita
+		\(D_0, D_1, \ldots, D_{2^n-1}\), attivando solo l'uscita corrispondente al valore binario di \(A\). \\
+		\midrule
+		\textbf{Half Adder (HA)} & \begin{circuitikz}
+			\draw (0, 0) node[demux, muxdemux def={w=2.5, Lh=2, Rh=2, NR=1, NL=0, NB=1, NT=2}, anchor=center] (HA) {H.A.};
+			\draw (HA.tpin 1) node[above] {$A$}; \draw (HA.tpin 2) node[above] {$B$};
+			\draw (HA.rpin 1) node[right] {$C_{OUT}$}; \draw (HA.bpin 1) node[below] {$S$};
+		\end{circuitikz} & Circuito che somma due bit \(A\) e \(B\), producendo una somma \(S\) e una riporto \(C\).: \[C_{OUT} = A \cdot B \qquad S = A \oplus B\] \\
+		\midrule
+		\textbf{Full Adder (FA)} & \begin{circuitikz}
+			\draw (0, 0) node[demux, muxdemux def={w=2.5, Lh=2, Rh=2, NR=1, NL=1, NB=1, NT=2}, anchor=center] (FA) {F.A.};
+			\draw (FA.tpin 1) node[above] {$A$}; \draw (FA.tpin 2) node[above] {$B$}; \draw (FA.rpin 1) node[right] {$C_{OUT}$};
+			\draw (FA.bpin 1) node[below] {$S$}; \draw (FA.lpin 1) node[left] {$C_{IN}$};
+		\end{circuitikz} & Circuito che somma due bit \(A\) e \(B\) con un riporto in ingresso \(C_{IN}\), producendo una somma \(S\) e un riporto in uscita \(C_{OUT}\): \[C_{OUT} = A \cdot B + C_{IN} \cdot (A + B) \quad S = A \oplus B \oplus C_{IN}\] \\
+		\bottomrule
+	\end{tabularx}
+\end{center}
+
+\subsection{Parametri dinamici dei circuiti logici}
+Per misurare le prestazioni di un circuito logico si usano i seguenti parametri dinamici:
+\begin{itemize}
+	\item \textbf{tempo di commutazione}: tempo impiegato dall'uscita di un circuito logico per cambiare stato (grafico a sinistra).
+	Si distinguono due tempi di commutazione:
+	\begin{itemize}[topsep=0pt]
+		\item \(t_{f}\): tempo di discesa, dal 90\% (alto) al 10\% (basso) dell'escursione totale
+		\item \(t_{r}\): tempo di salita, dal 10\% (basso) al 90\% (alto) dell'escursione totale
+	\end{itemize}
+	\item \textbf{tempo di propagazione} \(t_p\): tempo medio di propagazione del segnale dall'ingresso all'uscita del circuito
+	logico (grafico a destra). Si distinguono due tempi di propagazione:
+	\begin{itemize}[topsep=0pt]
+		\item \(t_{pLH}\): tempo di propagazione con l'uscita che passa da livello logico basso a livello logico alto
+		\item \(t_{pHL}\): tempo di propagazione con l'uscita che passa da livello logico alto a livello logico basso
+	\end{itemize}
+\end{itemize}
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/6_segnali_digitali/commutazione}
+	\end{minipage}
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/6_segnali_digitali/propagazione}
+	\end{minipage}
+\end{center}
