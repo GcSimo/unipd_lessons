@@ -1,1 +1,443 @@
 \section{Logica statica complementare}
+\subsection{Reti duali}
+\subsubsection*{Rete di pull-up e rete di pull-down}
+Il principio alla base della logica statica complementare è quello di basarsi sulla struttura dell'invertitore cmos e
+generalizzarla per realizzare qualsiasi funzione logica combinatoria, in modo da sfruttare i vantaggi dell'invertitore:
+\begin{itemize}
+	\item resistenza di ingresso infinita;
+	\item consumo di potenza praticamente nullo in stato stazionario;
+	\item elevata immunità al rumore, proprietà rigenerativa del segnale;
+	\item la soglia logica e il tempo di propagazione intrinseci dipendono solo da \(Z_p/Z_n\).
+\end{itemize}
+Per fare ciò, si sfrutta la presenza di due reti complementari: la rete di pull-up (PUN), costituita da mosfet di tipo
+p, e la rete di pull-down (PDN), costituita da mosfet di tipo n che si attivano in modo complementare per caricare o scaricare
+il nodo di uscita.
+
+\subsubsection*{Serie e paralleli di mosfet}
+\begin{center}
+	\begin{tabular}{>{\centering\arraybackslash}m{2cm} >{\centering\arraybackslash}m{2.9cm} >{\centering\arraybackslash}m{2.9cm} >{\centering\arraybackslash}m{2.9cm} >{\centering\arraybackslash}m{2.9cm}}
+		\textbf{tipo di circuito} & \textbf{serie di nmos} & \textbf{parallelo di nmos} & \textbf{serie di pmos} & \textbf{parallelo di pmos}\\
+		\toprule
+		\textbf{schema circuitale} & \begin{circuitikz}
+			\node[nmos, anchor=D, rotate=-90] (M1) at (0,0) {};
+			\node[nmos, anchor=D, rotate=-90] (M2) at (1.2,0) {};
+			\draw (M1.D) -- (M2.S);
+			\draw (M1.G) node[above] {\(A\)};
+			\draw (M2.G) node[above] {\(B\)};
+		\end{circuitikz} & \begin{circuitikz}
+			\node[nmos, anchor=D, rotate=-90] (M1) at (0,0.2) {};
+			\node[nmos, anchor=S, rotate=90] (M2) at (0,-0.2) {};
+			\draw (M1.S) -- (M2.D);
+			\draw (M1.D) -- (M2.S);
+			\draw (M1.D) ++(0,-0.2) -- ++(0.5,0);
+			\draw (M1.S) ++(0,-0.2) -- ++(-0.5,0);
+			\draw (M1.G) node[above] {\(A\)};
+			\draw (M2.G) node[below] {\(B\)};
+		\end{circuitikz} & \begin{circuitikz}
+			\ctikzset{tripoles/pmos style/emptycircle}
+			\node[pmos, anchor=D, rotate=-90] (M1) at (0,0) {};
+			\node[pmos, anchor=D, rotate=-90] (M2) at (1.2,0) {};
+			\draw (M1.S) -- (M2.D);
+			\draw (M1.G) node[above] {\(A\)};
+			\draw (M2.G) node[above] {\(B\)};
+		\end{circuitikz} &  \begin{circuitikz}
+			\ctikzset{tripoles/pmos style/emptycircle}
+			\node[pmos, anchor=D, rotate=-90] (M1) at (0,0.2) {};
+			\node[pmos, anchor=S, rotate=90] (M2) at (0,-0.2) {};
+			\draw (M1.S) -- (M2.D);
+			\draw (M1.D) -- (M2.S);
+			\draw (M1.D) ++(0,-0.2) -- ++(-0.5,0);
+			\draw (M1.S) ++(0,-0.2) -- ++(0.5,0);
+			\draw (M1.G) node[above] {\(A\)};
+			\draw (M2.G) node[below] {\(B\)};
+		\end{circuitikz} \\
+		\midrule
+		\textbf{funzione logica} & \(\begin{array}{c}
+			\text{AND} \\[6pt]
+			A \cdot B
+		\end{array}\) & \(\begin{array}{c}
+			\text{OR} \\[6pt]
+			A + B
+		\end{array}\) & \(\begin{array}{c}
+			\text{NOR} \\[6pt]
+			\overline{A + B}
+		\end{array}\) & \(\begin{array}{c}
+			\text{NAND} \\[6pt]
+			\overline{A \cdot B}
+		\end{array}\) \\
+		\midrule
+		\textbf{tabella di verità} & \begin{tabular}{c c | c}
+			\(A\) & \(B\) & \(V_{out}\) \\
+			\midrule
+			0 & 0 & 0 \\
+			0 & 1 & 0 \\
+			1 & 0 & 0 \\
+			1 & 1 & 1 \\
+		\end{tabular} &
+		\begin{tabular}{c c | c}
+			\(A\) & \(B\) & \(V_{out}\) \\
+			\midrule
+			0 & 0 & 0 \\
+			0 & 1 & 1 \\
+			1 & 0 & 1 \\
+			1 & 1 & 1 \\
+		\end{tabular}  &
+		\begin{tabular}{c c | c}
+			\(A\) & \(B\) & \(V_{out}\) \\
+			\midrule
+			0 & 0 & 1 \\
+			0 & 1 & 0 \\
+			1 & 0 & 0 \\
+			1 & 1 & 0 \\
+		\end{tabular} &
+		\begin{tabular}{c c | c}
+			\(A\) & \(B\) & \(V_{out}\) \\
+			\midrule
+			0 & 0 & 1 \\
+			0 & 1 & 1 \\
+			1 & 0 & 1 \\
+			1 & 1 & 0 \\
+		\end{tabular}
+	\end{tabular}
+\end{center}
+
+\subsubsection*{Interruttore duale o complementare}
+Due interruttori pilotati dallo stesso segnale sono duali o complementari se fissato un qualunque valore del segnale uno e uno
+solo dei due è acceso. Un esempio di interruttori duali sono un nmos e un pmos pilotati dallo stesso segnale, come avviene
+in un invertitore cmos.
+
+\subsubsection*{Rete duale}
+Una rete duale è l'estensione del concetto di interruttori duali ad una rete di interruttori. Due reti pilotate dagli stessi
+ingressi sono duali se e solo se per ogni combinazione di ingressi una e una sola delle due reti è attiva. Il principio delle
+reti duali è alla base delle reti di pull-up e pull-down nella logica statica complementare. Da una rete di nmos si può ottenere
+la rete duale di pmos sostituendo ogni serie di nmos con un parallelo di pmos e viceversa.
+
+\newpage
+
+\subsection{Implementazione di porte logiche elementari}
+\subsubsection*{Principio generale}
+Data una funzione logica con \(N\) ingressi \(F(A,B,C, \dots)\), si osserva che:
+\begin{itemize}
+	\item per ogni combinazione di ingressi per cui \(F(\dots) = 0\), l'uscita della porta logica deve essere \(0 \V\), ovvero
+	la rete di pull-down (PDN) deve essere attiva e collegare l'uscita a massa;
+	\item per ogni combinazione di ingressi per cui \(F(\dots) = 1\), l'uscita della porta logica deve essere \(V_{DD}\), ovvero
+	la rete di pull-up (PUN) deve essere attiva e collegare l'uscita a \(V_{DD}\).
+\end{itemize}
+
+\noindent
+Per implementare una porta logica con logica statica complementare si segue il seguente procedimento:
+\begin{enumerate}
+	\item si costruisce la rete di pull-down (PDN), che implementa la funzione logica \(X = \overline{F}\)
+	\item si costruisce la rete di pull-up (PUN), duale della PDN che implementa la funzione logica \(F\)
+	\item infine si collega la PUN tra \(V_{DD}\) e l'uscita, e la PDN tra l'uscita e massa
+\end{enumerate}
+
+\subsubsection*{Esempio di porte logiche elementari invertenti}
+\begin{center}
+	\begin{tabular}{>{\centering\arraybackslash}m{2cm} >{\centering\arraybackslash}m{4cm} >{\centering\arraybackslash}m{4cm}}
+		\textbf{tipo di circuito} & \textbf{porta NAND} & \textbf{porta NOR}\\
+		\toprule
+		\textbf{funzione logica} & \(\begin{array}{c}
+			F = \overline{A \cdot B} \\[6pt]
+			X = A \cdot B
+		\end{array}\) & \(\begin{array}{c}
+			F = \overline{A + B} \\[6pt]
+			X = A + B
+		\end{array}\) \\
+		\midrule
+		\textbf{simbolo logico} & \begin{circuitikz}
+			\ctikzset{logic ports=ieee}
+			\draw (0,0) node[nand port, anchor=in 1, scale=0.8] (AND1) {};
+			\draw (AND1.in 1) node[left] {\(A\)};
+			\draw (AND1.in 2) node[left] {\(B\)};
+			\draw (AND1.out) node[right] {\(V_{out}\)};
+		\end{circuitikz} & \begin{circuitikz}
+			\ctikzset{logic ports=ieee}
+			\draw (0,0) node[nor port, anchor=in 1, scale=0.8] (OR1) {};
+			\draw (OR1.in 1) node[left] {\(A\)};
+			\draw (OR1.in 2) node[left] {\(B\)};
+			\draw (OR1.out) node[right] {\(V_{out}\)};
+		\end{circuitikz} \\
+		\midrule
+		\textbf{rete di pull-up} & \begin{circuitikz}
+			\ctikzset{tripoles/pmos style/emptycircle}
+			\node[pmos, anchor=D] (M1) at (-0.2,0) {};
+			\node[pmos, anchor=S, rotate=180] (M2) at (0.2,0) {};
+			\draw (M1.S) -- (M2.D);
+			\draw (M1.D) -- (M2.S);
+			\draw (M1.D) ++(0.2,0) -- ++(0,-0.5);
+			\draw (M1.S) ++(0.2,0) -- ++(0,0.5);
+			\draw (M1.G) node[left] {\(A\)};
+			\draw (M2.G) node[right] {\(B\)};
+		\end{circuitikz} & \begin{circuitikz}
+			\ctikzset{tripoles/pmos style/emptycircle}
+			\node[pmos, anchor=D] (M1) at (0,0) {};
+			\node[pmos, anchor=D] (M2) at (0,1.1) {};
+			\draw (M1.S) -- (M2.D);
+			\draw (M2.G) node[left] {\(A\)};
+			\draw (M1.G) node[left] {\(B\)};
+		\end{circuitikz} \\
+		\midrule
+		\textbf{rete di pull-down} & \begin{circuitikz}
+			\node[nmos, anchor=D] (M1) at (0,0) {};
+			\node[nmos, anchor=D] (M2) at (0,1.1) {};
+			\draw (M1.D) -- (M2.S);
+			\draw (M2.G) node[left] {\(A\)};
+			\draw (M1.G) node[left] {\(B\)};
+		\end{circuitikz} & \begin{circuitikz}
+			\node[nmos, anchor=D] (M1) at (-0.2,0) {};
+			\node[nmos, anchor=S, rotate=180] (M2) at (0.2,0) {};
+			\draw (M1.S) -- (M2.D);
+			\draw (M1.D) -- (M2.S);
+			\draw (M1.D) ++(0.2,0) -- ++(0,0.5);
+			\draw (M1.S) ++(0.2,0) -- ++(0,-0.5);
+			\draw (M1.G) node[left] {\(A\)};
+			\draw (M2.G) node[right] {\(B\)};
+		\end{circuitikz} \\
+		\midrule
+		\textbf{porta logica completa} & \begin{circuitikz}
+			\ctikzset{tripoles/pmos style/emptycircle}
+			\node[pmos, anchor=D] (M1) at (-0.2,0) {};
+			\node[pmos, anchor=S, rotate=180] (M2) at (0.2,0) {};
+			\draw (M1.S) -- (M2.D);
+			\draw (M1.D) -- (M2.S);
+			\draw (M1.D) ++(0.2,0) node[](PUN){};
+			\draw (M1.S) ++(0.2,0) node[rground, rotate=180](VDD){};
+			\draw (M1.D) ++(0.2,-0.25) -- ++(1,0) node[right]{\(F\)};
+			\draw (M1.G) node[left] {\(A\)};
+			\draw (M2.G) node[right] {\(B\)};
+			\node at ($(VDD)+(0, 0.6)$) {\(V_{DD}\)};
+			\node[nmos, anchor=D] (M1) at (PUN) {};
+			\node[nmos, anchor=D] (M2) at ($(M1.S)+(0,0.5)$) {};
+			\draw (M1.G) node[left] {\(A\)};
+			\draw (M2.G) node[left] {\(B\)};
+			\draw (M2.S) ++(0,0.2) -- ++(0,0.1) node[sground]{};
+		\end{circuitikz} & \begin{circuitikz}
+			\ctikzset{tripoles/pmos style/emptycircle}
+			\ctikzset{tripoles/pmos style/emptycircle}
+			\node[nmos, anchor=D] (M1) at (-0.2,0) {};
+			\node[nmos, anchor=S, rotate=180] (M2) at (0.2,0) {};
+			\draw (M1.S) -- (M2.D);
+			\draw (M1.D) -- (M2.S);
+			\draw (M1.D) ++(0.2,0) node[](PDN){};
+			\draw (M1.S) ++(0.2,0) node[sground]{};
+			\draw (M1.D) ++(0.2,0.25) -- ++(1,0) node[right]{\(F\)};
+			\draw (M1.G) node[left] {\(A\)};
+			\draw (M2.G) node[right] {\(B\)};
+			\node[pmos, anchor=D] (M1) at (PDN) {};
+			\node[pmos, anchor=D] (M2) at ($(M1.S)+(0,-0.5)$) {};
+			\draw (M1.G) node[left] {\(A\)};
+			\draw (M2.G) node[left] {\(B\)};
+			\draw (M2.S) ++(0,-0.3) node[rground, rotate=180](VDD){};
+			\node at ($(VDD)+(0, 0.6)$) {\(V_{DD}\)};
+		\end{circuitikz}
+	\end{tabular}
+\end{center}
+
+\newpage
+
+\subsection{Funzioni invertenti e porte logiche non invertenti}
+\subsubsection*{Funzioni invertenti e non invertenti}
+\begin{itemize}
+	\item Una funzione logica \(F(X_1,X_2, \dots X_N)\) è invertente se facendo variare un ingresso \(X_i\) da \(0\) a \(1\),
+	dopo aver fissato gli altri ingressi, l'uscita \(F\) commuta nel verso opposto di \(X_i\) o rimane costante. Un esempio
+	di funzioni invertenti sono le porte NAND e NOR.
+	\item Una funzione logica \(F(X_1,X_2, \dots X_N)\) è non invertente se facendo variare un ingresso \(X_i\) da \(0\) a \(1\),
+	dopo aver fissato gli altri ingressi, l'uscita \(F\) commuta nello stesso verso di \(X_i\) o rimane costante. Un esempio
+	di funzioni non invertenti sono le porte AND e OR.
+	\item Una funzione può non essere né invertente né non invertente, ad esempio la funzione XOR.
+\end{itemize}
+
+\subsubsection*{Limiti della logica statica complementare}
+Con la logica statica complementare è possibile implementare direttamente solo funzioni invertenti, come NAND e NOR (illustrate
+sopra). Per implementare funzioni non invertenti, come AND e OR, è necessario aggiungere un ulteriore stadio di inversione
+all'uscita oppure agli ingressi della porta logica invertente.
+
+\subsubsection*{Esempi di porte logiche non invertenti}
+\begin{itemize}
+	\item AND non invertente: \(F = A \cdot B = \overline{\overline{A} + \overline{B}} = \overline{\overline{A \cdot B}}\)
+	è implementabile come una porta NOR con ingressi invertiti, oppure come una porta NAND seguita da un invertitore.
+	\item OR non invertente: \(F = A + B = \overline{\overline{A} \cdot \overline{B}} = \overline{\overline{A + B}}\)
+	è implementabile come una porta NAND con ingressi invertiti, oppure come una porta NOR seguita da un invertitore.
+\end{itemize}
+
+
+\subsection{Tempi di ritardo}
+%\subsubsection*{Calcolo delle capacità parassite e modello RC (NAND a 3 ingressi)}
+\subsubsection*{Ricerca del percorso peggiore e modello di Elmore}
+L'analisi dei tempi di ritardo di una porta logica a più ingressi consiste nell'analizzare la carica e scarica del nodo di uscita
+attraverso i percorsi di carica (nella PUN) e scarica (nella PDN) con resistenza equivalente massima, ovvero lungo il percorso peggiore.
+In genere il percorso peggiore è quello con maggior numero di mosfet in serie e minor numero di mosfet in parallelo.
+
+Una volta individuato il percorso peggiore, si modella il circuito come una rete di Elmore, in cui ogni mosfet viene rappresentato
+come una resistenza (\(R_n\) o \(R_p\)) collegata a massa attraverso una capacità complessiva del nodo interno. Una volta tracciata
+la rete di Elmore, è possibile calcolare il tempo di ritardo \(t_{pHL}\) usando la rete di scarica (PDN) e il tempo di ritardo \(t_{pLH}\)
+usando la rete di carica (PUN), secondo le formule del modello di Elmore.
+
+Di seguito l'esempio dell'individuazione dei percorsi peggiori nella PUN e PDN per il calcolo dei due tempi di ritardo \(t_{pLH}\)
+e \(t_{pHL}\) nel caso di una nand a 3 ingressi.
+\begin{center}
+	\begin{minipage}{0.52\textwidth}
+		\centering \includegraphics[width=\textwidth]{immagini/8_logica_statica_complementare/tp_1.png}
+
+		modellizzazione con resistenze e capacità
+	\end{minipage}
+	\begin{minipage}{0.23\textwidth}
+		\centering \includegraphics[width=\textwidth]{immagini/8_logica_statica_complementare/tp_2.png}
+
+		percorso peggiore della PUN per \(t_{pLH}\)
+	\end{minipage}
+	\begin{minipage}{0.23\textwidth}
+		\centering \includegraphics[width=\textwidth]{immagini/8_logica_statica_complementare/tp_3.png}
+
+		percorso peggiore della PDN per \(t_{pHL}\)
+	\end{minipage}
+\end{center}
+Per il caso sopra, i tempi di ritardo risultano:
+\[t_{pLH} = 0.69 \, R_p \, (C_{OUT} + C_F) \qquad t_{pHL} = 0.69 \, (R_n C_1 + 2R_n C_2 + 3R_n(C_{OUT} + C_L))\]
+\[\text{con} \quad C_1 = C_{dn,C} + C_{sn,B}, \quad C_2 = C_{dn,B} + C_{sn,A} \quad C_{OUT} = C_{dn,a} + C_{dp,A} + C_{dp,B} + C_{dp,C}\]
+
+\subsubsection*{Tempo di ritardo medio}
+Il tempo di ritardo medio \(t_p\) di una porta logica in statica complementare risulta:
+\[t_{p0} = \frac{t_{pHL0} + t_{pLH0}}{2} = 0.69 \frac{R_n(C_1 + 2C_2 + 3C_{OUT}) + R_p C_{OUT}}{2}\]
+\[t_p = t_{p0} + 0.69 \frac{3R_n + R_p}{2} C_L = 0.69 \, R_{OUT} \, C_L \qquad R_{OUT} = \frac{R_{PUN} + R_{PDN}}{2}\]
+
+\subsubsection*{Dipendenza dal numero di ingressi}
+Dalle formule del modello di Elmore per una porta logica a \(N\) ingressi (\(N\) mosfet in parallelo e altretttanti in serie),
+il tempo di ritardo intrinseco dipende quadraticamente dal numero di ingressi \(N\). Questo effetto non è desiderabile, in quanto
+porta ad un aumento significativo del tempo di ritardo al crescere del numero di ingressi della porta logica.
+\begin{align*}
+	t_{p0} &= 0.69\frac{R_n(C_1 + C_2 + \dots + (N-1)C_{N-1} + NC_{OUT}) + R_p C_{OUT}}{2} \qquad \text{con} \; C_{OUT} = C_{dn} + N C_{dp} \\
+	&= 0.69\frac{R_n(C_1 + C_2 + \dots + (N-1)C_{N-1} + N(C_{dn} + NC_{dp})) + R_p (C_{dn} + NC_{dp})}{2} \\
+	&= 0.69\frac{R_n(C_1 + C_2 + \dots + (N-1)C_{N-1} + NC_{dn} + \color{red}{\mathbf{N^2C_{dp}}}\color{black}) + R_p (C_{dn} + NC_{dp})}{2}
+\end{align*}
+Il contributo del carico esterno, invece, cresce linearmente con \(N\):
+\[t_p = t_{p0} + 0.69 \frac{\color{red}{NR_n}\color{black} + R_p}{2} C_L\]
+
+\begin{center}
+	\begin{minipage}{0.5\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/8_logica_statica_complementare/tp_4.png}
+	\end{minipage}
+	\begin{minipage}{0.48\textwidth}
+		Analizzando il grafico del tempo di ritardo in funzione del numero di ingressi per una porta logica NAND, \(t_p\) cresce
+		parabolicamente con \(N\).
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Bilanciamento PUN e PDN}
+Per uniformare il caso peggiore tra \(t_{pLH}\) e \(t_{pHL}\), si può agire sul rapporto \(Z_p/Z_n\) dei mosfet, per bilanciare
+le resistenze equivalenti della PUN e PDN al caso peggiore.
+\[R_{PU} = \alpha \frac{R_{p0}}{Z_p} \qquad R_{PD} = \beta \frac{R_{n0}}{Z_n} \qquad R_{PU} = R_{PD} \;\; \rightarrow \;\; Z_{p} = \frac{\alpha R_{p0}}{\beta R_{n0}} Z_n\]
+Si osserva che per ottimizzare il tempo di ritardo è possibile avere \(Z_p\) e \(Z_n\) minori per i mosfet che sono collegati
+direttamente al nodo di uscita (coinvolti nel termine quadratico) e maggiori per i mosfet più lontani dall'uscita.
+
+\subsubsection*{Tempo di ritardo di più porte logiche in cascata}
+Quando si collegano in cascata più porte logiche (ad esempio per realizzare funzioni non invertenti come AND = NAND + NOT e
+OR = NOR + NOT), il tempo di ritardo complessivo è dato dalla somma dei tempi di ritardo delle singole porte logiche.
+In particolare il pedice del tempo di ritardo \(t_{pHL}\) o \(t_{pLH}\) complessivo è determinato dall'uscita dell'ultima porta
+logica della catena. Ad esempio per una AND realizzata come NAND + NOT, il tempo di ritardo complessivo risulta:
+\[t_{pHL,A\!N\!D} = t_{pLH,N\!A\!N\!D} + t_{pHL,N\!OT} \qquad t_{pLH,A\!N\!D} = t_{pHL,N\!A\!N\!D} + t_{pLH,N\!OT}\]
+
+\subsection{Problema dei nodi interni}
+\subsubsection*{Problema dei nodi interni}
+Il problema dei nodi interni si verifica quando, a causa della presenza di nodi interni tra mosfet in serie, il tempo di ritardo
+aumenta in modo significativo siccome, insieme alla capacità di uscita, devono essere caricate/scaricate anche tutte le capacità
+parassite dei nodi interni. Il numero di nodi interni è legato al numero di ingressi della porta logica, e quindi il problema
+si aggrava al crescere del numero di ingressi.
+
+\subsubsection*{Soluzione 1: riordino degli ingressi}
+Si suppone che gli \(N\) ingressi di una porta logica provengano da altre reti combinatorie con tempi di ritardo diversi.
+Per cercare di contenere il problema dei nodi interni, si può riordinare gli ingressi in modo che la rete combinatoria con
+tempo di ritardo minore venga collegato al mosfet più vicino a massa (o a \(V_{DD}\) nella PUN) e la rete con tempo di ritardo
+maggiore venga collegata al mosfet più lontano dall'uscita. In questo modo, quando la rete più lenta commuta, le reti più veloci
+hanno già precaricato/scaricato i nodi interni e l'unica capacità da caricare/scaricare è quella di uscita.
+
+\subsubsection*{Soluzione 2: suddivisione in più stadi}
+Quando il numero di ingressi resta comunque elevato, è possibile risolvere la questione dei nodi interni suddividendo la porta
+logica in più stadi di porte logiche con meno ingressi ciascuna. In questo modo si riduce il numero di nodi interni per ogni
+stadio, e si riduce il tempo di ritardo complessivo. Si osserva che il valore ottimo di ingressi per stadio si aggira tra 4 e 5.
+Ovviamente suddividendo il numero di ingressi in più stadi si aumenta il numero totale di mosfet necessari per realizzare la
+stessa funzione logica e quindi l'area occupata sul chip.
+
+Per suddividere una porta logica in più stadi si possono utilizzare le leggi di De Morgan:
+\[A + B + C + D \;_\text{(OR a 4 ingressi)} = \overline{\overline{A + B} \cdot \overline{C + D}} \;_\text{(NOR + NAND a 2 ingressi)}\]
+\[A \cdot B \cdot C \cdot D \;_\text{(AND a 4 ingressi)} = \overline{\overline{A \cdot B} + \overline{C \cdot D}} \;_\text{(NAND + NOR a 2 ingressi)}\]
+
+Di seguito un confronto delle prestazioni di una porta AND a 16 ingressi realizzata con numero differente di stadi:
+\begin{center}
+	\begin{tabular}{c c c}
+		\textbf{numero di stadi} & \textbf{tempo di ritardo intrinseco} & \textbf{numero di mosfet} \\
+		\toprule
+		1 stadio da 16 ingressi & \(t_{p0} \approx 0.69 R C N^2 = 0.69 \, 256 \, RC\) & 32 mosfet \\
+		\midrule
+		2 stadi da 4 ingressi ciascuno & \(t_{p0} \approx 2 \cdot 0.69 R C N^2 = 0.69\, 32 \, RC\) & 40 mosfet \\
+		\midrule
+		4 stadi da 2 ingressi ciascuno & \(t_{p0} \approx 4 \cdot 0.69 R C N^2 = 0.69 \, 16 \, RC\) & 60 mosfet
+	\end{tabular}
+\end{center}
+\begin{center}
+	\begin{minipage}{0.38\textwidth}
+		\centering \includegraphics[width=\textwidth]{immagini/8_logica_statica_complementare/and_2stadi.png}
+
+		AND a 16 ingressi in 2 stadi
+	\end{minipage}
+	\begin{minipage}{0.6\textwidth}
+		\centering \includegraphics[width=\textwidth]{immagini/8_logica_statica_complementare/and_4stadi.png}
+
+		AND a 16 ingressi in 4 stadi
+	\end{minipage}
+\end{center}
+
+\subsection{Consumo di potenza}
+\subsubsection*{Consumo dinamico}
+Il consumo dinamico di una porta logica si basa sulla formula generale definita in precedenza, solo che essendoci più ingressi
+la frequenza media di commutazione \(f\) viene sostituita dalla frequenza effettiva di commutazione dell'uscita calcolata come
+prodotto tra la frequenza di commutazione degli ingressi \(f\) e il fattore di attività \(\alpha_F\) dell'uscita.
+\[P_{DYN} = C_F \cdot V_{DD} (V_H - V_L) \cdot f \cdot \alpha_F \qquad f \cdot \alpha_F = \text{frequenza effettiva di commutazione dell'uscita}\]
+
+\subsubsection*{Fattore di attività}
+Il fattore di attività \(\alpha_F\) di una porta logica è definito come la probabilità che l'uscita della porta logica commuti
+da \(0\) a \(1\) in un dato intervallo di tempo. Definito \(p_F\) la probabilità che l'uscita della porta logica sia \(1\) e
+supponendo che l'uscita di una porta logica non dipenda dal suo stato precedente (tempo invariante), il fattore di attività risulta:
+\[\alpha_F = P(0 \rightarrow 1) = P(F = 0 {\text{ per } t = i-1}) \cdot P(F = 1 {\text{ per } t = i}) = p_F \cdot (1 - p_F)\]
+
+\noindent
+La probabilità \(p_F\) che l'uscita della porta logica sia a \(1\) dipende dalla funzione logica implementata e dalle probabilità
+degli ingressi \(p_{X_i}\) (che si suppone siano tutte indipendenti e tempo invarianti). Per calcolare \(p_F\) si può utilizzare:
+\begin{itemize}
+	\item la tabella di verità della porta logica, calcolando la somma delle probabilità delle combinazioni di ingressi che portano
+	all'uscita a \(1\)
+	\item l'espressione logica della funzione \(F\), convertendo le operazioni logiche tra ingressi in operazioni algebriche sulle
+	probabilità degli ingressi secondo le seguenti regole e facendo attenzione ad eliminare le intersezioni (sulla OR):
+	\[\text{NOT} \; \rightarrow \; p_{\overline{X}} = 1 - p_X \qquad \text{AND} \; \rightarrow \;  p_{A \cdot B} = p_A \cdot p_B \qquad \text{OR} \; \rightarrow \; p_{A + B} = p_A + p_B - p_A \cdot p_B\]
+	\item le mappe di Karnaugh per semplificare l'espressione logica in somme esclusive di prodotti, in modo da evitare le intersezioni
+	e facilitare il calcolo delle probabilità
+\end{itemize}
+
+\noindent
+Di seguito le probabilità \(p_F\) e i fattori di attività \(\alpha_F\) per le porte logiche elementari a 2 ingressi:
+\begin{center}
+	\begin{tabular}{>{\centering\arraybackslash}m{3cm} l m{6.5cm}}
+		\toprule
+		\textbf{Funzione logica} & \textbf{\(P_F\)} & \textbf{Fattore di attività \(\alpha_F\)} \\
+		\midrule
+		AND & \(p_A p_B\) & \(p_A p_B \cdot (1 - p_A p_B)\) \\[6pt]
+		NAND & \(1 - p_A p_B\) & \(p_A p_B \cdot (1 - p_A p_B)\) \\[6pt]
+		OR & \(p_A + (1 - p_A)p_B\) & \((p_A + (1 - p_A)p_B) \cdot (1 - (p_A + (1 - p_A)p_B))\) \\[6pt]
+		NOR & \((1 - p_A)(1 - p_B)\) & \((p_A + (1 - p_A)p_B) \cdot (1 - (p_A + (1 - p_A)p_B))\) \\[6pt]
+		XOR & \((p_A + p_B - 2 p_A p_B)\) & \((p_A + p_B - 2 p_A p_B) \cdot (1 - p_A - p_B + 2 p_A p_B)\) \\[6pt]
+		XNOR & \(1 - p_A - p_B + 2 p_A p_B\) & \((p_A + p_B - 2 p_A p_B) \cdot (1 - p_A - p_B + 2 p_A p_B)\) \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+\subsubsection*{Capacità logica}
+Si nota che nella formula del consumo dinamico compare la capacità \(C_F\) che rappresenta la capacità totale del nodo di uscita
+della porta logica. È possibile definire la capacità logica come il prodotto tra la capacità \(C_F\) e il fattore di attività
+\(\alpha_F\).
+\[C_\text{logica} = C_F \cdot \alpha_F\]
+
+\noindent
+In questo modo la formula del consumo dinamico può essere interpretata come il consumo dinamico per caricare e scaricare ad
+una frequenza \(f\) una capacità effettiva pari alla capacità logica.
+\[P_{DYN} = C_\text{logica} \cdot V_{DD} (V_H - V_L) \cdot f\]
