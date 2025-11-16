@@ -1,1 +1,560 @@
 \section{Logica a Pass Transistor}
+\subsection{Struttura base}
+\subsubsection*{Principio di funzionamento}
+I pass transistor sono transistor usati come interruttori, controllati da un segnale di controllo (gate) che permettono
+o bloccano il passaggio di un certo segnale in ingresso verso l'uscita. A differenza delle porte logiche complementari,
+i pass transistor non sono collegati necessariamente a \(V_{DD}\) o a massa, ma possono trasmettere direttamente i segnali
+logici di ingresso. Inoltre le porte logiche a pass transistor possono essere costruite sia con nmos che con pmos e non
+necessitano di reti complementari.
+
+\subsubsection*{Multiplexer}
+Il multiplexer è un circuito che seleziona uno tra più segnali di ingresso in base al valore di uno o più segnali di selezione.
+La configurazione base di un multiplexer prevede due ingressi e un segnale di selezione. Sono facilmente realizzabili con pass
+transistor.
+\begin{center}
+	\begin{minipage}{0.2\textwidth}
+		\centering \begin{circuitikz}
+			\draw (0, 0) node[muxdemux, muxdemux def={w=1, Lh=2, Rh=1.4, NL=2, NR=1, NB=0, NT=1}, anchor=center] (MUX) {};
+			\draw (MUX.lpin 1) node[left] {$A_0$}; \draw (MUX.lpin 2) node[left] {$A_1$};
+			\draw (MUX.tpin 1) node[above] {$S$}; \draw (MUX.rpin 1) node[right] {$F$};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.38\textwidth}
+		\centering \begin{circuitikz}
+			\node[nmos, anchor=D, rotate=-90] (M1) at (0,0) {};
+			\node[nmos, anchor=D, rotate=-90] (M2) at (0.3,-1.6) {};
+			\draw (M1.D) -- ++(0.3,0) -- (M2.D);
+			\node[left] at (M1.S) {\(A\)};
+			\node[above] at (M1.G) {\(S\)};
+			\draw (M2.S) -- ++(-0.3,0) node[left] {\(B\)};
+			\node[above] at (M2.G) {\(\overline{S}\)};
+			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = S \ccdot A + \overline{S} \ccdot B\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.38\textwidth}
+		\centering \begin{circuitikz}
+			\ctikzset{tripoles/pmos style/emptycircle}
+			\node[pmos, anchor=D, rotate=90, xscale=-1] (M1) at (0,0) {};
+			\node[pmos, anchor=D, rotate=90, xscale=-1] (M2) at (0.3,-1.6) {};
+			\draw (M1.D) -- ++(0.3,0) -- (M2.D);
+			\node[left] at (M1.S) {\(A\)};
+			\node[above] at (M1.G) {\(S\)};
+			\draw (M2.S) -- ++(-0.3,0) node[left] {\(B\)};
+			\node[above] at (M2.G) {\(\overline{S}\)};
+			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = \overline{S} \ccdot A + S \ccdot B\)};
+		\end{circuitikz}
+	\end{minipage}
+
+	\begin{minipage}{0.2\textwidth}
+		\centering simbolo logico del MUX 2:1
+	\end{minipage}
+	\begin{minipage}{0.38\textwidth}
+		\centering MUX 2:1 a pass transistor con nmos
+	\end{minipage}
+	\begin{minipage}{0.38\textwidth}
+		\centering MUX 2:1 a pass transistor con pmos
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Porte elementari (AND, OR, XOR, NAND, NOR, XNOR) a pass transistor}
+\begin{center}
+	\begin{minipage}{0.32\textwidth}
+		\centering \begin{circuitikz}
+			\node[nmos, anchor=D, rotate=-90] (M1) at (0,0) {};
+			\node[nmos, anchor=D, rotate=-90] (M2) at (0.3,-1.6) {};
+			\draw (M1.D) -- ++(0.3,0) -- (M2.D);
+			\node[left] at (M1.S) {\(B\)};
+			\node[above] at (M1.G) {\(A\)};
+			\draw (M2.S) -- ++(-0.3,0) node[left] {\(0\)};
+			\node[above] at (M2.G) {\(\overline{A}\)};
+			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = A \cdot B\)};
+		\end{circuitikz}
+
+		AND a pass-T con nmos
+	\end{minipage}
+	\begin{minipage}{0.32\textwidth}
+		\centering \begin{circuitikz}
+			\node[nmos, anchor=D, rotate=-90] (M1) at (0,0) {};
+			\node[nmos, anchor=D, rotate=-90] (M2) at (0.3,-1.6) {};
+			\draw (M1.D) -- ++(0.3,0) -- (M2.D);
+			\node[left] at (M1.S) {\(1\)};
+			\node[above] at (M1.G) {\(A\)};
+			\draw (M2.S) -- ++(-0.3,0) node[left] {\(B\)};
+			\node[above] at (M2.G) {\(\overline{A}\)};
+			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = A + B\)};
+		\end{circuitikz}
+
+		OR a pass-T con nmos
+	\end{minipage}
+	\begin{minipage}{0.32\textwidth}
+		\centering \begin{circuitikz}
+			\node[nmos, anchor=D, rotate=-90] (M1) at (0,0) {};
+			\node[nmos, anchor=D, rotate=-90] (M2) at (0.3,-1.6) {};
+			\draw (M1.D) -- ++(0.3,0) -- (M2.D);
+			\node[left] at (M1.S) {\(\overline{B}\)};
+			\node[above] at (M1.G) {\(A\)};
+			\draw (M2.S) -- ++(-0.3,0) node[left] {\(B\)};
+			\node[above] at (M2.G) {\(\overline{A}\)};
+			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = A \oplus B\)};
+		\end{circuitikz}
+
+		XOR a pass-T con nmos
+	\end{minipage}
+\end{center}
+\begin{center}
+	\begin{minipage}{0.32\textwidth}
+		\centering \begin{circuitikz}
+			\node[nmos, anchor=D, rotate=-90] (M1) at (0,0) {};
+			\node[nmos, anchor=D, rotate=-90] (M2) at (0.3,-1.6) {};
+			\draw (M1.D) -- ++(0.3,0) -- (M2.D);
+			\node[left] at (M1.S) {\(\overline{B}\)};
+			\node[above] at (M1.G) {\(A\)};
+			\draw (M2.S) -- ++(-0.3,0) node[left] {\(1\)};
+			\node[above] at (M2.G) {\(\overline{A}\)};
+			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = \overline{A \cdot B}\)};
+		\end{circuitikz}
+
+		NAND a pass-T con nmos
+	\end{minipage}
+	\begin{minipage}{0.32\textwidth}
+		\centering \begin{circuitikz}
+			\node[nmos, anchor=D, rotate=-90] (M1) at (0,0) {};
+			\node[nmos, anchor=D, rotate=-90] (M2) at (0.3,-1.6) {};
+			\draw (M1.D) -- ++(0.3,0) -- (M2.D);
+			\node[left] at (M1.S) {\(0\)};
+			\node[above] at (M1.G) {\(A\)};
+			\draw (M2.S) -- ++(-0.3,0) node[left] {\(\overline{B}\)};
+			\node[above] at (M2.G) {\(\overline{A}\)};
+			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = \overline{A + B}\)};
+		\end{circuitikz}
+
+		NOR a pass-T con nmos
+	\end{minipage}
+	\begin{minipage}{0.32\textwidth}
+		\centering \begin{circuitikz}
+			\node[nmos, anchor=D, rotate=-90] (M1) at (0,0) {};
+			\node[nmos, anchor=D, rotate=-90] (M2) at (0.3,-1.6) {};
+			\draw (M1.D) -- ++(0.3,0) -- (M2.D);
+			\node[left] at (M1.S) {\(B\)};
+			\node[above] at (M1.G) {\(A\)};
+			\draw (M2.S) -- ++(-0.3,0) node[left] {\(\overline{B}\)};
+			\node[above] at (M2.G) {\(\overline{A}\)};
+			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = \overline{A \oplus B}\)};
+		\end{circuitikz}
+
+		XNOR a pass-T con nmos
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Teorema di Shannon e implementazione di funzioni complesse}
+Ogni funzione logica di \(N\) variabili \(F(A,B,C \dots)\) può essere espressa nel seguente modo:
+\[F = A \cdot F(1,B,C \dots) + \overline{A} \cdot F(0,B,C \dots) = A \cdot F_1(B,C \dots) + \overline{A} \cdot F_0(B,C \dots)\]
+Questa espressione permette di implementare qualsiasi funzione logica usando multiplexer a pass transistor, dove la
+variabile \(A\) viene usata come segnale di selezione e le uscite delle due funzioni \(F(0,B,C \dots)\) e \(F(1,B,C \dots)\)
+vengono collegate agli ingressi del multiplexer. Il teorema può essere applicato in modo ricorsivo per ridurre ulteriormente
+le funzioni \(F_0\) e \(F_1\) fino ad ottenere solo porte logiche elementari.
+
+\subsection{Trasmissione dei valori logici cattivi}
+\subsubsection*{Trasmissione del valore logico alto con nmos e basso con pmos}
+La trasmissione di un valore logico alto tramite un pass transistor nmos avviene correttamente solo fino a \(V_{DD} - V_{TN}\).
+Quando la tensione in ingresso raggiunge questo valore, la tensione tra source e gate uguaglia la tensione di soglia
+\(V_G - V_S = V_{DD} - (V_{DD} - V_{TN}) = V_{TN}\) e il transistor entra in interdizione.
+
+In analogo al valore alto per nmos, la trasmissione di un valore logico basso tramite un pass transistor pmos avviene
+correttamente solo fino a \(-V_{TP}\). Quando la tensione in ingresso raggiunge questo valore, la tensione tra source e gate
+uguaglia la tensione di soglia \(V_S - V_G = 0 - (-V_{TP}) = V_{TP}\) e il transistor entra in interdizione.
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering \includegraphics[width=0.95\textwidth]{immagini/9_pass_transistor/tx_nmos.png}
+
+		caratteristiche di trasmissione di un pass transistor nmos
+	\end{minipage}
+	\begin{minipage}{0.15\textwidth} \(\) \end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/9_pass_transistor/tx_pmos.png}
+
+		caratteristiche di trasmissione di un pass transistor pmos
+	\end{minipage}
+\end{center}
+
+
+\subsubsection*{Propagazione ed effetti dei valori logici cattivi per pass transistor nmos}
+L'uscita di un pass trasistor nmos che trasmette un valore logico alto risulta degradata a \(V_{DD} - V_{TN}\) può essere
+collegata in tre modi principali:
+\begin{itemize}
+	\item al source/drain di un altro nmos: la trasmissione del valore logico alto degradato dal primo nmos non viene
+	ulteriormente peggiorata dal secondo nmos, in quanto il secondo riesce a trasmettere correttamente il valore logico
+	degradato \(V_{DD} - V_{TN}\)
+	\item al gate di un altro nmos: in questo caso il valore logico alto \(V_{DD} - V_{TN}\) limita la tensione di accensione
+	del secondo nmos, che a sua volta peggiorerà ulteriormente il valore logico alto in uscita a \(V_{DD} - 2V_{TN}\)
+	\item all'ingresso di una porta logica complementare: in questo caso il valore logico alto degradato \(V_{DD} - V_{TN}\)
+	può causare la parziale accensione della pull-up-network, causando un aumento del consumo statico della porta logica
+\end{itemize}
+
+\begin{center}
+	\begin{minipage}{0.25\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/9_pass_transistor/tx_serie.png}
+	\end{minipage}
+	\begin{minipage}{0.01\textwidth} \(\) \end{minipage}
+	\begin{minipage}{0.25\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/9_pass_transistor/tx_gate.png}
+	\end{minipage}
+	\begin{minipage}{0.01\textwidth} \(\) \end{minipage}
+	\begin{minipage}{0.35\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/9_pass_transistor/tx_invertitore.png}
+	\end{minipage}
+
+	\begin{minipage}{0.25\textwidth}
+		\centering trasmissione del valore degradato attraverso due pass transistor nmos in serie
+	\end{minipage}
+	\begin{minipage}{0.01\textwidth} \(\) \end{minipage}
+	\begin{minipage}{0.25\textwidth}
+		\centering trasmissione del valore degradato verso il gate di un pass transistor nmos
+	\end{minipage}
+	\begin{minipage}{0.01\textwidth} \(\) \end{minipage}
+	\begin{minipage}{0.35\textwidth}
+		\centering trasmissione del valore degradato verso una porta logica complementare (invertitore)
+	\end{minipage}
+\end{center}
+
+\newpage
+
+\subsection{Ottimizzazione dei valori logici - level restorer e transmission gate}
+\subsubsection*{Level Restorer}
+Per ripristinare i valori logici degradati in uscita da un pass transistor nmos o pmos, si può usare un circuito chiamato level
+restorer, costituito da un invertitore e un transistor di pull-up o pull-down (in base al valore logico da ripristinare).
+Analizzando il funzionamento di un level restorer usato per ripristinare il valore logico alto in uscita:
+\begin{itemize}
+	\item quando il segnale in ingresso al level restorer è basso, l'uscita dell'invertitore è alta e il transistor di pull-up
+	(pmos) è spento, per cui il circuito di level restorer non entra in funzione
+	\item quando invece il segnale in ingresso è alto, l'uscita dell'invertitore è bassa e il transistor di pull-up è acceso,
+	forzando l'uscita della rete pass transistor \(F\) al valore logico alto \(V_{DD}\).
+\end{itemize}
+
+Quando l'uscita del nodo \(F\) inizialmente a \(V_{DD}\) (con il transistor di pull-up è acceso), deve essere portata al valore
+logico basso, è necessario che raggiunga la tensione \(V_M\) in modo da far commutare l'invertitore e spegnere il pmos, altrimenti
+questo continuerà a forzare l'uscita al valore logico alto. Per fare in modo che ciò avvenga, è necessario che il pmos abbia un
+fattore di forma \(Z_p\) inferiore al fattore di forma \(Z_{n,eq}\) della rete pass transistor usata per generare il segnale \(F\).
+Se questo non avviene, il transistor di pull-up potrebbe causare un ritardo nella discesa del segnale in uscita o addirittura
+la mancata commutazione del segnale.
+
+\begin{center}
+	\begin{minipage}{0.35\textwidth}
+		\centering \includegraphics[width=0.85\textwidth]{immagini/9_pass_transistor/level_restorer_circuito.png}
+
+		circuito di un level restorer per pass transistor nmos
+	\end{minipage}
+	\begin{minipage}{0.1\textwidth} \(\) \end{minipage}
+	\begin{minipage}{0.35\textwidth}
+		\vspace{0.65cm}
+
+		\centering \includegraphics[width=0.85\textwidth]{immagini/9_pass_transistor/level_restorer_curva.png}
+
+		curva della commutazione HL del nodo \(F\) al variare di \(Z_p\)
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Porta di trasmissione o transmission gate - TG}
+Per prevenire la degradazione dei valori logici (in alternativa al level restorer) è possibile usare le porte di trasmissione
+o transmission gate (TG) al posto dei semplici pass transistor nmos o pmos. Le porte TG sono costituite da un transistor nmos e
+un transistor pmos collegati in parallelo, controllati da segnali di gate complementari. In questo modo si accendono e si spengono
+insieme e si compensano a vicenda i difetti di trasmissione dei valori logici:
+\begin{itemize}
+	\item il transistor nmos trasmette correttamente il valore logico basso fino a 0V
+	\item il transistor pmos trasmette correttamente il valore logico alto fino a \(V_{DD}\)
+\end{itemize}
+\begin{center}
+	\centering \includegraphics[width=0.5\textwidth]{immagini/9_pass_transistor/tg.png}
+
+	schema circuitale di una porta di trasmissione (transmission gate) \\ e relativo simbolo di abbreviazione
+\end{center}
+
+\subsection{Tempi di propagazione e ottimizzazioni}
+\subsubsection*{Analisi dei tempi di propagazione}
+Per calcolare il tempo di propagazione di un circuito a pass transistor si procede similmente a quanto visto per le reti
+di pull-up e pull-down delle porte logiche complementari:
+\begin{enumerate}
+	\item si individua il percorso peggiore (serie più lunga di pass transistor)
+	\item si modella il percorso peggiore secondo la rete di Elmore
+	\item si calcolano i tempi di propagazione usando le formule viste per le reti di Elmore.
+\end{enumerate}
+Alcune osservazioni importanti riguardo al calcolo dei tempi di propagazione nei circuiti a pass transistor:
+\begin{itemize}
+	\item in base al tipo di commutazione (LH o HL) la resistenza equivalente del pass transistor raddoppia se si sta
+	trasmettendo un valore logico \say{cattivo}
+	\item se si usando insieme pmos e nmos, il percorso peggiore può variare in base al tipo di commutazione (LH o HL)
+	e non necessariamente coincide con il percorso con la serie di mosfet più lunga, specialmente se \(R_n \neq R_p\)
+	\item quando si usano le porte TG, la resistenza equivalente del TG è data dal parallelo formato dalle due resistenze
+	\(R_n\) e \(R_p\) degli nmos e pmos, di cui necessariamente una e una sola raddoppiata siccome trasmette un valore
+	logico cattivo
+	\item i tempi di propagazione intrinseci delle reti a pass transistor dipendono linearmente dal numero di pass
+	transistor in serie e tale dipendenza può provocare ritardi molto elevati in circuiti complessi
+\end{itemize}
+
+\subsubsection*{Ottimizzazione dei tempi di propagazione - buffering}
+Per ottimizzare i tempi di propagazione dei circuiti a pass transistor si può usare la tecnica del buffering, che consiste nel
+suddividere il percorso di propagazione del segnale in più stadi, inserendo, tra uno stadio e l'altro, dei buffer costituiti
+da invertitori cmos in logica statica complementare. Questi hanno la funzione di interrompere la catena di pass transistor e
+deviare le correnti di carica/scarica a massa o \(V_{DD}\). In questo modo si riduce la lunghezza del percorso peggiore e di
+conseguenza il tempo di propagazione complessivo del circuito.
+\begin{center}
+	\includegraphics[width=0.7\textwidth]{immagini/9_pass_transistor/buffering.png}
+\end{center}
+Per calcolare il numero ottimale di stadi \(K\) e il numero di pass transistor per stadio \(M\) bisogna:
+\begin{enumerate}
+	\item calcolare il tempo di propagazione per un singolo stadio \(t_{p,stadio} = t_{bu\!f\!fer} + t_{p,pass}\) secondo la
+	rete di Elmore, facendo attenzione che il nodo finale di ogni stadio ha come carico la capacità di ingresso dell'invertitore
+	successivo e un source/drain in meno
+	\item calcolare il tempo di propagazione complessivo come \(t_{p,tot} = K \cdot t_{p,stadio}\) ed effettuare le opportune
+	sostituzioni \(K = N/M\) per avere \(t_{p,tot}\) in funzione di \(M\) solamente
+	\item derivare \(t_{p,tot}\) rispetto a \(M\) e porre la derivata uguale a zero per trovare il valore ottimale di \(M\)
+	che minimizza il tempo di propagazione complessivo
+	\item una volta trovato \(M\) intero, si può calcolare \(K = N/M\)
+\end{enumerate}
+NOTA: i buffer possono essere invertenti o non invertenti, se sono invertenti è opportuno fare attenzione ad eventuali negazioni
+durante la catena di elaborazione logica del segnale.
+
+\subsection{Consumo dinamico}
+Il consumo dinamico dei circuiti a pass transistor si basa sempre sulla formula generale del consumo dinamico, con le stesse
+variabili e considerazioni viste per le porte logiche complementari.
+\[P_{DYN} = C_F \cdot V_{DD} (V_H - V_L) \cdot f \cdot \alpha_F\]
+
+
+\subsection{Costruzioni di porte logiche}
+\subsubsection*{MUX a pass-T e a TG}
+\begin{center}
+%	\begin{minipage}{0.2\textwidth}
+%		\centering \begin{circuitikz}
+%			\draw (0, 0) node[muxdemux, muxdemux def={w=1, Lh=2, Rh=1.4, NL=2, NR=1, NB=0, NT=1}, anchor=center] (MUX) {};
+%			\draw (MUX.lpin 1) node[left] {$A_0$}; \draw (MUX.lpin 2) node[left] {$A_1$};
+%			\draw (MUX.tpin 1) node[above] {$S$}; \draw (MUX.rpin 1) node[right] {$F$};
+%		\end{circuitikz}
+%
+%		simbolo logico del MUX 2:1
+%	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering \begin{circuitikz}
+			\ctikzset{logic ports=ieee}
+			\node [nmos, anchor=D, rotate=-90] (M1) at (0,0) {};
+			\node [nmos, anchor=D, rotate=-90] (M2) at (-1,-0.9) {};
+			\draw (M2.G) to[short, -*] ++(0,1.1) node[not port, scale=0.5, anchor=in] (NOT) {};
+			\draw (M1.G) -- ++(0,0.2) -- (NOT.out);
+			\draw (NOT.in) -- ++(-0.8,0) node[left] {\(S\)};
+			\draw (M1.S) -- ++(-1,0) node[left] {\(A_0\)};
+			\draw (M2.S) -- ++(0,0) node[left] {\(A_1\)};
+			\draw (M1.D) -- ++(0,-0.9) -- (M2.D);
+			\draw (M1.D) ++(0,-0.45) to[short, *-] ++(0.5,0) node[right] {\(F\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering \begin{circuitikz}
+			\ctikzset{logic ports=ieee}
+			\ctikzset{tripoles/pmos style=emptycircle}
+			\node [pmos, anchor=D, rotate=-90] (M11) at (0,0) {};
+			\node [nmos, anchor=D, rotate=90] (M12) at (0,0) {};
+
+			\node [pmos, anchor=D, rotate=-90] (M21) at (0,-2) {};
+			\node [nmos, anchor=D, rotate=90] (M22) at (0,-2) {};
+
+			\node [not port, scale=0.5, anchor=out] (NOT) at (0.6,-1) {};
+			\draw (M12.G) -- (M21.G);
+			\draw (NOT.out) to[short, -*] ++(0.17,0);
+			\draw (NOT.in) -- ++(-0.1,0);
+			\draw (M11.G) -- ++(-1.67,0) node[left] {\(S\)};
+			\draw (M22.G) -- ++(-1.145,0) to[short, -*] ++(0,1.98) to[short, -*] ++(0,1.98);
+
+			\draw (M11.D) -- ++(-0.9,0) node[left] {\(A_0\)};
+			\draw (M21.D) -- ++(-0.9,0) node[left] {\(A_1\)};
+
+			\draw (M11.S) -- (M21.S);
+			\draw (M11.S) ++(0,-1) to[short, *-] ++(0.5,0) node[right] {\(F\)}; 
+
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.38\textwidth}
+		\centering \begin{circuitikz}
+			\ctikzset{logic ports=ieee}
+			\ctikzset{tripoles/pmos style=emptycircle}
+			\node [pmos, anchor=D, rotate=-90] (M11) at (0,0) {};
+			\node [nmos, anchor=D, rotate=90] (M12) at (0,0) {};
+
+			\node [pmos, anchor=D, rotate=-90] (M21) at (0,-2) {};
+			\node [nmos, anchor=D, rotate=90] (M22) at (0,-2) {};
+
+			\node [not port, scale=0.5, anchor=out] (NOT) at (0.6,-1) {};
+			\draw (M12.G) -- (M21.G);
+			\draw (NOT.out) to[short, -*] ++(0.17,0);
+			\draw (NOT.in) -- ++(-0.1,0);
+			\draw (M11.G) -- ++(-1.67,0) node[left] {\(S\)};
+			\draw (M22.G) -- ++(-1.145,0) to[short, -*] ++(0,1.98) to[short, -*] ++(0,1.98);
+			
+			\draw (M11.D) -- ++(-0.5,0) node[not port, scale=0.5, anchor=out] (NOT1) {} (NOT1.in) -- ++(-0.2,0) node[left] {\(A_0\)};
+			\draw (M21.D) -- ++(-0.5,0) node[not port, scale=0.5, anchor=out] (NOT2) {} (NOT2.in) -- ++(-0.2,0) node[left] {\(A_1\)};
+
+			\draw (M11.S) -- (M21.S);
+			\draw (M11.S) ++(0,-1) to[short, *-] ++(0.2,0) node[not port, scale=0.5, anchor=in] (NOT1) {} (NOT1.out) -- ++(0.2,0) node[right] {\(F\)}; 
+
+		\end{circuitikz}
+	\end{minipage}
+
+	\begin{minipage}{0.3\textwidth}
+		\centering MUX 2:1 a pass transistor con nmos, non rigenerativo, bidirezionale, con escursione logica limitata
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering MUX 2:1 a transmission gate, non rigenerativo, bidirezionale, con escursione logica completa
+	\end{minipage}
+	\begin{minipage}{0.38\textwidth}
+		\centering MUX 2:1 a transmission gate con invertitori, rigenerativo, unidirezionale con escursione logica completa
+	\end{minipage}
+\end{center}
+
+\subsubsection*{MUX a più stadi - struttura ad albero}
+Di seguito una rappresentazione di un MUX 8:1 a più stadi organizzati secondo una struttura ad albero, realizzato con MUX 2:1.
+I singoli MUX 2:1 possono essere realizzati con trasmission gate con invertitori per garantire un'escursione logica completa e
+un funzionamento rigenerativo e unidirezionale, con l'accorgimento di eliminare gli invertitori tra i nodi intermedi
+\(X_0, X_1, X_2, X_3, Y_0, Y_1\) e lasciare solo quelli sugli ingressi e all'uscita.
+\begin{center}
+	\begin{minipage}{0.6\textwidth}
+		\centering \begin{circuitikz}
+			\draw (0,0) node[muxdemux, muxdemux def={w=1, Lh=2, Rh=1.4, NL=2, NR=1, NB=0, NT=1}, anchor=center] (MUX1) {};
+			\draw (MUX1.lpin 1) node[left] {$A_0$}; \draw (MUX1.lpin 2) node[left] {$A_1$};
+			\draw (MUX1.lpin 1) ++(0.25,0) node[right] {$0$}; \draw (MUX1.lpin 2) ++(0.25,0) node[right] {$1$};
+			\draw (MUX1.tpin 1) -- ++(0,0.3) node[above] {$S_0$};
+			
+			\draw (0.5,-1.3) node[muxdemux, muxdemux def={w=1, Lh=2, Rh=1.4, NL=2, NR=1, NB=0, NT=1}, anchor=center] (MUX2) {};
+			\draw (MUX2.lpin 1) -- ++(-0.5,0) node[left] {$A_2$}; \draw (MUX2.lpin 2) -- ++(-0.5,0) node[left] {$A_3$};
+			\draw (MUX2.lpin 1) ++(0.25,0) node[right] {$0$}; \draw (MUX2.lpin 2) ++(0.25,0) node[right] {$1$};
+			
+			\draw (1,-2.6) node[muxdemux, muxdemux def={w=1, Lh=2, Rh=1.4, NL=2, NR=1, NB=0, NT=1}, anchor=center] (MUX3) {};
+			\draw (MUX3.lpin 1) -- ++(-1,0) node[left] {$A_4$}; \draw (MUX3.lpin 2) -- ++(-1,0) node[left] {$A_5$};
+			\draw (MUX3.lpin 1) ++(0.25,0) node[right] {$0$}; \draw (MUX3.lpin 2) ++(0.25,0) node[right] {$1$};
+			
+			\draw (1.5,-3.9) node[muxdemux, muxdemux def={w=1, Lh=2, Rh=1.4, NL=2, NR=1, NB=0, NT=1}, anchor=center] (MUX4) {};
+			\draw (MUX4.lpin 1) -- ++(-1.5,0) node[left] {$A_6$}; \draw (MUX4.lpin 2) -- ++(-1.5,0) node[left] {$A_7$};
+			\draw (MUX4.lpin 1) ++(0.25,0) node[right] {$0$}; \draw (MUX4.lpin 2) ++(0.25,0) node[right] {$1$};
+			
+			\draw (MUX1.tpin 1) to[short, *-] (MUX1.tpin 1 -| MUX2.tpin 1) to[short, *-] (MUX1.tpin 1 -| MUX3.tpin 1) to[short, *-] (MUX1.tpin 1 -| MUX4.tpin 1);
+			\draw (MUX2.tpin 1) -- (MUX2.tpin 1 |- MUX1.tpin 1);
+			\draw (MUX3.tpin 1) -- (MUX3.tpin 1 |- MUX1.tpin 1);
+			\draw (MUX4.tpin 1) -- (MUX4.tpin 1 |- MUX1.tpin 1);
+			
+			\draw (MUX2.rpin 1) ++(1.2,0) node[muxdemux, muxdemux def={w=1, Lh=2, Rh=1.4, NL=2, NR=1, NB=0, NT=1}, anchor=lpin 2] (MUX5) {};
+			\draw (MUX5.lpin 1) node[above] {$X_0$}; \draw (MUX5.lpin 2) node[below] {$X_1$};
+			\draw (MUX5.lpin 1) ++(0.25,0) node[right] {$0$}; \draw (MUX5.lpin 2) ++(0.25,0) node[right] {$1$};
+			\draw (MUX5.tpin 1) -- ++(0,1.5) node[above] {$S_1$};
+	
+			\draw (MUX3.rpin 1) ++(1.2,0) node[muxdemux, muxdemux def={w=1, Lh=2, Rh=1.4, NL=2, NR=1, NB=0, NT=1}, anchor=lpin 1] (MUX6) {};
+			\draw (MUX6.lpin 1) ++(0.25,0) node[right] {$0$}; \draw (MUX6.lpin 2) ++(0.25,0) node[right] {$1$};
+			\draw (MUX6.lpin 1) node[above] {$X_2$}; \draw (MUX6.lpin 2) node[below] {$X_3$};
+	
+			\draw (MUX5.tpin 1) ++(0,1.2) node[](MUX5_1){} to[short, *-] (MUX5_1 -| MUX6.tpin 1) -- (MUX6.tpin 1);
+			\draw (MUX1.rpin 1) -- (MUX5.lpin 1);
+			\draw (MUX2.rpin 1) -- (MUX5.lpin 2);
+			\draw (MUX3.rpin 1) -- (MUX6.lpin 1);
+			\draw (MUX4.rpin 1) -- (MUX6.lpin 2);
+			
+			\draw (MUX5.rpin 1) ++(1.2,0) node[muxdemux, muxdemux def={w=1, Lh=2, Rh=1.4, NL=2, NR=1, NB=0, NT=1}, anchor=lpin 1] (MUX7) {};
+			\draw (MUX7.lpin 1) ++(0.25,0) node[right] {$0$}; \draw (MUX7.lpin 2) ++(0.25,0) node[right] {$1$};
+			\draw (MUX7.lpin 1) node[above] {$Y_0$}; \draw (MUX7.lpin 2) node[below] {$Y_1$};
+			\draw (MUX7.tpin 1) -- ++(0,1.78) node[above] {$S_2$}; \draw (MUX7.rpin 1) node[right] {$F$};
+	
+			\draw (MUX5.rpin 1) -- (MUX7.lpin 1);
+			\draw (MUX6.rpin 1) -- (MUX7.lpin 2);
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.05\textwidth}
+		\centering \(\rightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering \begin{circuitikz}
+			\draw (0, 0) node[muxdemux, muxdemux def={w=2, Rh=5, Lh=7, NL=8, NR=1, NB=0, NT=3}, anchor=center] (MUX) {MUX};
+			\draw (MUX.lpin 1) node[left] {$A_0$}; \draw (MUX.lpin 2) node[left] {$A_1$}; \draw (MUX.lpin 3) node[left] {$A_2$}; \draw (MUX.lpin 4) node[left] {$A_3$};
+			\draw (MUX.lpin 5) node[left] {$A_4$}; \draw (MUX.lpin 6) node[left] {$A_5$}; \draw (MUX.lpin 7) node[left] {$A_6$}; \draw (MUX.lpin 8) node[left] {$A_7$};
+			\draw (MUX.tpin 1) node[above] {$S_1$}; \draw (MUX.tpin 2) node[above] {$S_0$}; \draw (MUX.tpin 3) node[above] {$S_2$}; \draw (MUX.rpin 1) node[right] {$F$};
+		\end{circuitikz}
+	\end{minipage}
+\end{center}
+
+\newpage
+
+\subsubsection*{Porta XOR ibrida a pass-T / TG}
+Di seguito un esempio di implementazioni di XOR usando pass transistor nmos, pmos e un'implementazione ibrida con trasmission
+gate e pass transistor per correggere la trasmissione di valori logici degradati secondo le seguenti osservazioni:
+\begin{itemize}
+	\item la prima implementazione usa solo pass-T nmos, per cui il valore logico alto in uscita sarà degradato
+	\item la seconda implementazione usa solo pass-T pmos, per cui se \(B=0\) il valore logico \(A\) sarà degradato
+	\item la terza implementazione ibrida usa un transmission gate aggiuntivo per trasmettere il valore logico di \(A\)
+	corretto quando \(B=0\)
+\end{itemize}
+\begin{center}
+	\begin{minipage}{0.25\textwidth}
+		\centering \begin{circuitikz}
+			\node [nmos, anchor=D, xscale=-1] (M1) at (0,0) {};
+			\node [nmos, anchor=D, xscale=-1] (M2) at (M1.S) {};
+			\draw (M1.G) node[right] {\(\overline{A}\)} (M2.G) node[right] {\(A\)};
+			\draw (M1.D) node[above] {\(B\)} (M2.S) node[below] {\(\overline{B}\)};
+			\draw (M1.S) to[short,*-] ++(-0.5,0) node[left] {\(F\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.05\textwidth}
+		\centering \(\rightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.25\textwidth}
+		\centering \begin{circuitikz}
+			\ctikzset{tripoles/pmos style=emptycircle}
+			\node [pmos, anchor=D, xscale=-1] (M1) at (0,0) {};
+			\node [nmos, anchor=D, xscale=-1] (M2) at (M1.D) {};
+			\draw (M1.G) -- (M2.G) ($(M1.G)!0.5!(M2.G)$) to[short,*-] ++(0.5,0) node[right] {\(A\)};
+			\draw (M1.S) node[above] {\(B\)} (M2.S) node[below] {\(\overline{B}\)};
+			\draw (M1.D) to[short,*-] ++(-0.5,0) node[left] {\(F\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.05\textwidth}
+		\centering \(\rightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.35\textwidth}
+		\centering \begin{circuitikz}
+			\ctikzset{tripoles/pmos style=emptycircle}
+			\node [pmos, anchor=D, xscale=-1] (M1) at (0,0) {};
+			\node [nmos, anchor=D, xscale=-1] (M2) at (M1.D) {};
+			\draw (M1.G) -- (M2.G) ($(M1.G)!0.5!(M2.G)$) to[short,*-] ++(0.5,0) node[right] {\(A\)};
+			\draw (M1.S) node[above] {\(B\)} (M2.S) node[below] {\(\overline{B}\)};
+			\draw (M1.D) to[short,*-] ++(-0.75,0) node[](F){} to[short,*-] ++(0,0.5) node[above] {\(F\)};
+			\draw (M1.D) -- ++(-1,0) node[pmos, anchor=D, rotate=90, xscale=-1] (M3) {};
+			\node [nmos, anchor=D, rotate=-90,xscale=-1] (M4) at (M3.D) {};
+			\node [left] at (M3.S) {\(A\)};
+			\draw (M3.G) -- ++(0,0.2) to[short, -*] ++(1.77,0);
+			\draw (M4.G) -- ++(0,-0.2) to[short, -*] ++(1.77,0);
+		\end{circuitikz}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Sommatore a 1 bit - Half Adder}
+Un half adder (sommatore a 1 bit senza riporto) è costituito da due porte logiche: una XOR per il calcolo della somma e una AND
+per il calcolo del riporto. Di seguito le implementazioni delle due funzioni logiche usando trasmission gate secondo la struttura a MUX.
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/9_pass_transistor/xor_tg.png}
+	\end{minipage}
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/9_pass_transistor/and_tg.png}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Sommatore a 1 bit con riporto - Full Adder}
+Un full adder (sommatore a 1 bit con riporto) è costituito, invece, da due funzioni più complesse:
+\[S = A \oplus B \oplus C_{in} = P \oplus C_{in} \qquad C_{out} = A \ccdot (\overline{A \oplus B}) + (A \oplus B) \ccdot C_{in} = A \ccdot \overline{P} + P \ccdot C_{in} \qquad P = A \oplus B\]
+Si nota, quindi, che è possibile impiegare una XOR e una XNOR per calcolare \(P\) e \(\overline{P}\) (1° stadio), una XOR per
+calcolare la somma \(S\) (2° stadio) e un MUX 2:1 per calcolare il riporto \(C_{out}\) (3° stadio).
+
+\begin{center}
+	\begin{minipage}{0.25\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/9_pass_transistor/fa_1.png}
+	\end{minipage}
+	\begin{minipage}{0.33\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/9_pass_transistor/fa_2.png}
+	\end{minipage}
+	\begin{minipage}{0.33\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/9_pass_transistor/fa_3.png}
+	\end{minipage}
+\end{center}
