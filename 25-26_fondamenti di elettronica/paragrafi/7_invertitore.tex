@@ -2,9 +2,9 @@
 \subsection{Schema circuitale}
 
 \subsubsection*{Schema circuitale e simbolo logico}
-L'invertitore CMOS è il circuito logico più semplice realizzabile con la tecnologia CMOS. Implementa la funzione logica NOT,
-ovvero l'operazione di negazione booleana. Lo schema circuitale dell'invertitore CMOS è riportato in figura (a sinistra), insieme
-al simbolo logico corrispondente (a destra).
+L'invertitore CMOS (detto anche Complementary-MOS) è il circuito logico più semplice realizzabile con la tecnologia cmos.
+Implementa la funzione logica NOT, ovvero l'operazione di negazione booleana. Lo schema circuitale dell'invertitore cmos
+è riportato in figura (a sinistra), insieme al simbolo logico corrispondente (a destra).
 
 \begin{center}
 	\begin{minipage}{0.4\textwidth}
@@ -40,11 +40,12 @@ al simbolo logico corrispondente (a destra).
 	\end{minipage}	
 \end{center}
 
-L'invertitore CMOS è costituito da un transistor NMOS e un transistor PMOS collegati in serie tra \(V_{DD}\) e massa. L'ingresso
+\noindent
+L'invertitore cmos è costituito da un transistor nmos e un transistor pmos collegati in serie tra \(V_{DD}\) e massa. L'ingresso
 del circuito è collegato ai gate di entrambi i transistor, mentre l'uscita è prelevata dal nodo di connessione tra i due transistor.
 
 \subsubsection*{Funzionamento}
-Per comprendere meglio il funzionamento dell'invertitore CMOS si sostituiscono i transistor (usati come interruttori) con la
+Per comprendere meglio il funzionamento dell'invertitore cmos si sostituiscono i transistor (usati come interruttori) con la
 serie di interruttore e resistenza equivalente, come mostrato in figura. Si distinguono due casi principali in base al valore
 logico dell'ingresso \(V_{IN}\):
 
@@ -62,10 +63,10 @@ logico dell'ingresso \(V_{IN}\):
 		\end{circuitikz}
 	\end{minipage}
 	\begin{minipage} {0.6\textwidth}
-		Quando \(V_{IN} = 0 \V\), il PMOS è acceso, mentre l'NMOS è spento. L'uscita \(V_{OUT}\) è, quindi, collegata a
-		\(V_{DD}\) tramite la resistenza equivalente \(R_p\) del PMOS e si ha \(V_{OUT} = V_{DD}\).
+		Quando \(V_{IN} = 0 \V\), il pmos è acceso, mentre l'nmos è spento. L'uscita \(V_{OUT}\) è, quindi, collegata a
+		\(V_{DD}\) tramite la resistenza equivalente \(R_p\) del pmos e si ha \(V_{OUT} = V_{DD}\).
 
-		Il PMOS porta l'uscita al livello logico alto (valore logico \say{buono} per PMOS) ed è chiamato transistor di pull-up.
+		Il pmos porta l'uscita al livello logico alto (valore logico \say{buono} per pmos) ed è chiamato transistor di pull-up.
 	\end{minipage}
 \end{center}
 
@@ -83,13 +84,14 @@ logico dell'ingresso \(V_{IN}\):
 		\end{circuitikz}
 	\end{minipage}
 	\begin{minipage} {0.6\textwidth}
-		Quando \(V_{IN} = V_{DD}\), il PMOS è spento, mentre l'NMOS è acceso. L'uscita \(V_{OUT}\) è, quindi, collegata a
-		massa tramite la resistenza equivalente \(R_n\) dell'NMOS e si ha \(V_{OUT} = 0\).
+		Quando \(V_{IN} = V_{DD}\), il pmos è spento, mentre l'nmos è acceso. L'uscita \(V_{OUT}\) è, quindi, collegata a
+		massa tramite la resistenza equivalente \(R_n\) dell'nmos e si ha \(V_{OUT} = 0\).
 
-		L'NMOS porta l'uscita al livello logico basso (valore logico \say{buono} per NMOS) ed è chiamato transistor di pull-down.
+		L'nmos porta l'uscita al livello logico basso (valore logico \say{buono} per nmos) ed è chiamato transistor di pull-down.
 	\end{minipage}
 \end{center}
 
+\noindent
 In entrambi i casi l'uscita \(V_{OUT}\) assume il valore logico opposto rispetto all'ingresso \(V_{IN}\), come previsto
 dalla funzione logica NOT.
 
@@ -124,8 +126,8 @@ dell'equazione, ovvero i valori di \(V_{OUT}\) corrispondenti a ciascun valore d
 Si osserva che per \(V_{IN} = 0 \V\) o \(V_{IN} = V_{DD}\) un solo transistor è acceso in regime lineare, mentre l'altro è spento.
 Per valori intermedi si ha che:
 \begin{itemize}
-	\item il PMOS passa da lineare a saturazione e infine si spegne al crescere di \(V_{IN}\)
-	\item l'NMOS da interdizione, passa da saturazione e infine lineare al crescere di \(V_{IN}\)
+	\item il pmos passa da lineare a saturazione e infine si spegne al crescere di \(V_{IN}\)
+	\item l'nmos da interdizione, passa da saturazione e infine lineare al crescere di \(V_{IN}\)
 \end{itemize}
 
 \subsubsection*{Punti importanti}
@@ -167,8 +169,8 @@ In particolare per avere \(V_M = V_{DD}/2\) si ottiene:
 \[V_M = \frac{V_{DD}}{2} \quad \rightarrow \quad r = \frac{\frac{V_{DD}}{2} - V_{TN} - \frac{V_{DSATN}}{2}}{\frac{V_{DD}}{2} + V_{TP} + \frac{V_{DSATP}}{2}} \quad \rightarrow \quad \frac{Z_p}{Z_n} = - r \frac{k_n' V_{DSATN}}{k_p' V_{DSATP}} \approx 3 - 3.5\]
 Analizzando graficamente come varia \(V_{M}\) al variare del rapporto \(Z_p / Z_n\), si osserva che:
 \begin{itemize}
-	\item per \(Z_p > 3 Z_n\) aumenta \(V_{M}\), prevale il PMOS e la VTC si sposta verso destra (il valore logico alto si mantiene più a lungo)
-	\item per \(Z_p < 3 Z_n\) diminuisce \(V_{M}\), prevale l'NMOS e la VTC si sposta verso sinistra (il valore logico basso si mantiene più a lungo)
+	\item per \(Z_p > 3 Z_n\) aumenta \(V_{M}\), prevale il pmos e la VTC si sposta verso destra (il valore logico alto si mantiene più a lungo)
+	\item per \(Z_p < 3 Z_n\) diminuisce \(V_{M}\), prevale l'nmos e la VTC si sposta verso sinistra (il valore logico basso si mantiene più a lungo)
 	\item per \(Z_p = 3 Z_n\) si ha \(V_{M} \approx V_{DD}/2\) e i due transistor si bilanciano e la VTC è simmetrica
 \end{itemize}
 Infine si nota che la curva è molto piatta in corrispondenza della soglia di commutazione logica, il che implica che \(V_M\)
@@ -178,12 +180,12 @@ Infine si nota che la curva è molto piatta in corrispondenza della soglia di co
 	\begin{minipage}{0.4\textwidth}
 		\centering \includegraphics[width=0.9\textwidth]{immagini/7_invertitore/soglia_1.png}
 
-		\(V_M\) al variare di \(Z_p / Z_n\), in scala logaritmica
+		\small{\(V_M\) al variare di \(Z_p / Z_n\), in scala logaritmica}
 	\end{minipage}
 	\begin{minipage}{0.55\textwidth}
 		\centering \includegraphics[width=0.9\textwidth]{immagini/7_invertitore/soglia_2.png}
 
-		VTC al variare di \(Z_p / Z_n\)
+		\small{VTC al variare di \(Z_p / Z_n\)}
 	\end{minipage}
 \end{center}
 
@@ -204,22 +206,23 @@ Il margine di immunità al rumore o NM (noise margin) rappresenta l'ampiezza mas
 la trasmissione del segnale tra due porte logiche, senza che si verifichino errori di interpretazione del segnale logico. In base
 al livello logico si distinguono due margini di immunità:
 \begin{itemize}[topsep=0pt]
-	\item NM per il livello logico alto: \(NM_H = V_{OH} - V_{IH}\) ovvero la
+	\item NM per il livello logico alto: \(N\!M_H = V_{O\!H} - V_{I\!H}\) ovvero la
 	differenza tra la minima tensione di uscita di un segnale a livello logico alto e la minima tensione di ingresso per
 	riconoscere un segnale come livello logico alto;
-	\item NM per il livello logico basso: \(NM_L = V_{IL} - V_{OL}\) ovvero la
+	\item NM per il livello logico basso: \(N\!M_L = V_{I\!L} - V_{O\!L}\) ovvero la
 	differenza tra la massima tensione di ingresso per riconoscere un segnale come livello logico basso e la massima tensione
 	di uscita di un segnale a livello logico basso.
 \end{itemize}
 Il margine di immunità complessivo, ovvero il massimo disturbo tollerabile, corrisponde al margine di immunità più piccolo tra
-i due livelli logici \(NM = \min(NM_H, NM_L)\).
+i due livelli logici \(N\!M = \min(N\!M_H, N\!M_L)\).
 
 \subsubsection*{Rigenerazione del segnale}
 La rigenerazione del segnale è la capacità di un circuito logico di ripristinare i livelli logici di uscita a valori
-vicini ai valori ideali \(V_{OH}\) e \(V_{OL}\), attenuando gli effetti dei disturbi e del rumore sul segnale.
+vicini ai valori ideali \(V_{O\!H}\) e \(V_{O\!L}\), attenuando gli effetti dei disturbi e del rumore sul segnale.
 
 Affinché una porta logica sia in grado di rigenerare il segnale, è necessario che il guadagno della VTC sia minore di 1 nelle
-regioni di livello logico definito e maggiore di 1 nella regione di livello logico indefinito.
+regioni di livello logico definito (VTC tendente all'orizzontale) e maggiore di 1 nella regione di livello logico
+indefinito (VTC tendente al verticale).
 
 \begin{center}
 	\begin{minipage}{0.34\textwidth}
@@ -231,15 +234,15 @@ regioni di livello logico definito e maggiore di 1 nella regione di livello logi
 \end{center}
 
 \subsubsection*{Ruolo della tensione di commutazione logica nella rigenerazione del segnale}
-I margini di immunità al rumore per un invertitore CMOS possono essere approssimati come:
-\[NM_H \approx V_{DD} - V_{M} \qquad NM_L \approx V_{M} \qquad NM \approx \min(NM_H, NM_L)\]
-Si osserva che per massimizzare il margine di immunità complessivo \(NM\) è necessario bilanciare i due margini di immunità, ovvero
+I margini di immunità al rumore per un invertitore cmos possono essere approssimati come:
+\[N\!M_H \approx V_{DD} - V_{M} \qquad N\!M_L \approx V_{M} \qquad N\!M \approx \min(N\!M_H, N\!M_L)\]
+Si osserva che per massimizzare il margine di immunità complessivo \(N\!M\) è necessario bilanciare i due margini di immunità, ovvero
 impostare la soglia di commutazione logica \(V_{M}\) a metà della tensione di alimentazione \(V_{DD}/2\). Si ottiene così che
 il dimensionamento ottimo dei transistor per massimizzare la tolleranza al rumore è \(Z_p \approx 3 Z_n\).
 
 \subsection{Invertitore ideale}
 Un invertitore ideale è un invertitore logico che interpreta \(V_{IN} < V_M\) come livello logico basso e \(V_{IN} > V_M\)
-come livello logico alto, inoltre rigenera l'uscita esattamente ai valori ideali \(V_{OH} = V_{DD}\) e \(V_{OL} = 0 \V\).
+come livello logico alto, inoltre rigenera l'uscita esattamente ai valori ideali \(V_{O\!H} = V_{DD}\) e \(V_{O\!L} = 0 \V\).
 
 \begin{center}
 	\begin{minipage}{0.34\textwidth}
@@ -255,7 +258,7 @@ come livello logico alto, inoltre rigenera l'uscita esattamente ai valori ideali
 		\end{cases}\]
 
 		I margini di immunità al rumore diventanto esattamente
-		\[NM_H = V_{DD} - V_{M} \qquad NM_L = V_{M}\]
+		\[N\!M_H = V_{DD} - V_{M} \qquad N\!M_L = V_{M}\]
 	\end{minipage}
 \end{center}
 
@@ -354,8 +357,8 @@ capacità di carico \(C_L\) collegata all'uscita del circuito:
 \noindent
 Analizzando le resistenze e le capacità del modello RC equivalente per i nodi di ingresso ed uscita si ha:
 \[R_{IN} = \infty \qquad C_{IN} = C_{gn} + C_{dp} \qquad R_{OUT} =\frac{R_{n} + R_{p}}{2} \qquad C_{OUT} = C_{gp} + C_{dn} + C_{L}\]
-NOTA: le capacità dei source sono cortocircuitate per cui sono ininfluenti, inoltre per semplicità, le capacità del PMOS possono
-essere considerate collegate a massa invece che a \(V_{DD}\).
+NOTA: le capacità dei source sono cortocircuitate per cui sono ininfluenti, inoltre le capacità del pmos possono essere considerate
+collegate tutte a massa invece che a \(V_{DD}\), come visto alla fine del paragrafo delle \hyperref[capacità_parassite_mosfet]{capacità parassite dei mosfet}.
 
 \subsubsection*{Calcolo dei tempi di ritardo intrinseci}
 Il tempo di ritardo è il tempo che impiega la porta di uscita a raggiungere il 50\% del valore finale dopo un cambio di stato
@@ -423,6 +426,12 @@ Si definiscono quindi i coefficienti \(\beta\) e \(\rho\) e si procede all'ottim
 	\end{minipage}
 \end{center}
 
+\noindent
+Si nota che il valore di \(\beta\) ottimizza anche l'affidabilità del circuito in quanto agisce sulla soglia di commutazione
+logica \(V_{M}\) e quindi sui margini di immunità al rumore. Per avere affidabilità massima (ovvero \(V_M = V_{DD}/2\)) bisogna
+scegliere \(\beta \approx 3\), ma siccome \(V_M\) reagisce molto poco alle variazioni di \(\beta\), si predilige scegliere
+\(\beta\) in modo da ottimizzare il tempo di ritardo.
+
 \subsubsection*{Dimensionamento dell'invertitore con carico esterno}
 Fissato un certo \(\beta\) si calcola come ottimizzare il tempo di ritardo in funzione della capacità di carico esterna \(C_L\)
 andando a dimensionare opportunamente i transistor. Si ottiene:
@@ -442,11 +451,11 @@ parassita di uscita \(C_{OUT}\).
 	\begin{minipage}{0.5\textwidth}
 		Osservando il grafico di \(t_p\) in funzione di \(Z_n = W_n/L\) si osserva che:
 		\begin{itemize}
-			\item  diminuendo \(Z_n\) il tempo di ritardo aumenta (come previsto) a causa dell'aumento di \(R_{OUT}\) che limita
-			la corrente di carica/scarica di \(C_{OUT}\)
-			\item  aumentando \(Z_n\) il tempo di ritardo diminuisce inizialmente a causa della diminuzione di \(R_{OUT}\)
-			ma poi si stabilizza attorno ad un valore minimo dovuto al fatto che l'invertitore deve anche \say{auto-caricarsi} la
-			capacità parassita \(C_{OUT}\) che è ormai diventata significativa rispetto a \(C_L\)
+			\item  diminuendo \(Z_n\) il tempo di ritardo aumenta a causa dell'aumento di \(R_{OUT}\) che limita
+			la corrente di carica/scarica di \(C_{OUT} + C_L\)
+			\item  aumentando \(Z_n\) il tempo di ritardo diminuisce inizialmente a causa della diminuzione di \(R_{OUT}\),
+			poi si stabilizza attorno ad un valore minimo dovuto al fatto che l'invertitore deve anche \say{auto-caricarsi} la
+			capacità parassita \(C_{OUT}\) che è ormai diventata significativa rispetto al carico \(C_L\)
 		\end{itemize}
 	\end{minipage}
 \end{center}
@@ -456,7 +465,7 @@ Il consumo statico è il consumo di potenza dell'invertitore quando l'ingresso �
 (alto o basso). In questo caso uno dei due transistor è sempre spento per cui non c'è corrente di drenaggio tra i due terminali
 di alimentazione \(V_{DD}\) e massa. L'unico contributo al consumo statico è dovuto alle correnti di sottosoglia dei due transistor,
 alle correnti di perdita dell'ossido di gate e alla corrente inversa del diodo drain-substrato. Questi contributi sono però
-trascurabili, per cui si può considerare che il consumo statico di un invertitore CMOS sia praticamente nullo.
+trascurabili, per cui si può considerare che il consumo statico di un invertitore cmos sia praticamente nullo.
 
 \subsection{Consumo dinamico}
 \subsubsection*{Analisi del consumo dinamico per una porta logica generale}
@@ -466,7 +475,7 @@ il consumo dinamico per entrambe le fasi di commutazione dell'uscita (LH e HL):
 \begin{itemize}
 	\item commutazione dell'uscita LH:
 		\begin{align*}
-			&\text{energia assorbita} & &E_{V_{DD}} = \int_0^T V_{DD} i_{DD}(t) dt = V_{DD} \int_{V_{OL}}^{V_{OH}} C \cdot dV = C V_{DD} (V_{OH} - V_{OL}) \\
+			&\text{energia assorbita} & &E_{V_{DD}} = \int_0^T V_{DD} \; i_{DD}(t) \; dt = V_{DD} \int_{V_{OL}}^{V_{OH}} C \cdot dV = C V_{DD} (V_{OH} - V_{OL}) \\
 			&\text{energia immagazzinata} & &E_{C} = \int_{V_{OL}}^{V_{OH}} V \cdot C \cdot dV = \frac{1}{2} C {V_{OH}}^2 - \frac{1}{2} C {V_{OL}}^2 \\
 			&\text{energia dissipata} & &E_{diss} = E_{V_{DD}} - E_{C}
 		\end{align*}
@@ -485,16 +494,16 @@ dissipata dalla porta logica:
 \[P_{DYN} = E_{diss, tot} \cdot f = C \cdot V_{DD} (V_{OH} - V_{OL}) \cdot f\]
 
 \subsubsection*{Consumo dinamico dell'invertitore}
-Applicando la formula generale del consumo dinamico all'invertitore CMOS si ottiene:
+Applicando la formula generale del consumo dinamico all'invertitore cmos si ottiene:
 \[P_{DYN, invertitore} = C_{OUT} \cdot {V_{DD}}^2 \cdot f\]
 
 \subsubsection*{Cammino diretto}
 Si osserva che durante la commutazione del segnale di uscita, per un breve intervallo di tempo, entrambi i transistor
-possono essere contemporaneamente accesi, creando un cammino diretto tra \(V_{DD}\) e massa. In questo intervallo di
-tempo si ha una corrente di cortocircuito \(I_{CC}\) che causa una dissipazione di potenza addizionale.
-
-In generale il cammino diretto si verifica quando la tensione di ingresso attiva entrami i mosfet per legge
-\(V_{TN} < V_{IN} < V_{DD} - V_{TP}\) e il tempo di durata del cammino diretto si indica con \(t_{cc}\).
+possono essere contemporaneamente accesi, creando un cammino diretto tra \(V_{DD}\) e massa. Ciò si verifica quando la tensione
+di ingresso attiva entrami i mosfet per legge \(V_{TN} < V_{IN} < V_{DD} - V_{TP}\) e il tempo di durata del cammino diretto
+si indica con \(t_{cc}\). In questo intervallo di tempo si ha una corrente di cortocircuito \(I_{CC}\) che causa una dissipazione
+di potenza addizionale e sottrae corrente alla carica/scarica delle capacità parassite e del carico esterno, allungando i tempi
+di ritardo. Per questo motivo si vuole minimizzare la durata del cammino diretto durante la progettazione dell'invertitore.
 
 \subsection{Oscillatore ad anello}
 L'oscillatore ad anello è un circuito costituito da un numero dispari di invertitori collegati in cascata, in cui l'uscita
@@ -518,18 +527,18 @@ dove \(N\) è il numero di invertitori nell'anello, \(t_p\) è il tempo di propa
 	\begin{minipage}{0.55\textwidth}
 		\centering \includegraphics[width=0.9\textwidth]{immagini/7_invertitore/oscillatore_1.png}
 
-		Oscillatore ad anello con 7 invertitori
+		\small{Oscillatore ad anello con 7 invertitori}
 	\end{minipage}
 	\begin{minipage}{0.4\textwidth}
 		\centering \includegraphics[width=0.9\textwidth]{immagini/7_invertitore/oscillatore_2.png}
 
-		Segnale di uscita dell'oscillatore ad anello
+		\small{Segnale di uscita dell'oscillatore ad anello}
 	\end{minipage}
 \end{center}
 
-\subsection{Buffer CMOS}
+\subsection{Buffer cmos}
 \subsubsection*{Struttura generale}
-Il buffer CMOS è un circuito costituito da una serie di invertitori collegati in cascata, utilizzato per aumentare la capacità di
+Il buffer cmos è un circuito costituito da una serie di invertitori collegati in cascata, utilizzato per aumentare la capacità di
 pilotaggio del segnale di uscita e migliorare le prestazioni del circuito logico.
 \begin{center}
 	\includegraphics[width=0.8\textwidth]{immagini/7_invertitore/buffer.png}
@@ -603,10 +612,12 @@ si deve usare la somma delle capacità dei nodi interni più la capacità del no
 \[P_{DYN} = {C_{tot} \; V_{DD}}^2 \; f_\text{requenza}\]
 
 \subsubsection*{Impieghi}
-Il buffer CMOS viene utilizzato per ridurre il tempo di ritardo quando si deve pilotare un carico esterno elevato. Alcuni esempi
+Il buffer cmos viene utilizzato per ridurre il tempo di ritardo quando si deve pilotare un carico esterno elevato. Alcuni esempi
 di impiego del buffer sono:
 \begin{itemize}
 	\item pilotaggio di bus di dati o passaggio di segnali per piste lunghe con elevata capacità parassita
 	\item pilotaggio di ingressi di circuiti logici con elevata capacità di ingresso
 	\item pilotaggio da parte del clock di tutti i registri del computer
 \end{itemize}
+Siccome il buffer è costituito da più invertitori in cascata, il consumo dinamico è maggiore rispetto ad un singolo invertitore
+ed inoltre occupa più area sul chip. Per questo motivo si cerca di utilizzare il buffer solo quando strettamente necessario.

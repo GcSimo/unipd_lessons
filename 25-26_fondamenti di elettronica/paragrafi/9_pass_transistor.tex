@@ -46,13 +46,13 @@ transistor.
 	\end{minipage}
 
 	\begin{minipage}{0.2\textwidth}
-		\centering simbolo logico del MUX 2:1
+		\centering \small{simbolo logico del MUX 2:1}
 	\end{minipage}
 	\begin{minipage}{0.38\textwidth}
-		\centering MUX 2:1 a pass transistor con nmos
+		\centering \small{MUX 2:1 a pass transistor con nmos}
 	\end{minipage}
 	\begin{minipage}{0.38\textwidth}
-		\centering MUX 2:1 a pass transistor con pmos
+		\centering \small{MUX 2:1 a pass transistor con pmos}
 	\end{minipage}
 \end{center}
 
@@ -70,7 +70,7 @@ transistor.
 			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = A \cdot B\)};
 		\end{circuitikz}
 
-		AND a pass-T con nmos
+		\small{AND a pass-T con nmos}
 	\end{minipage}
 	\begin{minipage}{0.32\textwidth}
 		\centering \begin{circuitikz}
@@ -84,7 +84,7 @@ transistor.
 			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = A + B\)};
 		\end{circuitikz}
 
-		OR a pass-T con nmos
+		\small{OR a pass-T con nmos}
 	\end{minipage}
 	\begin{minipage}{0.32\textwidth}
 		\centering \begin{circuitikz}
@@ -98,7 +98,7 @@ transistor.
 			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = A \oplus B\)};
 		\end{circuitikz}
 
-		XOR a pass-T con nmos
+		\small{XOR a pass-T con nmos}
 	\end{minipage}
 \end{center}
 \begin{center}
@@ -114,7 +114,7 @@ transistor.
 			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = \overline{A \cdot B}\)};
 		\end{circuitikz}
 
-		NAND a pass-T con nmos
+		\small{NAND a pass-T con nmos}
 	\end{minipage}
 	\begin{minipage}{0.32\textwidth}
 		\centering \begin{circuitikz}
@@ -128,7 +128,7 @@ transistor.
 			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = \overline{A + B}\)};
 		\end{circuitikz}
 
-		NOR a pass-T con nmos
+		\small{NOR a pass-T con nmos}
 	\end{minipage}
 	\begin{minipage}{0.32\textwidth}
 		\centering \begin{circuitikz}
@@ -142,7 +142,7 @@ transistor.
 			\draw (M1.D) ++(0.3,-0.8) -- ++(0.5,0) node[right] {\(F = \overline{A \oplus B}\)};
 		\end{circuitikz}
 
-		XNOR a pass-T con nmos
+		\small{XNOR a pass-T con nmos}
 	\end{minipage}
 \end{center}
 
@@ -167,16 +167,20 @@ uguaglia la tensione di soglia \(V_S - V_G = 0 - (-V_{TP}) = V_{TP}\) e il trans
 	\begin{minipage}{0.3\textwidth}
 		\centering \includegraphics[width=0.95\textwidth]{immagini/9_pass_transistor/tx_nmos.png}
 
-		caratteristiche di trasmissione di un pass transistor nmos
+		\small{caratteristiche di trasmissione di un pass transistor nmos}
 	\end{minipage}
 	\begin{minipage}{0.15\textwidth} \(\) \end{minipage}
 	\begin{minipage}{0.3\textwidth}
 		\centering \includegraphics[width=0.9\textwidth]{immagini/9_pass_transistor/tx_pmos.png}
 
-		caratteristiche di trasmissione di un pass transistor pmos
+		\small{caratteristiche di trasmissione di un pass transistor pmos}
 	\end{minipage}
 \end{center}
 
+\noindent
+Dai grafici si osserva che i pass transistor hanno guadagno statico unitario (la pendenza della caratteristica è 1), per cui
+non hanno proprietà rigenerativa del segnale e il rumore viene trasmesso senza attenuazione. Inoltre l'effetto body peggiora
+ulteriormente la trasmissione dei valori logici \say{cattivi}, aumentando in modulo la tensione di soglia \(V_{TN}\) e \(V_{TP}\).
 
 \subsubsection*{Propagazione ed effetti dei valori logici cattivi per pass transistor nmos}
 L'uscita di un pass trasistor nmos che trasmette un valore logico alto risulta degradata a \(V_{DD} - V_{TN}\) può essere
@@ -205,15 +209,15 @@ collegata in tre modi principali:
 	\end{minipage}
 
 	\begin{minipage}{0.25\textwidth}
-		\centering trasmissione del valore degradato attraverso due pass transistor nmos in serie
+		\centering \small{trasmissione del valore degradato attraverso due pass transistor nmos in serie}
 	\end{minipage}
 	\begin{minipage}{0.01\textwidth} \(\) \end{minipage}
 	\begin{minipage}{0.25\textwidth}
-		\centering trasmissione del valore degradato verso il gate di un pass transistor nmos
+		\centering \small{trasmissione del valore degradato verso il gate di un pass transistor nmos}
 	\end{minipage}
 	\begin{minipage}{0.01\textwidth} \(\) \end{minipage}
 	\begin{minipage}{0.35\textwidth}
-		\centering trasmissione del valore degradato verso una porta logica complementare (invertitore)
+		\centering \small{trasmissione del valore degradato verso una porta logica complementare (invertitore)}
 	\end{minipage}
 \end{center}
 
@@ -231,6 +235,7 @@ Analizzando il funzionamento di un level restorer usato per ripristinare il valo
 	forzando l'uscita della rete pass transistor \(F\) al valore logico alto \(V_{DD}\).
 \end{itemize}
 
+\noindent
 Quando l'uscita del nodo \(F\) inizialmente a \(V_{DD}\) (con il transistor di pull-up è acceso), deve essere portata al valore
 logico basso, è necessario che raggiunga la tensione \(V_M\) in modo da far commutare l'invertitore e spegnere il pmos, altrimenti
 questo continuerà a forzare l'uscita al valore logico alto. Per fare in modo che ciò avvenga, è necessario che il pmos abbia un
@@ -242,7 +247,7 @@ la mancata commutazione del segnale.
 	\begin{minipage}{0.35\textwidth}
 		\centering \includegraphics[width=0.85\textwidth]{immagini/9_pass_transistor/level_restorer_circuito.png}
 
-		circuito di un level restorer per pass transistor nmos
+		\small{circuito di un level restorer per pass transistor nmos}
 	\end{minipage}
 	\begin{minipage}{0.1\textwidth} \(\) \end{minipage}
 	\begin{minipage}{0.35\textwidth}
@@ -250,7 +255,7 @@ la mancata commutazione del segnale.
 
 		\centering \includegraphics[width=0.85\textwidth]{immagini/9_pass_transistor/level_restorer_curva.png}
 
-		curva della commutazione HL del nodo \(F\) al variare di \(Z_p\)
+		\small{curva della commutazione HL del nodo \(F\) al variare di \(Z_p\)}
 	\end{minipage}
 \end{center}
 
@@ -266,7 +271,7 @@ insieme e si compensano a vicenda i difetti di trasmissione dei valori logici:
 \begin{center}
 	\centering \includegraphics[width=0.5\textwidth]{immagini/9_pass_transistor/tg.png}
 
-	schema circuitale di una porta di trasmissione (transmission gate) \\ e relativo simbolo di abbreviazione
+	\small{schema circuitale di una porta di trasmissione (transmission gate) \\ e relativo simbolo di abbreviazione}
 \end{center}
 
 \subsection{Tempi di propagazione e ottimizzazioni}
@@ -308,7 +313,7 @@ Per calcolare il numero ottimale di stadi \(K\) e il numero di pass transistor p
 	\item calcolare il tempo di propagazione complessivo come \(t_{p,tot} = K \cdot t_{p,stadio}\) ed effettuare le opportune
 	sostituzioni \(K = N/M\) per avere \(t_{p,tot}\) in funzione di \(M\) solamente
 	\item derivare \(t_{p,tot}\) rispetto a \(M\) e porre la derivata uguale a zero per trovare il valore ottimale di \(M\)
-	che minimizza il tempo di propagazione complessivo
+	che minimizza il tempo di propagazione complessivo (tipicamente \(3 \leq M \leq 5\))
 	\item una volta trovato \(M\) intero, si può calcolare \(K = N/M\)
 \end{enumerate}
 NOTA: i buffer possono essere invertenti o non invertenti, se sono invertenti è opportuno fare attenzione ad eventuali negazioni
@@ -318,20 +323,12 @@ durante la catena di elaborazione logica del segnale.
 Il consumo dinamico dei circuiti a pass transistor si basa sempre sulla formula generale del consumo dinamico, con le stesse
 variabili e considerazioni viste per le porte logiche complementari.
 \[P_{DYN} = C_F \cdot V_{DD} (V_H - V_L) \cdot f \cdot \alpha_F\]
-
+L'unica cosa di cui fare attenzione è l'escursione tra i valori logici alto e basso, che varia in base alla configurazione
+usata (nmos, pmos o TG) e alla presenza di level restorer.
 
 \subsection{Costruzioni di porte logiche}
 \subsubsection*{MUX a pass-T e a TG}
 \begin{center}
-%	\begin{minipage}{0.2\textwidth}
-%		\centering \begin{circuitikz}
-%			\draw (0, 0) node[muxdemux, muxdemux def={w=1, Lh=2, Rh=1.4, NL=2, NR=1, NB=0, NT=1}, anchor=center] (MUX) {};
-%			\draw (MUX.lpin 1) node[left] {$A_0$}; \draw (MUX.lpin 2) node[left] {$A_1$};
-%			\draw (MUX.tpin 1) node[above] {$S$}; \draw (MUX.rpin 1) node[right] {$F$};
-%		\end{circuitikz}
-%
-%		simbolo logico del MUX 2:1
-%	\end{minipage}
 	\begin{minipage}{0.3\textwidth}
 		\centering \begin{circuitikz}
 			\ctikzset{logic ports=ieee}
@@ -398,21 +395,22 @@ variabili e considerazioni viste per le porte logiche complementari.
 	\end{minipage}
 
 	\begin{minipage}{0.3\textwidth}
-		\centering MUX 2:1 a pass transistor con nmos, non rigenerativo, bidirezionale, con escursione logica limitata
+		\centering \small{MUX 2:1 a pass transistor con nmos, non rigenerativo, bidirezionale, con escursione logica limitata}
 	\end{minipage}
 	\begin{minipage}{0.3\textwidth}
-		\centering MUX 2:1 a transmission gate, non rigenerativo, bidirezionale, con escursione logica completa
+		\centering \small{MUX 2:1 a transmission gate, non rigenerativo, bidirezionale, con escursione logica completa}
 	\end{minipage}
 	\begin{minipage}{0.38\textwidth}
-		\centering MUX 2:1 a transmission gate con invertitori, rigenerativo, unidirezionale con escursione logica completa
+		\centering \small{MUX 2:1 a transmission gate con invertitori, rigenerativo, unidirezionale con escursione logica completa}
 	\end{minipage}
 \end{center}
 
 \subsubsection*{MUX a più stadi - struttura ad albero}
 Di seguito una rappresentazione di un MUX 8:1 a più stadi organizzati secondo una struttura ad albero, realizzato con MUX 2:1.
-I singoli MUX 2:1 possono essere realizzati con trasmission gate con invertitori per garantire un'escursione logica completa e
-un funzionamento rigenerativo e unidirezionale, con l'accorgimento di eliminare gli invertitori tra i nodi intermedi
-\(X_0, X_1, X_2, X_3, Y_0, Y_1\) e lasciare solo quelli sugli ingressi e all'uscita.
+I singoli MUX 2:1 possono essere realizzati con trasmission gate per garantire un'escursione logica completa. Inoltre è possibile
+aggiungere degli invertitori per assicurare un funzionamento rigenerativo e unidirezionale, con l'accorgimento di non ripeterli
+per i nodi intermedi \(X_0, X_1, X_2, X_3, Y_0, Y_1\) e lasciare solo quelli sugli ingressi e all'uscita e ad ogni \(M\) stadi,
+come visto nella sezione precedente sul buffering.
 \begin{center}
 	\begin{minipage}{0.6\textwidth}
 		\centering \begin{circuitikz}
@@ -461,17 +459,21 @@ un funzionamento rigenerativo e unidirezionale, con l'accorgimento di eliminare 
 			\draw (MUX5.rpin 1) -- (MUX7.lpin 1);
 			\draw (MUX6.rpin 1) -- (MUX7.lpin 2);
 		\end{circuitikz}
+
+		\small{MUX 8:1 a più stadi con struttura ad albero \\ realizzato con MUX 2:1}
 	\end{minipage}
 	\begin{minipage}{0.05\textwidth}
 		\centering \(\rightarrow\)
 	\end{minipage}
 	\begin{minipage}{0.3\textwidth}
 		\centering \begin{circuitikz}
-			\draw (0, 0) node[muxdemux, muxdemux def={w=2, Rh=5, Lh=7, NL=8, NR=1, NB=0, NT=3}, anchor=center] (MUX) {MUX};
+			\draw (0, 0) node[muxdemux, muxdemux def={w=2, Rh=5, Lh=7, NL=8, NR=1, NB=0, NT=3}, anchor=center, align=center] (MUX) {MUX \\ 8:1};
 			\draw (MUX.lpin 1) node[left] {$A_0$}; \draw (MUX.lpin 2) node[left] {$A_1$}; \draw (MUX.lpin 3) node[left] {$A_2$}; \draw (MUX.lpin 4) node[left] {$A_3$};
 			\draw (MUX.lpin 5) node[left] {$A_4$}; \draw (MUX.lpin 6) node[left] {$A_5$}; \draw (MUX.lpin 7) node[left] {$A_6$}; \draw (MUX.lpin 8) node[left] {$A_7$};
 			\draw (MUX.tpin 1) node[above] {$S_1$}; \draw (MUX.tpin 2) node[above] {$S_0$}; \draw (MUX.tpin 3) node[above] {$S_2$}; \draw (MUX.rpin 1) node[right] {$F$};
 		\end{circuitikz}
+
+		\small{simbolo di abbreviazione del MUX 8:1}
 	\end{minipage}
 \end{center}
 

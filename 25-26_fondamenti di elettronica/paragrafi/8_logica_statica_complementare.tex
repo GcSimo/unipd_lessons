@@ -118,7 +118,7 @@ la rete duale di pmos sostituendo ogni serie di nmos con un parallelo di pmos e 
 \subsubsection*{Principio generale}
 Data una funzione logica con \(N\) ingressi \(F(A,B,C, \dots)\), si osserva che:
 \begin{itemize}
-	\item per ogni combinazione di ingressi per cui \(F(\dots) = 0\), l'uscita della porta logica deve essere \(0 \V\), ovvero
+	\item per ogni combinazione di ingressi per cui \(F(\dots) = 0\), l'uscita della porta logica deve essere \(0V\), ovvero
 	la rete di pull-down (PDN) deve essere attiva e collegare l'uscita a massa;
 	\item per ogni combinazione di ingressi per cui \(F(\dots) = 1\), l'uscita della porta logica deve essere \(V_{DD}\), ovvero
 	la rete di pull-up (PUN) deve essere attiva e collegare l'uscita a \(V_{DD}\).
@@ -131,6 +131,10 @@ Per implementare una porta logica con logica statica complementare si segue il s
 	\item si costruisce la rete di pull-up (PUN), duale della PDN che implementa la funzione logica \(F\)
 	\item infine si collega la PUN tra \(V_{DD}\) e l'uscita, e la PDN tra l'uscita e massa
 \end{enumerate}
+
+\noindent
+La caratteristica statica delle porte logiche realizzate con logica statica complementare è uguale a quella dell'invertitore
+cmos. Inoltre vale la proprietà rigenerativa del segnale.
 
 \subsubsection*{Esempio di porte logiche elementari invertenti}
 \begin{center}
@@ -263,7 +267,6 @@ all'uscita oppure agli ingressi della porta logica invertente.
 
 
 \subsection{Tempi di ritardo}
-%\subsubsection*{Calcolo delle capacità parassite e modello RC (NAND a 3 ingressi)}
 \subsubsection*{Ricerca del percorso peggiore e modello di Elmore}
 L'analisi dei tempi di ritardo di una porta logica a più ingressi consiste nell'analizzare la carica e scarica del nodo di uscita
 attraverso i percorsi di carica (nella PUN) e scarica (nella PDN) con resistenza equivalente massima, ovvero lungo il percorso peggiore.
@@ -280,17 +283,17 @@ e \(t_{pHL}\) nel caso di una nand a 3 ingressi.
 	\begin{minipage}{0.52\textwidth}
 		\centering \includegraphics[width=\textwidth]{immagini/8_logica_statica_complementare/tp_1.png}
 
-		modellizzazione con resistenze e capacità
+		\small{modellizzazione con resistenze e capacità}
 	\end{minipage}
 	\begin{minipage}{0.23\textwidth}
 		\centering \includegraphics[width=\textwidth]{immagini/8_logica_statica_complementare/tp_2.png}
 
-		percorso peggiore della PUN per \(t_{pLH}\)
+		\small{percorso peggiore della PUN per \(t_{pLH}\)}
 	\end{minipage}
 	\begin{minipage}{0.23\textwidth}
 		\centering \includegraphics[width=\textwidth]{immagini/8_logica_statica_complementare/tp_3.png}
 
-		percorso peggiore della PDN per \(t_{pHL}\)
+		\small{percorso peggiore della PDN per \(t_{pHL}\)}
 	\end{minipage}
 \end{center}
 Per il caso sopra, i tempi di ritardo risultano:
@@ -328,8 +331,9 @@ Il contributo del carico esterno, invece, cresce linearmente con \(N\):
 Per uniformare il caso peggiore tra \(t_{pLH}\) e \(t_{pHL}\), si può agire sul rapporto \(Z_p/Z_n\) dei mosfet, per bilanciare
 le resistenze equivalenti della PUN e PDN al caso peggiore.
 \[R_{PU} = \alpha \frac{R_{p0}}{Z_p} \qquad R_{PD} = \beta \frac{R_{n0}}{Z_n} \qquad R_{PU} = R_{PD} \;\; \rightarrow \;\; Z_{p} = \frac{\alpha R_{p0}}{\beta R_{n0}} Z_n\]
-Si osserva che per ottimizzare il tempo di ritardo è possibile avere \(Z_p\) e \(Z_n\) minori per i mosfet che sono collegati
-direttamente al nodo di uscita (coinvolti nel termine quadratico) e maggiori per i mosfet più lontani dall'uscita.
+Si osserva che per ottimizzare il tempo di ritardo è ulteriormente possibile avere \(Z_p\) e \(Z_n\) minori per i mosfet che sono
+collegati direttamente al nodo di uscita (coinvolti nel termine quadratico) e maggiori per i mosfet più lontani dall'uscita, senza
+però alterare il bilanciamento tra PUN e PDN.
 
 \subsubsection*{Tempo di ritardo di più porte logiche in cascata}
 Quando si collegano in cascata più porte logiche (ad esempio per realizzare funzioni non invertenti come AND = NAND + NOT e
@@ -379,12 +383,12 @@ Di seguito un confronto delle prestazioni di una porta AND a 16 ingressi realizz
 	\begin{minipage}{0.38\textwidth}
 		\centering \includegraphics[width=\textwidth]{immagini/8_logica_statica_complementare/and_2stadi.png}
 
-		AND a 16 ingressi in 2 stadi
+		\small{AND a 16 ingressi in 2 stadi}
 	\end{minipage}
 	\begin{minipage}{0.6\textwidth}
 		\centering \includegraphics[width=\textwidth]{immagini/8_logica_statica_complementare/and_4stadi.png}
 
-		AND a 16 ingressi in 4 stadi
+		\small{AND a 16 ingressi in 4 stadi}
 	\end{minipage}
 \end{center}
 

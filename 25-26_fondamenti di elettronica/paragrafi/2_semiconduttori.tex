@@ -1,11 +1,11 @@
 \section{Semiconduttori}
 \subsection{Classificazione e proprietà elettriche dei semiconduttori}
 \subsubsection*{Classificazione dei materiali}
-In base alla resisitività elettrica \(\rho\) dei materiali, questi si dividono in:
+In base alla propria resisitività elettrica \(\rho\), ogni materiale si classifica in:
 \begin{itemize}
-	\item conduttori: \(\rho < 10^{-3} \Omega \cdot \m\)
-	\item semiconduttori: \(10^{-3} \Omega \cdot \m < \rho < 10^{5} \Omega \cdot \m\)
-	\item isolanti: \(\rho > 10^{5} \Omega \cdot \m\)
+	\item conduttori: \(\rho < 10^{-3} \; \Omega \cdot \m\)
+	\item semiconduttori: \(10^{-3} \; \Omega \cdot \m < \rho < 10^{5} \; \Omega \cdot \m\)
+	\item isolanti: \(\rho > 10^{5} \; \Omega \cdot \m\)
 \end{itemize}
 
 \subsubsection*{Classificazione chimica dei semiconduttori}
@@ -28,8 +28,8 @@ con 4 atomi di silicio vicini, formando così una struttura cristallina tetraedr
 Un materiale conduce corrente elettrica se possiede elettroni liberi in grado di muoversi all'interno del reticolo cristallino.
 La differenza tra metalli, isolanti e semiconduttori risiede nel comportamento degli elettroni di valenza:
 \begin{itemize}
-	\item nei metalli, gli elettroni di legame sono condivisi tra più atomi e formano una nube di elettroni liberi che si muovono
-	liberamente all'interno del reticolo cristallino, permettendo così la conduzione elettrica
+	\item nei metalli, gli elettroni di legame sono condivisi tra più atomi e formano una nube di elettroni che si muovono
+	liberamente all'interno del reticolo metallico, permettendo così la conduzione elettrica
 	\item negli isolanti, gli elettroni di valenza sono fortemente vincolati ai loro atomi e non possono muoversi liberamente
 	all'interno del reticolo cristallino, per cui sono scarsi conduttori di elettricità
 	\item nei semiconduttori si hanno comportamenti simili agli isolanti, però i legami tra gli atomi sono più deboli e con poca
@@ -51,23 +51,21 @@ Di seguito una tabella con i valori di energy gap per alcuni materiali comuni:
 	\end{tabular}
 \end{center}
 
-\subsubsection*{Elettroni liberi e lacune}
+
+\subsubsection*{Elettroni liberi e lacune nei semiconduttori}
 Quando un elettrone di valenza acquisisce sufficiente energia per liberarsi dal legame con il suo atomo, esso diventa un elettrone
 libero in grado di muoversi liberamente all'interno del reticolo cristallino. Il legame incompleto per la mancanza di un elettrone
-è detto lacuna (o hole in inglese) e si comporta come una carica positiva mobile all'interno del reticolo cristallino.
-
+è detto lacuna (o hole in inglese).
 La lacuna può essere colmata da un elettrone di valenza di un atomo vicino, che a sua volta lascia una nuova lacuna. In questo modo,
-la lacuna sembra muoversi all'interno del reticolo cristallino, permettendo così la conduzione elettrica.
-
-Gli elettroni liberi e e le lacune sono detti portatori di carica negativa per gli elettroni, positiva per le lacune.
+la lacuna sembra muoversi all'interno del reticolo cristallino, creando così una corrente elettrica.
+Gli elettroni liberi sono detti portatori di carica negativa, mentre le lacune sono dette portatori di carica positiva.
 
 \subsubsection*{Concentrazione di elettorni e lacune in un semiconduttore intrinseco}
 In un semiconduttore intrinseco, la concentrazione di elettroni liberi \(n\) e la concentrazione di lacune \(p\) sono uguali e
-per definizione si indicano con \(n_i\):
-\[n = p = n_i \qquad n \cdot p = {n_i}^2\]
+per definizione si indicano con \(n_i\).
 La concentrazione di portatori di carica in un semiconduttore intrinseco dipende dalla temperatura \(T\) e dall'energy gap \(E_g\)
-del materiale, secondo la seguente formula, dove \(B\) è una costante dipendente dal materiale e \(k_B\) è la costante di Boltzmann.
-\[n_i = BT^{3/2} e^{-E_g/2k_BT}\]
+del materiale, secondo la formula a destra, dove \(B\) è una costante dipendente dal materiale e \(k_B\) è la costante di Boltzmann.
+\[n = p = n_i \qquad n \cdot p = {n_i}^2 \qquad\qquad n_i = BT^{3/2} e^{-\tfrac{E_g}{2k_BT}}\]
 Si osserva che la concentrazione di portatori di carica aumenta all'aumentare della temperatura. Nel silicio a temperatura
 ambiente (300 K), la concentrazione di portatori di carica è circa \(n_i = 1.45 \times 10^{10} \, \cm^{-3}\).
 
@@ -88,18 +86,19 @@ Il drogaggio di tipo p si ottiene aggiungendo al silicio intrinseco atomi di un 
 come il boro (B), l'alluminio (Al) o il gallio (Ga). Questi atomi fanno sempre 4 legami covalenti con gli atomi di silicio vicini,
 ma avendo un elettrone in meno, creano una lacuna. Per questo motivo sono detti accettori.
 
-\subsubsection*{Equilibrio termodinamico e legge di azione di massa}
+\subsubsection*{Generazione e ricombinazione di coppie elettrone-lacuna}
 In un semiconduttore si hanno due processi opposti che avvengono contemporaneamente:
 \begin{itemize}
 	\item la \textbf{generazione} di coppie elettrone-lacuna, per cui si formano un elettrone libero e una lacuna dovuti alla
 	rottura di un legame covalente; si indica con \(G = f_1(T)\) il tasso di generazione, ovvero il numero di coppie
 	elettrone-lacuna generate per unità di volume e di tempo (\([\cm^{-3} \s^{-1}]\)), che dipende dalla temperatura \(T\)
 	\item la \textbf{ricombinazione} di coppie elettrone-lacuna, in cui un elettrone libero si ricombina con una lacuna; si indica
-	con \(R = n \ccdot p \ccdot f_2(T)\) il tasso di ricombinazione, ovvero il numero di coppie elettrone-lacuna che si
+	con \(R = n \, p \, f_2(T)\) il tasso di ricombinazione, ovvero il numero di coppie elettrone-lacuna che si
 	ricombinano per unità di volume e di tempo (\([\cm^{-3} \s^{-1}]\)) e dipende dalle concentrazioni di elettroni \(n\) e di
 	lacune \(p\) e dalla temperatura \(T\)
 \end{itemize}
 
+\subsubsection*{Equilibrio termodinamico e legge di azione di massa}
 Quando il semiconduttore si trova a temperatura costante e senza sollecitazioni esterne, raggiunge uno stato di
 \textbf{equilibrio termodinamico} in cui:
 \begin{itemize}
@@ -150,6 +149,12 @@ Se \(N_D > N_A\) si comporta come un semiconduttore di tipo n con drogaggio nett
 Viceversa se \(N_A > N_D\) si comporta come un semiconduttore di tipo p con drogaggio netto \(N_A' = N_A - N_D\):
 \[p^2 - p (N_A - N_D) - {n_i}^2 = 0 \quad \stackrel{N_A - N_D \gg n_i}{\longrightarrow} \quad p \approx N_A - N_D, \quad n = \frac{{n_i}^2}{N_A - N_D}\]
 
+\subsubsection*{Scelta di \(N_D\) e \(N_A\) nel drogaggio dei semiconduttori}
+Affinché si abbia una buona riuscita del drogaggio, è necessario che la concentrazione dei droganti sia maggiore dei portatori
+intrinseci e maggiore della concentrazione di impurità (\(> 10^{10 \, - \, 12} \; \cm^{-3}\)) altrimenti il drogaggio non avrebbe effetto.
+Inoltre deve essere minore degli atomi di silicio nel reticolo cristallino (\(< 10^{22} \; \cm^{-3}\)). In genere si sceglie un
+drogaggio compreso tra \(10^{14} \; \cm^{-3}\) e \(10^{19} \; \cm^{-3}\).
+
 \subsection{Corrente elettrica e conducibilità nei semiconduttori}
 \subsubsection*{Cause del moto dei portatori di carica}
 Lo spostamento dei portatori di carica nei semiconduttori è influenzata da tre meccanismi fisici:
@@ -166,20 +171,22 @@ Lo spostamento dei portatori di carica nei semiconduttori è influenzata da tre 
 \subsubsection*{Moto dei portatori di carica dovuto alla sola energia cinetica / agitazione termica}
 In assenza di campo elettrico e di gradiente di concentrazione, i portatori di carica si muovono casualmente all'interno
 del reticolo cristallino a causa della loro energia cinetica. Questo moto casuale produce uno spostamento medio nullo,
-poiché i portatori di carica si muovono in tutte le direzioni con uguale probabilità.
+poiché i portatori di carica si muovono in tutte le direzioni con uguale probabilità. Per questo la temperatura viene
+definita come contributo caotico.
 
 \subsubsection*{Moto dei portatori di carica dovuto al campo elettrico}
 Quando si applica un campo elettrico \(E\) al semiconduttore, i portatori di carica subiscono una forza \(F_E\) dovuta al campo
 elettrico che induce un movimento ordinato dei portatori di carica:
 \begin{itemize}
 	\item gli elettroni liberi, essendo cariche negative, si muovono in direzione opposta al campo elettrico
-	\item le lacune, essendo cariche positive, si muovono in direzione del campo elettrico
+	\item le lacune, essendo cariche positive, si muovono in direzione concorde al campo elettrico
 \end{itemize}
 Il moto ordinato dei portatori di carica dovuto al campo elettrico si sovrappone al moto casuale dovuto all'agitazione
 termica, producendo uno spostamento medio non nullo dei portatori di carica nella direzione del campo elettrico (per le lacune)
 o in direzione opposta al campo elettrico (per gli elettroni).
 
 La velocità di deriva dei portatori dipende linearmente al campo elettrico (approssimando per campi non troppo elevati):
+\vspace{-7pt}
 \[\begin{cases}
 	v_n = - \mu_n \ccdot E & \text{per gli elettroni } \rightarrow \text{ moto opposto a } E \\
 	v_p = \mu_p \ccdot E & \text{per le lacune } \rightarrow \text{ moto concorde a } E
@@ -209,7 +216,7 @@ un gradiente di concentrazione che induce un flusso di portatori dalla regione a
 a concentrazione minore. Questo fenomeno è detto principio di diffusione e si verifica in natura per tutte le particelle
 libere di muoversi.
 
-Per analizzare il moto dei portatori di carica dovuto al gradiente di concentrazione, si definisce il flusso per unità di areaù
+Per analizzare il moto dei portatori di carica dovuto al gradiente di concentrazione, si definisce il flusso per unità di area
 in un intervallo di tempo \(dt\), misurato in \([\cm^{-2}\s^{-1}]\):
 \[\phi(x) = - D \frac{dC(x)}{dx} \qquad \phi(x)_n = - D_n \frac{dn(x)}{dx} \qquad \phi(x)_p = - D_p \frac{dp(x)}{dx}\]
 con \(C(x)\) la concentrazione di particelle in funzione della posizione \(x\) (\([\cm^{-3}]\)) e \(D\) il coefficiente
@@ -227,12 +234,12 @@ Si osserva che il verso della la densità di corrente di diffusione dipende dal 
 \subsubsection*{Corrente totale in un semiconduttore}
 La corrente totale in un semiconduttore è data dalla somma della corrente di deriva e della corrente di diffusione degli
 elettroni e delle lacune:
-\[j_n = {j_n}^\text{drift} + {j_n}^\text{diff} = -q n \mu_n E + q D_n \frac{dn(x)}{dx} \qquad\qquad j_p = {j_p}^\text{drift} + {j_p}^\text{diff} = q p \mu_p E - q D_p \frac{dp(x)}{dx}\]
+\[j_n = {j_n}^\text{drift} + {j_n}^\text{diff} = q n \mu_n E + q D_n \frac{dn(x)}{dx} \qquad\qquad j_p = {j_p}^\text{drift} + {j_p}^\text{diff} = q p \mu_p E - q D_p \frac{dp(x)}{dx}\]
 Le costanti \(D_n\), \(D_p\), \(\mu_n\), \(\mu_p\) sono correlate tra loro dalla relazione di Einstein:
 \[\frac{D_n}{\mu_n} = \frac{D_p}{\mu_p} = \frac{k_B T}{q} = V_T\]
 dove \(k_B\) è la costante di Boltzmann, \(T\) la temperatura assoluta, \(q\) la carica elementare e \(V_T\) è il potenziale
 termico. Si ottiene quindi la seguente espressione per la corrente totale:
-\[j_n = q \mu_n \left(n E + V_T \frac{dn(x)}{dx}\right) \qquad\qquad j_p = q\mu_p \left(p E - V_T \frac{dp(x)}{dx}\right)\]
+\[j_n = q \mu_n \left(n E + V_T \frac{dn(x)}{dx}\right) \qquad\qquad j_p = q\mu_p \left(p E - V_T \frac{dp(x)}{dx}\right) = q\mu_p \left(p E + p V_T\frac{dn(x)}{dx}\right)\]
 
 \subsection{Semiconduttori in equilibrio}
 \subsubsection*{Correnti in un semiconduttore in equilibrio}
@@ -258,7 +265,7 @@ gradiente di potenziale, valgono le seguenti considerazioni:
 \begin{itemize}
 	\item[1. -] \({j_n}^\text{drift}\) ha verso opposto al gradiente di potenziale e concorde con il campo elettrico
 	\item \({j_p}^\text{drift}\) ha verso opposto al gradiente di potenziale e concorde con il campo elettrico
-	\item i gradienti di potenziale per gli elettroni e per le lacune sono uguali tra loro, per cui \(j^\text{drift}\) ha
+	\item il gradiente di potenziale è lo stesso sia per gli elettroni che per le lacune, per cui \(j^\text{drift}\) ha
 	complessivamente verso opposto al gradiente di potenziale e concorde con il campo elettrico
 	\item[2. -] \({j_n}^\text{diff}\) ha verso concorde con il gradiente di concentrazione degli elettroni
 	\item \({j_p}^\text{diff}\) ha verso opposto al gradiente di concentrazione delle lacune

@@ -23,7 +23,7 @@
 	in uscita.
 
 	In base alla realizzazione fisica, un circuito elettronico si distingue in:
-	\begin{itemize}
+	\begin{itemize}[topsep=0pt]
 		\item \textbf{circuito a elementi discreti}: realizzato con componenti costruiti separatamente che poi vengono montati su
 		un supporto (breadboard, PCB) e collegati tra loro tramite fili o piste conduttive;
 		\item \textbf{circuito integrato (IC)}: tutti i componenti sono miniaturizzati e vengono montati su un unico chip di silicio
@@ -66,7 +66,7 @@
 			\node at (0.3,-0.4) {+};
 			\node at (1,-0.4) {\(v_R\)};
 			\node at (1.7,-0.4) {--};
-		\end{circuitikz} & \(\displaystyle \qquad v_R(t) = R \cdot i_R(t)\) & \(\displaystyle i_R(t) = \frac{v_R(t)}{R}\qquad\quad\;\) \\
+		\end{circuitikz} & \(\displaystyle \qquad v_R(t) = R \cdot i_R(t)\) & \(\displaystyle i_R(t) = \frac{v_R(t)}{R}\) \\
 		\midrule
 		
 		\textbf{condensatore (C)}: & \begin{circuitikz}[baseline=(current bounding box.center)]
@@ -75,7 +75,7 @@
 			\node at (0.3,-0.6) {+};
 			\node at (1,-0.7) {\(v_C\)};
 			\node at (1.7,-0.6) {--};
-		\end{circuitikz} & \(\displaystyle \qquad i_C(t) = C \frac{d v_C(t)}{d t}\) & \(\displaystyle v_C(t) = \frac{1}{C} \int_0^t i_C(t) \, dt\) \\
+		\end{circuitikz} & \(\displaystyle \qquad i_C(t) = C \frac{d v_C(t)}{d t}\) & \(\displaystyle v_C(t) = \frac{1}{C} \int_0^t i_C(t) \, dt + \frac{I_0}{C}\) \\
 		\midrule
 		
 		\textbf{induttore (L)}: & \begin{circuitikz}[baseline=(current bounding box.center)]
@@ -84,7 +84,7 @@
 			\node at (0.3,-0.4) {+};
 			\node at (1,-0.4) {\(v_L\)};
 			\node at (1.7,-0.4) {--};
-		\end{circuitikz} & \(\displaystyle \qquad v_L(t) = L \frac{d i_L(t)}{d t}\) & \(\displaystyle i_L(t) = \frac{1}{L} \int_0^t v_L(t) \,dt\)
+		\end{circuitikz} & \(\displaystyle \qquad v_L(t) = L \frac{d i_L(t)}{d t}\) & \(\displaystyle i_L(t) = \frac{1}{L} \int_0^t v_L(t) \,dt + \frac{V_0}{L}\)
 	\end{tabular}
 \end{center}
 
@@ -126,7 +126,7 @@
 	\item Il potenziale elettrico è definito a meno di una costante, per cui anche la soluzione di una rete elettrica (data dai
 	potenziali ai vari nodi) non è univoca, ma è definita a meno di una costante.
 	\item Per rendere univoca la soluzione, si sceglie un nodo di riferimento a cui si assegna potenziale nullo e si calcolano
-	i potenziali degli altri nodi rispetto a questo.
+	i potenziali degli altri nodi rispetto a tale nodo.
 	\item Le tensioni, invece, sono sempre definite univocamente come differenze di potenziale tra due nodi.
 \end{itemize}
 
@@ -136,7 +136,7 @@ Esistono tre tipi di nodi di riferimento comunemente usati:
 	\begin{tabular}{m{3cm} c m{10.1cm}}
 		nodo con potenziale di riferimento: &
 		\begin{circuitikz} \draw (0, 0) node[sground]{}; \end{circuitikz} &
-		nodo con il potenziale di riferimento scelto arbitrariamente a \(0 V\) \\[0.3cm]
+		nodo con il potenziale di riferimento scelto arbitrariamente a \(0V\) \\[0.3cm]
 		\midrule
 		nodo di massa: &
 		\begin{circuitikz} \draw (0, 0) node[cground, scale=0.8]{}; \end{circuitikz}&
@@ -266,76 +266,78 @@ Si definiscono quindi:
 \subsubsection*{Carica di un condensatore}
 \begin{itemize}
 	\item condizioni iniziali (\(t < 0\)): interruttore inizialmente aperto \(\quad \rightarrow \quad v_C(0) = 0, \quad i_C(0) = 0\)
-	\item nel transitorio (\(t \geq 0\)): \(i_C(t) = C \frac{d v_C(t)}{d t}, \quad i_R = \frac{v_R(t)}{R}, \quad v_A = v_R(t) + v_C(t), \quad i_R(t) = i_C(t)\)
+	\item nel transitorio (\(t \geq 0\)): \(\displaystyle \;\; i_C(t) = C \frac{d v_C(t)}{d t}, \quad i_R = \frac{v_R(t)}{R}, \quad V_A = v_R(t) + v_C(t), \quad i_R(t) = i_C(t)\)
 	\item dalla legge delle correnti si ottiene un'equazione differenziale del primo ordine:
-	\[C \frac{dv_C(t)}{d t} = \frac{v_R(t)}{R} = \frac{v_A - v_C(t)}{R} \quad \rightarrow \quad \frac{dv_C(t)}{dt} = -\frac{v_C(t)}{RC} + \frac{v_A}{RC} \quad \rightarrow \quad v_C(t) = A \cdot e^{-\frac{t}{RC}} + B\]
+	\[C \frac{dv_C(t)}{d t} = \frac{v_R(t)}{R} = \frac{V_A - v_C(t)}{R} \quad \rightarrow \quad \frac{dv_C(t)}{dt} = -\frac{v_C(t)}{RC} + \frac{V_A}{RC} \quad \rightarrow \quad v_C(t) = A \cdot e^{-\tfrac{t}{RC}} + B\]
 	\item si sostituisce la soluzione generale nell'equazione differenziale e si impongono le condizioni iniziali:
-	\[-\frac{1}{RC} A \cdot e^{-\frac{t}{RC}} = -\frac{1}{RC} A \cdot e^{-\frac{t}{RC}} - \frac{1}{RC} B + \frac{v_A}{RC} \quad \rightarrow \quad B = v_A\]
-	\[v_C(0) = 0 \quad \rightarrow \quad A + B = 0 \quad \rightarrow \quad A = -B = -v_A \]
+	\[-\frac{1}{RC} A \cdot e^{-\tfrac{t}{RC}} = -\frac{1}{RC} A \cdot e^{-\tfrac{t}{RC}} - \frac{1}{RC} B + \frac{V_A}{RC} \quad \rightarrow \quad B = V_A\]
+	\[v_C(0) = 0 \quad \rightarrow \quad A + B = 0 \quad \rightarrow \quad A = -B = -V_A \]
 	\item si ottengono quindi le espressioni delle variabili elettriche durante il transitorio:
-	\[v_C(t) = v_A -v_A \cdot e^{-\frac{t}{RC}} \qquad v_R(t) = v_A e^{-\frac{t}{RC}} \qquad i_C(t) = i_R(t) = \frac{v_A}{R} e^{-\frac{t}{RC}}\]
+	\[v_C(t) = V_A -V_A \cdot e^{-\tfrac{t}{RC}} \qquad v_R(t) = V_A e^{-\tfrac{t}{RC}} \qquad i_C(t) = i_R(t) = \frac{V_A}{R} e^{-\tfrac{t}{RC}}\]
 	\item l'istante in cui la tensione sul condensatore raggiunge metà del suo valore di regime è:
-	\[\frac{v_A}{2} = v_A - v_A \cdot e^{-\frac{t_{1/2}}{RC}} \quad \rightarrow \quad t_{1/2} = \ln(2) \cdot RC \approx 0.69 RC\]
+	\[\frac{V_A}{2} = V_A - V_A \cdot e^{-\tfrac{t_{1/2}}{RC}} \quad \rightarrow \quad t_{1/2} = \ln(2) \cdot RC \approx 0.69 RC\]
 	\item analizzando il bilancio energetico del circuito si ottiene che metà dell'energia fornita dal generatore viene
 	immagazzinata nel condensatore e metà viene dissipata dalla resistenza come calore:
-	\[E_{v_A} = \int_{0}^{\infty} v_A \cdot i(t) dt = C \cdot v_A^2 \qquad\! E_R = \int_{0}^{\infty} R \cdot i^2(t) dt = \frac{C \cdot v_A^2}{2} \qquad\! E_C = \int_{0}^{\infty} v_C(t) \cdot i(t) dt = \frac{C \cdot v_A^2}{2}\]
+	\[E_{V_A} = \int_{0}^{\infty} V_A \cdot i(t) dt = C \cdot {V_A}^2 \quad E_R = \int_{0}^{\infty} R \cdot i^2(t) dt = \frac{C \cdot {V_A}^2}{2} \quad E_C = \int_{0}^{\infty} v_C(t) \cdot i(t) dt = \frac{C \cdot {V_A}^2}{2}\]
 \end{itemize}
 
-\begin{minipage}{0.4\textwidth}
-	\centering
-	\begin{circuitikz}[american, scale=1.2]
-		\coordinate (A) at (0, 2);   % Nodo superiore sinistro (sopra VA)
-		\coordinate (B) at (0, 0);     % Nodo inferiore sinistro (sotto VA)
-		\coordinate (C) at (3, 2);   % Nodo superiore destro (dopo R)
-		\coordinate (D) at (3, 0);     % Nodo inferiore destro (sotto C)
-		\coordinate (E) at (1.2, 2); % Nodo tra interruttore e resistore
-		\coordinate (F) at (1.2, 0);   % Nodo tra generatore e condensatore
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering \begin{circuitikz}[american, scale=1.2]
+			\coordinate (A) at (0, 2);   % Nodo superiore sinistro (sopra VA)
+			\coordinate (B) at (0, 0);     % Nodo inferiore sinistro (sotto VA)
+			\coordinate (C) at (3, 2);   % Nodo superiore destro (dopo R)
+			\coordinate (D) at (3, 0);     % Nodo inferiore destro (sotto C)
+			\coordinate (E) at (1.2, 2); % Nodo tra interruttore e resistore
+			\coordinate (F) at (1.2, 0);   % Nodo tra generatore e condensatore
+	
+			\draw (A) to [V, l_=\(V_A\)] (B);
+			\draw (A) to [ospst] (E); 
+			\draw (E) to [R, l_=\(R\), v^=\(v_R\), i_>=\(i_R\)] (C);
+			\draw (C) -- (D); 
+			\draw (D) to [C, l_=\(C\), v^=\(v_C\), i_>=\(i_C\)] (F);
+			\draw (F) -- (B);
+		\end{circuitikz}	
+	\end{minipage}
+	\begin{minipage}{0.55\textwidth}
+		\centering \includegraphics[width=0.8\textwidth]{immagini/1_intro/rc_carica.png}
+	\end{minipage}
+\end{center}
 
-		\draw (A) to [V, l_=\(v_A\)] (B);
-		\draw (A) to [ospst] (E); 
-		\draw (E) to [R, l_=\(R\), v^=\(v_R\), i_>=\(i_R\)] (C);
-		\draw (C) -- (D); 
-		\draw (D) to [C, l_=\(C\), v^=\(v_C\), i_>=\(i_C\)] (F);
-		\draw (F) -- (B);
-	\end{circuitikz}	
-\end{minipage}
-\begin{minipage}{0.55\textwidth}
-	\centering
-	\includegraphics[width=0.8\textwidth]{immagini/1_intro/rc_carica.png}
-\end{minipage}
+\vspace{0.5cm}
 
 \subsubsection*{Scarica di un condensatore}
 \begin{itemize}
-	\item condizioni iniziali (\(t < 0\)): interruttore inizialmente aperto \(\quad \rightarrow \quad v_C(0) = v_A, \quad i_C(0) = 0\)
-	\item nel transitorio (\(t \geq 0\)): \(i_C(t) = C \frac{d v_C(t)}{d t}, \quad i_R = \frac{v_R(t)}{R}, \quad v_R(t) = v_C(t), \quad i_R(t) + i_C(t) = 0\)
+	\item condizioni iniziali (\(t < 0\)): interruttore inizialmente aperto \(\quad \rightarrow \quad v_C(0) = V_A, \quad i_C(0) = 0\)
+	\item nel transitorio (\(t \geq 0\)): \(\displaystyle \;\; i_C(t) = C \frac{d v_C(t)}{d t}, \quad i_R = \frac{v_R(t)}{R}, \quad v_R(t) = v_C(t), \quad i_R(t) + i_C(t) = 0\)
 	\item dalla legge delle correnti si ottiene un'equazione differenziale del primo ordine:
-	\[C \frac{dv_C(t)}{d t} = \frac{v_R(t)}{R} \quad \rightarrow \quad \frac{dv_C(t)}{dt} = -\frac{v_C(t)}{RC} \quad \rightarrow \quad v_C(t) = A \cdot e^{-\frac{t}{RC}}\]
+	\[C \frac{dv_C(t)}{d t} = \frac{v_R(t)}{R} \quad \rightarrow \quad \frac{dv_C(t)}{dt} = -\frac{v_C(t)}{RC} \quad \rightarrow \quad v_C(t) = A \cdot e^{-\tfrac{t}{RC}}\]
 	\item siccome l'equazione è omogenera, è sufficiente imporre le condizioni iniziali:
-	\[v_C(0) = v_A \quad \rightarrow \quad A = v_A \]
+	\[v_C(0) = V_A \quad \rightarrow \quad A = V_A \]
 	\item si ottengono quindi le espressioni delle variabili elettriche durante il transitorio:
-	\[v_C(t) = v_R(t) = v_A \cdot e^{-\frac{t}{RC}} \qquad i_C(t) = -\frac{v_A}{R} e^{-\frac{t}{RC}} \qquad i_R(t) = \frac{v_A}{R} e^{-\frac{t}{RC}}\]
+	\[v_C(t) = v_R(t) = V_A \cdot e^{-\tfrac{t}{RC}} \qquad i_C(t) = -\frac{V_A}{R} e^{-\tfrac{t}{RC}} \qquad i_R(t) = \frac{V_A}{R} e^{-\tfrac{t}{RC}}\]
 	\item l'istante in cui la tensione sul condensatore raggiunge metà del suo valore di regime è:
-	\[\frac{v_A}{2} = v_A - v_A \cdot e^{-\frac{t_{1/2}}{RC}} \quad \rightarrow \quad t_{1/2} = \ln(2) \cdot RC \approx 0.69 RC\]
+	\[\frac{V_A}{2} = V_A - V_A \cdot e^{-\tfrac{t_{1/2}}{RC}} \quad \rightarrow \quad t_{1/2} = \ln(2) \cdot RC \approx 0.69 RC\]
 	\item analizzando il bilancio energetico del circuito si ottiene tutta l'energia immagazzinata nel condensatore viene dissipata
 	dalla resistenza come calore e il condensatore rimane scarico alla fine del transitorio:
-	\[E_R = \int_{0}^{\infty} R \cdot {i_R}^2(t) dt = \frac{C \cdot v_A^2}{2} \qquad\qquad E_C = \int_{0}^{\infty} v_C(t) \cdot i_C(t) dt = -\frac{C \cdot v_A^2}{2}\]
+	\[E_R = \int_{0}^{\infty} R \cdot {i_R}^2(t) dt = \frac{C \cdot {V_A}^2}{2} \qquad\qquad E_C = \int_{0}^{\infty} v_C(t) \cdot i_C(t) dt = -\frac{C \cdot {V_A}^2}{2}\]
 \end{itemize}
 
-\begin{minipage}{0.4\textwidth}
-	\centering
-	\begin{circuitikz}[american, scale=1.2]
-    \coordinate (A) at (0, 0);
-	\coordinate (B) at (0, 2);
-	\coordinate (C) at (2, 2);
-	\coordinate (D) at (2, 0);
-
-    \draw (B) to [R, l=\(R\), v=\(v_R\), i>=\(i_R\)] (A);
-    \draw (B) to [ospst] (C); 
-    \draw (D) to [C, l=\(C\), v<=\(v_C\), i<=\(i_C\)] (C);
-	\draw (D) -- (A);
-\end{circuitikz}
-\end{minipage}
-\begin{minipage}{0.55\textwidth}
-	\centering
-	\includegraphics[width=0.8\textwidth]{immagini/1_intro/rc_scarica.png}
-\end{minipage}
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering \begin{circuitikz}[american, scale=1.2]
+	    \coordinate (A) at (0, 0);
+		\coordinate (B) at (0, 2);
+		\coordinate (C) at (2, 2);
+		\coordinate (D) at (2, 0);
+	
+	    \draw (B) to [R, l=\(R\), v=\(v_R\), i>=\(i_R\)] (A);
+	    \draw (B) to [ospst] (C); 
+	    \draw (D) to [C, l=\(C\), v<=\(v_C\), i<=\(i_C\)] (C);
+		\draw (D) -- (A);
+	\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.55\textwidth}
+		\centering \includegraphics[width=0.8\textwidth]{immagini/1_intro/rc_scarica.png}
+	\end{minipage}
+\end{center}

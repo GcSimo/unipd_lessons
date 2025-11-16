@@ -8,12 +8,14 @@ lacune) e una regione di tipo n (con eccesso di elettroni).
 \begin{itemize}
 	\item Quando le due regioni si uniscono, si forma un \textbf{gradiente di concentrazione} dei portatori di carica che induce
 	uno spostamento di elettroni dalla regione n alla regione p e uno spostamento di lacune dalla regione p alla regione n;
-	si forma in questo modo una corrente di diffusione dalla regione n alla regione p.
-	\item Lo spostamento dei portatori induce la formazione di ioni fissi (ioni positivi nella regione n per assenza di elettroni
-	e ioni negativi nella regione p per assenza di lacune) che generano un campo elettrico e un \textbf{potenziale di giunzione};
-	si forma in questo modo anche una corrente di deriva dalla regione p alla regione n che si oppone alla corrente di diffusione.
-	\item All'equilibrio le due correnti si bilanciano, ma rimane una regione in prossimità della giunzione in cui non ci sono
-	portatori di carica liberi e sono presenti solo ioni fissi dovuti all'assenza di portatori di carica.
+	si forma in questo modo una corrente di diffusione dalla regione p alla regione n.
+	\item Lo spostamento dei portatori induce la formazione di ioni fissi costituiti dagli atomi dei droganti: i donatori perdono
+	il loro elettrone spaiato e diventano ioni con carica positiva nella regione n, mentre gli accettori catturano l'elettrone che
+	gli mancava e diventano ioni con carica negativa nella regione p. Questi ioni fissi generano un campo elettrico e un
+	\textbf{potenziale di giunzione}; si forma in questo modo anche una corrente di deriva dalla regione n alla regione p che si
+	oppone alla corrente di diffusione.
+	\item All'equilibrio le due correnti si bilanciano, ma rimane una regione in prossimità della giunzione sono presenti solo ioni
+	fissi dei droganti per l'assenza di portatori di carica.
 	\item Si formano in questo modo tre regioni:
 	\begin{enumerate}[topsep=-2pt, itemsep=0pt]
 		\item \textbf{regione di svuotamento} o \textbf{regione di carica spaziale} (RCS): zona in prossimità della giunzione
@@ -25,7 +27,7 @@ lacune) e una regione di tipo n (con eccesso di elettroni).
 	\end{enumerate}
 \end{itemize}
 
-\vspace{2cm}
+\vspace{1.5cm}
 \begin{center}
 	\includegraphics[width=0.85\textwidth]{immagini/3_giunzioni_pn_e_diodi/pn_eq1.png}
 \end{center}
@@ -56,7 +58,7 @@ Il campo elettrico è nullo nelle regioni quasi neutre e raggiunge il valore mas
 \[E_{max} = E(0) = -\frac{q N_A x_p}{\varepsilon} = -\frac{q N_D x_n }{\varepsilon}\]
 
 \subsubsection*{Potenziale elettrico all'equilibrio e potenziale di contatto}
-La differenza di potenziale elettrico si calcola risolvendo l'integrale del campo elettrico \(dV(x)/dx = -E(x)\). In particolare
+La differenza di potenziale si calcola integrando il campo elettrico, per la relazione \(dV(x)/dx = -E(x)\). In particolare
 si definiscono i potenziali nelle due regioni quasi neutre \(V_1\) in \(x = -x_p\) e \(V_2\) in \(x = x_n\) e si calcola il
 potenziale intrinseco di giunzione o potenziale di contatto \(V_0 = V_2 - V_1\) tra le due estremità della regione di svuotamento ponendo \(V_1 = 0\):
 \[V_0 = \int_{-x_p}^{x_n} E(x) \, dx = \frac{-E(0) \cdot (x_n + x_p)}{2}\]
@@ -81,16 +83,16 @@ L'ampiezza della regione di svuotamento \(W = x_n + x_p\) dipende dalle concentr
 \[V_0 = \frac{-E(0) \cdot W}{2}, \quad x_n N_D = x_p N_A \quad \rightarrow \quad W = \frac{2 V_0}{-E(0)} = \frac{2 \varepsilon V_0}{q N_A x_p} = \sqrt{\frac{2 \varepsilon V_0}{q} \left(\frac{1}{N_A} + \frac{1}{N_D}\right)}\]
 \[x_n = W\frac{N_A}{N_A + N_D} \qquad x_p = W\frac{N_D}{N_A + N_D}\]
 Si osserva che l'ampiezza della regione di svuotamento è inversamente proporzionale alle concentrazioni di drogaggio, per cui
-aumentando i drogaggi diminuisce l'ampiezza della regione di svuotamento. Inoltre la regione di svuotamento ripartisce in maniera
+aumentando i drogaggi diminuisce l'ampiezza della regione di svuotamento. Inoltre la regione di svuotamento si ripartisce in maniera
 inversamente proporzionale ai drogaggi, ovvero si allarga maggiormente nella regione meno drogata.
 
 \subsubsection*{Regione pn con elettrodi metallici}
 Una giunzione pn, per essere utilizzabile in un circuito, deve essere collegata alle due estremità a due elettrodi metallici.
-Gli elettrodi, essendo buoni conduttori, inducono una locale ridistribuzione dei portatori di carica (spostamento di lacune dalla
-regione p all'elettrodo e di elettroni dalla regione n all'elettrodo). Questo effetto ha le stesse dinamiche di una giunzione pn,
-in particolare si formano due regioni di carica spaziale che inducono una differenza di potenziale \(V_1\) e \(V_2\) tra gli
-elettrodi e la giunzione che controbilanciano il potenziale di contatto \(V_0\). All'equilibrio si ha \(V_1 + V_0 + V_2 = 0\),
-per cui la differenza di potenziale tra gli elettrodi è nulla.
+Gli elettrodi, essendo buoni conduttori, inducono una locale ridistribuzione dei portatori di carica (spostamento di lacune
+dalla regione p all'elettrodo e di elettroni dalla regione n all'elettrodo). Questo effetto ha le stesse dinamiche di una
+giunzione pn, in particolare si formano due regioni di carica spaziale che inducono una differenza di potenziale tra gli
+elettrodi (con potenziali \(V_1\) e \(V_2\)) e la giunzione che controbilanciano il potenziale (o meglio tensione) di contatto
+\(V_0\). All'equilibrio si ha \(V_1 + V_0 + V_2 = 0\), per cui la differenza di potenziale degli estremi di una giunzione è nulla.
 
 \begin{center}
 	\includegraphics[width=0.7\textwidth]{immagini/3_giunzioni_pn_e_diodi/pn_eq3.png}
@@ -124,7 +126,7 @@ In polarizzazione inversa la tensione applicata \(V_A < 0\) aumenta la differenz
 ottenendo: \(V_p - V_n = -V_0 - |V_A|\). Di conseguenza il campo elettrico nella regione di svuotamento aumenta in modulo e
 l'ampiezza della regione di svuotamento si allarga:
 \[W(V_0 + |V_A|) = \sqrt{\frac{2 \varepsilon (V_0 + |V_A|)}{q} \left(\frac{1}{N_A} + \frac{1}{N_D}\right)} > W(V_0)\]
-Siccome il campo elettrico e il potenziale si aumentano, la corrente di deriva prevale sulla corrente di diffusione. Si ha in questo
+Siccome il campo elettrico e il potenziale aumentano, la corrente di deriva prevale sulla corrente di diffusione. Si ha in questo
 modo un flusso di elettroni dalla regione p alla regione n e di lacune dalla regione n alla regione p. Siccome la regione
 p è povera di elettroni e la regione n è povera di lacune, questo flusso è detto flusso dei portatori minoritari. Si induce in
 questo modo una \textbf{debole corrente di deriva dei minoritari} che attraversa la giunzione pn dalla regione n alla regione p.
@@ -139,8 +141,8 @@ questo modo una \textbf{debole corrente di deriva dei minoritari} che attraversa
 Si assegnano dei riferimenti ai due terminali della giunzione pn in modo da renderla schematizzabile e utilizzabile come diodo
 in un circuito elettrico:
 \begin{itemize}
-	\item \textbf{anodo}: terminale positivo, collegato alla regione p
-	\item \textbf{catodo}: terminale negativo, collegato alla regione n
+	\item \textbf{anodo}: terminale positivo, collegato alla regione p, dove si assorbono gli elettroni
+	\item \textbf{catodo}: terminale negativo, collegato alla regione n, dove si immettono gli elettroni
 \end{itemize}
 \begin{center}
 	\includegraphics[width=0.55\textwidth]{immagini/3_giunzioni_pn_e_diodi/diodo_1.png}
@@ -172,9 +174,11 @@ Analizzando la carica elettrica presente nella regione di carica spaziale di una
 	Q_n = q N_D x_n = q N_D \frac{N_A}{N_A + N_D} W = \sqrt{2 q \varepsilon (V_0 - V_A) \frac{N_A N_D}{N_A + N_D}} \\
 	Q_p = q N_A x_p = q N_A \frac{N_D}{N_A + N_D} W = \sqrt{2 q \varepsilon (V_0 - V_A) \frac{N_A N_D}{N_A + N_D}}
 \end{array} \qquad Q_n = -Q_p\]
-Si osserva quindi che la carica dipende dalla tensione applicata \(V_A\). La giunzione pn in polarizzazione inversa equivale ad un
-condensatore con capacità non lineare data da:
-\[C = \frac{dQ}{dV_A} = \sqrt{\frac{q \varepsilon}{2(V_0 - V_A)} \frac{N_A N_D}{N_A + N_D}} = \frac{\varepsilon}{W}\]
+Si osserva quindi che la carica dipende dalla tensione applicata \(V_A\). La giunzione pn in polarizzazione inversa equivale
+ad un condensatore con capacità per unità di area non lineare data da:
+\[C_{j} = \frac{dQ}{dV_A} = \sqrt{\frac{q \varepsilon}{2(V_0 - V_A)} \frac{N_A N_D}{N_A + N_D}} = \frac{\varepsilon}{W}\]
+NOTA: per ottenere la reale capacità del diodo bisogna moltiplicare la capacità per unità di area \(C_j\) per la sezione
+della giunzione \(\Sigma_j\): \[C = C_j \cdot \Sigma_j = \frac{\varepsilon}{W} \; \Sigma_j\]
 
 \newpage
 
@@ -228,9 +232,10 @@ I diodi sono componenti fondamentali in molti circuiti elettronici e trovano app
 
 \subsubsection*{Fotodiodo}
 Il fotodiodo è una giunzione pn collegata in polarizzazione inversa con l'area di svuotamento esposta alla luce. Quando la luce
-colpisce la regione di svuotamento, genera coppie elettrone-lacuna (fotogenerazione) che vengono separate dal campo elettrico
-presente nella regione, generando una corrente detta fotocorrente. La fotocorrente è proporzionale all'intensità della luce
-incidente. Viene utilizzato in applicazioni come sensori di luce e telecomunicazioni ottiche.
+colpisce la regione di svuotamento, eccita gli elettroni che si liberano dai legami covalenti, generando coppie elettrone-lacuna
+(fotogenerazione). I due portatori vengono separati dal campo elettrico presente nella regione, generando una corrente detta
+fotocorrente. La fotocorrente è proporzionale all'intensità della luce incidente. Il fotodiodo viene utilizzato in applicazioni
+come sensori di luce e telecomunicazioni ottiche.
 \[i_\text{D} = I_S \left(e^{\tfrac{v_D}{\eta V_T}} - 1\right) - I_{PH} \qquad\qquad I_{PH} = R \cdot P_0 \qquad\qquad \begin{array}{l}
 	I_{PH}: \text{ fotocorrente (A)} \\
 	P_0: \text{ potenza ottica incidente (W)} \\
