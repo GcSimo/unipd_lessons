@@ -1,0 +1,1009 @@
+\section{Circuiti con i mosfet}
+\subsection{Mosfet in serie a una resistenza}
+\subsubsection*{Circuito n-mosfet e resistenza}
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering \begin{circuitikz}[american]
+			\ctikzset{tripoles/mos style=arrows}
+		
+			% =================================================================
+			% 1. Nodi principali del circuito
+			\coordinate (GND_left) at (0, 0);     % Massa a sinistra
+			\coordinate (G_mosfet) at (2, 0);  % gate del mosfet
+		
+			% =================================================================
+			% 2. Circuito
+			\draw (GND_left) node[sground]{}; % Simbolo di massa a sinistra
+			\draw (G_mosfet) to [V, l_=\(V_G\)] (GND_left); % Generatore di tensione V_G
+			\draw (G_mosfet) node[nmos, anchor=G](nmos){}; % n-mosfet
+			\draw (nmos.S) node[sground]{}; % source del mosfet
+			\draw (nmos.D) -- ++(0, 0.2) to [R, l=\(R\), name=R1] ++(0, 1.5) node[rground, rotate=180, name=VDD]{}; % resistenza R e VDD
+		
+			% =================================================================
+			% 3. Etichette e Vettori Corrente/Tensione
+		
+			% V_GS (Gate-Source Voltage)
+			\node at ($(nmos.G)+(0, -0.2)$) {\(+\)};
+			\node at ($(nmos.S)+(-0.25, 0.1)$) {\(-\)};
+			\node at ($(nmos.G)+(0.2, -0.6)$) {\(V_{GS}\)}; % Testo V_GS sopra i segni
+		
+			% V_DS (Drain-Source Voltage)
+			\node at ($(nmos.D)+(0.3, -0.2)$) {\(+\)};
+			\node at ($(nmos.S)+(0.3, 0.2)$) {\(-\)};
+			\node at ($(nmos.G)+(1.4, 0)$) {\(V_{DS}\)}; % Testo V_DS sopra i segni
+		
+			% V_R (Tensione sulla resistenza R)
+			\node at ($(R1)+(0.4, 0.5)$) {\(+\)};
+			\node at ($(R1)+(0.4, -0.5)$) {\(-\)};
+			\node at ($(R1)+(0.5, 0)$) {\(V_R\)}; % Testo V_R sopra i segni
+		
+			% I_DS Corrente Drain-Source
+			\node at ($(nmos.D)+(-0.5, -0.1)$) {\(I_{DS} \downarrow\)}; % Testo I_DS vicino al drain
+
+			% VDD
+			\node at ($(VDD)+(0, 0.6)$) {\(V_{DD}\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.57\textwidth}
+		Si costruisce un circuito con un n-mosfet e una resistenza come illustrato di lato, in cui:
+		\begin{itemize}
+			\item il terminale di drain è collegato a una tensione di alimentazione \(V_{DD}\) tramite una resistenza di carico \(R\);
+			\item il terminale di source è collegato a massa;
+			\item il terminale di gate è collegato a un generatore di tensione \(V_G\).
+		\end{itemize}
+		L'utilizzo di un n-mosfet al posto di un p-mosfet è perfettamente arbitrario e non cambia nulla nel procedimento di
+		soluzione del circuito.
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Soluzione del circuito per via grafica}
+La risoluzione del circuito consiste nel trovare la corrente \(I_{DS}\) e la tensione \(V_{DS}\) che soddisfano sia la
+caratteristica del mosfet sia la caratteristica della resistenza \(R\). Dalle LKC si impone \(I_{DS} = I_R\) e si risolve
+l'equazione in funzione di \(V_{DS}\).
+
+Un'alternativa alla risoluzione analitica è la risoluzione grafica, che consiste nel tracciare sullo stesso grafico la
+caratteristica di uscita del mosfet (\(I_{DS}\) in funzione di \(V_{DS}\)) e la caratteristica della resistenza \(R\)
+sempre in funzione di \(V_{DS}\) e trovare il punto di intersezione tra le due curve.
+
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/5_circuiti_mosfet/circuiti_mos_1.png}
+	\end{minipage}
+	\begin{minipage}{0.45\textwidth}
+		Un'alternativa alla risoluzione analitica è la risoluzione grafica, che consiste nel tracciare sullo stesso grafico la
+		caratteristica di uscita del mosfet (\(I_{DS}\) in funzione di \(V_{DS}\)) e la caratteristica della resistenza \(R\)
+		sempre in funzione di \(V_{DS}\) e trovare il punto di intersezione tra le due curve.
+	\end{minipage}
+\end{center}
+
+
+
+\subsubsection*{Modello a canale lungo}
+Il modello a canale lungo del mosfet prevede che il transistor operi in una delle tre regioni (interdizione, lineare o saturazione
+per pinchoff) senza considerare gli effetti di modulazione di lunghezza di canale e saturazione di velocità. Per risolvere il
+circuito si procede come segue:
+\begin{enumerate}
+	\item si determina se il mosfet è \say{acceso} o \say{spento} confrontando \(V_{GS}\) con la tensione di soglia \(V_{TN}\):
+	\begin{itemize}[topsep=0pt]
+		\item se \(V_{GS} < V_{TN}\), il mosfet è in interdizione e \(I_{DS} = 0\)
+		\item se \(V_{GS} \geq V_{TN}\), il mosfet è acceso e si procede al passo successivo
+	\end{itemize}
+	\item si ipotizza che il mosfet sia in uno dei due regimi di conduzione (lineare o saturazione) e si risolve la rete ponendo
+	\(I_{DS} = I_R\) (per le LKC), utilizzando la formula \(I_{DS}\) corrispondente all'ipotesi fatta e si risolve per \(V_{DS}\):
+	\begin{itemize}[topsep=0pt]
+		\item se si ipotizza il regime lineare: \(\displaystyle k_n V_{DS} \left(V_{GS} - V_{TN} - \frac{V_{DS}}{2}\right) = \frac{V_{DD} - V_{DS}}{R}\)
+		\item se si ipotizza il regime di saturazione: \(\displaystyle \frac{k_n}{2} (V_{GS} - V_{TN})^2 = \frac{V_{DD} - V_{DS}}{R}\)
+	\end{itemize}
+	\item si verifica se l'ipotesi fatta sul regime di funzionamento è corretta:
+	\begin{itemize}[topsep=0pt]
+		\item se si è ipotizzato il regime lineare, si verifica che \(V_{DS} < V_{GS} - V_{TN}\);
+		\item se si è ipotizzato il regime di saturazione, si verifica che \(V_{DS} \geq V_{GS} - V_{TN}\).
+	\end{itemize}
+	\item se l'ipotesi è corretta, si è trovata la soluzione; altrimenti si ripete il passo 2 con l'altra ipotesi.
+\end{enumerate}
+
+\subsubsection*{Modello a canale corto}
+La soluzione del circuito con il modello a canale corto è analoga a quella con il modello a canale lungo, con la differenza che
+si prevede anche l'effetto di modulazione di lunghezza di canale e la possibilità che il mosfet lavori in saturazione di velocità.
+In particolare si procede come segue:
+\begin{enumerate}
+	\item si determina se il mosfet è \say{acceso} o \say{spento} come nel modello a canale lungo;
+	\item si calcolano, se possibile, i tre valori di \(V_{MIN}\) (\(V_{DS}, V_{GS} - V_{TN}, V_{DSATN}\)) e se si conoscono già
+	due dei valori (esempio \(V_{GS}-V_{TN}\) e \(V_{DSATN}\)), si può escludere a priori quello maggiore (ovvero quello che
+	sicuramente non sarà il minimo), riducendo così il numero di ipotesi da fare;
+	\item si ipotizza che il mosfet sia in uno dei tre regimi di conduzione (lineare, saturazione per pinchoff o saturazione di
+	velocità) escludendone, se possibile, uno come spiegato al passo precedente, e si risolve la rete come nel modello a canale lungo:
+	\begin{itemize}[topsep=0pt]
+		\item in regime lineare: \(\displaystyle k_n V_{DS} \left(V_{GS} - V_{TN} - \frac{V_{DS}}{2}\right) (1 + \lambda V_{DS}) = \frac{V_{DD} - V_{DS}}{R}\)
+		\item in saturazione per pinchoff: \(\displaystyle \frac{k_n}{2} (V_{GS} - V_{TN})^2 (1 + \lambda V_{DS}) = \frac{V_{DD} - V_{DS}}{R}\)
+		\item in saturazione di velocità: \(\displaystyle k_n V_{DSATN} \left(V_{GS} - V_{TN} - \frac{V_{DSATN}}{2}\right) (1 + \lambda V_{DS}) = \frac{V_{DD} - V_{DS}}{R}\)
+	\end{itemize}
+	\item si verifica se l'ipotesi fatta sul regime di funzionamento è corretta:
+	\begin{itemize}[topsep=0pt]
+		\item se si è ipotizzato il regime lineare: \(V_{DS} = \min \{V_{GS} - V_{TN}, V_{DSATN}, V_{DS}\}\);
+		\item se si è ipotizzato il regime di sat. per pinchoff: \(V_{GS} - V_{TN} = \min \{V_{GS} - V_{TN}, V_{DSATN}, V_{DS}\}\);
+		\item se si è ipotizzato il regime di sat. di velocità: \(V_{DSATN} = \min \{V_{GS} - V_{TN}, V_{DSATN}, V_{DS}\}\);
+	\end{itemize}
+	\item se l'ipotesi è corretta, si è trovata la soluzione; altrimenti si ripete il passo 3 con un'altra ipotesi.
+\end{enumerate}
+
+\subsection{Mosfet connesso a diodo}
+\subsubsection*{Circuito di un n-mosfet connesso a diodo}
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering \begin{circuitikz}[american]
+			\ctikzset{tripoles/mos style=arrows}
+		
+			% =================================================================
+			% 1. Nodi principali del circuito
+			\coordinate (G_mosfet) at (0, 0);  % gate del mosfet
+		
+			% =================================================================
+			% 2. Circuito
+			
+			\draw (G_mosfet) node[nmos, anchor=G](nmos){}; % n-mosfet
+			\draw (G_mosfet) -- ++(-0.2, 0) -- ++(0,1.1) -- ++(1.18,0);
+			\draw (nmos.S) node[sground]{}; % source del mosfet
+			\draw (nmos.D) -- ++(0, 0.4) to [R, l=\(R\), name=R1] ++(0, 1.3) node[rground, rotate=180, name=VDD]{}; % resistenza R e VDD
+		
+			% =================================================================
+			% 3. Etichette e Vettori Corrente/Tensione
+		
+			% V_GS (Gate-Source Voltage)
+			\node at ($(nmos.G)+(0, -0.2)$) {\(+\)};
+			\node at ($(nmos.S)+(-0.25, 0.1)$) {\(-\)};
+			\node at ($(nmos.G)+(0.2, -0.6)$) {\(V_{GS}\)}; % Testo V_GS sopra i segni
+		
+			% V_DS (Drain-Source Voltage)
+			\node at ($(nmos.D)+(0.3, -0.2)$) {\(+\)};
+			\node at ($(nmos.S)+(0.3, 0.2)$) {\(-\)};
+			\node at ($(nmos.G)+(1.4, 0)$) {\(V_{DS}\)}; % Testo V_DS sopra i segni
+		
+			% V_R (Tensione sulla resistenza R)
+			\node at ($(R1)+(0.4, 0.5)$) {\(+\)};
+			\node at ($(R1)+(0.4, -0.5)$) {\(-\)};
+			\node at ($(R1)+(0.5, 0)$) {\(V_R\)}; % Testo V_R sopra i segni
+		
+			% I_DS Corrente Drain-Source
+			\node at ($(nmos.D)+(-0.5, -0.1)$) {\(I_{DS} \downarrow\)}; % Testo I_DS vicino al drain
+
+			% VDD
+			\node at ($(VDD)+(0, 0.6)$) {\(V_{DD}\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.57\textwidth}
+		Si costruisce un circuito con un n-mosfet e una resistenza come illustrato di lato, in cui:
+		\begin{itemize}
+			\item il terminale di source è collegato a massa;
+			\item il terminale di drain è collegato a una tensione di alimentazione \(V_{DD}\) tramite una resistenza di carico \(R\);
+			\item il terminale di gate è cortocircuitato al terminale di drain e \(V_{GS} = V_{DS}\)
+		\end{itemize}
+		L'utilizzo di un n-mosfet al posto di un p-mosfet è perfettamente arbitrario e non cambia nulla nel procedimento di
+		soluzione del circuito.
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Considerazioni sul regime di funzionamento e risoluzione grafica}
+Si osserva che il mosfet connesso in questo modo, se acceso, lavora in saturazione per pinchoff o in saturazione di velocità,
+per cui si comporta in modo simile a un diodo ideale con soglia \(V_{TN}\):
+
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/5_circuiti_mosfet/circuiti_mos_2.png}
+	\end{minipage}
+	\begin{minipage}{0.54\textwidth}
+		\begin{itemize}
+			\item se \(V_{GS} < V_{TN}\), il mosfet è spento con \(I_{DS} = 0\);
+			\item se \(V_{GS} \geq V_{TN}\), il mosfet è acceso e lavora in saturazione per pinchoff \(V_{DS} = V_{GS} > V_{GS} - V_{TN}\)
+			oppure in sat. di velocità se \(V_{DS} = V_{GS} > V_{DSATN}\)
+		\end{itemize}
+		Si nota che la caratteristica di uscita del mosfet in questo caso è simile a quella di un diodo con soglia \(V_{TN}\).
+		\vspace{0pt}
+
+		Come nel caso precedente, la risoluzione grafica consiste nel trovare le intersezioni delle due caratteristiche di uscita
+		del mosfet e della resistenza \(R\).
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Analisi del circuito}
+Per risolvere il circuito si procede come segue:
+\begin{enumerate}
+	\item si determina se il mosfet è \say{acceso} o \say{spento} confrontando \(V_{GS}\) con la tensione di soglia \(V_{TN}\):
+	\begin{itemize}[topsep=0pt]
+		\item se \(V_{GS} < V_{TN}\), il mosfet è in interdizione e \(I_{DS} = 0\)
+		\item se \(V_{GS} \geq V_{TN}\), il mosfet è acceso e si procede al passo successivo
+	\end{itemize}
+	\item se si utilizza il modello a canale lungo, si utilizza \(I_{DS}\) in saturazione per pinchoff e si impone la condizione
+	\(\displaystyle I_{DS} = I_R \;\;\rightarrow\;\; I_{DS} = \frac{k_n}{2} (V_{GS} - V_{TN})^2 = \frac{V_{DD} - V_{DS}}{R}\);
+	non serve verificare il regime di funzionamento, in quanto il mosfet connesso in questo modo lavora sempre in saturazione
+	\item se si utilizza il modello a canale corto, bisogna ipotizzare il regime di saturazione (pinchoff o velocità) e risolvere
+	il circuito utilizzando la formula corrispondente:
+	\begin{itemize}[topsep=0pt]
+		\item in saturazione per pinchoff: \(\displaystyle \frac{k_n}{2} (V_{GS} - V_{TN})^2 (1 + \lambda V_{DS}) = \frac{V_{DD} - V_{DS}}{R}\)
+		\item in saturazione di velocità: \(\displaystyle k_n V_{DSATN} \left(V_{GS} - V_{TN} - \frac{V_{DSATN}}{2}\right) (1 + \lambda V_{DS}) = \frac{V_{DD} - V_{DS}}{R}\)
+	\end{itemize}
+	\item si verifica se l'ipotesi fatta sul regime di funzionamento è corretta:
+	\begin{itemize}[topsep=0pt]
+		\item se si è ipotizzato il regime di sat. per pinchoff: \(V_{GS} - V_{TN} = \min \{V_{GS} - V_{TN}, V_{DSATN}, V_{DS}\}\);
+		\item se si è ipotizzato il regime di sat. di velocità: \(V_{DSATN} = \min \{V_{GS} - V_{TN}, V_{DSATN}, V_{DS}\}\);
+	\end{itemize}
+	\item se l'ipotesi è corretta, si è trovata la soluzione; altrimenti si ripete il passo 3 con un'altra ipotesi
+\end{enumerate}
+
+\subsection{Mosfet come generatore di corrente}
+\subsubsection*{Circuito di un n-mosfet connesso come generatore di corrente}
+Si costruisce un circuito con un n-mosfet e una resistenza come illustrato sotto, in cui:
+\begin{itemize}
+	\item il terminale di source è collegato a massa;
+	\item il terminale di drain è collegato a una tensione di alimentazione \(V_{DD}\) tramite una resistenza di carico \(R\);
+	\item il terminale di gate è cortocircuitato al terminale di source e \(V_{GS} = V_{REF}\)
+\end{itemize}
+Si suppone, inoltre, che il valore di \(V_{REF}\) sia tale da mantenere il mosfet sempre acceso e in regime di saturazione per
+pinchoff o in saturazione di velocità, ovvero che sia soddisfatta la condizione:
+\[V_{DS} > \min \{V_{REF} - V_{TN}, V_{DSATN}\}\]
+
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering \begin{circuitikz}[american]
+			\ctikzset{tripoles/mos style=arrows}
+			
+			% =================================================================
+			% 1. Nodi principali del circuito
+			\coordinate (G_mosfet) at (0, 0);  % gate del mosfet
+			
+			% =================================================================
+			% 2. Circuito
+			
+			\draw (G_mosfet) node[nmos, anchor=G](nmos){}; % n-mosfet
+			\draw (G_mosfet) -- ++(-0.8,0) to [V, l_=\(V_{REF}\)] ++(0,-1.2) -- ++(1.78,0);
+			\draw (nmos.S) -- ++(0,-0.4) node[sground]{}; % source del mosfet
+			\draw (nmos.D) -- ++(0, 0.2) to [R, l=\(R\), name=R1] ++(0, 1.2) node[rground, rotate=180, name=VDD]{}; % resistenza R e VDD
+			
+			% =================================================================
+			% 3. Etichette e Vettori Corrente/Tensione
+			
+			% V_GS (Gate-Source Voltage)
+			\node at ($(nmos.G)+(0, -0.2)$) {\(+\)};
+			\node at ($(nmos.S)+(-0.25, 0.1)$) {\(-\)};
+			\node at ($(nmos.G)+(0.2, -0.6)$) {\(V_{GS}\)}; % Testo V_GS sopra i segni
+			
+			% V_DS (Drain-Source Voltage)
+			\node at ($(nmos.D)+(0.3, -0.2)$) {\(+\)};
+			\node at ($(nmos.S)+(0.3, 0.2)$) {\(-\)};
+			\node at ($(nmos.G)+(1.4, 0)$) {\(V_{DS}\)}; % Testo V_DS sopra i segni
+			
+			% V_R (Tensione sulla resistenza R)
+			\node at ($(R1)+(0.4, 0.5)$) {\(+\)};
+			\node at ($(R1)+(0.4, -0.5)$) {\(-\)};
+			\node at ($(R1)+(0.5, 0)$) {\(V_R\)}; % Testo V_R sopra i segni
+			
+			% I_DS Corrente Drain-Source
+			\node at ($(nmos.D)+(-0.5, -0.1)$) {\(I_{DS} \downarrow\)}; % Testo I_DS vicino al drain
+			
+			% VDD
+			\node at ($(VDD)+(0, 0.6)$) {\(V_{DD}\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.1\textwidth}
+		\centering
+		\(\longrightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\centering \begin{circuitikz}[american]
+			% =================================================================
+			% 1. Nodi principali del circuito
+			\coordinate (gnd_2) at (0,0); % ground secondo circuito
+			
+			% =================================================================
+			% 2. Circuito
+			\draw (gnd_2) node[sground]{}; % ground secondo circuito
+			\draw (gnd_2) -- ++(0, 0.2) -- ++(-0.7, 0) to [I, l=\(I_{DSAT}\), invert] ++(0,1.4) -- ++(0.7,0); % generatore di corrente I_DSAT
+			\draw (gnd_2) ++(0, 0.2) -- ++(0.7,0) to [R, l=\(R_0\), name=R0] ++(0,1.4) -- ++(-0.7,0) -- ++(0,0.2) node[name=R0]{}; % resistenza R0
+			\draw (R0) ++(0,-0.2) -- ++(0, 0.6) to [R, l=\(R\), name=R1] ++(0, 1.15) node[rground, rotate=180, name=VDD]{}; % resistenza R e VDD
+			
+			% =================================================================
+			% 3. Etichette e Vettori Corrente/Tensione
+			
+			% V_DS (Drain-Source Voltage)
+			\node at ($(R0)+(1.1, -0.4)$) {\(+\)};
+			\node at ($(R0)+(1.1, -1.4)$) {\(-\)};
+			\node at ($(R0)+(1.3, -0.95)$) {\(V_{DS}\)}; % Testo V_DS sopra i segni
+			
+			% V_R (Tensione sulla resistenza R)
+			\node at ($(R1)+(0.4, 0.5)$) {\(+\)};
+			\node at ($(R1)+(0.4, -0.5)$) {\(-\)};
+			\node at ($(R1)+(0.5, 0)$) {\(V_R\)}; % Testo V_R sopra i segni
+			
+			% I_DS Corrente Drain-Source
+			\node at ($(R0)+(-0.5, 0.1)$) {\(I_{DS} \downarrow\)}; % Testo I_DS vicino al drain
+			
+			% VDD
+			\node at ($(VDD)+(0, 0.6)$) {\(V_{DD}\)};
+		\end{circuitikz}
+	\end{minipage}
+\end{center}
+
+\noindent
+L'utilizzo di un n-mosfet al posto di un p-mosfet è perfettamente arbitrario e non cambia nulla nel procedimento di soluzione
+del circuito.
+
+\newpage
+
+\subsubsection*{Considerazioni sul regime di funzionamento e risoluzione grafica}
+Il mosfet in saturazione, connesso in questo modo,  si può modellare con un generatore lineare di corrente secondo il teorema
+di Norton, come illustrato sopra. In saturazione, infatti, la corrente \(I_{DS}\) è direttamente proporzionale a \(V_{DS}\)
+tramite il parametro \(\lambda_n\):
+\[I_{DS} = I_{DSAT}(1 + \lambda_n V_{DS}) = I_{DSAT} + \lambda_n I_{DSAT} V_{DS} = I_{DSAT} + R_0 V_{DS} \qquad \text{con} \; R_0 = \frac{1}{\lambda_n I_{DSAT}}\]
+Si osserva che la corrente \(I_{DS}\) ha due contributi:
+\begin{itemize}
+	\item una corrente costante \(I_{DSAT}\) di saturazione del mosfet, corrisponde alla corrente erogata dal generatore ideale
+	di corrente per Norton;
+	\item una corrente variabile \(R_0 V_{DS}\) che dipende linearmente dalla tensione \(V_{DS}\) e che può essere modellata
+	con una resistenza \(R_0\) in parallelo con il generatore ideale di corrente.
+\end{itemize}
+Si nota che se \(\lambda = 0 \; \rightarrow \; I_{DS} = I_{DSAT} \; \rightarrow \; R_0 = \infty\), ovvero se non si
+considera l'effetto di modulazione di lunghezza di canale, il mosfet si comporta come un generatore ideale di corrente.
+
+Il generatore lineare di corrente di Norton ha dei vincoli sul suo funzionamento, in quanto deve essere soddisfatta la condizione
+che il mosfet rimanga in saturazione per pinchoff o in saturazione di velocità:
+\[V_{DS} > \min \{V_{REF} - V_{TN} \;_\text{sat. per pinchoff}, \;\; V_{DSATN} \;_\text{sat. di velocità}\}\]
+Se questa condizione non è soddisfatta, il mosfet esce dal regime di saturazione e il modello con il generatore lineare di corrente
+non è più valido.
+
+\subsubsection*{Analisi del circuito}
+Per risolvere il circuito utilizzando il modello a canale corto si procede come segue:
+\begin{enumerate}
+	\item si impone che il mosfet sia acceso e che sia in saturazione (per pinchoff o di velocità) per cui si deve avere:
+	\(V_{REF} > V_{TN}\) e \(V_{DS} > \min \{V_{REF} - V_{TN}, \; V_{DSATN}\}\)
+	\item si ipotizza il regime di saturazione (pinchoff o velocità) e si calcola \(I_{DSAT}\) e \(R_0\):
+	\begin{itemize}[topsep=0pt]
+		\item in regime di saturazione per pinchoff: \(\displaystyle I_{DSAT} = \frac{k_n}{2} (V_{REF} - V_{TN})^2\)
+		\item in regime di saturazione di velocità: \(\displaystyle I_{DSAT} = k_n V_{DSATN}\left(V_{REF} - V_{TN} - \frac{V_{DSATN}}{2}\right)\)
+		\item a prescindere dal regime di saturazione \(R_0 = 1 / (\lambda_n I_{DSAT})\)
+	\end{itemize}
+	\item si applica il teorema di Norton, ovvero si sostituisce il mosfet con il generatore lineare di	corrente e
+	si risolve il circuito (es. per sovrapposizione degli effetti) in funzione di \(V_{DS}\):
+	\[V_{DS} = V_{DD} \frac{R_0}{R + R_0} - I_{DSAT} R_0 \frac{R}{R + R_0}\]
+	\item si verifica l'ipotesi sul regime di saturazione sia soddisfatta:
+	\begin{itemize}
+		\item in regime di saturazione per pinchoff: \(V_{DS} > V_{REF} - V_{TN}\)
+		\item in regime di saturazione di velocità: \(V_{DS} > V_{DSATN}\)
+	\end{itemize}
+	\item se la condizione è soddisfatta, si è trovata la soluzione; altrimenti si deve ripetere il procedimento per l'altro
+	regime di saturazione
+\end{enumerate}
+
+Il modello a canale lungo è un caso particolare del modello a canale corto con \(\lambda_n = 0\) e \(R_0 = \infty\), per cui
+il mosfet si può modellare come un generatore ideale di corrente con corrente \(I_{DSAT}\) data dal regime di saturazione per
+pinchoff. Non prevedendo l'effetto di modulazione di lunghezza di canale e il fenomeno di saturazione di velocità, alla fine
+è sufficiente verificare solo la condizione \(V_{DS} > V_{REF} - V_{TN}\).
+
+\newpage
+
+\subsection{Mosfet usato come interruttore}
+\subsubsection*{Modellizzazione del mosfet come interruttore}
+Nell'elettronica digitale i mosfet sono utilizzati come interruttori ON/OFF. È possibile, infatti, modellare un mosfet come un
+interruttore ideale pilotato dalla tensione di gate \(V_{GS}\) in serie ad una resistenza \(R_n\) per gli nmos o \(R_p\)
+per i pmos. Si considerano, quindi, soltanto due regimi di funzionamento:
+\begin{itemize}
+	\item mosfet \say{spento}: interruttore aperto, \(I_{DS} = 0\), per \(V_{GS} < V_{TN}\) (nmos) o \(V_{GS} > V_{TP}\) (pmos);
+	\item mosfet \say{acceso}: resistore di resistenza \(R_n\) (nmos) o \(R_p\) (pmos).
+\end{itemize}
+\begin{center}
+	\centering \includegraphics[width=0.6\textwidth]{immagini/5_circuiti_mosfet/circuiti_mos_3.png}
+\end{center}
+
+\subsection{Scarica di un condensatore con nmos}
+\subsubsection*{Circuito di scarica}
+\begin{center}
+	\begin{minipage}{0.37\textwidth}
+		\centering
+		\begin{circuitikz}
+			\ctikzset{tripoles/mos style=arrows}
+			
+			\draw (G_mosfet) node[nmos, anchor=G, rotate=-90](nmos){}; % n-mosfet
+			\draw (nmos.S) -- ++(0,-0.2) node[sground]{}; % source del mosfet
+			\draw (nmos.D) to [C, l=\(C\), i_=\(I_C\)] ++(0, -1.2) ++(0,0.3) node[sground]{}; % condensatore C
+			\draw (nmos.G) -- ++(-1.8,0) to [V, l_=\(V_{G}\quad\quad\), name=Vg] ++(0,-1.5) ++(0,0.3) node[sground]{}; % generatore di tensione V_G
+	
+			% generatore
+			\node at ($(Vg)+(-0.2,-0.55)$) {\(\;_-\)};
+			\node at ($(Vg)+(-0.2,0.6)$) {\(\;_+\)};
+			\node at ($(Vg)+(-1.5,-0.4)$) {\(0V \rightarrow V_{DD}\)};
+	
+			% I_DS Corrente Drain-Source
+			\node at ($(nmos.D)+(-0.8, -0.2)$) {\(\stackrel{\leftarrow}{I_{DS}}\)}; % Testo I_DS vicino al drain
+
+			% V_C tensione condensatore
+			\node at ($(nmos.D)+(0.2, -0.2)$) {\(\;_+\)};
+			\node at ($(nmos.D)+(0.22, -1)$) {\(\;_-\)};
+
+			% terminali del mosfet
+			\node at ($(nmos.G)+(0.2, -0.1)$) {\(G\)};
+			\node at ($(nmos.D)+(-0.25, 0.2)$) {\(D\)};
+			\node at ($(nmos.S)+(0.25, 0.2)$) {\(S\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.1\textwidth}
+		\centering
+		\(\longrightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.2\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) node[sground]{}; % ground secondo circuito
+			\draw (0,0) to[short,-*] ++(0.5, 0) -- ++(0.5, 0.3) to [open,-*] ++(0, -0.3) -- ++(0.5, 0) to[C, l=\(C\)] ++(0, -1.2) ++(0,0.3) node[sground]{}; % nodo superiore
+		\end{circuitikz}
+
+		per \(t < 0\)
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}[european]
+			\draw (0,0) node[sground]{}; % ground secondo circuito
+			\draw (0,0) to[short,-*] ++(0.5, 0) -- ++(0.5, 0.05) to [open,-*] ++(0, -0.05) -- ++(0.5, 0) to[R, l=\(R\)] ++(1.5,0)  to[C, l=\(C\)] ++(0, -1.2) ++(0,0.3) node[sground]{}; % nodo superiore
+		\end{circuitikz}
+
+		per \(t \geq 0\)
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Equazioni del circuito per le leggi di Kirchhoff e la struttura della rete}
+\[V_G(t) = \begin{cases} 0 V  & t < 0 \\ V_{DD} & t \geq 0 \end{cases} \quad\qquad V_C(t \leq 0) = V_{DD} \qquad
+\begin{array}{l} V_{GS}(t) = V_G(t) \\[3pt] V_{DS}(t) = V_C(t) \end{array} \qquad I_{DS} + I_C(t) = 0\]
+
+\subsubsection*{Analisi delle fasi del transitorio}
+Si analizzano le variabili del circuito per \(t < 0\), \(t = 0\), \(t > 0\) e \(t \to \infty\):
+\begin{itemize}
+	\item per \(t < 0\): l'nmos è spento poiché \(V_{GS} = 0 V < V_{TN}\) e il condensatore è carico a \(V_{DD}\);
+	\item per \(t = 0\): l'nmos si accende poiché \(V_{GS} = V_{DD} > V_{TN}\);
+	\item per \(t > 0\): l'nmos rimane acceso poiché \(V_{GS} = V_{DD} > V_{TN}\) e il condensatore si scarica;
+	\item per \(t \to \infty\): a regime l'nmos rimane acceso e il condensatore si scarica completamente.
+\end{itemize}
+
+\subsubsection*{Analisi grafica delle fasi del transitorio}
+Si suppone, sotto certi dati, che il mosfet lavori soltanto in saturazione di velocità o in regime lineare.
+Si osserva che la scarica del condensatore avviene in due fasi (con un punto intermedio \(t = t_1\)):
+\begin{enumerate}
+	\item per \(0 < t < t_1\), \(V_{DS} > V_{DSATN}\) il mosfet lavora in regime di saturazione di velocità e la corrente di
+	scarica è costante pari a \(I_{DSATN}\):
+	\item per \(t = t_1\), \(V_{DS} = V_{DSATN}\) il mosfet passa dal regime di saturazione di velocità a regime lineare:
+	\item per \(t > t_1\), \(V_{DS} < V_{DSATN}\) il mosfet lavora in regime lineare e la corrente di scarica dipende dalla tensione \(V_{DS}(t) = V_C(t)\)
+	e quindi dalla tensione del condensatore
+\end{enumerate}
+
+\begin{center}
+	\begin{minipage}{0.48\textwidth}
+		\centering \includegraphics[width=0.95\textwidth]{immagini/5_circuiti_mosfet/scarica_nmos_1.png}
+	\end{minipage}
+	\begin{minipage}{0.48\textwidth}
+		\centering \includegraphics[width=0.95\textwidth]{immagini/5_circuiti_mosfet/scarica_nmos_2.png}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Soluzione analitica del circuito}
+Si analizza la prima fase di scarica del condensatore per \(0 < t < t_1\) (saturazione di velocità):
+\[I_C(t) = C\frac{dV_C}{dt} \qquad\qquad I_{DSATN} = k_n' Z_n V_{DSATN} \left(V_{DD} - V_{TN} - \frac{V_{DSATN}}{2}\right)\]
+\[I_C(t) = -I_{DSATN} \quad \rightarrow \quad V_C(t) = V_{DD} - \frac{I_{DSATN}}{C} t\]
+
+\noindent
+Si analizza il passaggio dalla prima alla seconda fase di per \(t = t_1\):
+\[V_{GS}(t_1) = V_{DSATN} \quad \rightarrow \quad V_C(t_1) = V_{DSATN} \quad \rightarrow \quad t_1 = \frac{C}{I_{DSATN}} (V_{DD} - V_{DSATN})\]
+
+\noindent
+Si analizza la seconda fase di scarica del condensatore per \(t > t_1\) (regime lineare):
+\[I_C(t) = C\frac{dV_C}{dt} \qquad\qquad I_{DS}(t) = k_n' Z_n V_C(t) \left(V_{DD} - V_{TN} - \frac{V_C(t)}{2}\right)\]
+\[I_C(t) = -I_{DS}(t) \quad \rightarrow \quad V_C(t) = \frac{1}{A \, e^{\alpha (t - t_1)} + B}\]
+\[\alpha = \frac{k_n' Z_n}{C} (V_{DD} - V_{TN}) \qquad A = \frac{1}{V_{DSATN}} - \frac{1}{2(V_{DD} - V_{TN})} \qquad B = \frac{1}{2(V_{DD} - V_{TN})}\]
+
+\subsubsection*{Carica del condensatore a regime}
+Per \(t \to \infty\), la tensione sul condensatore si riduce a zero e il condensatore si scarica completamente:
+\[\lim_{t \to \infty} V_C(t) = 0 V\]
+
+\subsubsection*{Tempo di dimezzamento di \(V_C(t)\)}
+Il tempo di dimezzamento \(t_{1/2}\) è il tempo necessario affinché la tensione sul condensatore si riduca alla metà del suo
+valore iniziale \(V_{DD}\), ovvero quando \(V_C(t_{1/2}) = V_{DD}/2\). Si osserva che tale valore viene assunto durante la prima
+fase di scarica, in cui il mosfet lavora in saturazione di velocità. Si calcola, quindi, \(t_{1/2}\) come segue:
+\[V_C(t_{1/2}) = \frac{V_{DD}}{2} \quad \rightarrow \quad t_{1/2} = \frac{C V_{DD}}{2 I_{DSATN}}\]
+
+\newpage
+
+\subsection{Carica di un condensatore con pmos}
+\subsubsection*{Circuito di carica}
+\begin{center}
+	\begin{minipage}{0.37\textwidth}
+		\centering
+		\begin{circuitikz}
+			\ctikzset{tripoles/mos style=arrows}
+			\ctikzset{tripoles/pmos style/emptycircle}
+
+			\draw (G_mosfet) node[pmos, anchor=G, rotate=90, xscale=-1](pmos){}; % p-mosfet con source/drain invertiti
+			\draw (pmos.S) -- ++(-0.1,0) node[rground, rotate=180, name=VDD]{}; % source del mosfet
+			\draw (pmos.D) to [C, l=\(C\), i_=\(I_C\)] ++(0, -1.2) ++(0,0.3) node[sground]{}; % condensatore C
+			\draw (pmos.G) -- ++(-1.8,0) to [V, l_=\(V_{G}\quad\quad\), name=Vg] ++(0,-1.5) ++(0,0.3) node[sground]{}; % generatore di tensione V_G
+
+			% generatore
+			\node at ($(Vg)+(-0.2,-0.55)$) {\(\;_-\)};
+			\node at ($(Vg)+(-0.2,0.6)$) {\(\;_+\)};
+			\node at ($(Vg)+(-1.5,-0.4)$) {\(V_{DD} \rightarrow 0V\)};
+	
+			% I_DS Corrente Drain-Source
+			\node at ($(pmos.D)+(-0.8, -0.2)$) {\(\stackrel{\rightarrow}{I_{DS}}\)}; % Testo I_DS vicino al drain
+	
+			% V_C Corrente condensatore
+			\node at ($(pmos.D)+(0.2, -0.2)$) {\(\;_+\)};
+			\node at ($(pmos.D)+(0.22, -1)$) {\(\;_-\)};
+
+			% VDD
+			\node at ($(VDD)+(0, 0.6)$) {\(V_{DD}\)};
+
+			% terminali del mosfet
+			\node at ($(nmos.G)+(0.2, -0.1)$) {\(G\)};
+			\node at ($(nmos.D)+(-0.25, 0.2)$) {\(D\)};
+			\node at ($(nmos.S)+(0.25, 0.2)$) {\(S\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.1\textwidth}
+		\centering
+		\(\longrightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.2\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) node[rground, rotate=180, name=VDD]{}; % ground secondo circuito
+			\draw (0,0) to[short,-*] ++(0.5, 0) -- ++(0.5, 0.3) to [open,-*] ++(0, -0.3) -- ++(0.5, 0) to[C, l=\(C\)] ++(0, -1.2) ++(0,0.3) node[sground]{}; % nodo superiore
+			\node at ($(VDD)+(0, 0.6)$) {\(V_{DD}\)};
+		\end{circuitikz}
+
+		per \(t < 0\)
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}[european]
+			\draw (0,0) node[rground, rotate=180, name=VDD]{}; % ground secondo circuito
+			\draw (0,0) to[short,-*] ++(0.5, 0) -- ++(0.5, 0.05) to [open,-*] ++(0, -0.05) -- ++(0.5, 0) to[R, l=\(R\)] ++(1.5,0)  to[C, l=\(C\)] ++(0, -1.2) ++(0,0.3) node[sground]{}; % nodo superiore
+			\node at ($(VDD)+(0, 0.6)$) {\(V_{DD}\)};
+		\end{circuitikz}
+
+		per \(t \geq 0\)
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Equazioni del circuito per le leggi di Kirchhoff e la struttura della rete}
+\[V_G(t) = \begin{cases} V_{DD}  & t < 0 \\ 0 V & t \geq 0 \end{cases} \quad\qquad V_C(t \leq 0) = 0 V \qquad
+\begin{array}{l} V_{GS}(t) = V_G(t) - V_{DD} \\[3pt] V_{DS}(t) = V_C(t) - V_{DD} \end{array} \qquad I_{DS} = I_C(t)\]
+
+\subsubsection*{Analisi delle fasi del transitorio}
+Si analizzano le variabili del circuito per \(t < 0\), \(t = 0\), \(t > 0\) e \(t \to \infty\):
+\begin{itemize}
+	\item per \(t < 0\): il pmos è spento poiché \(V_{GS} = 0 V > V_{TP}\) e il condensatore è scarico con \(V_C = 0 V\);
+	\item per \(t = 0\): il pmos si accende poiché \(V_{GS} = - V_{DD} < V_{TP}\);
+	\item per \(t > 0\): il pmos rimane acceso poiché \(V_{GS} = - V_{DD} < V_{TP}\) e il condensatore si carica;
+	\item per \(t \to \infty\): a regime il pmos rimane acceso e il condensatore si carica completamente a \(V_{DD}\).
+\end{itemize}
+
+\subsubsection*{Analisi grafica delle fasi del transitorio}
+Si suppone, sotto certi dati, che il mosfet lavori soltanto in saturazione di velocità o in regime lineare.
+Si osserva che la scarica del condensatore avviene in due fasi (con un punto intermedio \(t = t_1\)):
+\begin{enumerate}
+	\item per \(0 < t < t_1\), \(V_{DS} < V_{DSATP}\) il mosfet lavora in regime di saturazione di velocità e la corrente di
+	scarica è costante pari a \(I_{DSATP}\):
+	\item per \(t = t_1\), \(V_{DS} = V_{DSATP}\) il mosfet passa dal regime di saturazione di velocità a regime lineare:
+	\item per \(t > t_1\), \(V_{DS} > V_{DSATP}\) il mosfet lavora in regime lineare e la corrente di scarica dipende dalla tensione
+	\(V_{DS}(t) = V_C(t) - V_{DD}\) e quindi dalla tensione del condensatore
+\end{enumerate}
+
+\begin{center}
+	\begin{minipage}{0.48\textwidth}
+		\centering \includegraphics[width=0.95\textwidth]{immagini/5_circuiti_mosfet/carica_pmos_1.png}
+	\end{minipage}
+	\begin{minipage}{0.48\textwidth}
+		\centering \includegraphics[width=0.95\textwidth]{immagini/5_circuiti_mosfet/carica_pmos_2.png}
+	\end{minipage}
+\end{center}
+
+\newpage
+
+\subsubsection*{Soluzione analitica del circuito}
+Si analizza la prima fase di scarica del condensatore per \(0 < t < t_1\) (saturazione di velocità):
+\[I_C(t) = C\frac{dV_C}{dt} \qquad\qquad I_{DSATP} = k_p' Z_p V_{DSATP} \left(-V_{DD} - V_{TP} - \frac{V_{DSATP}}{2}\right)\]
+\[I_C(t) = I_{DSATP} \quad \rightarrow \quad V_C(t) = \frac{I_{DSATP}}{C} t\]
+
+\noindent
+Si analizza il passaggio dalla prima alla seconda fase di per \(t = t_1\):
+\[V_{DS}(t_1) = V_{DSATP} \quad \rightarrow \quad V_C(t_1) - V_{DD} = V_{DSATP} \quad \rightarrow \quad t_1 = \frac{C}{I_{DSATP}} (V_{DD} + V_{DSATP})\]
+
+\noindent
+Si analizza la seconda fase di scarica del condensatore per \(t > t_1\) (regime lineare):
+\[I_C(t) = C\frac{dV_C}{dt} \qquad I_{DS}(t) = k_p' Z_p (V_C(t) - V_{DD}) \left(-V_{DD} - V_{TP} - \frac{V_C(t)-V_{DD}}{2}\right)\]
+\[I_C(t) = I_{DS}(t) \quad \rightarrow \quad V_C(t) = \frac{1}{A \, e^{\alpha (t - t_1)} + B} + V_{DD}\]
+\[\alpha = \frac{k_p' Z_p}{C} (V_{DD} + V_{TP}) \qquad A = \frac{1}{V_{DSATP}} + \frac{1}{2(V_{DD} + V_{TP})} \qquad B = -\frac{1}{2(V_{DD} + V_{TP})}\]
+
+\subsubsection*{Carica del condensatore a regime}
+Per \(t \to \infty\), la tensione sul condensatore raggiunge il valore \(V_{DD}\) e il condensatore si carica completamente:
+\[\lim_{t \to \infty} V_C(t) = V_{DD}\]
+
+\subsubsection*{Tempo di dimezzamento di \(V_C(t)\)}
+Si analizza il tempo di dimezzamento \(t_{1/2}\) osservando che tale valore viene assunto durante la prima fase di carica, in
+cui il mosfet lavora in saturazione di velocità:
+\[V_C(t_{1/2}) = \frac{V_{DD}}{2} \quad \rightarrow \quad t_{1/2} = \frac{C V_{DD}}{2 I_{DSATP}}\]
+
+\newpage
+
+\subsection{Scarica di un condensatore con un pmos}
+\subsubsection*{Circuito di scarica}
+\begin{center}
+	\begin{minipage}{0.37\textwidth}
+		\centering
+		\begin{circuitikz}
+			\ctikzset{tripoles/mos style=arrows}
+			\ctikzset{tripoles/pmos style/emptycircle}
+
+			\draw (G_mosfet) node[pmos, anchor=G, rotate=-90](pmos){}; % p-mosfet
+			\draw (pmos.D) -- ++(0,-0.2) node[sground]{}; % source del mosfet
+			\draw (pmos.S) to [C, l=\(C\), i_=\(I_C\)] ++(0, -1.2) ++(0,0.3) node[sground]{}; % condensatore C
+			\draw (pmos.G) -- ++(-1.8,0) to [V, l_=\(V_{G}\quad\quad\), name=Vg] ++(0,-1.5) ++(0,0.3) node[sground]{}; % generatore di tensione V_G
+	
+			% generatore
+			\node at ($(Vg)+(-0.2,-0.55)$) {\(\;_-\)};
+			\node at ($(Vg)+(-0.2,0.6)$) {\(\;_+\)};
+			\node at ($(Vg)+(-1.5,-0.4)$) {\(V_{DD} \rightarrow 0V\)};
+	
+			% I_DS Corrente Drain-Source
+			\node at ($(pmos.D)+(0.8, -0.2)$) {\(\stackrel{\leftarrow}{I_{DS}}\)}; % Testo I_DS vicino al drain
+	
+			% V_C Corrente condensatore
+			\node at ($(pmos.S)+(0.2, -0.2)$) {\(\;_+\)};
+			\node at ($(pmos.S)+(0.22, -1)$) {\(\;_-\)};
+
+			% terminali del mosfet
+			\node at ($(nmos.G)+(0.2, -0.1)$) {\(G\)};
+			\node at ($(nmos.S)+(0.25, 0.2)$) {\(D\)};
+			\node at ($(nmos.D)+(-0.25, 0.2)$) {\(S\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.1\textwidth}
+		\centering
+		\(\longrightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.2\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) node[sground]{}; % ground secondo circuito
+			\draw (0,0) to[short,-*] ++(0.5, 0) -- ++(0.5, 0.3) to [open,-*] ++(0, -0.3) -- ++(0.5, 0) to[C, l=\(C\)] ++(0, -1.2) ++(0,0.3) node[sground]{}; % nodo superiore
+		\end{circuitikz}
+
+		per \(t < 0\)
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}[european]
+			\draw (0,0) node[sground]{}; % ground secondo circuito
+			\draw (0,0) to[short,-*] ++(0.5, 0) -- ++(0.5, 0.05) to [open,-*] ++(0, -0.05) -- ++(0.5, 0) to[R, l=\(R\)] ++(1.5,0)  to[C, l=\(C\)] ++(0, -1.2) ++(0,0.3) node[sground]{}; % nodo superiore
+		\end{circuitikz}
+
+		per \(t \geq 0\)
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Equazioni del circuito per le leggi di Kirchhoff e la struttura della rete}
+\[V_G(t) = \begin{cases} V_{DD} & t < 0 \\ 0 V & t \geq 0 \end{cases} \quad\qquad V_C(t \leq 0) = V_{DD} \qquad
+\begin{array}{l} V_{GS}(t) = V_G(t) - V_C(t) \\[3pt] V_{DS}(t) = -V_C(t) \end{array} \qquad I_{DS} + I_C(t) = 0\]
+
+\subsubsection*{Analisi delle fasi del transitorio}
+Si analizzano le variabili del circuito per \(t < 0\), \(t = 0\), \(t > 0\) e \(t \to \infty\):
+\begin{itemize}
+	\item per \(t < 0\): il pmos è spento poiché \(V_{GS}(t) = 0V > V_{TP}\) e il condensatore è carico a \(V_{DD}\);
+	\item per \(t = 0\): il pmos si accende poiché \(V_{GS}(t) = -V_{DD} < V_{TP}\);
+	\item per \(t > 0\): il pmos è acceso finché \(V_{GS}(t) < V_{TP} \;\; \rightarrow \;\; V_C(t) > -V_{TP}\)
+	\item per \(t \rightarrow \infty\): a regime il pmos si spegne per \(V_{GS}(t) = V_{TP} \; \rightarrow \; V_C(t) = -V_{TP}\)
+	lasciando il condensatore carico con tensione finale \(V_C(t) = -V_{TP}\)
+\end{itemize}
+
+\subsubsection*{Analisi grafica delle fasi del transitorio}
+Il pmos è connesso a diodo (gate e drain entrambi a massa per \(t\geq 0\)), quindi lavora solo in saturazione.
+Si osserva che la scarica del condensatore avviene in due fasi (con un punto intermedio \(t = t_1\)):
+\begin{enumerate}
+	\item per \(0 < t < t_1\), \(V_{GS} - V_{TP} < V_{DSATP}\) il mosfet lavora in regime di saturazione di velocità e
+	la corrente di scarica è costante pari a \(I_{DSATP}\):
+	\item per \(t = t_1\), \(V_{GS} - V_{TP} = V_{DSATP}\) il mosfet passa dal regime di saturazione per velocità a quello di
+	saturazione per pinchoff:
+	\item per \(t > t_1\), \(V_{GS} - V_{TP} > V_{DSATP}\) il mosfet lavora in saturazione per pinchoff e la corrente di scarica
+	dipende da \(V_{GS}(t) - V_{TP} = -V_{C}(t) - V_{TP}\) e quindi anche dalla tensione del condensatore \(V_C(t)\)
+\end{enumerate}
+
+\begin{center}
+	\begin{minipage}{0.48\textwidth}
+		\centering \includegraphics[width=0.95\textwidth]{immagini/5_circuiti_mosfet/scarica_pmos_1.png}
+	\end{minipage}
+	\begin{minipage}{0.48\textwidth}
+		\centering \includegraphics[width=0.95\textwidth]{immagini/5_circuiti_mosfet/scarica_pmos_2.png}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Soluzione analitica del circuito}
+Si analizza la prima fase di scarica del condensatore per \(0 < t < t_1\) (saturazione di velocità):
+\[I_C(t) = C\frac{dV_C}{dt} \qquad\qquad I_{DSATP}(t) = k_p' Z_p V_{DSATP} \left(-V_{C}(t) - V_{TP} - \frac{V_{DSATP}}{2}\right)\]
+\[I_C(t) = I_{DSATP}(t) \;\; \rightarrow \;\; V_C(t) = V_{DD} - \left(V_{TP} + \frac{V_{DSATP}}{2}\right) \left(1-e^{-\alpha t}\right) \quad \text{con} \; \alpha = -\frac{k_p' Z_p V_{DSATP}}{C}\]
+
+\noindent
+Si analizza il passaggio dalla prima alla seconda fase di per \(t = t_1\):
+\[V_{GS}(t_1) - V_{TP} = V_{DSATP} \;\; \rightarrow \;\; V_C(t_1) = -V_{TP} - V_{DSATP} \;\; \rightarrow \;\; t_1 = \frac{1}{\alpha} \ln \left(\frac{2 V_{DD} + 2V_{TP} + V_{DSATP}}{-V_{DSATP}}\right)\]
+
+\noindent
+Si analizza la seconda fase di scarica del condensatore per \(t > t_1\) (saturazione per pinchoff):
+\[I_C(t) = C\frac{dV_C}{dt} \qquad\qquad I_{DS}(t) = \frac{k_p' Z_p}{2} (V_{GS}(t) - V_{TP})^2 = \frac{k_p' Z_p}{2} (-V_C(t) - V_{TP})^2\]
+\[I_C(t) = I_{DS}(t) \quad \rightarrow \quad V_C(t) = -V_{TP} + \frac{2CV_{DSATP}}{k_p' Z_p V_{DSATP}(t-t_1)-2C}\]
+
+\subsubsection*{Valore di regime}
+Si analizza il valore di regime della tensione sul condensatore \(V_C(t)\) per \(t \rightarrow \infty\):
+\[\lim_{t \to \infty} V_C(t) = -V_{TP}\]
+Si ha, quindi, che il condensatore si scarica fino a raggiungere la tensione di soglia del pmos.
+
+\subsubsection*{Tempo di dimezzamento di \(V_C(t)\)}
+Si analizza il tempo di dimezzamento \(t_{1/2}\), osservando che tale valore viene assunto durante la seconda fase di scarica,
+in cui il mosfet lavora in saturazione per pinchoff:
+\[V_C(t_{1/2}) = \frac{V_{DD}}{2} \quad \rightarrow \quad t_{1/2} = t_1 - 2C \frac{V_{DD} + 2V_{TP} + 2V_{DSATP}}{k_p' Z_p V_{DSATP}(V_{DD} + 2V_{TP})}\]
+
+\newpage
+
+\subsection{Carica di un condensatore con un nmos}
+\subsubsection*{Circuito di carica}
+\begin{center}
+	\begin{minipage}{0.37\textwidth}
+		\centering
+		\begin{circuitikz}
+			\ctikzset{tripoles/mos style=arrows}
+			\ctikzset{tripoles/pmos style/emptycircle}
+
+			\draw (G_mosfet) node[nmos, anchor=G, rotate=90, xscale=-1](nmos){}; % p-mosfet con source/drain invertiti
+			\draw (nmos.D) -- ++(-0.1,0) node[rground, rotate=180, name=VDD]{}; % source del mosfet
+			\draw (nmos.S) to [C, l=\(C\), i_=\(I_C\)] ++(0, -1.2) ++(0,0.3) node[sground]{}; % condensatore C
+			\draw (nmos.G) -- ++(-1.8,0) to [V, l_=\(V_{G}\quad\quad\), name=Vg] ++(0,-1.5) ++(0,0.3) node[sground]{}; % generatore di tensione V_G
+
+			% generatore
+			\node at ($(Vg)+(-0.2,-0.55)$) {\(\;_-\)};
+			\node at ($(Vg)+(-0.2,0.6)$) {\(\;_+\)};
+			\node at ($(Vg)+(-1.5,-0.4)$) {\(0V \rightarrow V_{DD}\)};
+	
+			% I_DS Corrente Drain-Source
+			\node at ($(nmos.D)+(0.8, -0.2)$) {\(\stackrel{\rightarrow}{I_{DS}}\)}; % Testo I_DS vicino al drain
+	
+			% V_C Corrente condensatore
+			\node at ($(nmos.S)+(0.2, -0.2)$) {\(\;_+\)};
+			\node at ($(nmos.S)+(0.22, -1)$) {\(\;_-\)};
+
+			% VDD
+			\node at ($(VDD)+(0, 0.6)$) {\(V_{DD}\)};
+
+			% terminali del mosfet
+			\node at ($(nmos.G)+(0.2, -0.1)$) {\(G\)};
+			\node at ($(nmos.D)+(0.25, 0.2)$) {\(D\)};
+			\node at ($(nmos.S)+(-0.25, 0.2)$) {\(S\)};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.1\textwidth}
+		\centering
+		\(\longrightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.2\textwidth}
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) node[rground, rotate=180, name=VDD]{}; % ground secondo circuito
+			\draw (0,0) to[short,-*] ++(0.5, 0) -- ++(0.5, 0.3) to [open,-*] ++(0, -0.3) -- ++(0.5, 0) to[C, l=\(C\)] ++(0, -1.2) ++(0,0.3) node[sground]{}; % nodo superiore
+			\node at ($(VDD)+(0, 0.6)$) {\(V_{DD}\)};
+		\end{circuitikz}
+
+		per \(t < 0\)
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{circuitikz}[european]
+			\draw (0,0) node[rground, rotate=180, name=VDD]{}; % ground secondo circuito
+			\draw (0,0) to[short,-*] ++(0.5, 0) -- ++(0.5, 0.05) to [open,-*] ++(0, -0.05) -- ++(0.5, 0) to[R, l=\(R\)] ++(1.5,0)  to[C, l=\(C\)] ++(0, -1.2) ++(0,0.3) node[sground]{}; % nodo superiore
+			\node at ($(VDD)+(0, 0.6)$) {\(V_{DD}\)};
+		\end{circuitikz}
+
+		per \(t \geq 0\)
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Equazioni del circuito per le leggi di Kirchhoff e la struttura della rete}
+\[V_G(t) = \begin{cases} 0 V & t < 0 \\ V_{DD} & t \geq 0 \end{cases} \quad\qquad V_C(t \leq 0) = 0 V \qquad
+\begin{array}{l} V_{GS}(t) = V_G(t) - V_C(t) \\[3pt] V_{DS}(t) = V_{DD} - V_C(t) \end{array} \qquad I_{DS} = I_C(t)\]
+
+\subsubsection*{Analisi delle fasi del transitorio}
+Si analizzano le variabili del circuito per \(t < 0\), \(t = 0\), \(t > 0\) e \(t \to \infty\):
+\begin{itemize}
+	\item per \(t < 0\): l'nmos è spento poiché \(V_{GS}(t) = 0V < V_{TN}\);
+	\item per \(t = 0\): l'nmos si accende poiché \(V_{GS}(t) = V_{DD} > V_{TN}\);
+	\item per \(t > 0\): l'nmos è acceso finché \(V_{GS}(t) > V_{TN} \;\; \rightarrow \;\; V_C(t) < V_{DD} -V_{TN}\)
+	\item per \(t \rightarrow \infty\): a regime l'nmos si spegne quando \(V_{GS}(t) = V_{TN} \; \rightarrow \; V_C(t) = V_{DD} - V_{TN}\)
+	lasciando il condensatore carico con tensione finale \(V_C(t) = V_{DD} - V_{TN}\)
+\end{itemize}
+
+\subsubsection*{Analisi grafica delle fasi del transitorio}
+Il pmos è connesso a diodo (gate e drain entrambi a \(V_{DD}\) per \(t\geq 0\)), quindi lavora solo in saturazione.
+Si osserva che la carica del condensatore avviene in due fasi (con un punto intermedio \(t = t_1\)):
+\begin{enumerate}
+	\item per \(0 < t < t_1\), \(V_{GS} - V_{TN} > V_{DSATN}\) il mosfet lavora in regime di saturazione di velocità e
+	la corrente di carica è costante pari a \(I_{DSATN}\):
+	\item per \(t = t_1\), \(V_{GS} - V_{TN} = V_{DSATN}\) il mosfet passa dal regime di saturazione per velocità a quello di
+	saturazione per pinchoff:
+	\item per \(t > t_1\), \(V_{GS} - V_{TN} < V_{DSATN}\) il mosfet lavora in saturazione per pinchoff e la corrente di scarica
+	dipende da \(V_{GS}(t) - V_{TN} = V_{DD} - V_{C}(t) - V_{TN}\), quindi anche dalla tensione del condensatore \(V_C(t)\)
+\end{enumerate}
+
+\begin{center}
+	\begin{minipage}{0.48\textwidth}
+		\centering \includegraphics[width=0.95\textwidth]{immagini/5_circuiti_mosfet/carica_nmos_1.png}
+	\end{minipage}
+	\begin{minipage}{0.48\textwidth}
+		\centering \includegraphics[width=0.95\textwidth]{immagini/5_circuiti_mosfet/carica_nmos_2.png}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Soluzione analitica del circuito}
+Si analizza la prima fase di carica del condensatore per \(0 < t < t_1\) (saturazione di velocità):
+\[I_C(t) = C\frac{dV_C}{dt} \qquad\qquad I_{DSATN}(t) = k_p' Z_p V_{DSATN} \left(V_{DD} - V_{C}(t) - V_{TN} - \frac{V_{DSATN}}{2}\right)\]
+\[I_C(t) = I_{DSATN}(t) \;\; \rightarrow \;\; V_C(t) = \left(V_{DD} - V_{TN} - \frac{V_{DSATN}}{2}\right) \left(1-e^{-\alpha t}\right) \quad \text{con} \; \alpha = -\frac{k_p' Z_p V_{DSATN}}{C}\]
+
+\noindent
+Si analizza il passaggio dalla prima alla seconda fase di per \(t = t_1\):
+\[V_{GS}(t_1) - V_{TN} = V_{DSATN} \;\; \rightarrow \;\; V_C(t_1) = V_{DD} -V_{TN} - V_{DSATN} \;\; \rightarrow \;\; t_1 = \frac{1}{\alpha} \ln \left(\frac{V_{DD} - V_{TN}}{V_{DSATN}} - 1\right)\]
+
+\noindent
+Si analizza la seconda fase di carica del condensatore per \(t > t_1\) (saturazione per pinchoff):
+\[I_C(t) = C\frac{dV_C}{dt} \qquad\qquad I_{DS}(t) = \frac{k_p' Z_p}{2} (V_{GS}(t) - V_{TN})^2 = \frac{k_p' Z_p}{2} (V_{DD} - V_C(t) - V_{TN})^2\]
+\[I_C(t) = I_{DS}(t) \quad \rightarrow \quad V_C(t) = V_{DD} - V_{TN} - \frac{2CV_{DSATN}}{k_p' Z_p V_{DSATN}(t-t_1)+2C}\]
+
+\subsubsection*{Valore di regime}
+Si analizza il valore di regime della tensione sul condensatore \(V_C(t)\) per \(t \rightarrow \infty\):
+\[\lim_{t \to \infty} V_C(t) = V_{DD} - V_{TN}\]
+Si ha, quindi, che il condensatore si carica fino a raggiungere la tensione finale \(V_C(t) = V_{DD} - V_{TN}\).
+
+\subsubsection*{Tempo di dimezzamento di \(V_C(t)\)}
+Si analizza il tempo di dimezzamento \(t_{1/2}\), osservando che tale valore viene assunto durante la prima fase di carica,
+in cui il mosfet lavora in saturazione per velocità:
+\[V_C(t_{1/2}) = \frac{V_{DD}}{2} \quad \rightarrow \quad t_{1/2} = \frac{1}{\alpha}  \ln \left(\frac{2V_{DD} - 2V_{TN} - V_{DSATN}}{V_{DD} - 2V_{TN} - V_{DSATN}}\right)\]
+
+\newpage
+
+\subsection{Confronto dei transitori per carica e scarica con nmos e pmos}
+\subsubsection*{Dati numerici per il calcolo dei tempi caratteristici}
+Si scelgono i seguenti dati per il confronto dei transitori di carica e scarica con nmos e pmos:
+\begin{center}
+	\begin{tabular}{l | l l | l l}
+		circuito & nmos & & pmos & \\
+		\toprule
+		\(C = 10 fF\) & \(k_n' = 125 \mu \A/\V^2\) & \(Z_n = 2\) & \(k_p' = 40 \mu \A/\V^2\) & \(Z_p = 2 \) \\[4pt]
+		 \(V_{DD} = 2.5 V\) & \(V_{TN} = 0.5 V\) & \(V_{DSATN} = 0.6 V\) & \(V_{TP} = -0.5 V\) & \(V_{DSATP} = -0.8 V\)
+	\end{tabular}
+\end{center}
+
+\subsubsection*{Confronto dei tempi caratteristici}
+\begin{center}
+	\begin{tabular}{l c c c}
+		circuito & \(t_1\) & \(t_{1/2}\) & \(V_C(t \to \infty)\)\\
+		\toprule
+		scarica con nmos & \(74.5 \, \ps\) & \(49 \, \ps\) & \(0 \V\) \\[4pt]
+		carica con nmos & \(115.6 \, \ps\) & \(88.6 \, \ps\) & \(V_{DD} - V_{TN} < V_{DD}\) \\[4pt]
+		carica con pmos & \(151.7 \, \ps\) & \(122 \, \ps\) & \(V_{DD}\) \\[4pt]
+		scarica con pmos & \(216.6 \, \ps\) & \(237 \, \ps\) & \(-V_{TP} > 0 \V\)
+	\end{tabular}
+\end{center}
+Si nota che:
+\begin{itemize}
+	\item l'nmos scarica totalmente il condensatore, ma lo carica parzialmente fino ad un valore inferiore a \(V_{DD}\),
+	si dice che \textbf{l'nmos trasmette bene il valore logico basso} (0V);
+	\item il pmos carica totalmente il condensatore, ma lo scarica parzialmente fino ad un valore superiore a \(0 \V\),
+	si dice che \textbf{il pmos trasmette bene il valore logico alto} (\(V_{DD}\));
+	\item i tempi di dimezzamento per trasmettere il valore logico \say{cattivo} (carica con nmos e scarica con pmos) sono circa
+	il doppio rispetto a quelli per trasmettere il valore logico \say{buono} (scarica con nmos e carica con pmos);
+	\item il tempo di carica con pmos è circa il doppio rispetto al tempo di scarica con nmos, a parità del fattore di forma
+	\(Z_n = Z_p\), differenza dovuta alla minore mobilità delle lacune rispetto agli elettroni.
+\end{itemize}
+
+\subsubsection*{Effetto body nei circuiti di carica e scarica dei condensatori}
+Spesso, nei circuiti digitali, i body degli nmos sono collegati a massa e quelli dei pmos a \(V_{DD}\), non necessariamente al loro
+source. Nell'nmos in scarica e nel pmos in carica ciò non comporta variazioni, mentre nell'nmos in carica e nel pmos in scarica
+si ha un aumento in modulo della soglia di tensione \(V_{TN}\) e \(V_{TP}\) rispettivamente, a causa dell'effetto body.
+Ciò comporta un aumento dei tempi di carica e scarica dei condensatori e un \textbf{peggioramento ulteriore nella trasmissione
+dei valori logici \say{cattivi}}.
+
+\newpage
+
+\subsection{Resistenza equivalente del mosfet come interruttore}
+Per facilitare l'analisi dei circuiti con mosfet come interruttori, si può approssimare il comportamento del mosfet acceso con
+una resistenza equivalente \(R_{eq}\). In questo modo si linearizza il comportamento non lineare del mosfet e si possono utilizzare
+le tecniche di analisi dei circuiti lineari. In particolare le curve di scarica e carica diventano esponenziali con costante di
+tempo \(\tau = R_{eq} C\).
+
+\begin{center}
+	\includegraphics[width=0.7\textwidth]{immagini/5_circuiti_mosfet/req_1.png}
+
+	scarica con un nmos \hspace{3cm} carica con un pmos
+\end{center}
+
+\subsubsection*{Definizione di resistenza equivalente \(R_{eq}\)}
+
+Si definisce la resistenza equivalente \(R_{eq}\) del mosfet come interruttore acceso come la media della resistenza istantanea
+agli estremi dell'intervallo di interesse, ovvero a \(t = 0\) e a \(t = t_{1/2}\), quando il mosfet trasmette il valore logico
+\say{buono}.
+
+\begin{center}
+	\begin{minipage}{0.35\textwidth}
+		\centering \includegraphics[width=\textwidth]{immagini/5_circuiti_mosfet/req_2.png}
+	\end{minipage}
+	\begin{minipage}{0.6\textwidth}
+		\[\text{nmos:} \quad R_{n}(0) = \frac{V_{DD}}{I_{DSATN}}, \quad R_{n}(t_{1/2}) = \frac{V_{DD} / 2}{I_{DSATN}} \;\; \rightarrow \]
+		\[\quad \rightarrow \;\; R_{n} = \frac{R_n(0) + R_n(t_{1/2})}{2} = \frac{3}{4} \frac{V_{DD}}{I_{DSATN}}\]
+		\[\text{pmos:} \quad R_{p}(0) = \frac{V_{DD}}{I_{DSATP}}, \quad R_{p}(t_{1/2}) = \frac{V_{DD} / 2}{I_{DSATP}} \;\; \rightarrow \]
+		\[\quad \rightarrow \;\; R_{p} = \frac{R_p(0) + R_p(t_{1/2})}{2} = \frac{3}{4} \frac{V_{DD}}{I_{DSATP}}\]
+	\end{minipage}
+\end{center}
+
+\noindent
+NOTE:
+\begin{itemize}
+	\item nelle elaborazioni delle reti logiche digitali, si considera solo la prima parte del transitorio, ovvero fino al tempo
+	di dimezzamento \(t_{1/2}\), in quanto è il momento in cui la tensione è vicina alla tensione di soglia logica, ovvero al
+	valore in cui il segnale digitale cambia stato logico (da 0 a 1 o da 1 a 0);
+	\item si calcola la resistenza solo nei casi in cui il mosfet trasmette il valore logico \say{buono}, siccome è il comportamento
+	più ricercato ed utilizzato nei circuiti digitali; più avanti viene anche approfondita la resistenza equivalente per valori logici
+	\say{cattivi}.
+\end{itemize}
+
+\subsubsection*{Fattore di forma e resistenza equivalente}
+La corrente di saturazione \(I_{DSAT}\) dipende dal fattore di forma \(Z\) del mosfet e può esser riscritta come:
+\[I_{DSATN} = Z_n I_{DSATN0} \qquad\qquad I_{DSATP} = Z_p I_{DSATP0}\]
+Per cui la resistenza equivalente può essere riscritta in funzione delle costanti \(R_{n0}\) e \(R_{p0}\), ovvero le resistenze
+equivalenti per fattore di forma unitario \(Z_n = Z_p = 1\).
+\[R_{n} = \frac{R_{n0}}{Z_n} \;\; \text{con} \; R_{n0} = \frac{3}{4} \frac{V_{DD}}{I_{DSATN0}} \qquad\qquad R_{p} = \frac{R_{p0}}{Z_p} \;\; \text{con} \; R_{p0} = \frac{3}{4} \frac{V_{DD}}{I_{DSATP0}}\]
+Si nota che la resistenza equivalente \(R_{eq}\) è inversamente proporzionale al fattore di forma \(Z\) del mosfet, per cui
+aumentando il fattore di forma \(Z\) del mosfet, si riduce la resistenza equivalente \(R_{eq}\) e quindi si riduce anche
+la costante di tempo \(\tau = R_{eq} C\) del circuito, migliorando le prestazioni del circuito.
+
+Analizzando i valori tipici delle tecnologie CMOS si osserva che:
+\[k_n' \approx 3k_p', \quad V_{TN} \approx -V_{TP}, \quad V_{DSATN} \approx -\frac{2}{3} V_{DSATP} \;\; \Rightarrow \;\; R_{p0} \approx 2R_{n0}\]
+\[\frac{R_{p0}}{R_{n0}} = \frac{k_n' V_{DSATN} (V_{DD} - V_{TN} - \frac{V_{DSATN}}{2})}{k_p' V_{DSATP} (-V_{DD} - V_{TP} - \frac{V_{DSATP}}{2})} \approx \frac{k_n' V_{DSATN}}{-k_p' V_{DSATP}} \approx 3 \cdot \frac{2}{3} = 2\]
+
+\subsubsection*{Resistenze equivalenti per valori logici \say{cattivi}}
+Si osserva che per approssimare al meglio il transitorio dei mosfet nella trasmissione di valori logici \say{cattivi}, è necessario
+raddoppiare le resistenze equivalenti calcolate in precedenza:
+\[\text{nmos (carica):} \quad R_{n, cattivo} = 2 R_{n,buono} \qquad\qquad \text{pmos (scarica):} \quad R_{p, cattivo} = 2 R_{p,buono}\]
+
+\begin{center}
+	\centering \includegraphics[width=0.7\textwidth]{immagini/5_circuiti_mosfet/req_3.png}
+\end{center}
+
+\subsection{Reti di mosfet e resistenza equivalente complessiva}
+\subsubsection*{Serie di mosfet}
+La serie di mosfet equivale ad un mosfet equivalente con resistenza equivalente pari alla somma delle resistenze equivalenti
+dei singoli mosfet e con fattore di forma pari al reciproco della somma dei reciproci dei fattori di forma dei singoli mosfet:
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering \includegraphics[width=0.7\textwidth]{immagini/5_circuiti_mosfet/serie_mos.png}
+	\end{minipage}
+	\begin{minipage}{0.55\textwidth}
+		\begin{align*}
+			R_{eq} &= R_1 + R_2 \\[5pt]
+			\frac{1}{Z_{eq}} &= \frac{1}{Z_1} + \frac{1}{Z_2} \;\; \rightarrow \;\; Z_{eq} = \frac{Z_1 Z_2}{Z_1 + Z_2}
+		\end{align*}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Parallelo di mosfet}
+La parallelo di mosfet equivale ad un mosfet equivalente con resistenza equivalente pari al reciproco della somma dei reciproci
+delle resistenze equivalenti dei singoli mosfet e con fattore di forma pari alla somma dei fattori di forma dei singoli mosfet:
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering \includegraphics[width=0.7\textwidth]{immagini/5_circuiti_mosfet/parallelo_mos.png}
+	\end{minipage}
+	\begin{minipage}{0.55\textwidth}
+		\begin{align*}
+			\frac{1}{R_{eq}} &= \frac{1}{R_1} + \frac{1}{R_2} \;\; \rightarrow \;\; R_{eq} = \frac{R_1 R_2}{R_1 + R_2} \\[5pt]
+			Z_{eq} &= Z_1 + Z_2
+		\end{align*}
+	\end{minipage}
+\end{center}

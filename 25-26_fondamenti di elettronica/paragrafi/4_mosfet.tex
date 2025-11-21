@@ -1,0 +1,774 @@
+\section{Condensatore MOS o CMOS}
+\subsection{Struttura e funzionamento}
+\subsubsection*{Struttura base}
+Un condensatore MOS (Metal-Oxide-Semiconductor) è costituito da tre strati principali:
+\begin{itemize}
+	\item un metallo (Metal) che funge da elettrodo superiore detto \textbf{gate} (G), generalmente in polisilicio;
+	\item un ossido (Oxide) che funge da dielettrico o \text{isolante}, di solito in biossido di silicio, SiO\(_2\);
+	\item un semiconduttore (Semiconductor) che funge da elettrodo inferiore detto \textbf{substrato o body} (B),
+	generalmente in silicio drogato di tipo p o n.
+\end{itemize}
+
+\subsubsection*{Funzionamento e proprietà}
+\begin{itemize}
+	\item Si identificano le dimensioni del dielettrico con \(L\) lunghezza, \(W\) larghezza e \(T_{ox}\) spessore.
+	\item Si assume di collegare il substrato a massa (0 V) e applicare una tensione variabile al gate \(V_G\).
+	\item La capacità del condensatore mos è data da: \(\displaystyle C_{ox} = \varepsilon \frac{W \ccdot L}{T_{ox}}\)
+\end{itemize}
+
+\begin{center}
+	\includegraphics[width=0.5\textwidth]{immagini/4_mosfet/cmos_1.png}
+\end{center}
+
+\subsection{Condensatore mos con substrato di tipo p}
+\subsubsection*{Tensione di gate negativa (\(V_G < 0\))}
+Se \(V_G < 0\), il gate si carica negativamente, attirando le cariche positive (lacune) verso la superficie del semiconduttore
+adiacente all'ossido, creando una \textbf{regione di accumulazione} di lacune.
+
+\subsubsection*{Tensione di gate inferiore alla tensione di soglia (\(0 < V_G < V_{TN}\))}
+Se \(0 < V_G < V_{TN}\), il gate si carica positivamente, creando una \textbf{regione di svuotamento} di lacune vicino alla
+superficie del semiconduttore, lasciando dietro di sé ioni negativi fissi (atomi droganti). Si forma così una zona di carica
+spaziale negativa, priva di portatori mobili.
+
+\subsubsection*{Tensione di gate superiore alla tensione di soglia (\(V_G > V_{TN}\))}
+Se \(V_G > V_{TN}\), il gate si carica ancora più positivamente, attirando elettroni verso la superficie del semiconduttore
+adiacente all'ossido. Si crea una \textbf{regione di inversione} dove la concentrazione di elettroni supera quella delle lacune.
+Si forma così un canale conduttivo di tipo n. La dimensione della regione di svuotamento rimane quasi costante, dopo aver
+raggiunto il massimo per \(V_G = V_{TN}\), mentre la concentrazione di elettroni nella regione di inversione aumenta con \(V_G\).
+
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering \includegraphics[width=0.85\textwidth]{immagini/4_mosfet/cmos_2.png}
+		\small{Accumulazione per \(V_G < 0\)}
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering \includegraphics[width=0.85\textwidth]{immagini/4_mosfet/cmos_3.png}
+		\small{Svuotamento per \(0 < V_G < V_{TN}\)}
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering \includegraphics[width=0.85\textwidth]{immagini/4_mosfet/cmos_4.png}
+		\small{Inversione per \(V_G > V_{TN}\)}
+	\end{minipage}
+\end{center}
+
+\subsection{Analisi del p-cmos in condizioni di svuotamento/inversione}
+Come per la giunzione pn, le grandezze analizzate sono per unità di area del condensatore mos, per cui per ottenere i valori
+effettivi è necessario moltiplicarle per l'area \(\Sigma_C = W \ccdot L\) del condensatore mos.
+
+\subsubsection*{Densità di carica}
+Analizzando la densità di carica \(\rho(x)\), il campo elettrico \(E(x)\) si ottengono le seguenti relazioni:
+\[\rho(x) = \begin{cases}
+	-q N_A & \text{per } -x_D < x < 0 \\
+	0 & \text{altrimenti}
+\end{cases}\]
+\subsubsection*{Campo elettrico}
+Dalla densità di carica si ricava il campo elettrico \(E(x)\) nella regione di svuotamento e nell'ossido, si noti che
+c'è una discontinuità del campo elettrico all'interfaccia semiconduttore-ossido dovuta alla differenza di
+permittività tra i due materiali, inoltre il campo elettrico nell'ossido è costante:
+\[E(x) = \begin{cases}
+	- q N_A (x + x_D) / \varepsilon_S & \text{per } -x_D < x < 0 \\
+	- q N_A x_D / \varepsilon_{OX} & \text{per } 0 < x < t_{OX} \\
+	0 & \text{altrimenti}
+\end{cases} \qquad\qquad \begin{array}{l}
+	E(0^-) = - \frac{q N_A x_D}{\varepsilon_S} \\[8pt]
+	E(0^+) = - \frac{q N_A x_D}{\varepsilon_{OX}} \\[8pt]
+	E_{OX} = E(0^+) = E(0^-) \frac{\varepsilon_S}{\varepsilon_{OX}}
+\end{array}\]
+
+\subsubsection*{Potenziale elettrico}
+Si ottiene il potenziale nel substrato \(V_B\) (potenziale di riferimento), il potenziale all'interfaccia (nella giunzione tra
+semiconduttore e ossido) \(V(0)\) e il potenziale al gate \(V_G\):
+\[V_B = V(-x_D) = 0 \qquad\qquad V(0) = \frac{qN_A}{2\varepsilon_S} {x_D}^2 \quad\qquad V_G = V(t_{OX}) = \frac{qN_A}{2\varepsilon_S} {x_D}^2 + \frac{q N_A x_D}{\varepsilon_{OX}} t_{OX}\]
+
+\subsubsection*{Concentrazioni dei portatori}
+Si ricavano le concentrazioni dei portatori \(p_1\) e \(n_1\) nella regione neutra, lontano dall'interfaccia, e le concentrazioni
+all'interfaccia \(p_2\), \(n_2\). All'interfaccia le concentrazioni variano esponenzialmente con \(V(0)\):
+\[\begin{array}{l c l}
+	p_1 = N_A & \quad & p_2 = p_1 \, e^{-\tfrac{V(0)}{V_T}} \\
+	n_1 = n_i^2 / N_A & \quad & n_2 = n_1 \, e^{\tfrac{V(0)}{V_T}}
+\end{array} \qquad \frac{n_2}{n_1} = \frac{p_1}{p_2} = e^{\tfrac{v_2-v_1}{V_T}} \qquad \frac{v_2 - v_1}{V_T} = \ln\frac{n_2}{n_1} = \ln\frac{p_1}{p_2}\]
+
+\subsubsection*{Tensione di soglia}
+Si definisce la \textbf{tensione di soglia} \(V_{TN}\) come differenza di potenziale tra gate e substrato \(V_G - V_B\) (pari
+a \(V_G\)) per cui la concentrazione di elettroni all'interfaccia è uguale al numero di lacune nella regione neutra, ovvero
+quando c'è inversione totale con \(n_2 = N_A\):
+\[V(0) = \frac{qN_A}{2\varepsilon_S} {x_D}^2 = 2 V_T \ln\frac{N_A}{n_i}, \;\; x_D = \sqrt{\frac{4 \varepsilon_S V_T}{q N_A} \ln \frac{N_A}{n_i}} \; \rightarrow \; V_{TN} = 2 V_T \ln \frac{N_A}{n_i} + \frac{t_{OX}}{\varepsilon_{OX}} \sqrt{4\varepsilon_S q N_A V_T \ln \frac{N_A}{n_i}}\]
+La tensione di soglia dipende, quindi, dallo spessore dell'ossido \(t_{OX}\), dalla concentrazione di drogaggio del substrato \(N_A\)
+e dai materiali usati (tramite \(\varepsilon_{OX}\) e \(\varepsilon_S\)).
+
+\subsubsection*{Carica elettrica e capacità}
+La carica elettrica per unità di area immagazzinata nel condensatore mos è data dalla somma degli ioni fissi nella
+regione di svuotamento e degli elettroni nella regione di inversione:
+\[Q_{TOT} = Q_{RCS} + Q_{n} = Q \cdot V_G \qquad Q_{RCS} = C \cdot V_{TN} \qquad Q_{n} = C \cdot (V_G - V_{TN})\]
+
+\subsubsection*{Rappresentazione grafica del comportamento del p-cmos}
+\begin{center}
+	\begin{minipage}{0.48\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/cmos_5.png}
+	\end{minipage}
+	\begin{minipage}{0.48\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/cmos_6.png}
+	\end{minipage}
+\end{center}
+\vspace{0.5cm}
+
+\subsection{cmos con substrato di tipo n e differenze rispetto al p-cmos}
+\subsubsection*{Comportamento del cmos con substrato di tipo p}
+Il funzionamento è analogo a quello del cmos con substrato di tipo p, ma con le polarità invertite:
+\begin{itemize}
+	\item per \(V_G > 0\), si crea una regione di accumulazione di elettroni.
+	\item per \(0 > V_G > V_{TP}\), si crea una regione di svuotamento di elettroni.
+	\item per \(V_G < V_{TP}\), si crea una regione di inversione con un canale conduttivo di tipo p.
+\end{itemize}
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering \includegraphics[width=0.85\textwidth]{immagini/4_mosfet/cmos_7.png}
+		\small{Accumulazione per \(V_G > 0\)}
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering \includegraphics[width=0.85\textwidth]{immagini/4_mosfet/cmos_8.png}
+		\small{Svuotamento per \(0 > V_G > V_{TP}\)}
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering \includegraphics[width=0.85\textwidth]{immagini/4_mosfet/cmos_9.png}
+		\small{Inversione per \(V_G < V_{TP}\)}
+	\end{minipage}
+\end{center}
+
+\vspace{0.5cm}
+\subsubsection*{Rappresentazione aree di lavoro dei cmos di tipo p e n}
+\begin{center}
+	\includegraphics[width=0.8\textwidth]{immagini/4_mosfet/cmos_10.png}
+\end{center}
+
+\newpage
+
+\section{Transistor MOSFET}
+\subsection{Struttura generale e classificazione dei mosfet}
+\subsubsection*{Introduzione}
+Un transistor MOSFET (Metal-Oxide-Semiconductor Field-Effect Transistor) è un dispositivo a quattro terminali che sfrutta
+un condensatore mos per controllare il flusso di corrente tra due terminali detti \textbf{source} (S) e \textbf{drain} (D)
+tramite un potenziale applicato ad un terzo terminale detto \textbf{gate} (G). Il quarto terminale è il substrato o
+\textbf{body} (B) e viene generalmente collegato al source o ad un potenziale di riferimento (massa o \(V_{D\!D}\)).
+Di seguito una rappresentazione schematica di un n-mosfet:
+
+\begin{center}
+	\includegraphics[width=0.7\textwidth]{immagini/4_mosfet/mosfet_1.png}
+\end{center}
+
+\subsubsection*{Struttura fisica}
+A livello fisico, un mosfet è costituito da un condensatore mos con gate e substrato affiancato da due regioni
+pesantemente drogate di tipo opposto al substrato, dette source e drain, che fungono da terminali di ingresso e uscita.
+Il dielettrico del condensatore mos è generalmente in diossido di silicio (SiO\(_2\)).
+
+Ad ogni terminale è associato un potenziale elettrico e per ogni coppia di terminali si definisce la tensione e la corrente
+tra i due nodi:
+\begin{center}
+	\begin{minipage}{0.34\textwidth}
+		\begin{itemize}
+			\item \(V_G\): potenziale del gate
+			\item \(V_S\): potenziale del source
+			\item \(V_D\): potenziale del drain
+			\item \(V_B\): potenziale del substrato
+		\end{itemize}
+	\end{minipage}
+	\begin{minipage}{0.65\textwidth}
+		\begin{itemize}
+			\item \(V_{XY} = V_X - V_Y\): tensione tra i nodi X e Y
+			\item[] es. \(V_{GS} = V_G - V_S\) tensione tra gate e source
+			\item \(I_{XY}\): corrente che entra nel nodo X e esce dal nodo Y
+			\item[] es. \(I_{DS}\) corrente che entra nel drain e esce dal source 
+		\end{itemize}
+	\end{minipage}
+\end{center}
+Si definiscono inoltre le dimensioni fisiche del mosfet:
+\begin{itemize}
+	\item \(L\): lunghezza del canale tra source e drain
+	\item \(W\): larghezza del canale tra source e drain
+	\item \(t_{OX}\): spessore dell'ossido isolante tra gate e substrato
+\end{itemize}
+
+\subsubsection*{Classificazione}
+In base al tipo di canale (e di conseguenza in base al tipo del substrato), i mosfet si classificano in:
+\begin{itemize}
+	\item \textbf{n-mosfet} o \textbf{mosfet a canale n}: \\ substrato di tipo p, source e drain di tipo n\(^+\), canale
+	di tipo n con gli elettroni come portatori principali, il substrato p collegato al potenziale minore del circuito
+	(massa o al source) e il source ha potenziale minore del drain
+	\item \textbf{p-mosfet} o \textbf{mosfet a canale p}: \\ substrato di tipo n, source e drain di tipo p\(^+\), canale
+	di tipo p con le lacune come portatori principali, il substrato n collegato al potenziale maggiore del circuito
+	(\(V_{D\!D}\) o al source) e il source ha potenziale maggiore del drain
+\end{itemize}
+
+
+\subsection{Struttura di un n-mosfet e vincoli sui potenziali}
+Si assume per convenzione che il terminale di source ha potenziale minore di quello di drain: \(V_S < V_D\) e, di conseguenza,
+che la corrente scorra dal drain al source: \(I_{DS} > 0\).
+
+\begin{center}
+	\includegraphics[width=0.6\textwidth]{immagini/4_mosfet/mosfet_2.png}
+\end{center}
+
+\subsubsection*{Condizioni all'equilibrio (nessuna tensione applicata)}
+In assenza di tensioni, tutti i potenziali sono nulli e non c'è corrente tra i terminali. In particolare si hanno due giunzioni
+pn in equilibrio tra il substrato p e le regioni n\(^+\) del source e del drain. Siccome le regioni n\(^+\) sono pesantemente
+drogate, la regione di svuotamento si estende quasi totalmente nel substrato p.
+
+\subsubsection*{Vincoli di polarizzazione dei diodi e potenziale di substrato}
+I due diodi con catodi collegati ai nodi source e drain e con anodo in comune nel substrato, devono rimanere in interdizione
+per il corretto funzionamento del mosfet, si ottengono le seguenti condizioni:
+\begin{itemize}
+	\item \(V_{BS} \leq 0 \rightarrow V_S \geq V_B\) (diodo source-substrato in interdizione)
+	\item \(V_{BD} \leq 0 \rightarrow V_D \geq V_B\) (diodo drain-substrato in interdizione)
+\end{itemize}
+Si ottiene che il substrato \(V_B\) deve essere il nodo a potenziale più basso \(V_D \geq V_S \geq V_B\). Si solito si
+collega il substrato al potenziale minore dell'intero circuito (massa) \(V_B = 0\) oppure al source \(V_B = V_S\).
+
+\textit{NOTA}: Non è possibile collegare il substrato al drain perché si violerebbe la condizione di interdizione del diodo
+source-substrato in quanto \(V_S < V_D\) e quindi \(V_{BS} = V_B - V_S = V_D - V_S > 0\).
+
+\subsubsection*{Potenziale e tensioni di gate}
+Il potenziale di gate \(V_G\) controlla la tensione tra le armature del condensatore mos che si forma tra il gate e il substrato
+e di conseguenza identifica l'area di lavoro del p-mosfet. La tensione tra le due armature è variabile lungo la lunghezza del
+canale ed è compresa tra le tensioni di gate-source e gate-drain ai margini del canale:
+\begin{itemize}
+	\item in prossimità del source \(V_{C,\text{source}} = V_{GS} = V_G - V_S\)
+	\item in prossimità del drain \(V_{C,\text{drain}} = V_{GD} = V_G - V_D\)
+\end{itemize}
+\textit{NOTA}: siccome \(V_D \geq V_S\), si ha \(V_{GS} \geq V_{GD}\)
+
+\newpage
+
+\subsection{Aree di lavoro di un n-mosfet}
+\subsubsection*{Transistor n-mosfet spento o in interdizione per \(V_{GS} < V_{TN}\)}
+La tensione tra le armature del condensatore mos è inferiore alla tensione di soglia \(V_{TN}\) sia in prossimità del source
+(\(V_{GS} < V_{TN}\)) che in prossimità del drain (\(V_{GD} < V_{GS} < V_{TN}\)).  Il condensatore, quindi, è in regime di
+svuotamento ed è presente nel substrato, in prossimità dell'ossido, un'area di svuotamento (senza portatori di carica) che
+separa source e drain. Non essendoci cariche libere per condurre corrente tra drain e source, si ha corrente nulla \(I_{DS} = 0\)
+e il transistor è spento o in interdizione.
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/mosfet_3.png}
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\begin{align*}
+			V_{GS} &< V_{TN} & \text{source in interdizione} \\[4pt]
+			V_{GD} &< V_{GS} < V_{TN} & \text{drain in interdizione}
+		\end{align*}
+		\[I_{DS} = 0\]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Transistor n-mosfet in conduzione lineare (o triodo) per \(V_{DS} < V_{GS} - V_{TN}\)}
+La tensione delle armature del condensatore mos è superiore alla tensione di soglia \(V_{TN}\) sia in prossimità del drain
+(\(V_{GD} > V_{TN}\)) che in prossimità del source (\(V_{GS} > V_{GD} > V_{TN}\)). Il condensatore si trova in regime di
+inversione e si forma un canale conduttivo di tipo n (di elettroni) che congiunge source e drain. Gli elettroni che
+costituiscono il canale si muovono liberamente dal source al drain, permettendo il passaggio di corrente \(I_{DS} > 0\) dal
+drain al source. Il transistor si comporta come una resistenza (dipendente da \(V_{GS}\)) tra drain e source, lineare per
+\(V_{DS}\) piccoli o parabolica per \(V_{DS}\) grandi.
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/mosfet_4.png}
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\begin{align*}
+			V_{GD} &> V_{TN} & \text{drain in conduzione} \\[4pt]
+			V_{GS} &= V_{GD} + V_{DS} & \\
+			V_{GS} &> V_{TN} + V_{DS} & \text{source in conduzione}
+		\end{align*}
+		\[I_{DS} = k_n V_{DS} \left( V_{GS} - V_{TN} - \frac{V_{DS}}{2} \right)\]
+		\[k_n = k_n' \cdot Z_n \qquad k_n' = \mu_n \varepsilon / T_{OX} \qquad Z_n = W_n/L_n\]
+	\end{minipage}
+\end{center}
+
+
+\subsubsection*{Transistor n-mosfet in saturazione per pinchoff per \(V_{DS} > V_{GS} - V_{TN}\)}
+La tensione delle armature del condensatore mos è superiore alla tensione di soglia \(V_{TN}\) in prossimità del source
+(\(V_{GS} > V_{TN}\)), ma inferiore alla tensione di soglia in prossimità del drain (\(V_{GD} < V_{TN}\)). Il condensatore
+si trova in regime misto: inversione in prossimità del source e svuotamento in prossimità del drain e si forma un canale
+conduttivo di tipo n che congiunge solo parzialmente source e drain. Nonostante ciò i portatori riescono a fluire lo stesso
+nella RCS spinti dal campo elettrico tra source e drain. In questo modo si ha ugualmente il passaggio di una corrente
+\(I_{DS} \neq 0\) costante rispetto a \(V_{DS}\) (a meno della modulazione di lunghezza di canale).
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/mosfet_5.png}
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\begin{align*}
+			V_{GS} &> V_{TN} & \text{source in conduzione} \\[4pt]
+			V_{GD} &< V_{TN} & \text{drain in interdizione}
+		\end{align*}
+		\vspace{-20pt}
+		\begin{align*}
+			V_{GD} < V_{TN} \;\; &\rightarrow \;\; V_{GS} - V_{DS} < V_{TN} \\
+			&\rightarrow \;\; V_{DS} > V_{GS} - V_{TN}
+		\end{align*}
+		\[I_{DS} = \frac{k_n}{2} (V_{GS} - V_{TN})^2\]
+		\[k_n = k_n' \cdot Z_n \qquad k_n' = \mu_n \varepsilon / T_{OX} \qquad Z_n = W_n/L_n\]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Modulazione di lunghezza di canale con n-mosfet in saturazione per pinchoff}
+Quando il mosfet entra in saturazione per pinchoff, la regione di strozzamento si sposta verso il source, riducendo la lunghezza
+\(L\) del canale conduttivo. Questo fenomeno, chiamato modulazione di lunghezza di canale, provoca un lieve aumento della corrente
+\(I_{DS}\) con l'aumentare di \(V_{DS}\) anche in saturazione. Si può modellare questo effetto aggiungendo alla corrente in
+saturazione un termine correttivo che dipende dal coefficiente di modulazione di lunghezza \(\lambda\) determinato dalle
+caratteristiche fisiche del mosfet:
+
+\begin{center}
+	\begin{minipage}{0.6\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/mosfet_6.png}
+	\end{minipage}
+	\begin{minipage}{0.35\textwidth}
+		\[I_{DS} = \frac{k_n}{2} (V_{GS} - V_{TN})^2 (1 + \lambda V_{DS})\]
+		\[\lambda V_{DS} = \frac{\Delta L}{L}\]
+	\end{minipage}
+\end{center}
+Analizzando la continuità della corrente tra la regione lineare e la regione di saturazione con modulazione di lunghezza di canale
+si osserva che matematicamente c'è una discontinuità che in natura non esiste. Per ovviare a questo problema si utilizza la
+correzione di lunghezza di canale anche nella regione lineare (tratteggio blu nella figura superiore):
+\begin{align*}
+	I_{DS,\text{lin}} &= k_n V_{DS} \left( V_{GS} - V_{TN} - \frac{V_{DS}}{2} \right) (1 + \lambda V_{DS}) & \text{per} \; V_{DS} \ll V_{GS} - V_{TN} \\
+	I_{DS,\text{sat}} &= \frac{k_n}{2} (V_{GS} - V_{TN})^2 (1 + \lambda V_{DS}) & \text{per} \; V_{DS} \gg V_{GS} - V_{TN}
+\end{align*}
+
+\subsubsection*{Transistor n-mosfet in saturazione di velocità per \(V_{DS} > V_{DSATN}\)}
+I portatori di carica (in questo caso elettroni) si muovono nel canale spinti dal campo elettrico \(E = V_{DS} / L\) con velocità
+\(v_n = \mu_n E = \mu_n V_{DS} / L\). La velocità è, quindi, proporzionale a \(V_{DS}\).
+Tale velocità raggiunge un valore massimo costante detto velocità di saturazione \(v_\text{sat,n} = 8 \cdot 10^6 \cm/\s\) per
+un certo campo elettrico critico \(E_{crit,n}\) e una certa tensione critica \(V_{DS,sat,n}\):
+\[E_\text{crit,n} = \frac{v_{sat,n}}{\mu_n} = 1.3 \frac{\V}{\mu\m} \qquad V_{DSATN} = E_\text{crit,n} \cdot L = \frac{v_{sat,n}}{\mu_n}L\]
+Per \(V_{DS} > V_{DSATN}\), si osserva che la velocità degli elettroni e di conseguenza anche la corrente \(I_{DS}\) rimangono
+costanti. Si ha un fenomeno di saturazione anticipato, detto saturazione di velocità, quando ci si aspetterebbe che il mosfet
+lavori in regime di conduzione lineare.
+\begin{center}
+	\begin{minipage}{0.38\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/mosfet_17.png}
+	\end{minipage}
+	\begin{minipage}{0.6\textwidth}
+		La corrente di saturazione di velocità, tenendo conto anche della modulazione di lunghezza di canale, è data da:
+		\begin{align*}
+			I_{DS,sat,n} &= W C_{ox} v_{sat,n} (V_{GS} - V_{TN}) \\
+			&= k_n V_{DSATN}\left(V_{GS} - V_{TN} - \frac{V_{DSATN}}{2}\right)(1 + \lambda V_{DS})	
+		\end{align*}
+	\end{minipage}
+\end{center}
+
+\newpage
+
+\subsection{Curve caratteristiche di corrente-tensione di un n-mosfet}
+La corrente \(I_{DS}\) dipende da due tensioni indipendenti \(V_{GS}\) e \(V_{DS}\). Si identificano due curve caratteristiche:
+\begin{itemize}
+	\item \textbf{caratteristica di uscita} con \(I_{DS}\) in funzione di \(V_{DS}\) per valori costanti di \(V_{GS}\)
+	\item \textbf{caratteristica di trasferimento} o \textbf{transcaratteristica} con \(I_{DS}\) in funzione di \(V_{GS}\) per valori costanti di \(V_{DS}\)
+\end{itemize}
+
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/mosfet_7.png}
+	\end{minipage}
+	\begin{minipage}{0.55\textwidth}
+		Per analizzare la curve caratteristiche si collega il mosfet ad un circuito di test con due generatori di tensione \(V_{GS}\)
+		e \(V_{DS}\) e si misura la corrente \(I_{DS}\) che scorre tra drain e source. Per la caratteristica di uscita si mantiene
+		\(V_{GS}\) costante e si varia \(V_{DS}\), mentre per la transcaratteristica si mantiene \(V_{DS}\) costante e si varia \(V_{GS}\).
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Caratteristica di uscita \(I_{DS}\) - \(V_{DS}\)}
+Le tre aree di funzionamento del n-mosfet si riflettono nella caratteristica di uscita \(I_{DS}\) - \(V_{DS}\):
+\begin{itemize}
+	\item \textbf{interdizione} per \(V_{GS} < V_{TN}\): linea orizzontale coincidente con l'asse delle ascisse
+	\item \textbf{conduzione lineare} per \(V_{DS} < V_{GS} - V_{TN}\): a sinistra della linea di saturazione
+	\item \textbf{saturazione per pinchoff} per \(V_{DS} > V_{GS} - V_{TN}\): a destra della linea di saturazione
+	\item \textbf{curva di saturazione}: separa la regione di funzionamento lineare e quella di saturazione, è costituita dai
+	punti \((V_{DS}, I_{DS})\) che soddisfano l'equazione:
+\end{itemize}
+
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/mosfet_8.png}
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\[I_{DS,sat} = \frac{k_n}{2} {V_{DS}}^2 \;\;\text{con}\;\; V_{DS} = V_{GS} - V_{TN}\]
+		\vspace{10pt}
+
+		\begin{itemize}
+			\item aumentando \(V_{DS}\), il transistor passa da regime lineare a regime di saturazione per pinchoff
+			\item aumentando \(V_{GS}\) (\(V_{G4} > V_{G3} > V_{G2} > V_{G1} > V_{TN}\)) la corrente \(I_{DS}\) aumenta
+		\end{itemize}
+		\vspace{20pt}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Transcaratteristica \(I_{DS}\) - \(V_{GS}\)}
+Le tre aree di funzionamento del n-mosfet si riflettono nella caratteristica di uscita \(I_{DS}\) - \(V_{GS}\):
+\begin{itemize}
+	\item \textbf{interdizione} per \(V_{GS} < V_{TN}\): linea orizzontale coincidente con l'asse delle ascisse
+	\item \textbf{saturazione per pinchoff} per \(V_{TN} <  V_{GS} < V_{DS} + V_{TN}\) crescita quadratica
+	\item \textbf{conduzione lineare} per \(V_{DS} + V_{TN}< V_{GS}\) crescita lineare
+\end{itemize}
+
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/mosfet_9.png}
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\begin{itemize}
+			\item aumentando \(V_{GS}\), il transistor passa da regime di interdizione a regime di saturazione per pinchoff
+			e successivamente a regime lineare
+			\item aumentando \(V_{DS}\) il confine tra regime di saturazione e regime lineare si sposta verso destra, inoltre
+			aumenta la pendenza della retta in regime lineare
+		\end{itemize}
+		\vspace{20pt}
+	\end{minipage}
+\end{center}
+
+\newpage
+
+\subsection{Modello a canale corto di un n-mosfet}
+\subsubsection*{Equazione generale per \(I_{DS}\)}
+Il modello a canale corto tiene conto di tutti i fenomeni fisici che avvengono in un mosfet reale, tra cui la modulazione di
+lunghezza di canale e la saturazione di velocità. Tutte le aree di funzionamento del n-mosfet si possono descrivere con un'unica
+equazione per la corrente \(I_{DS}\):
+\begin{itemize}
+	\item per \(V_{GS} < V_{TN}\) mosfet in interdizione e \(I_{DS} = 0\)
+	\item per \(V_{GS} > V_{TN}\) mosfet in conduzione con \(I_{DS}\) che dipende da \(V_{MIN}\):
+	\begin{align*}
+		I_{DS} &= k_n' Z_n V_{MIN} \left(V_{GS} - V_{TN} - \frac{V_{MIN}}{2}\right) (1 + \lambda_n V_{DS}) \qquad k_n' = \frac{\mu_n \varepsilon}{T_{OX}} \qquad Z_n = \frac{W_n}{L_n} \\
+		V_{MIN} &= \min \left\{\begin{array}{l l}
+			V_{DS} & \text{regime lineare} \\
+			V_{GS} - V_{TN} & \text{saturazione per pinchoff} \\
+			V_{DSATN} & \text{saturazione per velocità}
+		\end{array} \right\}
+	\end{align*}
+\end{itemize}
+
+\subsubsection*{Caratteristica di uscita del modello a canale corto}
+Includendo anche gli effetti della saturazione di velocità, la caratteristica di uscita complessiva del modello a canale corto
+del n-mosfet risulta come segue:
+\begin{center}
+	\includegraphics[width=0.7\textwidth]{immagini/4_mosfet/mosfet_18.png}
+\end{center}
+
+\begin{itemize}
+	\item la regione di conduzione lineare e la regione di saturazione per pinchoff sono separate dalla curva di saturazione per pinchoff
+	data dalla parabola \(I_{DS} = k_n / 2 \cdot {V_{DS}}^2\) con \(V_{DS} = V_{GS} - V_{TN}\)
+	\item la regione di conduzione lineare e la regione di saturazione per velocità sono separate dalla linea verticale \(V_{DS} = V_{DSATN}\)
+	\item la regione di saturazione per pinchoff e la regione di saturazione per velocità sono separate dalla linea orizzontale
+	\(I_{DS} = k_n / 2 \cdot {V_{DS}}^2\) con \(V_{DS} = V_{DSATN}\)
+\end{itemize}
+
+\newpage
+
+\subsection{Struttura di un p-mosfet e vincoli sui potenziali}
+Il funzionamento di un mosfet a canale p (p-mosfet) con substrato di tipo n è analogo a quello del n-mosfet, ma con le polarità
+invertite. Tutte le tensioni, infatti, sono negative. Si assume per convenzione che il terminale di source ha potenziale
+maggiore di quello di drain (\(V_S > V_D\)) e, di conseguenza, che la corrente scorre dal source al drain rimanendo sempre
+positiva (\(I_{DS} > 0\)).
+
+\begin{center}
+	\includegraphics[width=0.6\textwidth]{immagini/4_mosfet/mosfet_10.png}
+\end{center}
+
+\subsubsection*{Condizioni all'equilibrio}
+In analogia al n-mosfet, all'equilibrio le due giunzioni pn tra substrato n e le regioni p\(^+\) del source e del drain sono in
+equilibrio e la regione di svuotamento si estende quasi totalmente nel substrato n.
+
+\subsubsection*{Vincoli di polarizzazione dei diodi e potenziale di substrato}
+I due diodi con anodi collegati ai nodi source e drain e con catodo in comune nel substrato, devono rimanere in interdizione
+per il corretto funzionamento del mosfet, si ottengono le seguenti condizioni:
+\begin{itemize}
+	\item \(V_{BS} \geq 0 \rightarrow V_S \leq V_B\) (diodo source-substrato in interdizione)
+	\item \(V_{BD} \geq 0 \rightarrow V_D \leq V_B\) (diodo drain-substrato in interdizione)
+\end{itemize}
+Si ottiene che il substrato \(V_B\) deve essere il nodo a potenziale più alto \(V_D \leq V_S \leq V_B\). Di solito si
+collega il substrato al potenziale maggiore dell'intero circuito (alimentazione) \(V_B = V_{DD}\) oppure al source \(V_B = V_S\).
+
+\textit{NOTA}: Non è possibile collegare il substrato al drain perché si violerebbe la condizione di interdizione del diodo
+source-substrato in quanto \(V_S > V_D\) e quindi \(V_{BS} = V_B - V_S = V_D - V_S < 0\).
+
+\subsubsection*{Potenziale e tensioni di gate}
+Analogamente al n-mosfet, il potenziale di gate \(V_G\) controlla l'area di lavoro del p-mosfet. La tensione tra le due armature
+è variabile lungo la lunghezza del canale ed è compresa tra le tensioni di gate-source e gate-drain ai margini del canale:
+\begin{itemize}
+	\item in prossimità del source \(V_{C,\text{source}} = V_{GS} = V_G - V_S\)
+	\item in prossimità del drain \(V_{C,\text{drain}} = V_{GD} = V_G - V_D\)
+\end{itemize}
+\textit{NOTA}: siccome \(0 > V_S \geq V_D\), si ha \(V_{GS} \leq V_{GD}\) (oppure \(|V_{GS}| \geq |V_{GD}|\))
+
+\newpage
+
+\subsection{Aree di lavoro di un p-mosfet}
+Le aree di lavoro del p-mosfet sono analoghe a quelle del n-mosfet, ma con le polarità invertite:
+\begin{itemize}
+	\item \textbf{p-mosfet spento o in interdizione} per \(0 > V_{GS} > V_{TP}\): \\
+	il condensatore è in regime di svuotamento e non c'è corrente tra drain e source \(I_{DS} = 0\)
+	\item \textbf{p-mosfet in conduzione lineare} per \(V_{DS} > V_{GS} - V_{TP} \; \Leftrightarrow \; 0 > V_{TP} > V_{GD} > V_{GS}\): \\
+	si ha una corrente \(I_{DS}\) tra source e drain data dal movimento delle lacune nel canale di tipo p
+	\[I_{DS} = k_p V_{DS} \left(V_{GS} - V_{TP} - \frac{V_{DS}}{2}\right) \qquad k_p = k_p' \cdot Z_p \qquad k_p' = \mu_p \varepsilon / T_{OX} \qquad Z_p = W_p/Z_p\]
+	\item \textbf{p-mosfet in saturazione per pinchoff} per \(V_{DS} < V_{GS} - V_{TP} \; \Leftrightarrow \; 0 > V_{GD} > V_{TP} > V_{GS}\): \\
+	il condensatore è in regime misto e si ha una corrente \(I_{DS}\) costante rispetto a \(V_{DS}\):
+	\[I_{DS} = \frac{k_p}{2} (V_{GS} - V_{TP})^2\]
+	\item \textbf{Modulazione di lunghezza di canale}: \\
+	Analoga a quella dell'n-mosfet, applicando il fattore correttivo si ottiene:
+	\[I_{DS} = \frac{k_p}{2} (V_{GS} - V_{TP})^2 (1 + \lambda_p V_{DS}) \qquad \text{con} \; V_{DS} < 0, \; \lambda_p < 0\]
+	\item \textbf{p-mosfet in saturazione di velocità} per \(V_{DS} < V_{DSATP}\): \\
+	Analogo a quello dell' n-mosfet, si ha una corrente \(I_{DS}\) costante rispetto a \(V_{DS}\):
+	\[I_{DS} = k_p V_{DSATP} \left(V_{GS} - V_{TP} - \frac{V_{DSATP}}{2}\right) (1 + \lambda_p V_{DS}) \qquad \text{con} \; V_{DSATP} < 0\]
+	(alcuni valori tipici per p-mosfet: \(\mu_p = 200 \; \cm^2 / \V\s \quad v_{sat,p} \approx 4 \cdot 10^6 \; \cm/\s \quad E_C \approx 2 \; \V/\cm\))
+\end{itemize}
+
+\subsection{Curve caratteristiche di corrente-tensione di un p-mosfet}
+Allo stesso modo dell'n-mosfet, si definiscono le curve caratteristiche di un p-mosfet, studiate attraverso un circuito simile:
+
+\begin{center}
+	\begin{minipage}{0.35\textwidth}
+		\centering \includegraphics[width=\textwidth]{immagini/4_mosfet/mosfet_11.png}
+	\end{minipage}
+	\begin{minipage}{0.63\textwidth}
+		\begin{itemize}
+			\item \textbf{caratteristica di uscita} con \(I_{DS}\) in funzione di \(V_{DS}\) per valori costanti di \(V_{GS}\)
+			\item \textbf{caratteristica di trasferimento} o \textbf{transcaratteristica} con \(I_{DS}\) in funzione di \(V_{GS}\) per valori costanti di \(V_{DS}\)
+		\end{itemize}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Caratteristica di uscita \(I_{DS}\) - \(V_{DS}\)}
+Rispetto al n-mosfet, la caratteristica di uscita \(I_{DS}\) - \(V_{DS}\) del p-mosfet è speculare rispetto all'asse delle ordinate,
+mantenendo invariate le forme delle curve e il posizionamento delle aree di funzionamento:
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/mosfet_12.png}
+	\end{minipage}
+	\begin{minipage}{0.58\textwidth}
+		\begin{itemize}
+			\item \textbf{interdizione} per \(V_{GS} > 0\): linea orizzontale coincidente con l'asse delle ascisse
+			\item \textbf{conduzione lineare} per \(V_{DS} > V_{GS} - V_{TP}\): a destra della linea di saturazione
+			\item \textbf{saturazione per pinchoff} per \(V_{DS} < V_{GS} - V_{TP}\): a sinistra della linea di saturazione
+			\item \textbf{curva di saturazione}: separa la regione di funzionamento lineare e quella di saturazione, è costituita
+			dai punti in cui \(V_{DS} = V_{GS} - V_{TP}\)
+		\end{itemize}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Transcaratteristica \(I_{DS}\) - \(V_{GS}\)}
+Rispetto al n-mosfet, la transcaratteristica \(I_{DS}\) - \(V_{GS}\) del p-mosfet è speculare rispetto all'asse delle ordinate,
+mantenendo invariate le forme delle curve e il posizionamento delle aree di funzionamento:
+
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/mosfet_13.png}
+	\end{minipage}
+	\begin{minipage}{0.58\textwidth}
+		\begin{itemize}
+			\item \textbf{interdizione} per \(V_{GS} > V_{TP}\): linea orizzontale coincidente con l'asse delle ascisse
+			\item \textbf{saturazione per pinchoff} per \(V_{DS} + V_{TP} < V_{GS} < V_{TP}\): crescita quadratica
+			\item \textbf{conduzione lineare} per \(V_{GS} < V_{DS} + V_{TP}\): crescita lineare
+		\end{itemize}
+		\vspace{20pt}
+	\end{minipage}
+\end{center}
+
+\subsection{Modello a canale corto di un p-mosfet}
+\subsubsection*{Equazione generale per \(I_{DS}\)}
+Anche per il p-mosfet si può utilizzare un'unica equazione per la corrente \(I_{DS}\) che tiene conto di tutti i fenomeni fisici:
+\begin{itemize}
+	\item per \(V_{GS} > V_{TP}\) mosfet in interdizione e \(I_{DS} = 0\)
+	\item per \(V_{GS} < V_{TP}\) mosfet in conduzione con \(I_{DS}\) che dipende da \(V_{MAX}\):
+	\begin{align*}
+		I_{DS} &= k_p' Z_p V_{MAX} \left(V_{GS} - V_{TP} - \frac{V_{MAX}}{2}\right) (1 + \lambda_p V_{DS}) \qquad k_p' = \frac{\mu_p \varepsilon}{T_{OX}} \qquad Z_p = \frac{W_p}{L_p} \\
+		V_{MAX} &= \max \left\{\begin{array}{l l}
+			V_{DS} & \text{regime lineare} \\
+			V_{GS} - V_{TP} & \text{saturazione per pinchoff} \\
+			V_{DSATP} & \text{saturazione per velocità}
+		\end{array} \right\}
+	\end{align*}
+\end{itemize}
+
+\subsubsection*{Caratteristica di uscita del modello a canale corto}
+La caratteristica di uscita complessiva del modello a canale corto del p-mosfet risulta come segue:
+\begin{center}
+	\includegraphics[width=0.65\textwidth]{immagini/4_mosfet/mosfet_19.png}
+\end{center}
+\begin{itemize}
+	\item la regione di conduzione lineare e la regione di saturazione per pinchoff sono separate dalla curva di saturazione per pinchoff
+	data dalla parabola \(I_{DS} = k_p / 2 \cdot {V_{DS}}^2\) con \(V_{DS} = V_{GS} - V_{TP}\)
+	\item la regione di conduzione lineare e la regione di saturazione per velocità sono separate dalla linea verticale \(V_{DS} = V_{DSATP}\)
+	\item la regione di saturazione per pinchoff e la regione di saturazione per velocità sono separate dalla linea orizzontale
+	\(I_{DS} = k_p / 2 \cdot {V_{DS}}^2\) con \(V_{DS} = V_{DSATP}\)
+\end{itemize}
+
+\newpage
+
+\subsection{Simbologia e rappresentazione circuitale dei mosfet}
+\subsubsection*{Simbologia a 4 terminali - con substrato}
+Nelle simbologie a 4 terminali non è possibile identificare univocamente il drain e il source in quanto sono perfettamente
+identici. Nelle rappresentazioni a freccia, la freccia sul terminale del substrato indica il tipo di mosfet ed è concorde
+con il flusso di corrente nel diodo formato tra substrato e source/drain.
+
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\begin{minipage}{0.4\textwidth}
+			\centering \includegraphics[width=0.8\textwidth]{immagini/4_mosfet/nmos_1.png}
+			\small{n-mosfet}
+		\end{minipage}
+		\begin{minipage}{0.4\textwidth}
+			\centering \includegraphics[width=0.8\textwidth]{immagini/4_mosfet/pmos_1.png}
+			\small{p-mosfet}
+		\end{minipage}
+		\vspace{7pt}
+
+		\small{rappresentazione a freccia}
+	\end{minipage}
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\begin{minipage}{0.4\textwidth}
+			\centering \includegraphics[width=0.8\textwidth]{immagini/4_mosfet/nmos_2.png}
+			\small{n-mosfet}
+		\end{minipage}
+		\begin{minipage}{0.4\textwidth}
+			\centering \includegraphics[width=0.8\textwidth]{immagini/4_mosfet/pmos_2.png}
+			\small{p-mosfet}
+		\end{minipage}
+		\vspace{7pt}
+
+		\small{rappresentazione digitale}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Simbologia a 3 terminali - senza substrato}
+Nelle simbologie a 3 terminali, il substrato viene omesso in quanto collegato al source o ad un potenziale di riferimento.
+Quando il substrato è collegato al source, il terminale source è identificato con la freccia concorde al flusso di corrente
+tra source e drain. Quando il substrato è collegato ad un potenziale di riferimento, il terminale source non è
+identificabile univocamente in quanto non ci sono frecce.
+
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\begin{minipage}{0.4\textwidth}
+			\centering \includegraphics[width=0.8\textwidth]{immagini/4_mosfet/nmos_3.png}
+			\small{n-mosfet}
+		\end{minipage}
+		\begin{minipage}{0.4\textwidth}
+			\centering \includegraphics[width=0.8\textwidth]{immagini/4_mosfet/pmos_3.png}
+			\small{p-mosfet}
+		\end{minipage}
+		\vspace{7pt}
+
+		\small{substrato collegato al source}
+	\end{minipage}
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\begin{minipage}{0.4\textwidth}
+			\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/nmos_4.png}
+			\small{n-mosfet}
+		\end{minipage}
+		\begin{minipage}{0.4\textwidth}
+			\centering \includegraphics[width=0.9\textwidth]{immagini/4_mosfet/pmos_4.png}
+			\small{p-mosfet}
+		\end{minipage}
+		\vspace{7pt}
+
+		\small{substrato collegato a potenziale di riferimento}
+	\end{minipage}
+\end{center}
+
+\vspace{10pt}
+
+\subsection{Struttura reale del mosfet}
+Per ottimizzare le prestazioni, lo spazio e il processo produttivo vengono apportate alcune modifiche al nodo di substrato (B):
+\begin{itemize}
+	\item al posto di trovarsi sotto, il substrato viene realizzato sulla parte superiore del transistor a lato del 
+	source o del drain per facilitare il processo di fabbricazione
+	\item in prossimità dell'elettrodo, il substrato viene ulteriormente drogato dello stesso tipo del substrato (p\(^+\) in
+	n-mosfet o n\(^+\) in p-mosfet) per ridurre la resistenza di contatto
+\end{itemize}
+Di seguito sono riportate le illustrazioni delle strutture reali di un n-mosfet e di un p-mosfet:
+
+\begin{center}
+	\includegraphics[width=0.8\textwidth]{immagini/4_mosfet/mosfet_14.png}
+\end{center}
+
+\newpage
+
+\subsection{Effetto Body e variazione della tensione di soglia}
+Quando il substrato non è collegato al source, ma ad un potenziale di riferimento (massa o alimentazione), la tensione
+tra substrato e source \(V_{BS}\) può essere diversa da zero. Questa tensione fa variare la tensione di soglia del mosfet
+secondo le relazioni (in base al tipo di mosfet):
+\begin{align*}
+	V_{TN} &= V_{TN0} + \gamma_n \left( \sqrt{V_{SB} + 2\phi_n} - \sqrt{2\phi_n} \right) \qquad& \gamma_n &= \frac{\sqrt{2q N_D \varepsilon_{Si}}}{C_{OX}} & \phi_n &= \frac{k_B T}{q} \ln \left( \frac{N_A}{n_i} \right) \\
+	V_{TP} &= V_{TP0} - \gamma_p \left( \sqrt{V_{BS} + 2\phi_p} - \sqrt{2\phi_p} \right) \qquad& \gamma_p &= \frac{\sqrt{2q N_A \varepsilon_{Si}}}{C_{OX}} & \phi_p &= \frac{k_B T}{q} \ln \left( \frac{N_D}{n_i} \right)
+\end{align*}
+\begin{itemize}
+	\item \(V_{TN0}\) e \(V_{TP0}\): tensione di soglia per \(V_{SB} = 0\)
+	\item \(\gamma\) e \(\phi\): parametri legati al drogaggio e allo spessore dell'ossido
+	\item \(C_{OX}\): capacità per unità di area dell'ossido
+\end{itemize}
+Rappresentando graficamente la variazione della tensione di soglia in funzione di \(V_{SB}\), si ottiene:
+\begin{center}
+	\begin{minipage}{0.48\textwidth}
+		\centering \includegraphics[width=0.7\textwidth]{immagini/4_mosfet/mosfet_15.png}
+
+		\small{Variazione di \(V_{TN}\) per n-mosfet}
+	\end{minipage}
+	\begin{minipage}{0.48\textwidth}
+		\centering \includegraphics[width=0.75\textwidth]{immagini/4_mosfet/mosfet_16.png}
+
+		\small{Variazione di \(V_{TP}\) per p-mosfet}
+	\end{minipage}
+\end{center}
+
+\vspace{10pt}
+
+\subsection{Corrente di sottosoglia}
+La corrente di sottosoglia è una piccola corrente che scorre tra drain e source anche quando il mosfet è in interdizione
+(\(V_{GS} < V_{T}\)). Questa corrente è molto debole e vale:
+\begin{align*}
+	I_{DS} &= I_{0n} e^{\frac{V_{GS} - V_{TN}}{n V_T}} \left( 1 - e^{-\frac{V_{DS}}{n V_T}} \right) & \text{per n-mosfet} \\
+	I_{DS} &= I_{0p} e^{- \frac{V_{GS} - V_{TP}}{n V_T}} \left( 1 - e^{\frac{V_{DS}}{n V_T}} \right) & \text{per p-mosfet}
+\end{align*}
+Analizzando la transcaratteristica per un n-mosfet si osserva che la corrente di sottosoglia decresce esponenzialmente per
+\(V_{GS} < V_{TN}\) (siccome le ordinate sono in scala logaritmica, la curva appare lineare):
+\begin{center}
+	\includegraphics[width=0.6\textwidth]{immagini/4_mosfet/mosfet_20.png}
+\end{center}
+
+\newpage
+
+\subsection{Capacità parassite dei mosfet}
+\label{capacità_parassite_mosfet}
+Avendo numerose giunzioni pn che si vengono a formare, i mosfet presentano delle capacità parassite che influenzano il loro
+funzionamento alle alte frequenze, come evidenziato in figura. Le capacità parassite sono indipendenti dal tipo di mosfet
+(n-mosfet o p-mosfet), per cui le conclusioni ottenute valgono sia per un n-mosfet che per un p-mosfet.
+
+\begin{center}
+	\centering \includegraphics[width=0.45\textwidth]{immagini/4_mosfet/mosfet_21.png}
+\end{center}
+
+Le capacità parassite per ogni coppia di terminali sono:
+\begin{itemize}
+	\item \(C_{sb}\): capacità source-substrato \(C_{sb} \approx C_{j0} \cdot L_D \cdot W\)
+	\item \(C_{db}\): capacità drain-substrato \(C_{db} \approx C_{j0} \cdot L_D \cdot W\)
+	\item \(C_{gs}\): capacità gate-source \(C_{gs} \approx C_{gs0} \cdot W\)
+	\item \(C_{gd}\): capacità gate-drain \(C_{gd} \approx C_{gd0} \cdot W\)
+	\item \(C_{gc}\): capacità gate-substrato (del condensatore mos) \(C_{gc} = C_{OX} \cdot L \cdot W\)
+\end{itemize}
+
+\vspace{10pt}
+
+\noindent
+Le capacità parassite complessive di ogni nodo rispetto al substrato si calcolano come capacità equivalente della rete tra
+il nodo in esame e il substrato, ottenuta cortocircuitando tutti gli altri nodi al substrato. Di seguito sono riportate le
+espressioni delle capacità parassite totali:
+\begin{align*}
+	C_{source} &= C_{sb} + C_{gs} = (C_{j0} L_D + C_{gs0}) \cdot W = C_{s0} \cdot W & & \text{con} \; C_{s0} = C_{j0} L_D + C_{gs0} \\
+	C_{drain} &= C_{db} + C_{gd} = (C_{j0} L_D + C_{gd0}) \cdot W = C_{d0} \cdot W & & \text{con} \; C_{d0} = C_{j0} L_D + C_{gd0} \\
+	C_{gate} &= C_{gs} + C_{gd} + C_{gc} = (C_{gs0} + C_{gd0} + C_{OX} L) \cdot W \approx C_{g0} \cdot W L & &\text{per} \; C_{gs} + C_{gd} \ll C_{OX}L
+\end{align*}
+
+\noindent
+NOTA: Dall'analisi dei circuiti RC in cui si hanno due condensatori \(C_1\) e \(C_2\) con un terminale in comune e l'altro collegato
+rispettivamente a massa e a \(V_{DD}\), si osserva che la capacità equivalente tra i due nodi è data dalla somma delle due
+capacità \(C_{eq} = C_1 + C_2\). Questo avviene anche se effettivamente i due condensatori non sono collegati in parallelo,
+in quanto la corrente che arriva al nodo comune si divide tra i due condensatori in funzione della loro capacità ed è come
+se fossero collegati in parallelo.

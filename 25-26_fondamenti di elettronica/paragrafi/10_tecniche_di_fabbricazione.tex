@@ -1,0 +1,369 @@
+\section{Fabbricazione dei circuiti integrati}
+\subsection{Fasi di progettazione e costruzione}
+\subsubsection*{Fasi di progettazione}
+La fase di progettazione è svolta dal progettista del circuito integrato che ha conoscenze approfondite di elettronica e del
+funzionamento dei componenti da realizzare. Le fasi di progettazione sono:
+\begin{enumerate}
+	\item definizione delle specifiche del circuito integrato
+	\item progettazione dello schema a blocchi
+	\item progettazione dello schema circuitale
+	\item progettazione del layout
+\end{enumerate}
+
+\subsubsection*{Fasi di costruzione}
+Le fasi di costruzione sono svolte in un impianto di fabbricazione da tecnici specializzati che non necessariamente hanno
+conoscenze approfondite in elettronica. Le fasi di costruzione sono:
+\begin{center}
+	\begin{minipage}{0.55\textwidth}
+		\begin{enumerate}
+			\item fabbricazione del wafer (metodo di Czochralski)
+		\end{enumerate}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth} \(\) \end{minipage}
+	\vspace{-5pt}
+
+	\color[gray]{0.75}\rule{0.9\textwidth}{0.4pt}\color{black}
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{enumerate}[start=2]
+			\item selezione delle regioni attive
+			\item selezione del tipo di substrato
+			\item ossido di gate ed elettrodo di gate
+			\item diffusioni N+ e P+
+		\end{enumerate}
+	\end{minipage}
+	\begin{minipage}{0.55\textwidth}
+		\(\left. \vcenter{\hbox{\huge\bfseries\vrule height 2.2cm width 0pt}} \right\} \text{Front End of the Line - FEOL}\)
+	\end{minipage}
+	
+	\color[gray]{0.75}\rule{0.9\textwidth}{0.4pt}\color{black}
+
+	\begin{minipage}{0.4\textwidth}
+		\begin{enumerate}[start=6]
+			\item contatti e interconnessioni
+			\item packaging
+		\end{enumerate}
+	\end{minipage}
+	\begin{minipage}{0.55\textwidth}
+		\(\left. \vcenter{\hbox{\huge\bfseries\vrule height 1.2cm width 0pt}} \right\} \text{Back End of the Line - BEOL}\)
+	\end{minipage}
+\end{center}
+
+\noindent
+Nelle spiegazioni successive si analizzeranno le varie fasi di produzione prendendo come modello la costruzione di un
+invertitore CMOS.
+
+\subsection{Fabbricazione del Wafer con metodo di Czochralski}
+Attraverso il metodo di Czochralski si ottiene un lingotto di silicio monocristallino che viene successivamente tagliato in
+fette sottili (wafer). Il processo prevede i seguenti passaggi:
+\begin{enumerate}
+	\item si fonde del silicio ad alta purezza in un crogiolo di quarzo, è possibile aggiungere elementi chimici (ad esempio
+	arsenico o fosforo) in maniera controllata per il drogaggio di base
+	\item si immerge di un seme di silicio monocristallino (barra di silicio puro) nella massa fusa e viene messo in rotazione
+	attorno al suo asse verticale
+	\item il seme viene estratto lentamente in modo che gli atomi di silicio fuso si solidificano e si dispongono naturalmente
+	secondo la struttura cristallina del seme (per una proprietà propria del silicio), la velocità di estrazione controlla il
+	diametro del lingotto
+	\item il lingotto viene tagliato in fette sottili (wafer) tramite una sega a filo abrasivo di diamante
+	\item i wafer vengono sottoposti a processi di lappatura e molatura per ottenere una superficie perfettamente piana che viene
+	ricoperta con uno strato sottile di ossido di silicio per proteggerla
+\end{enumerate}
+\begin{center}
+	\begin{minipage}{0.3\textwidth}
+		\centering \includegraphics[width=0.8\textwidth]{immagini/10_tecniche_di_fabbricazione/wafer_1.png} \\
+		\small{inserimento del seme nel crogiolo}
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering \includegraphics[width=0.8\textwidth]{immagini/10_tecniche_di_fabbricazione/wafer_2.png} \\
+		\small{estrazione e formazione del lingotto}
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering \includegraphics[width=0.8\textwidth]{immagini/10_tecniche_di_fabbricazione/wafer_3.png} \\
+		\small{taglio del lingotto in wafer}
+	\end{minipage}
+\end{center}
+
+\subsection{Processo selettivo di costruzione del circuito integrato per litografia}
+\subsubsection*{Divisione di un wafer in die}
+Ogni wafer viene suddiviso a scacchiera in tante aree quadrate chiamate die (o chip). Ogni die compone un circuito integrato
+completo che alla fine della lavorazione verrà tagliato e confezionato singolarmente. La dimensione dei die dipende dallo
+spazio occupato dal circuito integrato e dal numero di difetti critici presenti nel wafer.
+
+Un difetto critico è un difetto che rende inutilizzabile il circuito integrato. La probabilità di avere un difetto critico
+aumenta con l'aumentare della superficie del die. Per questo motivo, per aumentare la resa di produzione, si tende a ridurre
+la dimensione dei die.
+
+\subsubsection*{Maschera}
+Per identificare le aree del wafer che devono essere lavorate in ogni fase del processo di costruzione, si utilizza una maschera.
+La maschera è una lastra di quarzo trasparente su cui sono incisi i disegni delle aree che devono essere lavorate.
+
+\subsubsection*{Processo selettivo per litografia}
+Per selezionare effettivamente le aree del wafer da lavorare e proteggere le altre si utilizza un processo selettivo per
+litografia che prevede i seguenti passaggi:
+
+\begin{center}
+	\begin{minipage} {0.35\textwidth}
+		\centering \includegraphics[width=\textwidth]{immagini/10_tecniche_di_fabbricazione/litografia.png}
+	\end{minipage}
+	\begin{minipage} {0.6\textwidth}
+		\begin{enumerate}
+			\item si ricopre il wafer con uno strato sottile di materiale fotosensibile chiamato fotoresist
+		\end{enumerate}
+		\vspace{18pt}
+		\begin{enumerate}[start=2]
+			\item si espone il wafer alla luce ultravioletta attraverso la maschera, le aree del fotoresist esposte alla luce
+			cambiano le loro proprietà chimiche e diventano solubili in un apposito solvente
+		\end{enumerate}
+		\vspace{20pt}
+		\begin{enumerate}[start=3]
+			\item si sciolgono le aree del fotoresist diventate solubili, lasciando scoperte le aree del wafer che devono essere
+			lavorate
+		\end{enumerate}
+		\vspace{12pt}
+		\begin{enumerate}[start=4]
+			\item si ottiene così il pattern desiderato sul wafer in cui le aree scoperte possono essere lavorate e il resto
+			della superficie è protetta dal fotoresist
+		\end{enumerate}
+		\vspace{15pt}
+		\begin{enumerate}[start=5]
+			\item si esegue la lavorazione desiderata (ad esempio l'ossidazione o l'impiantazione ionica)
+		\end{enumerate}
+		\vspace{30pt}
+		\begin{enumerate}[start=6]
+			\item si rimuove il fotoresist rimanente con un altro solvente apposito
+		\end{enumerate}
+		\vspace{25pt}
+		\begin{enumerate}[start=7]
+			\item si ottiene così il wafer con le aree lavorate secondo il pattern desiderato
+		\end{enumerate}
+	\end{minipage}
+\end{center}
+
+\newpage
+\subsection{Selezione delle regioni attive}
+Il processo di selezione delle regioni attive consiste nel definire le regioni del wafer in cui verranno realizzati i singoli
+mosfet e inserire delle barriere di ossido per isolare elettricamente le varie regioni. Il processo prevede i seguenti passaggi:
+
+\begin{center}
+	\begin{minipage} {0.35\textwidth}
+		\centering \includegraphics[width=\textwidth]{immagini/10_tecniche_di_fabbricazione/regioni_attive.png}
+	\end{minipage}
+	\begin{minipage} {0.6\textwidth}
+		\begin{enumerate}
+			\item si deposita uno strato di nitruro di silicio (Si\(_3\)N\(_4\)) e si utilizza il processo di litografia selettiva
+			per selezionare le aree in cui vanno inserite le barriere di ossido isolante
+		\end{enumerate}
+		\vspace{5pt}
+		\begin{enumerate}[start=2]
+			\item si rimuove il nitruro di silicio, l'ossido di silicio e una parte del substrato di silicio nelle aree
+			selezionate tramite un attacco chimico con acido; per scavare verticalmente (e non anche lateralmente) le cavità,
+			il solvente viene ionizzato e nebulizzato così, sotto l'azione di un campo elettrico verticale, gli ioni
+			vengono direzionati e colpiscono il	wafer solo verticalmente senza intaccare le pareti laterali; questo processo
+			è chiamato Reactive Ion Etching (RIE)
+		\end{enumerate}
+		\vspace{5pt}
+		\begin{enumerate}[start=3]
+			\item si rimuove il fotoresist rimanente e si deposita l'ossido di isolamento (di bassa qualità siccome deve solo
+			fungere da isolante) nelle regioni scoperte dal nitruro (ovvero nelle cavità scavate con il RIE) formando le
+			Shallow Trench Isolation (STI)
+		\end{enumerate}
+		\vspace{5pt}
+		\begin{enumerate}[start=4]
+			\item si rimuove il nitruro di silicio e lo strato di ossido di silicio rimanenti, in modo da liberare la superficie di
+			silicio puro del wafer
+		\end{enumerate}
+	\end{minipage}
+\end{center}
+
+\subsection{Selezione del tipo di substrato}
+Il processo di selezione del tipo di substrato consiste nel creare un substrato di tipo P o N a seconda del tipo di mosfet
+che si vuole realizzare all'interno delle aree attive definite nel punto precedente. Il processo prevede i seguenti passaggi:
+
+\begin{center}
+	\begin{minipage} {0.35\textwidth}
+		\centering \includegraphics[width=\textwidth]{immagini/10_tecniche_di_fabbricazione/substrato.png}
+	\end{minipage}
+	\begin{minipage} {0.6\textwidth}
+		\begin{enumerate}
+			\item si utilizza il processo di litografia selettiva per selezionare le regioni attive in cui si vuole creare un
+			substrato di tipo P (per la realizzazione di mosfet NMOS) o di tipo N (per la realizzazione di mosfet PMOS)
+		\end{enumerate}
+		\vspace{22pt}
+		\begin{enumerate}[start=2]
+			\item si bombardano le regioni scoperte con ioni droganti (ad esempio arsenico per il substrato di tipo P o fosforo
+			per il substrato di tipo N) che penetrano nel silicio; questo processo è chiamato impiantazione ionica
+		\end{enumerate}
+		\vspace{5pt}
+		\begin{enumerate}[start=3]
+			\item si riscalda il wafer (annealing) per distribuire il drogante e farlo disporre correttamente nella struttura
+			cristallina del silicio in modo da formare il substrato di tipo desiderato; questo è chiamato attivazione del drogaggio
+		\end{enumerate}
+		\vspace{22pt}
+		\begin{enumerate}[start=4]
+			\item si rimuove il fotoresist rimanente e si ripete tutto il processo di impiantazione ionica e attivazione del
+			drogaggio con annealing per creare le aree di substrato del tipo opposto necessarie per la realizzazione dei mosfet
+			complementari
+		\end{enumerate}
+	\end{minipage}
+\end{center}
+
+\subsection{Ossido di gate ed elettrodo di gate}
+La fase successiva nella realizzazione dei mosfet è deposizione dell'ossido di gate e dell'elettrodo di gate in polisilicio.
+Il processo prevede i seguenti passaggi:
+
+\begin{center}
+	\begin{minipage} {0.35\textwidth}
+		\centering \includegraphics[width=\textwidth]{immagini/10_tecniche_di_fabbricazione/gate.png}
+	\end{minipage}
+	\begin{minipage} {0.6\textwidth}
+		\begin{enumerate}
+			\item si deposita uno strato sottile di ossido di silicio (SiO\(_2\)) di alta qualità (costituirà il dielettrico
+			dei condensatori dei gate dei mosfet) su tutta la superficie del wafer, non richiede un processo selettivo in quanto
+			lo strato di ossido ha spessore trascurabile rispetto alle STI
+			\item si deposita uno strato di polisilicio (silicio policristallino con proprietà metalliche) sopra l'ossido di
+			silicio per formare l'elettrodo di gate dei mosfet
+			\item si utilizza il processo di litografia selettiva per selezionare le aree in cui si vogliono formare i gate dei
+			mosfet e si elimina il polisilicio nelle aree scoperte perché non selezionate tramite un attacco chimico
+		\end{enumerate}
+	\end{minipage}
+\end{center}
+
+\vspace{2cm}
+
+\subsection{Diffusioni N+ e P+}
+Le diffusioni N+ e P+ servono a formare le regioni di source, drain e body dei mosfet. Il processo prevede i seguenti passaggi:
+
+\begin{center}
+	\begin{minipage} {0.35\textwidth}
+		\centering \includegraphics[width=\textwidth]{immagini/10_tecniche_di_fabbricazione/diffusioni.png}
+	\end{minipage}
+	\begin{minipage} {0.6\textwidth}
+		\begin{enumerate}
+			\item si selezionano le aree in cui eseguire le diffusioni N+ (source e drain degli NMOS, body dei PMOS) tramite il
+			processo di litografia selettiva
+			\end{enumerate}
+		\vspace{5pt}
+		\begin{enumerate}[start=2]
+			\item si bombarda il silicio con ioni di arsenico o fosforo attraverso il processo di impiantazione ionica con
+			attivazione del drogaggio per annealing utilizzando per creare le regioni N+ nelle aree scoperte, infine si rimuove
+			il fotoresist rimanente
+			\end{enumerate}
+		\vspace{5pt}
+		\begin{enumerate}[start=3]
+			\item si ripete il processo analogo di selezione delle aree, impiantazione ionica e attivazione del drogaggio per
+			creare le regioni P+ (source e drain dei PMOS, body degli NMOS)
+		\end{enumerate}
+	\end{minipage}
+\end{center}
+
+\newpage
+
+\subsection{Contatti e interconnessioni}
+Dopo aver creato i mosfet, è necessario creare i terminali elettrici e le interconnessioni tra i vari componenti del circuito
+integrato. Il processo prevede i seguenti passaggi:
+
+\begin{center}
+	\begin{minipage} {0.35\textwidth}
+		\centering \includegraphics[width=\textwidth]{immagini/10_tecniche_di_fabbricazione/contatti.png}
+	\end{minipage}
+	\begin{minipage} {0.6\textwidth}
+		\begin{enumerate}
+			\item si deposita uno strato di ossido isolante (arancione) sopra tutta la superficie del wafer per isolare
+			la struttura dei mosfet dalle piste metalliche di interconnessione costruite sopra
+		\end{enumerate}
+		\vspace{5pt}
+		\begin{enumerate}[start=2]
+			\item si utilizza un processo di litografia selettiva per forare l'ossido e raggiungere le aree di silicio dei
+			terminali dei mosfet (source, drain, body e gate) dove vanno creati i contatti;
+			\end{enumerate}
+		\vspace{5pt}
+		\begin{enumerate}[start=3]
+			\item si deposita uno strato di metallo (ad esempio alluminio o rame) che riempie i fori sempre attraverso un
+			processo di litografia selettiva in modo da formare i terminali del mosfet
+		\end{enumerate}
+		\vspace{5pt}
+		\begin{enumerate}[start=4]
+			\item si riveste l'intera superficie con un altro strato di ossido isolante (giallo) per separare i vari livelli di
+			interconnessione
+		\end{enumerate}
+		\vspace{5pt}
+		\begin{enumerate}[start=5]
+			\item si riesegue l'intero processo di foratura e deposizione del metallo e deposizione del dielettrico più volte
+			per creare i vari livelli di interconnessione necessari a collegare tra loro i vari componenti del circuito
+		\end{enumerate}
+	\end{minipage}
+\end{center}
+
+\vspace{1cm}
+
+\subsection{Packaging}
+Il processo di packaging consiste nel preparare il die per l'utilizzo esterno al fine di poterlo collegare ad altri circuiti
+(ad esempio su una scheda madre) e proteggerlo da agenti esterni. Il processo prevede i seguenti passaggi:
+\begin{enumerate}
+	\item si taglia il wafer in singoli die tramite una sega a filo abrasivo di diamante
+	\item si monta ogni die in un contenitore protettivo (package) che può essere di plastica o metallo
+	\item si collegano i terminali del die (detti pad) ai terminali esterni del package tramite fili sottili di oro
+\end{enumerate}
+Alcuni esempi di package sono illustrai in figura a destra
+
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering \includegraphics[width=0.9\textwidth]{immagini/10_tecniche_di_fabbricazione/packaging.png}
+
+		\small{interconnessioni tra i pad del die e i terminali del package}
+	\end{minipage}
+	\begin{minipage}{0.55\textwidth}
+		\centering
+		\begin{tabular}{c c c}
+			\includegraphics[width=0.25\textwidth]{immagini/10_tecniche_di_fabbricazione/th.png} &
+			\includegraphics[width=0.27\textwidth]{immagini/10_tecniche_di_fabbricazione/smd.png} &
+			\includegraphics[width=0.27\textwidth]{immagini/10_tecniche_di_fabbricazione/bga.png}\\
+			\small{Through-Hole} & \small{Surface-Mount} & \small{Ball Grid Array} \\
+		\end{tabular}
+	\end{minipage}
+\end{center}
+
+\newpage
+
+\subsection{Layout, regole di layout e sviluppo delle maschere}
+\subsubsection*{Definizione del layout}
+Il layout è la rappresentazione grafica in scala del circuito integrato che mostra la disposizione spaziale dei vari componenti
+con le loro dimensioni e le interconnessioni tra di essi. Il layout è composto da una serie di maschere che verranno utilizzate
+nel processo di costruzione del circuito integrato.
+
+Il layout viene realizzato dal progettista del circuito integrato e viene poi usato dal tecnico di fabbricazione nelle varie
+fasi di costruzione del circuito integrato. Funge da linguaggio comune tra progettista e tecnico di fabbricazione.
+
+Ad ogni maschera è associata una fase del processo di costruzione del circuito integrato:
+\begin{itemize}
+	\item active: definizione delle regioni attive
+	\item p-well/n-well: selezione del tipo di substrato
+	\item n-diff/p-diff: diffusioni N+ e P+
+	\item polysilicon: ossido di gate ed elettrodo di gate
+	\item contact: deposizione del metallo per i terminali dei mosfet
+	\item metal1, metal2, ... : deposizione del metallo per i vari livelli di interconnessione
+	\item via 1-2, via 2-3, ... : foratura del dielettrico tra i vari livelli di interconnessione
+\end{itemize}
+\begin{center}
+	\includegraphics[width=0.9\textwidth]{immagini/10_tecniche_di_fabbricazione/layout.png}
+
+	\small{esempio di layout (maschere) per la realizzazione di un inverter CMOS, come illustrato nelle fasi di fabbricazione
+	precedenti, a sinistra le FEOL e a destra le BEOL}
+\end{center}
+
+\subsubsection*{Regole di layout}
+Affinché il layout possa essere effettivamente utilizzato per la costruzione del circuito integrato, deve rispettare una serie
+di regole per garantire la corretta realizzazione fisica del circuito integrato. Le regole di layout sono dovute a:
+\begin{itemize}
+	\item minima risoluzione e tolleranza della fotolitografia
+	\item inevitabile disallineamento delle maschere
+	\item imprecisioni del processo
+	\item buon senso del progettista
+\end{itemize}
+Le regole di layout si dividono in:
+\begin{itemize}
+	\item \textbf{intra-layer}: regole che riguardano una singola maschera, ovvero le dimensioni e le distanze minime tra gli
+	elementi di una singola maschera (per rispettare la risoluzione e le tolleranze del processo)
+	\item \textbf{inter-layer}: regole che riguardano più maschere, ovvero le distanze minime che gli elementi di maschere
+	diverse devono rispettare tra di loro (per contenere problemi di disallineamento)
+\end{itemize}

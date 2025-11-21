@@ -1,0 +1,81 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+\usepackage{graphicx} % per immagini
+\usepackage{multicol} % per pagina in colonne
+\usepackage{dirtytalk} % per le ""
+\usepackage{circuitikz} % per disegni di circuiti elettrici
+\usepackage{array} % per tabelle avanzate
+\usepackage{calc} % per calcoli con le coordinate
+\usepackage{wrapfig} % per immagini con testo intorno
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+% per elenchi puntati
+\setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
+\setlist[enumerate]{partopsep=0pt, topsep=3pt, itemsep=0pt}
+
+% percorso delle immagini da inserire
+\graphicspath{{./}}
+
+% unità di misura
+\newcommand\m{\text{m}} % metri
+\newcommand\cm{\text{cm}} % centimetri
+\newcommand\mm{\text{mm}} % millimetri
+\newcommand\nm{\text{nm}} % nanometri
+\newcommand\s{\text{s}} % secondi
+\newcommand\ps{\text{ps}} % picosecondi
+\newcommand\V{\text{V}} % volt
+\newcommand\A{\text{A}} % ampere
+\newcommand\C{\text{C}} % coulomb
+\newcommand\F{\text{F}} % farad
+\newcommand\J{\text{J}} % joule
+\newcommand\W{\text{W}} % watt
+
+% cdot compatto
+\newcommand\ccdot{\!\cdot\!}
+
+\title{Appunti di Fondamenti di elettronica}
+\author{Giacomo Simonetto}
+\date{Primo semestre 2025-26}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+	Appunti del corso di Fondamenti di elettronica della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\include{paragrafi/1_introduzione}
+\include{paragrafi/2_semiconduttori}
+\include{paragrafi/3_diodo}
+\include{paragrafi/4_mosfet}
+\include{paragrafi/5_circuiti_mosfet}
+\include{paragrafi/6_segnali_digitali}
+\include{paragrafi/7_invertitore}
+\include{paragrafi/8_logica_statica_complementare}
+\include{paragrafi/9_pass_transistor}
+\include{paragrafi/10_tecniche_di_fabbricazione}
+
+\end{document}
