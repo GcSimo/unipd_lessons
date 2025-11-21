@@ -183,7 +183,7 @@ non hanno proprietà rigenerativa del segnale e il rumore viene trasmesso senza 
 ulteriormente la trasmissione dei valori logici \say{cattivi}, aumentando in modulo la tensione di soglia \(V_{TN}\) e \(V_{TP}\).
 
 \subsubsection*{Propagazione ed effetti dei valori logici cattivi per pass transistor nmos}
-L'uscita di un pass trasistor nmos che trasmette un valore logico alto risulta degradata a \(V_{DD} - V_{TN}\) può essere
+L'uscita di un pass transistor nmos che trasmette un valore logico alto risulta degradata a \(V_{DD} - V_{TN}\) può essere
 collegata in tre modi principali:
 \begin{itemize}
 	\item al source/drain di un altro nmos: la trasmissione del valore logico alto degradato dal primo nmos non viene
@@ -292,7 +292,7 @@ Alcune osservazioni importanti riguardo al calcolo dei tempi di propagazione nei
 	\item quando si usano le porte TG, la resistenza equivalente del TG è data dal parallelo formato dalle due resistenze
 	\(R_n\) e \(R_p\) degli nmos e pmos, di cui necessariamente una e una sola raddoppiata siccome trasmette un valore
 	logico cattivo
-	\item i tempi di propagazione intrinseci delle reti a pass transistor dipendono linearmente dal numero di pass
+	\item i tempi di propagazione intrinseci delle reti a pass transistor dipendono quadraticamente dal numero di pass
 	transistor in serie e tale dipendenza può provocare ritardi molto elevati in circuiti complessi
 \end{itemize}
 
@@ -325,6 +325,10 @@ variabili e considerazioni viste per le porte logiche complementari.
 \[P_{DYN} = C_F \cdot V_{DD} (V_H - V_L) \cdot f \cdot \alpha_F\]
 L'unica cosa di cui fare attenzione è l'escursione tra i valori logici alto e basso, che varia in base alla configurazione
 usata (nmos, pmos o TG) e alla presenza di level restorer.
+
+Per avere il consumo dinamico totale va fatta la somma dei consumi di ogni singolo nodo con con la propria \(C_X\) e \(\alpha_X\).
+In alternativa si può calcolare il consumo dinamico totale usando la capacità logica equivalente dell'intera rete data dalla somma
+delle capacità di ogni singolo nodo.
 
 \subsection{Costruzioni di porte logiche}
 \subsubsection*{MUX a pass-T e a TG}
@@ -407,7 +411,7 @@ usata (nmos, pmos o TG) e alla presenza di level restorer.
 
 \subsubsection*{MUX a più stadi - struttura ad albero}
 Di seguito una rappresentazione di un MUX 8:1 a più stadi organizzati secondo una struttura ad albero, realizzato con MUX 2:1.
-I singoli MUX 2:1 possono essere realizzati con trasmission gate per garantire un'escursione logica completa. Inoltre è possibile
+I singoli MUX 2:1 possono essere realizzati con transmission gate per garantire un'escursione logica completa. Inoltre è possibile
 aggiungere degli invertitori per assicurare un funzionamento rigenerativo e unidirezionale, con l'accorgimento di non ripeterli
 per i nodi intermedi \(X_0, X_1, X_2, X_3, Y_0, Y_1\) e lasciare solo quelli sugli ingressi e all'uscita e ad ogni \(M\) stadi,
 come visto nella sezione precedente sul buffering.
@@ -480,7 +484,7 @@ come visto nella sezione precedente sul buffering.
 \newpage
 
 \subsubsection*{Porta XOR ibrida a pass-T / TG}
-Di seguito un esempio di implementazioni di XOR usando pass transistor nmos, pmos e un'implementazione ibrida con trasmission
+Di seguito un esempio di implementazioni di XOR usando pass transistor nmos, pmos e un'implementazione ibrida con transmission
 gate e pass transistor per correggere la trasmissione di valori logici degradati secondo le seguenti osservazioni:
 \begin{itemize}
 	\item la prima implementazione usa solo pass-T nmos, per cui il valore logico alto in uscita sarà degradato
@@ -533,7 +537,7 @@ gate e pass transistor per correggere la trasmissione di valori logici degradati
 
 \subsubsection*{Sommatore a 1 bit - Half Adder}
 Un half adder (sommatore a 1 bit senza riporto) è costituito da due porte logiche: una XOR per il calcolo della somma e una AND
-per il calcolo del riporto. Di seguito le implementazioni delle due funzioni logiche usando trasmission gate secondo la struttura a MUX.
+per il calcolo del riporto. Di seguito le implementazioni delle due funzioni logiche usando transmission gate secondo la struttura a MUX.
 \begin{center}
 	\begin{minipage}{0.45\textwidth}
 		\centering \includegraphics[width=0.9\textwidth]{immagini/9_pass_transistor/xor_tg.png}

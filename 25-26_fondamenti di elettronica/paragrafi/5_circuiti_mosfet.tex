@@ -112,7 +112,7 @@ In particolare si procede come segue:
 	due dei valori (esempio \(V_{GS}-V_{TN}\) e \(V_{DSATN}\)), si può escludere a priori quello maggiore (ovvero quello che
 	sicuramente non sarà il minimo), riducendo così il numero di ipotesi da fare;
 	\item si ipotizza che il mosfet sia in uno dei tre regimi di conduzione (lineare, saturazione per pinchoff o saturazione di
-	velocità) escludendone, se possibile, uno come spiegato al passo precedente, e si risolve la rete come nel modello a canle lungo:
+	velocità) escludendone, se possibile, uno come spiegato al passo precedente, e si risolve la rete come nel modello a canale lungo:
 	\begin{itemize}[topsep=0pt]
 		\item in regime lineare: \(\displaystyle k_n V_{DS} \left(V_{GS} - V_{TN} - \frac{V_{DS}}{2}\right) (1 + \lambda V_{DS}) = \frac{V_{DD} - V_{DS}}{R}\)
 		\item in saturazione per pinchoff: \(\displaystyle \frac{k_n}{2} (V_{GS} - V_{TN})^2 (1 + \lambda V_{DS}) = \frac{V_{DD} - V_{DS}}{R}\)
@@ -336,7 +336,7 @@ tramite il parametro \(\lambda_n\):
 \[I_{DS} = I_{DSAT}(1 + \lambda_n V_{DS}) = I_{DSAT} + \lambda_n I_{DSAT} V_{DS} = I_{DSAT} + R_0 V_{DS} \qquad \text{con} \; R_0 = \frac{1}{\lambda_n I_{DSAT}}\]
 Si osserva che la corrente \(I_{DS}\) ha due contributi:
 \begin{itemize}
-	\item una corrente costante \(I_{DSAT}\) di saturazione del mosfet, corrispone alla corrente erogata dal generatore ideale
+	\item una corrente costante \(I_{DSAT}\) di saturazione del mosfet, corrisponde alla corrente erogata dal generatore ideale
 	di corrente per Norton;
 	\item una corrente variabile \(R_0 V_{DS}\) che dipende linearmente dalla tensione \(V_{DS}\) e che può essere modellata
 	con una resistenza \(R_0\) in parallelo con il generatore ideale di corrente.
@@ -956,17 +956,17 @@ NOTE:
 
 \subsubsection*{Fattore di forma e resistenza equivalente}
 La corrente di saturazione \(I_{DSAT}\) dipende dal fattore di forma \(Z\) del mosfet e può esser riscritta come:
-\[I_{DSATN} = Z_n V_{DSATN0} \qquad\qquad I_{DSATP} = Z_p V_{DSATP0}\]
+\[I_{DSATN} = Z_n I_{DSATN0} \qquad\qquad I_{DSATP} = Z_p I_{DSATP0}\]
 Per cui la resistenza equivalente può essere riscritta in funzione delle costanti \(R_{n0}\) e \(R_{p0}\), ovvero le resistenze
 equivalenti per fattore di forma unitario \(Z_n = Z_p = 1\).
-\[R_{n} = \frac{R_{n0}}{Z_n} \;\; \text{con} \; R_{n0} = \frac{3}{4} \frac{V_{DD}}{V_{DSATN0}} \qquad\qquad R_{p} = \frac{R_{p0}}{Z_p} \;\; \text{con} \; R_{p0} = \frac{3}{4} \frac{V_{DD}}{V_{DSATP0}}\]
+\[R_{n} = \frac{R_{n0}}{Z_n} \;\; \text{con} \; R_{n0} = \frac{3}{4} \frac{V_{DD}}{I_{DSATN0}} \qquad\qquad R_{p} = \frac{R_{p0}}{Z_p} \;\; \text{con} \; R_{p0} = \frac{3}{4} \frac{V_{DD}}{I_{DSATP0}}\]
 Si nota che la resistenza equivalente \(R_{eq}\) è inversamente proporzionale al fattore di forma \(Z\) del mosfet, per cui
 aumentando il fattore di forma \(Z\) del mosfet, si riduce la resistenza equivalente \(R_{eq}\) e quindi si riduce anche
 la costante di tempo \(\tau = R_{eq} C\) del circuito, migliorando le prestazioni del circuito.
 
 Analizzando i valori tipici delle tecnologie CMOS si osserva che:
-\[k_n' \approx 3k_p', \quad V_{TN} \approx -V_{TP}, \quad V_{DSATN} \approx -\frac{2}{3} V_{DSATP} \;\; \Rightarrow \;\; R_{n0} \approx 2R_{p0}\]
-\[\frac{R_{n0}}{R_{p0}} = \frac{k_n' V_{DSATN} (V_{DD} - V_{TN} - \frac{V_{DSATN}}{2})}{k_p' V_{DSATP} (-V_{DD} - V_{TP} - \frac{V_{DSATP}}{2})} \approx \frac{k_n' V_{DSATN}}{-k_p' V_{DSATP}} \approx 3 \cdot \frac{2}{3} = 2\]
+\[k_n' \approx 3k_p', \quad V_{TN} \approx -V_{TP}, \quad V_{DSATN} \approx -\frac{2}{3} V_{DSATP} \;\; \Rightarrow \;\; R_{p0} \approx 2R_{n0}\]
+\[\frac{R_{p0}}{R_{n0}} = \frac{k_n' V_{DSATN} (V_{DD} - V_{TN} - \frac{V_{DSATN}}{2})}{k_p' V_{DSATP} (-V_{DD} - V_{TP} - \frac{V_{DSATP}}{2})} \approx \frac{k_n' V_{DSATN}}{-k_p' V_{DSATP}} \approx 3 \cdot \frac{2}{3} = 2\]
 
 \subsubsection*{Resistenze equivalenti per valori logici \say{cattivi}}
 Si osserva che per approssimare al meglio il transitorio dei mosfet nella trasmissione di valori logici \say{cattivi}, è necessario
@@ -979,8 +979,8 @@ raddoppiare le resistenze equivalenti calcolate in precedenza:
 
 \subsection{Reti di mosfet e resistenza equivalente complessiva}
 \subsubsection*{Serie di mosfet}
-La serie di mosfet equivale ad un mosfet equivalente con resistenza equivalente pari alla sommma delle resistenze equivalenti
-dei singoli mosfet e con fattore di forma pari al reciproco della somma dei recicproci dei fattori di forma dei singoli mosfet:
+La serie di mosfet equivale ad un mosfet equivalente con resistenza equivalente pari alla somma delle resistenze equivalenti
+dei singoli mosfet e con fattore di forma pari al reciproco della somma dei reciproci dei fattori di forma dei singoli mosfet:
 \begin{center}
 	\begin{minipage}{0.4\textwidth}
 		\centering \includegraphics[width=0.7\textwidth]{immagini/5_circuiti_mosfet/serie_mos.png}
@@ -994,7 +994,7 @@ dei singoli mosfet e con fattore di forma pari al reciproco della somma dei reci
 \end{center}
 
 \subsubsection*{Parallelo di mosfet}
-La parallelo di mosfet equivale ad un mosfet equivalente con resistenza equivalente pari al recicproco della somma dei recicproci
+La parallelo di mosfet equivale ad un mosfet equivalente con resistenza equivalente pari al reciproco della somma dei reciproci
 delle resistenze equivalenti dei singoli mosfet e con fattore di forma pari alla somma dei fattori di forma dei singoli mosfet:
 \begin{center}
 	\begin{minipage}{0.4\textwidth}

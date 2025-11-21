@@ -51,7 +51,7 @@
 
 
 \subsection{Richiamo di teoria dei circuiti}
-\subsubsection*{Leggi di Kirchoff}
+\subsubsection*{Leggi di Kirchhoff}
 \begin{itemize}
 	\item \textbf{Legge delle correnti (LKC)}: la somma delle correnti entranti in un nodo è uguale alla somma delle correnti uscenti.
 	\item \textbf{Legge delle tensioni (LKT)}: la somma delle tensioni lungo una maglia è uguale a zero.
@@ -312,7 +312,7 @@ Si definiscono quindi:
 	\item nel transitorio (\(t \geq 0\)): \(\displaystyle \;\; i_C(t) = C \frac{d v_C(t)}{d t}, \quad i_R = \frac{v_R(t)}{R}, \quad v_R(t) = v_C(t), \quad i_R(t) + i_C(t) = 0\)
 	\item dalla legge delle correnti si ottiene un'equazione differenziale del primo ordine:
 	\[C \frac{dv_C(t)}{d t} = \frac{v_R(t)}{R} \quad \rightarrow \quad \frac{dv_C(t)}{dt} = -\frac{v_C(t)}{RC} \quad \rightarrow \quad v_C(t) = A \cdot e^{-\tfrac{t}{RC}}\]
-	\item siccome l'equazione è omogenera, è sufficiente imporre le condizioni iniziali:
+	\item siccome l'equazione è omogenea, è sufficiente imporre le condizioni iniziali:
 	\[v_C(0) = V_A \quad \rightarrow \quad A = V_A \]
 	\item si ottengono quindi le espressioni delle variabili elettriche durante il transitorio:
 	\[v_C(t) = v_R(t) = V_A \cdot e^{-\tfrac{t}{RC}} \qquad i_C(t) = -\frac{V_A}{R} e^{-\tfrac{t}{RC}} \qquad i_R(t) = \frac{V_A}{R} e^{-\tfrac{t}{RC}}\]

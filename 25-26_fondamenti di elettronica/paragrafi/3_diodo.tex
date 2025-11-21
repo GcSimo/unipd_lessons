@@ -27,10 +27,16 @@ lacune) e una regione di tipo n (con eccesso di elettroni).
 	\end{enumerate}
 \end{itemize}
 
-\vspace{1.5cm}
+\vspace{0.5cm}
 \begin{center}
 	\includegraphics[width=0.85\textwidth]{immagini/3_giunzioni_pn_e_diodi/pn_eq1.png}
 \end{center}
+\vspace{0.5cm}
+
+\noindent
+NOTA: i seguenti calcoli si riferiscono alle grandezze per unità di superficie di giunzione \(\Sigma_j\). Per cui per ottenere
+ad esmepio la densità di carica elettrica effetiva è necessario moltiplicare la densità di carica elettrica per unità di superficie
+utilizzata nei calcoli per la superficie di giunzione: \(\rho_{e\!f\!f} = \rho \cdot \Sigma_j\).
 
 \newpage
 
@@ -169,7 +175,8 @@ negativo pari a \(-I_S\).
 \end{minipage}
 
 \subsubsection*{Capacità della giunzione in polarizzazione inversa}
-Analizzando la carica elettrica presente nella regione di carica spaziale di una giunzione pn in polarizzazione inversa si osserva che:
+Analizzando la carica elettrica (per unità di superficie) presente nella regione di carica spaziale di una giunzione pn in
+polarizzazione inversa si osserva che:
 \[\begin{array}{l}
 	Q_n = q N_D x_n = q N_D \frac{N_A}{N_A + N_D} W = \sqrt{2 q \varepsilon (V_0 - V_A) \frac{N_A N_D}{N_A + N_D}} \\
 	Q_p = q N_A x_p = q N_A \frac{N_D}{N_A + N_D} W = \sqrt{2 q \varepsilon (V_0 - V_A) \frac{N_A N_D}{N_A + N_D}}
@@ -184,7 +191,7 @@ della giunzione \(\Sigma_j\): \[C = C_j \cdot \Sigma_j = \frac{\varepsilon}{W} \
 
 \subsubsection*{Coefficiente di idealità}
 \begin{minipage}{0.65\textwidth}
-	Facendo variare il coefficiente di idealità \(\eta\) tra 1 e 2 si osserva che avvene una traslazione orizzontale della curva
+	Facendo variare il coefficiente di idealità \(\eta\) tra 1 e 2 si osserva che avviene una traslazione orizzontale della curva
 	caratteristica del diodo. Minore è il valore di \(\eta\), più la curva sale rapidamente in polarizzazione diretta. In genere
 	si utilizza \(\eta = 1\) per correnti basse e \(\eta = 2\) per correnti elevate.
 	\vspace{1.2cm}

@@ -306,7 +306,7 @@ Il tempo di ritardo medio \(t_p\) di una porta logica in statica complementare r
 \[t_p = t_{p0} + 0.69 \frac{3R_n + R_p}{2} C_L = 0.69 \, R_{OUT} \, C_L \qquad R_{OUT} = \frac{R_{PUN} + R_{PDN}}{2}\]
 
 \subsubsection*{Dipendenza dal numero di ingressi}
-Dalle formule del modello di Elmore per una porta logica a \(N\) ingressi (\(N\) mosfet in parallelo e altretttanti in serie),
+Dalle formule del modello di Elmore per una porta logica a \(N\) ingressi (\(N\) mosfet in parallelo e altrettanti in serie),
 il tempo di ritardo intrinseco dipende quadraticamente dal numero di ingressi \(N\). Questo effetto non è desiderabile, in quanto
 porta ad un aumento significativo del tempo di ritardo al crescere del numero di ingressi della porta logica.
 \begin{align*}
@@ -445,3 +445,7 @@ della porta logica. È possibile definire la capacità logica come il prodotto t
 In questo modo la formula del consumo dinamico può essere interpretata come il consumo dinamico per caricare e scaricare ad
 una frequenza \(f\) una capacità effettiva pari alla capacità logica.
 \[P_{DYN} = C_\text{logica} \cdot V_{DD} (V_H - V_L) \cdot f\]
+
+\noindent
+Il consumo dinamico totale è dato dalla somma dei consumi dinamici di ogni nodo interno. In alternativa si può calcolare il
+consumo dinamico totale usando la capacità logica equivalente dell'intera rete data dalla somma delle capacità di ogni singolo nodo.

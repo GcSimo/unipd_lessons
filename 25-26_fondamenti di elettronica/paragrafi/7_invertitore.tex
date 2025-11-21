@@ -250,14 +250,14 @@ come livello logico alto, inoltre rigenera l'uscita esattamente ai valori ideali
 	\end{minipage}
 	\begin{minipage}{0.64\textwidth}
 		La curva VTL di un invertitore ideale è una curva a gradino che passa per il punto di soglia di commutazione logica
-		e la funzione di trasferimeno è una funzione definita a tratti:
+		e la funzione di trasferimento è una funzione definita a tratti:
 		\[V_{OUT} = \begin{cases}
 			V_{DD} \;\; \text{se} \; V_{IN} < V_{M} \\
 			V_{M} \;\; \text{se} \; V_{IN} = V_{M} \\
 			0 \V \;\; \text{se} \; V_{IN} > V_{M}
 		\end{cases}\]
 
-		I margini di immunità al rumore diventanto esattamente
+		I margini di immunità al rumore diventando esattamente
 		\[N\!M_H = V_{DD} - V_{M} \qquad N\!M_L = V_{M}\]
 	\end{minipage}
 \end{center}
@@ -378,9 +378,9 @@ Si calcola il tempo di propagazione intrinseco medio come:
 
 \newpage
 
-\subsubsection*{Carico esterno e fan-out}
+\subsubsection*{Carico esterno e fanout}
 Quando l'invertitore guida un carico esterno \(C_L\), i tempi di ritardo aumentano in quanto la capacità totale da caricare
-o scaricare è maggiore. Si definiscono il fan-out \(f\) e il coefficiente di carico \(\gamma\):
+o scaricare è maggiore. Si definiscono il fanout \(f\) e il coefficiente di carico \(\gamma\):
 \[f = \frac{C_L}{C_{IN}} \qquad \gamma = \frac{C_{OUT}}{C_{IN}}\]
 Si ottengono, quindi, i tempi di ritardo con carico esterno:
 \[t_{pLH} = 0.69 \, R_p \, (C_{OUT} + C_L) = 0.69 \, R_p \, C_{OUT} + 0.69 \, R_p C_L = t_{pLH0} + 0.69 \, R_p C_L\]
@@ -406,6 +406,7 @@ Si definiscono quindi i coefficienti \(\beta\) e \(\rho\) e si procede all'ottim
 \[t_{pHL0} = 0.69 R_n C_{OUT} = 0.69 \frac{R_{n0}}{Z_n} C_{d0} W_n (1+\beta) = 0.69 R_{n0}C_{d0}L \left(1 + \beta\right)\]
 \[t_{pLH0} = 0.69 R_p C_{OUT} = 0.69 \frac{\rho R_{n0}}{\beta Z_n} C_{d0} W_n (1+\beta) = 0.69 R_{n0}C_{d0}L \left(\frac{\rho}{\beta} + \rho\right)\]
 \[t_{p0} = 0.69 \, \frac{R_{n0}C_{d0}L}{2}\left(1 + \beta + \rho + \frac{\rho}{\beta}\right)\]
+\label{tempo_ritardo_intrinseco_invertitore}
 
 \begin{center}
 	\begin{minipage}{0.45\textwidth}
@@ -567,7 +568,7 @@ Negli invertitori il segnale viene ripetutamente invertito e il tempo di ritardo
 salita \(t_{pLH}\) e discesa \(t_{pHL}\) di ogni invertitore. Il modo migliore per ottimizzare il tempo complessivo è
 minimizzare la somma dei tempi di ritardo \(t_{pLH}\) e \(t_{pHL}\), ovvero minimizzare il tempo di ritardo medio \(t_{p0}\)
 di ogni stadio. Di conseguenza (per come è stato visto in precedenza) si deve scegliere il rapporto tra i fattori di forma
-dei transistor come \(\beta = \sqrt{\rho}\). In questo modo tutti gli invertitori hanno lo stesso tempo di ritardo intrinseco
+dei transistor come \(\beta = \sqrt{\rho}\). In questo modo tutti gli invertitori hanno lo stesso \hyperref[tempo_ritardo_intrinseco_invertitore]{tempo di ritardo intrinseco}
 minimo: \[t_{p0} = 0.69 \, \frac{R_{n0}C_{d0}L}{2}\left(1 + \beta + \rho + \frac{\rho}{\beta}\right) \qquad R_{n0}, C_{d0}, L, \beta = \sqrt{\rho} \; \text{costanti per ogni invertitore}\]
 
 \subsubsection*{Ottimizzazione di \(f\) - dimensionamento progressivo degli stadi}
@@ -596,7 +597,7 @@ di \(f\). Per \(\gamma = 1\) risulta \(f = 3.6\).
 
 \subsubsection*{Calcolo del valore di \(N\), buffer invertente e non invertente}
 Una volta determinato il valore di \(f\) e conoscendo il fanout totale \(F\) si può calcolare il numero di stadi necessari per
-realizzare il buffer arrontondando il valore ottenuto all'intero più vicino:
+realizzare il buffer arrotondando il valore ottenuto all'intero più vicino:
 \[N = \frac{\ln(F)}{\ln(f)}\]
 Si osserva che se si vuole realizzare un buffer non invertente, è necessario avere un numero pari di stadi, mentre se si vuole
 realizzare un buffer invertente, è necessario avere un numero dispari di stadi.
