@@ -1,0 +1,96 @@
+\section{Circuiti sequenziali}
+\subsection{Architettura pipeline}
+\subsubsection*{Idea implementativa}
+In un processo di elaborazione si potrebbero avere più stadi che lavorano in serie uno dopo l'altro. Sono preceduti da
+un registro di input e un registro di output. Il tempo di elaborazione totale è dato dalla somma dei tempi di ogni stadio
+per cui nel caso di reti molto lunghe il tempo di elaborazione risulta essere molto elevato.
+\[t_\text{p,RC} = t_\text{p,RC1} + t_\text{p,RC2} + t_\text{p,RC3} \qquad\qquad t_\text{tot} = t_\text{p,FF} + t_\text{p,RC} + t_\text{setup}\]
+
+Per ovviare a questo problema si è pensato di dividere il processo in più stadi che lavorano in parallelo separati da registri
+di memoria intermedi. In un'architettura di questo tipo, chiamata \textbf{pipeline}, tutti e tre gli stadi lavorano in parallelo,
+permettendo di aumentare le informazioni elaborate per unità di tempo Il tempo di propagazione è dato dalla rete più lenta ed
+è minore del caso precedente. Si nota però che la latenza, ovvero il tempo che intercorre tra l'input e l'output, aumenta in
+quanto ogni informazione deve attraversare più blocchi (ci sono anche i registri intermedi).
+
+\subsubsection*{Gestione temporale nelle pipeline}
+Per descrivere temporalmente una rete pipeline si indicano:
+\begin{itemize}
+	\item \textbf{tempo di contaminazione}: tempo impiegato dalla rete più veloce ad elaborare l'informazione e renderla
+	disponibile al registro successivo, tale tempo deve essere maggiore del tempo di hold del registro, ovvero il dato
+	deve rimanere stabile e non aggiornarsi prima che il registro lo acquisisca
+	\item \textbf{tempo di propagazione}: tempo impiegato dalla rete più lenta ad elaborare l'informazione, tale tempo
+	deve essere minore del tempo di clock meno il tempo di setup del registro successivo, ovvero il dato deve essere
+	calcolato e stabile un \(t_\text{setup}\) prima del fronte di clock
+	\item \textbf{tempo di clock}: deve essere maggiore del tempo di propagazione e del tempo di setup del registro
+	successivo, ovvero deve essere garantito che il dato sia calcolato e stabile prima del fronte di clock (istante di
+	campionamento del dato)
+	\item \textbf{tempo di latenza}: numero di cicli di clock necessari affinché un'informazione attraversi tutta la pipeline,
+	per una rete non-pipeline è 0, per una rete pipeline è pari al numero di stadi di registri della pipeline
+\end{itemize}
+\begin{align*}
+	t_\text{cont} &= t_\text{p,FF} + \min \{t_\text{p,RC1}, t_\text{p,RC2}, \dots\} \qquad t_\text{cont} > t_\text{hold} \\
+	t_\text{prop} &= t_\text{p,FF} + \max \{t_\text{p,RC1}, t_\text{p,RC2}, \dots\} \qquad t_\text{CLK} > t_\text{prop} + t_\text{setup} \\
+	t_\text{CLK} &= \min (t_\text{prop} + t_\text{setup}) \qquad\qquad\qquad\qquad t_\text{latenza} = N_\text{stadi di registri}\\
+\end{align*}
+
+\subsection{Macchine a stati}
+\subsubsection*{Struttura}
+Le macchine a stati sono cicuiti sequenziali composti da una rete combinatoria e una memoria che memorizza lo stato attuale
+della macchina. La rete combinatoria elabora gli ingressi e lo stato attuale per produrre dati in l'uscita e il nuovo stato
+della macchina. (Il numero di stati \(2^k\) è dato dal numero \(k\) di bit usati per rappresentare lo stato stesso.)
+
+\subsubsection*{Temporizzazione delle macchine a stati}
+Come per le pipeline, si definiscono i 4 tempi principali osservando che il calcolo del tempo di propagazione massimo e minimo
+non è delle reti combinatorie, ma dei bit in uscita \(Y_i\) e dello stato successivo \(Q_i\). Inoltre il tempo di latenza è
+sempre 2 in quanto non ci sono registri intermedi.
+\begin{align*}
+	t_\text{cont} &= t_\text{p,FF} + \min \{t_\text{p,\(Y_0\)}, t_\text{p,\(Q_0\)}, \dots\} \qquad t_\text{cont} > t_\text{hold} & t_\text{CLK} &= \min (t_\text{prop} + t_\text{setup}) \\
+	t_\text{prop} &= t_\text{p,FF} + \max \{t_\text{p,\(Y_0\)}, t_\text{p,\(Q_0\)}, \dots\} \qquad t_\text{CLK} > t_\text{prop} + t_\text{setup} & t_\text{latenza} &= N_\text{stadi di registri} = 2
+\end{align*}
+
+\subsection{Esempi di macchine a stati - registri a scorrimento}
+\subsubsection*{Struttura}
+Il registro a scorrimento è una serie di flip-flop collegati in cascata e controllati dallo stesso segnale di clock. Ad ogni
+fronte di clock, il dato presente in ogni flip-flop viene trasferito al flip-flop successivo nella catena, mentre il primo
+flip-flop riceve un nuovo dato in ingresso. È possibile aggiungere altra logica di controllo per:
+\begin{itemize}
+	\item resettare tutti i flip-flop a 0 attraverso un segnale di reset asincrono
+	\item caricare (sincronizzati con il clk) i dati in parallelo in tutti i flip-flop attraverso un segnale di load che
+	pilota un mux 2:1 che seleziona se il dato in ingresso al flip-flop è quello del flip-flop precedente o quello esterno
+	\item uscite in parallelo dai flip-flop per leggere il contenuto di tutti i FF contemporaneamente
+\end{itemize}
+
+\subsubsection*{Temporizzazione}
+Il tempo di clock minimo è dato soltanto dai tempi dei flip-flop, non essendodi reti combinatorie tra un flip-flop e l'altro.
+Siccome il tempo di hold dei FF è nullo, non ci sono vincoli sul tempo di contaminazione.
+\[t_\text{CLK} = t_\text{p,FF} + t_\text{setup} \qquad\qquad \text{con MUX diventa} \;\; t_\text{CLK} = t_\text{p,FF} + t_\text{mux} + t_\text{setup}\]
+
+\subsection{Esempi di macchine a stati}
+\subsubsection*{Contatori}
+I contatori sono circuiti sequenziali il cui stato rappresenta un numero binario che viene incrementato di una unità ad ogni
+ciclo di clock. Un semplice contatore per potenze di 2 può essere realizzato con un sommatore binario che incrementa di uno il
+valore dei registri, tale sommatore può essere una cascata di HA o un sommatore ottimizzato CLA. È possible costuire un
+contatore con modulo arbitrario aggiungendo un comparatore di uguaglianza che resetta il contatore quando viene raggiunto
+il valore desiderato salvato su un registro esterno.
+
+Il tempo di ritardo della rete combinatoria è data dal tempo \(t_\text{sum}\) del sommatore e dipende dall'architettura usata.
+Per un RC con HA vale \(t_\text{sum} = (N-1) t_\text{and} + t_\text{xor}\).
+
+\subsubsection*{Timer/counter/generatore di funzioni di microcontrollori}
+Il blocco in questione è composto da un comparatore di modulo arbitrario che pilota il segnale di reset di un latch ed
+è presente un altro comparatore che pilota il segnale di enable del latch con l'entrata sempre a 1. In questo modo il
+secondo comparatore fa salire l'uscita a 1 quando il contatore raggiunge un certo valore, mentre il primo comparatore
+fa resettare il latch a 0 quando il contatore raggiunge il valore massimo. L'uscita del latch è quindi un'onda quadra
+con fronte di salita e discesa programmabili.
+
+\subsubsection*{Divisore di frequenza}
+Un divisore di frequenza è un circuito che prende in ingresso un'onda quadra con frequenza \(f_\text{in}\) e produce in uscita
+un'onda quadra con frequenza \(f_\text{out} = \frac{f_\text{in}}{N}\). In base al valore di \(N\) si possono usare diverse
+implementazioni:
+\begin{itemize}
+	\item per \(N = 2^k\) potenza di 2 si può usare un contatore binario a \(k\) bit e prendere in uscita il bit \(k\)-esimo
+	bit, se lo si vuole rendere programmabile, basta aggiungere un MUX che seleziona quale bit di uscita prendere
+	\item per \(N\) arbitrario (multiplo di 2) si può usare un contatore con reset programmabile collegato al clock di un
+	latch con l'uscita negata retroazionata all'ingresso, in modo che ogni impulso di reset del contatore faccia cambiare
+	stato al latch
+\end{itemize}

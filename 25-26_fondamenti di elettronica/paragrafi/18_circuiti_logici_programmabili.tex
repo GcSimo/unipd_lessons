@@ -1,0 +1,191 @@
+\section{Circuiti logici programmabili}
+\subsection{Introduzione ai circuiti logici programmabili}
+\subsubsection*{Tipi di programmazione (hardware/software/circuitale)}
+\begin{itemize}
+	\item \textbf{microprocessori}: si programma un microprocessore (hardware generico) attraverso un linguaggio di
+	programmazione software, per risolvere un determinato problema, il vantaggio è la facilità di programmazione, la
+	possibilità di modificare il programma e adattarlo/migiorarlo nel tempo, lo svantaggio è la lentezza di esecuzione
+	e l'elevato consumo dovuto alla presenza di un'architettura generale e non ottimizzata per il problema specifico
+	\item \textbf{circuiti programmabili o configurabili}: circuiti logici che possono essere programmati a livello
+	hardware dopo il processo di fabbricazione, il vantaggio è la velocità di esecuzione e il consumo ridotto rispetto ai
+	microprocessori, lo svantaggio è la complessità di programmazione e la minore flessibilità, esempi sono i microcontrollori
+	le matrici di porte logiche (PLA, PLS, PAL, PROM, GAL, CPLD) e le FPGA
+	\item \textbf{circuiti dedicati (ASIC)}: circuiti logici progettati e fabbricati per eseguire una funzione specifica
+	e la programmazione avviene in fase di progettazione del circuito stesso, il vantaggio è la massima velocità di esecuzione
+	e il minimo consumo dati dalla completa ottimizzazione del circuito per il problema specifico, lo svantaggio è l'elevato
+	costo di progettazione e la scarsa flessibilità e aggiornabilità
+\end{itemize}
+
+\subsubsection*{Classificazione dei circuiti logici}
+\begin{itemize}
+	\item \textbf{CPU o microprocessori}: circuiti logici generici programmabili via software in grado di eseguire un'enorme
+	varietà di funzioni logiche attraverso l'esecuzione di un programma memorizzato in memoria
+	\item \textbf{circuiti logici programmabili}:
+	\begin{itemize}[topsep=0pt]
+		\item \textbf{microcontrollori}: microprocessori con periferiche integrate totalmente autonomi che non richiedono
+		circuiteria esterna, si programmano via software caricando il firmware in memoria flash, si utilizzano principalmente
+		in sistemi embedded dati il costo, le dimensioni e la potenza computazionale ridotti
+		\item \textbf{logica programmabile a matrice}: matrici di porte logiche con interconnessioni programmabili, possono
+		essere programmati in fase di progettazione attraverso un'opportuna maschera di fabbricazione (mask-programmed, non
+		riprogrammabili, veloci ed efficienti), oppure sul campo dall'utente (field-programmable, riprogrammabili, più lenti
+		ed energivori); esempi sono PLA, PLS, PROM, PAL, GAL, CPLD
+		\item \textbf{logica programmabile a celle}: matrici di blocchi logici programmabili e interconnessi tramite una rete
+		di interconnessioni programmabili, esempi sono le FPGA (riprogrammabili sul campo con linguaggi tipo VHDL/Verilog)
+	\end{itemize}
+	\item \textbf{circuiti dedicati (ASIC)}: circuiti in cui l'algoritmo che andrà ad eseguire il circuito è programmato
+	a livello hardware e totalmente ottimizzato per massimizzare efficienza e velocità, esempi: Tensor Processing Unit (TPU)
+\end{itemize}
+
+\subsubsection*{Implementazioni di funzioni logiche}
+\begin{enumerate}
+	\item \textbf{logica cmos}: si calcola la funzione logica in forma minimale e si implementano le reti di pull-up e pull-down
+	secondo i principi della logica statica complementare, sono molto veloci, efficienti e affidabili
+	\item \textbf{porte logiche elementari}: si sfruttano le porte logiche di base (NAND, NOR, AND, OR, NOT) già pronte per
+	combinare gli ingressi e ottenere l'uscita desiderata, sono più lente e meno efficienti della logica cmos, utilizzano
+	generalmente più transistor ma sono più semplici da progettare
+	\item \textbf{memoria ROM}: si memorizzano in una memoria di sola lettura (ROM) le uscite corrispondenti a tutte le
+	possibili combinazioni di ingressi, sono molto lente e poco efficienti ma estremamente semplici da progettare (es.
+	generatori di funzioni con decoder di riga per rapido accesso)
+	\item \textbf{realizzazione come somma di prodotti}: si implementa la funzione logica come somma di prodotti (SOP) o
+	prodotto di somme (POS) utilizzando una matrice di porte AND e OR (PLA, PAL) programmando opportunamente le interconnessioni
+	desiderate, sono più lente e meno efficienti della logica cmos ma più semplici da progettare e realizzare in quanto
+	esistono hardware già pronti per questo scopo
+\end{enumerate}
+
+\subsection{Logica programmabile a matrice}
+\subsubsection*{Introduzione e struttura base}
+Sono circuiti logici programmabili con la stessa struttura di base costituita da una matrice di interconnessioni programmabili
+che collegano un array di ingressi agli ingressi di una serie di porte logiche (AND/OR/NAND/NOR) che producono le uscite
+desiderate che a loro volta possono essere collegate agli ingressi di altre porte logiche (OR/AND/NOR/NAND) per implementare
+somme di prodotti o prodotti di somme.  
+
+\subsubsection*{PLA - Programmable Logic Array}
+Le PLA cono costituite da una matrice chiamata piano delle AND per configurare gli ingressi del modulo agli ingressi delle
+AND e un piano delle OR per configurare le uscite delle AND agli ingressi delle OR. Serve per implementare funzioni logiche
+in forma di somma di prodotti (SOP).
+
+\subsubsection*{PLS - Programmable Logic Sequencer}
+Le PLS sono come le PLA, ma alcune uscite delle OR sono retroazionate nel piano delle AND (temporizzate da un flip-flop) per
+implementare circuiti sequenziali.
+
+\subsubsection*{PAL - Programmable Array Logic}
+Le PAL sono come le PLA, ma solo il piano delle AND è programmabile, mentre il piano delle OR è fisso.
+
+\subsubsection*{PROM - Programmable Read Only Memory}
+Le PROM sono come le PLA, ma solo il piano delle OR è programmabile, mentre il piano delle AND è fisso. Si chiama P-ROM
+perché il piano delle OR richiama la struttura di una memoria ROM-NOR.
+
+\subsubsection*{CPLD - Complex Programmable Logic Device}
+Le CPLD sono circuiti logici programmabili complessi costituiti da più blocchi PLA/PAL all'interno di un unico chip. Ogni blocco
+può essere programmato indipendentemente e ha un bus di I/O strettamente personale per comunicare con l'esterno e un altro bus
+di dati condiviso con gli altri blocchi per comunicare tra di loro. 
+
+\subsection{Logica programmabile a celle - FPGA}
+\subsubsection*{Struttura di un FPGA}
+Gli FPGA sono circuiti programmabili sul campo e sono utilizzate per implementare hardware configurabile. Sono più grandi, più
+complesse e più flessibili rispetto ai circuiti programmabili a matrice. Sono composte da:
+\begin{itemize}
+	\item \textbf{blocchi logici programmabili (CLB)}: blocchi di celle programmabili formate da porte logiche e flip-flop
+	per realizzare funzioni logiche arbitrarie mediante un set di connessioni locali programmabili
+	\item \textbf{circuiti di I/O}: blocchi per la gestione delle comunicazioni tra l'interno dell'FPGA e l'esterno, hanno
+	appositi buffer di ingresso/uscita per pilotare carichi capacitivi elevati
+	\item \textbf{interconnessioni programmabili}: rete di interconnessioni programmabili che collegano tra di loro i CLB
+	e i circuiti di I/O organizzate con gerarchia di più livelli, inoltre comprendono anche le linee di distribuzione del clock
+	\item \textbf{memoria di configurazione}: memoria interna che memorizza la configurazione dell'FPGA, dei singoli blocchi 
+\end{itemize}
+
+\subsubsection*{CLB (Configurable Logic Block) e LUT (Look Up Table)}
+Esistono tre tipi principali di CLB:
+\begin{itemize}
+	\item \textbf{CLB basati su LUT} (Look Up Table): \\
+	le look up table sono memorie SRAM che fungono da tabelle di verità per implementare funzioni logiche combinatorie
+	per ogni possibile combinazione di ingressi. Per accedere al valore corretto si usa un MUX controllato dai segnali
+	in ingresso alla LUT. Un CLB basato su LUT è costituito da una o più LUT, da un FA (che riceve propagate, generate
+	e il riporto) e un flip-flop per temporizzare l'uscita. Si nota che le LUT possono essere usate per implementare
+	le funzioni di generate e propagate in modo da poter implementare un sommatore binario ottimizzato all'interno del CLB.
+	Altimenti se viene ignorato il FA, le LUT possono implementare qualsiasi funzione logica combinatoria.
+	\item \textbf{CLB con blocchi programmabili a MUX}: \\
+	in questo tipo di CLB sono presenti più mux a cascata controllati da segnali esterni per implementare funzioni logiche
+	combinatorie a MUX come avviene quando si implementa una funzione logica con TG. L'uscita è sempre temporizzata con
+	un flip-flop.
+	\item \textbf{CLB con porte logiche programmabili}: \\
+	questi tipi di CLB si rifanno alla struttura delle PLA/PAL/\dots viste in precedenza
+	\item \textbf{blocchi logici dedidati}: \\
+	alcuni FPGA includono blocchi logici dedicati per operazioni specifiche già implementate come sommatori, moltiplicatori,
+	blocchi di generazione del clock, shift register, ram, \dots
+\end{itemize}
+
+\subsubsection*{Blocchi di I/O}
+I blocchi di I/O servono per connettere l'interno dell'FPGA con l'esterno. Sono costituiti da buffer di ingresso/uscita
+bidirezionale (programmabile) e da un circuito traslatore di tensione per lavorare a tensioni diverse. Il funzionamento
+è molto simile a quello dei buffer di I/O visti per le memorie con invertitori three-state, in più si aggiungono dei
+flip-flop per temporizzare i dati in ingresso/uscita e un debole pmos e nmos di pull-up/pull-down per impostare uno stato
+definito all'ingresso quando la linea è flottante. Inoltre i blocchi di I/O possono essere configurati per agire come
+linea di ritardo programmabile per sfasare il segnale in ingresso attraverso dei buffer di ritardo programmabili.
+
+\subsubsection*{Interconnessioni programmabili e di vario tipo}
+Esistono due tipi principali di interconnessioni:
+\begin{itemize}
+	\item \textbf{interconnessioni locali}: collegano i CLB adiacenti tra di loro, permettono comunicazioni ad alta velocità
+	tra CLB vicine, non impiegano interruttori o ripetitori programmabili
+	\item \textbf{interconnessioni globali}: linee dedicate a collegare CLB distanti tra loro e le CLB con i circuiti di
+	I/O, introducono ritardi e buffer ripetitori, attraversano le matrici di interruttori programmabili
+	\item \textbf{interconnessioni speciali}: linee destinate alla distribuzione del clock (organizzate in modo gerarchico ad
+	albero ad H) e ad altri segnali di controllo come interconnessioni con blocchi di memoria, sommatori, shift register, \dots,
+	possiedono dei buffer ripetitori unidirezionali o bidirezionali per pilotare carichi capacitivi elevati (es. linee di clock)
+\end{itemize}
+Nelle interconnessioni sono inclusi dei buffer di rigenerazione del segnale e un sistema di interruttori programmabili per
+collegare o scollegare le varie linee di interconnessione in modo da formare il percorso desiderato tra i vari blocchi logici.
+
+L'organizzazione delle interconnessioni globali può essere:
+\begin{itemize}
+	\item \textbf{gerarchica, ad albero}: le interconnessioni sono organizzate su più livelli, come la rete ad albero H di
+	distribuzione del clock, ad ogni cambio di livello (o diramazione) è presente una matrice di interruttori programmabili
+	\item \textbf{a isole}: i canali di interconnessione sono distribuiti attorno ad ogni CLB verticalmente e orizzontalmente,
+	le intersezioni tra canali verticali e orizzontali sono impementate a matrici di interruttori programmabili
+\end{itemize}
+
+Gli interruttori programmabili possono essere implementati con un flip-flop o cella di memoria SRAM che controlla un nmos
+o una porta tg per collegare o scollegare due linee di interconnessione. I bit di configurazione degli interruttori
+vengono memorizzati nella memoria di configurazione dell'FPGA. Per evitare degradazione del segnale alto trasmesso dagli
+nmos, si alimentano i transistor degli interruttori programmabili con tensione superiore a \(V_{D\!D}\) per ridurre
+tale problema.
+
+Siccome usare pass-T potrebbe introdurre ritardi per l'elevata resistenza introdotta dai mos, per le piste lunghe si
+utilizzano interruttori con ripetitori (buffer) per rigenerare il segnale.
+
+In qualsiasi caso le interconnessioni programmabili introducono ritardi e carichi capacitivi sulle linee di segnale (oltre al
+ritardo presente di base per le piste lunghe), che in una interconnessione fissa (hard-wired) sarebbero praticamente assenti.
+
+Le matrici di interconnessione di dividono in due tipi:
+\begin{itemize}
+	\item \textbf{PSM - Programmable Switch Matrix}: matrici di interruttori programmabili che collegano più linee di
+	interconnessione orizzontali e verticali tra di loro, implementano le connessioni con mux e buffer ripetitori
+	\item \textbf{CB - Connection Block}: matrici di interruttori programmabili che collegano le linee di interconnessione
+	a i pin di I/O e ai blocchi logici (CLB), implementano interconnessioni con pass-T o TG
+\end{itemize}
+
+Inoltre per ottimizzare i tempi di ritardo su lunghe distanze, si ha una gerarchia di interconnessioni globali che classifica
+le linee in base alla loro lunghezza:
+\begin{itemize}
+	\item \textbf{a corto raggio}: linee di interconnessione che collegano CLB adiacenti e collegano due CB e PSM vicini,
+	per ridurre i ritardi alcune piste saltano i CLB o PSM intermedi e si classificano in funzione della lunghezza del segmento
+	senza interconnessioni (lunghezza 1: collega CLB/PSM adiacenti, lunghezza 2: salta un CLB/PSM, \dots) e sono organizzate
+	con un certo offset per permettere a ciascun CLB/PSM di avere accesso a più linee di corto raggio con lunghezze diverse
+	\item \textbf{a lungo raggio}: linee di interconnessione che corrono per tutta la lunghezza del chip e vengono pilotate
+	da appositi driver bidirezionali three-state, servono per trasmettere segnali globali o collegare CLB distanti con Il
+	minimo tempo di ritardo possibile
+\end{itemize}
+
+\subsubsection*{Configurazione delle FPGA}
+I bit di configurazione da memorizzare nelle LUT, nei flip-flop delle interconnessioni e nei blocchi di I/O vengono salvati
+in una memoria che generalmente può essere:
+\begin{itemize}
+	\item \textbf{SRAM}: volatile, leggermente modificata in modo che l'uscita sia direttamente collegata alla parte di
+	circuito che controlla, permette riconfigurazione dinamica (in esecuzione) e l'intero chip FPGA può essere prodotto
+	usando le normali tecniche di fabbricazione CMOS, lo svantaggio è che la configurazione va persa quando si spegne
+	il dispositivo e va ricaricata da una memoria esterna non volatile (es. EEPROM, Flash)
+	\item \textbf{EEPROM/Flash}: non volatile, permette di memorizzare la configurazione anche a dispositivo spento e
+	l'occupazione di area è minore (meno transistor), lo svantaggio è che la tecnologia di fabbricazione è più complessa
+	e costosa per realizzare i floating gate
+\end{itemize}

@@ -1,0 +1,307 @@
+\section{Blocchi logico aritmetici}
+\subsection{Struttura di una ALU}
+Una alu è composta da vari blocchi semplici tra cui:
+\begin{itemize}
+	\item blocchi di traslazione e rotazione
+	\item sommatore/comparatore
+	\item moltiplicatore
+	\item operatori logici
+	\item logica di controllo (registri)
+\end{itemize}
+
+\subsection{Operatori logici elementari}
+Gli operatori logici elementari svolgono una funzione logica bit a bit tra due operandi di n bit ciascuno. Le funzioni logiche
+elementari sono ad esempio AND, OR, XOR, NOT.
+
+\subsection{Blocchi di traslazione e rotazione}
+\subsubsection*{Traslazione}
+La traslazione è un'operazione che sposta tutti i bit a destra o a sinisra di un certo numero di posizioni:
+\begin{itemize}
+	\item lo spostamento a sinistra equivale a moltiplicare per 2, le posizioni vuote vengono riempite con 0
+	\item lo spostamento a destra equivale a dividere per 2, le posizioni vuote vengono riempite con 0 (divisione senza
+	estensione di segno) o con il bit di segno (divisione con estensione di segno)
+\end{itemize}
+
+\subsubsection*{Rotatore}
+La rotazione è un'operazione che sposta tutti i bit a destra o a sinisra di un certo numero di posizioni, ma i bit che
+escono da un lato rientrano dall'altro.
+
+\subsubsection*{Rotatore/traslatore con MUX a struttura logaritmica ottimizzato a TG}
+Un rototraslatore con spostamento di un generico numero di bit \(n\) viene implementato con una serie di stadi in numero
+logaritmico rispetto a \(n\). Ogni stadio effettua uno spostamento di \(2^k\) bit (con \(k\) indice dello stadio da 0 a
+\(\log_2(n)-1\)). Siccome ogni numero intero può essere scritto come somma di potenze di 2, è possibile combinare gli
+stadi opportunamente per ottenere lo spostamento di un generico numero intero di posizioni.
+
+Ogni stadio è implementato con un parallelo di MUX 2:1 controllati da un segnale di controllo \(S_i\) che seleziona se
+lasciare passare il bit in ingresso (senza spostamento) oppure se trasmettere il bit spostato di \(2^i\) posizioni. Ogni
+MUX 2:1 è implementato a porte TG ed eventualmente si aggiungono due invertitori CMOS all'ingresso e all'uscita per non
+degradare il segnale e mantenere i tempi di propagazione bassi.
+
+\subsubsection*{Stima dei MOS impiegati}
+\begin{center}
+	\begin{tabular}{l c c c c c}
+		\textbf{traslatore a n bit} & \textbf{n bit} & \textbf{8 bit} & \textbf{16 bit} & \textbf{32 bit} & \textbf{64 bit} \\
+		\toprule
+		\# di stadi & \(\log_2 n\) & 3 & 4 & 5 & 6 \\
+		\midrule
+		\# di TG  &\(2n \cdot \log_2 n\) & 48 & 128 & 320 & 768 \\
+		\midrule
+		\# di NOT per input/output & \(2n\) & 16 & 32 & 64 & 128 \\
+		\midrule
+		\# di NOT segnali di controllo & \(\log_2 n\) & 3 & 4 & 5 & 6 \\
+		\midrule
+		totale MOS & \(2 \cdot (2n\log_2 \! n \! + \! 2n \! + \! \log_2 \! n)\) & 134 & 328 & 778 & 1804 \\
+		\bottomrule		
+	\end{tabular}
+\end{center}
+
+\subsection{Sommatore ripple carry}
+\subsubsection*{Half Adder}
+Il blocco sommatore half adder somma due bit \(A\) e \(B\) e produce in uscita una somma \(S=A \oplus B\) e un riporto
+\(C=A \cdot B\). Esistono due tipi di implementazione:
+\begin{itemize}
+	\item implementazione a MUX con TG (con invertitori CMOS in uscita):
+	\begin{itemize}[topsep=0pt]
+		\item le funzioni logiche XNOR e NAND (XNOR + NOT in uscita = NOR e NAND + NOT in uscita = AND) sono implementate a
+		MUX con porte TG
+		\item il numero di transistor necessari è \(2_\text{MOS/NOT} \cdot 4_\text{NOT} + 4_\text{MOS/MUX} * 2_\text{MUX} = 16\)
+		i tempi di ritardo delle due linee sono pressoché identici \(t_p = t_\text{p,NOT} + t_\text{p,TG} + t_\text{p,NOT}\)
+	\end{itemize}
+	\item implementazione a porte logiche CMOS:
+	\begin{itemize}
+		\item la funzione logica AND è implementata con 6 MOS (NAND + NOT), la funzione logica XOR è implementata con 8 MOS
+		(NOR tra NOR e AND), per un totale di 14 MOS
+		\item i tempi di ritardo delle due linee sono diversi in quanto per calcolare la somma è necessario prima avere
+		calcolato il riporto \(t_\text{p,S} = t_\text{p,NAND} + t_\text{p,NOT} + t_\text{p,NOR} > t_\text{p,C} = t_\text{p,NAND} + t_\text{p,NOT}\)
+	\end{itemize}
+\end{itemize}
+
+\subsubsection*{Full Adder}
+Il blocco sommatore full adder somma due bit \(A\) e \(B\) con un riporto in ingresso \(C_{in}\) e produce in uscita una somma
+\(S=A \oplus B \oplus C_{in}\) e un riporto in uscita \(C_{out} = A \cdot (\overline{A \oplus B}) + C_{in} \cdot (A \oplus B)\).
+Si osserva che è possibile riscrivere le equazioni in funzione delle variabili \(P\) e \(\overline{P}\) ottenendo:
+\[S = P \oplus C_{in} \qquad C_{out} = A \cdot \overline{P} + C_{in} \cdot P \qquad \text{con} \quad P = A \oplus B \qquad \overline{P} = \overline{A \oplus B}\]
+Si implementano quindi la XOR e la XNOR per \(P\) e \(\overline{P}\) con architettura ibrida per un totale 4 mos ciascuna,
+la somma con una XNOR a MUX con TG e una NOT di uscita (8 mos) e il riporto con un MUX con TG e una NOT di uscita (8 mos)
+per un totale di 24 mos.
+
+\subsubsection*{Sommatore a n bit in Ripple Carry}
+Per implementare un generico sommatore tra operandi a n bit (in struttura ripple carry) si collegano in cascata \(n\) FA in
+cui il riporto in uscita di ogni FA viene collegato al riporto in ingresso del FA successivo. Il primo FA riceve come
+riporto in ingresso il valore 0 (o altri valori se il sommatore viene usato per altri scopi). Il tempo di propagazione cresce
+linearmente con il numero di bit degli operandi in quanto l'ultimo FA deve aspettare il riporto dall'FA precedente:
+\[t_{tot,sum} = (n-1) \cdot t_{carry} + t_s \qquad t_{tot,carry} = n \cdot t_c\]
+
+\subsection{Varianti del sommatore}
+\subsubsection*{Sottrattore}
+Si osserva che la sottrazione tra due numeri può essere vista come la somma del primo numero con il complemento a 2 del
+secondo numero: \(A - B = A + \overline{B} + 1\). È possibile quindi riciclare il blocco sommatore aggiungendo uno stadio
+di invertitori CMOS controllati a MUX con TG per eventualmente invertire i bit del secondo operando \(B\) e impostando il
+riporto in ingresso del sommatore a 1 per il ``+1''. Ogni blocco invertitore è implementato con un MUX a porte TG, una nOT
+di uscita e una NOT per invertire un segnale di ingresso (8 mos ciascuno), in più è necessario una NOT per il segnale di
+controllo (2 mos). In totale si aggiungono \(8n + 2\) mos al sommatore.
+
+\subsubsection*{Comparatore}
+Il comparatore generico confronta due numeri \(A\) e \(B\) e ha due possibili implementazioni:
+\begin{enumerate}
+	\item struttura ad albero con XOR/XNOR (uguaglianza): \\
+	si osserva che \(A=B\) corrisponde ad una XNOR bit a bit, per cui è possibile implementare il comparatore come prodotto
+	di XNOR oppure come somma di XOR (con struttura ad albero per AND e OR a tanti ingressi); in questo modo si ottiene un
+	segnale di uscita \(EQ\) ad 1 se i due numeri sono uguali, 0 altrimenti.
+	\item struttura basata sul sommatore (maggiore/minore/uguaglianza): \\
+	si osserva che facendo la sottrazione \(A-B\) si ottiene un risultato positivo se \(A>B\), negativo se \(A<B\) e zero se
+	\(A=B\). Si può quindi implementare il comparatore utilizzando un sommatore in cui il bit più significativo del risultato
+	è chiamato CMP o COMPARE (0 se \(A>B\), 1 se \(A<B\)) e un blocco NAND (ad albero) per il segnale EQ (0 se \(A \neq B\),
+	1 se \(A=B\)).
+\end{enumerate}
+
+\subsubsection*{Stima dei MOS impiegati per un sommatore + sottrattore + comparatore}
+\begin{center}
+	\begin{tabular}{l c c c c c}
+		\textbf{add/sub/cmp a n bit} & \textbf{n bit} & \textbf{8 bit} & \textbf{16 bit} & \textbf{32 bit} & \textbf{64 bit} \\
+		\toprule
+		\# di MOS ripple carry & 24n & 192 & 384 & 768 & 1536 \\
+		\midrule
+		\# di MOS sottrattore & 8n + 2 & 66 & 130 & 258 & 514 \\
+		\midrule
+		\# di MOS comparatore & \(\approx\)2.5n & 28 & 42 & 84 & 128 \\
+		\midrule
+		totale MOS & \(\approx\)34.5n & 286 & 556 & 1110 & 2178 \\
+		\bottomrule		
+	\end{tabular}
+\end{center}
+
+\subsection{Moltiplicatore}
+Analizzando il processo di moltiplicazione di due numeri (come viene insegnato alle elementari) si osserva che è possibile
+scomporre la moltiplicazione in due fasi:
+\begin{enumerate}
+	\item calcolo dei prodotti parziali \(B_0 A_0\), \(B_0 A_1\), \(B_0 A_2\) \dots \(B_0 A_n\), \;\; \(B_1 A_0\), \(B_1 A_1\),
+	\dots \(B_1 A_n\), \;\; \dots \(B_n A_n\); per tale processo sono richieste \(n^2\) AnD bit a bit implementate con logica
+	statica complementare per un totale di \(6 n^2\) MOS
+	\item somma dei prodotti parziali delle \(n-1\) colonne (la prima non ha bisogno di somme) opportunamente shiftati
+	attarverso una matrice di HA e FA strutturata a cascata:
+	\begin{itemize}[topsep=0pt]
+		\item la prima riga è composta solo da HA in quanto non ci sono riporti in ingresso delle colonne a sinistra e richiede
+		\(n\) HA per un totale di \(16n\) MOS
+		\item le righe successive sono composte da FA e terminano con un HA in quanto l'ultimo bit è il primo che inizia la somma
+		dei prodotti parziali; di conseguenza si hanno \(n-2\) righe con \(n-1\) FA e un HA ciascuna per un totale di
+		\((n-2) \cdot (24 (n-1) + 16) = 24 n^2 - 56 n + 16\) MOS
+		\item l'ultima riga serve per sommare i riporti ed equivale ad un sommatore senza riporto d'ingresso composto da
+		\(n-2\) FA e 2 HA per un totale di \(24 (n-2) + 2 \cdot 16 = 24 n - 16\) MOS 
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection*{Stima del numero di MOS impiegati}
+Si osserva che il numero totale di MOS impiegati cresce quadraticamente con il numero di bit degli operandi, l'elevato numero
+di mos è duvuto principalmente alla matrice di HA e FA necessaria per sommare i vari prodotti parziali. Nei primi processori,
+siccome si avevano limitazioni tecniche sul numero massimo di transistor per singolo chip, i blocchi moltiplicatori non venivano
+implementati via hardware.
+\begin{center}
+	\begin{tabular}{l c c c c c}
+		\textbf{moltiplicatore a n bit} & \textbf{n bit} & \textbf{8 bit} & \textbf{16 bit} & \textbf{32 bit} & \textbf{64 bit} \\
+		\toprule
+		\# di MOS prodotti parziali & \(6 n^2\) & 384 & 1536 & 6144 & 24576 \\
+		\midrule
+		\# di MOS somma prodotti parziali & \(24 n^2 - 16 n\) & 1408 & 5888 & 24064 & 97280 \\
+		\midrule
+		totale MOS & \(30 n^2 - 16 n\) & 1792 & 7424 & 30208 & 121856 \\
+		\bottomrule		
+	\end{tabular}
+\end{center}
+
+NOTA: il prof. nelle slides ha usato il blocco sommatore finale con \(n\) FA, mentre l'architettura prevede un sommatore
+ottimizzato con \(n-2\) FA e 2 HA, di conseguenza il numero di MOS è inferiore di 16 unità rispetto alle slides del prof.
+Tale differenza ovviamente è irrisoria e non cambia l'ordine di grandezza.
+
+\subsubsection*{Considerazioni sul tempo di ritardo}
+Il tempo di ritardo del moltiplicatore è dominato dal tempo di ritardo della somma dei prodotti parziali, che cresce
+linearmente con il numero di bit degli operandi (dipende dal numero di righe della matrice ovvero a \(n-1\)), infatti
+ogni riga deve aspettare le somme e i riporti della riga precedente:
+\[t_{tot,mul} = t_{and} + (n-1) \max(t_c, t_s) + t_{sum} \qquad t_{sum} = t_\text{sommatore ripple carry} = (n - 1) t_c + t_s\]
+
+\subsection{Sommatore (e sottrattore) floating point}
+\subsubsection*{Accenni alla rappresentazione floating point (senza casi particolari)}
+\[(-1)^S \cdot 2^{E-K} \cdot (1.M)\]
+\begin{itemize}
+	\item singola precisione (32 bit): 1 bit segno \(S\), 8 bit esponente \(E\), 23 bit mantissa \(M\), \(k=127\)
+	\item doppia precisione (64 bit): 1 bit segno \(S\), 11 bit esponente \(E\), 52 bit mantissa \(M\), \(k=1023\)
+\end{itemize}
+
+\subsubsection*{Algoritmo di somma di numeri floating point}
+\begin{enumerate}
+	\item \textbf{costruzione della mantissa}: si construisce la mantissa completa aggiungendo il bit implicito 1 all'inizio
+	\item \textbf{classificazione degli operandi}: si confrontano gli esponenti e si classificano i due operandi in OP1 (con
+	esponente maggiore) e OP2 (con esponente minore)
+	\item \textbf{allineamento della mantissa}: si effettua uno shift a destra della mantissa dell'OP2 di un numero di
+	posizioni pari al modulo della differenza tra i due esponenti, in modo da allineare le mantisse allo stesso esponente
+	\item \textbf{somma/sottrazione delle mantisse}: si calcola la somma o la sottrazione delle due mantisse, scelta dal blocco
+	di gestione del segno, in caso di sottrazione si effettua il complemento a 2 della mantissa dell'OP2
+	\item \textbf{normalizzazione del risultato}: se il risultato è negativo se ne calcola il complemento a 2, infine si
+	normalizza il risultato shiftando a destra o a sinistra la mantissa per avere il primo bit a 1 e si modifica l'esponente
+	di conseguenza; il calcolo del numero di posizioni da shiftare (numero di zeri iniziali) è eseguito dal \emph{leading zero counter}
+	o LZC, mentre il segno del risultato è dato dall'opposto del riporto in uscita dalla somma/sottrazione delle mantisse
+	\item \textbf{calcolo dell'esponente}: si parte dall'esponente massimo (quello dell'OP1), comune alle due mantisse allineate,
+	e si somma/sottrae il numero di posizioni di cui la mantissa viene shiftata nella fase di normalizzazione, calcolato dal LZC
+	\item \textbf{calcolo del segno}: il segno del risultato è calcolato dal blocco di gestione del segno in base ai segni
+	degli operandi e all'operazione richiesta (somma o sottrazione)
+\end{enumerate}
+
+\subsubsection*{Gestione del segno}
+Si osserva che:
+\begin{itemize}
+	\item le mantisse sono sempre considerate numeri interi positivi unsigned, infatti il segno è gestito a parte nell'apposito
+	bit di segno
+	\item l'operazione di somma tra unsigned (positivi) restituisce un unsigned (positivo) e il riporto in uscita dal sommatore
+	indica è avvenuto overflow (\(C_{out} = 1\)) oppure no (\(C_{out} = 0\))
+	\item l'operazione di sottrazione tra unsigned richiede di convertire il sottraendo nel suo complemento a 2, il riporto in
+	uscita indica se il risultato è positivo (\(C_{out} = 1\)) oppure negativo (\(C_{out} = 0\))
+\end{itemize}
+Si possono quindi riassumere le regole per la gestione del segno nella tabella seguente:
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\begin{tabular}{c c c c c}
+			\textbf{add - \(O\!P=1\)} & \textbf{\(\text{S}_\text{A}\)} & \textbf{\(\text{S}_\text{B}\)} & \textbf{\(\text{S}_\text{C}\)} & \textbf{S/\(\overline{\text{A}}\)} \\
+			\toprule
+			\(A + B\) & 0 & 0 & 0 & 0 - add\\
+			\(A + (-B)\) & 0 & 1 & \(\overline{C_\text{out}}\) & 1 - sub \\
+			\((-A) + B\) & 1 & 0 & \(\overline{C_\text{out}}\) & 1 - sub\\
+			\((-A) + (-B)\) & 1 & 1 & 1 & 0 - add \\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+	\begin{minipage}{0.45\textwidth}
+		\begin{tabular}{c c c c c}
+			\textbf{diff - \(O\!P=0\)} & \textbf{\(\text{S}_\text{A}\)} & \textbf{\(\text{S}_\text{B}\)} & \textbf{\(\text{S}_\text{C}\)} & \textbf{S/\(\overline{\text{A}}\)} \\
+			\toprule
+			\(A - B\) & 0 & 0 & \(\overline{C_\text{out}}\) & 1 - sub \\
+			\(A - (-B)\) & 0 & 1 & 0 & 0 - add \\
+			\((-A) - B\) & 1 & 0 & 1 & 0 - add \\
+			\((-A) - (-B)\) & 1 & 1 & \(\overline{C_\text{out}}\) & 1 - sub \\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+\end{center}
+Dalla tabella di verità sopra si ottengono le seguenti espressioni logiche:
+\[\text{S}_\text{C} = \text{S}_\text{A} \cdot (O\!P \oplus \text{S}_\text{B}) + C_\text{out} \cdot (O\!P \oplus \text{S}_\text{A} \oplus \text{S}_\text{B}) \qquad \qquad \text{S}/\overline{\text{A}} = O\!P \oplus \text{S}_\text{A} \oplus \text{S}_\text{B}\]
+Il costo in MOS del blocco di gestione del segno secondo le funzioni logiche sopra è di 44 MOS.
+
+\subsubsection*{Modulo di un numero intero}
+Il modulo di un numero intero a \(n\) bit equivale a calcolare il complemento a 2 di tale numero. Per fare ciò è necessario
+negare il numero utilizzando \(n\) invertitori CMOS (2 MOS ciascuno) e una serie di \(n\) HA (16 MOS ciascuno) per sommare 1
+al numero negato e propagare il riporto per tutti i numeri. Per controllare meglio tutto ciò si aggiungono un parallelo di 
+\(n\) MUX 2:1 con invertitore in uscita (6 MOS ciascuno) per abilitare o disabilitare gli invertitori. Il costo in MOS del
+modulo è quindi di \(n \cdot (2 + 16 + 6) = 24 n\) MOS.
+
+\subsubsection*{Leading Zero Counter - LZC}
+Il leading zero counter (LZC) è un blocco che riceve in ingresso 4 bit \(x_3, x_2, x_1, x_0\) e produce in uscita un numero
+binario a due cifre \(q_1, q_0\) che rappresenta l'indice del primo bit a 1 (contando da sinistra a destra) e un bit \(a\) che
+vale 1 se tutti i bit in ingresso sono 0. Analizzando la tabella di verità si ottengono le seguenti espressioni logiche con
+un costo complessivo del 4-LZC di 22 MOS.
+\[q_1 = \overline{x_3 + x_2} \quad \text{(4 MOS)} \qquad q_0 = \overline{x_3 + \overline{x_2} \cdot x_1} \quad (2 + 6 MOS) \qquad a = x_3 + x_2 + x_1 + x_0 \quad \text{(8 + 2 MOS)}\]
+Siccome la mantissa di un numero floating point è più lunga di 4 bit, vengono combinati più LZC a 4 bit le cui coppie di uscite
+\(q_1, q_0\) vanno in un mux controllato dalle uscite \(q_0, q_1, \dots\) di altri 4-LZC che ricevono in input i segnali \(a\)
+dei LZC precedenti per selezionare il primo LZC che ha trovato un bit a 1.
+
+\subsubsection*{Stima dei MOS per un sommatore floating point}
+Sommando i vari contributi di tutti i componenti si ottengono approssimativamente i seguenti valori, osservando che la metà
+dei MOS sono impiegati nei sommatori (comparatore esponenti, sommatore esponenti, sommatore/sottrattore mantisse e moduli)
+e un terzo nei traslatori (allineamento mantisse e normalizzazione risultato).
+\begin{center}
+	\begin{tabular}{c c c}
+		\textbf{componente} & \textbf{singola precisione} & \textbf{doppia precisione} \\
+		\toprule
+ 		totale & 4819 mos & 9394 mos \\
+		di cui in sommatori: & 2329 mos & 4206 mos \\
+		di cui in traslatori: & 1556 mos & 3160 mos \\
+		\bottomrule		
+	\end{tabular}
+\end{center}
+
+\subsection{Moltiplicatore floating point}
+Il moltiplicatore floating point segue un algoritmo più semplice rispetto al sommatore in quanto la notazione floating
+point segno-mantissa-esponente è già una moltiplicazione:
+\[A = (-1)^{S_A} \cdot 2^{E_A-K} \cdot (1.M_A) \qquad B = (-1)^{S_B} \cdot 2^{E_B-K} \cdot (1.M_B) \qquad C = (-1)^{S_C} \cdot 2^{E_C-K} \cdot (1.M_C)\]
+\[C = A \cdot B = (-1)^{S_A \oplus S_B} \cdot 2^{E_A + E_B - K} \cdot (1.M_A \times 1.M_B)\]
+L'algoritmo di moltiplicazione floating point prevede quindi i seguenti passi:
+\begin{enumerate}
+	\item \textbf{costruzione della mantissa}: come nella somma, si  aggiunge il bit 1 all'inizio
+	\item \textbf{calcolo del segno}: si calcola il segno del risultato come XOR tra i segni degli operandi
+	\item \textbf{somma degli esponenti}: si sommano gli esponenti e si sottrae la costante \(K\)
+	\item \textbf{moltiplicazione delle mantisse}: si moltiplicano le mantisse degli operandi con un moltiplicatore
+	\item \textbf{normalizzazione del risultato}: si normalizza il risultato shiftando a destra o a sinistra la mantissa per avere
+	il primo bit a 1 e si modifica l'esponente di conseguenza; il calcolo del numero di posizioni da shiftare (numero di zeri iniziali) è eseguito dal \emph{leading zero counter} o LZC
+\end{enumerate}
+
+\subsubsection*{Stima del numero di transistor}
+Si osserva che il numero totale di MOS impiegati (nel moltiplicatore a doppia precisione) è dovuto in grandissima parte al
+moltiplicatore delle mantisse (più specificatamente alla matrice delle somme parziali):
+\begin{center}
+	\begin{tabular}{c c}
+		\toprule
+ 		totale doppia precisione: & 85474 mos \\
+		nel moltiplicatore: & 83438 mos \\
+		nella matrice di somme parziali: & 82166 mos \\
+		\bottomrule		
+	\end{tabular}
+\end{center}
+

@@ -1,0 +1,170 @@
+\section{Hardware per alto sforzo computazionale - GPU, ASIC, TPU}
+\subsection{Esempi di elaborazione dati ad alto sforzo computazionale}
+\subsubsection*{Elaborazione di immagini}
+L'elaborazione di immagini consiste in operazioni di convoluzione (prodotto di matrici) per applicazione di filtri.
+Equivale a calcolare matrici di somme di prodotti dati dalla sovrapposizione del kernel (filtro) sull'immagine originale.
+
+\subsubsection*{Simulazione numerica}
+La simulazione numerica consiste nel trovare le soluzioni approssimate ad esempio di equazioni differenziali utilizzando
+metodi matematici iterativi. Anche in questo caso ci si riconduce sempre a prodotti di matrici.
+
+\subsubsection*{Intelligenza artificiale}
+L'intelligenza artificiale (AI) si basa su reti neurali che simulano il funzionamento del cervello umano. L'elemento base
+di una rete neurale è il neurone artificiale, che riceve in ingresso un certo numero di segnali, effettua la somma pesata
+di tali segnali e restituisce in uscita un segnale ottenuto applicando una funzione di attivazione alla somma pesata.
+Tali operazioni di combinazione lineare degli ingressi con i relativi pesi possono essere rappresentate sempre come prodotti
+di matrici, ovvero somme di prodotti. La scelta dei pesi viene effettuata durante la fase di addestramento della rete neurale.
+
+Il machine learning si occupa di sviluppare algoritmi di apprendimeno automatico per l'addestramento delle reti neurali.
+Tale addestramento può avvenire in tre modi: supervisionato (con dati etichettati), non supervisionato (senza dati etichettati)
+e per rinforzo (con premi e punizioni).
+
+Un esempio di applicazione della rete neurale è la regressione lineare, ovvero trovare i coefficienti di una funzione
+polinomiale di grado \(n\) che meglio approssima un insieme di punti sul piano cartesiano. Risolvendo il problema ci
+si riconduce a calcolare il prodotto di matrici.
+
+Quando si dispone di un modello di rete neurale addestrato, si può procedere alla fase di inferenza, ovvero utilizzare la rete
+per effettuare previsioni su nuovi dati in ingresso. Il processo di inferenza è anch'esso basato su prodotti di matrici.
+Molte applicazioni richiedono tempi di inferenza molto rapidi, come ad esempio il riconoscimento vocale in tempo reale
+o la guida autonoma.
+
+\subsubsection*{Ruolo dell'elettronica}
+L'elettronica si occupa di progettare e realizzare dispositivi hardware in grado di eseguire in modo efficiente e rapido
+le operazioni di elaborazione richieste dalle nuove frontiere dell'intelligenza artificiale, come ad esempio i prodotti
+di matrici. I dispositivi sono ad esempio sensori, processori e hardware dedicati, memorie e interfacce di comunicazione.
+
+Date le elevate richieste di risposte sempre più rapide, si è passati da un modello cloud computing in cui i dati venivano
+inviati a server remoti per l'elaborazione, ad un modello edge computing in cui l'elaborazione avviene localmente sui dispositivi
+stessi, saltando il passaggio ai server remoti e riducendo così la latenza. È sempre più necessario disporre di hardware
+specializzato per l'elaborazione locale dei dati, come ASIC e TPU, realizzabili grazie alle moderne tecnologie
+di fabbricazione dei circuiti integrati.
+
+\subsection{GPU - Graphical Processing Unit}
+\subsubsection*{Architettura della GPU}
+La GPU è un processore ottimizzato per avere un altissimo flusso di dati ottenuto attraverso un elevato grado di parallelismo.
+Le GPU sono nate originariamente per l'elaborazione grafica (prodotto di matrici), ma si sono rivelate molto adatte anche
+per altri compiti come simulazione numerica, elaborazione di immagini mediche e intelligenza artificiale.
+
+Il numero di core di una GPU può arrivare a diverse migliaia (alto grado di parallelismo), a differenza delle CPU (ottimizzate
+invece per bassa latenza) che ne hanno al massimo poche decine.
+
+Un singolo dispositivo GPU è costituito da più Processor Cluster (PC), ognuno dei quali contiene più Streaming Multiprocessor
+(SM). Ogni SM contiene più core di elaborazione (ALU), raggrupati in blocchi, ciascuno con una propria cache SRAM e una propria
+Control Unit (CU) per la gestione del flusso di dati. Questo perché CU decodifica una stessa istruzione che viene poi eseguita
+in parallelo da tutte le ALU del blocco. Le SM condividono una memoria condivisa (shared memory) ad alta velocità.
+
+\subsubsection*{Consumi energetici delle GPU}
+Le GPU sono ottimizzate per le alte prestazioni per cui hanno consumi energetici elevati, che possono arrivare a centinaia di
+watt. Ogni GPU genera internamente il proprio clock di funzionamento, che può essere molto elevato per garantire alte
+prestazioni. Le GPU richiedono sistemi di raffreddamento dedicati per dissipare il calore generato.
+
+\subsubsection*{HBM - High Bandwidth Memory}
+Per gestire l'elevato flusso di dati è necessario affiancare alle GPU delle memorie ad alta velocità e larghezza di banda,
+dette HBM (High Bandwidth Memory). Le HBM sono memorie DRAM 3D impilate verticalmente (fino a 8 livelli) per aumentare la
+densità di memoria ed è situata sullo stesso package della GPU per ridurre la lunghezza delle piste dati e indirizzi,
+aumentando così la velocità di trasferimento dei dati. I collegamenti tra GPU e HBM avvengono tramite due controller HBM
+situati sulla GPU e sulla DRAM connessi tramite un bus dati molto largo (fino a 1024 bit) che si trova su un interposer
+di silicio per ridurre ulteriormente la lunghezza delle piste.
+
+\subsection{FPGA - Field Programmable Gate Array}
+\subsubsection*{Vantaggi e svantaggi delle FPGA}
+I dispositivi FPGA sono già stati discussi in precedenza, implementano gli algoritmi in hardware e sono un compromesso tra
+alte prestazioni (migliori di GPU e CPU) e riconfigurabilità sul campo. Inoltre hanno consumi energetici inferiori rispetto
+alle GPU e costi più contenuti che li rendono adatti per edge computing. Il principale svantaggio è la complessità di
+progettazione e programmazione, che richiede competenze specifiche in hardware design per sfruttare appieno le potenzialità
+delle FPGA.
+
+\subsection{ASIC - Application Specific Integrated Circuit}
+\subsubsection*{Vantaggi e svantaggi degli ASIC}
+Gli ASIC sono circuiti integrati progettati per eseguire una specifica funzione o un insieme di funzioni in modo ottimizzato.
+Le funzioni e gli algoritmi sono implementati a livello hardware e non sono riconfigurabili o aggiornabili. Gli ASIC offrono
+le migliori prestazioni in termini di velocità e consumi energetici rispetto a CPU, GPU e FPGA, poiché sono progettati
+specificamente per l'applicazione desiderata. Tuttavia hanno costi di sviluppo elevati e tempi di progettazione lunghi,
+che li rendono adatti solo per settori di nicchia con grandi volumi di produzione.
+
+\subsection{TPU - Tensor Processing Unit}
+\subsubsection*{Introduzione alle TPU}
+Un esempio di ASIC è la TPU (Tensor Processing Unit) sviluppata da Google dal 2016 per l'addestramento e l'inferenza di reti
+neurali utilizzate nell'intelligenza artificiale. Le TPU sono ottimizzate per eseguire operazioni di prodotto di matrici di
+dimensione 128\(\times\)128 di cui la matrice dei pesi si trova già precaricata nella rete combinatoria.
+
+Sono hardware specializzato con elaborazione near-memory o in-memory (bassa latenza con la memoria), con elevata banda di
+memoria (attualmente 4096 bit) e basso consumo grazie all'uso di dati a bassa precisione (8 bit). La scelta di operare a
+bassa precisione è giustificata dal fatto che le reti neurali sono tolleranti agli errori e possono funzionare correttamente
+anche con dati approssimati.
+
+La TPU è stata pensata per essere estremamente specializzata per l'AI e alcune scelte progettuali (come la bassa precisione)
+non la rendono adatta per altri tipi di elaborazioni generiche come simulazione numerica o elaborazione di immagini.
+
+\subsubsection*{Struttura generale delle TPU}
+Una TPU è organizzata in Tensor Core (TC), ognuno dei quali contiene una Scalar Unit (SU) per il calcolo scalare (flussi
+di controllo, calcolo di indirizzi di memoria, \dots), una Vector Unit (VU) per il calcolo vettoriale e quattro Matrix
+Multiplication Unit (MXU) per prodotto di matrici \(128\times128\) attraverso array sistolici ottimizzati. Ogni TC si
+intrefaccia con una memoria di tipo HBM (High Bandwidth Memory) per garantire un elevato flusso di dati.
+
+\subsubsection*{Architettura generale per il prodotto di matrici}
+Si suppone la moltiplicazione di matrici quadrate di dimensione \(N \times N\). Il risultato della moltiplicazione è una
+matrice sempre \(N \times N\) in cui ogni elemento è dato dalla somma di \(N\) prodotti. Per calcolare le somme di prodotti
+si utilizza un Processing Element (PE) costituito da un moltiplicatore, un sommatore e un registro di accumulo per memorizzare
+il risultato parziale. Si dispongono i PE in una struttura a matrice \(N \times N\) in cui ogni PE calcola una determinata
+entrata della matrice risultato. Attraverso il calcolo in parallelo, in \(N\) cicli di clock si riesce ad avere il risultato.
+
+Ci sono però delle criticità legate alla gestione del flusso di dati in ingresso e in uscita dai PE: tutti i PE di una stessa
+colonna (o riga) ricevono il ingresso il dato proveniente da uno stesso registro di ingresso che deve pilotare una pista
+molto lunga che attraversa tutta la matrice di PE. Inoltre, dopo aver calcolato il risultato, ogni PE deve inviare il
+risultato ad un registro di uscita, anch'esso collegato tramite una pista molto lunga. Queste lunghe piste generano ritardi
+non indifferenti ed un elevato consumo energetico. Per ovviare a questi problemi si utilizza una struttura ad array sistolico.
+
+\subsubsection*{Array sistolico e architettura della MXU}
+Un array sistolico è una struttura di calcolo ideata alla fine degli anni '70 per ottimizzare il flusso di dati in operazioni
+di calcoli paralleli e che è passata in secondo piano con l'avvento delle GPU e degli FPGA. È stata riscoperta recentemente
+per l'implementazione efficiente del prodotto di matrici nelle TPU a seguito dell'aumento di interesse per l'intelligenza
+artificiale.
+
+In un array sistolico, i PE sono sempre organizzati in una matrice \(N \times N\), ma i dati in ingresso ad ogni PE non
+provengono da registri di ingresso esterni tramite lunghe piste, bensì dai PE adiacenti. In questo modo si riducono
+notevolmente le lunghezze delle piste di collegamento, i tempi di propagazione e i consumi energetici. I dati in ingresso
+alle righe e alle colonne della matrice di PE provengono da registri a scorrimento (shift register) che forniscono i dati
+in modo seriale, un dato alla volta, ad ogni ciclo di clock. I dati si propagano attraverso la matrice di PE in modo simile
+al flusso sanguigno (il cuore con le sistoli ``spinge'' il sangue nelle arterie facendolo progredire un po' per volta ad ogni
+battito). In questo modo, dopo \(3N-2\) cicli di clock, i dati hanno attraversato ogni PE e gli accumulatori dei PE contengono
+il risultato voluto che è necessario leggere con una pista di uscita di lunghezza critica.
+
+Si osserva che nelle operazioni di prodotto di matrici di reti neurali, la matrice dei pesi rimane fissa e costante per cui
+si può precaricarla già all'interno dei PE, eliminando così la necessità di fornire in ingresso tale matrice e farla transitare
+lungo le colonne. Al suo posto si fa transitare il risultato parziale calcolato da ogni PE lungo le colonne così da evitare
+di avere le piste lunghe per la lettura del risultato finale. In questo modo dopo sempre \(3N-2\) cicli di clock, si ottengono
+in uscita dalle colonne i risultati finali in sequenza. Non essendoci più la necessità di accumulare i risultati parziali nei
+PE, si può eliminare la retroazione del registro di accumulo trasformandolo in un semplice registro di output. I PE diventano
+da reti combinatorie a semplici reti sequenziali composte da un moltiplicatore, un sommatore e un registro di output.
+
+\subsubsection*{Temporizzazione della TPU}
+Siccome i dati si propagano attraverso l'array sistolico ``diagonalmente'', le colonne più vicine all'ingresso ricevono i dati
+prima delle colonne più lontane e producono il risultato in output prima delle colonne più lontane. Per sincronizzare il flusso
+in uscita è necessario introdurre dei ritardi (buffering) nelle colonne più vicine all'ingresso in modo che tutte le colonne
+producono il risultato finale nello stesso ciclo di clock e possano essere lette e salvate in maniera più semplice.
+
+Si osserva che ogni risultato che si propaga verticalmente lungo l'array sistolico è indipendente dagli altri risultati
+e dai valori precedentemente calcolati dai singoli PE. Infatti i PE sono semplici reti sequenziali e non hanno memoria
+da resettare come nel caso degli accumulatori in array sistolici tradizionali. Quando è stato inviato l'ultimo dato in ingresso
+di una matrice, è quindi possibile iniziare subito ad inviare i dati della matrice successiva aumentando così il throughput
+dell'array sistolico (principio delle pipeline).
+
+\subsubsection*{Numero dei componenti della TPU}
+La versione iniziale di matrice non sistolica per il calcolo del prodotto di matrici quadrate richiede numeri di transistor
+molto elevati per matrici grandi e numeri ad alta precisione. Le architetture sarebbero quindi molto grandi, complesse e
+costose, ma (a differenza delle TPU) si ha il vantaggio di una maggiore flessibilità di utilizzo per diversi tipi di calcoli.
+\begin{center}
+	\begin{tabular}{c c c c}
+		\textbf{dimensione matrice} & \textbf{int 8bit} & \textbf{int 16bit} & \textbf{float 64bit} \\
+		\toprule
+		64 \(\times\) 64 & \(11 \cdot 10^6\) & \(44 \cdot 10^6\) & \(176 \cdot 10^6\) \\
+		128 \(\times\) 128 & \(40 \cdot 10^6\) & \(158 \cdot 10^6\) & \(632 \cdot 10^6\) \\
+		256 \(\times\) 256 & \(391 \cdot 10^6\) & \(1564 \cdot 10^6\) & \(6259 \cdot 10^6\) \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+Nelle TPU, grazie all'architettura sistolica e alla riduzione della precisione a 8 bit, è sufficiente un numero di transistor
+molto inferiore, che consente di realizzare chip di dimensioni contenute e con costi di produzione più bassi. Indicativamente,
+una singola MXU contiene \textbf{dai 32 ai 41 milioni di transistor} a seconda delle ottimizzazioni adottate all'interno
+di moltiplicatori, sommatori o registri.

@@ -1,0 +1,217 @@
+\section{Latch e Flip Flop}
+\subsection{Circuiti logici combinatori e sequenziali}
+Un circuito logico può essere:
+\begin{itemize}
+	\item combinatorio: se l'uscita dipende solo dal valore attuale degli ingressi
+	\item sequenziale: se l'uscita dipende anche dallo stato precedente del circuito (circuito con memoria)
+\end{itemize}
+I circuiti sequenziali possono essere:
+\begin{itemize}
+	\item asincroni: se lo stato cambia in funzione degli ingressi in qualsiasi istante di tempo
+	\item sincroni: se lo stato cambia solo in corrispondenza di un segnale di clock
+\end{itemize}
+
+\subsection{Latch}
+\subsubsection*{Struttura generale}
+Un latch è un circuito sequenziale asincrono che memorizza un bit di informazione. L'informazione memorizzata è sempre
+disponibile all'uscita in forma diretta \(Q\) e negata \(\overline{Q}\). L'informazione viene modificata in funzione
+di un segnale di abilitazione o clock \(EN/CLK\) e di un ingresso dati \(D\).
+
+\subsubsection*{Sincronizzazione dei latch}
+Il latch è uno strumento di memoria sensible ai livelli del segnale di clock \(CLK\) (o di abilitazione \(EN\)). Un latch
+può essere di due tipi:
+\begin{itemize}
+	\item \textbf{latch attivo alto}: quando il segnale di abilitazione è alto \(EN=1\), l'uscita \(Q\) segue l'ingresso
+	      dati \(D\) e il latch si dice trasparente. Quando il segnale di abilitazione è basso \(EN=0\), l'uscita \(Q\)
+		  mantiene il valore precedente e il latch è in modalità memoria.
+	\item \textbf{latch attivo basso}: quando il segnale di abilitazione è basso \(EN=0\), l'uscita \(Q\) segue l'ingresso
+	      dati \(D\) e il latch si dice trasparente. Quando il segnale di abilitazione è alto \(EN=1\), l'uscita \(Q\)
+		  mantiene il valore precedente e il latch è in modalità memoria.
+\end{itemize}
+Per distinguere i due tipi di latch, si inserisce un pallino (di negazione) sul segnale di abilitazione del latch attivo
+basso.
+
+\subsubsection*{Implementazione statica dei latch}
+L'Implementazione statica dei latch si basa sul \textbf{principio di bistabilità} propria di un anello con un numero pari
+di invertitori CMOS. Tale circuito possiede tre punti di equilibrio:
+\begin{itemize}
+	\item due punti di equilibrio stabili (bi-stabilità), corrispondenti ai due stati logici \(Q=0\) e \(Q=1\)
+	\item un punto di equilibrio instabile, corrispondente al valore logico intermedio tra i due stati logici, a cui basta
+	una piccola perturbazione per far sì che il circuito si porti in uno dei due stati stabili
+\end{itemize}
+Data l'elevato guadagno degli invertitori CMOS, un grande disturbo attorno ai punti di equilibrio stabili altera di poco
+il valore di uscita, che tende a ritornare rapidamente al punto di equilibrio stabile, mentre un piccolo disturbo attorno
+al punto di equilibrio instabile fa sì che il circuito si porti rapidamente in uno dei due stati stabili. Tale proprietà
+consegue dalla proprietà rigenerativa degli stadi invertitori CMOS e l'immunità ai disturbi è: \(NM = \min(V_M, V_{D\!D} - V_M)\).
+
+Per facilitare la scrittura dei dati nel latch (aggirando la proprietà rigenerativa), si utilizza \textbf{l'architettura multiplexer}
+con due porte TG, una  posizionata tra l'ingresso del dato e l'anello e l'altra posta tra i due invertitori. Sono controllate
+in maniera complementare dal segnale di abilitazione \(EN\):
+\begin{itemize}
+	\item quando \(EN=1\), la porta TG dell'ingresso è attiva e permette il passaggio del dato \(D\) verso l'anello,
+	mentre la porta TG tra i due invertitori è inattiva, disabilitando l'azione rigenerativa dell'anello e permettendo
+	così la scrittura del dato
+	\item quando \(EN=0\), la porta TG dell'ingresso è inattiva, bloccando il passaggio del dato \(D\) verso l'anello,
+	mentre la porta TG tra i due invertitori è attiva, abilitando l'azione rigenerativa dell'anello e permettendo
+	così la memorizzazione del dato
+\end{itemize}
+
+Il \textbf{tempo di memorizzazione} di un latch è il tempo impiegato dal segnale in ingresso \(D\) per propagarsi attraverso
+la porta TG, il primo invertitore e il secondo invertitore fino all'uscita \(Q\). In questo modo, all'inversione del segnale
+di abilitazione \(EN\), l'anello si trova già nel giusto stato logico e non ci sono fluttuazioni indesiderate nell'uscita \(Q\).
+\[t_\text{mem} = {t_p}^{TG} + {t_p}^{INV1} + {t_p}^{INV2}\]
+
+Al latch è possibile aggiungere un \textbf{segnale di reset asincrono} \(RST\) che forza l'uscita \(Q\) a zero indipendentemente
+dallo stato del segnale di abilitazione \(EN\) e dell'ingresso dati \(D\). Viene implementato sostituendo il primo invertitore
+con una porta NAND (sempre rigenerativa) con due ingressi: uno collegato alle TG (ingresso e anello) e l'altro collegato
+al segnale di reset \(RST\). In questo modo se \(RST=0\), l'uscita della porta NAND è forzata a 1 e tale valore viene
+propagato attraverso il secondo invertitore all'uscita \(Q\) portandola a 0. Quando \(RST=1\), la porta NAND si comporta
+come un invertitore normale. Per indicare la presenza del segnale di reset asincrono attivo basso, si inserisce un pallino
+(di negazione) sul segnale di reset \(RST\). Per rendere il RST attivo alto, si utilizza una porta NOR al posto della porta NAND.
+
+Al latch è possible aggiungere un \textbf{segnale di set asincrono} \(SET\) che forza l'uscita \(Q\) a uno indipendentemente
+dallo stato del segnale di abilitazione \(EN\) e dell'ingresso dati \(D\). Viene implementato allo stesso modo del segnale
+di reset \(RST\), sostituendo il secondo invertitore con una porta NAND. Quando \(SET=0\), l'uscita della porta NAND è forzata
+a 1 e tale nodo coincide con l'uscita \(Q\) che risulta a 1. Quando \(SET=1\), la porta NAND si comporta come un invertitore
+normale. Per indicare la presenza del segnale di set asincrono attivo basso, si inserisce un pallino (di negazione)
+sul segnale di set \(SET\). Per rendere il SET attivo alto, si utilizza una porta NOR al posto della porta NAND.
+
+Il numero di transistor per un latch base è di 8 transistor (2 porte TG e 2 invertitori CMOS). Con l'aggiunta del segnale
+di reset asincrono \(RST\) o del segnale di set asincrono \(SET\), il numero di transistor sale a 10. Con l'aggiunta
+di entrambi i segnali \(RST\) e \(SET\), il numero di transistor sale a 12.
+
+\subsubsection*{Implementazione dinamica dei latch}
+L'Implementazione dinamica dei latch si basa sul principio di \textbf{carica e scarica di un condensatore} \(C_L\) pilotata da un
+invertitore CMOS controllato attraverso una porta TG controllata dal segnale di abilitazione \(EN\). Quando il segnale di
+abilitazione è alto \(EN=1\), la porta TG è attiva e il condensatore \(C_L\) si scarica, portando l'uscita \(Q\) al valore
+logico opposto a quello dell'ingresso dati \(D\) (a causa dell'inversione dell'invertitore). Quando il segnale di abilitazione
+è basso \(EN=0\), la porta TG è inattiva e il condensatore \(C_L\) mantiene la carica, mantenendo stabile l'uscita \(Q\).
+
+Dato che il valore memorizzato nel condensatore \(C_L\) tende a scaricarsi nel tempo a causa delle correnti di perdita,
+è necessario un \textbf{refresh periodico} del dato memorizzato, che consiste nel riattivare periodicamente il segnale di
+abilitazione \(EN\) per ricaricare il condensatore \(C_L\). Inoltre non gode della proprietà rigenerativa degli anelli con
+invertitori CMOS, per cui il valore memorizzato nel condensatore \(C_L\) è soggetto a disturbi e rumore.
+
+Il vantaggio principale dell'implementazione dinamica dei latch è la riduzione del numero di transistor necessari per
+la realizzazione del circuito. Un latch dinamico richiede solo 4 transistor (1 porta TG e 1 invertitore CMOS) rispetto
+agli 8 transistor necessari per un latch statico.
+
+Il \textbf{tempo di memorizzazione} di un latch dinamico è il tempo impiegato dal segnale per propagarsi attraverso la prima
+porta TG, in quando non ci sono retroazioni da vincere e l'invertitore può agire anche dopo aver chiuso la porta TG.
+\[t_\text{mem} = {t_p}^{TG}\]
+
+\subsection{Flip flop}
+\subsubsection*{Struttura generale}
+Un flip flop è un circuito sequenziale sincrono che memorizza un bit di informazione ed ha la stessa struttura di un latch,
+solo che il segnale di abilitazione \(EN\) viene sostituito da un segnale di clock \(CLK\) che determina quando l'informazione
+deve essere aggiornata.
+
+\subsubsection*{Sincronizzazione dei flip flop}
+Il flip flop è uno strumento di memoria sensible ai fronti del segnale di clock \(CLK\). Un flip flop può essere di due tipi:
+\begin{itemize}
+	\item \textbf{flip flop al fronte di salita} o Positive Edge Triggered (PET): l'uscita \(Q\) viene aggiornata al fronte
+	di salita del segnale di clock \(CLK\) e solo in prossimità di tale fronte il FF è trasparente all'ingresso.
+	\item \textbf{flip flop al fronte di discesa} o Negative Edge Triggered (NET): l'uscita \(Q\) viene aggiornata al fronte
+	di discesa del segnale di clock \(CLK\) e solo in prossimità di tale fronte il FF è trasparente all'ingresso.
+\end{itemize}
+Per distinguere i due tipi di flip flop, si inserisce un pallino (di negazione) sul segnale di clock del flip flop al fronte
+di discesa.
+
+Il flip flop necessita di un tempo di setup \(t_\text{setup}\) prima del fronte di clock e di un tempo di hold \(t_\text{hold}\)
+dopo il fronte di clock, durante i quali l'ingresso dati \(D\) deve rimanere stabile per garantire la corretta memorizzazione
+del dato. 
+
+\subsubsection*{Implementazione in configurazione master-slave}
+Un flip flop può essere implementato utilizzando due latch in configurazione master-slave, controllati dallo stesso segnale
+di clock \(CLK\) ma con segnali di abilitazione complementari:
+\begin{itemize}
+	\item per avere un PET-FF, il latch master è attivo basso e il latch slave è attivo alto, quando il clock passa da 0 a 1,
+	il latch master si disabilita rendendo il dato memorizzato disponibile all'ingresso del latch slave, che si abilita e
+	diventa trasparente, aggiornando l'uscita \(Q\) con il dato memorizzato nel latch master, mentre quando il clock passa
+	da 1 a 0, il latch slave si disabilita mantenendo l'uscita \(Q\) stabile e il latch master si abilita, diventando
+	trasparente e permettendo la scrittura di un nuovo dato
+	\item per avere un NET-FF, il latch master è attivo alto e il latch slave è attivo basso, quando il clock passa da 1 a 0,
+	il latch master si disabilita rendendo il dato memorizzato disponibile all'ingresso del latch slave, che si abilita e
+	diventa trasparente, aggiornando l'uscita \(Q\) con il dato memorizzato nel latch master, mentre quando il clock passa
+	da 0 a 1, il latch slave si disabilita mantenendo l'uscita \(Q\) stabile e il latch master si abilita, diventando
+	trasparente e permettendo la scrittura di un nuovo dato
+\end{itemize}
+Il \textbf{tempo di memorizzazione} di un flip flop implementato in configurazione master-slave è composto da due fasi:
+\begin{itemize}
+	\item \textbf{tempo di setup}: necessario al latch master per propagare il dato in ingresso fino alla porta TG dell'anello
+	prima del fronte di clock
+	\item \textbf{tempo di hold}: siccome quando il clock cambia stato il latch master si disabilita rendendo stabile il dato
+	memorizzato per lo slave, non è necessario alcun tempo di hold
+\end{itemize}
+\[t_\text{setup} = {t_p}^{TG1} + {t_p}^{INV1} + {t_p}^{INV2} \qquad\qquad t_\text{hold} = 0\]
+
+Il tempo di propagazione \({t_p}^{FF}\) di un flip flop implementato in configurazione master-slave è il tempo impiegato
+dal FF a rendere disponibile il dato in uscita \(Q\) dopo il fronte di clock. Tale tempo è dato dal tempo di propagazione
+del dato attraverso il solo latch slave e dipende dal tipo di uscita (\(Q\) o \(\overline{Q}\)). Si nota che la porta TG2
+forma una rete di Elmore con l'invertitore precedente INV1.
+\[{t_p}^{CLK \rightarrow Q} = {t_p}^{TG3} + {t_p}^{INV3} \qquad\qquad {t_p}^{CLK \rightarrow\overline{Q}} = {t_p}^{TG3} + {t_p}^{INV3} + {t_p}^{INV4} \]
+
+\subsubsection*{Implementazione con clock a impulsi}
+Il flip flop controllato con clock a impulsi consiste in un latch (attivo alto) il cui segnale di abilitazione \(EN\) è
+pilotato da un circuito esterno che genera un impulso di breve durata in corrispondenza di uno dei fronti del segnale
+di clock \(CLK\). In questo modo, il flip flop è trasparente solo per la durata dell'impulso generato, permettendo così
+la memorizzazione del dato in ingresso \(D\) in corrispondenza del fronte del clock.
+
+Il cicuito di generazione di impulsi consiste ad esempio di una porta logica a due ingressi: uno collegato al segnale di
+clock \(CLK\) e l'altro collegato ad un ritardo del segnale di clock \(CLK_{delay}\) (anche invertito) attraverso una
+serie di invertitori CMOS. Quando entrambi i segnali hanno lo stesso livello, la porta logica produce un'uscita bassa.
+Quando il segnale di clock \(CLK\) cambia stato, l'uscita della porta logica diventa alta per la durata del ritardo
+introdotto dal circuito di ritardo, generando così un impulso di breve durata. È possible realizzare circuiti sensibili
+sia al fronte di salita che al fronte di discesa che ad entrambi i fronti del segnale di clock \(CLK\).
+
+In base a come viene realizzato il circuito di generazione di impulsi, cambiano i tempi di setup e di hold del flip flop.
+In generale l'impulso generato \(C\) (e il suo negato \(\overline{C}\)) vengono generati in ritardo rispetto al fronte
+del clock e devono essere stabili per un certo intervallo di tempo pari almeno al tempo di memorizzazione del latch
+\(t_\text{mem}\). Il tempo di setup è il tempo in cui il segnale di dati deve rimanere stabile prima del fronte del
+clock e siccome l'impulso \(C\) viene generato dopo un certo ritardo di solito è nullo. Il tempo di hold è il tempo
+tra il fronte di clock e la fine dell'impulso \(C\) (e \(\overline{C}\)) ovvero quando si invertono le porte TG del latch,
+generalmente è maggiore del tempo di memorizzazione del latch in quanto include i ritardi introdotti nella generazione
+del segnale \(C\). Il tempo di propagazione è pari al tempo tra il fronte di clock e il momento in cui il dato è reso
+disponible all'uscita \(Q\) e generalmente è minore del tempo di hold in quanto il dato viene reso disponibile prima
+della chiusura delle porte TG del latch ed è maggiore del tempo di memorizzazione del latch in quanto vengono inclusi
+anche i ritardi introdotti nella generazione del segnale \(C\).
+
+\subsubsection*{Implementazione dinamica}
+Un flip flop può essere implementato utilizzando due latch dinamici complementari in configurazione master-slave con
+lo stesso principio descritto precedentemente. È inoltre possibile implementare un flip flop dinamico con clock a impulsi
+utilizzando un singolo latch dinamico come descritto sopra. Utilizzando latch dinamici, si riduce il numero di transistor
+necessari, ma si devono considerare i problemi legati alla perdita di carica del condensatore e alla vulnerabilità ai disturbi.
+
+Il tempo di setup è il tempo impiegato dal dato in ingresso \(D\) per propagarsi attraverso la porta TG, non serve che
+si propaghi anche per l'invertitore, siccome (a differenza del flip flop statico) non c'è nessuna retroazione da vincere.
+Il tempo di hold è sempre zero, siccome quando il clock cambia stato il latch si disabilita rendendo stabile il dato memorizzato.
+Il tempo di propagazione del flip flop dinamico è analogo al tempo di propagazione del solo latch dinamico, ovvero è il tempo
+che il dato ci impiega a propagarsi dal primo invertitore all'uscita, si nota che la porta TG2 forma una rete di Elmore con
+l'invertitore precedente.
+\[t_\text{setup} = {t_p}^{TG} \qquad\qquad t_\text{hold} = 0 \qquad \qquad {t_p}^{FF} = {t_p}^{INV1} + {t_p}^{TG2} + {t_p}^{INV2}\]
+
+\subsection{Registri di flip flop}
+I registri sono un esempio di circuito sequenziale sincrono costituito da più flip flop in parallelo dello stesso tipo,
+controllati dallo stesso segnale di clock, che permettono di memorizzare più bit di informazione contemporaneamente.
+Come i flip flop, i registri possono essere Positive Edge Triggered (PET) o Negative Edge Triggered (NET).
+
+\subsection{Disallineamento del clock}
+Siccome i latch e i flip flop contengono porte TG, per pilotarle è necessario avere sia il segnale di clock \(CLK\)
+che il suo complementare \(\overline{CLK}\). Tuttavia, non è detto che i fronti (opposti) dei due segnali coincidano
+perfettamente a causa di ritardi di propagazione nei circuiti di generazione del segnale di clock complementare. Questo
+fenomeno è noto come \textbf{disallineamento del clock}.
+
+Nei latch (e FF) con implementazione statica, il disallineamento può provocare brevi periodi in cui entrambe le porte TG sono
+attive, ma con il fenomeno della rigenerazione, il circuito tende a stabilizzarsi in autonomia senza creare grossi danni. Nei
+latch (e FF) con implementazione dinamica, l'apertura di entrambe le porte TG può causare un collegamento diretto tra ingresso
+e uscita del latch creando un fenomeno di race non voluto.
+
+Per risolvere il problema si utilizzano segnali di clock non sovrapposti, ovvero sdoppia un segnale di clock \(CLK\) in due
+segnali \(CLK1\) e \(CLK2\) tali per cui quando uno è attivo l'altro è sempre inattivo. Questi segnali piloteranno ciascuno
+una delle due porte TG del latch (o FF) e garantiranno che non siano mai attive contemporaneamente.
+
+Il circuito di generazione del segnale di clock non sovrapposti può essere implementato con due porte NOR o NAND con le
+uscite retroazionate agli ingressi reciproci e controllate dai segnali di clock \(CLK\) e \(\overline{CLK}\). Nel caso della
+NOR l'uscita ad 1 è vincolata dal fatto che l'altra uscita deve rimanere a 0 e in questo modo i segnali non si sovrappongono
+mai a 1. Viceversa nel caso della NAND l'uscita a 0 è vincolata dal fatto che l'altra uscita deve rimanere a 1 e in questo
+modo i segnali non si sovrappongono mai a 0. Il tempo di non sovrapposizione è pari al tempo di propagazione delle porte NOR e NAND .
