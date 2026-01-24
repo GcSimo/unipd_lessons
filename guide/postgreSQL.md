@@ -2,12 +2,13 @@
 
 ## Avvio del server PostgreSQL (Homebrew)
 
-| command                                 | description                                              |
-| --------------------------------------- | -------------------------------------------------------- |
-| ``brew services start postgresql@18``   | avvio del server di PostgreSQL (installato via Homebrew) |
-| ``brew services stop postgresql@18``    | arresto del server di PostgreSQL                         |
-| ``brew services restart postgresql@18`` | riavvio del server di PostgreSQL                         |
-| ``brew services list``                  | verifica dello stato del server di PostgreSQL            |
+| command                                 | description                                                                     |
+| --------------------------------------- | ------------------------------------------------------------------------------- |
+| ``brew services start postgresql@18``   | avvio del server di PostgreSQL e attivazione dell'avvio automatico al login     |
+| ``brew services run postgresql@18``     | avvio del server di PostgreSQL senza attivazione dell'avvio automatico al login |
+| ``brew services stop postgresql@18``    | arresto del server di PostgreSQL                                                |
+| ``brew services restart postgresql@18`` | riavvio del server di PostgreSQL                                                |
+| ``brew services list``                  | verifica dello stato del server di PostgreSQL                                   |
 
 ## Connessione al database tramite ``psql``
 ```bash
@@ -33,35 +34,35 @@ psql -U nome_utente -d database -p numero_porta -h indirizzo_host
 | ``\q``               | Esce da ``psql``.                                                              |
 
 ## Comandi SQL di Data Definition Language
-```
+```sql
 CREATE DATABASE <database_name> [OWNER <username>] [ENCODING <encoding_name>];
 ```
 Crea un nuovo database con il nome specificato, opzionalmente specificando il proprietario e la codifica dei caratteri. Ad esempio, per creare un database chiamato "Example" con codifica UTF-8: ``CREATE DATABASE Example ENCODING 'UTF-8';``
 
 ---
 
-```
+```sql
 DROP DATABASE <database_name>;
 ```
 Elimina il database specificato. Ad esempio, per eliminare un database chiamato "Example": ``DROP DATABASE Example;``
 
 ---
 
-```
+```sql
 CREATE SCHEMA <schema_name> [AUTHORIZATION <username>];
 ```
 Crea uno schema (namespace) all'interno del database corrente. Ad esempio, per creare uno schema chiamato "my_schema": ``CREATE SCHEMA my_schema;``
 
 ---
 
-```
+```sql
 DROP SCHEMA <schema_name> [CASCADE | RESTRICT];
 ```
 Elimina lo schema specificato. L'opzione ``CASCADE`` elimina anche tutti gli oggetti all'interno dello schema, mentre ``RESTRICT`` impedisce l'eliminazione se lo schema contiene oggetti. Il comportamento di default è ``RESTRICT``. Ad esempio, per eliminare uno schema chiamato "my_schema": ``DROP SCHEMA my_schema;``
 
 ---
 
-```
+```sql
 CREATE TABLE <schema_name>.<table_name> (
 	<column_name> <data_type> [<default_value>] [<constraint>],
 	{, <column_name> <data_type> [<default_value>] [<constraint>]}
@@ -79,7 +80,7 @@ I constraint possono essere:
 - ``FOREIGN KEY <key_name> (<column_name> [, <column_name>]) REFERENCES <referenced_base_table> [(<column_name> [, <column_name>])] [ON DELETE <action>] [ON UPDATE <action>]``: definisce una chiave esterna che fa riferimento a un'altra tabella, con azioni opzionali per la cancellazione e l'aggiornamento (``NO ACTION`` default behaviour per proibire l'azione, ``CASCADE`` rimuove tutte le righe associate alla riga rimossa, ``SET NULL`` imposta a ``NULL`` le colonne coinvolte, ``SET DEFAULT`` imposta al valore di default le colonne coinvolte)
 
 Ad esempio, per creare una tabella chiamata "employees" con colonne "id", "name" e "age" nello schema "company":
-```
+```sql
 CREATE TABLE company.employees (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(100) NOT NULL,
@@ -89,14 +90,14 @@ CREATE TABLE company.employees (
 
 ---
 
-```
+```sql
 DROP TABLE <table_name> [CASCADE | RESTRICT];
 ```
 Elimina la tabella specificata. L'opzione ``CASCADE`` elimina anche gli oggetti che dipendono dalla tabella, mentre ``RESTRICT`` impedisce l'eliminazione se la tabella è referenziata da altri oggetti. Il comportamento di default è ``RESTRICT``. Ad esempio, per eliminare una tabella chiamata "employees": ``DROP TABLE employees;``
 
 ---
 
-```
+```sql
 ALTER TABLE <table_name> <
 	ADD COLUMN <column_definition> |
 	DROP COLUMN <column_name> [RESTRICT | CASCADE] |
@@ -107,44 +108,60 @@ ALTER TABLE <table_name> <
 ```
 
 ## Comandi SQL di Data Manipulation Language
-```
+```sql
 INSERT INTO <table_name> [(<column_name> [, <column_name>])] VALUES (<column_value> [, <column_value>]);
 ```
 Inserisce una nuova riga nella tabella specificata con i valori forniti per le colonne specificate. Ad esempio, per inserire una nuova riga nella tabella "employees" con i valori "John Doe" e 30 per le colonne "name" e "age": ``INSERT INTO employees (name, age) VALUES ('John Doe', 30);``
 
 ---
 
-```
+```sql
 DELETE FROM <table_name> [WHERE <expression>];
 ```
 Rimuove le righe dalla tabella specificata che soddisfano la condizione specificata nella clausola ``WHERE``. Se non viene specificata alcuna condizione, tutte le righe della tabella verranno eliminate. Ad esempio, per eliminare le righe dalla tabella "employees" dove l'età è maggiore di 60: ``DELETE FROM employees WHERE age > 60;``
 
 ---
 
-```
+```sql
 UPDATE <table_name> SET <column_name> = <expression> | NULL | DEFAULT [, <column_name> = <expression> | NULL | DEFAULT] [WHERE <expression>];
 ```
 Aggiorna le righe nella tabella specificata, impostando i valori delle colonne specificate in base alle espressioni fornite. La clausola ``WHERE`` può essere utilizzata per limitare le righe da aggiornare. Ad esempio, per aggiornare l'età di tutti i dipendenti con il nome "John Doe" a 31: ``UPDATE employees SET age = 31 WHERE name = 'John Doe';``
 
 ---
 
-```
+```sql
 SELECT [DISTINCT | ALL] <column_list> | *
 	FROM <table_name> [<joint_type> JOIN <tbale_name> ON <join_condition>] [WHERE <expression>] [GROUP BY <column_list> [HAVING <expression>]] [ORDER BY <column_name> [ASC | DESC] [, <column_name> [ASC | DESC]]]
 ```
 Accede ai dati memorizzati nelle tabelle del database e restituisce i risultati in base alle condizioni specificate.  La clausola ``JOIN`` consente di combinare righe da due o più tabelle in base a una condizione correlata tra di esse. La clausola ``WHERE`` filtra i risultati in base a una condizione specifica. La clausola ``GROUP BY`` raggruppa i risultati in base ai valori di una o più colonne, mentre la clausola ``HAVING`` filtra i gruppi in base a una condizione specifica. La clausola ``ORDER BY`` ordina i risultati in base ai valori di una o più colonne, in ordine crescente (``ASC``) o decrescente (``DESC``).
 
-L'ordine con cui sono valutate le clausole è il seguente:
-1. ``FROM`` (inclusi i join)
-2. ``WHERE``
-3. ``GROUP BY`` e ``HAVING``
-4. ``SELECT``
-5. ``ORDER BY``
+L'ordine logico con cui sono valutate le clausole è il seguente. Non è detto che corrisponda all'effettivo ordine reale di esecuzione che può variare a seconda dell'ottimizzazione del DBMS.
+1. ``FROM e JOIN`` - (join operations)
+2. ``WHERE`` - (selections)
+3. ``GROUP BY`` e ``HAVING`` - (aggregate functions e grouping)
+4. ``SELECT`` - (projections)
+5. ``ORDER BY`` - (sorting)
+
+---
+Esempi di clausole ``WHERE``:
+```sql
+-- seleziona i valori contenuti nella tupla 
+... WHERE <column_name> IN (<value1>, <value2>, ... ) ...
+
+-- seleziona i valori compresi in un intervallo
+... WHERE <column_name> BETWEEN <value1> AND <value2> ...
+
+-- seleziona i valori maggiori o uguali a value1 e minori o uguali a value2
+... WHERE <column_name> >= <value1> AND <column_name> <= <value2> ...
+
+-- seleziona i valori uguali a value1 oppure uguali a value2
+... WHERE <column_name> = <value1> OR <column_name> = <value> ...   
+```
 
 ---
 
-```
-... WHERE <coliumn_name> LIKE '<pattern>' ...
+```sql
+... WHERE <column_name> LIKE '<pattern>' ...
 ```
 
 L'operatore ``LIKE`` viene utilizzato nella clausola ``WHERE`` per cercare un modello specifico all'interno di una colonna di tipo stringa. I caratteri jolly comunemente usati con ``LIKE`` sono:
@@ -154,13 +171,123 @@ Ad esempio, per selezionare tutte le righe dalla tabella "employees" dove il nom
 
 ---
 
-```
+```sql
 SELECT <column_name>, COUNT(*) FROM <table_name> GROUP BY <column_name> HAVING COUNT(*) > <number>;
 ```
 
 Esegue una query che raggruppa i risultati in base ai valori di una colonna specificata e conta il numero di righe in ciascun gruppo. La clausola ``HAVING`` filtra i gruppi in base a una condizione specifica. Ad esempio, per contare il numero di dipendenti in ciascun reparto e mostrare solo i reparti con più di 5 dipendenti: ``SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 5;``
 Al posto di ``COUNT(*)``, è possibile utilizzare altre funzioni di aggregazione come ``SUM(column_name)``, ``AVG(column_name)``, ``MIN(column_name)``, e ``MAX(column_name)``.
 
+Le colonne nella clausola ``SELECT`` vanno soltanto specificate le colonne presenti nella clausola ``GROUP BY``. Se le colonne sono diverse, la query funziona lo stesso in postgre solo se esiste una dipendenza funzionale tra le colonne della clausola ``SELECT`` e quelle della clausola ``GROUP BY``, ma tale comportamento è molto rischioso e non standard SQL.
+
+---
+### Nested queries
+```sql
+SELECT * FROM <table_name> WHERE <column_name> IN (SELECT <column_name>/<aggregate_function> FROM <table_name> WHERE <condition>);
+```
+È possibile annidare una query all'interno di un'altra query come parte delle clausole ``SELECT``, ``FROM``, o ``WHERE``. Ad esempio per individuare lo studente che ha ottenuto il punteggio più alto nell'esame "DB" si calcola il voto massimo all'interno della clausola ``WHERE``.
+```sql
+SELECT * FROM students WHERE score = (SELECT MAX(mark) FROM students WHERE course = "DB");
+```
+
+### Viste
+```sql
+CREATE [MATERIALIZED] VIEW <view_name> AS
+	SELECT <column_list> | * FROM <table_name> [WHERE <condition>];
+```
+La vista è un risultato intermedio di una query SQL che può essere riutilizzato come una tabella virtuale in altre query. Esistono due tipi di viste:
+- **viste online**: viene salvata solo la query per costruire tali viste i dati vengono sempre ricalcolati ogni volta che tali viste vengono inserite all'interno di una query per cui sono molto dispendiose in termini di tempo di calcolo
+- **materialized views**: memorizzano anche il risultato della vista per evitarne il ricalcolo, occupano tanto spazio e rischiano di essere non aggiornate rispetto alle tabelle sottostanti 
+Tutte le query che utilizzano una vista possono essere riscritte in una sola query utilizzando le nested queries.
+
+---
+## Query SQL e algebra relazionale
+### Selezione (Selection)
+$\rho_{\texttt{condition}}(\texttt{table\_name})$
+```sql
+SELECT * FROM table_name WHERE condition;
+```
+
+### Proiezione (Projection)
+$\pi_\texttt{<column list>} (\texttt{<table\_name>})$
+```sql
+SELECT DISTINCT <column list> | * FROM <table_name>;
+```
+Il linguaggio SQL permette di avere tuple duplicate nella tabella derivata, per far corrispondere la query sql con l'algebra relazionale si usa la parola chiave ``DISTINCT``.
+
+### Ordinamento (Sorting)
+non visto in algebra relazionale
+```sql
+SELECT * FROM table_name ORDER BY <column_name> [ASC | DESC] [, <column_name> [ASC | DESC]];
+```
+
+### Renaming
+$\rho_{\texttt{new\_name}}(\texttt{table\_name})$
+```sql
+SELECT * FROM table_name AS new_name;
+```
+
+### Set Operators
+$R \cup S$, $R \cap S$, $R - S$
+```sql
+<query1> UNION [ALL] <query2>;
+<query1> INTERSECT [ALL] <query2>;
+<query1> EXCEPT [ALL] <query2>;
+```
+A differenza di altri DMBS e dell'algebra relazionale, non c'è alcun requisito sui nomi degli attributi; è sufficiente che il numero di colonne e i tipi di dati siano compatibili.
+
+### Aggregate Functions
+$\rho_{\texttt{new\_column\_name}} (\mathcal{F}_{\texttt{AGGRREGATE\_FUNCTION}(\texttt{<column\_name>})} (\texttt{<table\_name>}))$
+```sql
+SELECT AGGREGATE_FUNCTION([DISTINCT] <column_name>) AS new_column_name FROM <table_name>;
+```
+
+### Grouping
+$\rho_{\texttt{<grouping\_columns>, <new\_aggregate\_column\_name>}} (_{\texttt{<grouping\_columns>}} \mathcal{F}_{\texttt{AGGREGATE\_FUNCTION}(\texttt{<column\_name>})} (\texttt{<table\_name>}))$
+```sql
+SELECT <column_list>, AGGREGATE_FUNCTION([DISTINCT] <column_name>) AS <new_aggregate_column_name> FROM <table_name> GROUP BY <grouping_columns> HAVING <condition> ORDER BY <column_name> [ASC | DESC];
+```
+Da fare attenzione alle condizioni nella clausola ``HAVING``: siccome viene eseguita prima del rename della colonna aggregata, bisogna utilizzare il nome originale della colonna ``AGGREGATE_FUNCTION(<column_name>)`` e non il nuovo nome ``<new_column_name>``.
+Inoltre si osserva che ``HAVING`` filtra sulle tuple dopo il raggruppamento, mentre il ``WHERE`` filtra sulle tuple prima del raggruppamento. 
+
+### JOIN
+- Inner Join: $\quad R \bowtie_{common\_column\_from\_r = common\_column\_from\_s} S$
+```sql
+SELECT * FROM R AS r [INNER] JOIN S AS s ON r.common_column = s.common_column;
+```
+
+- Natural Join: $\quad R \bowtie S$
+```sql
+SELECT * FROM R [NATURAL] JOIN S;
+```
+
+- Left Outer Join: $\quad R \ \texttt{⟕}_{common\_column\_from\_r = common\_column\_from\_s} \ S$
+```sql
+SELECT * FROM R LEFT [OUTER] JOIN S ON R.common_column = S.common_column;
+```
+
+- Right Outer Join: $\quad R \ \texttt{⟖}_{common\_column\_from\_r = common\_column\_from\_s} \ S$
+```sql
+SELECT * FROM R RIGHT [OUTER] JOIN S ON R.common_column = S.common_column;
+```
+
+- Full Outer Join: $\quad R \ \texttt{⟗}_{common\_column\_from\_r = common\_column\_from\_s} \ S$
+```sql
+SELECT * FROM R FULL [OUTER] JOIN S ON R.common_column = S.common_column;
+```
+
+- Multiple Joins: $\quad R \bowtie_{\theta_1} S \bowtie_{\theta_2} T$
+```sql
+SELECT * FROM R AS r
+	[INNER] JOIN S AS s ON r.common_column1 = s.common_column1
+	[INNER] JOIN T AS t ON s.common_column2 = t.common_column2;
+```
+
+- Generalize projection: $\quad \rho_\texttt{<column\_list>,age} \mathcal{F}_{\texttt{get\_age}(\texttt{<date\_column>})}(R)$
+```sql
+SELECT r.<column_list>, EXTRACT(YEAR FROM AGE(CURRENT_DATE, r.<date_column>)) AS age FROM R AS r
+```
+La funzione ``AGE`` restituisce l'intervallo di tempo tra due date, in questo caso l'età attuale della persona, con ``EXTRACT(YEAR FROM ...)`` si estrae solo la parte dell'anno.
 
 ## Tipi di dato in SQL
 ### Dati built-in:
@@ -206,6 +333,8 @@ A range type represents a range of values of some element type (called range's s
 Stores JSON (JavaScript Object Notation) data.
 - ``json``: stores an exact copy of the input text, which must be a valid JSON value
 - ``jsonb``: stores data in a decomposed binary format that makes it slightly slower to input due to added conversion overhead, but significantly faster to process, since no reparsing is needed
+
+JSON Types are extensively used in Non Relational Databases aka NoSQL databases.
 
 ### Custom Types - Enumerated Types
 ```

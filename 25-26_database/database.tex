@@ -1,0 +1,624 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+\usepackage{graphicx} % per immagini
+\usepackage{listings} % per codice
+\usepackage{xcolor} % per colori
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+% per elenchi puntati
+\setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
+\setlist[enumerate]{partopsep=0pt, topsep=3pt, itemsep=0pt}
+
+% percorso delle immagini da inserire
+\graphicspath{{./}}
+
+% definizione colori
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% definizione stile per codice
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=none,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+	upquote=true
+}
+
+% utilizzo stile
+\lstset{style=mystyle}
+
+\title{Appunti di Basi di dati}
+\author{Giacomo Simonetto}
+\date{Primo semestre 2025-26}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+	Appunti del corso di Basi di dati della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Introduzione}
+\subsubsection*{Dato vs informazione}
+\begin{itemize}
+	\item il dato è la registrazione di un veneto effettuata attraverso dei simboli e salvata su un supporto, in un dato puro
+	non c'è nessun contesto per interpretarlo
+	\item l'informazione è il dato con il contesto associato, ovvero è un dato interpretabile
+\end{itemize}
+
+\subsubsection*{Dati strutturati vs non strutturati}
+\begin{itemize}
+	\item i dati strutturati sono dati che possono facilmente ed efficientemente essere organizzati in tabelle, sono ad esempio
+	numeri, date, stringhe, ecc., sono facili da memorizzare ed analizzare
+	\item i dati non strutturati sono dati che non possono essere facilmente organizzati in tabelle, sono ad esempio immagini,
+	video, audio, documenti di testo, ecc., richiedono più spazio per poter essere memorizzati e serve un processo di
+	strutturazione per poterli analizzare
+\end{itemize}
+
+\subsubsection*{Basi di dati}
+Le basi di dati o database sono collezioni organizzate e permanenti di dati strutturati coerenti che permettono di memorizzare,
+gestire e recuperare informazioni (dati e contesto) in modo efficiente. Vengono realizzati su misura per rispondere alle esigenze
+di specifiche applicazioni e utenti. Modellano un piccolo aspetto del mondo reale, ovvero rappresentano un miniworld.
+I database sono:
+\begin{itemize}
+	\item centralizzati (i dati sono memorizzati su un unico server) o distribuiti (i dati sono memorizzati su più server
+	collegati in rete)
+	\item persistenti: i dati rimangono memorizzati anche quando il sistema viene spegnimento
+	\item condivisi: più utenti e applicazioni possono accedere e manipolare i dati contemporaneamente
+\end{itemize}
+
+\subsubsection*{DataBase Managment System (DBMS)}
+Il DBMS sono software che permetton di gestire e interagire con i dati all'interno di un database. Garantiscono:
+\begin{itemize}
+	\item integrità: mantengono i dati corretti e coerenti secondo le regole definite
+	\item sicurezza: proteggono i dati da accessi non autorizzati
+	\item efficienza: ottimizzano l'archiviazione e il recupero dei dati
+\end{itemize}
+
+Oltre ai dati veri e propri, i DBMS memorizzano anche metadati, ovvero informazioni testuali su come interpretare e organizzare
+i dati.
+
+\newpage
+
+\section{Modello ER}
+
+\newpage
+
+\section{Modello relazionale}
+
+\newpage
+
+\section{Algebra relazionale}
+
+\newpage
+
+\section{Linguaggio SQL}
+\subsection{Elementi fondamentali al linguaggio SQL}
+\subsubsection*{Tabella}
+Una tabella è una collezione di zero o più colonne ordinate e zero o più righe non ordinate. Non è possibile avere tabelle con
+lo stesso nome e non è possibile avere righe duplicate. Ogni colonna può memorizzare solo uno specifico tipo di dato. Le tabelle
+vengono utilizzate nei database relazionali per memorizzare e organizzare i dati in modo strutturato. Esistono due tipi di
+tabelle in SQL:
+\begin{itemize}
+	\item \textbf{tabelle base}: tabelle che rispettano i vincoli e contengono i dati memorizzati nel database
+	\item \textbf{tabelle derivate}: tabelle ottenute da una query e non necessariamente rispettano i vincoli
+\end{itemize}
+
+\subsubsection*{Query}
+La query sono operazioni compiute su una o più tabelle per recuperare, inserire, aggiornare o eliminare dati. In genere possono
+restituire una tabella derivata come risultato. Le query terminano con un ``\texttt{;}''.
+
+\subsubsection*{Schema e istanza}
+\begin{itemize}
+	\item \textbf{lo schema} definisce come i dati sono organizzati nel database (tabelle, colonne, tipi di dato delle tabelle, relazioni
+	tra tabelle, vincoli, ecc.). Uno schema non contiene dati e molto difficilmente cambia nel tempo. Gli schemi in SQL sono
+	raggiuppati in ``catalog'' che in SQL sono anche detti ``database''
+	\item \textbf{l'istanza} è il contenuto effettivo del database in un dato momento, si riferisce ai dati memorizzati e cambia
+	frequentemente
+\end{itemize}
+
+\subsection{Linguaggio SQL}
+\subsubsection*{Introduzione}
+Il linguaggio SQL (Structured Query Language) è un linguaggio standard per la gestione e manipolazione di database relazionali
+attraverso i DBMS. SQL è un linguaggio dichiarativo, ovvero l'utente specifica cosa vuole ottenere senza dover specificare come
+esattamente eseguire l'operazione. Implementa lo schema relazionale e l'algebra relazionale.
+È composto da due sotto-linguaggi:
+\begin{itemize}
+	\item \textbf{DDL (Data Definition Language)}: per definire e modificare la struttura del database
+	\item \textbf{DML (Data Manipulation Language)}: per manipolare i dati all'interno delle tabelle
+\end{itemize}
+Esistono vari livelli di implementazione di SQL in base alle funzioni offerte:
+\begin{itemize}
+	\item \textbf{entry SQL}: simile a SQL-89, include le funzionalità di base per la gestione dei dati
+	\item \textbf{intermediate SQL}: con funzionalità più complesse implementate nella maggior parte dei DBMS
+	\item \textbf{full SQL}: include tutte le funzionalità definite dallo standard SQL che non è detto siano implementate
+	di base in qualsiasi DBMS
+\end{itemize}
+
+\subsubsection*{Sintassi di SQL}
+\begin{itemize}
+	\item \textbf{alfabeto}: i simboli validi per scrivere query SQL sono lettere (A-Z, a-z), numeri (0-9) e alcuni caratteri
+	speciali; per scrivere le lettere accentate si usano sequenze di escape (\texttt{U\&'d\(\backslash\)0061 = a})
+	\item \textbf{token}: sono le unità lessicali delle query in SQL, si dividono in:
+	\begin{itemize}[topsep=0pt]
+		\item \textbf{identificatori}: nomi di oggetti del database (tabelle, colonne, vincoli, ecc.), sono case-insensitive e
+		possono essere regular (iniziano con una lettera e contengono lettere, numeri e \texttt{\_}) o delimited (racchiusi
+		tra doppi apici, diventano case-sensitive e possono contenere qualsiasi carattere, es. \texttt{"Column-1\&2" })
+		\item \textbf{keywords}: parole riservate di SQL (\texttt{SELECT}, \texttt{FROM}, \texttt{WHERE}, ecc.), sono case-insensitive
+		\item \textbf{literals}: valori costanti (numeri, stringhe, date, ecc.), sono case-sensitive e possono essere scritti
+		racchiusi tra apici singoli (\texttt{\textquotesingle Mario Rossi\textquotesingle})
+	\end{itemize}
+	\item \textbf{separatori}: caratteri che separano i token (white space) o commenti (\texttt{--} ~ o ~ \texttt{/* ...\ */})
+\end{itemize}
+
+\subsection{Data types in SQL}
+\subsubsection*{Dati built-in}
+\begin{itemize}
+	\item \texttt{CHARACTER(n)}, \texttt{CHAR(n)}: stringa di lunghezza fissa di esattamente n caratteri (n \(>\) 0)
+	\item \texttt{CHARACTER VARYING(n)}, \texttt{VARCHAR(n)}: stringa di lunghezza variabile fino a n caratteri (n \(>\) 0)
+	\item \texttt{BINARY(n)}: stringa di lunghezza fissa di esattamente n byte (n \(>\) 0)
+	\item \texttt{BINARY VARYING(n)}, \texttt{VARBINARY(n)}: stringa di lunghezza variabile fino a n byte (n \(>\) 0).
+	\item \texttt{NUMERIC(p [, s])}: numero a precisione arbitraria con p cifre totali e s cifre nella parte frazionaria. È
+	particolarmente raccomandato per memorizzare importi monetari e altre quantità dove è richiesta esattezza, ad esempio denaro.
+	\item \texttt{SMALLSERIAL}, \texttt{SERIAL}, \texttt{BIGSERIAL} [PostgreSQL only]: intero auto-incrementante
+	\item \texttt{INTEGER}: intero con segno (in PostgreSQL: 4 bytes integer \( \in [-2147483648, +2147483647]\))
+	\item \texttt{SMALLINT}: piccolo intero con segno, (in PostgreSQL: 2 bytes integer \( \in [-32768, +32767]\))
+	\item \texttt{BIGINT}: grande intero con segno (in PostgreSQL: 8 bytes integer \( \in [-9.22\cdot10^{18}, +9.22\cdot10^{18}]\))
+	\item \texttt{REAL}: decimale con segno, (in PostgreSQL, 4 bytes floating point con 6 cifre di precisione)
+	\item \texttt{DOUBLE PRECISION}: decimale con segno a doppia precisione (in PostgreSQL: 8 bytes floating point con 15 cifre di precisione)
+	\item \texttt{BOOLEAN}: valore logico booleano
+	\item \texttt{DATE}: data (giorno, mese, anno)
+	\item \texttt{TIME [WITH TIMEZONE | WITHOUT TIMEZONE]}: orario del giorno, con o senza fuso orario
+	\item \texttt{TIMESTAMP [WITH TIMEZONE | WITHOUT TIMEZONE]}: data e orario, con o senza fuso orario
+	\item \texttt{INTERVAL x [TO y]}: intervallo di tempo
+\end{itemize}
+
+\subsubsection*{UUID types}
+Gli UUID o Universally Unique Identifier sono identificatori univoci universali a 128 bit generati utilizzando uno dei diversi
+algoritmi standard nel modulo ``uuid-ossp''. Hanno la proprietà di avere bassissima probabilità di collisione. Sono spesso usati
+come identificatori in database distribuiti dove risulterebbe troppo costoso mantenere un contatore centralizzato per generare
+chiavi primarie univoche.
+
+\subsubsection*{Range types}
+I Range types rappresentano un intervallo di valori di un tipo di dato specifico. In PostgreSQL sono disponibili i seguenti range types:
+\begin{itemize}
+	\item \texttt{int4range}: range of \texttt{integer}
+	\item \texttt{int8range}: range of \texttt{bigint}
+	\item \texttt{numrange}: range of numeric
+	\item \texttt{tsrange}: range of \texttt{timestamp without time zone}
+	\item \texttt{tstzrange}: range of \texttt{timestamp with time zone}
+	\item \texttt{daterange}: range of \texttt{date}
+\end{itemize}
+
+\subsubsection*{JSON types}
+I JSON types sono utilizzati per salvare dati in formato JSON (non relazionale). Sono spesso usati in database non relazionali
+chiamati NoSQL database. In PostgreSQL esistono due tipi di dati JSON:
+\begin{itemize}
+	\item \texttt{json}: memorizza i dati in formato testo esattamente come sono stati inseriti, sono più veloci da inserire,
+	ma più lenti da processare
+	\item \texttt{jsonb}: memorizza i dati in un formato binario decomposto che li rende più lenti da inserire a causa
+	dell'overhead di conversione, ma significativamente più veloci da processare, poiché non è necessaria una nuova analisi
+\end{itemize}
+
+\subsubsection*{Enumerated Types}
+\begin{lstlisting}[language=SQL]
+-- crea un enumerated type con nome e valori specificati
+CREATE TYPE <enum_name> AS ENUM ('<value1>', '<value2>', ...)
+-- es. crea un enum "mood" con i valori 'happy', 'sad' e 'neutral'
+CREATE TYPE mood AS ENUM ('happy', 'sad', 'neutral'); 
+
+-- elimina un enumerated type con il nome specificato
+DROP TYPE <enum_name> [CASCADE | RESTRICT];
+-- es. elimina l'enum "mood"
+DROP TYPE mood;
+\end{lstlisting}
+L'opzione \texttt{CASCADE} elimina anche gli oggetti che dipendono dal tipo, mentre \texttt{RESTRICT} impedisce l'eliminazione
+se il tipo è referenziato da altri oggetti. Il comportamento di default è \texttt{RESTRICT}.
+
+\subsubsection*{Domain Types}
+\begin{lstlisting}[language=SQL]
+-- crea un domain type basato su un tipo di dato esistente con vincoli opzionali
+CREATE DOMAIN <domain_name> AS <data_type> [<constraint_name> <constraint_definition>];
+-- es. crea un domain type basato su INTEGER con vincolo di essere positivo
+CREATE DOMAIN positive_int AS INTEGER CHECK (VALUE > 0);
+\end{lstlisting}
+I vincoli possono essere:
+\begin{itemize}
+	\item \texttt{[DEFAULT NOT NULL | NULL]}: per specificare se il valore di default è \texttt{NULL} o se è necessario sempre 
+	specificarne il valore
+	\item \texttt{CHECK (expression)}: per specificare una condizione che i valori devono soddisfare
+\end{itemize}
+
+\begin{lstlisting}[language=SQL]
+-- elimina un domain type con il nome specificato
+DROP DOMAIN <domain_name> [CASCADE | RESTRICT];
+-- es. elimina il domain type "positive_int"
+DROP DOMAIN positive_int; -- elimina il domain type "positive_int"
+\end{lstlisting}
+L'opzione \texttt{CASCADE} elimina anche gli oggetti che dipendono dal tipo, mentre \texttt{RESTRICT} impedisce l'eliminazione
+se il tipo è referenziato da altri oggetti. Il comportamento di default è \texttt{RESTRICT}.
+
+\subsubsection*{Null values}
+I valori nulli possono rappresentare tre situazini diverse:
+\begin{itemize}
+	\item un valore indefinito
+	\item un valore non disponibile (non è stato ancora assegnato)
+	\item un valore sconosciuto (non è noto)
+\end{itemize}
+Gli attributi che costituiscono la chiave primaria o altri attributi obbligatori non possono assumere valori nulli ed è necessario
+indicare il vincolo \texttt{NOT NULL} durante la creazione della tabella.
+
+In generale i valori null non sono uguali tra di loro e non sono uguali a nessun altro valore perché in assenza di informazione
+possono essere tutto e niente.
+\begin{lstlisting}[language=SQL]
+-- errato: non si possono confrontare i valori NULL con l'operatore di uguaglianza
+SELECT * FROM table WHERE column = NULL;
+
+-- corretto: si usano gli operatori IS NULL e IS NOT NULL
+... WHERE column IS NULL;
+... WHERE column IS NOT NULL;
+\end{lstlisting}
+
+\newpage
+
+\subsection{Data definition Language (DDL)}
+\subsubsection*{Creazione ed eliminazione di database}
+\begin{lstlisting}[language=SQL]
+-- crea un nuovo database con il nome specificato
+CREATE DATABASE <database_name> [OWNER <username>] [ENCODING <encoding_name>];
+-- es. crea il database "Example" con codifica UTF-8
+CREATE DATABASE Example ENCODING 'UTF-8';
+
+-- elimina un database con il nome specificato
+DROP DATABASE <database_name>;
+-- es. elimina il database "Example"
+DROP DATABASE Example;
+\end{lstlisting}
+È possibile, in fase di creazione, specificare opzionalmente il proprietario del database e la codifica dei caratteri da utilizzare.
+
+\subsubsection*{Creazione ed eliminazione di schema}
+\begin{lstlisting}[language=SQL]
+-- crea uno schema con il nome specificato
+CREATE SCHEMA <schema_name> [AUTHORIZATION <username>];
+-- es. crea uno schema chiamato "my_schema"
+CREATE SCHEMA my_schema;
+
+-- elimina uno schema con il nome specificato
+DROP SCHEMA <schema_name> [CASCADE | RESTRICT];
+-- es. elimina lo schema "my_schema"
+DROP SCHEMA my_schema;
+\end{lstlisting}
+L'opzione \texttt{CASCADE} elimina anche tutti gli oggetti all'interno dello schema, mentre \texttt{RESTRICT} impedisce
+l'eliminazione se lo schema contiene oggetti. Il comportamento di default è \texttt{RESTRICT}.
+
+\subsubsection*{Creazione di tabelle}
+\begin{lstlisting}[language=SQL]
+-- crea una nuova tabella
+CREATE TABLE <schema_name>.<table_name> (
+	<column_name> <data_type> [<default_value>] [<column_constraint>],
+	[<column_name> <data_type> [<default_value>] [<column_constraint>], ...]
+	[, <table_constraint>, ...]
+);
+\end{lstlisting}
+Se non viene specificato lo schema in cui inserirla, viene usato lo schema \texttt{public} di default. Le colonne devono avere
+i rispettivi tipi di dato e possono essere indicati altri vincoli o constraint sulle colonne (valore di default, vincoli, ecc.)
+o sulla tabella. I constraint di colonna possono essere:
+\begin{itemize}
+	\item \texttt{NOT NULL}: la colonna non può contenere valori nulli
+	\item \texttt{CHECK (expression)}: la colonna deve soddisfare una condizione specifica
+	\item \texttt{DEFAULT <constant> | niladic-function | NULL}: valore di default che viene utilizzato se non ne viene specificato
+	uno durante l'inserimento. Le \texttt{niladic-function} sono ad esempio \texttt{CURRENT\_DATE}, \texttt{CURRENT\_TIME},
+	\texttt{CURRENT\_TIMESTAMP}, \texttt{LOCALTIME}, \dots
+\end{itemize}
+I constraint di tabella possono essere:
+\begin{itemize}
+	\item \texttt{PRIMARY KEY (<column\_name>, ...)}: specifica una chiave primaria su una o più colonne
+	\item \texttt{UNIQUE (<column\_name>, ...)}: specifica una chiave candidata su una o più colonne
+	\item \texttt{FOREIGN KEY (<column\_name>, ...)\ REFERENCES <ref\_table>(<ref\_column>, ...)}: definisce una chiave esterna
+	che fa riferimento a un'altra tabella, è possibile indicare azioni opzionali per la cancellazione \texttt{ON DELETE} e
+	l'aggiornamento \texttt{ON UPDATE} dei dati referenziati (ad esempio \texttt{CASCADE}, \texttt{SET NULL}, \texttt{SET DEFAULT},
+	\texttt{RESTRICT}, \texttt{NO ACTION})
+\end{itemize}
+Se i constraint di tabella coinvolgono una singola colonna (ad esempio chiave primaria di una singola colonna), è possibile
+definirli direttamente nella definizione della colonna come constraint di tabella. Se invcene coinvolgono più colonne, devono
+necessariamente essere definiti come constraint di tabella.
+
+\begin{lstlisting}[language=SQL]
+-- es. crea la tabella "students" nello schema "my_schema"
+CREATE TABLE my_schema.students (
+	badge INTEGER PRIMARY KEY,     -- badge deello studente, chiave primaria
+	name VARCHAR(100) NOT NULL,    -- nome dello studente, colonna non nulla
+	surname VARCHAR(100) NOT NULL, -- cognome dello studente, colonna non nulla
+	dob DATE DEFAULT NULL,         -- data di nascita, valore di default NULL
+	degree VARCHAR(50)             -- corso di laurea
+	school FOREIGN KEY REFERENCE my_schema.schools(school_id) -- chiave esterna che fa riferimento alla colonna "school_id" della tabella "schools"
+);
+
+-- oppure si definiscono i constraint di colonna separatamente in constraint di tabella
+CREATE TABLE my_schema.students (
+	badge INTEGER,      -- chiave primaria non indicata come constraint di colonna
+	school VARCHAR(50), -- chiave esterna non indicata come constraint di colonna
+	...
+	PRIMARY KEY (badge) -- chiave primaria definita come constraint di tabella
+	FOREIGN KEY (school) REFERENCES my_schema.schools(school_id) -- chiave esterna definita come constraint di tabella
+);
+\end{lstlisting}
+
+\subsubsection*{Eliminazione di tabelle}
+\begin{lstlisting}[language=SQL]
+-- elimina una tabella con il nome specificato
+DROP TABLE <table_name> [CASCADE | RESTRICT];
+-- es. elimina la tabella "students"
+DROP TABLE students; -- elimina la tabella "students"
+\end{lstlisting}
+L'opzione \texttt{CASCADE} elimina anche gli oggetti che dipendono dalla tabella, mentre \texttt{RESTRICT} impedisce
+l'eliminazione se la tabella è referenziata da altri oggetti. Il comportamento di default è \texttt{RESTRICT}.
+
+\subsubsection*{Modifica di tabelle}
+\begin{lstlisting}[language=SQL]
+-- modifica una tabella esistente
+ALTER TABLE <table_name> <
+	ADD COLUMN <column_definition> |                 -- aggiunge una nuova colonna
+	DROP COLUMN <column_name> [RESTRICT | CASCADE] | -- rimuove una colonna
+	ALTER COLUMN <column_name> <SET DEFAULT <new_default>> | -- cambia il valore di def.
+	ALTER COLUMN <column_name> <DROP DEFAULT> |      -- rimuove il valore di default
+	ADD CONSTRAINT <constraint_definition> |         -- aggiunge un nuovo vincolo
+	DROP CONSTRAINT <constraint_name>                -- rimuove un vincolo esistente
+>;
+\end{lstlisting}
+
+\newpage
+
+\subsection{Data Manipulation Language - DML}
+\subsubsection*{Inserimento di dati}
+\begin{lstlisting}[language=SQL]
+-- inserisce una nuova riga in una tabella, se non vengono specificate le colonne, si assume che i valori siano forniti per tutte le colonne e nell'ordine in cui le colonne sono state definite
+INSERT INTO <table_name> [(<column_name> ...)] VALUES (<value1>, ...);
+-- es. inserimento di una nuova riga nella tabella "employees" esplicitando le colonne
+INSERT INTO employees (name, dob, degree, salary)
+    VALUES ('John Doe', '1990-01-01', 'Computer Science', 50000);
+-- es. inserimento senza specificare le colonne
+INSERT INTO employees
+    VALUES ('Jane Smith', '1985-05-15', 'Mathematics', 60000);
+\end{lstlisting}
+
+\subsubsection*{Eliminazione di dati}
+\begin{lstlisting}[language=SQL]
+-- elimina righe da una tabella, opzionalmente filtrate da una condizione
+DELETE FROM <table_name> [WHERE <condition>];
+-- es. elimina tutte le righe della tabella "employees"
+DELETE FROM employees;
+-- es. elimina le righe dalla tabella "employees" dove il salario e' inferiore a 30000
+DELETE FROM employees WHERE salary < 30000;
+\end{lstlisting}
+
+\subsubsection*{Aggiornamento o modifica dei dati}
+\begin{lstlisting}[language=SQL]
+-- aggiorna i valori delle colonne in una tabella
+UPDATE <table_name> SET <column_name> = <expr.> | NULL | DEFAULT, ... [WHERE <expr.>];
+-- aggiorna il salario dei dipendenti nella tabella "employees" aumentando del 10% per quelli con salario inferiore a 60000
+UPDATE employees SET salary = salary * 1.1 WHERE salary < 60000;
+\end{lstlisting}
+
+\subsection{Query}
+\subsubsection*{Struttura generale}
+\begin{lstlisting}[language=SQL]
+SELECT [DISTINCT | ALL] <column_list> | *
+	FROM <table_name> [AS <alias>]
+	[JOIN <table_name> [AS <alias>] ON <join_condition>]
+	[WHERE <condition>]
+	[GROUP BY <column_list> HAVING <condition>]
+	[ORDER BY <column_name> [ASC | DESC], ...];
+\end{lstlisting}
+\begin{itemize}
+	\item \texttt{SELECT}: specifica le colonne da recuperare, può essere usato \texttt{DISTINCT} per eliminare i duplicati o
+	\texttt{ALL} per includerli tutti (default), se si vuole recuperare tutte le colonne si usa l'asterisco \texttt{*},
+	eventualmente si possono usare funzioni di aggregazione (opportunamente rinominate)
+	\item \texttt{FROM}: specifica la tabella da cui recuperare i dati, può essere usato un alias per riferirsi alla tabella
+	attraverso un altro nome (utile nelle join)
+	\item \texttt{JOIN}: unisce le tuple di una o più tabelle basandosi su una condizione di join, per facilitare la scrittura
+	delle condizioni di join si utilizzano gli alias
+	\item \texttt{WHERE}: filtra le righe in base a una condizione
+	\item \texttt{GROUP BY}: raggruppa le righe in gruppi in base ai valori di una o più colonne, eventualmente si possono applicare
+	funzioni di aggregazione sui gruppi ed è possibile filtrare i gruppi attraverso la clausola \texttt{HAVING}
+	\item \texttt{ORDER BY}: ordina i risultati in base ai valori di una o più colonne, se specificati più ordinamenti su più
+	colonne, vanno indicati in ordine di priorità decrescente
+\end{itemize}
+
+\subsubsection*{Ordine di valutazione delle clausole}
+\begin{lstlisting}
+
+		FROM --> JOIN --> WHERE --> GROUP BY --> HAVING --> SELECT --> ORDER BY
+	
+\end{lstlisting}
+
+\subsubsection*{Condizioni ed espressioni delle clausole}
+Le condizioni nelle varie clausole possono utilizzare operatori di confronto (\texttt{=}, \texttt{<>}, \texttt{<}, \texttt{>},
+\texttt{<=}, \texttt{>=}) e di appartenenza (\texttt{IN}, \texttt{NOT IN}). È possibile combinare più condizioni utilizzando
+operatori logici (\texttt{AND}, \texttt{OR}, \texttt{NOT}). Inoltre, esiste l'operatore \texttt{LIKE} per confrontare stringhe
+con pattern che possono includere i caratteri jolly: il \texttt{\%} rappresenta una sequenza di zero o più caratteri, mentre
+il \texttt{\_} rappresenta un singolo carattere
+\begin{lstlisting}[language=SQL]
+-- 'J_n%' <=> 'J' + 1 carattere + 'n' + qualsiasi sequenza di caratteri
+SELECT * FROM employees WHERE name LIKE 'J_n%';
+\end{lstlisting}
+
+
+\subsubsection*{Selection in SQL - clausola \texttt{WHERE}}
+Le selection selezionano le righe di una tabella che soddisfano una certa condizione e vengono implementate in SQL
+attraverso la clausola \texttt{WHERE}. Ad esempio:
+\begin{lstlisting}[language=SQL]
+SELECT * FROM employees WHERE age > 30;
+\end{lstlisting}
+
+\subsubsection*{Projection in SQL - clausola \texttt{SELECT}}
+Le projection selezionano le colonne di una tabella e vengono implementate in SQL attraverso la clausola \texttt{SELECT}.
+Ad esempio:
+\begin{lstlisting}[language=SQL]
+SELECT name, age FROM employees;
+\end{lstlisting}
+Si osserva che, siccome in SQL le tabelle derivate possono contenere righe duplicate, le projection in SQL non corrispondono
+a quelle dell'algebra relazionale, a meno che non si usi la clausola \texttt{DISTINCT}.
+
+\subsubsection*{Rename in SQL - clausola \texttt{AS}}
+Le rename in SQL vengono implementate attraverso la clausola \texttt{AS} che permette di assegnare un alias a una tabella o
+a una colonna nella query. Ad esempio:
+\begin{lstlisting}[language=SQL]
+SELECT e.name AS employee_name, e.dob AS date_of_birth FROM employees AS e;
+\end{lstlisting}
+
+\subsubsection*{Set Operators}
+I set operators combinano i risultati di due o più query. In SQL non è necessario che le tabelle siano compatibili all'unione
+(come in algebra relazionale), ma è sufficiente che le colonne siano dello stesso numero e che abbiano tipi di dato compatibili.
+Inoltre in SQL le tabelle derivate da set operators non contengono righe duplicate, a meno che non venga specificata l'opzione
+\texttt{ALL}. In SQL sono disponibili i seguenti operatori di insieme tra query:
+\begin{itemize}
+	\item \texttt{query1 UNION query2}: unisce i risultati di due query
+	\item \texttt{query1 INTERSECT query2}: restituisce le righe comuni a due query
+	\item \texttt{query1 EXCEPT query2}: restituisce le righe presenti nella prima query ma non nella seconda
+\end{itemize}
+
+\subsubsection*{Aggregate Functions}
+Le aggregate functions permettono di eseguire funzioni su un insieme di valori di determinati attributi. Le funzioni di
+aggregazione più comuni in SQL sono:
+\begin{itemize}
+	\item \texttt{COUNT(<column\_name>)}: conta il numero di righe in un gruppo
+	\item \texttt{SUM(<column\_name>)}: calcola la somma dei valori in un gruppo
+	\item \texttt{AVG(<column\_name>)}: calcola la media dei valori in un gruppo
+	\item \texttt{MIN(<column\_name>)}: trova il valore minimo in un gruppo
+	\item \texttt{MAX(<column\_name>)}: trova il valore massimo in un gruppo
+\end{itemize}
+In alternativa al \texttt{<column\_name>} è possibile usare l'asterisco \texttt{*} per indicare di agire su tutte le colonne.
+
+\subsubsection*{Grouping}
+Il raggruppamento in SQL viene implementato attraverso la clausola \texttt{GROUP BY} che permette di raggruppare le righe in
+base ai valori di una o più colonne. È possibile inoltre filtrare i gruppi utilizzando la clausola \texttt{HAVING} che specifica
+una condizione che i gruppi devono soddisfare. Inoltre è possibile utilizzare funzioni di aggregazione per calcolare valori
+sui gruppi. Ad esempio, per calcolare il salario medio per ogni grado di istruzione:
+\begin{lstlisting}[language=SQL]
+SELECT degree, AVG(salary) AS average_salary FROM employees GROUP BY degree;
+\end{lstlisting}
+Le colonne elencate nella clausola \texttt{GROUP BY} devono essere presenti anche nella clausola \texttt{SELECT}. Inoltre
+è sempre consigliato rinominare le colonne derivate dalle funzioni di aggregazione per facilitare la lettura dei risultati.
+Si nota che la clausola \texttt{HAVING} viene valutata prima della clausola \texttt{SELECT} e di conseguenza prima della
+rename, per cui se si vuole filtrare in base ad una colonna generata con funzione di aggregazione, bisogna usare l'espressione
+originale e non l'alias. Ad esempio, per trovare i gradi di istruzione con salario medio superiore a 60000:
+\begin{lstlisting}[language=SQL]
+SELECT degree, AVG(salary) AS average_salary FROM employees
+	GROUP BY degree HAVING AVG(salary) > 60000;
+\end{lstlisting}
+
+\subsubsection*{Query con \texttt{JOIN}}
+Le join in SQL permettono di creare tabelle derivate che hanno come righe la combinazione di righe di due o più tabelle basate
+su una condizione di join. Le condizioni di join sono uguaglianze tra attributi, ovvero le nuove righe risultanti saranno date
+degli attributi della tabella di sinistra, altri attributi dati dalla tabella di destra e un attributo in comune tra le due.
+Esitono 4 tipi principali di join:
+\begin{itemize}
+	\item \texttt{INNER JOIN}: restituisce solo le righe che hanno corrispondenza in entrambe le tabelle
+	\item \texttt{LEFT JOIN}: restituisce tutte le righe della tabella di sinistra a cui vengono associate le righe corrispondenti
+	della tabella di destra, se non ci sono corrispondenze, i valori della tabella di destra saranno \texttt{NULL}
+	\item \texttt{RIGHT JOIN}: restituisce tutte le righe della tabella di destra a cui vengono associate le righe corrispondenti
+	della tabella di sinistra, se non ci sono corrispondenze, i valori della tabella di sinistra saranno \texttt{NULL}
+	\item \texttt{FULL JOIN}: restituisce tutte le righe di entrambe le tabelle, se non ci sono corrispondenze, i valori della
+	tabella senza corrispondenza saranno \texttt{NULL}
+\end{itemize}
+È utile effettuare i rename delle tabelle coinvolte nella join per facilitare la scrittura delle condizioni di join. Inoltre è
+possibile avere più join concatenate. Ad esempio, per unire le tabelle ``employees'', ``departments'' e ``projects'' basandosi
+sull'attributo ``department\_id'' e ``project\_id'':
+\begin{lstlisting}[language=SQL]
+SELECT e.name, d.department_name
+	FROM employees AS e
+	-- inner join tra employees e departments
+	INNER JOIN departments AS d ON e.department_id = d.department_id
+	-- inner join tra il risultato delle join precedenti e projects
+	INNER JOIN projects AS p ON d.project_id = p.project_id;
+\end{lstlisting}
+
+\subsubsection*{Generalized projection}
+La generalized projection in SQL permette di creare nuove colonne derivate da espressioni o funzioni. Ad esempio, per calcolare
+l'età dei dipendenti basandosi sulla loro data di nascita:
+\begin{lstlisting}[language=SQL]
+SELECT name, EXTRACT(YEAR FROM AGE(CURRENT_DATE, dob)) AS age FROM employees;
+\end{lstlisting}
+
+\subsubsection*{Nested Queries}
+È possibile annidare query all'interno di altre query per creare condizioni più complesse o per calcolare valori intermedi. Le
+query annidate si indicano tra parentesi tonde.Ad esempio, per trovare i dipendenti con un salario superiore alla media:
+\begin{lstlisting}[language=SQL]
+SELECT name, salary FROM employees WHERE salary > (SELECT AVG(salary) FROM employees);
+\end{lstlisting}
+
+Un esempio comune di utilizzo delle nested query è trovare il valore di un certo attributo associato al valore massimo di un
+altro attributo, ad esempio per trovare lo studente con il voto più alto:
+\begin{lstlisting}[language=SQL]
+SELECT name, grade FROM student WHERE grade = (SELECT MAX(grade) FROM student);
+\end{lstlisting}
+
+\subsubsection*{Viste}
+Le viste in SQL sono tabelle virtuali derivate da altre tabelle attraverso una query. Non sono memorizzate fisicamente nel
+database, ma vengono generate al momento dell'accesso. Le viste permettono di semplificare query complesse spezzandole in
+più fasi. Il fatto di essere sempre ricalcolate porta al vantaggio di avere sempre dati aggiornati, ma lo svantaggio di
+avere prestazioni inferiori rispetto ad utilizzare una query completa e unica (il cui calcolo è ottimizzato dal DBMS).
+Le viste possono essere:
+\begin{itemize}
+	\item \textbf{online views}: vengono create e utilizzate direttamente dal database
+	\item \textbf{materialized views}: vengono create e memorizzate fisicamente nel database, migliorando le prestazioni a scapito
+	di possibile incoerenza dei dati se le tabelle sottostanti vengono aggiornate
+\end{itemize}
+Di seguito sono riportati i comandi per creare ed eliminare viste in SQL:
+\begin{lstlisting}[language=SQL]
+-- crea una vista basata su una query selezionata
+CREATE [MATERIALIZED] VIEW <view_name> AS <select_query>;
+
+-- crea una vista chiamata "high_salary_employees" che mostra i dipendenti con salario superiore a 70000
+CREATE VIEW high_salary_employees AS
+	SELECT name, salary FROM employees WHERE salary > 70000;
+
+-- elimina una vista con il nome specificato
+DROP VIEW <view_name> [CASCADE | RESTRICT];
+
+-- elimina la vista "high_salary_employees"
+DROP VIEW high_salary_employees;
+\end{lstlisting}
+L'opzione \texttt{CASCADE} elimina anche gli oggetti che dipendono dalla vista, mentre \texttt{RESTRICT} impedisce
+l'eliminazione se la vista è referenziata da altri oggetti. Il comportamento di default è \texttt{RESTRICT}.
+
+\end{document}
