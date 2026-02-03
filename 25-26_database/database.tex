@@ -12,6 +12,7 @@
 \usepackage{graphicx} % per immagini
 \usepackage{listings} % per codice
 \usepackage{xcolor} % per colori
+\usepackage{tikz} % per disegnare join esterni
 
 % per margini
 \geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
@@ -21,6 +22,47 @@
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 \newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+% comandi matematici
+\newcommand{\dom}{\text{dom}} % dominio
+\newcommand{\mathfx}[5]{% funzione matematica: nome, dominio, codominio, x, y
+	\begin{aligned}
+		#1 \colon #2 &\to #3 \\
+		#4 &\mapsto #5
+	\end{aligned}
+}
+
+% comandi per join esterni
+% 1. Definizione base parametrica per evitare ripetizioni
+\newcommand{\drawjoin}[1]{%
+  \begin{tikzpicture}[baseline=-0.1ex, line width=0.5pt, scale=0.08]
+    % Disegna la Bowtie (il corpo centrale)
+    \draw (0,0) -- (3,2) -- (3,0) -- (0,2) -- cycle;
+    % Disegna le "ali" in base al parametro passato
+    #1
+  \end{tikzpicture}%
+}
+
+% 2. Comandi utente (usando la definizione sopra)
+% Left Outer Join (ali a sinistra)
+\newcommand{\leftouterjoin}{\mathrel{\drawjoin{
+  \draw (0,-0.05) -- (-1.5,-0.05);
+  \draw (0,2.05) -- (-1.5,2.05);
+}}}
+
+% Right Outer Join (ali a destra)
+\newcommand{\rightouterjoin}{\mathrel{\drawjoin{
+  \draw (3,-0.05) -- (4.5,-0.05);
+  \draw (3,2.05) -- (4.5,2.05);
+}}}
+
+% Full Outer Join (ali su entrambi i lati)
+\newcommand{\fullouterjoin}{\mathrel{\drawjoin{
+  \draw (0,-0.05) -- (-1.5,-0.05);
+  \draw (0,2.05) -- (-1.5,2.05);
+  \draw (3,-0.05) -- (4.5,-0.05);
+  \draw (3,2.05) -- (4.5,2.05);
+}}}
 
 % per elenchi puntati
 \setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
@@ -114,19 +156,966 @@ Il DBMS sono software che permetton di gestire e interagire con i dati all'inter
 \end{itemize}
 
 Oltre ai dati veri e propri, i DBMS memorizzano anche metadati, ovvero informazioni testuali su come interpretare e organizzare
-i dati.
+i dati. I DBMS di database relazionali vengono anche detti RDBMS (Relational DataBase Management System).
+
+\subsubsection*{Progettazione di un database}
+La progettazione di un database si divide in tre fasi:
+\begin{itemize}
+	\item \textbf{progettazione concettuale}: si crea un modello concettuale o modello ER (Entity-Relationship) che rappresenta
+	il miniworld di interesse in modo astratto, attraverso entità, relazioni e attributi
+	\item \textbf{progettazione logica}: si trasforma il modello concettuale in un modello logico, come il modello relazionale,
+	che specifica come i dati saranno organizzati all'interno del database
+	\item \textbf{progettazione fisica}: si definisce come i dati saranno effettivamente memorizzati e gestiti nel DBMS,
+	attraverso un effettivo linguaggio di definizione e manipolazione dei dati, come SQL
+\end{itemize}
 
 \newpage
 
 \section{Modello ER}
+\subsection{Struttura generale del modello ER}
+Il modello ER (Entity-Relationship) è un modello concettuale utilizzato per rappresentare in modo astratto il miniworld di
+interesse. Si basa su tre concetti principali:
+\begin{itemize}
+	\item \textbf{entità}: oggetti o concetti del mondo reale che hanno un'identità distinta e possono essere rappresentati
+	nel database (es. studente, corso, libro, ecc.)
+	\item \textbf{associazioni}: associazioni tra entità che rappresentano come le entità interagiscono tra di loro (es. uno
+	studente si iscrive a un corso, un libro è scritto da un autore, ecc.)
+	\item \textbf{attributi}: proprietà, descrizioni o caratteristiche delle entità o delle associazioni (es. nome, cognome,
+	data di iscrizione, data di scrittura, ecc.)
+\end{itemize}
+
+\subsection{Entità}
+L'entità rappresenta un oggetto o concetto del mondo reale che ha un'identità distinta. Ogni entità è rappresentata da un
+rettangolo nel modello ER e può avere uno o più attributi associati. Ogni entità è identificata da uno o più attributi univoci
+detti identificatori. Le entità possono essere:
+\begin{itemize}
+	\item \textbf{entità forti}: entità che possono essere identificate in modo univoco dai loro attributi
+	\item \textbf{entità deboli}: entità che non possono essere identificate in modo univoco dai loro attributi e dipendono
+	dall'esistenza di un'altra entità forte per la loro identificazione (approfondite in seguito)
+\end{itemize}
+
+\subsection{Attributi}
+Gli attributi sono proprietà, descrizioni o caratteristiche delle entità o delle associazioni a cui appartengono. Si indicano
+con un pallino (pieno o vuoto) collegato all'entità o all'associazione di appartenenza.
+In base alla loro struttura gli attributi si classificano in:
+\begin{itemize}
+	\item \textbf{attributi semplici}: attributi che non possono essere suddivisi (es. nome, cognome, badge, ecc.)
+	\item \textbf{attributi composti}: attributi che possono essere suddivisi in più componenti (es. l'indirizzo può essere
+	suddiviso in via, città, CAP, ecc.) e si indicano con un pallino vuoto più grande da cui si ramificao i componenti
+	dell'attributo con altri pallini vuoti più piccoli
+\end{itemize}
+Ogni attributo ha una propria \textbf{cardinalità}, ovvero il numero di valori che può assumere per ogni entità o associazione.
+La cardinalità si indica con una coppia di numeri (minimo, massimo) accanto al pallino dell'attributo (es. (0,1), (1,1), (0,N),
+(1,N), ecc.). Se non viene indicata, la cardinalità di default è (1,1).
+In base alla cardinalità, gli attributi si classificano in:
+\begin{itemize}
+	\item \textbf{attributi obbligatori}: attributi che devono sempre avere un valore (es. nome, cognome), hanno cardinalità
+	minima pari a 1 (es. (1,1), (1,N))
+	\item \textbf{attributi opzionali}: attributi che possono non avere un valore (es. secondo nome, numero di fax), hanno
+	cardinalità minima pari a 0 (es. (0,1), (0,N))
+	\item \textbf{attributi singoli}: attributi che possono assumere un solo valore per ogni entità (es. data di nascita)
+	hanno cardinalità massima pari a 1 (es. (0,1), (1,1))
+	\item \textbf{attributi multipli}: attributi che possono assumere più valori per ogni entità (es. numeri di telefono)
+	hanno cardinalità massima pari a N (es. (0,N), (1,N))
+\end{itemize}
+Gli attributi che identificano l'entità sono detti \textbf{identificatori} e si indicano con un pallino pieno. Gli attributi
+identificatori sono per definizione semplici, obbligatori e singoli, con cardinalità (1,1). Se esistono più identificatori
+indipendenti per la stessa entità, si indicano con più pallini pieni. Se l'identificazione di una entità dipende da più
+attributi, tutti gli attibuti che formano l'identificatore hanno pallino pieno e sono collegati tra di loro tramite una
+linea orizzontale che termina sempre con un pallino pieno. Nota importante: le relazioni non possono avere attibuti
+identificativi.
+
+Nota: prima di passare allo schema relazionale è necessario ristrutturare lo schema ER \textbf{trasformando attributi composti}
+in attributi semplici, creando una nuova entità oppure spostando tutti gli attributi componenti nell'entità madre come
+attributi semplici.
 
 \newpage
 
-\section{Modello relazionale}
+\subsection{Relazioni}
+Le relazioni rappresentano associazioni tra entità che mostrano come le entità interagiscono tra di loro. Ogni relazione è
+rappresentata da un rombo nel modello ER e può avere uno o più attributi associati. Le relazioni possono essere:
+\begin{itemize}
+	\item \textbf{relazioni unarie o ricorsive}: relazioni che coinvolgono una sola entità (es. un dipendente gestisce un altro
+	dipendente o un sovrano succede a un altro sovrano, approfondite in seguito)
+	\item \textbf{relazioni binarie}: relazioni che coinvolgono due entità (es. uno studente si iscrive a un corso)
+	\item \textbf{relazioni ternarie}: relazioni che coinvolgono tre entità (es. un medico prescrive un farmaco a un paziente,
+	approfondite in seguito)
+	\item \textbf{relazioni n-arie}: relazioni che coinvolgono n entità (poco usate, approfondite in seguito)
+\end{itemize}
+Ogni entità coinvolta alla relazione ha una propria \textbf{cardinalità}, ovvero il numero di volte che un'entità può
+partecipare alla relazione. La cardinalità si indica con una coppia di numeri (minimo, massimo) nel collegamento tra l'entità
+e la relazione, accanto all'entità coinvolta (es. (0,1), (1,1), (0,N), (1,N), ecc.). È sempre necessario indicare la cardinalità
+e non esiste una cardinalità di default.
+
+È possibile che esistano \textbf{più relazioni binarie tra le stesse due entità}, ad esempio città di residenza e città di
+lavoro tra le entità lavoratore e città. In questo caso è necessario fare attenzione ai vincoli di esistenza delle relazioni,
+imposti dalle cardinalità minime delle relazioni.
+
+\subsubsection*{Relazioni unarie o ricorsive}
+Le relazioni unarie o ricorsive coinvolgono una sola entità. Possono essere:
+\begin{itemize}
+	\item \textbf{simmetriche}: relazioni in cui il ruolo delle entità coinvolte è identico (es. un amico di un amico è un amico)
+	non è necessario indicare il verso di lettura della relazione e l'ordine delle coppie \textit{(entità; entità)} è indifferente
+	\item \textbf{non simmetriche}: relazioni in cui il ruolo delle entità coinvolte è diverso (es. un capo dirige un altro
+	dipendente), è necessario indicare il verso di lettura della relazione con una freccia sul collegamento tra l'entità e la
+	relazione e l'ordine delle coppie \textit{(entità; entità)} è importante
+\end{itemize}
+Si osserva che per le relazioni simmetriche è sufficiente salvare solo le coppie ``dritte'', perché quelle invertite si possono
+dedurre. Salvare sia le coppie ``dritte'' che quelle invertite di relazioni simmetriche provocherebbe ridondanza di dati. Tale
+ridondanza può tornare utile per facilitare alcune query di ricerca, in quanto è sufficiente cercare su una sola colonna.
+
+\subsubsection*{Relazioni ternarie}
+Le relazioni ternarie sono relazioni che coinvolgono tre entità che partecipano contemporaneamente e sono sempre coinvolte
+insieme. Alcuni esempi di relazione ternaria sono la relazione ``prescrive'' tra le entità medico, paziente e farmaco; la
+relazione verbale tra le entità vigile, multa e veicolo; la relazione di vendita tra le entità cliente, prodotto e negozio.
+
+Le relazioni ternarie in cui un'entità partecipa con cardinalità (1,1) possono essere scomposte in due relazioni binarie
+in cui l'entità (1,1) funge da collegamento tra le altre due. Ha senso usare le ternarie se le tre le entità sono sempre
+coinvolte contemporaneamente, insieme e sono logicamente legate tra di loro. Ad esempio la relazione ``esposizione'' tra
+le entità opera d'arte, museo e artista non ha senso che venga modellata come relazione ternaria, in quanto l'artista non è
+sempre legato al museo e la relazione opera-artista avviene in un istante di tempo separato rispetto alla relazione opera-museo.
+
+\subsection{Regole di vincolo}
+Spesso esistono alcuni aspetti del miniworld che non possono essere rappresentati direttamente nel modello ER, oppure alcune
+volte si effettuano delle scelte semplificative per facilitare la progettazione del database. Per rappresentare questi aspetti
+si utilizzano delle regole di vincolo esterne indicate alla fine del modello ER come testo e precedute dalla scritta
+\texttt{RV1}, \texttt{RV2}, \dots
+
+\subsection{Entità deboli}
+Le entità deboli sono entità che non possono essere identificate in modo univoco dai loro attributi e dipendono dall'esistenza
+di un'altra entità forte per la loro identificazione. Le entità deboli sono rappresentate come normali entità forti, ma 
+il loro insieme di attributi identificatori include anche la relazione con l'entità forte da cui dipendono. Un esempio di
+entità debole è la entità ``posto'' dipendente dall'entità ``sala'' dipendente dall'entità ``cinema''. È possibile evitare
+di creare entità deboli aggiungendo un identificatore ausiliario, ma ciò comporterebbe la necessità di gestire l'assegnazione
+di tali identificatori ausiliari e si prederebbe l'informazione che l'entità dipende da un'altra entità.
+
+La partecipazione delle entità deboli alla relazione con l'entità forte da cui dipendono ha sempre cardinalità (1,1), come
+negli attibuti identificatori, e va sempre indicata esplicitamente.
+
+\subsection{Pattern di progetto}
+\subsubsection*{Attributo a valori finiti}
+Un attributo a valori finiti è un attributo il cui valore viene scelto da un insieme limitato di valori possibili (es. colore
+dell'auto). Per rappresentare un attributo a valori finiti si possono utilizzare due strategie:
+\begin{itemize}
+	\item modellarlo come entità: si crea una nuova entità che rappresenta l'insieme dei valori possibili dell'attributo e si
+	collega tale entità all'entità originale tramite una relazione; questa strategia è utile quando i valori possono cambiare
+	frequentemente nel tempo
+	\item modellarlo come enumeratore: si crea un enumeratore che rappresenta l'insieme dei valori possibili dell'attributo
+	e si collega tale enumeratore all'entità originale tramite l'attributo; questa strategia è utile quando i valori sono pochi
+	e rimangono molto stabili nel tempo (modificare un enumeratore richiede di modificare lo schema del database)
+\end{itemize}
+Un caso particolare è quando l'\textbf{attributo a valori finiti} che viene promosso a entità \textbf{fa parte di una relazione}:
+si forma una relazione ternaria tra le due entità originali e il nuovo attributo entità. Ad esempio ``musicista'' ``partecipa''
+ad una ``orchestra'' suonando uno ``strumento'', in cui lo ``strumento'' diventa entità e la relazione ``partecipa'' diventa
+ternaria. In questo caso, però, si perde l'unicità della relazione binaria originale, in quanto la stessa coppia di entità
+può essere collegata a più valori diversi dell'attributo promosso a entità. Nell'esempio sopra, un musicista può partecipare
+a una orchestra suonando più strumenti diversi. Per risolvere questo problema, viene modellata la ternaria come entità debole
+che dipende dalle due entità originali ed ha una relazione (1,1) con l'attributo promosso a entità. Nell'esempio sopra, si crea
+l'entità debole ``partecipazione'' che dipende dalle entità ``musicista'' e ``orchestra'' ed ha una relazione (1,1) con
+l'entità ``strumento''.
+
+\subsubsection*{Pattern ``PARTE DI''}
+Il pattern ``PARTE DI'' viene utilizzato per rappresentare entità che sono composte da più parti o componenti modellati a loro
+volta come entità separate. Ad esempio il cinema è composto da più sale, ogni sala è composta da più posti. Per modellare
+le varie parti si utilizzano entità deboli identificate dall'entità forte di cui fanno parte.
+
+\subsubsection*{Pattern ``ISTANZA DI''}
+Il pattern ``ISTANZA DI'' viene utilizzato per rappresentare entità che sono istanze di una categoria o tipo più generale.
+Ad esempio ``edizione'' è un'istanza di ``torneo'', ``volo reale'' è un'istanza di ``volo''. L'entità istanza viene modellata
+come entità debole identificata dall'entità più generale di cui è istanza.
+
+\subsubsection*{Relazione temporale}
+La relazione temporale viene utilizzata per rappresentare relazioni ripetute tra le stesse entità in diversi istanti di tempo.
+Ad esempio la relazione ``esame'' tra le entità ``studente'' e ``corso''. Per modellare la relazione temporale si promuove
+la relazione in entità debole identificata dalle entità coinvolte nella relazione e dall'attributo ``data''.
+
+\subsection{Generalizzazioni e ristrutturazioni - Extended ER}
+\subsubsection*{Generalizzazioni e specializzazoni}
+Per rappresentare organizzazioni gerarchiche tra entità si utilizzano le generalizzazioni e specializzazioni previste nel
+modello esteso dell'ER (Extended ER). La relazione di generalizzazione/specializzazione viene rappresentata con una freccia
+che parte dalle entità figlie (specializzazioni) e punta verso l'entità madre (generalizzazione). Esistono vari tipi di
+specializzazioni:
+\begin{itemize}
+	\item \textbf{specializzazioni totali}: specializzazioni in cui ogni istanza dell'entità madre deve appartenere ad almeno
+	una delle entità figlie; si indica riempiendo/colorando l'interno della freccia di generalizzazione/specializzazione
+	\item \textbf{specializzazioni parziali}: specializzazioni in cui alcune istanze dell'entità madre possono non appartenere
+	a nessuna delle entità figlie, ovvero rimangono generali; si indica lasciando la freccia di generalizzazione/specializzazione
+	vuota all'interno
+	\item \textbf{specializzazioni disgiunte}: specializzazioni in cui un'istanza dell'entità madre può appartenere a una sola
+	delle entità figlie; si indica con una regola di vincolo
+	\item \textbf{specializzazioni sovrapposte}: specializzazioni in cui un'istanza dell'entità madre può appartenere a più
+	entità figlie contemporaneamente; si indica sempre con una regola di vincolo
+\end{itemize}
+Le entità specializzate non possiedono identificatori propri, ma ereditano (e condividono) l'identificatore dall'entità madre.
+
+\subsubsection*{Ristrutturazioni}
+Prima di passare al modello logico/relazionale è necessario eliminare le strutture gerarchiche create con le generalizzazioni
+attraverso processi di ristrutturazione. Esistono tre tipi di ristrutturazioni:
+\begin{itemize}
+	\item \textbf{ristrutturazione verso l'alto}: si fanno collassare le entità figlie nell'entità madre: tutti i loro attributi
+	e relazioni diventano facoltativi e si spostano nell'entità madre; si aggiunge l'attributo ``tipo'' per distinguere le varie
+	specializzazioni e si aggiungono regole di vincolo per indicare quali attributi e relazioni sono obbligatori in base al tipo;
+	risulta conveniente quando le entità figlie hanno pochi attributi e relazioni propri che le differenziano tra di loro e,
+	collassandoli come opzionali verso l'alto, si ha quindi poca proliferazione di \texttt{NULL} values; la presenza di tanti
+	attributi potrebbe generare ritardi nelle query a causa della grandezza dell'unica tabella risultante, ma allo stesso tempo
+	ne semplifica la scrittura in quanto non è necessario fare join tra più tabelle
+	\item \textbf{ristrutturazione verso il basso}: si fa collassare l'entità madre verso le entità figlie: si duplicano i suoi
+	attributi e relazioni in tutte le entità figlie; è necessario fare attenzione agli identificatori dell'entità madre che ora
+	diventano condivisi tra le entità figlie; risulta conveniente quando le entità figlie hanno molti attributi e relazioni propri
+	che le differenziano tra di loro e, tenendole separate, si riducono i \texttt{NULL} values; la frammentazione dei dati in più
+	tabelle più piccole velocizza le query, ma ne complica la scrittura in quanto è necessario unire i risultati di più tabelle
+	\item \textbf{ristrutturazione mista}: si trasformano le entità figlie in entità deboli che dipendono dall'entità madre,
+	senza alterare attributi e relazioni; in questo caso si hanno un po' entrambi i vantaggi e li svantaggi dei casi precedenti
+	come poca proliferazine di \texttt{NULL} values, query veloci da eseguire e maggiore semplificazione nella scrittura delle query,
+	ma si ha un grande aumento di spazio occupato perché le entità figlie duplicano al loro interno tutti gli attributi
+	identificatori dell'entità madre
+\end{itemize}
+In generale, per facilitare la scrittura delle query all'esame, è fortemente consigliato utilizzare la ristrutturazione
+verso l'alto in quanto la performance del database e la proliferazione di \texttt{NULL} values vengono trascurate e
+passano in secondo piano.
+
+\subsection{Regole e consigli per progettare un buon modello ER}
+\begin{itemize}
+	\item usare \textbf{nomi} significativi e coerenti per entità e attributi, meglio usare nomi di attributi diversi per ogni
+	entità in modo da facilitare la scrittura del modello relazionale e delle query
+	\item le relazioni non hanno verso di lettura, per cui si assume come convenzione di indicare le relazioni con \textbf{verbi}
+	alla terza persona singolare in forma attiva (es. ``contiene'', ``iscrive'', ``possiede'', ecc.)
+	\item quando un attributo diventa troppo complesso per essere rappresentato come attributo semplice/composto, è probabile
+	che debba essere \textbf{promosso a entità} separata, viceversa quando un'entità ha pochi attributi e non ha relazioni
+	significative con molte altre entità, è probabile che debba essere \textbf{declassata ad attributo}
+	\item la \textbf{scelta degli identificatori} deve essere fatta con attenzione, è preferibile usare un attributo della stessa
+	entità come identificatore (es. badge, codice fiscale, numero di serie, ecc.) piuttosto che creare un attributo extra ad hoc
+	(es. ID); l'utilizzo di attributi ID extra può provocare la presenza di più entità che rappresentano lo stesso oggetto reale,
+	ma hanno codici identificativi diversi
+	\item è bene \textbf{indicare sempre tutti gli attributi identificatori} dell'entità, in quanto nelle implementazioni
+	software (es. SQL) esistono delle strutture ausiliarie che facilitano l'accesso al database in maniera efficiente
+	attraverso più serie di identificatori (chiavi primarie, chiavi candidate, ecc.)
+	\item allo scopo di superare l'esame nel modo più semplice possibile, è consigliabile di semplificare il più possibile
+	il miniworld di interesse effettuando opportune \textbf{scelte semplificative}, trascurando più aspetti e dettagli possibili
+	che esistono nel mondo reale ma che non sono indicati nel testo dell'esame
+	\item è un errore salvare \textbf{l'età come attributo} di una entità (persona, animale, ecc.), in quanto tale attributo
+	richiede un aggiornamento continuo nel tempo, mentre è preferibile salvare la data di nascita e calcolare l'età al momento
+	opportuno
+	\item non ha senso memorizzare \textbf{dati duplicati} (es. età e data di nascita), in quanto si rischia di avere dati
+	incoerenti se uno dei due viene aggiornato e l'altro no, a meno che non vengano utilizzati per ottimizzare le performance
+	di esecuzione delle query più frequenti
+	\item la scelta di posizionare \textbf{attributi nelle relazioni} dipende dal fatto se essi sono riferiti al rapporto
+	tra le entità (descrivono la relazione) e non alle singole entità coinvolte, quando una delle due entità partecipa con
+	cardinalità (1,1) allora l'attributo può essere spostato indifferentemente tra la relazione e l'entità con cardinalità (1,1)
+\end{itemize}
+
+\subsection{Analisi della qualità degli ER}
+\subsubsection*{Introduzione}
+L'analisi della qualità del modello ER serve per capire le performance del database sotto l'aspetto dello spazio ocupato e del
+costo delle query. Per fare ciò si considera una stima/previsione in prospettiva futura del numero di istanze di ogni entità
+e le query che verranno eseguite più frequentemente sul database.
+
+\subsubsection*{Analisi dello spazio occupato}
+Si costruisce una tabella in cui la prima colonna contiene il nome di ogni entità o relazione, la seconda ne indica il tipo
+(entità o relazione), la terza indica il numero di istanze previste. Per alcune entità/relazioni il numero è fornito dal
+committente in funzione della destinazione d'uso finale del database, in altri casi è possibile calcolarlo in funzione
+delle cardinalità delle entità coinvolte.
+
+\subsubsection*{Analisi del costo delle query}
+Le query più comuni vengono fornite dal committente in base alla destinazione d'uso finale del database. Le operazioni da
+svolgere si classificano in:
+\begin{itemize}
+	\item \textbf{interactive}: se forniscono un valore da cercare all'interno di una tabella
+	\item \textbf{batch}: se vengono eseguite su tutti i valori di una certa tabella
+\end{itemize}
+Per ogni operazione da analizzare si crea una tabella in cui nella prima colonna si indica il nome dell'operazione, nella seconda
+il tipo (interactive o batch), nella terza una stima del numero di esecuzioni previste al giorno. Per ogni operazione si calcola
+il costo in termini di letture e scritture su disco necessarie per eseguire l'operazione; tale numero poi viene moltiplicato per
+il numero di esecuzioni previste al giorno per ottenere il costo totale giornaliero dell'operazione.
+
+In questi casi è facile notare come la presenza di attributi ridondanti alcune volte riduce notevolmente (anche di 10 volte),
+il costo delle query più freuenti, a discapito però dello spazio occupato che aumenta leggermente e del rischio di avere dati
+incoerenti. È necessario quindi valutare se vale la pena prendersi il rischio di incoerenza a vantaggio di un miglioramento
+delle performance del database.
+
+\newpage
+
+\section{Modello logico - relazionale}
+\subsection{Struttura del modello relazionale}
+\subsubsection*{Introduzione}
+Il modello relazionale è stato proposto da E.F. Codd nel 1970 come modello per rappresentare le relazioni di dipendenza e
+indipendenza tra i dati in un database. Si basa sul concetto matematico di relazione, rappresentata attraverso l'utilizzo di
+tabelle bidimensionali. Il \textbf{modello si basa sui valori}, ovvero i collegamenti e i riferimenti tra le varie relazioni
+vengono effettuati attraverso comparazioni tra i valori degli attributi delle tabelle.
+
+\subsubsection*{Relazione matematica}
+Dati n insiemi di valori \(D_1\), \(D_2\), \dots, \(D_n\), una relazione matematica \(R\) è un sottoinsieme del prodotto 
+artesiano ottenuto dalle tuple ordinate \((d_1, d_2, \dots, d_n)\) dove \(d_1 \in D_1\), \(d_2 \in D_2\), \dots, \(d_n \in D_n\).
+\[R \subseteq D_1 \times D_2 \times \dots \times D_n = \left\{ (d_1, d_2, \dots, d_n) \; | \; d_1 \in D_1, d_2 \in D_2, \dots, d_n \in D_n \right\}\]
+Le relazioni matematiche hanno le seguenti proprietà:
+\begin{itemize}
+	\item il numero di domini \(n\) è detto grado della relazione
+	\item il numero di tuple della relazione \(|R|\) è detto cardinalità della relazione.
+	\item siccome la relazione (matematica) è definita come un insieme, dalla definizione di insieme si ottene che non c'è
+	ordine tra le tuple della relazione e non si ammettono tuple duplicate
+	\item le relazioni matematiche si dicono strutture posizionali in quanto l'ordine dei domini \(D_1\), \(D_2\), \dots, \(D_n\)
+	(e dei valori nelle tuple) è importante per definire il significato della tupla e va sempre rispettato
+\end{itemize}
+
+\subsubsection*{Relazione del modello relazionale}
+A differenza delle relazioni matematiche, le relazioni del modello relazionale vengono modellate come tabelle e possiedono
+alcune proprietà aggiuntive:
+\begin{itemize}
+	\item i componenti della relazione si chiamano attributi e ciascuno possiede un nome univoco (indicato nel table header)
+	all'interno della relazione e un insieme di valori detti domini degli attributi (\(D_1\), \(D_2\), \dots, \(D_n\)), nella
+	rappresentazione tabellare gli attributi corrispondono alle colonne della tabella
+	\item le tuple della relazione sono insiemi ordinati di valori e sono rappresentate come righe della tabella;
+	\item siccome ogni attributo possiede un nome univoco, l'ordine con cui gli attributi sono definiti nella relazione non è
+	importante, per cui le relazioni ``tabellari'' non sono strutture posizionali; fissato un ordine, però, tale ordine deve
+	comunque essere rispettato da tutte le tuple della relazione per gli stessi motivi sopracitati
+\end{itemize}
+Si definisce quindi una relazione su un insieme di attributi \(X = \left\{A_1, A_2, \dots, A_n\right\}\) come un insieme di tuple
+\(t_j\) sullo stesso insieme di attributi \(X\) per cui esistono:
+\begin{itemize}
+	\item la funzione \(\dom\) che mappa ogni attributo \(A_i \in X\) al suo dominio di valori \(D_i \in D\)
+	\item la funzione \(t_j\) che mappa ogni attributo \(A_i \in X\) ad un valore \(t_j[A_i] \in \dom(A)\)
+\end{itemize}
+\[R(X) := \left\{\dom, t_j\right\} \qquad\quad \text{con} \qquad\quad \mathfx{\dom}{X}{D}{A_i}{D_i} \qquad\quad \mathfx{t_j}{X}{D_i}{A_i}{v_{i,j} \in D_i}\]
+
+\subsubsection*{Schema relazionale}
+Lo schema relazionale \(R(T)\) di una relazione \(R\) formato da un nome della relazione ``\(R\)'' e da un tipo della relazione
+``\(T\)'' definito come l'insieme delle associazioni tra gli attributi e i loro domini:
+\[R(T) := \left\{R, T\right\} \qquad T := \left\{ A_1 : D_1, A_2 : D_2, \dots, A_n : D_n \right\}\]
+\[R(T) = R(A_1 : D_1, \; A_2 : D_2, \; \dots, \; A_n : D_n) = R(A_1, A_2, \dots, A_n)\]
+La cardinalità di uno schema relazionale \(R(T)\) è il numero di attributi che lo compongono \(|T| = n\).
+Due tipi di relazioni \(T_1\) e \(T_2\) sono detti uguali se e solo se hanno le stesse associazioni tra attributi e domini,
+indipendentemente dall'ordine con cui sono elencate.
+
+\subsubsection*{Istanza relazionale}
+La istanza relazionale \(r(R)\) di una relazione \(R(T)\) è un insieme di tuple \(t_1, t_2, \dots, t_m\) definite come
+associazioni tra gli attributi e i loro valori:
+\[r(R) := \left\{ t_1, t_2, \dots, t_m \right\} \qquad t_j := \left\{ A_1 : v_{1,j}, A_2 : v_{2,j}, \dots, A_n : v_{n,j} \right\} \qquad t_j[A_i] = v_{i,j} \in D_i = \dom A_i\]
+La cardinalità di una istanza relazionale \(r(R)\) è il numero di tuple che la compongono \(|r(R)| = m\).
+
+\subsubsection*{Significato dei valori \texttt{NULL}}
+Quando non è possibile assegnare un valore ad un attributo di una tupla, si utilizza il valore speciale \texttt{NULL} per indicare
+l'assenza di valore. Per cui la definizione di tupla viene modificata come segue:
+\[t_j[A_i] = v_{i,j} \in D_i \vee \left\{ \texttt{NULL} \right\}\]
+Il valore \texttt{NULL} è diverso da qualsiasi valore presente in qualsiasi dominio ed è diverso da un altro valore \texttt{NULL}.
+Ciò significa che non è possibile effettuare confronti di uguaglianza o disuguaglianza con il valore \texttt{NULL}, in quanto
+non è noto se due valori \texttt{NULL} siano uguali o diversi tra di loro. I valori \texttt{NULL} possono significare:
+\begin{itemize}
+	\item valore indefinito: il valore non esiste ancora per tale attributo (es. data di consegna di un ordine non ancora spedito)
+	\item valore non disponibile: il valore esiste ma non è noto (es. età di una persona di cui non si conosce la data di nascita)
+	\item valore sconosciuto: il valore esiste ma non è noto (es. numero di telefono di una persona che non vuole rivelarlo)
+\end{itemize}
+
+\subsubsection*{Modello basato sui valori}
+Il modello relazionale si basa sui valori, ovvero i collegamenti e i riferimenti tra le varie relazioni vengono effettuati
+attraverso comparazioni tra i valori degli attributi delle tabelle. Ad esempio per collegare due tabelle ``\texttt{Studente}''
+e ``\texttt{Corso}'' si utilizza l'attributo ``\texttt{id\_corso}'' presente in entrambe le tabelle si uniscono le tuple delle
+due tabelle che condividono lo stesso valore di ``\texttt{id\_corso}''.
+
+I vantaggi di utilizzare un modello basato sui valori sono:
+\begin{itemize}
+	\item indipendenza dalla implementazione fisica del database: non è necessario creare collegamenti fisici tra le tabelle,
+	basta confrontare i valori degli attributi
+	\item portabilità dei dati tra sistemi diversi: i dati sono portabili tra due sistemi diversi che implementano il modello
+	relazionale, in quanto i collegamenti sono rappresentati tra valori degli attributi e non dall'implementazione fisica del
+	database
+	\item i collegamenti sono bidirezionali: è possibile navigare tra le tabelle in entrambe le direzioni
+\end{itemize}
+
+\subsubsection*{Schema del database}
+Lo schema del database è un insieme di schemi relazionali \(R_1(T_1)\), \(R_2(T_2)\), \dots, \(R_n(T_n)\) con nomi diversi
+\[\textbf{R} := \left\{ R_1(T_1), R_2(T_2), \dots, R_n(T_n) \right\}\]
+
+\subsubsection*{Istanza del database}
+L'istanza del database è un insieme di istanze relazionali \(r_1(R_1)\), \(r_2(R_2)\), \dots, \(r_n(R_n)\) corrispondenti
+agli schemi relazionali dello schema del database:
+\[\textbf{r} := \left\{ r_1(R_1), r_2(R_2), \dots, r_n(R_n) \right\}\]
+
+\subsection{Superchiavi, chiavi, chiavi primarie, chiavi esterne e chiavi candidate}
+\subsubsection*{Superkey - superchiave}
+Una superkey (o superchiave) è un insieme di attributi \(SK\) di una relazione \(R(T)\) che può essere utilizzato per
+identificare in modo univoco ogni tupla \(t_i\) all'interno della relazione.
+\[\forall \, t_i, t_j \in r \qquad t_i[SK] \neq t_j[SK]\]
+Dalla definizione di insieme si ottiene che ogni relazione deve almeno contenere una superkey che identifica in modo univoco
+ogni tupla.
+
+\subsubsection*{Key - chiave}
+Una key (o chiave primaria) è una superkey minimale, ovvero il minimo insieme di attributi \(K\) di una relazione \(R(T)\) che
+permette di identificare in modo univoco ogni tupla \(t_i\) all'interno della relazione. Ciò significa che se si rimuove anche
+un solo attributo da \(K\), l'insieme risultante non è più in grado di identificare in modo univoco ogni tupla.
+\[K \text{ is superkey and } \exists \, t_i, t_j \in r \;\; | \;\; t_i[K' \subset K] = t_j[K' \subset K]\]
+Una chiave è sempre superchiave, ma non tutte le superchiavi sono chiavi. Non c'è nessun limite sul numero di chiavi che una
+relazione può avere.
+
+\subsubsection*{Primary key - chiave primaria}
+La primary key (o chiave primaria) \(PK\) è una chiave scelta tra le possibili chiavi di una relazione \(R(T)\) come
+identificatore principale delle tuple all'interno della relazione. La chiave primaria, oltre ai vincoli dati dalle
+definizioni di chiave e superchiave, deve anche soddisfare il vincolo che i suoi attributi non possono assumere il
+valore \texttt{NULL}.
+
+Nel modello relazionale, la chiave primaria si indica sottolineando gli attributi che la compongono.
+
+\subsubsection*{Foreign key - chiave esterna}
+La foreign key (o chiave esterna) è un insieme di uno o più attributi \(FK = \left\{ A_1, A_2, \dots A_n \right\}\) in una
+relazione \(R_1(T_1)\) che fa riferimento agli attributi della chiave primaria \(PK\) di un'altra relazione \(R_2(T_2)\).
+Deve soddisfare:
+\[\dom(A_k) = \dom(B_k) \; \text{con} \; k \in [1,n] \;\; \wedge \;\; \forall \, t_i \in r(R_i), \;\; t_i[FK] = \texttt{NULL} \vee \exists \, t_j \in r(R_j) \;\; | \;\; t_i[FK] = t_j[PK]\]
+La chiave esterna viene utilizzata per stabilire e mantenere i collegamenti tra le due relazioni. Si nota che i collegamenti
+sono basati sui valori degli attributi e non su riferimenti fisici tra le tabelle.
+
+Nel modello relazionale, la chiave esterna si indica con una freccia che parte dagli attributi della chiave esterna e punta
+agli attributi della chiave primaria a cui fa riferimento. È molto importante notare che l'ordine degli attributi nella chiave
+esterna deve essere lo stesso dell'ordine degli attributi nella chiave primaria.
+
+\subsubsection*{Candidate key - chiave candidata}
+Una chiave candidata è una chiave che potrebbe essere scelta come chiave primaria di una relazione \(R(T)\), ma che non
+è stata effettivamente scelta come tale. Una relazione può avere più chiavi candidate, ma solo una di esse viene selezionata
+come chiave primaria. Le chiavi candidate sono importanti perché forniscono alternative per l'identificazione univoca delle
+tuple all'interno della relazione e in SQL possono essere utilizzate per creare indici secondari per migliorare le performance
+delle query.
+
+\newpage
+
+\subsection{Integrity constraints e vincoli di chiave}
+\subsubsection*{Introduzione}
+Gli integrity constraints sono delle regole o condizioni definite nello schema del database e che devono essere rispettate
+dalle istanze del database per garantire la coerenza e l'integrità dei dati memorizzati. Un constraint è definito come
+un predicato logico che restituisce vero o falso a seconda che l'istanza del database soddisfi o meno la condizione specificata.
+Si considera un database corretto se e solo se tutti i constraints definiti nello schema del database sono soddisfatti.
+
+\subsubsection*{Constraint intra-relazionali - (domain, tuple, key)}
+I constraint intra-relazionali sono vincoli che si applicano all'interno di una singola relazione.
+\begin{itemize}
+	\item \textbf{tuple constraints}: condizioni che i valori dei vari attributi di una singola tupla devono soddisfare; ad
+	esempio il voto dell'esame deve essere 30 per avere la lode
+	\item \textbf{domain constraints}: (è un tuple constraint applicato localmente ai valori del singolo attributo) ogni
+	attributo di una relazione deve assumere valori appartenenti al dominio specificato per tale attributo; ad esempio il
+	voto di un esame deve essere un numero intero compreso tra 18 e 30, oppure il nome di una persona non può contenere
+	essere \texttt{NULL}
+	\item \textbf{key constraints}: specifica quali attributi costituiscono la chiave primaria di una relazione e che questi
+	devono soddisfare la condizione di unicità per ogni tupla, ovvero non possono esistere due tuple con stessi valori per gli
+	attributi della chiave primaria, non c'è vincolo sul numero di chiavi che una relazione può avere
+	\item \textbf{primary key constraint}: come key constraint, ma in più specifica che gli attributi della chiave primaria
+	non possono assumere il valore \texttt{NULL}
+\end{itemize}
+
+\subsubsection*{Constraint inter-relazionali o referential integrity constaint}
+Il referential integrity constraint specifica quali attributi di una relazione sono chiavi esterne che fanno riferimento
+agli attributi della chiave primaria di un'altra relazione e a quale relazione fanno riferimento. Questo constraint garantisce
+la coerenza tra i collegamenti tra le varie tabelle/relazioni e previene la presenza di riferimenti a dati inesistenti.
+
+Ad esempio, se una tabella ``\texttt{Exam}'' contiene un attributo ``\texttt{id\_studente}'' che fa riferimento alla chiave
+primaria ``\texttt{matricola}'' nella tabella ``\texttt{Studente}'', allora ogni valore di ``\texttt{id\_studente}'' deve essere
+presente come valore dell'attributo ``\texttt{matricola}'' di una tupla nella tabella ``\texttt{Studente}''.
+
+\subsection{Mapping da ER a relazionale}
+\subsubsection*{Introduzione}
+Il mapping da ER a relazionale consiste nel trasformare il modello ER (ristrutturato) in un modello relazionale seguendo una
+serie di regole di trasformazione. In genere dopo aver mappato il modello ER in relazionale, si procede con la normalizzazione
+del modello relazionale per eliminare ridondanze e anomalie. Tale passaggio, però, non è necessario se si è già provveduto
+a progettare un buon modello ER.
+
+\subsubsection*{Mappatura delle entità}
+Ogni entità viene mappata in una relazione con lo stesso nome dell'entità. Gli attributi dell'entità diventano gli attributi
+della relazione. Gli attributi identificatori dell'entità diventano la chiave primaria della relazione e vengono sottolineati.
+
+\subsubsection*{Mappatura delle entità deboli}
+Le entità deboli vengono mappate come le entità forti, ma in più si aggiungono alla relazione gli attributi identificatori
+dell'entità forte da cui dipendono come chiave primaria dell'entità debole.
+
+\subsubsection*{Mappatura delle relazioni many to many}
+Le relazioni many to many (con cardinalità (x,N), (y,N)) vengono mappate come una nuova relazione con lo stesso nome della
+relazione tra le due entità coinvolte. Gli attributi della relazione diventano gli attributi della nuova relazione. In più
+si aggiungono alla nuova relazione gli attributi identificatori di entrambe le entità coinvolte come chiavi esterne della
+nuova relazione. La chiave primaria della nuova relazione è formata dalla combinazione delle chiavi esterne delle due entità. 
+
+\subsubsection*{Mappatura delle relazioni one to many con partecipazione obbligatoria (1,1) - (x,N)}
+La relazione one to many viene condensata tutta dalla parte dell'entità sul lato one (1,1). Gli attributi della relazione
+(dell'ER) diventano attributi dell'entità sul lato one (1,1) e si aggiungono gli attributi di chiave esterna riferiti
+alla chiave primaria dell'entità sul lato many (x,N). La chiave primaria dell'entità sul lato one (1,1) rimane invariata.
+
+\subsubsection*{Mappatura delle relazioni one to many con partecipazione opzionale (0,1) - (x,N)}
+In questo caso se si mappasse come relazione one to many con partecipazione obbligatoria, si rischierebbe di avere
+proliferazione di \texttt{NULL} values. In alternativa si può mappare la relazione one to many come una relazione many to many
+in cui la chiave primaria della nuova relazione è soltanto la chiave primaria dell'entità sul lato one (0,1), ma in questo
+caso si aumentano le complessità delle query (sarà necessario fare più join). La scelta di quale metodo utilizzare dipende
+da quanto si è disposti ad accettare la proliferazione di \texttt{NULL} values rispetto alla complessità delle query.
+
+Per l'esame è sempre consigliato usare il primo metodo (one to many con partecipazione obbligatoria).
+
+\subsubsection*{Mappatura delle relazioni one to one con partecipazione obbligatoria (1,1) - (1,1)}
+La relazione one to one viene condensata tutta da una delle due entità coinvolte (si può scegliere arbitrariamente una delle
+due, magari preferendo quella che più facilita la scrittura delle query). In questo modo una delle due entità avrà anche
+tutti gli attributi della relazione (dell'ER) e gli attributi di chiave esterna riferiti alla chiave primaria dell'altra entità.
+
+\subsubsection*{Mappatura delle relazioni one to one con partecipazione ``semi-obbligatoria'' (1,1) - (0,1)}
+In questo caso, si utilizza la stessa tecnica della mappatura delle relazioni one to one con partecipazione obbligatoria
+(illustrata sopra), ma per evitare proliferazione di \texttt{NULL} values, si è obbligati a condesare tutta la relazione nell'entità
+con partecipazione obbligatoria (1,1).
+
+\subsubsection*{Mappatura delle relazioni one to one con partecipazione opzionale (0,1) - (0,1)}
+In questo caso si può utilizzare di nuovo la stessa logica della mappatura delle relazioni one to one con partecipazione
+obbligatoria oppure si può scegliere di mapparle anche come relazioni many to many in cui la chiave primaria della nuova
+relazione è formata dalla combinazione delle chiavi primarie di una delle due entità coinvolte, in modo da eliminare la
+proliferazione di \texttt{NULL} values. In questo ultimo caso, però, si aumentano le complessità delle query. La scelta di quale
+metodo utilizzare dipende da quanto si è disposti ad accettare la proliferazione di \texttt{NULL} values rispetto alla complessità
+delle query.
+
+Per l'esame è sempre consigliato usare il primo metodo (one to many con partecipazione obbligatoria).
+
+\subsubsection*{Mappatura delle relazioni ternarie}
+Le relazioni ternarie si mappano come relazioni many to many in cui la chiave primaria della nuova relazione è formata
+dalla combinazione delle chiavi primarie di tutte e tre le entità coinvolte. Gli attributi della relazione (dell'ER)
+diventano gli attributi della nuova relazione.
+
+Nel caso in cui una delle entità coinvolte partecipi con cardinalità (1,1), si può scegliere di condensare tutta la relazione
+nell'entità con cardinalità (1,1) seguendo le stesse regole di mappatura delle relazioni one to many con partecipazione
+obbligatoria.
+
+\subsubsection*{Mappatura delle relazioni ricorsive}
+Per la mappatura delle relazioni ricorsive è consigliato prima ``linearizzare'' la relazione ricorsiva come relazione tra due
+entità separate (ma che in realtà rappresentano la stessa entità) e poi applicare le regole di mappatura viste sopra. In
+particolare i nomi degli attributi di chiave esterna prendono il nome dai rami della relazione (es. in ``succede (al trono)'',
+i due attributi saranno ``successore'' e ``predecessore''). In generale le relazioni ricorsive ``linearizzate'' possono
+essere di tre tipi:
+\begin{itemize}
+	\item con struttura a lista (es. sovrano succede un altro sovrano) e si mappano come one to one
+	\item con struttura ad albero (es. dipendente dirige di altri dipendenti) e si mappano come one to many
+	\item con struttura multigrafo (es. persona conosce altre persone) e si mappano come many to many
+\end{itemize}
+
+\subsubsection*{Caso particolare di relazioni ternarie ricorsive}
+Nel caso di relazioni ternarie ricorsive (es. medico visita medico per una malattia), le due chiavi esterne che puntano alla
+stessa entità (``medico'') devono essere distinte tra di loro, per cui avranno due frecce distinte che puntano alla stessa
+chiave primaria dell'entità di riferimento.
+
+\subsection{Normalizzazione del modello relazionale}
+\subsubsection*{Scopi della normalizzazione}
+La normalizzazione del modello relazionale è un processo che mira migliorare la struttura dello schema relazionale per
+garantire:
+\begin{itemize}
+	\item \textbf{rendere chiara la semantica degli attributi}: separare entità che nella realtà sono distinte in relazioni
+	distinte ed esplicitare le relazioni tra di esse attraverso l'uso di chiavi esterne, in questo modo si facilita la
+	comprensione dello schema relazionale anche a chi non lo ha progettato
+	\item \textbf{riduzione della ridondanza dei dati}: evitare di memorizzare più volte lo stesso dato o un dato deducibile
+	da altri in quanto un aggiornamento parziale dei dati ridondanti può portare a problemi di incoerenza
+	\item \textbf{riduzione della proliferazione di \texttt{NULL} values}: evitare di avere molti attributi opzionali in una
+	singola relazione in quanto ciò può portare a spreco di spazio, crea difficoltà nell'interpretazione dei risultati delle
+	query, siccome esistono molteplici interpretazioni di \texttt{NULL}, e serve maggiore attenzione nel caso di inner e outer
+	join o nelle funzioni di aggregazione
+	\item \textbf{eliminazione della generazione di tuple spurie}: permettere alle tabelle di essere ricomposte tramite join
+	che coinvolgono almeno una chiave primaria o una chiave esterna senza generare tuple spurie che non rappresentano dati
+	reali, ma solo ricombinazioni di valori prive di significato
+\end{itemize}
+
+\subsubsection*{Processo di normalizzazione}
+La normalizzazione si basa sull'analisi delle dipendenze funzionali tra gli attributi delle relazioni e sull'applicazione
+di una serie di regole di normalizzazione per minimizzare ridondanza, anomalie nell'aggiornamento parziale dei dati e tuple
+spurie. Per raggiungere questo obiettivo, si effettuano alcuni passaggi per portare lo schema ad uno dei tre livelli di
+normalizzazione (1NF, 2NF, 3NF) desiderati. In alcuni casi è sufficiente fermarsi al secondo livello per questioni di
+performance, in generale però si cerca di arrivare almeno al terzo livello di normalizzazione.
+
+Il processo di normalizzazione è necessario solo per i modelli relazionali ottenuti senza una buona progettazione ER preliminare.
+Gli schemi relazionali ottenuti da modelli ER ben progettati non necessitano di normalizzazione.
+
+\subsubsection*{Prime attribute - attributo primo}
+Un attributo si dice primo se appartiene a qualche chiave candidata della relazione. In caso contrario se non appartiene
+a nessuna chiave candidata, si dice non-primo.
+
+\subsubsection*{Functional dependency - dipendenza funzionale}
+Due insiemi di attributi \(X\) e \(Y\) di una relazione \(R(T)\) sono in dipendenza funzionale, indicata come \(X \to Y\),
+se per ogni coppia di tuple \(t_i\) e \(t_j\) si ha che se i valori degli attributi in \(X\) sono uguali, allora anche i valori
+degli attributi in \(Y\) sono uguali.
+\[\forall \, t_i, t_j \in r(R) \;\; \text{vale} \;\; t_i[X] = t_j[X] \implies t_i[Y] = t_j[Y]\]
+Si osserva che \(X \to Y\) non implica necessariamente che \(Y \to X\). Inoltre se \(X\) è una chiave candidata, allora \(X\)
+è in dipendenza funzionale con tutti i sottoinsiemi di \(Y\) e in generale con tutti gli altri attributi della relazione.
+Infine la dipendenza funzionale gode delle seguenti proprietà:
+\begin{itemize}
+	\item \textbf{riflessività}: se \(Y \subseteq X\), allora \(X \to Y\)
+	\item \textbf{aumentatività}: se \(X \to Y\), allora \(XZ \to YZ\) per ogni insieme di attributi \(Z\)
+	\item \textbf{transitività}: se \(X \to Y\) e \(Y \to Z\), allora \(X \to Z\)
+	\item \textbf{decomposizione}: se \(X \to YZ\), allora \(X \to Y\) e \(X \to Z\)
+	\item \textbf{unione}: se \(X \to Y\) e \(X \to Z\), allora \(X \to YZ\)
+	\item \textbf{pseudo-transitività}: se \(X \to Y\) e \(YW \to Z\), allora \(XW \to Z\)
+\end{itemize}
+
+\subsubsection*{Full functional dependency - dipendenza funzionale completa}
+Una dipendenza funzionale \(X \to Y\) si dice completa se non esiste un sottoinsieme proprio \(X' \subset X\) tale che
+\(X' \to Y\). Ovvero se rimuovendo un elemento da \(X\) la dipendenza funzionale non è più valida. In caso contrario si
+dice parziale.
+
+\subsubsection*{Transitive dependency - dipendenza transitiva}
+Una dipendenza funzionale \(X \to Y\) si dice transitiva se esiste un insieme di attributi \(Z\) che non è chiave candidata
+e nemmeno sottoinsieme di nessuna chiave candidata, tale che valgono \(X \to Z\) e \(Z \to Y\). In altre parole, un attributo
+\(Y\) dipende transitivamente da \(X\) se dipende da un altro attributo \(Z\) che a sua volta dipende da \(X\).
+
+\subsubsection*{Trivial and nontrivial functional dependency - dipendenza funzionale banale e non banale}
+Una dipendenza funzionale \(X \to Y\) si dice banale se \(Y \subseteq X\). In caso contrario si dice non banale.
+
+\subsubsection*{First Normal Form - 1NF}
+La prima forma normale (1NF) richiede che tutti i domini degli attributi di una relazione siano composti solo da elementi
+atomici (non divisibili). In altre parole, ogni attributo deve contenere un singolo valore per ogni tupla e non è possibile
+avere attributi multivalore, attributi composti o relazioni annidate (più righe per tupla). Per eliminare queste situazioni
+si può procedere in diversi modi:
+\begin{itemize}
+	\item \textbf{attributi multivalore}:
+	\begin{enumerate}[topsep=0pt]
+		\item si sposta l'attributo multivalore in una nuova relazione con anche la chiave primaria della relazione originale
+		(metodo preferito)
+		\item si estende la chiave primaria della relazione originale con l'attributo multivalore in modo da duplicare
+		le tuple per ogni valore dell'attributo, si aggiunge, però, ridondanza di dati
+		\item si duplica l'attributo multivalore in più attributi atomici (es. telefono1, telefono2, telefono3), se si conosce
+		a priori il numero massimo di valori, si provoca però proliferazione di \texttt{NULL} values e complicazione delle query
+		per cui è molto sconsigliato
+	\end{enumerate}
+	\item \textbf{relazioni annidate}: si crea una nuova relazione per la relazione annidata, in cui si aggiunge come chiave
+	esterna la chiave primaria della relazione originale in modo da riunire i dati con una join
+\end{itemize}
+
+\subsubsection*{Second Normal Form - 2NF}
+La seconda forma normale (2NF) richiede che tutti gli attributi non-primi di una relazione siano in dipendenza funzionale
+completa con tutte le chiavi della relazione. In altre parole, gli attributi della relazione devono dipendere dalle chiavi
+completamente e non da parti delle chiavi. Per portare una relazione in 2NF, si separano gli attributi non-primi che dipendono
+solo da una parte della chiave primaria in altre relazioni insieme alla parte di chiave da cui dipendono.
+
+\subsubsection*{Third Normal Form - 3NF}
+La terza forma normale (3NF) richiede che tutti gli attributi non-primi di una relazione non siano in dipendenza transitiva
+con qualsiasi chiave della relazione. Ovvero tutti gli attributi devono dipendere direttamente dalle chiavi. Per portare una
+relazione in 3NF, si separano gli attributi non-primi che dipendono transitivamente da altri attributi in altre relazioni
+insieme agli attributi da cui dipendono.
+
+\subsubsection*{Alternative Third Normal Form - 3NF con definizione alternativa}
+In alternativa alla definizione di 3NF vista sopra, una relazione si dice in 3NF se per ogni dipendenza funzionale
+\(X \to Y\) non banale, \(X\) deve esssere superchiave oppure ogni attributo in \(Y\) è primo. Questa definizione è
+equivalente alla precedente in quanto se \(X\) non è superchiave, allora gli attributi in \(Y\) non possono dipendere
+transitivamente da \(X\) se sono tutti primi.
 
 \newpage
 
 \section{Algebra relazionale}
+\subsubsection*{Introduzione}
+L'algebra relazionale è un linguaggio formale per la manipolazione e l'interrogazione di database relazionali. Si basa
+su un insieme di operatori che operano su relazioni (tabelle) per produrre nuove relazioni come risultato. Gli operatori
+dell'algebra relazionale si dividono in due categorie principali: operatori di aggiornamento e operatori di interrogazione
+(query).
+
+Le operazioni di algebra relazionale possono essere combinate tra di loro per formare espressioni più complesse. Inoltre
+l'algebra relazionale è un \textbf{linguaggio procedurale}, in quanto l'utente deve specificare come ottenere il risultato
+desiderato attraverso una sequenza di operazioni.
+
+\subsection{Operazioni di aggiornamento - inserimento, modifica e rimozione}
+Le opzioni di aggiornamento consistono nelle operazioni di inserimento, modifica e rimozione di tuple. Sono in funzioni che
+mappano un'istanza del database in una nuova istanza del database che rispetta sempre tutti i vincoli imposti dallo schema
+del database (sia a livello di relazione che di integrità referenziale).
+
+\subsubsection*{Inserimento}
+L'inserimento di una nuova tupla \(t_{new}\) in una relazione \(R(T)\) avviene se e solo se la nuova istanza \(r'(R)\)
+ottenuta dopo l'inserimento rispetta tutti i constraints imposti dallo schema (domain constraints, tuple constraints, key
+constraints, referential integrity). Se ciò non avviene, l'inserimento può essere rifiutato oppure si possono compirere
+operazioni di correzione dell'inserimento affinché la nuova istanza \(r'(R)\) rispetti tutti i constraints.
+
+\subsubsection*{Modifica}
+Anche la modifica di una tupla \(t_i\) in una relazione \(R(T)\) avviene se e solo se la nuova istanza \(r'(R)\) ottenuta
+dopo la modifica rispetta tutti i constraints imposti dallo schema. In analogia all'inserimento, se ciò non avviene,
+la modifica può essere rifiutata (restrict) oppure vengono compiute operazioni di correzione per propagare la modifica
+a tutte le tuple coinvolte (es. aggiornamento delle chiavi esterne) affinché la nuova istanza \(r'(R)\) rispetti tutti
+i constraints (cascade).
+
+\subsubsection*{Rimozione}
+Anche per la rimozione è necessario che la nuova istanza \(r'(R)\) ottenuta dopo la rimozione rispetti tutti i constraints
+imposti dallo schema. In questo caso, se la rimozione di una tupla \(t_i\) comporta la violazione di un vincolo di integrità
+referenziale (es. la tupla rimossa è referenziata da una chiave esterna in un'altra relazione), si può scegliere di rifiutare
+la rimozione (restrict) oppure di propagare la rimozione, rimuovendo anche tutte le tuple che fanno riferimento alla tupla
+rimossa (cascade). È possibile scegliere di impostare le chiavi esterne che fanno riferimento alla tupla rimossa ad un
+valore di default (set default) oppure a \texttt{NULL} (set null) anche se quest'ultima opzione è fortemente sconsigliata
+in quanto crea tuple ``orfane'' e senza significato.
+
+\subsection{Query e interrogazioni di base (set operators - selection, projection)}
+\subsubsection*{Operazioni fondamentali}
+Le operazioni fondamentali dell'algebra relazionale si dividono in set operators e relational operators:
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\textbf{Set operators}
+		\begin{itemize}
+			\item union (\(\cup\))
+			\item intersection (\(\cap\))
+			\item difference (\(-\))
+			\item cartesian product (\(\times\))
+		\end{itemize}
+	\end{minipage}
+	\begin{minipage}{0.45\textwidth}
+		\textbf{Relational operators}
+		\begin{itemize}
+			\item rename (\(\rho\))
+			\item selection (\(\sigma\))
+			\item projection (\(\pi\))
+			\item natural join (\(\bowtie\))
+			\item theta join (\(\bowtie_\Theta\))
+			\item outer theta join (\(\fullouterjoin_\Theta\))
+		\end{itemize}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Compatibilità all'unione}
+Due relazioni \(R_1(X_1,X_2, \dots, X_n)\) e \(R_2(Y_1,Y_2, \dots, Y_n)\) sono dette compatibili all'unione se e solo se
+hanno lo stesso grado \(n\) (stesso numero degli attributi) e se ogni coppia ordinata di attributi corrispondenti ha lo
+stesso dominio e lo stesso nome. Formalmente:
+\[R_1 \equiv R_2 \;\; \Leftrightarrow \;\; \forall i \in \{1, \dots, n\} \;\; \text{vale} \;\; X_i = Y_i \; \wedge \; \dom(X_i) = \dom(Y_i)\]
+
+\subsubsection*{Unione}
+Date due relazioni \(R_1\) e \(R_2\) compatibili all'unione, l'unione tra le due relazioni \(R_1 \cup R_2\) è la relazione
+che contiene tutte le tuple che sono presenti in \(R_1\) o in \(R_2\) (o in entrambe).
+\[R_1 \cup R_2 = \left\{ t \; | \; t \in R_1 \vee t \in R_2 \right\}\]
+
+\subsubsection*{Intersezione}
+Date due relazioni \(R_1\) e \(R_2\) compatibili all'unione, l'intersezione tra le due relazioni \(R_1 \cap R_2\) è la relazione
+che contiene tutte le tuple che sono presenti sia in \(R_1\) che in \(R_2\).
+\[R_1 \cap R_2 = \left\{ t \; | \; t \in R_1 \wedge t \in R_2 \right\}\]
+
+\subsubsection*{Differenza}
+Date due relazioni \(R_1\) e \(R_2\) compatibili all'unione, la differenza tra le due relazioni \(R_1 - R_2\) è la relazione
+che contiene tutte le tuple che sono presenti in \(R_1\) ma non in \(R_2\). Viceversa per \(R_2 - R_1\). Si osserva che
+l'operazione di differenza non è commutativa.
+\[R_1 - R_2 = \left\{ t \; | \; t \in R_1 \wedge t \notin R_2 \right\} \qquad\qquad R_2 - R_1 = \left\{ t \; | \; t \in R_2 \wedge t \notin R_1 \right\}\]
+
+\subsubsection*{Prodotto cartesiano}
+Date due relazioni \(R_1(X_1, X_2, \dots, X_n)\) e \(R_2(Y_1, Y_2, \dots, Y_m)\), non necessariamente compatibili all'unione,
+il prodotto cartesiano tra le due relazioni \(R_1 \times R_2\) è la relazione che contiene tutte le possibili combinazioni
+di tuple di \(R_1\) e \(R_2\). La relazione risultante ha grado \(n + m\) e ha la cardinalità pari al prodotto delle cardinalità
+delle due relazioni originali.
+\[R_1 \times R_2 = \left\{ t_1 t_2 \; | \; t_1 \in R_1, \; t_2 \in R_2 \right\}\]
+
+\subsubsection*{Rename - rinominazioni}
+Data una relazione \(R(X)\) con un set di attributi \(A_1, A_2, \dots, A_n \in X\) ed un nuovo set di attributi
+\(B_1, B_2, \dots, B_n \notin X\), la rinominazione consiste nel creare una nuova relazione con gli stessi dati iniziali, 
+ma con un nuovo nome per gli attributi richiesti. I domini degli attirbuti e i dati contenuti non vengono alterati. Formalmente:
+\[\rho_{B_1, B_2, \dots, B_n \leftarrow A_1, A_2, \dots, A_n}(R) = \left\{ t \; | \; \exists x \in R, \; \text{t.c.} \; \begin{cases}
+	t[B_1, \dots, B_n] = x[A_1, \dots, A_n] \\
+	t[C] = x[C] \; \text{con} \; C \neq A_1, \dots, A_n
+\end{cases} \right\}\]
+La rinominazione non altera né il grado, né la cardinalità, né i dati della relazione originale.
+
+\textbf{Esempio}: si vogliono rinominare gli attributi della relazione ``Studente(id, name, surname)'' in ``Studente(student\_id, first\_name, last\_name)'':
+\[\rho_{\text{student\_id}, \; \text{first\_name}, \; \text{last\_name} \; \leftarrow \; \text{id}, \; \text{name}, \;\text{surname}}(\text{Studente})\]
+
+\subsubsection*{Selection - selezioni - horizontal decomposition}
+Data una relazione \(R(X)\) e una condizione booleana \(\theta\) che coinvolge gli attributi di \(R\), la selezione
+\(\sigma_\theta(R)\) è la relazione che contiene tutte le tuple di \(R\) che soddisfano la condizione \(\theta\).
+\[\sigma_\theta(R) = \left\{ t \; | \; t \in R \; \wedge \; \theta(t) = \text{true} \right\}\]
+La proposizione \(\theta\) può essere una combinazione di condizioni semplici (es. uguaglianze, disuguaglianze, confronti)
+oppure una composizione di esse tramite operatori logici (AND, OR, NOT). La selezione non altera il grado della relazione
+originale, ma può ridurne la cardinalità.
+
+\textbf{Esempio}: si vuole selezionare tutti gli studenti con voto maggiore o uguale a 28 dalla relazione ``Esame(student\_id, course\_id, grade)'':
+\[\sigma_{\text{grade} \geq 28}(\text{Esame})\]
+
+\subsubsection*{Projection - proiezioni - vertical decomposition}
+Data una relazione \(R(X)\) e un sottoinsieme di attributi \(\{A_1, \dots, A_m\} \subseteq X\), la proiezione \(\pi_Y(R)\) è la relazione
+che contiene tutte le tuple di \(R\) limitate agli attributi in \(Y\).
+\[ \pi_{A_1, \dots, A_m}(R) = \left\{ t[A_1, \dots, A_m] \; | \; t \in R \right\} \]
+La proiezione riduce il grado della relazione originale al numero \(m\) di attributi su cui viene fatta la proiezione, mentre
+la cardinalità può rimanere invariata (se gli attributi sono superchiave) o ridursi nel caso in cui la proiezione generi tuple
+duplicate (che vengono eliminate).
+
+Quando si combinano più projection e selection, è preferibile eseguire prima la selection e poi la projection in quanto se
+si effettua prima la projection non è possibile utilizzare gli attributi eliminati per la selezione. Per questo motivo,
+le operazioni di projection e selection non sono commutative.
+
+\textbf{Esempio}: si vuole ottenere la lista dei nomi e cognomi degli studenti dalla relazione ``Studente(id, name, surname)'':
+\[\pi_{\text{name}, \; \text{surname}}(\text{Studente})\]
+
+\subsubsection*{Gestione dei \texttt{NULL} values nelle selection e nelle projection}
+Siccome i \texttt{NULL} values non sono uguali a nessun altro valore (inclusi altri \texttt{NULL} values), nelle selection
+le condizioni che coinvolgono attributi con \texttt{NULL} values devono utilizzare gli operatori \texttt{IS NULL} e
+\texttt{IS NOT NULL} per verificare la presenza o l'assenza di \texttt{NULL} values.
+
+Nelle projection, i \texttt{NULL} values vengono considerati come elementi uguali tra di loro per cui tuple che differiscono
+solo per la presenza di \texttt{NULL} values in attributi proiettati, vengono considerate duplicate e quindi eliminate.
+
+
+\subsection{Join operations}
+\subsubsection*{Theta join}
+Date due relazioni \(R_1(X)\) e \(R_2(Y)\) e una proposizione \(\Theta\), la theta join \(R_1 \bowtie_\Theta R_2\) è la relazione
+che contiene tutte le combinazioni di tuple \(t_1 \in R_1\) e \(t_2 \in R_2\) che soddisfano la condizione \(\Theta\).
+\[\text{Theta join}: \;\; R_1 \bowtie_\Theta R_2 = \left\{ t \; | \; \exists x \in R_1, \exists y \in R_2 \; \text{t.c.} \; t[X] = x \; \wedge \; t[Y] = y \; \wedge \; \Theta(t) = \text{true} \right\}\]
+La theta join ha lo stesso risultato del prodotto cartesiano con una selezione basata sulla condizione \(\Theta\), ma nei DBMS
+le operazioni compiute dalla theta join sono più efficienti:
+\[R_1 \bowtie_\Theta R_2 = \sigma_\Theta (R_1 \times R_2)\]
+La relazione risultante ha grado pari alla somma dei gradi delle due relazioni originali e la cardinalità minore o uguale al
+prodotto delle cardinalità.
+
+\textbf{Esempio}: si vuole ottenere tutte le coppie manager-impiegato in cui il manager è più giovane dell'impiegato dalle
+relazioni ``Manager(manager\_id, manager\_name, manager\_age)'' e ``Impiegato(empl\_id, empl\_name, empl\_age)'':
+\[\text{Manager} \bowtie_{\text{manager\_age} < \text{empl\_age}} \text{Impiegato}\] 
+
+\subsubsection*{Equi-join}
+Le equi-join sono un caso particolare di theta join in cui la condizione \(\Theta\) è composta esclusivamente da uguaglianze
+tra attributi di due relazioni.
+\[\text{Equi join}: \;\; R_1 \bowtie_{A_1 = B_1, A_2 = B_2, \dots, A_k = B_k} R_2\]
+Anche in questo caso, la relazione risultante ha grado pari alla somma dei gradi delle due relazioni originali e la cardinalità
+minore o uguale al prodotto delle cardinalità.
+
+\subsubsection*{Natural join}
+La natural join è un caso particolare di equi-join in cui gli attributi su cui si effettua l'uguaglianza hanno lo stesso nome.
+In questo caso, nella relazione risultante, gli attributi comuni alle due relazioni originali compaiono una sola volta. Formalmente:
+\[\text{Natural join}: \;\; R_1 \bowtie R_2 = R_1 \bowtie_{A_1 = A_1, A_2 = A_2, \dots, A_k = A_k} R_2\]
+In questo caso, la relazione risultante ha grado pari alla somma dei gradi delle due relazioni originali meno il numero
+degli attributi comuni, e la cardinalità minore o uguale al prodotto delle cardinalità. Più specificatamente:
+\begin{itemize}
+	\item se gli attributi comuni non sono chiave primaria in nessuna delle due relazioni, la cardinalità è minore o uguale al
+	prodotto delle cardinalità
+	\item se gli attributi comuni sono chiave primaria in una delle due relazioni, la cardinalità è minore o uguale alla
+	cardinalità della relazione in cui sono chiave primaria
+	\item se gli attributi comuni sono chiave primaria in una delle due e chiave esterna nell'altra, la cardinalità è minore
+	o uguale alla cardinalità della relazione in cui è chiave primaria
+\end{itemize}
+
+\subsubsection*{Dangling tuples - tuple penzolanti}
+Le dangling tuples sono tuple che non trovano corrispondenza nell'operazione di join. Nelle inner join (le theta join,
+equi-join e natural join), le dangling tuples vengono eliminate dalla relazione risultante. Per evitare la perdita di
+informazioni dovuta all'eliminazione delle dangling tuples, si utilizzano le outer join.
+
+\subsubsection*{Full outer join}
+La full outer join tra due relazioni \(R_1(XW)\) e \(R_2(YZ)\) restituisce tutte le tuple ottenute dalla natural join tra le due
+relazioni, più tutte le dangling tuples di entrambe le relazioni, riempiendo con \texttt{NULL} values gli attributi
+mancanti. Formalmente:
+\[\text{Full outer join}: \;\; R_1 \fullouterjoin_{W \Theta Z} R_2 = \left( \begin{array}{c}
+	R_1 \bowtie_{W \Theta Z} R_2 \\ \cup \\
+	(R_1 - \pi_{X,W}(R_1 \bowtie_{W \Theta Z} R_2)) \times \left\{ Y = \texttt{NULL}, Z = \texttt{NULL} \right\} \\ \cup \\
+	(R_2 - \pi_{Y,Z}(R_1 \bowtie_{W \Theta Z} R_2)) \times \left\{ X = \texttt{NULL}, W = \texttt{NULL} \right\}
+\end{array} \right) \]
+Il grado della relazione risultante è dato dalla somma dei gradi delle due relazioni originali meno il numero di attributi
+comuni, mentre la cardinalità è data dalla somma del numero di tuple ottenute dalla natural join più il numero di dangling
+tuples di entrambe le relazioni originali.
+
+\subsubsection*{Left outer join}
+La left outer join tra due relazioni \(R_1(XW)\) e \(R_2(YZ)\) restituisce tutte le tuple ottenute dalla natural join tra le due
+relazioni, più tutte le dangling tuples della prima relazione \(R_1\), riempiendo con \texttt{NULL} values gli attributi mancanti
+della seconda relazione \(R_2\). Formalmente:
+\[\text{Left outer join}: \;\; R_1 \leftouterjoin_{W \Theta Z} R_2 = \left( \begin{array}{c}
+	R_1 \bowtie_{W \Theta Z} R_2 \\ \cup \\
+	(R_1 - \pi_{X,W}(R_1 \bowtie_{W \Theta Z} R_2)) \times \left\{ Y = \texttt{NULL}, Z = \texttt{NULL} \right\}
+\end{array} \right) \]
+Il grado della relazione risultante è dato dalla somma dei gradi delle due relazioni originali meno il numero di attributi
+comuni, mentre la cardinalità è data dalla somma del numero di tuple ottenute dalla natural join più il numero di dangling
+tuples della prima relazione originale \(R_1\).
+
+\subsubsection*{Right outer join}
+La right outer join tra due relazioni \(R_1(XW)\) e \(R_2(YZ)\) restituisce tutte le tuple ottenute dalla natural join tra le
+due relazioni, più tutte le dangling tuples della seconda relazione \(R_2\), riempiendo con \texttt{NULL} values gli attributi
+mancanti della prima relazione \(R_1\). Formalmente:
+\[\text{Right outer join}: \;\; R_1 \rightouterjoin_{W \Theta Z} R_2 = \left( \begin{array}{c}
+	R_1 \bowtie_{W \Theta Z} R_2 \\ \cup \\
+	(R_2 - \pi_{Y,Z}(R_1 \bowtie_{W \Theta Z} R_2)) \times \left\{ X = \texttt{NULL}, W = \texttt{NULL} \right\}
+\end{array} \right) \]
+Il grado della relazione risultante è dato dalla somma dei gradi delle due relazioni originali meno il numero di attribut
+comuni, mentre la cardinalità è data dalla somma del numero di tuple ottenute dalla natural join più il numero di dangling
+tuples della seconda relazione originale \(R_2\).
+
+\subsubsection*{Gestione dei \texttt{NULL} values nelle join operations}
+Le join operations ignorano i \texttt{NULL} values durante il confronto degli attributi. Di conseguenza, le tuple che contengono
+\texttt{NULL} values negli attributi coinvolti nella condizione di join non vengono abbinate e possono diventare dangling tuples.
+
+\subsection{Extended relational algebra - generalized projection, aggregation functions, grouping}
+Le operazioni di algebra relazionale estesa permettono di effettuare operazioni che coinvolgono più tuple contemporaneamente,
+come il raggruppamento e l'aggregazione dei dati.
+
+\subsubsection*{Generalized projection}
+Data una relazione \(R(X)\) e un insieme di funzioni \(F_1, F_2, \dots, F_n\) che agiscono sugli attributi di \(R\), la
+generalized projection \(\pi_{F_1, F_2, \dots, F_n}(R)\) è la relazione che contiene i risultati delle funzioni applicate
+alle tuple di \(R\). Formalmente:
+\[\pi_{F_1, F_2, \dots, F_n}(R) = \left\{ t \; | \; \exists x \in R, \; \text{t.c.} \; t[F_1, F_2, \dots, F_n] = (F_1(x), F_2(x), \dots, F_n(x)) \right\}\]
+Il grado della relazione risultante è pari al numero di funzioni applicate, mentre la cardinalità può variare in base
+al risultato delle funzioni applicate (si cancellano eventuali tuple duplicate), in assenza di cancellazioni la cardinalità
+rimane invariata.
+
+\textbf{Esempio}: si vuole l'incasso per ordine dalla relazione ``Ordine(order\_id, product, quantity, price)'':
+\[\pi_{\text{order\_id}, \; \text{quantity} \times \text{price}}(\text{Ordine})\]
+Siccome la nuova funzione non ha un nome, è necessario rinominare l'attributo risultante:
+\[\rho_{\text{total\_amount} \leftarrow \text{quantity} \times \text{price}} \left( \pi_{\text{order\_id}, \; \text{quantity} \times \text{price}}(\text{Ordine}) \right)\]
+
+\subsubsection*{Aggregation functions e aggregation operations}
+Le aggregation functions sono funzioni che permettono di calcolare statistiche sui dati di una relazione. Le funzioni sono
+applicate ad un insieme di tuple e restituiscono un singolo valore. Le principali funzioni di aggregazione sono \texttt{SUM}
+(somma i valori), \texttt{AVG} (calcola la media), \texttt{COUNT} (conta il numero di tuple), \texttt{MIN} (trova il valore
+minimo) e \texttt{MAX} (trova il valore massimo).
+
+Le aggregation operations permettono di applicare le funzioni di aggregazione su un insieme di tuple. La sintassi generale
+per un'operazione di aggregazione è:
+\[\mathcal{F}_{f_1(A_i), \dots, f_n(A_j)}(R(X))\]
+Il risultato è una relazione con grado pari al numero di funzioni di aggregazione applicate e cardinalità pari a 1, in quanto
+l'aggregazione restituisce un singolo valore per ogni funzione applicata.
+
+\textbf{Esempio}: si vuole calcolare il numero totale degli ordini effettuati, attraverso la seguente relazione
+``Ordine(order\_id, product, quantity, price)'':
+\[\mathcal{F}_{COUNT(*)}(\text{Ordine})\]
+Se si vuole calcolare la somma totale degli incassi, si utilizza:
+\[\mathcal{F}_{SUM(\text{total\_amount})} \left( \rho_{\text{total\_amount} \leftarrow \text{quantity} \times \text{price}} \left( \pi_{\text{order\_id}, \; \text{quantity} \times \text{price}}(\text{Ordine}) \right) \right)\]
+
+\subsubsection*{Grouping}
+Il grouping (raggruppamento) permette di suddividere le tuple di una relazione in gruppi basati sui valori di uno o più
+attributi in modo da poter applicare le funzioni di aggregazione su ciascun gruppo separatamente. La sintassi generale
+per un'operazione di raggruppamento è:
+\[\;_{(A_1, A_2, \dots, A_k)} \mathcal{F}_{f_1(A_i), \dots, f_n(A_j)}(R(X))\]
+Il grado della relazione risultante è pari al numero di attributi di raggruppamento più il numero di funzioni di aggregazione
+applicate, mentre la cardinalità dipende dal numero di gruppi distinti formati in base agli attributi di raggruppamento.
+
+\textbf{Esempio}: si vuole calcolare la quantità totale venduta per ogni prodotto dalla seguente relazione
+``Ordine(order\_id, product, quantity, price)'':
+\[_\text{(product)} \mathcal{F}_{SUM(\text{quantity})} (\text{Ordine})\]
+
+\subsubsection*{Gestione dei \texttt{NULL} values nelle funzioni di aggregazione e nei raggruppamenti}
+Le funzioni di aggregazione \texttt{SUM}, \texttt{AVG}, \texttt{MIN} e \texttt{MAX} ignorano i \texttt{NULL} values durante
+il calcolo dei risultati. La funzione \texttt{COUNT}, se applicata ad un singolo attributo, ignora i \texttt{NULL} values,
+mentre se è applicata a più attributi, i \texttt{NULL} values vengono considerati come valori validi e uguali tra di loro.
+
+Nei raggruppamenti, i valori \texttt{NULL} negli attributi di raggruppamento vengono considerati come valori validi e
+uguali tra di loro, formando un gruppo separato con tutti i \texttt{NULL} values.
+
+\textbf{Esempio}: per seguente tabella sono mostrati i risultati alle funzioni di aggregazione di raggruppamento in presenza
+di \texttt{NULL} values:
+\begin{center}
+	\begin{minipage}{0.25\textwidth}
+		\centering
+		\begin{tabular}{|c|c|c|}
+			\hline
+			A & B & C \\
+			\hline
+			1 & 10 & 30 \\
+			2 & \texttt{NULL} & 40 \\
+			3 & 20 & \texttt{NULL} \\
+			4 & \texttt{NULL} & \texttt{NULL} \\
+			\hline
+		\end{tabular}
+	\end{minipage}
+	\begin{minipage}{0.05\textwidth}
+		\centering
+		\(\longrightarrow\)
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{tabular}{|c|c|}
+			\hline
+			Function & Result \\
+			\hline
+			\texttt{SUM(B)} & 30 \\
+			\texttt{SUM(C)} & 70 \\
+			\texttt{COUNT(B)} & 2 \\
+			\texttt{COUNT(A, B)} & 4 \\
+			\hline
+		\end{tabular}
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{tabular}{|c|c|}
+			\hline
+			Group by & Groups \\
+			\hline
+			B & 10, 20, \texttt{NULL} \\
+			C & 30, 40, \texttt{NULL} \\
+			\hline
+		\end{tabular}
+	\end{minipage}
+\end{center}
 
 \newpage
 
@@ -286,7 +1275,7 @@ I valori nulli possono rappresentare tre situazini diverse:
 Gli attributi che costituiscono la chiave primaria o altri attributi obbligatori non possono assumere valori nulli ed è necessario
 indicare il vincolo \texttt{NOT NULL} durante la creazione della tabella.
 
-In generale i valori null non sono uguali tra di loro e non sono uguali a nessun altro valore perché in assenza di informazione
+In generale i valori \texttt{NULL} non sono uguali tra di loro e non sono uguali a nessun altro valore perché in assenza di informazione
 possono essere tutto e niente.
 \begin{lstlisting}[language=SQL]
 -- errato: non si possono confrontare i valori NULL con l'operatore di uguaglianza
@@ -486,7 +1475,8 @@ SELECT * FROM employees WHERE name LIKE 'J_n%';
 Le selection selezionano le righe di una tabella che soddisfano una certa condizione e vengono implementate in SQL
 attraverso la clausola \texttt{WHERE}. Ad esempio:
 \begin{lstlisting}[language=SQL]
-SELECT * FROM employees WHERE age > 30;
+SELECT * FROM employees WHERE age > 30L, oppure il nome di
+una persona deve essere una stringa di caratteri ;
 \end{lstlisting}
 
 \subsubsection*{Projection in SQL - clausola \texttt{SELECT}}
@@ -620,5 +1610,49 @@ DROP VIEW high_salary_employees;
 \end{lstlisting}
 L'opzione \texttt{CASCADE} elimina anche gli oggetti che dipendono dalla vista, mentre \texttt{RESTRICT} impedisce
 l'eliminazione se la vista è referenziata da altri oggetti. Il comportamento di default è \texttt{RESTRICT}.
+
+\newpage
+
+\section{Alcune note per i quiz}
+\begin{itemize}
+	\item le regole di derivazione nel modello ER indicano come si calcolano gli attributi derivati a partire dagli altri
+	attributi, si indicano in caso di attributi derivati introdotti per ridondanza (in genere) per facilitare le query
+	\item diversamente da quanto succede con le query, i set operator di SQL eliminano i duplicati di default, infatti
+	si chiamano set operator che lavorano su insiemi (set) che non ammettono duplicati
+	\item il modello è l'insieme di costrutti e regole che definiscono la struttura di uno schema, non descrive nulla
+	di specifico e non modella nessun miniworld, uno schema è l'insieme di istruzioni/costrutti per descrivere un miniworld
+	specifico, mentre l'istanza è l'implementazione concreta dello schema con dati specifici; ad esempio il modello relazionale
+	è l'insieme di regole (relazioni, chiavi, vincoli, ecc.), lo schema relazionale è l'insieme di tabelle e vincoli che
+	descrivono un miniworld specifico, mentre l'istanza relazionale è l'insieme di tabelle con i dati effettivi
+	\item un DBMS è organizzato in tre livelli, ciascuno indipendente da quelli superiori: livello esterno (vista utente),
+	livello logico (tabelle, relazioni, vincoli) e livello fisico (memorizzazione su disco); in questo modo è possibile
+	modificare il livello fisico senza influenzare il livello logico e modificare il livello logico senza influenzare
+	il livello esterno
+	\item la forma normale di Boyce-Codd (BCNF) è una forma normale più restrittiva della terza forma normale (3NF),
+	richiede che per ogni dipendenza funzionale non banale \(X \to Y\), X sia una superchiave della relazione; ovvero
+	ogni attributo di Y deve necessariamente dipendere da una superchiave, non ci possono essere attributi in Y che
+	dipendono transitivamente da X e nemmeno attributi primi in Y (chiavi candidate) che non dipendono da una superchiave;
+	in altre parole serve per eliminare le chiavi candidate ed avere solo una chiave primaria
+	\item la logica triple-state (3VL) con i valori \texttt{TRUE}, \texttt{FALSE} e \texttt{UNKNOWN} viene utilizzata in SQL
+	per gestire quando si effettuano confronti con valori \texttt{NULL}; in questo caso il risultato del confronto è
+	\texttt{UNKNOWN}; per calcolare il risultato di espressioni logiche con 3VL si usano le tabelle di verità specifiche
+	supponendo che \texttt{UNKNOWN} possa essere sia \texttt{TRUE} che \texttt{FALSE}:
+	\begin{itemize}
+		\item \texttt{TRUE AND UNKNOWN = UNKNOWN}, \texttt{FALSE AND UNKNOWN = FALSE}
+		\item \texttt{TRUE OR UNKNOWN = TRUE}, \texttt{FALSE OR UNKNOWN = UNKNOWN}
+		\item \texttt{NOT UNKNOWN = UNKNOWN}
+	\end{itemize}
+	la clausola \texttt{WHERE} tiene solo le righe per cui la condizione è \texttt{TRUE}, scartando quelle con condizione
+	\texttt{FALSE} o \texttt{UNKNOWN} (ignora i valori \texttt{NULL}), la clausola \texttt{CHECK} invece ignora solo
+	le righe con condizione \texttt{FALSE}, accettando quelle con condizione \texttt{TRUE} o \texttt{UNKNOWN} (accetta
+	i valori \texttt{NULL})
+	\item in SQL è possibile inserire valori \texttt{NULL} negli attributi che fanno parte di una chiave candidata
+	(\texttt{UNIQUE}), anche se in teoria non dovrebbe essere possibile (si perde la funzione di chiave candidata),
+	inoltre si possono sempre inserire valori \texttt{NULL} negli attributi che fanno parte di superchiavi e chiavi
+	esterne, ma non in chiavi primarie (che assolutamente non possono avere valori nulli)
+	\item il processo di ristrutturazione di uno schema ER comprende: analisi delle ridondanze, eliminazione delle
+	generalizzazioni, partizionamento e accorpamento di entità e relazioni (attributi opzionali su entità secondarie),
+	scelta degli identificatori principali, eliminazione degli attributi multivalore 
+\end{itemize}
 
 \end{document}
