@@ -1,0 +1,337 @@
+\section{Machine learning}
+\subsection{Types of machine learning and problem formulation}
+\subsubsection*{Types of machine learning}
+Sono stati teorizzati tre diversi approcci di machine learning:
+\begin{itemize}
+	\item \textbf{supervised learning}: il dataset di addestramento è formato da coppie di input e output, e l'obiettivo
+	dell'agente è di imparare le regole di mappatura tra input e output
+	\item \textbf{unsupervised learning}: il dataset di addestramento è formato solo da input, e l'obiettivo dell'agente è
+	di classificare l'input trovando strutture nascoste o pattern nei dati
+	\item \textbf{reinforcement learning}: l'agente interagisce con un ambiente e riceve feedback sotto forma di ricompense
+	o penalità, e l'obiettivo è di imparare una politica ottimale per massimizzare la ricompensa cumulativa
+\end{itemize}
+
+\subsubsection*{Problem formulation}
+In genere i problemi di machine learning vengono classificati in due categorie principali:
+\begin{itemize}
+	\item \textbf{classification}: l'obiettivo è di classificare un certo input assegnandogli un'etichetta, i valori di
+	output provengono da un set finito di classi
+	\item \textbf{regression}: l'obiettivo è di trovare una funzione matematica che approssima al meglio una certa distribuzione
+	dei dati, i valori di output sono continui
+\end{itemize}
+
+\subsection{Supervised learning model}
+\subsubsection*{Ipotesi come best-fit-function}
+Dato un training set costituito da coppie \((x_i, y_i)\), il processo di supervised learning consiste nel formulare
+una funzione ipotesi \(h\), detta ``model of the data'', che deve approssimare al meglio la funzione \(f\) che ha
+generato i dati. Si cerca la best-fit-function affinché \(h(x_i) \approx y_i = f(x_i)\), ma che allo stesso tempo
+generalizzi bene, ovvero che predice l'output corretto anche per i dati del test set.
+
+La funzione ipotesi \(h\) è una funzione matematica parametrica, per cui può essere categorizzata in diverse classi
+come ad esempio lineare, sinusoidale, polinomiale di grado \(n\), esponenziale, \dots
+
+\subsubsection*{Bias and underfitting}
+Il \textbf{bias} è la misura di quanto la funzione ipotesi \(h\) è in grado di rappresentare correttamente i dati dei
+training set. Un modello con un alto bias non si adatta bene ai dati di addestramento e ne sottostima la complessità
+(ad esempio un modello lineare per dati non lineari). Viceversa un modello con un basso bias rappresenta bene i dati
+di addestramento (quando la classe dell'ipotesi è appropriata ai dati).
+
+Un modello è in \textbf{underfitting} quando ha un alto bias, ovvero quando non riesce a catturare la reale complessità
+dei dati di addestramento e di conseguenza avrà sempre basse performance sia sui training set che sui validation e test set.
+
+\subsubsection*{Variance and overfitting}
+La \textbf{variance} è la misura di quanto la funzione ipotesi \(h\) è sensibile alle variazioni nei dati di addestramento.
+Un modello con un'alta variance si adatta troppo bene ai dati di addestramento (ad esempio un modello polinomiale di grado
+troppo elevato). Viceversa, uno con bassa variance riesce a generalizzare meglio e l'addestramento con dati diversi produce
+modelli simili.
+
+Un modello è in \textbf{overfitting} quando si adatta troppo bene ai dati di addestramento, ma non riesce a generalizzare
+sui dati di test. Avrà alte performance nel training set, ma basse performance sul test set.
+
+\subsubsection*{Bias-variance trade-off}
+Il bias-variance trade-off consiste nel scegliere opportunamente la classe e la complessità della funzione ipotesi \(h\)
+affinché abbia un bias sufficientemente basso per rappresentare bene e avere buone performance sui dati di addestramento,
+ma che allo stesso tempo abbia una variance sufficientemente bassa per generalizzare bene e avere buone performance anche
+sui dati del test set.
+
+\subsection{Model optimization and validation}
+\subsubsection*{Sviluppo di un supervised learning model}
+Lo sviluppo di un modello di supervised learning prevede i seguenti passaggi:
+\begin{itemize}
+	\item \textbf{model selection}: scegliere la classe di funzioni ipotesi \(h\) da utilizzare per approssimare correttamente
+	i dati di addestramento, ad esempio linear regression, polynomial regression, \dots
+	\item \textbf{model optimization}: trovare i parametri ottimali della funzione ipotesi \(h\) per approssimare al meglio
+	i dati di addestramento, questo processo avviene iterativamente e ogni iterazione si divide in una fase di \textbf{training}
+	dove si calcolano effettivamente i parametri ottimali, e una fase di \textbf{validation} dove si valutano le performance
+	del modello durante ogni iterazione
+	\item \textbf{model evaluation}: valutare le performance del modello sui dati di test, per verificare che il modello
+	generalizzi bene e non sia overfitting
+\end{itemize}
+Si necessitano, quindi, di tre dataset distinti per sviluppare correttamente un modello di supervised learning:
+\begin{itemize}
+	\item \textbf{training set}: utilizzato per addestrare il modello
+	\item \textbf{validation set}: utilizzato per valutare e scegliere il modello migliore tra quelli addestrati
+	\item \textbf{test set}: utilizzato per valutare le performance del modello
+\end{itemize}
+Tutti i dataset devono essere disgiunti tra loro, ovvero non devono contenere dati in comune, in modo che le valutazioni siano
+indipendenti e non influenzate da dati già visti durante l'addestramento. Quando si hanno pochi dati a disposizione, è possibile
+utilizzare tecniche come la cross-validation per massimizzare l'utilizzo dei dati disponibili.
+
+\subsubsection*{Cross-validation}
+La cross-validation è una tecnica utilizzata ottimizzare l'utilizzo dei dati disponibili per la fase di addestramento
+e di validazione. L'idea è di suddividere il dataset in \(k\) parti (folds) di dimensioni approssimativamente uguali
+e di ripetere il processo di addestramento e validazione \(k\) volte, ogni volta ricombinando i dati in modo diverso.
+È sempre necessario riservare una parte di dataset per il test set per la valutazione finale del modello.
+
+La principale tecnica di cross-validation è la \textbf{k-fold cross-validation}, in cui si utilizzano \(k-1\) fold per
+addestrare il modello e il fold rimanente per validarlo, sempre diversi per ogni iterazione.
+
+Se \(k\) è uguale al numero di campioni del dataset, si parla di \textbf{leave-one-out cross-validation}, in cui si
+utilizza un solo campione per validare il modello e tutti gli altri per addestrarlo, ripetendo il processo per ogni
+campione del dataset.
+
+\subsubsection*{Model validation metrics}
+Le metriche di validazione a disposizione durante il training sono il training set error e il validation set error.
+In generale con l'addestramento il training set error diminuisce progressivamente perché il modello si adatta sempre
+meglio ai dati di addestramento. Il validation set error, invece, inizialmente diminuisce, ma dopo un certo punto
+inizia ad aumentare proprio quando il modello inizia ad andare in overfitting, perché si adatta troppo bene ai dati
+di addestramento e non riesce a generalizzare bene sui dati di validazione. Il punto in cui il validation set error
+inizia ad aumentare è il punto in cui si dovrebbe fermare l'addestramento per evitare l'overfitting.
+
+\subsubsection*{Model evaluation}
+La model evaluation è la fase finale del processo di sviluppo di un modello di supervised learning, in cui si valutano
+le performance del modello sui dati di test. Serve per verificare che il modello sia in grado di generalizzare bene
+di fronte a dati nuovi e non visti durante l'addestramento.
+
+In generale si avrà sempre una certa differenza tra le performance del modello sui dati di addestramento e sui dati di
+test. Se le performance sui dati di test, però, sono significativamente peggiori rispetto a quelle sui dati di addestramento,
+vuol dire che il modello è in overfitting.
+
+\subsection{Decision tree}
+\subsubsection*{Struttura di un decision tree}
+Un decision tree è un modello utile per risolvere problemi di classificazione, serve per mappare un vettore con i valori
+di una serie di attributi ad un singolo valore in output. Ha la stessa struttura di un albero binario di ricerca in cui
+ogni nodo interno rappresenta una condizione sul valore di un attributo e, in base alla risposta, si segue il branch (o
+ramo) dell'albero corrispondente fino a raggiungere una foglia che rappresenta l'output finale.
+
+\subsubsection*{Learning a decision tree from data}
+Il processo di costruzione o addestramento di un decision tree è un processo ricorsivo in cui ogni iterazione si divide
+in due fasi principali:
+\begin{itemize}
+	\item \textbf{feature selection}: si sceglie l'attributo più rilevante (o importante) come candidato ad essere la radice
+	del futuro sottoalbero
+	\item \textbf{data classification}: si divide il dataset in categorie in base ai valori dell'attributo scelto e si
+	analizza la situazione di ogni categoria:
+	\begin{itemize}[topsep=-3pt]
+		\item se la categoria non contiene campioni, si crea una foglia con il valore di output più comune della categoria padre
+		\item se la categoria contiene campioni con stesso output, si crea una foglia con quel valore di output
+		\item altrimenti, se la categoria contiene campioni con output diversi, si ripete il processo ricorsivamente scegliendo
+		un nuovo attributo come radice del sottoalbero
+		\item infine se se la categoria contiene campioni con output diversi, ma si esauriscono gli attributi disponibili si
+		crea una foglia con il valore di output più comune tra i campioni della categoria
+	\end{itemize}
+\end{itemize}
+Di seguito è riportato l'algoritmo in pseudocodice per costruire un decision tree:
+
+\begin{algo}{Learn-Decision-Tree}{$S_v$, $A$, $S$}{$S_v$: samples nella categoria da analizzare; $A$: attributi non ancora utilizzati; $S$: campioni della categoria padre}{decision tree $T$}
+	\If{\(S_v\) è vuoto}
+		\State \Return crea foglia con il valore di output più comune tra \(S\)
+	\ElsIf{tutti i campioni di \(S_v\) hanno lo stesso valore output}
+		\State \Return crea foglia con quel valore di output
+	\ElsIf{\(A\) è vuoto}
+		\State \Return crea foglia con il valore di output più comune tra i campioni di \(S_v\)
+	\Else
+		\State \(a \gets \argmax_{a \in A}\) \Call{Importance}{a, $S_v$} \Comment{scegli l'attributo più rilevante}
+		\State crea nodo interno \(N\) con l'attributo \(a\) \Comment{crea nodo interno con l'attributo scelto}
+		\ForAll{valore \(v \in \text{Values}(a)\)}
+			\State \(S_v \gets \{c \in S \mid c[a] = v\}\) \Comment{divide il dataset in base al valore \(v\)}
+			\State \(A' \gets A - \{a\}\) \Comment{aggiorna gli attributi disponibili}
+			\State \(T_v \gets\) \Call{Learn-Decision-Tree}{$S_v$, $A'$, $S$} \Comment{chiamata ricorsiva}
+			\State collega il sottoalbero \(T_v\) al nodo \(N\) con un ramo etichettato con il valore \(v\)
+		\EndFor
+		\Return tree $T$ con i nodi aggiunti
+	\EndIf
+\end{algo}
+
+\newpage
+
+\subsubsection*{Importanza e rilevanza degli attributi - expected entropy e information gain}
+L'importanza o rilevanza di un attributo è una misura di quanto quell'attributo è utile per classificare i dati, ovvero quanti
+campioni del dataset riescono ad essere classificati in categorie pure (con campioni con lo stesso output) grazie a quell'attributo.
+Per misurare l'importanza di un attributo si utilizzano due concetti: l'expected entropy (o remainder) e l'information gain.
+L'attributo con l'information gain più alto è quello più rilevante, ovvero quello che viene scelto come radice del sottoalbero.
+
+\subsubsection*{Expected entropy}
+Si definisce l'\textbf{expected entropy} (o remainder) di un attributo \(A\) come la media pesata delle entropie delle categorie
+\(S_v\) che si ottengono dividendo il dataset con i campioni ancora da classificare \(S\) in base ai valori \(v\) dell'attributo
+\(A\). Per il calcolo si definiscono anche \(P(c \in S_v)\) come la probabilità che un campione \(c\) appartenga alla categoria
+\(S_v\) associata al valore \(v\) e \(\text{B}(S_v)\) come l'entropia della categoria \(S_v\).
+\[\text{Remainder}(A) = \sum_{v \in \text{Values}(A)} P(c \in S_v) \cdot \text{B}(S_v) \quad \text{con} \; P(c \in S_v) = \frac{|S_v|}{|S|}, \;\;\; B(S_v) = -\sum_{x \in S_v} P(x) \log_2 P(x)\]
+
+In un problema in cui l'output è binario (positive o negative), con \(p\), \(n\) il numero di campioni positivi e negativi in
+\(S\) e \(p_v\), \(n_v\) il numero di campioni positivi e negativi in \(S_v\), si hanno le seguenti formule:
+\[\text{Remainder}(A) = \sum_{v \in \text{Values}(A)} \;\; \underbrace{\frac{p_v + n_v}{p + n}}_{P(c \in S_v)} \; \cdot \; \underbrace{B\left(\frac{p_v}{p_v+n_v} \right)}_{B(S_v)}\]
+
+\subsubsection*{Information gain}
+Si definisce l'\textbf{information gain} di un attributo \(A\) come la differenza tra l'entropia del dataset \(S\) con i campioni
+ancora da classificare e l'expected entropy di \(A\):
+\[\text{Gain}(A) = \text{B}(S) - \text{Remainder}(A)\]
+
+\subsubsection*{Decision tree performance}
+Come in un qualsiasi addestramento di un modello di supervised learning, analizzando le performance di un decision tree durante
+l'addestramento si può notare che il training set error e il test set error diminuiscono progressivamente all'aumentare della
+dimensione del decision tree fino a raggiungere un plateau, ovvero fino a saturazione. Progredendo oltre il plateau, il modello
+inizia ad andare in overfitting. Per impedire l'overfitting, è possibile utilizzare tecniche di pruning, il bagging o le random
+forests.
+
+\subsubsection*{Pruning}
+Il pruning consiste nel rimuovere i nodi interni di un decision tree che non sono rilevanti per la classificazione. Per
+identificare i nodi da rimuovere, si utilizzano significance test come il chi-squared test, che confronta la deviazione
+standard \(\Delta\) tra i campioni delle categorie di un attributo e un valore di riferimento \(\Delta^*\) dato dalla
+chi-squared function \(\chi^2\). Se \(\Delta < \Delta^*\), allora il nodo non è rilevante e viene rimosso, altrimenti
+viene mantenuto. Tale vincolo di irrilevanza di un nodo è chiamato \textbf{null hypothesis}.
+
+In un problema in cui l'output è binario (positive o negative), con \(p\), \(n\) il numero di campioni positivi e negativi in
+\(S\), \(p_v\), \(n_v\) il numero di campioni positivi e negativi in \(S_v\) e \(\hat{p}_v\), \(\hat{n}_v\) le stime dei campioni
+positivi e negativi in \(S_v\), la total standard deviation \(\Delta\) si calcola con la seguente formula:
+\[\Delta = \sum_{v \in \text{Values}(A)} \frac{(p_v - \hat{p}_v)^2}{\hat{p}_v} + \frac{(n_v - \hat{n}_v)^2}{\hat{n}_v}\]
+
+Mentre il valore di riferimento \(\Delta^*\) si ottiene dalla tabella della chi-squared function \(\chi^2\) con \(d-1\) gradi
+di libertà, dove \(d\) è il numero di valori dell'attributo \(A\), e con un livello di significatività \(\alpha\) di solito
+scelto pari a \(0.05\) (5\%).
+
+\subsubsection*{Bagging}
+Il Bagging consiste nel suddividere il training set in \(k\) sottoinsiemi e costruire un decision tree per ogni sottoinsieme.
+Se si utilizzano i decision tree per classificazione, allora si prende il valore di output più comune tra i decision tree,
+se invece si utilizzano per regressione, allora si prende la media dei valori di output dei decision tree. In questo modo
+si riduce la variance del modello e si migliora la capacità di generalizzazione, evitando l'overfitting.
+
+Il problema dei decision tree è il criterio di scelta degli attributi (rilevanza) è comune per tutti i \(K\) decision tree.
+È possibile, quindi, che più decision tree scelgano gli stessi attributi come radice dei sottoalberi e si riduca l'efficacia
+del bagging perché gli alberi sono fortemente correlati tra loro.
+
+\subsubsection*{Random forests}
+Le random forests sono un'estensione del bagging in cui, oltre a suddividere il training set in \(k\) sottoinsiemi, si introduce
+anche una randomizzazione nella scelta degli attributi da utilizzare come radice dei sottoalberi. In questo modo si riduce
+la correlazione tra i decision tree e si migliora ulteriormente la capacità di generalizzazione del modello, evitando l'overfitting.
+Alcuni vantaggi delle random forests rispetto ai decision tree sono:
+\begin{itemize}
+	\item effettuando la scelta dell'attributo con maggiore rilevanza tra un sottoinsieme casuale di attributi, il calcolo
+	del candidato migliore è più efficiente
+	\item non è necessario effettuare il pruning, perché la randomizzazione nella scelta degli attributi riduce già l'overfitting
+	\item è possibile costruire i vari decision tree in parallelo su architetture parallelizzate, ottimizzando ulteriormente
+	il processo di addestramento
+\end{itemize}
+Le random forests erano lo stato dell'arte per numerose applicazioni. Ora sono state superate da modelli più complessi come
+le reti neurali.
+
+\subsubsection*{Decision tree applications}
+Un esempio di applicazione dei decision tree si trova nei chip ``LSM6DS0X'' di STMicroelectronics, detti anche MEMS chips, con
+il compito di riconoscere i gesti e le attività umane (ad esempio, camminare, correre, salire le scale, \dots) attraverso i dati
+di accelerometri e giroscopi. Tali chip sono spesso installati negli smartphone e nei dispositivi indossabili.
+
+
+\subsection{Loss function}
+\subsubsection*{Loss function}
+Per misurare la performance di un modello di machine learning, si utilizza una loss function, ovvero una funzione matematica
+\(L(y, \hat{y})\) con \(\hat{y}\) la predizione del modello e \(y\) il valore reale del dataset, e restituisce un valore numerico
+che rappresenta la perdita di utility associata a quelle predizioni. Il learning agent, per massimizzare la sua utility, deve
+minimizzare la loss function. Esistono diverse loss function:
+\begin{itemize}
+	\item \textbf{absolute value loss}: \(L(y, \hat{y}) = |y - \hat{y}|\), per regressione
+	\item \textbf{squared error loss}: \(L(y, \hat{y}) = (y - \hat{y})^2\), per regressione (è il metodo dei minimi quadrati)
+	\item \textbf{binary cross entropy o log loss}: basata sull'entropia*, per classificazione binaria
+	\item \textbf{categorical cross entropy loss}: basata sull'entropia*, per classificazione multiclasse
+	\item \textbf{hinge loss}: per classificazione binaria, utilizzata nelle support vector machines (SVM)
+	\item[*] le cross entropy loss verranno approfondite nella sezione dedicata alle reti neurali
+\end{itemize}
+
+\vspace{8pt}
+
+\noindent
+Come notazione si utilizza:
+\begin{itemize}
+	\item \(Loss_j (\textbf{w})\): loss function di un singolo campione \(j\) del dataset con \(\textbf{w}\) come parametri del modello
+	\item \(Loss (\textbf{w}) = \sum_j Loss_j(\textbf{w})\): loss function complessiva del dataset con \(\textbf{w}\) come parametri del modello
+\end{itemize}
+
+\subsubsection*{Gradient descent in generale}
+Il processo di gradient descent è un algoritmo iterativo simile all'hill-climbing, utilizzato per modificare i parametri del
+modello per minimizzare la loss function. L'idea è di aggiornare i parametri del modello per piccoli step nella direzione opposta
+al gradiente della loss function. La lunghezza dello step è controllata da un parametro chiamato learning rate \(\alpha\)
+che può essere costante o decrescere con il tempo.
+
+\begin{algo}{Generic-Gradient-Descent}{$\textbf{w}$, $\alpha$}{$\textbf{w}$: parametri del modello; $\alpha$: learning rate}{parametri ottimali $w^*$}
+	\Repeat
+		\ForAll{parametro \(w_i\) in \(\textbf{w}\)}
+			 \(\displaystyle w_i \gets w_i - \alpha \frac{\partial Loss^*(\textbf{w})}{\partial w_i}\) \Comment{aggiornamento i parametri}
+		\EndFor
+	\Until{not converged}
+\end{algo}
+
+\subsubsection*{Varianti del gradient descent}
+In base a come viene calcolata la loss function \(Loss^*(\textbf{w})\), si distinguono diverse varianti:
+\begin{itemize}
+	\item \textbf{batch gradient descent}: si utilizza l'intero dataset per calcolare il gradiente, la progressione risulta
+	più stabile, ma è computazionalmente costosa per dataset di grandi dimensioni
+	\[Loss^*(\textbf{w}) = \sum_{j \in \text{dataset}} Loss_j(\textbf{w}) \quad\Rightarrow\quad w_i \gets w_i - \alpha \frac{\partial \sum_{j \in \text{dataset}} Loss_j(\textbf{w})}{\partial w_i}\]
+	\item \textbf{stochastic gradient descent}: si utilizza un singolo campione \(j\) del dataset scelto a caso per calcolare
+	il gradiente, la progressione risulta più rumorosa e non sempre converge correttamente, ma è computazionalmente più
+	efficiente per dataset di grandi dimensioni
+	\[Loss^*(\textbf{w}) = Loss_j(\textbf{w}) \quad\Rightarrow\quad w_i \gets w_i - \alpha \frac{\partial Loss_j(\textbf{w})}{\partial w_i}\]
+	\item \textbf{mini-batch gradient descent}: si utilizza un sottoinsieme del dataset per calcolare il gradiente, è un
+	compromesso tra batch e stochastic gradient descent, con una progressione più stabile rispetto allo stochastic gradient
+	descent e più efficiente rispetto al batch gradient descent
+	\[Loss^*(\textbf{w}) = \sum_{j \in \text{partial dataset}} Loss_j(\textbf{w}) \quad\Rightarrow\quad w_i \gets w_i - \alpha \frac{\partial \sum_{j \in \text{partial dataset}} Loss_j(\textbf{w})}{\partial w_i}\]
+\end{itemize}
+Nota: per la linearità della derivata, la sommatoria può essere portata dentro o fuori dalla derivata, in base a come si
+preferisce implementare il calcolo del gradiente. \(\sum_c \frac{\partial f(x)}{\partial x} \Leftrightarrow \frac{\partial \sum_c f(x)}{\partial x}\)
+
+\subsubsection*{Multivariable linear regression}
+La regressione lineare su più variabili consiste nel trovare il vettore \(\textbf{w}\) che descrive l'iperpiano
+(\(\textbf{w} \cdot \textbf{x}_j\)) che meglio rappresenta i dati di addestramento. L'iperpiano è la funzione ipotesi del modello.
+\[h_\textbf{w}(\textbf{x}_j) = \textbf{w} \cdot \textbf{x}_j = \textbf{w}^T \textbf{x}_j = \sum_{i} w_i x_{ji} \qquad \textbf{w}^* = \argmin_\textbf{w} \sum_j L(y_j, h_\textbf{w}(\textbf{x}_j)) = \argmin_\textbf{w} \sum_j L(y_j, \textbf{w} \cdot \textbf{x}_j)\]
+
+
+\subsubsection*{Multivariable classification}
+La classificazione su più variabili consiste nel trovare il vettore \(\textbf{w}\) che descrive l'iperpiano in grado di
+separare i dati di addestramento in classi distinte. L'iperpiano è chiamato decision boundary, o linear separator nel
+caso di classificazione lineare. La funzione ipotesi \(h_\textbf{w}(\textbf{x}_j)\), per restituire un valore di output
+discreto, viene passata attraverso una funzione di attivazione detta threshold function.
+\[h_\textbf{w}(\textbf{x}_j) = Threshold(\textbf{w} \cdot \textbf{x}_j) \qquad\qquad \text{con} \quad Threshold(z) = \begin{cases} 1 & \text{se } z \ge 0 \\ 0 & \text{altrimenti} \end{cases}\]
+
+
+\subsection{Support Vector Machines - SVM}
+\subsubsection*{Stuttura}
+Le Support Vector Machines (SVM) sono modelli di classificazione con le seguenti caratteristiche:
+\begin{itemize}
+	\item cercano di trovare il maximum margin separator, ovvero il decision boundary con la distanza massima tra i campioni
+	delle diverse classi
+	\item sono lineari, ovvero il decision boundary è un linear hyperplane, ma con il kernel trick possono essere estese a
+	classi di ipotesi non lineari
+	\item non sono parametriche, in quanto il separating hyperplane è definito dai campioni di supporto del dataset e non
+	da parametri del modello
+\end{itemize}
+
+\subsubsection*{Support vectors and decision boundary}
+I support vectors sono i campioni del dataset più vicini al decision boundary. Il decision boundary o maximum margin separator
+è definito come una linea che divide a metà l'area di confine tra le due classi, delimitata dai support vectors.
+
+Ogni campione ha un parametro associato \(\alpha_j\) che vale 0 se il campione non fa parte dei support vectors, e assume
+un valore positivo se il campione è un support vector. Il decision boundary si ottiene risolvendo il dual problem come segue:
+\[\argmax_\alpha \sum_j \alpha_j - 1/2 \sum_{j,k} \alpha_j \, \alpha_k \, y_i \, y_k \, (\textbf{x}_j \cdot \textbf{x}_k)\]
+
+Una volta determinati i pesi \(\alpha_j\) dei support vectors, la classificazione di un nuovo campione \(\textbf{x}\) si ottiene
+attraverso l'ipotesi con una 0-threshold function come la funzione \textit{sign}:
+\[h(\textbf{x}) = \text{sign}\left(\sum_j \alpha_j y_j (\textbf{x} \cdot \textbf{x}_j) - b\right) \qquad \text{con} \quad \textit{sign}(z) = \begin{cases} 1 & \text{se } z \ge 0 \\ 0 & \text{altrimenti} \end{cases}\]
+
+\subsubsection*{Kernel trick}
+Se i dati di addestramento non sono linearmente separabili, è possibile utilizzare il kernel trick, ovvero una rimappatura di
+un problema non lineare in uno spazio lineare di dimensione più elevata, in cui i dati possono essere linearmente separati.
+La rimappatura avviene attraverso una funzione di kernel \(K(\textbf{x}_j, \textbf{x}_k)\) che si sostituisce al prodotto
+\(\textbf{x}_j \cdot \textbf{x}_k\). Di seguito la formula di classificazione con il kernel trick ed alcuni esempi di kernel
+utilizzati comunemente:
+\[h(\textbf{x}) = \text{sign}\left(\sum_j \alpha_j y_j K(\textbf{x}, \textbf{x}_j) - b\right) \qquad \begin{array}{l l}
+	\text{polynomial kernel}: & K(\textbf{x}_j, \textbf{x}_k) = (c + \textbf{x}_j \cdot \textbf{x}_k)^d \\
+	\text{gaussian kernel}: & K(\textbf{x}_j, \textbf{x}_k) = \exp(-\gamma \|\textbf{x}_j - \textbf{x}_k\|^2)
+\end{array}\]

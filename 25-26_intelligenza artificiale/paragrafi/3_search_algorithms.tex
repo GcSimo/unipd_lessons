@@ -1,0 +1,417 @@
+\section{Search algorithms}
+\subsection{Formulazione ed esempi di search problems}
+\subsubsection*{Agenti utilizzati per risolvere i search problems}
+Gli agenti che risolvono search problems sono tipicamente goal-based agents in grado di pianificare una sequenza di azioni
+per raggiungere un obiettivo specifico.
+
+\subsubsection*{Problem formulation}
+La problem formulation è il processo di definizione di un problema di ricerca, ovvero rappresentarlo in forma atomica (essenziale
+e completa) in termini di:
+\begin{itemize}
+	\item \textbf{elenco degli stati}: l'insieme di tutte le possibili configurazioni dell'ambiente
+	\item \textbf{stato iniziale}: la configurazione iniziale dell'ambiente
+	\item \textbf{condizione o stati di goal}: l'obiettivo che l'agente deve raggiungere, può essere espresso come condizione
+	da far valere, oppure un insieme di stati da raggiungere
+	\item \textbf{azioni}: le possibili azioni che l'agente può compiere da ogni stato
+	\item \textbf{transition model}: la funzione che descrive come le azioni influenzano lo stato dell'ambiente
+	\item \textbf{action cost function}: la funzione che assegna un costo alle azioni o agli stati
+\end{itemize}
+La soluzione di un problema è la sequenza di azioni che porta dallo stato iniziale a uno stato di goal. Una soluzione
+si dice ottima se minimizza il costo totale delle azioni.
+
+\subsubsection*{Esempi di search problems}
+\begin{itemize}
+	\item \textbf{Romania problem}: trovare il percorso più breve che collega la città di Arad a Bucarest in Romania in un
+	ambiente rappresentato come un grafo pesato dove i nodi sono le città e gli archi sono le strade con i relativi costi di
+	viaggio
+	\item \textbf{travelling salesperson problem}: trovare il percorso più breve che deve compiere il commesso viaggiatore per
+	visitare un insieme di città, ciascuna esattamente una volta e ritornare alla città di partenza, in un ambiente rappresentato
+	come un grafo completo pesato dove i nodi sono le città e gli archi sono le distanze tra le città; a tale problema possono
+	essere associati varianti come il vehicle routing problem (VRP) o il controllo di una fresa CNC
+	\item \textbf{8-queens problem}: posizionare 8 regine su una scacchiera 8x8 in modo che nessuna regina possa attaccare
+	un'altra, in un ambiente rappresentato come uno spazio di stati dove ogni stato è una configurazione della scacchiera e le
+	azioni sono i posizionamenti delle regine
+	\item \textbf{pancake sorting problem}: ordinare una pila di pancake di diverse dimensioni utilizzando una spatola che può
+	ribaltare una porzione superiore della pila, in un ambiente rappresentato come uno spazio di stati dove ogni stato è una
+	configurazione della pila e le azioni sono i ribaltamenti
+	\item \textbf{8-puzzle}: un puzzle formato da una griglia 3x3 con 8 tessere numerate e una casella vuota. L'obiettivo è
+	riordinare le tessere spostandole nella casella vuota, in un ambiente rappresentato come uno spazio di stati dove ogni
+	stato è una configurazione della griglia e le azioni sono gli spostamenti delle tessere
+\end{itemize}
+
+
+\subsection{Introduzione ai tree search algorithms}
+\subsubsection*{Definizione dello spazio degli stati del problema}
+Dato un insieme degli stati del problema, un transition model e le azioni possibili per ogni stato (definiti nel processo
+di problem formulation) è possibile costruire un grafo orientato in cui i vari stati sono rappresentati come nodi e le azioni
+come archi diretti che collegano i nodi. Questo grafo è detto spazio degli stati del problema. L'esplorazione dello spazio
+degli stati attraverso algoritmi di ricerca sui grafi costruisce un albero di ricerca (search tree) con una radice che
+rappresenta lo stato iniziale, da cui si espandono i vari nodi figli che rappresentano gli stati raggiungibili con ogni azione.
+
+\subsubsection*{Distinzione tra stati e nodi}
+Lo stato e il nodo sono due concetti diversi e separati, per cui è importante non confonderli:
+\begin{itemize}
+	\item \textbf{stato}: rappresenta una configurazione specifica dell'ambiente in un dato momento
+	\item \textbf{nodo}: rappresenta una specifica istanza di uno stato all'interno dell'albero di ricerca, includendo
+	informazioni aggiuntive come il nodo genitore, l'azione che ha portato a quello stato, eventuali nodi figli, il costo del
+	percorso (path cost) e la profondità del nodo nell'albero di ricerca
+\end{itemize}
+Due nodi distinti possono contenere lo stesso stato se sono stati raggiunti attraverso percorsi diversi nell'albero di ricerca.
+
+\subsubsection*{General Tree-search algorithm}
+Un esempio generale di tree-search algorithm consiste nel partire dalla radice (stato iniziale) e iterativamente
+(o ricorsivamente) espandere progressivamente ciascuno dei nodi della frontiera secondo una certa strategia, generando
+nuovi nodi che verranno aggiunti alla frontiera. Il processo continua fino a trovare uno stato di goal o fino ad esaurire
+i nodi da espandere (fallimento).
+
+È fondamentale notare che il goal viene raggiunto soltanto quando si espande un nodo che contiene uno stato di goal, non
+quando si aggiunge un nodo di goal alla frontiera (vedi commento sul codice).
+
+\begin{algo}{Tree-Search}{$P$, $S$}{$P$ a problem formulation and $S$ a strategy for choosing expanding node}{solution or failure}
+	\State initialize the search tree using the initial state of $P$ as the root node
+	\Loop
+		\If{there are no candidates for expansion in the frontier}
+			\State \textbf{return} failure
+		\EndIf
+		\State select a node from the frontier according to $S$
+		\If{the node contains a goal state}
+			\State \textbf{return} the corresponding solution \Comment{goal reached only when expanding the node}
+		\Else
+			\State expand the node and add all the generated nodes to the frontier
+		\EndIf
+	\EndLoop
+\end{algo}
+
+\subsubsection*{Frontiera e strategia di un algoritmo di ricerca}
+La \textbf{frontiera} è l'insieme dei nodi raggiunti dall'algoritmo ricerca, ma che non sono ancora stati espansi. La frontiera
+separa i nodi già visitati (espansi) dai nodi non ancora visitati (non espansi). La gestione della frontiera avviene tramite un
+insieme di regole dette \textbf{strategia} e determina l'ordine di esplorazione dei nodi. La strategia è specifica per ogni
+algoritmo di ricerca e ne caratterizza il comportamento. È cruciale per determinare l'efficacia e l'efficienza 
+dell'algoritmo di ricerca. 
+
+\subsubsection*{Valutazione di un algoritmo}
+Gli algoritmi di ricerca possono essere valutati in base a vari criteri:
+\begin{itemize}
+	\item \textbf{completeness}: un algoritmo è completo se trova sempre una soluzione se ne esiste almeno una
+	\item \textbf{optimality}: un algoritmo è ottimale se garantisce di trovare la soluzione con il costo minimo
+	\item \textbf{time complexity}: proporzionale al numero di nodi generati/espansi durante la ricerca
+	\item \textbf{space complexity}: proporzionale al numero di nodi in memoria durante la ricerca
+\end{itemize}
+Tali criteri si esprimono in funzione di vari parametri del problema:
+\begin{itemize}
+	\item \(b\): branching factor, il numero massimo di figli per ogni nodo
+	\item \(d\): depth of the least-cost solution, la profondità della soluzione ottimale
+	\item \(m\): maximum depth of the search tree, la profondità massima dell'albero di ricerca
+\end{itemize}
+
+\subsection{Uninformed search strategies}
+Un algoritmo di ricerca si dice uninformed (o blind search) se non ha alcuna informazione sulla distanza di un certo stato
+dallo stato di goal.
+\subsubsection*{Breadth-first search - BFS}
+Espande il nodo più superficiale (livello più vicino alla radice) prima di espandere i nodi più profondi.
+\begin{itemize}
+	\item \textbf{strategy / frontier}: FIFO queue
+	\item \textbf{complete}: sì, se il branching factor è finito
+	\item \textbf{optimal}: sì, se il costo delle azioni è costante
+	\item \textbf{time complexity}: \(O(b^{d})\) 
+	\item \textbf{space complexity}: \(O(b^{d})\)
+	\item \textbf{vantaggi}: è completo e ottimale (con costi delle azioni costanti)
+	\item \textbf{svantaggi}: complessità di spazio elevata dovuta al fatto che la cardinalità della frontiera è pari al numero
+	di nodi di ogni livello dell'albero di ricerca che al caso peggiore è \(O(b^{d})\)
+\end{itemize}
+Siccome il primo nodo di goal generato (e inserito nella frontiera) è anche il primo nodo di goal espanso, allora per questioni
+di ottimizzazione della ricerca, si può interrompere l'espansione dei nodi non appena si genera il primo nodo di goal. Questa
+regola vale solo per il BFS e non per gli altri algoritmi di ricerca in quanto non sempre la frontiera è una struttura FIFO.
+
+\subsubsection*{Uniform-cost search - Dijkstra}
+Espande il nodo con il costo del percorso dalla radice al nodo più basso dalla radice.
+\begin{itemize}
+	\item \textbf{strategy / frontier}: priority queue ordinata per path cost (lowest-cost first)
+	\item \textbf{complete}: sì, se il branching factor è finito
+	\item \textbf{optimal}: sì, anche con costi delle azioni non costanti (ma positivi)
+	\item \textbf{time complexity}: molto peggiore di \(O(b^{d})\) per costi molto piccoli
+	\item \textbf{space complexity}: molto peggiore di \(O(b^{d})\) per costi molto piccoli
+	\item \textbf{vantaggi}: è completo e ottimale (con costi delle azioni positivi)
+	\item \textbf{svantaggi}: complessità di tempo e spazio possono essere molto elevate se i costi delle azioni sono molto
+	piccoli in quanto prima vengono esplorati i nodi con costi più bassi senza allontanarsi troppo dalla radice e soltanto
+	dopo vengono esplorati i nodi con costi più alti che magari portano più velocemente alla soluzione
+\end{itemize}
+
+\subsubsection*{Depth-first search - DFS}
+Espande il nodo più profondo (livello più lontano dalla radice) prima di espandere i nodi più superficiali.
+\begin{itemize}
+	\item \textbf{strategy / frontier}: LIFO stack
+	\item \textbf{complete}: no, può rimanere bloccato in cicli infiniti (se non opportunamente gestiti)
+	\item \textbf{optimal}: no
+	\item \textbf{time complexity}: \(O(b^{m})\)
+	\item \textbf{space complexity}: \(O(bm)\)
+	\item \textbf{vantaggi}: complessità di spazio molto bassa
+	\item \textbf{svantaggi}: non è completo, non è ottimo e la complessità temporale può essere molto peggiore di \(O(b^{d})\)
+	se la profondità massima dell'albero di ricerca \(m\) è molto maggiore della profondità della soluzione ottimale \(d\)
+\end{itemize}
+
+\subsubsection*{Depth-limited DFS}
+È una variante del DFS che impone un limite massimo alla profondità dell'albero riducendo \(m\) e di conseguenza limitando
+la complessità temporale dell'algoritmo. Ha le stesse caratteristiche del DFS.
+
+\subsubsection*{Iterative deepening search}
+Sfrutta l'approccio del Depht-limited DFS eseguendo ripetutamente il DFS con un limite di profondità crescente ad ogni iterazione
+fino a trovare la soluzione. Questo permette di combinare i vantaggi del BFS (completezza e ottimalità) con quelli del DFS (bassa
+complessità spaziale).
+\begin{itemize}
+	\item \textbf{strategy / frontier}: LIFO stack con limite di profondità crescente
+	\item \textbf{complete}: sì, se il branching factor è finito
+	\item \textbf{optimal}: sì, se il costo delle azioni è costante
+	\item \textbf{time complexity}: \(O(b^{d})\)
+	\item \textbf{space complexity}: \(O(bd)\)
+	\item \textbf{vantaggi}: è completo, ottimale e ha una complessità spaziale molto bassa rispetto a BFS e UCS
+	\item \textbf{svantaggi}: è leggermente più lento di BFS (anche se asintoticamente sono uguali) a causa della ripetizione
+	della espansione dei nodi nei livelli inferiori
+\end{itemize}
+
+\subsubsection*{Bidirectional search}
+Espande contemporaneamente due alberi di ricerca, uno a partire dallo stato iniziale e l'altro a partire dallo stato di goal,
+fino a quando i due alberi si incontrano in un nodo comune. Questo permette di ridurre significativamente la complessità
+temporale e spaziale dell'algoritmo, ma richiede di conoscere a priori lo stato di goal e di essere in grado di generare i
+nodi figli in entrambe le direzioni (forward e backward). In generale si usano BFS o UCS per espandere i due alberi di ricerca.
+\begin{itemize}
+	\item \textbf{strategy / frontier}: FIFO queue o priority queue come BFS o UCS
+	\item \textbf{complete}: sì, se il branching factor è finito
+	\item \textbf{optimal}: sì, se il costo delle azioni è costante
+	\item \textbf{time complexity}: \(O(b^{d/2})\)
+	\item \textbf{space complexity}: \(O(b^{d/2})\)
+	\item \textbf{vantaggi}: è completo, ottimale e ha una complessità spaziale molto bassa rispetto a BFS e UCS
+	\item \textbf{svantaggi}: serve conoscere a priori il goal e generare i nodi figli in entrambe le direzioni
+\end{itemize}
+
+\subsection{Informed search strategies}
+Un algoritmo si dice informed (o heuristic search) se ha a disposizione una funzione euristica che stima la distanza di un
+certo stato dallo stato di goal.
+
+\subsubsection*{Heuristic function}
+Una funzione euristica \(h(n)\) è una funzione che stima il costo (o distanza) tra il nodo \(n\) e lo stato di goal. Viene
+utilizzata dagli algoritmi di ricerca informata per guidare la selezione dei nodi da espandere, privilegiando i nodi che
+sembrano più promettenti in base alla stima fornita dalla funzione euristica. I nodi all'interno della frontiera vengono
+ordinati in base alla desiderabilità calcolata sfruttando anche la funzione euristica.
+Le funzioni euristiche possono essere classificate in base a due proprietà principali:
+\begin{itemize}
+	\item \textbf{ammissibile}: una funzione euristica si dice ammissibile se non sovrastima mai il costo effettivo per
+	raggiungere lo stato di goal da un nodo \(n\). Formalmente, definita \(h^*(n)\) come il costo reale del percorso più
+	economico da \(n\) allo stato di goal, allora un'euristica è ammissibile se soddisfa le seguenti condizioni:
+	\[h(n) \geq 0 \qquad \wedge \qquad h(G) = 0 \text{ se } G \text{ è goal} \qquad \wedge \qquad h(n) \leq h^*(n) \;\; \forall n\]
+	\item \textbf{consistente (o monotona)}: un'euristica si dice  consistente (o monotona) se per ogni nodo \(n\) e ogni
+	suo successore \(n'\) generato dall'azione \(a\) con costo \(c(n, a, n')\) si ha che:
+	\[h(n) \leq c(n, a, n') + h(n')\]
+\end{itemize}
+Un'euristica consistente è sempre ammissibile, ma non viceversa.
+
+\subsubsection*{Misura della qualità di un'euristica}
+Per misurare la qualità di un'euristica si utilizza l'effective branching factor \(b^*\), che rappresenta il numero
+medio di figli per nodo nell'albero di ricerca generato dall'algoritmo di ricerca informata che utilizza l'euristica.
+Un'ottima euristica ha un effective branching factor \(b^* = 1\), ovvero l'algoritmo di ricerca espande solo i nodi lungo
+il cammino ottimale verso il goal e la complessità temporale e spaziale diventano lineari in \(O(d)\).
+
+\subsubsection*{Greedy best-firts search}
+Espande il nodo che sembra più vicino allo stato di goal in base alla funzione euristica \(h(n)\).
+\begin{itemize}
+	\item \textbf{strategy / frontier}: priority queue ordinata per \(h(n)\) (lowest-h(n) first)
+	\item \textbf{complete}: sì, se il branching factor è finito e \(h(n) \geq 0\)
+	\item \textbf{optimal}: no
+	\item \textbf{time complexity}: \(O(b^{m})\), ma una buona euristica può ridurlo parecchio
+	\item \textbf{space complexity}: \(O(b^{m})\), come il BFS, tiene tutti i nodi della frontiera in memoria
+	\item \textbf{vantaggi}: esplorando solo i nodi più promettenti è in generale più veloce di algoritmi uninformed
+	\item \textbf{svantaggi}: non è ottimale e può rimanere bloccato in cicli infiniti o esplorare percorsi subottimali
+\end{itemize}
+
+\subsubsection*{A* search}
+Consiste nell'espandere il nodo con il costo stimato totale più basso \(f(n) = g(n) + h(n)\), dove \(g(n)\) è il costo del
+percorso dalla radice al nodo \(n\) e \(h(n)\) è la stima del costo dal nodo \(n\) allo stato di goal.
+\begin{itemize}
+	\item \textbf{strategy / frontier}: priority queue ordinata per \(f(n)\) (lowest-f(n) first)
+	\item \textbf{complete}: sì, se il branching factor è finito e il costo delle azioni è positivo
+	\item \textbf{optimal}: sì, se la funzione euristica è ammissibile
+	\item \textbf{time complexity}: \(O(b^{d})\), dipende dalla qualità dell'euristica
+	\item \textbf{space complexity}: \(O(b^{d})\), come il BFS, tiene tutti i nodi della frontiera in memoria
+	\item \textbf{vantaggi}: è completo e ottimale (con euristica ammissibile) e in generale più efficiente di
+	altri algoritmi di ricerca uninformed e informed
+	\item \textbf{svantaggi}: complessità di spazio elevata dovuta al fatto che la cardinalità della frontiera
+	è pari al numero di nodi di ogni livello dell'albero di ricerca che al caso peggiore è \(O(b^{d})\)
+\end{itemize}
+Si definisce il \textbf{search contour} \(i\)-esimo di A* come l'insieme dei nodi \(n\) contenuti nella frontiera all'istante
+di tempo \(i\)-esimo. Tali nodi soddisfano la proprietà \(f_i \leq f_{i+1}\), ovvero tutti i nodi del contour \(i\)-esimo
+hanno costo stimato totale inferiore ai nodi del contour successivo. Si può dimostrare che A* espande tutti i nodi del contour
+\(i\)-esimo prima di espandere qualsiasi nodo del contour \(i+1\)-esimo.
+A differenza del BFS e UCS, l'espansione dei contours tende verso il goal.
+
+Per dimostrare l'\textbf{ottimalità} di A* si ipotizza di aver espanso un nodo subgoal \(G_s\) e si ipotizza che esista un altro
+nodo \(n\) che appartiene alla soluzione ottimale ma non è stato ancora espanso. Si ottengono le seguenti catene di disuguaglianze:
+\begin{align*}
+	f(G_s) &= g(G_s) + h(G_s) = g(G_s) & \text{siccome \(h(G_s) = 0\) per def. di goal}\\
+	g(G_s) &> g(G_{opt}) & \text{per ipotesi \(G_s\) non è ottimale} \\
+	g(G_{opt}) &= g(n) + h^*(n) & \text{siccome n è nel cammino ottimo} \\
+	g(n) + h^*(n) &\geq g(n) + h(n) & \text{siccome \(h\) è ammissibile} \\
+	g(n) + h(n) &= f(n) & \text{per definizione di \(f(n)\)} \\
+\end{align*}
+\vspace*{-25pt}
+\[f(G_s) = g(G_s) > g(G_{opt}) = g(n) + h^*(n) \geq g(n) + h(n) = f(n) \;\; \Rightarrow \;\; f(G_s) > f(n)\]
+Siccome A* espande sempre il nodo con il costo stimato totale più basso, allora \(n\) deve essere stato espanso prima di
+\(G_s\), il che contraddice l'ipotesi iniziale che \(G_s\) fosse stato espanso prima di \(n\) e non si può quindi
+espandere un nodo goal subottimale prima di aver espanso tutti i nodi della soluzione ottimale.
+
+\subsubsection*{Weighted A* search}
+L'algoritmo di ricerca Weighted A* è una variante dell'algoritmo A* che introduce un fattore di ponderazione \(W\) nella
+funzione di valutazione \(f(n)\), permettendo di bilanciare tra l'ottimalità della soluzione e la velocità di ricerca. Non è
+più necessario che la funzione euristica sia ammissibile. La funzione di valutazione diventa:
+\[f(n) = g(n) + W \cdot h(n) \qquad\qquad 1 \leq W \leq \infty\]
+Si osserva che per \(W = 2\) si riduce lo spazio di ricerca di un fattore 7, aumentando il costo della soluzione di circa il
+5\%. Ovvero l'algoritmo esplora molti meno nodi e peggiora la soluzione trovata di molto poco.
+Ha le stesse proprietà di A*, tranne l'ottimalità che viene persa per \(W > 1\).
+
+\subsubsection*{Weighted A* come generalizzazione dei search algorithms}
+
+Si osserva che il Weighted A* search generalizza diversi algoritmi di ricerca per diversi valori di \(W\):
+\begin{center}
+	\begin{tabular}{c l l}
+		\toprule
+		\(W\) & \(f(n)\) & algoritmo \\
+		\midrule
+		\(W = 0\) & \(f(n) = g(n)\) & Uniform-cost search o Dijkstra \\
+		\(W = 1\) & \(f(n) = g(n) + h(n)\) & A* search \\
+		\(1 \leq W \leq \infty\) & \(f(n) = g(n) + W \cdot h(n)\) & Weighted A* search \\
+		\(W = \infty\) & \(f(n) = h(n)\) & Greedy best-first search \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+\subsection{Local search algorithms e ottimizzazione}
+I local search algorithms operano su problemi in cui il percorso che porta alla soluzione non è importante, ma conta solo
+lo stato finale. Ad esempio nei problemi di ottimizzazione non conta come si arriva alla soluzione, ma conta solo la qualità
+della soluzione stessa. Per risolvere questi problemi si utilizzano algoritmi di ottimizzazione tra cui gli interactive
+improvement algorithms.
+
+\subsubsection*{Interactive improvement algorithms}
+Questa classe di algoritmi mantiene una singola configurazione dello stato alla volta e cerca di migliorare tale stato attraverso
+piccole modifiche locali, chiamate mosse (moves). Si parte da uno stato iniziale non ottimale e si sceglie di volta in volta la
+mossa che porta al miglioramento più significativo dello stato corrente in base a una funzione di valutazione detta objective
+function. Questo processo viene ripetuto fino a quando non sono più possibili miglioramenti o viene raggiunto un criterio di
+arresto.
+
+\subsubsection*{Rappresentazione dello spazio degli stati}
+Risulta utile rappresentare lo spazio degli stati come un grafico bidimensionale in cui nelle ascisse sono riportati i vari stati
+e nelle ordinate i valori della funzione obiettivo associata a ciascuno stato. In questo modo è possibile visualizzare il processo
+di miglioramento dello stato come un percorso che si muove verso l'alto lungo il grafico, cercando di raggiungere il punto più
+alto che rappresenta la soluzione ottimale. Si definiscono i seguenti concetti:
+\begin{itemize}
+	\item \textbf{global maximum}: lo stato associato al massimo globale della funzione obiettivo (soluzione ottima)
+	\item \textbf{local maximum}: uno stato associato ad un massimo locale della funzione obiettivo (subottimale)
+	\item \textbf{plateau}: una regione in cui la funzione obiettivo è costante per più stati, è anche detto ``flat local maximum''
+	se attorno non ha stati con valori più alti
+	\item \textbf{shoulder}: una regione in cui la funzione obiettivo da crescente passa a costante per un certo numero di stati
+	per poi tornare a crescere
+\end{itemize}
+
+\subsubsection*{Subottimalità degli interactive improvement algorithms}
+Siccome questi algoritmi esplorano solo una parte limitata dello spazio degli stati, potrebbero non esplorare mai la regione
+in cui si trova la soluzione ottimale globale, rimanendo bloccati in minimi/massimi locali o in loop infiniti in prossimità di
+shoulder o plateau. Per evitare questo problema, si possono utilizzare alcune tecniche come il random restart, il simulated
+annealing o gli algoritmi genetici.
+
+\subsubsection*{Vantaggi degli interactive improvement algorithms}
+Il vantaggio principale degli interactive improvement algorithms è la loro efficienza in termini di tempo e spazio. Raggiungono
+rapidamente e in pochissimi passi soluzioni accettabili e lo stato che viene mantenuto in memoria è soltanto uno.
+
+\subsubsection*{Hill-climbing - greedy local search}
+L'algoritmo di hill-climbing (o greedy local search) è un esempio di algoritmo che implementa a livello generale il principio
+degli interactive improvement algorithms.
+
+\begin{algo}{Hill-Climbing}{$P$}{$P$ a problem formulation}{solution (not necessarily optimal)}
+	\State create local variable node \textit{current}
+	\State create local variable node \textit{neighbor}
+	\State \textit{current} $\gets$ initial state of $P$
+	\Loop
+		\State \textit{neighbor} $\gets$ a highest-value neighbor of \textit{current}
+		\If{value of \textit{neighbor} $\leq$ value of \textit{current}}
+			\State \textbf{return} the solution corresponding to \textit{current} \Comment{local maximum reached}
+		\EndIf
+		\State \textit{current} $\gets$ \textit{neighbor} \Comment{iteractive step}
+	\EndLoop
+\end{algo}
+
+\subsubsection*{Random restart hill-climbing}
+Il random restart hill-climbing è una variante dell'algoritmo di hill-climbing che prevede di eseguire più volte l'algoritmo
+a partire da stati iniziali casuali diversi. In questo modo si aumentano le probabilità di raggiungere la soluzione ottimale
+globale evitando di rimanere bloccati in minimi/massimi locali. La soluzione finale è la migliore tra tutte quelle trovate nelle
+varie esecuzioni.
+
+\subsubsection*{Random sideways moves hill-climbing}
+Il random sideways moves hill-climbing è una variante dell'algoritmo di hill-climbing che prevede di consentire mosse laterali
+casuali (random sideways moves) per un certo numero di iterazioni consecutive quando si raggiunge un plateau. In questo modo
+si cerca di superare il plateau (che porterebbero a loop infiniti). Non supera i massimi locali e non porta necessariamente alla
+soluzione ottimale globale.
+
+\subsubsection*{Simulated annealing}
+Il simulated annealing è un processo di ottimizzazione ispirato al processo di ricottura dei metalli. L'algoritmo inizia con una
+temperatura elevata \(T\) che permette di accettare mosse peggiorative con una certa probabilità \(p\) che dipende anche dalla
+``badness'' dello stato \(\Delta E(x)\). In questo modo si favorisce l'esplorazione dello spazio degli stati superando eventuali
+local maximum. Con il passare del tempo, la temperatura viene gradualmente ridotta e la badness diminuisce di conseguenza,
+riducendo la probabilità di accettare mosse peggiorative e concentrandosi sulla ricerca della soluzione ottimale. 
+La funzione di probabilità di accettazione delle mosse peggiorative per un certo stato \(x\) è data da:
+\[p(x) \; \propto \; e^{-\Delta E(x) / T}\]
+
+Opportunamente tarato permette di raggiungere la soluzione ottima con probabilità prossima a 1. Il simulated annealing è
+utilizzato in problemi di ottimizzazione complessi come VLSI layout o airplane scheduling. A pagina successiva è riportato il
+codice dell'algoritmo.
+
+\newpage
+
+\begin{algo}{Simulated Annealing}{$P$, $S$}{$P$ a problem formulation, $S$ a shedule, a mapping from time $t$ to temperature $T$}{solution (not necessarily optimal)}
+	\State create local variable node \textit{current}
+	\State create local variable node \textit{next}
+	\State create local variable temperature $T$
+	\State \textit{current} $\gets$ initial state of $P$
+	\For{$t \gets 1$ to $\infty$}
+		\State $T$ $\gets S(t)$
+		\If{$T = 0$}
+			\State \textbf{return} the solution corresponding to \textit{current} \Comment{temperature is zero}
+		\EndIf
+		\State \textit{next} $\gets$ a randomly selected neighbor of \textit{current}
+		\State \(\Delta E \gets\) value of \textit{next} - value of \textit{current}
+		\If{\(\Delta E > 0\)}
+			\State \textit{current} $\gets$ \textit{next} \Comment{improving move}
+		\Else
+			\State generate a random number \(0 \leq r \leq 1\)
+			\State \textit{current} $\gets$ \textit{next} with probability \(e^{\Delta E / T}\) \Comment{non-improving move}
+		\EndIf
+	\EndFor
+\end{algo}
+
+\subsubsection*{Local beam search}
+Il local beam search è un algoritmo di ricerca locale che mantiene un insieme di \(k\) stati (o configurazioni) contemporaneamente
+e li aggiorna iterativamente selezionando i \(k\) migliori stati tra tutti i figli generati dagli stati correnti. È diverso dal
+random restart in quanto gli stati dell'iterazione successiva dipendono da tutti gli stati dell'iterazione corrente, permettendo una
+migliore esplorazione dello spazio degli stati. Tuttavia, può ancora rimanere bloccato in minimi/massimi locali se tutti gli stati
+convergono verso la stessa regione dello spazio degli stati.
+
+\subsubsection*{Stochastic beam search}
+Il stochastic beam search è una variante del local beam search che introduce un elemento di casualità nella selezione degli stati
+per l'iterazione successiva. La scelta comunque rimane influenzata verso gli stati migliorativi. In questo modo di cerca di
+evitare di far convergere tutti gli stati verso la stessa regione dello spazio degli stati. Tale idea prende ispirazione dalla
+selezione naturale e dall'evoluzione biologica.
+
+\subsubsection*{Genetic algorithms}
+I genetics algorithms si basano in parte sullo stochastic beam search, ma introducono operazioni di crossover e mutazione ispirate
+alla ricombinazione genetica biologica che usa la natura per generare diversità. Il processo di divide in cinque fasi principali:
+\begin{itemize}
+	\item \textbf{inizializzazione}: si crea una popolazione iniziale di stati casuali, oppure si utilizzano quelli provenienti
+	da una precedente iterazione
+	\item \textbf{valutazione}: si valuta la fitness (valore della funzione obiettivo) di ciascuno stato
+	\item \textbf{selezione}: si selezionano gli stati migliori in base alla fitness per essere i genitori della prossima
+	generazione (in analogo alla selezione naturale) introducendo eventualmente una leggera casualità
+	\item \textbf{crossover/ricombinazione}: a coppie, si incrociano gli stati genitori in modo da formare nuovi stati figli
+	che condividono una parte dello stato di ciascun genitore
+	\item \textbf{mutazione}: si introducono piccole modifiche casuali negli stati figli per aumentare la diversità
+\end{itemize}
+Il processo viene ripetuto per un certo numero di generazioni o fino a quando non viene raggiunto un criterio di arresto.
+
+I genetic algorithms richiedono che gli stati siano rappresentati come stringhe di simboli (tipicamente bit) che possono essere
+facilmente manipolate con le operazioni di crossover e mutazione.

@@ -1,0 +1,125 @@
+\section{Intelligent agents (o rational agents)}
+\subsection{Introduzione agli agenti intelligenti}
+\subsubsection*{Definizione di agente in generale}
+Un agente (in generale) è un'entità che percepisce il suo ambiente attraverso sensori e agisce su di esso attraverso attuatori.
+Può essere schematizzato come una funzione matematica che mappa una sequenza di percezioni a una sequenza di azioni.
+\[f : P \to A\]
+
+\subsubsection*{Definizione di agente intelligente}
+Un agente intelligente (o rational agent) è un agente che, per ogni possibile percezione, seleziona l'azione che si aspetta
+che massimizzi la sua performance measure, dato ciò che ha percepito fino a quel momento.
+\[a = f(p) = \argmax_{\tilde{a}} \; \text{performance}(\, \tilde{a} \mid p \, ) \qquad\qquad \text{con} \;\; a \in A, \;\; p \in P\]
+
+\subsubsection*{Framework PEAS - (Performance, Environment, Actuators, Sensors)}
+Per definire un agente intelligente si utilizza il framework PEAS, ovvero un insieme di aspetti chiave che caratterizzano uno
+specifico agente intelligente. Tali aspetti definiscono il task environment dell'agente, ovvero il problema che l'agente deve
+risolvere. I 4 aspetti chiave (dati dalle iniziali P.E.A.S.) sono:
+\begin{itemize}
+	\item \textbf{Performance}: una funzione che valuta il comportamento dell'agente in base agli obiettivi prefissati
+	\item \textbf{Environment}: l'ambiente in cui l'agente opera, che può essere fisico o virtuale
+	\item \textbf{Actuators}: i mezzi attraverso cui l'agente può agire sull'ambiente
+	\item \textbf{Sensors}: i mezzi attraverso cui l'agente può percepire l'ambiente
+\end{itemize}
+
+\subsection{Proprietà di un task environment}
+\subsubsection*{Fully observable vs partially observable}
+Un ambiente si dice fully observable se l'agente può accedere a tutte le informazioni che compongono lo stato dell'ambiente in
+ogni momento. Viceversa si dice partially observable se l'agente ha accesso solo a una parte delle informazioni che compongono
+lo stato. Se l'agente non ha sensori, l'ambiente è completamente non osservabile, ma comunque può perseguire un obiettivo.
+
+\subsubsection*{Deterministic vs stochastic}
+Un ambiente si dice deterministic se lo stato successivo dell'ambiente è completamente determinato dallo stato attuale e
+dall'azione dell'agente. Viceversa si dice stochastic o non-determinisc se lo stato successivo dipende anche da fattori
+casuali o imprevedibili. Per vivere in un ambiente non-deterministico, l'agente deve essere in grado di gestire l'incertezza
+e implementare regole di teoria della probabilità. 
+
+\subsubsection*{Episodic vs sequential}
+Un ambiente si dice episodic se l'esperienza dell'agente è suddivisa in episodi temporalmente distinti e indipendenti, formati
+da una singola percezione e una singola azione. Viceversa si dice sequential se l'esperienza dell'agente è continua e le
+azioni dell'agente influenzano le percezioni future. In un ambiente sequenziale, l'agente deve considerare le conseguenze a
+lungo termine delle sue azioni.
+
+\subsubsection*{Static vs dynamic}
+Un ambiente si dice static se rimane invariato mentre l'agente sta prendendo una decisione. Viceversa si dice dynamic se
+l'ambiente può cambiare mentre l'agente sta prendendo una decisione. In un ambiente dinamico, l'agente deve essere in grado
+di adattarsi rapidamente ai cambiamenti.
+
+\subsubsection*{Discrete vs continuous}
+Un ambiente si dice discrete se stati, percezioni e azioni cambiano ad intervalli di tempo discreti (\(t \in \mathbb{Z}\)).
+Spesso un ambiente discreto è anche finito, ovvero ha un numero finito di stati, percezioni e azioni. Viceversa un ambiente
+si dice continuous se stati, percezioni e azioni cambiano in modo continuo nel tempo (\(t \in \mathbb{R}\)). Alcune percezioni
+possono essere discrete (es. immagini digitali) ma se riferite ad un ambiente continuo, l'ambiente viene comunque considerato
+continuo.
+
+\subsubsection*{Single agent vs multiagent}
+Un ambiente si dice single agent se c'è un solo agente che opera nell'ambiente. Viceversa si dice multiagent se ci sono
+più agenti che operano nell'ambiente. In un ambiente multiagent, si distinguono agenti cooperativi (che lavorano insieme
+per raggiungere un obiettivo comune) e agenti competitivi (che competono tra loro per risorse limitate o obiettivi
+contrapposti).
+
+\subsubsection*{Known vs unknown}
+Un ambiente si dice known se l'agente ha una conoscenza completa delle dinamiche dell'ambiente, ovvero sa come le sue
+azioni influenzeranno lo stato futuro dell'ambiente. Viceversa si dice unknown se l'agente ha una conoscenza limitata
+delle dinamiche dell'ambiente e deve imparare attraverso l'esperienza come le sue azioni influenzeranno lo stato futuro.
+Un ambiente può essere known anche se è partially observable o stochastic, ovvero l'agente conosce le regole che governano
+l'ambiente ma non ha accesso a tutte le informazioni per definire lo stato attuale o lo stato futuro.
+
+\subsection{Tipi di agenti}
+\subsubsection*{Simple reflex agents}
+Un simple reflex agent agisce basandosi su regole condizionali (if-then-else) per selezionare l'azione da eseguire in base
+alla percezione attuale. La scelta delle azioni è basata esclusivamente sulla percezione attuale, senza considerare la storia
+delle percezioni passate o le conseguenze future delle azioni. Questi agenti sono adatti per ambienti fully observable.
+
+\subsubsection*{Model-based reflex agents}
+Un model-based reflex agent mantiene un modello interno dello stato dell'ambiente, che viene aggiornato in base alle percezioni
+attuali. La scelta delle azioni è basata sia sulla percezione attuale che sul modello interno dello stato dell'ambiente. Questi
+agenti sono adatti per ambienti partially observable, in quanto possono utilizzare il modello interno per inferire informazioni
+sullo stato attuale dell'ambiente che non sono direttamente osservabili. Inoltre sono più complessi da implementare perché
+richiedono un transition model e un sensor model per aggiornare il modello internoche basandosi rispettivamente sulle azioni
+compiute (prediction) e sulle percezioni dell'agente (update). Vengono spesso usati i Kalman-filters per implementare, per
+l'appunto, le due fasi di prediction e update.
+
+\subsubsection*{Goal-based agents}
+Un goal-based agent utilizza obiettivi stabiliti a priori per guidare la scelta delle azioni. La scelta delle azioni è basata
+sull'analisi delle conseguenze future delle azioni in relazione agli obiettivi dell'agente. Questi agenti sono adatti per
+ambienti sequenziali, in quanto devono considerare le conseguenze a lungo termine delle loro azioni per raggiungere gli
+obiettivi prefissati. Inoltre sono più complessi da implementare perché richiedono una funzione di valutazione delle azioni
+in base alla loro capacità di avvicinare l'agente agli obiettivi prefissati. Esempi di algoritmi utilizzati per implementare
+goal-based agents sono gli algoritmi di ricerca come DFS, BFS, Dijkstra e A*.
+
+\subsubsection*{Utility-based agents}
+Un utility-based agent utilizza una funzione di utilità per valutare lo stato dell'ambiente e guidare la scelta delle azioni.
+La funzione di utilità assegna un valore numerico a ciascuno stato dell'ambiente, rappresentando il grado di soddisfazione
+dell'agente in quello stato. La scelta delle azioni è basata sia sul raggiungimento degli obiettivi che sulla massimizzazione
+della funzione di utilità. Questi agenti sono adatti per ambienti complessi e dinamici dove ci sono conflitti tra obiettivi
+multipli, in quanto devono bilanciare il raggiungimento degli obiettivi con la massimizzazione della soddisfazione dell'agente.
+Per modellare matematicamente un utility-based agent si utilizzano ad esempio i Markov Decision Processes (MDP) con le Bellman
+equations per calcolare la politica ottimale dell'agente.
+
+\subsubsection*{Differenza tra goal-based e utility-based agents}
+La differenza principale tra goal-based agents e utility-based agents è che i primi si concentrano esclusivamente sul
+raggiungimento degli obiettivi prefissati, mentre i secondi cercano di massimizzare la soddisfazione complessiva dell'agente
+considerando sia gli obiettivi che la funzione di utilità.
+
+In particolare se l'utilità è costante nel tempo allora un utility-based agent degenera in un goal-based agent (il diagramma
+degli stati è grafo con archi pesati con pesi costanti) e la policy è costante nel tempo ed equivale ad una specifica sequenza
+di azioni chiare ed assolute dette cammino minimo. Se l'utilità, invece, varia nel tempo ed ha componenti stocastiche, allora
+i search algorithms non sono più sufficienti per implementare un utility-based agent e servono gli MDP con le Bellman equations
+per calcolare la optimal policy.
+
+Ad esempio potrebbe verificarsi che il cammino minimo passa molto vicino ad un burrone e si ha una probabilità non nulla di
+cadere ed avere un'utilità estremamente svantaggiosa. Un goal-based agent seguirebbe comunque quel cammino minimo, mentre un
+utility-based agent potrebbe scegliere un cammino più lungo ma più sicuro per massimizzare l'utilità attesa.
+
+\subsubsection*{Learning agents}
+Un learning agent è un agente che può migliorare le sue prestazioni attraverso l'apprendimento dall'esperienza. Attraverso
+l'apprendimento nel tempo permette di risultare particolarmente efficace in ambienti con cambiamenti dinamici e inizialmente
+sconosciuti. Un learning agent è composto da quattro componenti principali:
+\begin{itemize}
+	\item \textbf{Performance element}: decide le azioni dell'agente (sfruttando qualsiasi dei precedenti modelli di agente
+	visti in precedenza) e valuta le prestazioni dell'agente in base alla performance measure
+	\item \textbf{Learning element}: consente all'agente di apprendere dall'esperienza e migliorare le sue prestazioni
+	correggendo i parametri del performance element
+	\item \textbf{Critic}: fornisce feedback al learning element sulla qualità delle azioni dell'agente
+	\item \textbf{Problem generator}: suggerisce nuove esperienze o situazioni per l'agente da esplorare
+\end{itemize}

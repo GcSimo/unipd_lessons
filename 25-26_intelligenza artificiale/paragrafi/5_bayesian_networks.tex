@@ -1,0 +1,803 @@
+\section{Bayesian networks and probabilistic reasoning}
+\subsection{Gestione dell'incertezza}
+\subsubsection*{Introduzione alla gestione dell'incertezza}
+Analizzando un agente intelligente si nota che il mondo osservato spesso contiene incertezze dovute a vari fattori come
+partial observability, processi stocastici, rumore nei sensori e comportamenti imprevedibili di altri agenti. Un agente
+intelligente (che agisce razionalmente) deve essere in grado di tenere conto di queste incertezze per prendere decisioni
+informate e agire in modo efficace. In generale esistono tre motivi principali per cui un agente intelligente che non
+è un grado di gestire l'incertezza potrebbe fallire di fronte a situazioni complesse:
+\begin{itemize}
+	\item \textbf{lazyness}: un certo fenomeno può avere molte cause possibili, elencarle tutte richiede troppo tempo e
+	risorse computazionali ed è necessario un sistema per selezionare solo le cause più probabili
+	\item \textbf{theoretical ignorance}: un agente può non avere conoscenza completa del mondo, ad esempio non conoscere
+	le leggi fisiche che regolano un fenomeno, è richiesto saper fare inferenze basate su osservazioni passate
+	\item \textbf{practical ignorance}: anche se un agente ha conoscenza completa delle dinamiche del mondo, potrebbe non
+	disporre di tutte le informazioni necessarie per definire totalmente lo stato dell'ambiente, ad esempio a causa di
+	sensori imperfetti o limitati
+\end{itemize}
+
+\subsubsection*{Incertezza e agenti intelligenti}
+Quasi tutti i modelli di agenti intelligenti (model-based, goal-based, utility-based, ma non reflex-based) possono essere
+in grado di gestire l'incertezza:
+\begin{itemize}
+	\item \textbf{reflex-based agents}: agiscono solo di fronte ad impulsi immediati (come l'arco riflesso) e non sono in
+	grado di modulare la propria azione in base a informazioni incomplete o incerte, si usano infatti in ambienti fully
+	observable, deterministici, di cui si conoscono tutte le dinamiche a priori
+	\item \textbf{model-based agents}: per mantenere una rappresentazione interna dello stato del mondo di fronte ad ambienti
+	non fully observable, l'agente deve essere in grado di gestire l'incertezza delle percezioni e aggiornare costantemente
+	lo stato interno (ad esempio Kalman filters)
+	\item \textbf{goal-based agents}: analogo al model-based agent, l'unico cambiamento è che l'agente è in grado
+	di pianificare le proprie azioni per raggiungere un obiettivo, ma la gestione dell'incertezza rimane solo per
+	l'aggiornamento dello stato interno
+	\item \textbf{utility-based agents}: il vantaggio principale di questi agenti è la capacità di valutare e pesare
+	le proprie azioni in base a una funzione di utilità che attraverso la decision theory considera sia i goal da
+	raggiungere che la probabilità di successo delle azioni stesse, per questo motivo sono i più utilizzati per operare
+	in ambienti con incertezza
+\end{itemize}
+
+\subsubsection*{Decision theory and utility based agents}
+La decision theory unisce l'utility theory degli agenti utility-based, per calcolare l'utilità attesa di ogni azione possibile,
+insieme alla probability theory che pesa l'utilità in base alla probabilità di ogni possibile risultato. In questo modo,
+un agente può scegliere l'azione che massimizza l'utilità attesa, tenendo conto sia dei benefici potenziali che dei rischi
+associati a ciascuna azione in un contesto di incertezza. Di seguito lo pseudocodice per un utility-based agent che utilizza
+la decision theory:
+
+\begin{algo}{DT-agent}{\textit{percept}}{\textit{percept}: percezione dell'ambiente che può contenere incertezza}{\textit{action}: miglior azione da eseguire}
+	\State variabile statica \textit{belief-state} con lo stato dell'ambiente basato sul modello interno dell'agente
+	\State \textit{belief-state} $\leftarrow$ \Call{Update-Belief-State}{\textit{belief-state}, \textit{percept}, \textit{sensor-model}}
+	\State \textit{action-outcomes} $\leftarrow$ \Call{Actions-Outcomes-Probability}{\textit{belief-state}, \textit{transition-model}}
+	\State \textit{best-action} $\leftarrow$ \Call{Select-Highest-Utility-Action}{\textit{action-outcomes}, \textit{utility-function}}
+	\State \Return \textit{best-action}
+\end{algo}
+
+\subsection{Teoria della probabilità}
+\subsubsection*{Introduzione alla probabilità - definizioni e nomenclatura}
+\begin{itemize}
+	\item \textbf{probabilità}: funzione matematica \(P(\omega)\) che associa un valore numerico ad ogni possibile world
+	\(\omega \in W\) proveniente da uno spazio di mondi \(W\)
+	\item \textbf{evento}: sottoinsieme di possibili outcomes
+	\item \textbf{random variable}: variabile che rappresenta una proprietà o funzionalità di un processo attraverso un
+	insieme di possibili numeri
+	\item \textbf{assimomi della probabilità}: \(\qquad 0 \leq P(e) \leq 1, \qquad \sum_{e \in W} P(e) = 1\)
+	\item \textbf{joint probability} o probabilità congiunta: \(P(e_1, e_2, \ldots, e_n) = P(e_1 \land e_2 \land \dots \land e_n)\)
+	\item \textbf{unconditional probability} o prior probability: \(P(e)\), indica il grado di credenza in un evento in assenza
+	di informazioni aggiuntive
+	\item \textbf{conditional probability} o posterior probability: \(P(e_1 \mid e_2) = P(e_1, e_2) / P(e_2)\), indica la probabilità
+	che un evento si verifichi dato che un altro evento è già noto
+	\item \textbf{independence}: due eventi \(a\) e \(b\) sono indipendenti se \(P(a \mid b) = P(a)\) oppure se \(P(b \mid a) = P(b)\)
+	oppure se \(P(a, b) = P(a)P(b)\), per indicare l'indipendenza tra due variabili si scrive \(A \indep B\)
+	\item \textbf{conditional independence}: due eventi \(a\) e \(b\) sono condizionatamente indipendenti dato un terzo evento
+	\(c\) se \(P(a \mid b, c) = P(a \mid c)\) oppure se \(P(b \mid a, c) = P(b \mid c)\) oppure se \(P(a, b \mid c) = P(a \mid c)P(b \mid c)\), per
+	indicare l'indipendenza condizionata tra due variabili si scrive \(A \indep B \mid C\)
+	\item \textbf{law of total probability}: data una partizione dello spazio degli eventi \( \{c_1, c_2, \ldots, c_n\} \),
+	allora per ogni evento \(a\) vale che \(P(a) = \sum_{i} P(a \mid c_i)P(c_i)\)
+	\item \textbf{probability distribution}: insieme di tutte le probabilità associate a tutti i possibili valori di una
+	variabile casuale \(X\): \(\textbf{P}(X) = \left\{ P(x_1), P(x_2), \dots \right\}\)
+	\item \textbf{probability density function} o pdf: la probabilità che la variabile aleatoria continua \(X\) assuma uno
+	specifico valore \(x\) è detta densità di probabilità: \(p(X = x) \equiv p(x)\), con \(\int p(x) dx = 1\)
+\end{itemize}
+
+\subsubsection*{Bayes rules e product rule}
+\[\text{Product rule}: \;\; P(a, b) = P(a \mid b)P(b) \qquad\qquad \text{Bayes rule}: \;\; \begin{array}{l}
+	P(a \mid b) = P(b \mid a)P(a) / P(b) \\[5pt]
+	P(b \mid a) = P(a \mid b)P(b) / P(a)
+\end{array}\]
+La bayes rule viene usata per calcolare la probabilità che una certa causa \(a\) abbia generato un certo effetto \(b\)
+(\(P(a \mid b)\)) conoscendo la probabilità con cui la causa \(a\) provoca l'effetto \(b\) (\(P(b \mid a)\)) e la probabilità
+a priori della causa \(a\) (\(P(a)\)) e dell'effetto \(b\) (\(P(b)\)).
+
+In base all'ordine delle due variabili \(a\) e \(b\) si ottengono due tipi di relazioni:
+\begin{itemize}
+	\item \textbf{causal relationship}: \(P(\textit{effect} \mid \textit{cause})\) indica la probabilità che un certo effetto
+	si verifichi dato che una certa causa è presente, ad esempio \(P(\text{mal di testa} \mid \text{influenza})\) indica la
+	probabilità di avere mal di testa dato che si ha l'influenza
+	\item \textbf{diagnostic relationship}: \(P(\textit{cause} \mid \textit{effect})\) indica la probabilità che una certa
+	causa sia presente dato che un certo effetto si è verificato, ad esempio \(P(\text{influenza} \mid \text{mal di testa})\)
+	indica la probabilità di avere l'influenza dato che si ha mal di testa
+\end{itemize}
+
+\subsubsection*{Fattorizzazione e indipendenza}
+La fattorizzazione, insieme alle nozioni di indipendenza e indipendenza condizionata, permettono di riscrivere una distribuzione
+di probabilità congiunta in termini di probabilità condizionate più semplici eliminando ridondanze e semplificando i calcoli.
+In pratica si sfrutta la product rule per esprimere la probabilità congiunta come il prodotto di probabilità condizionate, e
+si utilizzano le proprietà di indipendenza per semplificare ulteriormente queste probabilità condizionate.
+\[\textbf{P}(A, B, C, D) = \textbf{P}(A \mid B, C, D) \cdot \textbf{P}(B, C, D) = \textbf{P}(A) \cdot \textbf{P}(B, C, D) \qquad \text{con} \; A \indep B, C, D \]
+
+\subsubsection*{Chain Rule e product decomposition}
+La chain rule si basa sulla applicazione ricorsiva della product rule per esprimere una distribuzione di probabilità congiunta
+di più variabili aleatorie come il prodotto di tante probabilità condizionate più semplici in cui applicare le opportune
+semplificazioni per l'indipendenza e indipendenza condizionata.
+\[\textbf{P}(A_1, A_2, \ldots, A_n) = \prod_{i=1}^{n} \textbf{P}(A_i \mid A_1, A_2, \ldots, A_{i-1})\]
+Ad esempio, per tre variabili aleatorie \(x_1, x_2, x_3\), in base alle indipendenze che sussitono tra le tre variabili,
+si può avere che:
+\[\textbf{P}(x_1, x_2, x_3) = \textbf{P}(x_1 \mid x_2, x_3) \textbf{P}(x_2 \mid x_3) \textbf{P}(x_3) =  \left\langle \begin{array}{l l}
+	\textbf{P}(x_3 \mid x_2) \textbf{P}(x_2 \mid x_1) \textbf{P}(x_1) & x_3 \indep x_1 \mid x_2 \\[4pt]
+	\textbf{P}(x_3 \mid x_2, x_1) \textbf{P}(x_2) \textbf{P}(x_1) & x_2 \indep x_1 \\[4pt]
+	\qquad \cdots
+\end{array} \right.\]
+
+\subsection{Inference using full joint distribution}
+\subsubsection*{Struttura di una full joint distribution}
+Una \textbf{full joint distribution} (FJD) è una rappresentazione completa in struttura tabellare di tutte le possibili
+combinazioni di valori delle variabili aleatorie in un dominio, a cui, ad ogni combinazione, è associata la relativa
+probabilità congiunta. La FJD consente di rispondere a qualsiasi domanda riguardante qualsiasi tipo di probabilità (a
+priori, a posteriori, congiunta) di qualsiasi evento o combinazione di eventi nel dominio utilizzando le opportune 
+regole della probabilità e ricorrendo eventualemnte a tecniche semplificative come normalizzazione e marginalizzazione.
+
+L'univo svantaggio della FJD è che la sua dimensione cresce esponenzialmente con il numero di variabili aleatorie
+coinvolte, rendendo impraticabile la sua costruzione e utilizzo in domini complessi con molte variabili. Richiede
+infatti di calcolare e memorizzare qualsiasi combinazione possibile di valori delle variabili aleatorie, il che
+potrebbe essere un grande spreco di tempo.
+
+\subsubsection*{Calcolo della probabilità (a priori o congiunta) di un evento specifico}
+Per calcolare la probabilità di un evento specifico (o la probabilità congiunta di più eventi) utilizzando una FJD,
+si procede semplicemente sommando le probabilità corrispondenti alle celle della tabella che soddisfano le condizioni
+dell'evento di interesse.
+
+\subsubsection*{Calcolo della probabilità a posteriori usando la normalizzazione}
+Nel caso si volesse calcolare la distribuzione di probabilità condizionate \(\textbf{P}(A \mid B)\) utilizzando una FJD,
+si osserva che compare un fattore di normalizzazione \(\alpha\) (proveniente dalla Bayes rule) che serve per garantire
+che la somma delle probabilità condizionate sia pari a 1. Questo fattore si calcola come l'inverso della somma delle
+probabilità congiunte:
+\[\textbf{P}(A \mid b) = \textbf{P}(A, b) / P(b) = \alpha \textbf{P}(A, b) \qquad \text{con} \; \alpha = 1 / P(b) \; \text{che in generale soddisfa} \;\; \alpha \sum_{a \in A} \textbf{P}(A, b) = 1\]
+
+\subsubsection*{Calcolo della probabilità a posteriori usando la marginalizzazione}
+Nel caso in cui si voglia calcolare la distribuzione di probabilità condizionata \(\textbf{P}(A \mid b)\) utilizzando una FJD
+che include anche altre variabili aleatorie \(C\) di cui non si ha interesse o non si conosce il valore, è necessario
+ricorrere alla tecnica della marginalizzazione per eliminare le variabili non rilevanti. La marginalizzazione consiste
+nel sommare le probabilità congiunte su tutte le possibili combinazioni di valori delle variabili da eliminare, in modo
+da ottenere una distribuzione di probabilità condizionata che dipende solo dalle variabili di interesse.
+\[\textbf{P}(A \mid b) = \alpha \textbf{P}(A \mid b) = \alpha \sum_{c \in C} \textbf{P}(A, b, c)\]
+Si applica spesso quando si vuole calcolare la probabilità a posteriori di certe variabili \(A\) data una certa evidenza \(b\) 
+per l'insieme di variabili \(B\), quando l'ambiente ha anche altre variabili \(C\) nascoste.
+
+\subsection{Bayesian networks}
+\subsubsection*{Parent set di una variabile aleatoria}
+L'insieme di variabili che condizionano una variabile aleatoria è chiamata \textbf{parent set} ed è un sottoinsieme
+delle variabili che precedono la variabile aleatoria condizionata. È possibile quindi riscrivere la chain rule condizionando
+ciascuna variabile aleatoria solo sul suo parent set:
+\[\textbf{P}(A_1, A_2, \ldots, A_n) = \prod_{i=1}^{n} \textbf{P}(A_i \mid A_1, A_2, \ldots, A_{i-1}) = \prod_{i=1}^{n} \textbf{P}(A_i \mid \text{Parents}(A_i))\]
+\[\text{con} \; \text{Parents}(A_i) \subseteq \{A_1, A_2, \ldots, A_{i-1}\}\]
+
+\subsubsection*{Definizione di bayesian network}
+Una bayesian network (BN) (anche detta  ``belief network'', ``probabilistic graphic model'' (PGM) o ``direct acyclic
+graph'' (DAG)) è una rappresentazione grafica sottoforma di grafo diretto aciclico che modella le relazioni di dipendenza
+probabilistica tra un insieme di variabili aleatorie. In una BN, ogni nodo rappresenta una variabile aleatoria, mentre gli
+archi diretti tra i nodi indicano le relazioni di dipendenza condizionata tra le variabili. Gli archi entranti di un nodo
+rappresentano le variabili che condizionano quella variabile, ovvero provengono dal parent set di quella variabile.
+
+Esistono tre tipi di strutture di dipendenza che possono sussistere tra le variabili aleatorie in una BN di seguito
+illustrate nei tre seguenti paragrafi
+
+\subsubsection*{1. Chain}
+\begin{center}
+	\begin{minipage}{0.64\textwidth}
+		La chain prevede una connessione ``head-to-tail'' tra le variabili aleatorie. Si hanno le seguenti
+		relazioni di dipendenza:
+		\[X \to Y, Z \qquad Y \to Z \qquad X \indep Z \mid Y\]
+		\[\textbf{P}(X, Y, Z) = \textbf{P}(Z \mid Y) \, \textbf{P}(Y \mid X) \, \textbf{P}(X)\]
+	\end{minipage}
+	\begin{minipage}{0.35\textwidth}
+		\centering
+		\begin{tikzpicture}[
+			% stile
+			node distance=0.7cm,
+			vnode/.style={circle, draw=black, thick, minimum size=1cm},
+			arrow/.style={-Stealth, thick}]
+		
+			% nodi
+			\node[vnode] (X) {$X$};
+		    \node[vnode] (Y) [right=of X] {$Y$};
+		    \node[vnode] (Z) [right=of Y] {$Z$};
+		
+		    % archi
+		    \draw[arrow] (X) -- (Y);
+		    \draw[arrow] (Y) -- (Z);
+		\end{tikzpicture}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{2. Fork}
+\begin{center}
+	\begin{minipage}{0.64\textwidth}
+		La fork prevede una connessione ``tail-to-tail'' tra le variabili aleatorie. Si hanno le seguenti
+		relazioni di dipendenza:
+		\[X \to Y, Z \qquad Y \indep Z \mid X\]
+		\[\textbf{P}(X, Y, Z) = \textbf{P}(Y \mid X) \, \textbf{P}(Z \mid X) \, \textbf{P}(X)\]
+	\end{minipage}
+	\begin{minipage}{0.35\textwidth}
+		\centering
+		\begin{tikzpicture}[
+			% stile
+		    vnode/.style={circle, draw=black, thick, minimum size=1cm},
+		    arrow/.style={-Stealth, thick}]
+			% nodi
+		    \node[vnode] (X) {$X$};
+		    \node[vnode] (Y) [left=0cm of X, yshift=-1.5cm] {$Y$};
+		    \node[vnode] (Z) [right=0cm of X, yshift=-1.5cm] {$Z$};
+			% archi
+		    \draw[arrow] (X) -- (Y);
+		    \draw[arrow] (X) -- (Z);
+		\end{tikzpicture}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{3. Collider}
+\begin{center}
+	\begin{minipage}{0.64\textwidth}
+		La collider prevede una connessione ``head-to-head'' tra le variabili aleatorie. Si hanno le seguenti
+		relazioni di dipendenza:
+		\[X \to Z \qquad Y \to Z \qquad X \indep Y \qquad X \nindep Y \mid Z\]
+		\[\textbf{P}(X, Y, Z) = \textbf{P}(Z \mid X, Y) \textbf{P}(X) \textbf{P}(Y)\]
+		\[\textbf{P}(X,Y) = \textbf{P}(X) \textbf{P}(Y) \qquad \text{dato} \; X \indep Y\]
+		\[\textbf{P}(X,Y \mid Z) = \textbf{P}(X \mid Y,Z) \textbf{P}(Y \mid Z) \qquad \text{dato} \; X \nindep Y \mid Z\]
+		La particolarità di questa struttura (su cui bisogna fare attenzione) è che le variabili \(X\) e \(Y\)
+		sono indipendenti a priori, ma diventano dipendenti condizionatamente alla variabile \(Z\).
+	\end{minipage}
+	\begin{minipage}{0.35\textwidth}
+		\centering
+		\begin{tikzpicture}[
+			% stile
+		    vnode/.style={circle, draw=black, thick, minimum size=1cm},
+		    arrow/.style={-{Stealth[scale=1.2]}, thick, black}]
+		    % nodi
+		    \node[vnode] (X) {$X$};
+		    \node[vnode] (Y) [right=1cm of X] {$Y$};
+		    \node[vnode] (Z) at ($ (X)!0.5!(Y) + (0,-1.7) $) {$Z$};
+		    % archi
+		    \draw[arrow] (X) -- (Z);
+		    \draw[arrow] (Y) -- (Z);
+		\end{tikzpicture}
+	\end{minipage}
+\end{center}
+
+\newpage
+
+\subsubsection*{Conditional probability tables - CPTs}
+Le conditional probability tables (CPTs) sono tabelle associate a ciascuna variabile aleatoria (cioè a ciascun nodo del grafo)
+che specificano la distribuzione di probabilità condizionata di quella variabile dato il suo parent set. Per questioni di
+ottimizzazione dello spazio di memoria, le CPTs considerano solo il caso in cui la variabile condizionata assuma il valore
+vero, in quanto il suo complementare (falso) può essere calcolato facilmente come \(P(\neg a \mid \text{Parents}(A)) = 1 - P(a \mid \text{Parents}(A))\).
+
+Nota: se una variabile aleatoria non ha genitori (parent set vuoto), ovvero non dipende da nessun'altra variabile, allora
+la sua CPT coincide con la sua distribuzione di probabilità a priori.
+
+Di seguito un esempio di CPT per le varie strutture di dipendenza illustrate nei paragrafi precedenti:
+\begin{center}
+	\begin{minipage}{0.29\textwidth}
+		\centering
+		\textbf{Chain} (\(Y \to Z\)) \\[5pt]
+		\begin{tabular}{c|c}
+			\toprule
+			\(Y\) & \(P(Z=true \mid Y)\) \\
+			\midrule
+			true & 0.9 \\
+			false & 0.2 \\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+	\begin{minipage}{0.29\textwidth}
+		\centering
+		\textbf{Fork} (\(Y \leftarrow X \rightarrow Z\)) \\[5pt]
+		\begin{tabular}{c|c}
+			\toprule
+			\(X\) & \(P(Y=true \mid X)\) \\
+			\midrule
+			true & 0.8 \\
+			false & 0.1 \\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+	\begin{minipage}{0.39\textwidth}
+		\centering
+		\textbf{Collider} (\(X \to Z \leftarrow Y\)) \\[5pt]
+		\begin{tabular}{c c|c}
+			\toprule
+			\(X\) & \(Y\) & \(P(Z=true \mid X, Y)\) \\
+			\midrule
+			true & true & 0.9 \\
+			true & false & 0.6 \\
+			false & true & 0.7 \\
+			false & false & 0.1 \\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Vantaggi delle bayesian networks e delle CPTs}
+Attraverso le bayesian networks e le CPTs è possibile rappresentare tutte le probabilità congiunte di un dominio in modo
+più compatto ed efficiente rispetto a una full joint distribution (FJD) riducendo notevolmente lo spazio in memoria
+occupato.
+
+Inoltre, avendo meno parametri da memorizzare, è possibile stimarli in maniera più accurata se si dispone di un numero limitato
+di samples di addestramento rispetto ad una struttura più complessa come una FJD. Infatti diminuendo il numero di parametri
+aumenta il numero di samples per parametro e di conseguenza anche l'accuratezza della stima.
+
+\subsubsection*{Costruzione delle bayesian networks}
+Qualsiasi ordinamento topologico delle variabili aleatorie di un dominio consente di costruire una bayesian network
+corretta per il problema. Infatti la dipendenza tra le variabili aleatorie è simmetrica per cui è possibile invertire
+l'ordine di qualsiasi coppia di variabili aleatorie senza alterare la correttezza della BN (sempre evitando cicli).
+
+Tuttavia, per costruire una BN più compatta ed efficiente è necessario scegliere un ordinamento topologico in cui le
+dipendenze tra le variabili aleatorie siano orientate secondo il rapporto di causalità (\(\text{causa} \to \text{effetto}\)),
+ovvero dove il parent set di ogni variabile è l'insieme delle cause dirette di tale variabile.
+
+\subsubsection*{Inference by enumeration in bayesian networks}
+Per calcolare la probabilità a posteriori di una variabile aleatoria \(X\) data una certa evidenza \(e\) si utilizza la
+tecnica dell'inference by enumeration, che consiste nel calcolare la probabilità congiunta \(P(X, e)\) sommando su tutte
+le possibili combinazioni di valori delle variabili aleatorie nascoste \(Y\) (cioè quelle che non sono né \(X\) né \(e\))
+e normalizzando il risultato per ottenere una distribuzione di probabilità condizionata:
+\[\textbf{P}(X \mid e) = \alpha \sum_{y} \textbf{P}(X, e, y) \qquad\qquad \text{con} \; \alpha = \frac{1}{\sum_{x} \sum_{y} \textbf{P}(x, e, y)} \; \text{dalla product rule}\]
+
+\newpage
+
+\subsection{Approximate inference}
+\subsubsection*{Vantaggi dell'approximate inference}
+I metodi di inferenza visti in precedenza (inference by enumeration) restituiscono risultati esatti, ma il costo computazionale
+per calcolarli risulta parecchio elevato, specialmente per domini complessi con molte variabili aleatorie e tante relazioni
+di dipendenza. Per questo motivo, in molti casi, è preferibile utilizzare metodi di inferenza approssimata che restituiscono
+risultati non esatti ma comunque accettabili in tempi ragionevoli, riducendo notevolmente il costo computazionale.
+
+\subsubsection*{Probabilistic sampling come metodo di approximate inference}
+Per calcolare la probabilità approssimata di un evento specifico è possibile ricorrere alla tecnica del probabilistic sampling
+che consiste nel generare un certo numero di campioni casuali (samples) da una distribuzione di probabilità e utilizzare
+questi campioni per stimare la probabilità dell'evento di interesse in base alla frequenza relativa con cui si verifica
+tale evento nei campioni generati. Man mano che la quantità di campioni aumenta, l'approssimazione diventa via via sempre
+più accurata, avvicinandosi alla probabilità reale dell'evento.
+
+\subsubsection*{Monte Carlo algorithms}
+Esistono vari algoritmi di probabilistic sampling che prendono il nome di Monte Carlo algorithms. Si classificano in tre
+categorie principali in base alla tecnica di campionamento utilizzata:
+\begin{itemize}
+	\item \textbf{direct sampling}: si generano campioni casuali senza considerare l'evidenza osservata, sono molto facili
+	da implementare, ma risultano molto inefficienti quando l'evidenza è rara perché tanti campioni vengono scartati; fanno
+	parte di questa categoria algoritmi come prior sampling e rejection sampling
+	\item \textbf{importance sampling}: si generano campioni casuali come nel direct sampling, ma si tiene conto anche
+	dell'evidenza osservata, assegnando un peso a ciascun campione, evitando di scartare campioni; fanno parte di questa
+	categoria algoritmi come likelihood weighting
+	\item \textbf{Markov Chain Monte Carlo (MCMC) sampling}: si generano campioni casuali in modo iterativo, in cui ogni
+	campione dipende dal campione precedente, formando una catena di Markov; fanno parte di questa categoria algoritmi
+	come Gibbs sampling
+\end{itemize}
+
+\subsubsection*{Metodi di sampling di una variabile aleatoria}
+Per associare un valore ad una variabile aleatoria rispettando la sua distribuzione di probabilità discreta si possono
+utilizzare due metodi principali:
+\begin{itemize}
+	\item \textbf{inverse transform sampling}: si calcola la funzione di distribuzione cumulativa (CDF) della distribuzione
+	di probabilità, poi si genera un numero casuale \(u\) nell'intervallo \([0, 1]\) ed infine si trova il valore \(x\) tale
+	che \(F(x) = u\), ovvero l'inverso della CDF applicato a \(u\): \(x = F^{-1}(u)\) (vale anche con variabili
+	aleatorie continue)
+	\item \textbf{stochastic method}: si divide un segmento di lunghezza unitaria (\([0, 1]\)) in \(n\) sottointervalli
+	corrispondenti agli \(n\) valori della variabile aleatoria, in cui ogni sottointervallo ha una lunghezza proporzionale
+	alla probabilità del valore corrispondente; si genera, quindi, un numero casuale \(u\) nell'intervallo \([0, 1]\) e
+	si determina in quale sottointervallo cade \(u\), per poi assegnare il valore corrispondente alla variabile aleatoria
+\end{itemize}
+
+\subsubsection*{Prior sampling - for prior probability only}
+Il prior sampling è il più semplice metodo di probabilistic sampling e fa parte della categoria dei direct sampling. In
+pratica generano sampling casuali per ogni variabile aleatoria. Siccome il sampling di ogni variabile utilizza le CPTs,
+è richiesto conoscere i valori assegnati alle variabili genitori, cioè serve processare le variabili secondo un ordinamento
+topologico della bayesian network.
+
+Una volta generati un certo numero di campioni, si calcola la probabilità approssimata dell'evento di interesse in base
+alla frequenza relativa con cui si verifica tale evento nei campioni generati. La probabilità approssimata si indica
+con un ``\(\; \hat{} \;\)''.
+\[P(x_1, x_2, \dots) \approx \hat{P}(x_1, x_2, \dots) = \frac{\text{\# samples in cui si verifica } (x_1, x_2, \dots)}{\text{\# samples in totale}}\]
+
+Nota: non è possibile calcolare probabilità condizionate dato che non si considera l'evidenza osservata (si chiama per l'appunto
+prior sampling). Per fare ciò si utilizza il rejection sampling.
+
+Di seguito lo pseudocodice per il prior sampling:
+
+\begin{algo}{Prior-Sampling}{\textit{bn}, \textit{num-samples}, $X$}{\textit{bn}: bayesian network con CPTs, \textit{num-samples}, $X$ variabile di interesse}{$\textbf{P}(X)$: stima della probabilità a priori di \(X\)}
+	\State $C$ vettore che conta la frequenza di ogni simbolo di $X$ nei campioni generati 
+	\For{$i = 1$ to \textit{num-samples}}
+		\State \textit{sample} $\leftarrow$ \Call{Generate-Prior-Sample}{\textit{bn}}
+		\State $C[j]$ $\leftarrow$ $C[j]$ + 1 con $j$ tale per cui vale \textit{sample}$[X] = x_j$
+	\EndFor
+	\State \Return \Call{Normalize}{$C$} \Comment{normalizza per avere un vettore di probabilità}
+\end{algo}
+
+\begin{algo}{Generate-Prior-Sample}{\textit{bn}}{\textit{bn}: bayesian network con le CPTs}{\textit{sample}: campione generato}
+	\State \textit{sample} $\leftarrow$ vuoto
+	\For{ogni variabile aleatoria $X_i$ in \textit{bn} secondo un ordinamento topologico}
+		\State \textit{sample}[$X_i$] $\leftarrow$ campiona un valore per $X_i$ dalla sua CPT dati \textit{parent-values} già precalcolati
+	\EndFor
+	\State \Return \textit{sample}
+\end{algo}
+
+\subsubsection*{Rejection sampling - specific for conditional probability}
+Il rejection sampling è un metodo di probabilistic sampling che fa parte della categoria dei direct sampling e, a differenza
+del prior sampling, permette di calcolare probabilità condizionate dato che considera l'evidenza osservata \(e\). In pratica,
+si comporta allo stesso modo del prior sampling, soltanto che dopo aver generato un campione, si verifica se il campione soddisfa
+le condizioni dell'evidenza \(e\) e in caso contrario si scarta il campione appena calcolato.
+
+Il rejection sampling risulta molto inefficiente, specialmente quando l'evidenza \(e\) è rara, in quanto la maggior parte dei
+campioni generati viene scartata, rendendo l'approssimazione costosa e imprecisa.
+
+Di seguito lo pseudocodice per il rejection sampling, si nota che al suo interno viene richiamato il prior sampling per generare
+i campioni casuali.
+
+\begin{algo}{Rejection-Sampling}{\textit{bn}, \textit{num-samples}, $X$, $e$}{\textit{bn}, \textit{num-samples} e $X$ come nel prior-sampling, $e$: evidenza osservata}{$\textbf{P}(X \mid e)$: stima della probabilità a posteriori di \(X\) data l'evidenza \(e\)}
+	\State $C$ vettore che conta la frequenza di ogni simbolo di $X$ nei campioni generati 
+	\For{$i = 1$ to \textit{num-samples}}
+		\State \textit{sample} $\leftarrow$ \Call{Generate-Prior-Sample}{\textit{bn}}
+		\If{\textit{sample} soddisfa le condizioni dell'evidenza \textit{e}}
+			\State $C[j]$ $\leftarrow$ $C[j]$ + 1 con $j$ tale per cui vale \textit{sample}$[X] = x_j$
+		\EndIf
+	\EndFor
+	\State \Return \Call{Normalize}{$C$} \Comment{normalizza per avere un vettore di probabilità}
+\end{algo}
+
+\newpage
+
+\subsubsection*{Likelihood weighting}
+Il likelihood weighting è un metodo di probabilistic sampling che fa parte della categoria degli importance sampling.
+In pratica, si forza ogni campione a soddisfare le condizioni dell'evidenza \(e\) in modo da evitare di scartare campioni
+e sprecare tempo, inoltre si assegna a ciascun campione un peso che riflette la probabilità di osservare l'evidenza \(e\)
+dato il campione generato.
+
+Tale algoritmo risulta molto più efficiente del rejection sampling, in quanto non si hanno campioni scartati, ma è comunque
+poco efficiente all'aumentare del numero di variabili di evidenza, in quanto il peso dei campioni tende a diminuire.
+
+Di seguito lo pseudocodice per il likelihood weighting:
+
+\begin{algo}{Likelihood-Weighting}{\textit{bn}, \textit{num-samples}, $X$, $e$}{\textit{bn}, \textit{num-samples}, $X$ ed $e$ come in precedenza}{$\textbf{P}(X \mid e)$: stima della probabilità a posteriori di \(X\) data l'evidenza \(e\)}
+	\State $W$ vettore che somma i pesi di ogni simbolo di $X$ nei campioni generati 
+	\For{$i = 1$ to \textit{num-samples}}
+		\State \textit{sample}, $w$ $\leftarrow$ \Call{Generate-Weighted-Sample}{\textit{bn}, \textit{e}}
+		\State $W[j]$ $\leftarrow$ $W[j]$ + $w$ con $j$ tale per cui vale \textit{sample}$[X] = x_j$
+	\EndFor
+	\State \Return \Call{Normalize}{$W$} \Comment{normalizza per avere un vettore di probabilità}
+\end{algo}
+
+\begin{algo}{Generate-Weighted-Sample}{\textit{bn}, $e$}{\textit{bn}: bayesian network con CPTs, $e$: evidenza osservata}{$\textit{sample}$: campione generato, $w$: peso del campione}
+	\State \textit{sample} $\leftarrow$ sample vuoto ad eccezione dei valori specificati in $e$
+	\State $w$ $\leftarrow$ 1 \Comment{peso iniziale del campione}
+	\For{ogni variabile aleatoria $X_i$ in \textit{bn} secondo un ordinamento topologico}
+		\If{$X_i$ è una variabile di evidenza (cioè è presente in $e$)}
+			\State \textit{sample}[$X_i$] $\leftarrow$ valore di $X_i$ specificato in $e$ \Comment{assegna a $X_i$ il valore specificato in $e$}
+			\State $w$ $\leftarrow$ $w \cdot P(X_i = \textit{sample}[X_i] \mid \text{Parents}(X_i))$ \Comment{aggiorna il peso del campione}
+		\Else
+			\State \textit{sample}[$X_i$] $\leftarrow$ campiona un valore per $X_i$ dalla sua CPT dati \textit{parent-values} già precalcolati
+		\EndIf
+	\EndFor
+	\State \Return \textit{sample}, $w$
+\end{algo}
+
+\newpage
+
+\subsubsection*{Markov Chain Monte Carlo (MCMC) methods}
+I Markov Chain Monte Carlo (MCMC) methods sono una classe di algoritmi di probabilistic sampling che generano campioni casuali
+cambiando ad ogni passo i valori di una o più variabili aleatorie in modo da formare per l'appunto una catena di Markov.
+In questo modo si evita di ricalcolare da zero ogni campione e si sfrutta il campione precedente per generare il successivo,
+ottimizzando il processo di campionamento.
+
+\subsubsection*{Markov Blanket}
+Il Markov Blanket di una variabile aleatoria \(X\) in una bayesian network è l'insieme di variabili aleatorie che rendono
+\(X\) condizionatamente indipendente da tutte le altre variabili aleatorie della rete. Il Markov Blanket di \(X\) è composto
+dalle variabili genitori di \(X\), dalle variabili figlie di \(X\) e dalle variabili genitori delle variabili figlie di \(X\).
+\[MB(X) = \text{Parents}(X) \cup \text{Children}(X) \cup \text{Parents}(\text{Children}(X))\]
+
+\subsubsection*{Gibbs sampling}
+Il Gibbs sampling è un algoritmo di Markov Chain Monte Carlo (MCMC) che utilizza il concetto di Markov Blanket per generare
+campioni casuali. In pratica, ad ogni passo, si sceglie una variabile aleatoria \(X\) tra tutte le variabili aleatorie della
+rete, escluse quelle coinvolte nell'evidenza \(e\), e si campiona un nuovo valore per \(X\) sfruttando la probabilità
+condizionata dai valori correnti delle variabili nel suo Markov Blanket. In questo modo non è necessario ricalcolare da zero
+ogni campione ed inoltre, sfruttando il Markov Blanket, ci si limita a considerare solo piccolo un sottoinsieme di variabili
+aleatorie per generare il nuovo campione, ottimizzando ulteriormente il processo di campionamento.
+
+Di seguito lo pseudocodice per il Gibbs sampling:
+
+\begin{algo}{Gibbs-Sampling}{\textit{bn}, \textit{num-samples}, $X$, $e$}{\textit{bn}, \textit{num-samples}, $X$ ed $e$ come in precedenza}{$\textbf{P}(X \mid e)$: stima della probabilità a posteriori di \(X\) data l'evidenza \(e\)}
+	\State $C$ $\leftarrow$ vettore vuoto, conta la frequenza di ogni simbolo di $X$ nei campioni generati 
+	\State \textit{sample} $\leftarrow$ sample con valori casuali ad eccezione di quelli specificati in $e$
+	\For{$i = 1$ to \textit{num-samples}}
+		\State \textbf{choose} $Z_i$ tra le variabili di \textit{bn} escuse quelle in $e$, secondo una distribuzione \(\rho(i)\)
+		\State \textit{sample}[$Z_i$] $\leftarrow$ campione di $Z_i$ generato dalla probabilità $\textbf{P}(Z_i \mid \text{MarkovBlanket}(Z_i))$
+		\State $C[j]$ $\leftarrow$ $C[j]$ + 1 con $j$ tale per cui vale \textit{sample}$[X] = x_j$
+	\EndFor
+	\State \Return \Call{Normalize}{$C$} \Comment{normalizza per avere un vettore di probabilità}
+\end{algo}
+
+\newpage
+
+\subsection{Probabilistic reasoning over time - Hidden Markov models}
+\subsubsection*{Time and uncertanty}
+In alcuni problemi di intelligenza artificiale, è necessario rappresentare su ambienti stocastici e sequenziali, ovvero in
+cui è necessario rappresentare sia l'incertezza che il passaggio del tempo. Si considerano le seguenti assunzioni:
+\begin{itemize}
+	\item \textbf{discrete time}: il tempo è rappresentato come una sequenza di istanti discreti \(t = 0, 1, 2, \ldots\)
+	equidistanti temporalmente
+	\item \textbf{X}\(_t\) e \textbf{E}\(_t\): variabili aleatorie che rappresentano rispettivamente lo stato del mondo
+	e le evidenze osservate all'istante di tempo \(t\)
+	\item \textbf{E}\(_t\) = \textbf{e}\(_t\): evidenza osservata all'istante di tempo \(t\) (valore specifico di \textbf{E}\(_t\))
+\end{itemize}
+
+\subsubsection*{Transition model}
+Per rappresentare la dinamica di un ambiente stocastico e sequenziale si utilizza un transition model, ovvero un modello
+che prevede che lo stato del mondo all'istante di tempo \(t\) dipenda in generale da tutti gli stati del mondo precedenti.
+\[\textbf{P}(\textbf{X}_t \mid \textbf{X}_{t-1}, \textbf{X}_{t-2}, \ldots, \textbf{X}_0) \;\; \equiv \;\; \textbf{P}(\textbf{X}_t \mid \textbf{X}_{0:t-1})\]
+
+\subsubsection*{Markov assumption e Markov process}
+La Markov assumption è un'assunzione che semplifica il transition model. Prevede che lo stato del mondo all'istante di tempo
+\(t\) dipenda solo da un certo numero costante di stati precedenti chiamato ordine. In questo modo si riduce notevolmente
+la complessità del transition model.
+\begin{align*}
+	&\text{first order Markov assumption}: & &\textbf{P}(\textbf{X}_t \mid \textbf{X}_{t-1}) \\
+	&\text{second order Markov assumption}: & &\textbf{P}(\textbf{X}_t \mid \textbf{X}_{t-1}, \textbf{X}_{t-2}) \\
+	&\qquad\qquad\qquad\dots
+\end{align*}
+
+Una dinamica di evoluzione di un sistema che rispetta la Markov assumption viene chiamata Markov process. Se di ordine
+superiore al primo è utilie specificarne anche l'ordine (es. second order Markov process). La rappresentazione grafica
+di una Markov process di primo ordine è una rete bayesiana strutturata come catena in cui ogni nodo corrisponde ad uno
+stato del mondo in un istante di tempo specifico, influenzato dallo stato del mondo nell'istante di tempo precedente.
+
+\begin{center}
+	\begin{tikzpicture}[
+		status/.style={circle, draw=black, thick, minimum size=1.2cm, fill=white},
+		arrow/.style={-{Stealth[scale=1.2]}, thick}]
+	
+		% --- stati del sistema ---
+		\node[status] (X0) {$\textbf{X}_{0}$};
+		\node[status] (X1) [right=1cm of X0] {$\textbf{X}_{1}$};
+		\node[status] (X2) [right=1cm of X1] {$\textbf{X}_{2}$};
+		\node[status] (X3) [right=1.5cm of X2] {$\textbf{X}_{t-1}$};
+		\node[status] (X4) [right=1cm of X3] {$\textbf{X}_{t}$};
+		\node[status] (X5) [right=1cm of X4] {$\textbf{X}_{t+1}$};
+	
+		% --- dipendenze tra stati ---
+		\draw[arrow] (X0) -- (X1);
+		\draw[arrow] (X1) -- (X2);
+		\draw[arrow, dashed] (X2) -- (X3);
+		\draw[arrow] (X3) -- (X4);
+		\draw[arrow] (X4) -- (X5);
+		\draw[arrow, dashed] (X5) -- ([xshift=1cm]X5.east);
+	\end{tikzpicture}
+\end{center}
+
+\subsubsection*{Hidden Markov models - HMMs}
+Gli hidden Markov models (HMMs) sono una particolare classe di Markov process in cui lo stato del mondo non è direttamente
+osservabile (hidden), ma può essere inferito attraverso delle evidenze osservabili che dipendono soltanto dallo stato
+del mondo corrente. Gli HMMs sono utilizzati per modellare ambienti non fully observable.
+
+\begin{center}
+	\begin{tikzpicture}[
+		hidden/.style={circle, draw=black, thick, minimum size=1.2cm, fill=white},
+		obs/.style={circle, draw=black, thick, minimum size=1.2cm, fill=gray!10},
+		arrow/.style={-{Stealth[scale=1.2]}, thick}]
+	
+		% --- stati nascosti del sistema ---
+		\node[hidden] (X0) {$\textbf{X}_{0}$};
+		\node[hidden] (X1) [right=1cm of X0] {$\textbf{X}_{1}$};
+		\node[hidden] (X2) [right=1cm of X1] {$\textbf{X}_{2}$};
+		\node[hidden] (X3) [right=1.5cm of X2] {$\textbf{X}_{t-1}$};
+		\node[hidden] (X4) [right=1cm of X3] {$\textbf{X}_{t}$};
+		\node[hidden] (X5) [right=1cm of X4] {$\textbf{X}_{t+1}$};
+	
+		% --- evidenze osservabili ---
+		\node[obs] (E1) [below=0.7cm of X1] {$\textbf{E}_{1}$};
+		\node[obs] (E2) [below=0.7cm of X2] {$\textbf{E}_{2}$};
+		\node[obs] (E3) [below=0.7cm of X3] {$\textbf{E}_{t-1}$};
+		\node[obs] (E4) [below=0.7cm of X4] {$\textbf{E}_{t}$};
+		\node[obs] (E5) [below=0.7cm of X5] {$\textbf{E}_{t+1}$};
+	
+		% --- dipendenze tra stati ---
+		\draw[arrow] (X0) -- (X1);
+		\draw[arrow] (X1) -- (X2);
+		\draw[arrow, dashed] (X2) -- (X3);
+		\draw[arrow] (X3) -- (X4);
+		\draw[arrow] (X4) -- (X5);
+		\draw[arrow, dashed] (X5) -- ([xshift=1cm]X5.east);
+		
+		% --- dipendenze tra evidenze e stati ---
+		\draw[arrow] (X1) -- (E1);
+		\draw[arrow] (X2) -- (E2);
+		\draw[arrow] (X3) -- (E3);	
+		\draw[arrow] (X4) -- (E4);
+		\draw[arrow] (X5) -- (E5);
+	\end{tikzpicture}
+\end{center}
+
+\subsubsection*{Sensor model degli HMMs}
+Oltre al transition model che descrive la dinamica di evoluzione del sistema, gli HMMs prevedono anche un sensor model
+(anche detto observation model) che descrive la relazione tra lo stato del mondo corrente e l'evidenza relativa osservata.
+Data la Markov assumption, si ha che l'evidenza osservata all'istante di tempo \(t\) è indipendente da tutte le altre variabili
+della rete, se condizionata allo stato del mondo allo stesso istante di tempo \(t\).
+\[\text{chain} \;\; \textbf{X}_0 \to \textbf{X}_1 \to \dots \to \textbf{X}_t \to \textbf{E}_t \qquad \Rightarrow \qquad \textbf{E}_t \indep \left\{ \textbf{X}_{0:t-1}, \textbf{E}_{0:t-1} \right\} \mid \textbf{X}_t\]
+\[\text{fork} \;\; \textbf{E}_t \leftarrow \textbf{X}_t \to \textbf{X}_{t+1} \to \dots \to \textbf{X}_T \qquad \Rightarrow \qquad \textbf{E}_t \indep \left\{ \textbf{X}_{t+1:T}, \textbf{E}_{t+1:T} \right\} \mid \textbf{X}_t\]
+\[\textbf{P}(\textbf{E}_t \mid \textbf{X}_{0:t}, \, \textbf{E}_{0:t-1}) = \textbf{P}(\textbf{E}_t \mid \textbf{X}_t)\]
+
+\subsection{Inference in temporal models}
+Le azioni di inferenza che si possono compiere sugli HMMs sono le seguenti:
+\begin{itemize}
+	\item \textbf{filtering} o \textbf{state estimation}: calcolare la probabilità a posteriori \(\textbf{P}(\textbf{X}_t \mid \textbf{e}_{1:t})\)
+	dello stato  \(\textbf{X}_t\) del sistema, conoscendo tutte le evidenze precedenti \(\textbf{e}_{1:t}\)
+	\item \textbf{prediction}: calcolare la probabilità a priori \(\textbf{P}(\textbf{X}_{t+k} \mid \textbf{e}_{1:t})\)
+	dello stato futuro \(\textbf{X}_{t+k}\) del sistema, conoscendo tutte le evidenze precedenti \(\textbf{e}_{1:t}\)
+	\item \textbf{smoothing}: calcolare la probabilità a posteriori \(\textbf{P}(\textbf{X}_k \mid \textbf{e}_{1:t})\)
+	dello stato passato \(\textbf{X}_k\) del sistema, conoscendo tutte le evidenze fino all'istante attuale \(\textbf{e}_{1:t}\)
+	\item \textbf{most likely explanation}: calcolare la sequenza di stati più probabile \(\textbf{X}_{1:t}^*\) del sistema,
+	conoscendo tutte le evidenze fino all'istante attuale \(\textbf{e}_{1:t}\)
+\end{itemize}
+Di queste si analizzerà in dettaglio soltanto la prima, ovvero il filtering, che è l'azione di inferenza più comune e
+importante. Infatti è utilizzata dagli agenti intelligenti per mantenere una stima aggiornata dello stato del mondo
+in cui si trovano, quando il mondo non è fully observable. 
+
+\subsubsection*{Filtering in generale}
+L'operazione di filtering serve a calcolare la probabilità a posteriori \(\textbf{P}(\textbf{X}_t \mid \textbf{e}_{1:t})\):
+\begin{align*}
+	\textbf{P}(\textbf{X}_t \mid \textbf{e}_{1:t}) &= \textbf{P}(\textbf{X}_t \mid \textbf{e}_{1:t-1}, \textbf{e}_t) &\text{divisione delle evidenze} \\[6pt]
+	&= \alpha \cdot \underbrace{\textbf{P}(\textbf{e}_t \mid \textbf{X}_t)}_{\text{update}} \cdot \underbrace{\textbf{P}(\textbf{X}_t \mid \textbf{e}_{1:t-1})}_{\text{prediction}} &\text{dal teorema di Bayes} \\[10pt]
+	&= \alpha \cdot \underbrace{\textbf{P}(\textbf{e}_t \mid \textbf{X}_t)}_{\text{sensor model}} \cdot \sum_{\textbf{X}_{t-1}} \underbrace{\textbf{P}(\textbf{X}_t \mid \textbf{X}_{t-1})}_{\text{transition model}} \cdot \underbrace{\textbf{P}(\textbf{X}_{t-1} \mid \textbf{e}_{1:t-1})}_{\text{recursion}} &\text{dalla total probability rule}
+\end{align*}
+
+\subsubsection*{Filtering come prediction e update}
+Si nota che si può scomporre il calcolo in due fasi principali:
+\begin{itemize}
+	\item \textbf{prediction}: calcolo della probabilità \(\textbf{P}(\textbf{X}_t \mid \textbf{e}_{1:t-1})\) dello stato
+	\(\textbf{X}_t\) conoscendo tutte le evidenze precedenti \(\textbf{e}_{1:t-1}\); si utilizza il transition model
+	\(\textbf{P}(\textbf{X}_t \mid \textbf{X}_{t-1})\) e la probabilità calcolata ricorsivamente al passo precedente
+	\(\textbf{P}(\textbf{X}_{t-1} \mid \textbf{e}_{1:t-1})\)
+	\item \textbf{update}: si calcola la probabilità a posteriori \(\textbf{P}(\textbf{e}_t \mid \textbf{X}_{t})\)
+	dell'evidenza osservata all'istante di tempo \(t\) data lo stato a cui è associata, utilizzando il sensor model
+	\(\textbf{P}(\textbf{e}_t \mid \textbf{X}_t)\)
+\end{itemize}
+
+\subsubsection*{Filtering dal punto di vista ricorsivo}
+Si osserva per che il calcolo è ricorsivo, in quanto per calcolare \(\textbf{P}(\textbf{X}_t \mid \textbf{e}_{1:t})\)
+è richiesta \(\textbf{P}(\textbf{X}_{t-1} \mid \textbf{e}_{1:t-1})\). È possibile, quindi, riscriverlo come funzione ricorsiva
+\textit{FORWARD} che riceve in input due parametri \(\textbf{e}_t\) e \(\textbf{f}_{t-1} = \textbf{P}(\textbf{X}_{t-1} \mid \textbf{e}_{1:t-1})\)
+e restituisce in output \(\textbf{f}_t = \textbf{P}(\textbf{X}_t \mid \textbf{e}_{1:t})\):
+\[\textbf{f}_{t} = \textit{FORWARD}(\textbf{f}_{t-1}, \textbf{e}_t) = \textit{FORWARD}(\textit{FORWARD}(\textbf{f}_{t-2}, \textbf{e}_{t-1}), \textbf{e}_t) = \dots\]
+
+\newpage
+
+\subsubsection*{Matrix representation of transition model}
+È possibile rappresentare il transition model \(\textbf{P}(\textbf{X}_t \mid \textbf{X}_{t-1})\) come una matrice di transizione
+\(\textbf{T}\) in cui ogni elemento \(T_{ij}\) rappresenta la probabilità di transizione dallo stato \(\textbf{x}_i\) allo stato \(\textbf{x}_j\):
+\[T_{ij} = P(\textbf{X}_t = \textbf{x}_j \mid \textbf{X}_{t-1} = \textbf{x}_i) \qquad \textbf{P}(\textbf{X}_t) = \textbf{P}(\textbf{X}_t \mid \textbf{X}_{t-1}) \cdot \textbf{P}(\textbf{X}_{t-1}) = \textbf{P}(\textbf{X}_{t-1}) \cdot \textbf{T} = \textbf{T}^T \cdot \textbf{P}(\textbf{X}_{t-1})\]
+\[\textbf{T} = \left(\begin{matrix}
+	P(\textbf{X}_t = \textbf{x}_1 \mid \textbf{X}_{t-1} = \textbf{x}_1) & P(\textbf{X}_t = \textbf{x}_2 \mid \textbf{X}_{t-1} = \textbf{x}_1) & \dots & P(\textbf{X}_t = \textbf{x}_n \mid \textbf{X}_{t-1} = \textbf{x}_1) \\
+	P(\textbf{X}_t = \textbf{x}_1 \mid \textbf{X}_{t-1} = \textbf{x}_2) & P(\textbf{X}_t = \textbf{x}_2 \mid \textbf{X}_{t-1} = \textbf{x}_2) & \dots & P(\textbf{X}_t = \textbf{x}_n \mid \textbf{X}_{t-1} = \textbf{x}_2) \\
+	\vdots & \vdots & \ddots & \vdots \\
+	P(\textbf{X}_t = \textbf{x}_1 \mid \textbf{X}_{t-1} = \textbf{x}_n) & P(\textbf{X}_t = \textbf{x}_2 \mid \textbf{X}_{t-1} = \textbf{x}_n) & \dots & P(\textbf{X}_t = \textbf{x}_n \mid \textbf{X}_{t-1} = \textbf{x}_n)
+\end{matrix}\right)\]
+
+\subsubsection*{Matrix representation of sensor model}
+In maniera analoga, è possibile rappresentare il sensor model \(\textbf{P}(\textbf{e}_t \mid \textbf{X}_t)\) come matrice
+di osservazione \(\textbf{O}_t\) associata ad ogni possibile evidenza \(\textbf{e}_t\). Esistono, quindi, tante matrici di
+osservazione \(\textbf{O}_t\) quante sono le possibli evidenze \(\textbf{e}_t\) osservabili. Le matrici di osservazione
+sono matrici diagonali in cui ogni elemento \(O_{t,jj}\) rappresenta la probabilità di osservare l'evidenza \(\textbf{e}_t\)
+dato lo stato \(\textbf{x}_j\):
+\[O_{t,jj} = P(\textbf{e}_t \mid\textbf{X}_t = \textbf{x}_j) \qquad\qquad \textbf{P}(\textbf{e}_t) = \textbf{P}(\textbf{e}_t \mid\textbf{X}_t) \cdot \textbf{P}(\textbf{X}_t) = \textbf{P}(\textbf{X}_t) \cdot \textbf{O}_t = \textbf{O}_t \cdot \textbf{P}(\textbf{X}_t)\]
+\[\textbf{O}_t = \left(\begin{matrix}
+	P(\textbf{e}_t \mid \textbf{X}_t = \textbf{x}_1) & 0 & \dots & 0 \\
+	0 & P(\textbf{e}_t \mid \textbf{X}_t = \textbf{x}_2) & \dots & 0 \\
+	\vdots & \vdots & \ddots & \vdots \\
+	0 & 0 & \dots & P(\textbf{e}_t \mid \textbf{X}_t = \textbf{x}_n)
+\end{matrix}\right)\]
+
+\subsubsection*{Filtering with matrix representations}
+Utilizzando le rappresentazioni matriciali del transition model e del sensor model, è possibile riscrivere l'operazione di
+filtering in modo più compatto e efficiente:
+\[\begin{aligned}
+	\textbf{P}(\textbf{X}_t \mid\textbf{e}_{1:t}) &= \alpha \cdot \textbf{P}(\textbf{e}_t \mid \textbf{X}_t) \cdot \sum_{\textbf{X}_{t-1}} \textbf{P}(\textbf{X}_t \mid \textbf{X}_{t-1}) \cdot \textbf{P}(\textbf{X}_{t-1} \mid \textbf{e}_{1:t-1}) \\
+	&= \alpha \cdot \textbf{O}_t \cdot \textbf{T}^T \cdot \textbf{P}(\textbf{X}_{t-1} \mid \textbf{e}_{1:t-1})
+\end{aligned} \qquad\left|\phantom{\int^{a}}\right. \textbf{f}_t = \alpha_t \cdot \textbf{O}_t \cdot \textbf{T}^T \cdot \textbf{f}_{t-1}\]
+
+\newpage
+
+\subsection{Learning bayesian networks}
+\subsubsection*{Introduzione}
+Il processo di apprendimento di una bayesian network (BN) da dati osservati consiste nel determinare i vari parametri e la
+struttura delle bayesian networks in modo da poter utilizzarle per effettuare inferenze e prendere decisioni. Il processo
+di apprendimento può essere suddiviso in due fasi principali:
+\begin{itemize}
+	\item \textbf{structure learning}: consiste nell'apprendere la struttura della rete, ovvero le relazioni di dipendenza
+	tra le variabili aleatorie rappresentate dai nodi della rete
+	\item \textbf{parameter learning}: consiste nell'apprendere le probabilità delle CPTs per ogni variabile della rete, una
+	volta che la struttura della rete è stata determinata
+\end{itemize}
+
+\subsubsection*{Parameter learning and maximum-likelihood estimation (MLE)}
+Data una struttura di rete già definita e un dataset di dati osservati da cui apprendere i parametri, per calcolare i valori
+delle CPTs è possibile utilizzare il maximum likelihood estimation (MLE) che associa ad ogni probabilità di un certo evento,
+la frequenza con cui quell'evento si verifica nei dati osservati. Il processo è molto simile a quello che avviene nel prior
+o rejection sampling.
+
+\subsubsection*{Laplacian smoothing}
+Alcune volte può capitare che, a causa di un dataset limitato, alcune combinazioni di valori delle variabili aleatorie non
+vengano osservate, portando a stime di probabilità pari a zero per quelle combinazioni. Per evitare questo problema, si
+può utilizzare tecniche di smoothing come il Laplacian smoothing
+
+Il Laplacian smoothing consiste nell'inizializzare tutte le distribuzioni di probabiiltà a probabilità uniformi. Ad esempio
+per una variabile aleatoria binaria \(X\) con \(k\) valori possibili si inizializza la CPT di \(X\) con probabilità uniformi
+\(P(X = x_i) = 1/k\) per ogni valore \(i \in [1, k]\). Successivamente, considerando un dataset con \(N\) samples in cui
+la combinazione di valori \(X = x_i\) si verifica \(m_i\) volte, si aggiorna la CPT di \(X\) con la seguente formula:
+\[P(X = x_i) = \frac{m_i + 1}{N + k}\]
+In questo modo, anche se una combinazione di valori non è stata osservata nel dataset, avrà una probabilità associata molto
+piccola, ma comunque non nulla.
+
+\subsubsection*{Incomplete data}
+Il dataset utilizzato per l'apprendimento dei parametri potrebbe essere incompleto, ovvero potrebbero mancare dati per due
+motivi principali:
+\begin{itemize}
+	\item \textbf{missing data}: alcuni campioni potrebbero non avere osservazioni per alcune variabili aleatorie in quanto
+	potrebbero non essere state raccolte oppure non si avevano le risorse per raccoglierle
+	\item \textbf{hidden variables}: alcune variabili aleatorie potrebbero non avere nessun dato osservato in quanto non
+	osservabili direttamente, ma si sa che esistono e influenzano le altre variabili della rete
+\end{itemize}
+Di seguito si analizzeranno le tecniche per gestire i missing data e le hidden variables.
+
+\subsubsection*{Missing values and estimation techniques}
+Per gestire i missing values, è possibile utilizzare diverse strategie, tra cui:
+\begin{itemize}
+	\item \textbf{deletion}: si eliminano i campioni che contengono valori mancanti, potrebbe portare a una perdita di
+	informazione significativa se i campioni eliminati sono molti
+	\item \textbf{unknown value}: si sostituiscono i valori mancanti con un valore speciale che rappresenta l'assenza di dati,
+	risulta però difficile da interpretare e potrebbe portare a risultati distorti se i valori mancanti sono molti
+	\item \textbf{substitution}: si sostituiscono i valori mancanti con il valore più frequente per quella variabile, potrebbe
+	portare a una distorsione dei dati se i valori mancanti sono molti o se la variabile ha una distribuzione molto sbilanciata
+	\item \textbf{estimation}: si utilizzano tecniche di stima per stimare i valori mancanti, è la tecnica più sofisticata,
+	accurata ed utilizzata, ma richiede più tempo e risorse computazionali
+\end{itemize}
+
+\noindent
+Un esempio di tecnica di stima dei valori mancanti prevede ad esempio di:
+\begin{itemize}
+	\item calcolare la distribuzione di probabilità a posteriori della variabile con valori mancanti in un determinato campione,
+	basandosi sugli altri campioni completi del dataset
+	\item utilizzare questa distribuzione per dedurre il valore più probabile, ovvero quello con probabilità a posteriori maggiore
+	sapendo gli altri valori osservati per quel campione
+\end{itemize}
+
+\subsubsection*{Hidden variables and expectation-maximization algorithm (EM)}
+Per stimare i valori delle variabili nascoste, si utilizza l'algoritmo di expectation-maximization (EM). L'algoritmo EM che
+consiste in due fasi principali di expectation e di maximization che vengono progressivamente ripetute fino a quando non si
+raggiunge una convergenza, ovvero quando i parametri stimati non cambiano più in modo significativo. Di seguito tutte le fasi
+dell'algoritmo EM:
+\begin{itemize}
+	\item \textbf{initialization of observable variables}: si inizializzano i parametri della rete con le stime ottenute dai
+	dati osservati utilizzando ad esempio il MLE o il Laplacian smoothing
+	\item \textbf{initialization of hidden variables}: si inizializzano i valori delle variabili nascoste nel dataset con valori
+	casuali, e si inizializzano i parametri delle CPTs delle hidden variables usando di solito distribuzioni uniformi
+	\item \textbf{expectation step}: si stimano i valori delle variabili nascoste per ogni sample del dataset, utilizzando i
+	parametri attuali della rete calcolati al passo precedente
+	\item \textbf{value update}: si aggiornano i valori delle variabili nascoste nel dataset con quelli appena stimati
+	\item \textbf{maximization step}: si ricalcolano le probabilità delle CPTs utilizzando il dataset aggiornato al passo precedente
+	\item \textbf{convergence check}: finché i parametri stimati non convergono, ovvero non cambiano più in modo significativo,
+	si ripetono le fasi di expectation, value update e maximization
+\end{itemize}
+
+\subsubsection*{Structure learning}
+Il problema di structure learning è estremamente complesso in quanto il numero di possibili strutture di rete cresce
+superesponenzialmente con il numero di variabili aleatorie ed è richiesto un dataset molto grande per poter stimare
+correttamente la struttura della rete. In base alla struttura (tree, polytree, general DAG) esistono numerosi approcci
+diversi, di cui verrà approfondito solo quello per general DAG.
+
+In generale i metodi per il structure learning sono stati classificati in due categorie principali:
+\begin{itemize}[topsep=0pt]
+	\item \textbf{global methods}: algoritmi search and score che esplorano lo spazio delle possibili strutture in cerca
+	della struttura che massimizza una certa funzione di score
+	\item \textbf{local methods}: algoritmi che analizzano l'indipendenza tra insiemi di variabili aleatorie per determinare
+	se esiste una relazione di dipendenza tra di esse, l'algoritmo più utilizzato è il PC algorithm, affrontato nella sezione
+	sulla causal discovery
+\end{itemize}
+
+\subsubsection*{Global methods}
+I global methods sono algoritmi search and score e richiedono una funzione di score per valutare la bontà di una struttura
+di rete e un algoritmo di ricerca euristica per esplorare lo spazio delle possibili strutture.
+
+Le \textbf{funzioni di score} servono per valutare quanto una struttura di rete rappresenti bene i dati osservati. Le più
+utilizzate sono il Bayesian Information Criterion (BIC), il Maximum Likelihood (ML), il Bayesian score (BD) e il Minimum
+Description Length (MDL). Le funzioni di score devono bilanciare accuratezza e complessità del modello. Ad esempio, la funzione
+di score BIC è definita come segue,  dove \(P(D \mid m)\) è la likelihood del modello dato i dati osservati, \(|m|\) è il numero
+di parametri del modello e \(|D|\) è il numero di osservazioni nel dataset.
+\[\text{BIC} = \log P(D \mid m) - |m| \cdot \log |D| / 2\]
+
+Le \textbf{heuristic search} servono per esplorare lo spazio delle possibili strutture in modo efficiente. La più utilizzata
+è la hill climbing search, che parte da una struttura iniziale ed effettuando delle modifiche alla struttura (aggiunta,
+rimozione o inversione di archi) cerca di migliorare la funzione di score scelta.

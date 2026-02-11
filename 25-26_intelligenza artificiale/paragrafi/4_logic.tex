@@ -1,0 +1,381 @@
+\section{Logic: logical agents, propositional logic and FOL}
+\subsection{Knowledge-based agents}
+\subsubsection*{Definizione di Knowledge Base (KB)}
+Una Knowledge Base (KB) è una raccolta strutturata di conoscenze rappresentate in ``sentences'' (frasi) espresse con un 
+inguaggio formale. Il linguaggio umano non è formale in quanto ambiguo e impreciso, quindi si utilizzano altri tipi di
+linguaggi (formali) come la propositional logic o la first order logic (FOL).
+
+\subsubsection*{Definizione di inferenza}
+L'inferenza è il processo di derivazione di nuove conoscenze a partire da quelle già presenti nella KB. Si basa su regole logiche
+che permettono di combinare le frasi esistenti per ottenere nuove frasi. L'inferenza è usata da un agente intelligente per prendere
+decisioni, risolvere problemi e rispondere a domande basandosi sulla conoscenza rappresentata nella KB. In base al linguaggio
+formale scelto, esistono diversi metodi e algoritmi di inferenza.
+
+\subsubsection*{Knowledge-based agent}
+Un knowledge-based agent è un agente intelligente che utilizza una Knowledge Base per prendere decisioni e agire nell'ambiente.
+Per costruire un KB agent (con la relativa KB) è possibile usare un approccio dichiarativo in cui si specifica come l'agente
+deve agire di fronte ad un certo stato dell'ambiente esterno. Un KB agent può essere visto da due punti di vista:
+\begin{itemize}
+	\item \textbf{knowledge level}: si concentra sulla conoscenza pura che l'agente possiede e su come la utilizza per prendere
+	decisioni (inferenza), è domain-specific overo dipende dal dominio in cui l'agente opera
+	\item \textbf{implementation level}: si concentra sui dettagli tecnici e sulle strutture dati utilizzate per implementare
+	il knowledge base e le operazioni di inferenza, è domain-independent ovvero è indipendente dal dominio in cui l'agente opera
+\end{itemize}
+
+L'agente può modificare la sua knowledge base nel tempo attraverso le sue percezioni dell'ambiente esterno e il risultato delle
+azioni eseguite. Di seguito un esempio di algoritmo di un KB agent.
+
+\begin{algo}{KB-Agent}{$percept$}{$percept$ the perception received from the environment}{action to be executed}
+	\State use static variable \textit{KB}, the agent's knowledge base
+	\State use static variable $t$, the current time step
+	\State Tell(\textit{KB}, Make-Percept-Sentence($percept$, $t$)) \Comment{update the KB with the new percept}
+	\State $action$ $\gets$ Ask(\textit{KB}, Make-Action-Query($t$)) \Comment{decide action based on the KB}
+	\State Tell(\textit{KB}, Make-Action-Sentence($action$, $t$)) \Comment{update the KB with the new action}
+	\State $t$ $\gets$ $t + 1$
+	\State \textbf{return} $action$
+\end{algo}
+
+\newpage
+
+\subsection{Logic in general}
+\subsubsection*{Logica come linguaggio formale}
+La logica è un sistema formale per rappresentare conoscenze e permettere ragionamenti (inferenza) su di esse e ottenere nuove
+conoscenze. Le conoscenze derivate sono corrette se le premesse iniziali sono corrette e il processo di inferenza è valido.
+Un linguaggio logico formale è costituito da:
+\begin{itemize}
+	\item \textbf{syntax}: regole che definiscono la struttura delle frasi ben formate (well-formed formulas - WFF)
+	\item \textbf{semantics}: regole che definiscono il significato delle frasi ben formate, ovvero come interpretarle
+	e valutarle come vere o false in un certo modello
+\end{itemize}
+
+\subsubsection*{Entailment o conseguenza logica}
+Una sentence \(\alpha\) è una conseguenza logica di una knowledge base \(KB\) (\(\alpha\) entails from KB) se \(\alpha\) è vera
+in tutti i modelli in cui \(KB\) è vera. L'entailment è una relazione tra sentences basate sulla semantica (ovvero sul significato
+delle sentences). Si indica con: 
+\[KB \models \alpha\]
+
+\vspace{15pt}
+
+\subsection{Propositional logic}
+\subsubsection*{Struttura della propositional logic}
+La logica proposizionale è il linguaggio logico formale più semplice. È costituito da proposizioni atomiche (atomi) che possono
+essere vere o false e si indicano con lettere maiuscole (es. \(P\), \(Q\), \(R\)). Esistono, inoltre, operatori logici che
+agiscono sulle proposizioni per formare proposizioni complesse di seguito elencati in ordine di precedenza decrescente:
+\begin{itemize}
+	\item \(\neg\): negazione (not), \(\neg P\) è vera se \(P\) è falsa
+	\item \(\land\): congiunzione (and), \(P \land Q\) è vera se sia \(P\) che \(Q\) sono vere
+	\item \(\lor\): disgiunzione (or), \(P \lor Q\) è vera se almeno una tra \(P\) e \(Q\) è vera
+	\item \(\Rightarrow\): implicazione (if-then), \(P \Rightarrow Q\) è falsa solo se \(P\) è vera e \(Q\) è falsa
+	\item \(\Leftrightarrow\): doppia implicazione (iff), \(P \Leftrightarrow Q\) è vera se \(P\) e \(Q\) sono entrambe vere o entrambe false
+\end{itemize}
+Nota: l'implicazione \(P \Rightarrow Q\) è sempre vera se le premesse \(P\) sono false, in quanto non è possibile dedurre nulla
+da premesse false. Invece, se \(P\) è vera, allora \(P \Rightarrow Q\) è vera solo se \(Q\) è vera, altrimenti è falsa.
+
+\subsubsection*{Vantaggi e svantaggi della propositional logic}
+I vantaggi sono:
+\begin{itemize}
+	\item la propositional logic è dichiarativa, ovvero le sentence corrispondono a fatti concreti
+	\item permette di rappresentare informazioni partial, disjunctive e negated
+	\item è componibile, ovvero si possono combinare più sentence per formare nuove sentence
+	\item è indipendente dal contesto, ovvero le sentence sono vere o false indipendentemente dal dominio
+\end{itemize}
+Lo svantaggio principale è che la propositional logic non è in grado di rappresentare concetti più complessi come
+oggetti, relazioni tra oggetti e quantificatori (es. ``tutti'', ``esiste''). Per questi compiti si utilizza la
+first-order logic (FOL).
+
+\newpage
+
+\subsection{Inference in propositional logic}
+L'inferenza nella propositional logic può essere effettuata attraverso due modi:
+\begin{itemize}
+	\item \textbf{inference by model checking}: elencando tutti i modelli possibili della knowledge base \(KB\)
+	\item \textbf{inference by resolution}: dimostrando per assurdo che \(KB \land \neg \alpha\) è insoddisfacibile
+\end{itemize}
+Di seguito la spiegazione in ciascun paragrafo separato per ogni passaggio.
+
+\subsubsection*{Inference by model checking}
+L'inferenza tramite model checking consiste nell'elencare tutti i possibili modelli della knowledge base \(KB\) (ovvero costruire
+la tabella di verità della KB in funzione di tutte le variabili della KB) e vericare se nelle righe in cui \(KB\) è vera, anche
+la proposizione \(\alpha\) è vera. Se questo vale, allora \(KB \models \alpha\).
+
+Tale metodo risulta poco vantaggioso quando il numero di proposizioni atomiche nella KB è elevato, in quanto il numero di
+modelli possibili cresce esponenzialmente con il numero di proposizioni atomiche.
+
+\subsubsection*{Inference by resolution}
+La dimostrazione per risoluzione è un metodo di inferenza che si basa sulla dimostrazione per assurdo. Per verificare che
+\(KB \models \alpha\), si dimostra che \(KB \land \neg \alpha\) è insoddisfacibile, ovvero non esiste alcun modello in cui
+\(KB\) è vera e \(\alpha\) è falsa. La dimostrazione avviene in due passaggi principali:
+\begin{itemize}
+	\item \textbf{conversione in conjunctive normal form (CNF)} della KB e di \(\neg \alpha\): \\
+	si converte \(KB\) e \(\neg \alpha\) in CNF, ovvero in una congiunzione di disgiunzioni di letterali, dove un letterale è
+	una proposizione atomica o la sua negazione (equivalente al prodotto di somme), in particolare eliminando le implicazioni
+	e le doppie implicazioni
+	\[(A \lor B) \land (\neg C \lor D \lor E) \land (\neg A \lor C \lor \neg D)\]
+	\item \textbf{applicazione della regola di risoluzione} alla sentence \(KB \land \neg \alpha\): \\
+	si applica iterativamente la regola di risoluzione, che permette di unire due clausole che contengono letterali complementari
+	(per esempio \(A\) e \(\neg A\)) per ottenere una nuova clausola che contiene tutti i letterali delle due clausole originali
+	esclusi i letterali complementari
+	\[\frac{(B \lor \textbf{A}) \land (\neg \textbf{A} \lor C)}{B \lor C} \qquad \qquad \text{l'operazione di risoluzione si indica in frazione: } \frac{\text{before}}{\text{after}}\]
+\end{itemize}
+Se attraverso il processo di risoluzione si ottengono clausole (somme) che sono sempre vere (tautologie) perché ad esempio
+contengono sia \(A\) che \(\neg A\), allora tali clausole si possono eliminare in quanto elementi neutri delle congiunzioni.
+
+Se alla fine del processo di risoluzione e semplificazione, tra le clausole residue ce ne sono due di complementari (ad esempio
+\(A\) e \(\neg A\)), allora si ha contraddizione (\(A \land \neg A = \square = \text{false}\)) e si forma una empty clause
+indicata con \(\square\). Si conclude che \(KB \land \neg \alpha\) è insoddisfacibile, e la tesi \(KB \models \alpha\)
+risulta dimostrata per assurdo.
+
+Nota: le due clausole che formano la empty clause \(\square\) devono necessariamente coinvolgere \(\neg \alpha\),
+altrimenti significa che \(KB\) contiene delle contraddizioni interne ed è insoddisfacibile di per sé.
+
+\newpage
+
+\subsection{First-order logic}
+\subsubsection*{Struttura della first-order logic FOL}
+La first order logic (FOL) è un linguaggio logico formale che estende la propositional logic introducendo nuovi elementi 
+per rappresentare entità del mondo reale e le proprietà o relazioni tra di esse.
+Gli elementi base della sintassi della FOL sono:
+\begin{itemize}
+	\item \textbf{costanti}: rappresentano oggetti specifici del dominio (es. \textit{Alice}, \textit{Bob})
+	\item \textbf{variabili}: rappresentano oggetti generici del dominio (es. \(x\), \(y\), \(z\))
+	\item \textbf{funzioni}: rappresentano relazioni tra oggetti o proprietà di oggetti (es. \textit{padre}(x),
+	\textit{somma}(x, y)) e restituiscono un altro oggetto come risultato
+	\item \textbf{predicati}: rappresentano proprietà o relazioni tra oggetti (es. \textit{Uomo}(x), \textit{Ama}(x, y))
+	e restituiscono un valore booleano (vero o falso) a seconda se la proprietà o relazione è soddisfatta o meno
+	\item \textbf{connettivi logici}: come nella propositional logic, permettono di combinare più predicati per formare
+	sentence complesse (in ordine di precedenza: \(\neg\), \(=\), \(\land\), \(\lor\), \(\Rightarrow\), \(\Leftrightarrow\))
+	\item \textbf{quantificatori}: permettono di esprimere proposizioni che coinvolgono insiemi di oggetti:
+	\begin{itemize}[topsep=0pt]
+		\item \textbf{quantificatore universale} (\(\forall\)): una proposizione è vera per tutti gli oggetti
+		\item \textbf{quantificatore esistenziale} (\(\exists\)): una proposizione è vera per almeno un oggetto
+	\end{itemize}
+\end{itemize}
+Le sentence della FOL si classificano in:
+\begin{itemize}
+	\item \textbf{terms} (o termini): elementi che rappresentano oggetti e possono essere costanti, variabili o funzioni
+	di altri oggetti o variabili (es. \textit{Alice}, \(x\), \(padre(Alice)\), \(somma(x, 5)\))
+	\item \textbf{atomic sentences} (o frasi atomiche): proposizioni che coinvolgono predicati applicati su più termini
+	e possono essere vere o false (es. \textit{Uomo}(Alice), \textit{Ama}(x, Bob))
+	\item \textbf{complex sentences} (o frasi complesse): proposizioni formate combinando atomic sentences tramite
+	connettivi logici e quantificatori (es. \(\forall x \;\; Uomo(x) \Rightarrow Mortale(x)\))
+\end{itemize}
+
+\subsubsection*{Uso del quantificatore universale \(\forall\)}
+Il quantificatore universale \(\forall\) si usa per affermare che una certa proprietà o relazione vale per tutti
+gli oggetti di un certo tipo. Spesso si usa in combinazione con l'implicazione per esprimere regole generali.
+\[\forall x \;\; At(x, Oxford) \Rightarrow Smart(x) \qquad\qquad \text{everyone at Oxford is smart}\]
+È possibile utilizzare anche un altro connettivo logico come la congiunzione, ma il significato cambia totalmente
+ed è bene fare attenzione a non confondere i due connettivi:
+\[\forall x \;\; At(x, Oxford) \land Smart(x) \quad\quad \text{everyone is at Oxford and everyone is smart}\]
+È possibile riscrivere una sentence con il quantificatore universale come congiunzione di proposizioni in cui al posto
+della variabile quantificata \(x\) si usano tutti i termini possibili del dominio:
+\[\forall x \; At(x, Oxford) \Rightarrow Smart(x) \;\; \rightarrow \;\;
+\begin{aligned}
+	&(At(KingJohn, Oxford) \Rightarrow Smart(KingJohn)) \; \land \; \dots \\
+	&\dots \; (At(Richard, Oxford) \Rightarrow Smart(Richard)) \; \land \; \dots \\
+	&\dots \; (At(Father(John), Oxford) \Rightarrow Smart(Father(John))) \; \land \; \dots
+\end{aligned}\]
+
+\subsubsection*{Uso del quantificatore esistenziale \(\exists\)}
+Il quantificatore esistenziale \(\exists\) si usa per affermare che esiste almeno un oggetto nel dominio per cui una certa
+proprietà o relazione è vera. Spesso si usa in combinazione con la congiunzione per esprimere l'esistenza di un oggetto che
+soddisfa una certa condizione.
+\[\exists x \;\; \neg At(x, Oxford) \land Smart(x) \qquad\qquad \text{someone who is not at Oxford is smart}\]
+È possibile utilizzare anche un altro connettivo logico come l'implicazione, ma il significato cambia totalmente ed è
+bene fare attenzione a non confondere i due connettivi:
+\[\exists x \;\; \neg At(x, Oxford) \Rightarrow Smart(x) \qquad\qquad \begin{array}{l}
+	\text{there is someone not at Oxford who is smart} \\
+	\text{there is someone at Oxford who is not smart} \\
+	\text{there is someone at Oxford who is smart}
+\end{array}\]
+È possibile riscrivere una sentence con il quantificatore esistenziale come disgiunzione di proposizioni in cui al posto
+della variabile quantificata \(x\) si usano tutti i termini possibili del dominio:
+\[\exists x \;\; \neg At(x, Oxford) \land Smart(x) \;\; \rightarrow \;\;
+\begin{aligned}
+	&( \neg At(KingJohn, Oxford) \land Smart(KingJohn) ) \; \lor \; \dots \\
+	&\dots \; ( \neg At(Richard, Oxford) \land Smart(Richard) ) \; \lor \; \dots \\
+	&\dots \; ( \neg At(Father(John), Oxford) \land Smart(Father(John)) ) \; \lor \; \dots
+\end{aligned}\]
+
+\subsubsection*{Proprietà dei quantificatori}
+I quantificatori universale e esistenziale hanno le seguenti proprietà:
+\begin{itemize}[itemsep=3pt]
+	\item \(\forall x \; \forall y \;\; P(x) \;\; \equiv \;\; \forall y \; \forall x \;\;P(x) \;\; \equiv \;\; \forall x, y \;\;P(x)\) \\
+	il quantificatore universale gode della proprietà commutativa e può essere abbreviato
+	\item \(\exists x \; \exists y \;\; P(x) \;\; \equiv \;\; \exists y \; \exists x \;\;P(x) \;\; \equiv \;\; \exists x, y \;\;P(x)\) \\
+	il quantificatore esistenziale gode della proprietà commutativa e può essere abbreviato
+	\item \(\begin{array}{l}
+		1. \;\; \forall y \; \exists x \;\; P(x, y) \quad \rightarrow \quad \text{per ogni valore di y, esiste un x per cui vale P(x,y)}  \\
+		2. \;\; \exists x \; \forall y \;\; P(x, y) \quad \rightarrow \quad \text{esiste un x per cui vale P(x,y) per ogni valore di y}
+	\end{array}\) \\
+	il quantificatore esistenziale e quello universale insieme non godono della proprietà commutativa, infatti la seconda implica
+	la prima, ma non è detto che la prima implichi la seconda (nella prima non è detto che \(x\) sia lo stesso per ogni \(y\) come
+	invece è richiesto nella seconda)
+	\item \(\forall x \;\; P(x) \;\; \equiv \;\; \neg \exists x \;\; \neg P(x)\) \\
+	la proposizione universale è equivalente alla negazione di una proposizione esistenziale con la negazione all'interno
+	\item \(\exists x \;\; P(x) \;\; \equiv \;\; \neg \forall x \;\; \neg P(x)\) \\
+	la proposizione esistenziale è equivalente alla negazione di una proposizione universale con la negazione all'interno
+	\item \(\forall x \;\; P(x) \land Q(x) \;\; \equiv \;\; (\forall x \;\; P(x)) \land (\forall x \;\; Q(x))\) \\
+	il quantificatore universale distribuisce la congiunzione
+	\item \(\exists x \;\; P(x) \lor Q(x) \;\; \equiv \;\; (\exists x \;\; P(x)) \lor (\exists x \;\; Q(x))\) \\
+	il quantificatore esistenziale distribuisce la disgiunzione
+\end{itemize}
+
+\subsubsection*{Sostituzione di variabili}
+La sostituzione di variabili è un'operazione fondamentale nella FOL che consiste nel sostituire una variabile \(x\) con un
+termine \(t\) in una formula \(P\). La sostituzione permette di produrre nuova conoscenza a partire da quella già presente
+nella KB. Attraverso la sostituzione si passa dalla FOL alla propositional logic. La sostituzione si indica con una lettera
+greca (es. \(\phi\)) come segue:
+\[\phi = \left\{ \textit{variable}_1 \; / \; \textit{term}_1, \; \textit{variable}_2 \; / \; \textit{term}_2 \right\}\]
+Ad esempio applicando la sostituzione \(\phi\) alla formula \(S\) si ottiene:
+\[\begin{array}{l}
+	S = \textit{Smarter}(x, y) \\
+	\phi = \left\{ x \; / \; \textit{Hillary}, \; y \; / \; \textit{Bill} \right\}
+\end{array} \quad \rightarrow \quad
+\begin{aligned}
+	S_{\phi} &= \textit{Subst}( \left\{ x \; / \; \textit{Hillary}, \; y \; / \; \textit{Bill} \right\}, \textit{Smarter}(x,y)) \\
+	&= \textit{Smarter} (\textit{Hillary}, \; \textit{Bill})
+\end{aligned}\]
+Applicando le sostituzioni ai KB agents, quando viene fatta una query alla KB, la risposta è l'insieme di alcune o tutte le
+possibili sostituzioni che rendono vera la query per la KB.
+In generale:
+\[\textit{Ask}(\textit{KB}, \; S) \quad \text{restituisce} \quad \phi \; \text{tale che} \; \textit{KB} \models S_{\phi}\]
+Ad esempio per il problema del Wumpus World, supponiamo che al tempo \(t=5\) l'agente percepisca \textit{Stench}, \textit{Breeze}
+e \textit{Glitter} e voglia sapere quale azione eseguire (la risposta sarà raccogliere ciò che luccica). La query alla KB e la risposta sono le seguenti:
+\begin{align*}
+	&\text{assertion at \(t=5\)}: &\quad &\textit{Tell}(\textit{KB}, \; \textit{Percept}([\textit{Stench}, \; \textit{Breeze}, \; \textit{Glitter}], \; 5)) \\
+	&\text{query at \(t=5\)}: &\quad &\textit{Ask}(\textit{KB}, \; \exists a \; \textit{Action}(a, 5)) \\
+	&\text{answer at \(t=5\)}: &\quad &\phi_5 = \left\{ a \; / \; \textit{Grab} \right\} \qquad\qquad \text{con} \; \textit{KB} \models \textit{Action}(a, \, 5)_{\phi} \\
+\end{align*}
+
+\subsection{Inference in FOL}
+L'inferenza nella FOL è più complessa rispetto alla propositional logic e può essere effettuata attraverso diversi metodi:
+\begin{itemize}
+	\item \textbf{propositionalization}: convertendo le sentence della FOL in sentence della propositional logic
+	\item \textbf{unification}: trovando sostituzioni che rendono due termini o due sentence identici
+	\item \textbf{resolution and unification}: applicando la regola di risoluzione con l'unificazione
+	\item \textbf{backward chaining}: utilizzando un approccio goal-driven per rispondere a query specifiche
+\end{itemize}
+Di seguito la spiegazione in ciascun paragrafo separato per ogni metodo.
+
+\subsection*{Inference by propositionalization}
+Il primo metodo di inferenza nella FOL studiato è la proposizionalizzazione. Consiste nel convertire le sentence della FOL in
+sentence della propositional logic e applicare i metodi di inferenza della propositional logic (model checking o resolution).
+Per convertire una sentence della FOL in una sentence della propositional logic si effettuano i seguenti passaggi:
+\begin{enumerate}
+	\item \textbf{existential instantiation}: eliminazione dei quantificatori esistenziali
+	\item \textbf{universal instantiation}: eliminazione dei quantificatori universali
+	\item \textbf{propositionalization}: sostituzione di tutti i predicati e termini con proposizioni atomiche
+\end{enumerate}
+Di seguito la spiegazione in ciascun paragrafo separato per ogni passaggio.
+
+\subsubsection*{1. Existential instantiation - EI}
+L'existential instantiation è un procedimento che serve per generare una nuova sentence senza quantificatori esistenziali a
+partire da una sentence con quantificatori esistenziali. In pratica consiste nel sostituire la variabile quantificata \(x\)
+con un nuovo simbolo detto Skolem constant \(k\) ovvero un termine che non compare altrove nella KB. Se la variabile quantificata
+è all'interno del scope di un quantificatore universale per un'altra variabile \(y\), allora si usa la Skolem function \(F(y\).
+In questo caso la Skolem function prende come argomento la variabile \(y\) e restitituisce un termine unico per ogni valore di
+\(y\). In generale la existential instantiation si indica come segue:
+\[\text{con Skolem constant} \; k \quad \frac{\exists x \; \alpha}{Subst( \left\{ x \; / \; k \right\}, \; \alpha )} \qquad\quad \text{con Skolem function} \; F(y) \quad \frac{\forall y \; \exists x \; \alpha}{Subst( \left\{ x \; / \; F(y) \right\}, \; \alpha )}\]
+È possibile applicare l'existential instantiation soltanto una volta per ogni quantificatore esistenziale presente. Il nuovo KB
+ottenuto non è logicamente equivalente al KB di partenza, ma rimane soddisfacibile se il KB di partenza è soddisfacibile.
+Di seguito due esempi con una Skolem constant e una Skolem function:
+\[\frac{\exists x \; King(x) \land Greedy(x) \Rightarrow Evil(x)}{\textit{King}(k) \land \textit{Greedy}(k) \Rightarrow \textit{Evil}(k)} \qquad\qquad\qquad \frac{\forall y \; \exists x \; Loves(x, y)}{\textit{Loves}(F(y), y)}\]
+
+\subsubsection*{2. Universal instantiation - UI}
+L'universal intantiation è un procedimento che serve per generare nuove sentence senza variabili o quantificatori universali a
+partire da una sentence con un quantificatore universale. In pratica consiste nel sostituire la variabile quantificata \(x\)
+con un ground term \(g\), ovvero un termine che non contiene variabili (ad esempio una costante o una funzione di costanti).
+Le sentence ottenute sono dette ground instances della sentence originale. In generale la universal instantiation si indica
+come segue:
+\[\frac{\forall x \; \alpha}{Subst( \left\{ x \; / \; g \right\}, \; \alpha )} \qquad\qquad \text{con} \; g \; \text{ground term}\]
+È possibile applicare la universal instantiation più volte usando sostituzioni diverse, ottenendo di conseguenza ground instances
+diverse della stessa sentence originale. Il nuovo KB ottenuto dalle UI rimane logicamente equivalente al KB di partenza.
+Di seguito un esempio:
+\[\frac{\forall x \; King(x) \land Greedy(x) \Rightarrow Evil(x)}{\left\{ \begin{array}{c l}
+	\textit{King}(\textit{John}) \land \textit{Greedy}(\textit{John}) \Rightarrow \textit{Evil}(\textit{John}), & \text{per} \; \phi_1 = \left\{ x / \textit{John} \right\} \\
+	\textit{King}(\textit{Father}(\textit{John})) \land \textit{Greedy}(\textit{Father}(\textit{John})) \Rightarrow \textit{Evil}(\textit{Father}(\textit{John})), & \text{per} \; \phi_2 = \left\{ x / \textit{Father}(\textit{John}) \right\} \\
+	\dots
+\end{array} \right\}}\]
+
+\subsubsection*{3. Propositionalization}
+La proposizionalizzazione è l'ultimo passaggio per convertire una sentence della FOL in una sentence della propositional logic.
+Consiste nel sostituire ogni predicato con una proposizione atomica unica. Di seguito un esempio:
+\[\frac{\textit{King}(John) \land \textit{Greedy}(John) \Rightarrow \textit{Evil}(John)}{KingJohn \land GreedyJohn \Rightarrow EvilJohn}\]
+
+\subsubsection*{Problemi dell'inferenza della FOL attraverso la proposizionalizzazione}
+Durante i processi di universal instantiation e proposizionalizzazione, si possono generare un numero infinito di sentence
+della propositional logic, tali per cui la maggior parte di esse risulta superflua e inutile ai fini dell'inferenza. Specialmente
+se alcuni predicati possono essere ricorsivi (come ad esempio \textit{Father}\((x)\)). L'unico caso in cui tale metodo risulta
+vantaggioso è quando la KB contiene un numero piccolo e finito di costanti, funzioni e predicati, per mantenere il numero di
+sentence della propositional logic generato a un livello gestibile.
+
+\subsection*{Inference by unification}
+Il processo di unificazione è un metodo di inferenza che consiste nel trovare una sostituzione \(\phi\) che rende due termini
+o due sentence identici. La sostituzione \(\phi\) è detta unificatore. L'unificazione è utile per confrontare e combinare
+sentence che contengono variabili, funzioni e predicati. Di seguito un esempio di unificazione tra due sentence \(\alpha\)
+e \(\beta\) con la relativa unificazione \(\theta\):
+\[\alpha = \forall x \; \textit{Knows}(\textit{John}, \; x), \qquad \beta = \forall y \; \textit{Knows}(y, \; \textit{Mary}), \qquad \theta = \textit{Unify}(\alpha, \beta) = \left\{ x / \textit{Mary}, y / \textit{John} \right\}\]
+\[\alpha_\theta = \beta_\theta = \textit{Subst}( \theta, \alpha ) = \textit{Subst}(\theta, \beta) = \textit{Knows}(\textit{John}, \textit{Mary})\]
+È possibile che le due sentence contengano la stessa variabile quantificata e di conseguenza non sia possibile unificarle.
+Per risolvere questo problema si ricorre alla standardizzazione delle variabili, ovvero si rinominano le variabili quantificate
+in modo che ogni quantificatore abbia una variabile unica.
+
+\subsection*{Inference by resolution and unification}
+L'inferenza per risoluzione nella FOL funziona in modo simile a quella della propositional logic, ma con alcune differenze
+dovute alla presenza di variabili, funzioni e quantificatori. In analogia alla propositional logic, per dimostrare che
+\(KB \models \alpha\), si utilizza la dimostrazione per assurdo, verificando che \(KB \land \neg \alpha\) è insoddisfacibile.
+Per applicare la risoluzione nella FOL, si seguono i seguenti passaggi:
+\begin{enumerate}
+	\item \textbf{conversione in conjunctive normal form (CNF)} della KB e di \(\neg \alpha\)
+	\item \textbf{applicazione della regola di risoluzione} tramite l'unificazione
+\end{enumerate}
+Di seguito la spiegazione in ciascun paragrafo separato per ogni passaggio.
+
+\subsubsection*{1. Conversione in CNF nella FOL}
+La conversione in CNF (congiunzione di disgiunzioni) nella FOL avviene in più passaggi:
+\begin{enumerate}
+	\item eliminazione delle implicazioni e delle doppie implicazioni (avendo solo congiunzioni o disgiunzioni)
+	\item riduzione della negazione all'interno (con le leggi di De Morgan e le proprietà dei quantificatori)
+	\item standardizzazione delle variabili (rinominazione delle variabili con stesso nome)
+	\item applicazione della existential instantiation per eliminare i quantificatori esistenziali
+	\item eliminazione dei quantificatori universali semplicemente rimuovendoli (si sottintende che tutte le
+	variabili siano quantificate universalmente per cui non ha senso specificarne il quantificatore)
+	\item distribuzione della disgiunzione sulla congiunzione per ottenere la CNF
+\end{enumerate}
+
+\subsubsection*{2. Risoluzione con unificazione}
+A differenza della risoluzione nella propositional logic, in cui si uniscono due clausole che contengono letterali complementari,
+nella FOL è necessario prima unificare i letterali complementari per renderli identici. In pratica si calcola la sostituzione
+\(\theta\) che unifica i letterali complementari tra due clausole, si applica la sostituzione alle clausole come nel
+processo di unificazione ed infine si possono unire le clausole come nella risoluzione della propositional logic. In generale
+si indica come segue:
+\[\frac{(B \lor \textbf{A}) \land (\neg \textbf{A} \lor C)}{\textit{Subst} \, (\theta, B \lor C)} \qquad \text{con} \; \theta = \textit{Unify} \, (A, \neg A)\]
+Di seguito un esempio pratico di risoluzione con unificazione:
+\[\frac{(\neg \textit{Rich} \, (x) \lor \textit{Unhappy}\,(x)) \land \textit{Rich} \, (\textit{Ken})}{\textit{Unhappy} \, (\textit{Ken})} \qquad \text{con} \; \textit{Unify} \, (\neg \textit{Rich}(x), \neg \textit{Rich}(\textit{Ken})) = \left\{ x / \textit{Ken} \right\}\]
+Come per la propositional logic, se alla fine del processo di risoluzione e semplificazione, tra le clausole residue si
+ottiene la empty clause \(\square\), allora si ha contraddizione. Si conclude, quindi, che \(KB \land \neg \alpha\) è
+insoddisfacibile, e la tesi \(KB \models \alpha\) risulta dimostrata per assurdo.
+
+\subsection*{Inference by backward chaining}
+L'inferenza per backward chaining è un metodo di inferenza goal-driven che parte da una query specifica e cerca di risalire
+alle premesse che devono essere vere per soddisfare la query. In pratica si parte dalla query e si cercano le sostituzioni
+o le regole nella KB che soddisfano tutte le sentence della KB. Se si trova che una delle premesse è falsa, oppure che non
+può essere dimostrata, allora si conclude che la query non può essere soddisfatta.
+
+Tale metodo è molto più efficiente e più veloce rispetto alla risoluzione con unificazione, in quanto si concentra solo
+sulle parti rilevanti della KB per rispondere alla query, evitando di esplorare l'intera KB. Lavora in modo simile al DFS
+(depth-first search) ed è usato dal linguaggio Prolog. L'unico svantaggio è che non è ottimale.
+
+\subsection{Knowledge engineering in FOL}
+La knowledge engineering è il processo di progettazione, costruzione e manutenzione delle knowledge base per garantire che
+esse siano accurate, complete ed efficienti per poter essere usate su KB agents. Si divide in diverse fasi:
+\begin{enumerate}
+	\item \textbf{identificazione della domanda}: analogo alla problem formulation attraverso gli agent's PEAS
+	\item \textbf{raccolta della conoscenza}: raccolta delle informazioni rilevanti dal dominio di interesse
+	\item \textbf{ontologia}: definizione delle entità, delle relazioni e delle regole del dominio
+	\item \textbf{codifica della conoscenza}: rappresentazione della conoscenza in un linguaggio logico formale
+	\item \textbf{codifica di un'istanza del problema}: rappresentazione di un'istanza specifica del problema
+	\item \textbf{fare query alla KB}: utilizzo di metodi di inferenza per rispondere a query specifiche  
+	\item \textbf{degub e valutazione}: verifica della correttezza e dell'efficienza della KB
+\end{enumerate}

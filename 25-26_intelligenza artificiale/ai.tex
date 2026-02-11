@@ -1,0 +1,103 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+\usepackage{graphicx} % per immagini
+\usepackage{listings} % per codice
+\usepackage{xcolor} % per colori
+\usepackage{tikz} % per disegnare bayesian network
+\usepackage{algorithm} % per codice
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+% per elenchi puntati
+\setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
+\setlist[enumerate]{partopsep=0pt, topsep=3pt, itemsep=0pt}
+
+% percorso delle immagini da inserire
+\graphicspath{{./}}
+
+% simboli matematici
+\newcommand{\argmax}{\operatorname*{arg\,max}} % argmax
+\newcommand{\argmin}{\operatorname*{arg\,min}} % argmin
+\newcommand{\indep}{\perp \!\!\! \perp} % simbolo di indipendenza
+\newcommand{\nindep}{\not\perp \!\!\! \perp} % simbolo di indipendenza negata
+\newcommand{\mathfx}[5]{% funzione matematica: nome, dominio, codominio, x, y
+	\begin{aligned}
+		#1 \colon #2 &\to #3 \\
+		#4 &\mapsto #5
+	\end{aligned}
+}
+
+% per disegni
+\usetikzlibrary{positioning, shapes.geometric, arrows.meta, calc}
+
+% per algoritmi in pseudocodice
+\renewcommand{\algorithmicprocedure}{\textbf{Algoritmo:}\;}
+\renewcommand{\algorithmicrequire}{\qquad\textbf{Input:} \quad\;\;\,}
+\renewcommand{\algorithmicensure}{\qquad\textbf{Output:} \;\;\;}
+\algnewcommand\algorithmicin{\textbf{in}}
+\algnewcommand\algorithmicto{\textbf{to}}
+%\algrenewtext{For}[3] {\algorithmicfor\ #1 \gets #2 \algorithmicto\ #3 \algorithmicdo}
+%\algrenewtext{For}[2]{\algorithmicfor\ #1 \algorithmicto\ #2 \algorithmicdo}
+%\algrenewtext{ForAll}[2] {\algorithmicforall\ #1 \algorithmicin\ #2 \algorithmicdo}
+
+% comando per loop infinito
+\algblockdefx{Loop}{EndLoop}{\textbf{loop do}}{\textbf{end loop}}
+
+% ambiente per algoritmi con input e output
+\newenvironment{algo}[4]{
+	\noindent\rule{\textwidth}{0.4pt}
+	\begin{algorithmic}[1]
+		\addtocounter{ALG@line}{-1}
+		\Procedure{#1}{#2}
+		\Require #3
+		\Ensure #4
+		\Statex}{
+		\EndProcedure
+	\end{algorithmic}
+	\rule{\textwidth}{0.4pt}}
+
+
+\title{Appunti di Intelligenza Artificiale}
+\author{Giacomo Simonetto}
+\date{Primo semestre 2025-26}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+	Appunti del corso di Intelligenza Artificiale della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\include{paragrafi/1_introduction_to_ai.tex}
+\include{paragrafi/2_intelligent_agents.tex}
+\include{paragrafi/3_search_algorithms.tex}
+\include{paragrafi/4_logic.tex}
+\include{paragrafi/5_bayesian_networks.tex}
+\include{paragrafi/6_causal_inference.tex}
+\include{paragrafi/7_markov_decision_processes.tex}
+\include{paragrafi/8_machine_learning.tex}
+\include{paragrafi/9_deep_learning.tex}
+
+\end{document}

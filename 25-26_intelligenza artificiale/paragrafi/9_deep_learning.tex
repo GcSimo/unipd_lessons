@@ -1,0 +1,848 @@
+\section{Deep learning}
+\subsection{Neuroni e funzioni di attivazione}
+\subsubsection*{Neurone artificiale}
+Un neurone artificiale è il singolo elemento di una rete neurale. È ispirato al neurone biologico e svolge le seguenti
+operazioni matematiche:
+\begin{itemize}
+	\item riceve in ingresso un vettore di valori \(\left\{ a_1, a_2, a_3, \dots, a_n \right\}\)
+	\item \textbf{input function}: effettua una combinazione lineare dei valori in ingresso, pesandoli attraverso un vettore 
+	i pesi \(\left\{ w_1, w_2, w_3, \dots, w_n \right\}\) e aggiungendo un termine di bias \(b = w_0\)
+	\item \textbf{activation function}: applica una funzione di attivazione al risultato della combinazione lineare, ottenendo
+	un output \(y\)
+\end{itemize}
+\[y = g\left( w_0 + \sum_{i=1}^{n} w_i a_i \right) \qquad \text{con} \quad \begin{array}{l l}
+	\text{input function:} & w_0 + \sum_{i=1}^{n} w_i a_i \\
+	\text{activation function:} & g\left( \cdot \right)
+\end{array}\]
+
+\subsubsection*{Percettrone - neurone con threshold activation function}
+Un neurone artificiale che utilizza una threshold function come funzione di attivazione è detto percettrone. In origine si
+usavano solo percettroni, oggi si usano neuroni con funzioni di attivazione più complesse.
+
+La threshold function è una funzione a scalino che, in funzione dei pesi assegnati agli input, permette di dividere i dati
+in due classi linearmente separabili.
+\[y = Threshold(w_0 + w_1 x_1 + w_2 x_2) = \begin{cases}
+	1 & \text{per } w_0 + w_1 x_1 + w_2 x_2 \geq 0 \\
+	0 & \text{altrimenti}
+\end{cases}\]
+Ad esempio, rappresentando graficamente le possibili coppie di input di funzioni logiche elementari su un piano cartesiano
+a due variabili \((x_1, x_2)\), si osserva che AND, OR e NOT sono linearmente separabili, per cui modellabili attraverso
+un percettrone, ma non la XOR, che è non linearmente separabile:
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\begin{itemize}
+			\item AND: \(w_1 = w_2 = 1\), \(w_0 = -1.5\)
+			\item OR: \(w_1 = w_2 = 1\), \(w_0 = -0.5\)
+		\end{itemize}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+		\begin{itemize}
+			\item NOT: \(w_1 = -1\), \(w_0 = 0.5\)
+			\item XOR: non linearmente separabile
+		\end{itemize}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Altre funzioni di attivazione}
+Oltre alla threshold function dei percettroni, esistono altre funzioni di attivazione più complesse, che permettono di
+modellare meglio valori continuti e facilitano l'addestramento delle reti neurali. Alcuni esempi di funzioni sono:
+
+\begin{tabular}{l l}
+	- sigmoid o logistic function: & \(\displaystyle g(x) = \sigma(x) = \frac{1}{1 + e^{-x}} \phantom{\int}\) \\
+	- tanh (shifted and rotated sigmoid): & \(\displaystyle g(x) = \tanh(x) = \frac{e^{2x} - 1}{e^{2x} + 1}\) \\
+	- ReLU (Rectified Linear Unit): & \(\displaystyle g(x) = \text{ReLU}(x) = \max(0, x) \phantom{\int}\) \\
+	- softplus (rounded ReLU): & \(\displaystyle g(x) = \text{softplus}(x) = \ln(1 + e^x) \phantom{\int}\)
+\end{tabular}
+
+L'addestramento di reti con percettori risulta complesso in quanto la funzione di attivazione threshold non è differenziabile.
+Per problemi complessi, conviene usare funzioni differenziabili come le sigmoidi.
+
+È importante notare che le funzioni di attivazione non sono lineari, questo permette di risolvere anche problemi non lineari.
+Se si utilizzassero solo funzioni di attivazione lineari, si potrebbero risolvere solo problemi lineari, limitando enormemente
+ed inutilmente la potenza espressiva della rete neurale.
+
+\newpage
+
+\subsection{Multilayer networks and deep neural networks}
+\subsubsection*{Struttura di una rete multilayer}
+È possibile combinare più neuroni tra di loro in una rete multilayer. I neuroni sono organizzati in layer (verticalmente) in
+cui ogni neurone riceve input da tutti i neuroni del layer precedente e invia output a tutti i neuroni del layer successivo.
+Il primo layer è detto input layer e contiene i dati in ingresso (non ha neuroni propri), l'ultimo layer è detto output layer,
+mentre i layer intermedi sono detti hidden layer. Ogni neurone o percettrone della rete è detto unità.
+
+\subsubsection*{Universal approximation theorem}
+Il teorema di approssimazione universale afferma che qualsiasi funzione continua può essere approssimata arbitrariamente bene
+da una rete neurale con un solo hidden layer, a condizione che il numero di neuroni in quel layer sia sufficientemente grande.
+
+Ad esempio usando 2 neuroni nel hidden layer, è possibile approssimare una ``ridge'' (cresta) che risulta utile per modellare
+una XOR. Usando 4 neuroni, è possibile approssimare una ``bump'' (collina).
+
+\subsubsection*{Rappresentazione grafica di una rete multilayer}
+Esistono due modi di rappresentare graficamente una rete neurale multilayer:
+\begin{itemize}
+	\item \textbf{diagramma semplificato}: struttura a grafo con gli input e i singoli neuroni come nodi e con le connessioni
+	tra i vari elementi come archi orientati a cui è associato il relativo peso
+	\item \textbf{computational graph}: rappresentazione più dettagliata ed esplicita in cui ogni operazione (prodotto
+	dell'ingressoper il peso, somme, funzioni di attivazione) è rappresentata come un nodo del grafo e i dati che fluiscono
+	tra le operazioni sono rappresentati come archi orientati
+\end{itemize}
+
+\subsubsection*{Introduzione alle deep neural network}
+Una deep neural network è una rete neurale con più di un hidden layer. L'aggettivo ``deep'' si riferisce alla profondità della
+rete, ovvero al numero di hidden layer che contiene. Le deep neural networks sono in grado di apprendere rappresentazioni
+gerarchiche dei dati, in cui i layer più vicini all'input apprendono caratteristiche più semplici e hanno una vista locale,
+mentre i layer più vicini all'output apprendono caratteristiche più complesse e astratte e hanno una vista più globale.
+
+Esistono due principali classi di deep neural networks:
+\begin{itemize}
+	\item \textbf{feedforward neural networks}: i dati fluiscono in una sola direzione, dagli input agli output, senza cicli
+	o retroazioni; un esempio sono le convolutional neural networks (CNN)
+	\item \textbf{recurrent neural networks}: i dati, durante i processi intermedi e finali, possono essere reimmessi come input
+	dello stesso layer o di layer precedenti, creando cicli e retroazioni; possiedono, quindi, uno stato interno ed una memoria;
+	un esempio sono le long short-term memory (LSTM)
+\end{itemize}
+
+\newpage
+
+\subsection{Convolutional Neural Networks - CNN}
+\subsubsection*{Struttura di una CNN}
+Una CNN è la prima e la più popolare classe di deep neural network. Fa parte delle feedforward neural networks e il nome deriva
+dalla presenza di hidden layer detti convolutional layers che svolgono operazioni di convoluzioni su parti dell'input. Tali
+layers seguiti da pooling layers che svolgono operazioni di downsampling, ed infine i dati sono processati da uno o più fully
+connected layers formati da neuroni come nelle reti neurali tradizionali.
+
+Sono al momento lo stato dell'arte per l'elaborazione di immagini, ma possono essere applicate anche ad altri tipi di dati.
+
+\subsubsection*{Receptive field e struttura gerarchica dei convolutional layers}
+I convolutional layers sono hidden layers che eseguono operazioni di convoluzione e sono organizzati gerarchicamente in una
+struttura che ricorda la corteccia visiva del cervello umano. I neuroni più vicini alla retina percepiscono segnali solo da
+una piccola area chiamata receptive field, elaborando caratteristiche semplici e locali come linee e bordi, senza una visione
+globale dell’oggetto. I neuroni del layer successivo ricevono input da più neuroni del layer precedente, ampliando la loro
+vista, ma mantenendo comunque una prospettiva relativamente locale.  Con l’aumentare del numero di layer, i neuroni ricevono
+input sempre più ampi e complessi, acquisendo una visione sempre più globale, fino a elaborare caratteristiche complesse
+ed astratte come forme e oggetti.
+
+\subsubsection*{Convolutional operation and kernel}
+L'operazione di convoluzione tra matrici è un processo iterativo che si basa sulla ripetizione di una \textbf{operazione fondamentale}.
+Tale operazione consiste nel sovrapporre una matrice più piccola chiamata kernel (o filtro) su una porzione dell'input in forma
+matriciale (ad esempio un'immagine) ed effettuare la combinazione lineare dei valori della parte dell'input sottesa dal kernel,
+ciascuno pesato per i valori corrispondenti del kernel.
+
+L'operazione fondamentale viene ripetuta spostando il kernel su ogni possibile posizione dell'immagine, ottenendo così una
+nuova matrice chiamata \textbf{feature map} in cui ogni valore rappresenta l'output ottenuto da una posizione diversa del
+kernel. Il passo con cui si sposta il kernel sull'immagine è detto \textbf{stride} \(s\).
+
+Il risultato dell'operazione di convoluzione è una matrice di dimensioni inferiori in quanto il kernel non può essere sovrapposto
+nelle posizioni più esterne dell'immagine. Per evitare questo problema, si effettua un'operazione di \textbf{padding} che consiste
+nell'aggiungere un bordo di zeri attorno all'immagine, permettendo così al kernel di essere sovrapposto anche nelle posizioni più
+esterne.
+
+Spesso si utilizzano più kernel diversi per processare lo stesso input, ottenendo così tante feature map quanti sono i kernel
+utilizzati. Ogni kernel è in grado di estrarre caratteristiche diverse dall'immagine.
+
+\subsubsection*{Organizzazione dei neuroni in un convolutional layer}
+L'operazione fondamentale della convoluzione è implementabile attraverso un neurone artificiale in cui i pesi corrispondono
+ai valori del kernel. Tutti i neuroni di uno stesso convolutional layer condividono lo stesso kernel, ossia gli stessi pesi.
+Tale condivisione dei pesi viene definita \textbf{parameter sharing}.
+
+Inoltre il \textbf{receptive field} (o input) di ogni neurone è una porzione dell'immagine (o dell'output del layer precedente)
+che ha stesse dimensioni del kernel. Impilando più convolutional layers si crea una struttura simile a quella della corteccia
+visiva spiegata in precedenza.
+
+\subsubsection*{Pooling layers}
+Il pooling layer è un hidden layer che segue un convolutional layer e svolge operazioni di downsampling per ridurre le dimensioni
+dell'output del convolutional layer, mantenendo comunque le caratteristiche più importanti. Serve per semplificare l'input per
+il layer successivo. Esistono diversi tipi di pooling, tra cui:
+\begin{itemize}
+	\item \textbf{max pooling}: prende il valore massimo all'interno di una finestra di dimensioni \(p \times p\) e stride \(s\)
+	\item \textbf{average pooling}: prende il valore medio all'interno di una finestra di dimensioni \(p \times p\) e stride \(s\)
+\end{itemize}
+
+\subsubsection*{Tensor operations}
+Le operazioni di convoluzione tra matrici possono essere implementate in modo efficiente attraverso operazioni su tensori.
+Un tensore è una matrice multidimensionale utilizzata per rappresentare dati di input, pesi e output all'interno di una rete
+neurale. Le operazioni tra tensori sono eseguite in modo efficiente attraverso hardware dedicati altamente paralleli come TPU o GPU.
+
+Di seguito un esempio di rappresentazione di alcuni tensori utilizzati in una CNN:
+\begin{itemize}
+	\item un campione di input con 64 immagini RGB \(256 \times 256\) è rappresentato da un tensore di dimensioni
+	\(64 \times 256 \times 256 \times 3\) (batch size, altezza, larghezza, canali RGB).
+	\item 96 filtri composti da 3 kernel ciascuno di dimensioni \(5 \times 5\) è rappresentato da un tensore di dimensioni
+	\(5 \times 5 \times 3 \times 96\) (altezza, larghezza, canali in ingresso, canali in uscita)
+	\item l'output di un convolutional layer con stride \(s = 2\) e padding \(p = 2\) che utilizza i due tensori precedenti
+	è rappresentato a sua volta da un tensore di dimensioni \(64 \times 128 \times 128 \times 96\) (batch size, altezza, larghezza, canali in uscita).
+\end{itemize}
+
+\subsubsection*{Alcuni termini tecnici delle implementazioni delle CNN}
+\begin{itemize}
+	\item \textbf{batch}: insieme di campioni di dati in ingresso da un convolutional layer di dimensione costante, che
+	vengono processati approssimativamente contemporaneamente per sfruttare al meglio le capacità di parallelizzazione
+	dell'hardware; la dimensione del batch è detta \textbf{batch size} ed è costante durante l'addestramento
+	\item \textbf{filtro}: insieme di più kernel che vengono applicati allo stesso input per estrarre una stessa feature;
+	il numero di kernel in un filtro è detto \textbf{depth} del filtro ed è pari al numero di canali del tensore in
+	ingresso del convolutional layer
+	\item \textbf{feature map}: tensore di output dato dalla convoluzione tra il tensore di input e un solo filtro, ha solo
+	un canale di uscita
+	\item \textbf{output volume}: insieme di più feature map ottenute applicando più filtri allo stesso input; il numero di feature
+	map in un volume è detto \textbf{depth} del volume ed è pari al numero di filtri utilizzati;
+\end{itemize}
+
+\newpage
+
+\subsection{Input and output of a neural network}
+\subsubsection*{Input encoding}
+Le unità dell'input layer di una rete neurale sono direttamente collegate con i dati in ingresso. Serve dimensionare
+opportunamente l'input layer in modo che il numero di input units sia uguale alla lunghezza del vettore di input \(\textbf{x}\).
+In questo modo ogni unità dell'input layer riceve in ingresso un solo valore del vettore di input, che viene poi processato
+dai layer successivi. È possibile identificare tre principali tipi di input encoding che convertono i dati in ingresso in un
+formato numerico adatto per essere processato da una rete neurale:
+\begin{itemize}
+	\item \textbf{boolean encoding}: false e true sono rappresentati rispettivamente da 0 e 1
+	\item \textbf{numerical encoding}: i valori numerici sono rappresentati direttamente come input
+	\item \textbf{categorical encoding}: i valori categorici sono rappresentati attraverso tecniche di encoding come
+	\textbf{one-hot encoding}, in cui ogni bit del vettore di input è associato a una categoria e solo un bit è attivo (1) 
+	per indicare la categoria rappresentata, mentre gli altri sono inattivi (0)
+\end{itemize}
+
+\subsubsection*{Output layers}
+In base al tipo di problema richiesto, è necessario codificare opportunamente l'output layer di una rete neurale, in modo
+da renderlo interpretabile e sensato per il problema da risolvere. In base al tipo di problema si hanno diversi tipi di
+output layer:
+\begin{itemize}
+	\item \textbf{regression}: i neuroni dell'output layer non possiedono activation function, l'output
+	di ogni neurone si interpreta come una media pesata con varianza fissa dei valori in ingresso
+	\item \textbf{single class classification}: l'output layer è formato da un solo neurone con una
+	funzione di attivazione sigmoid che restituisce un valore compreso tra 0 e 1, interpretato come la probabilità che
+	l'input appartenga alla classe positiva
+	\item \textbf{multi-class classification}: l'output layer è formato da tanti neuroni quanti sono
+	le classi, con una funzione di attivazione softmax che restituisce un vettore con valori comresi tra 0 e 1, interpretato
+	come la pseudo-probabilità che l'input appartenga a ciascuna classe; la funzione non corrisponde a una vera distribuzione
+	di probabilità, ma ne rispetta comunque gli assiomi:
+	\[\text{softmax}(\textbf{z})_k = \frac{e^{z_k}}{\sum_{j} e^{z_j}}\]
+\end{itemize}
+
+\subsubsection*{Loss function}
+La scelta opportuna della Loss function è importante per un corretto addestramento della rete neurale. Come già visto
+esistono diverse Loss function, che vanno scelte in base al tipo di problema da risolvere::
+\begin{itemize}
+	\item \textbf{regression}: per problemi di regressione si utilizzano principalmente la absolute value Loss e la squared
+	error Loss
+	\item \textbf{single class classification}: per problemi di classificazione binaria si utilizza la binary cross entropy
+	Loss o log Loss che penalizza le predizioni del modello che si discostano dai valori reali del dataset; a seguire la formula
+	con \(\hat{y}\) la predizione del modello e \(y\) il valore reale del dataset ottenuto come output di una sigmoid, ovvero
+	la pseudo-probabilità che l'input appartenga alla classe positiva \(x = 1\):
+	\[L(y, \hat{y}) = -\left[y \log(\hat{y}) + (1-y) \log(1-\hat{y})\right] = \left\{\begin{array}{l l l}
+		-\log(\hat{y}) & \text{se } y = 1 & \rightarrow \; \text{Loss bassa per} \; \hat{y} \approx 1 \\
+		-\log(1-\hat{y}) & \text{se } y = 0 & \rightarrow \; \text{Loss bassa per} \; \hat{y} \approx 0
+	\end{array}\right.\]
+	\item \textbf{multiclass classification}: per problemi di classificazione multiclasse, si utilizza la categorical cross
+	entropy Loss che segue lo stesso ragionamento della binary cross entropy Loss, estesa a più valori di output, sapendo che
+	\(y\) è un vettore one-hot e \(\hat{y}\) è un vettore di pseudo-probabilità ottenuto da una softmax, si selezionerà solo
+	il termine del vettore \(y\) associato alla classe reale \(c\) con \(y_c = 1\):
+	\[L(\textbf{y}, \hat{\textbf{y}}) = -\sum_{i=1}^C y_i \log(\hat{y}_i) = -\log(\hat{y}_c) \approx - \log P(y = \hat{y} | x)\]
+\end{itemize}
+
+\subsection{Learning neural networks}
+\subsubsection*{Learning neural networks}
+Il processo di addestramento di una rete neurale sfrutta l'algoritmo di (minibatch) stochastic gradient descent (SGD) illustrato
+in precedenza.
+\[\textbf{w} \gets \textbf{w} - \alpha \nabla Loss (\textbf{w}) \qquad\qquad \text{per ogni singolo peso} \; w_i: \quad w_i \gets w_i - \alpha \frac{\partial Loss(\textbf{w})}{\partial w_i}\]
+Il problema che si incontra è il calcolo della derivata della Loss function rispetto ai pesi della rete neurale, in quanto
+risulta complesso scrivere analiticamente la funzione della Loss, per poter poi calcolarne la derivata parziale. Per risolvere
+questo problema, si utilizza l'algoritmo di back-propagation.
+
+\subsubsection*{Back-propagation}
+L'algoritmo di back-propagation si utilizza per calcolare in modo efficiente la derivata della Loss function rispetto
+ad uno dei pesi della rete neurale. L'idea è di propagare all'indietro un certo messaggio (ovvero le derivate parziali
+della Loss, interpretabile anche come l'informazione dell'errore) dall'uscita della rete neurale fino al peso di interesse,
+basandosi sulla chain rule del calcolo differenziale.
+
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\begin{tikzpicture}[
+			>={Stealth}, scale=0.8, transform shape,
+			% Stile per gli input (quadrati azzurri)
+			input/.style={rectangle, draw=black, fill=cyan!30, thick, minimum size=6mm},
+			% Stile per i pesi (ovali viola)
+			weight/.style={ellipse, draw=black, fill=purple!10, thick, minimum width=1cm},
+			% Stile per le operazioni (cerchi azzurri)
+			op/.style={circle, draw=cyan!70!black, thick, inner sep=1pt, minimum size=5mm},
+			% Stile per le funzioni di attivazione (cerchi azzurri con testo)
+			act/.style={circle, draw=cyan!70!black, thick, inner sep=1pt, minimum size=6mm}
+		]
+	
+			% --- NODI (Rettangoli, Ellissi, Cerchi) ---
+			% nodi di input
+			\node[input] (x1) at (0,2.2) {$x_1$};
+			\node[input] (x2) at (0,-2.2) {$x_2$};
+	
+			% somme
+			\node[op] (sum3) [right=2.1cm of x1] {$+$};
+			\node[op] (sum4) [right=2.1cm of x2] {$+$};
+			
+			% moltiplicazioni di sum3
+			\node[op] (m03) [above left=1.2cm and 0.2cm of sum3] {$\times$};
+			\node[input] (plus1a) [left=0.4cm of m03] {+1};
+			\node[weight] (w03) [above=0.2cm of plus1a] {$w_{0,3}$};
+	
+			\node[op] (m13) [left=0.3cm of sum3] {$\times$};
+			\node[weight] (w13) [above left=0.2cm and 0.2cm of m13] {$w_{1,3}$};
+	
+			\node[op] (m23) [below left=0.9cm and 0.2cm of sum3] {$\times$};
+			\node[weight] (w23) [above left=0.2cm and 0.1cm of m23] {$w_{2,3}$};
+			
+			% moltiplicazioni di sum4
+			\node[op] (m14) [above left=0.9cm and 0.2cm of sum4] {$\times$};
+			\node[weight] (w14) [below left=0.2cm and 0.1cm of m14] {$w_{1,4}$};
+			
+			\node[op] (m24) [left=0.3cm of sum4] {$\times$};
+			\node[weight] (w24) [below left=0.2cm and 0.2cm of m24] {$w_{2,4}$};
+			
+			\node[op] (m04) [below left=1.2cm and 0.2cm of sum4] {$\times$};
+			\node[input] (plus1b) [left=0.4cm of m04] {+1};
+			\node[weight] (w04) [below=0.2cm of plus1b] {$w_{0,4}$};
+			
+			% attivazioni
+			\node[act] (g3) [right=0.6cm of sum3] {$g_3$};
+			\node[act] (g4) [right=0.6cm of sum4] {$g_4$};
+			
+			% moltiplicazioni di sum5
+			\node[op] (m35) [right=0.5cm of g3] {$\times$};
+			\node[weight] (w35) [above left=0.3cm and 0.2cm of m35] {$w_{3,5}$};
+			
+			\node[op] (m45) [right=0.5cm of g4] {$\times$};
+			\node[weight] (w45) [below left=0.3cm and 0.2cm of m45] {$w_{4,5}$};
+			
+			\node[op] (m05) at ($(m35)!0.5!(m45)$) {$\times$};
+			\node[input] (plus1c) [left=0.4cm of m05] {+1};
+			\node[weight] (w05) [above=0.2cm of plus1c] {$w_{0,5}$};
+	
+			% sommatore finale e output
+			\node[op] (sum5) [right=0.4cm of m05] {$+$};
+			\node[act] (g5) [right=0.6cm of sum5] {$g_5$};
+			\node (yhat) [right=0.4cm of g5] {$\hat{y}$};
+
+			% nomi degli archi
+			\node (in3lab) [below right=-0.15cm and 0cm of sum3] {$in_3$};
+			\node (m35lab) [below right=0.5cm and 0.2cm of m35] {$m_{3,5}$};
+			\node (in5lab) [below right=-0.15cm and 0cm of sum5] {$in_5$};
+	
+			% --- CONNESSIONI (Frecce) ---
+			% Connessioni pesi/input -> moltiplicatori
+			\draw[->] (w03) -- (m03); \draw[->] (plus1a) -- (m03);
+			\draw[->] (w13) -- (m13); \draw[->] (x1) -- (m13);
+			\draw[->] (w23) -- (m23); \draw[->] (x2) -- (m23);
+			
+			\draw[->] (w14) -- (m14); \draw[->] (x1) -- (m14);
+			\draw[->] (w24) -- (m24); \draw[->] (x2) -- (m24);
+			\draw[->] (w04) -- (m04); \draw[->] (plus1b) -- (m04);
+	
+			% Moltiplicatori -> Sommatori
+			\draw[->] (m03) -- (sum3); \draw[->] (m13) -- (sum3); \draw[->] (m23) -- (sum3);
+			\draw[->] (m14) -- (sum4); \draw[->] (m24) -- (sum4); \draw[->] (m04) -- (sum4);
+	
+			% Sommatori -> Attivazioni
+			\draw[->] (sum3) -- (g3); \draw[->] (sum4) -- (g4);
+	
+			% Attivazioni/Pesi -> Moltiplicatori finali
+			\draw[->] (g3) -- (m35); \draw[->] (w35) -- (m35);
+			\draw[->] (w05) -- (m05); \draw[->] (plus1c) -- (m05);
+			\draw[->] (g4) -- (m45); \draw[->] (w45) -- (m45);
+	
+			% Moltiplicatori finali -> Sommatore finale -> Output
+			\draw[->] (m35) -- (sum5); \draw[->] (m05) -- (sum5); \draw[->] (m45) -- (sum5);
+			\draw[->] (sum5) -- (g5); \draw[->] (g5) -- (yhat);
+		\end{tikzpicture}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.54\textwidth}
+			Si vuole, ad esempio, calcolare la derivata della Loss function \(L\) rispetto al peso \(w_{3,5}\):
+			\[\frac{\partial L}{\partial w_{3,5}} = \underbrace{\frac{\partial L}{\partial \hat{y}}}_{\text{passo 1}} \cdot \underbrace{\frac{\partial \hat{y}}{\partial g_5}}_{\text{passo 2}} \cdot \underbrace{\frac{\partial g_5}{\partial in_5}}_{\text{passo 3}} \cdot \underbrace{\frac{\partial in_5}{\partial m_{3,5}}}_{\text{passo 4}} \cdot \underbrace{\frac{\partial m_{3,5}}{\partial w_{3,5}}}_{\text{passo 5}}\]
+			\begin{enumerate}
+				\item derivata della Loss \(L\) rispetto all'output \(\hat{y}\), si calcola analiticamente conoscendo la Loss function
+				\item derivata di \(\hat{y}\) rispetto all'attivazione \(g_5\), è sempre 1 in quanto \(\hat{y} = g_5\)
+				\item derivata di \(g_5\) rispetto all'input \(in_5\) del neurone 5, le derivate delle activation function sono tabulate
+				\item derivata di \(in_5\) rispetto al moltiplicatore \(m_{3,5}\), è sempre 1 in quanto \(in_5 = m_{3,5} + m_{4,5} + m_{0,5}\)
+				\item derivata di \(m_{3,5}\) rispetto al peso \(w_{3,5}\), corrisponde all'altro fattore della moltiplicazione
+			\end{enumerate}
+			\begin{align*}
+				\frac{\partial L(y, \hat{y})}{\partial w_{3,5}} &= \overbrace{\frac{\partial L(y, \hat{y})}{\partial \hat{y}}}^{\text{passo 1}} \cdot \overbrace{1\!\!\!\!\!\!\phantom{\int}}^{\text{passo 2}} \cdot \overbrace{g_5'(in_5)\!\!\!\!\!\!\phantom{\int}}^{\text{passo 3}} \cdot \overbrace{1\!\!\!\!\!\!\phantom{\int}}^{\text{passo 4}} \cdot \overbrace{g_3(in_3)\!\!\!\!\!\!\phantom{\int}}^{\text{passo 5}} \\[5pt]
+				&= \frac{\partial L(y, \hat{y})}{\partial \hat{y}} \cdot g_5'(in_5) \cdot g_3(in_3)
+			\end{align*}
+	\end{minipage}
+\end{center}
+Se ci sono combinazioni di più nodi, si applicano anche le seguenti regole:
+\begin{itemize}
+	\item se un nodo \(h\) ha più input provenienti da altri nodi \(f\) e \(g\), i messaggi di errore che escono dal nodo \(h\)
+	vengono moltiplicati per le derivate parziali di \(h\) rispetto a ciascuno dei suoi input \(f\) e \(g\)
+	\[\partial L / \partial f = \partial L / \partial h \cdot \partial h / \partial f_h \qquad\quad \partial L / \partial g = \partial L / \partial h \cdot \partial h / \partial g_h \quad \rightarrow \quad \text{sono le regole usate sopra}\]
+	\item se un nodo \(h\) ha più output diretti ad altri nodi \(j\) e \(k\), i messaggi di errore multipli che entrano dai vari
+	output \(\partial L / \partial h_j\) e \(\partial L / \partial h_k\) vengono sommati tra di loro
+	\[\partial L / \partial h = \partial L / \partial h_j + \partial L / \partial h_k\]
+\end{itemize}
+
+\subsubsection*{Pros and cons of back-propagation}
+\begin{itemize}
+	\item il costo della computazione è lineare nel numero di nodi del grafo computazionale, quindi è efficiente
+	\item è possibile precalcolare le derivate delle activation function, rendendo il processo ancora più efficiente
+	\item richiede la memorizzazione di tutti i risultati intermedi, rendendo il processo di addestramento molto dispendioso
+	in termini di memoria
+	\item può soffrire di vanishing gradient problem, ovvero quando \(g'(\cdot) \ll 1\) (ad esempio con sigmoid o tanh) la
+	propagazione degli errori ha molto poco effetto sull'aggiornanmento dei pesi
+\end{itemize}
+
+\subsubsection*{Deep networks and overfitting}
+A parità di parametri, una rete neurale con più hidden layer (deep network) è in grado di generalizzare meglio rispetto a una
+rete neurale con un solo hidden layer, ovvero tende ad andare meno in overfitting.
+
+\subsubsection*{Adversarial attacks}
+Gli adversarial attacks sono attacchi che sfruttano la vulnerabilità delle reti neurali a piccoli cambiamenti impercettibili
+nei dati di input. Ad esempio l'aggiunta di un sottilissimo ed impercettibile (all'umano) layer di rumore ad una immagine può
+indurre la rete a fare predizioni errate, anche se i dati sembrano praticamente identici a quelli di input originali. 
+
+\subsubsection*{Dropout}
+Il dropout è una tecnica di regolarizzazione che consiste nel disattivare casualmente alcuni neuroni della rete durante
+l'addestramento, ad esempio dopo ogni minibatch. In questo modo si forza la rete a trovare soluzioni alternative e più
+robuste, evitando di creare corsie preferenziali che porterebbero a bassa generalizzazione e poco sfruttamento dell'intera rete.
+
+\subsection{Recurrent Neural Networks}
+\subsubsection*{Struttura di una RNN}
+Le RNN sono una classe di deep neural network in cui il computational graph contiene cicli, ognuno con un certo delay. Ciò
+significa che le unità di una RNN possono ricevere dati di input non solo dagli output layer precedenti, ma anche dal proprio
+stesso output o da quello di layer successivi proveniente da un precedente step temporale. In questo modo, le RNN sono in grado
+di mantenere uno stato interno e una memoria, che permette loro di processare sequenze di dati e di catturare dipendenze
+temporali.
+
+\subsubsection*{Markov assumptions in RNNs}
+Le RNN possono soddisfare la Markov assumption se il loro stato interno \(\textbf{z}_t\) all'istante \(t\) dipende solo dallo
+stato interno \(\textbf{z}_{t-1}\) all'istante \(t-1\) e dall'input \(\textbf{x}_t\) all'istante \(t\).
+\[\textbf{z}_t = f_\textbf{w} (\textbf{z}_{t-1}, \textbf{x}_t)\]
+
+\subsubsection*{Backpropagation through time}
+L'output (o stato interno) del hidden layer \(\textbf{z}_t\) è determinato dall'input \(\textbf{x}_t\) dallo stato interno
+\(\textbf{z}_{t-1}\) e dai rispettivi pesi \(\textbf{W}_{z,z}\) e \(\textbf{W}_{x,z}\), passati attraverso la funzione di
+attivazione \(g_z\). L'output \(\hat{\textbf{y}}_t\) si calcola con lo stato interno \(\textbf{z}_t\) ed i pesi \(\textbf{W}_{z,y}\)
+processati per la funzione di attivazione dell'uscita \(g_y\). L'addestramento di una RNN deve aggiornare tutti i pesi
+del modello \(\textbf{W}_{x,z}, \textbf{W}_{z,z}, \textbf{W}_{z,y}\).
+\[\textbf{z}_t = g_z (\textbf{W}_{z,z} \textbf{z}_{t-1} + \textbf{W}_{x,z} \textbf{x}_t) \qquad\qquad \hat{\textbf{y}}_t = g_y (\textbf{W}_{z,y} \textbf{z}_t)\]
+
+Il processo di addestramento avviene attraverso l'algoritmo di \textbf{backpropagation through time}, che consiste nell'applicare
+l'algoritmo di back-propagation a una RNN ``srotolata'' su più step temporali (rappresentata come gli HMMs). Serve fare attenzione
+alla propagazione degli errori lungo la catena temporale: se \(w_{z,z} < 1\) il gradiente tende a scomparire (vanishing gradient
+problem), mentre se \(w_{z,z} > 1\) il gradiente tende ad esplodere (exploding gradient problem).
+
+\subsection{Long Short-Term Memory - LSTM}
+\subsubsection*{Struttura di una LSTM}
+Una LSTM è una particolare architettura di RNN che è stata progettata per risolvere il problema del vanishing gradient o
+dell'exploding gradient. Dispone sia di una working memory a breve termine, che di una long term memory a lungo termine.
+La long term memory è salvata in una memory cell \(c\) e, al posto di essere moltiplicata, viene copiata ad ogni iterazione,
+evitando così il problema del vanishing gradient o dell'exploding gradient. 
+
+\subsubsection*{Gates in a LSTM}
+La LSTM utilizza un'architettura a gate, ovvero un set di vettori di pesi che controllano il flusso di informazioni tra input
+stato interno e output. Di seguito lo schema di una LSTM, con i suoi gate:
+\begin{center}
+	\begin{minipage}{0.54\textwidth}
+		\centering
+		\begin{tikzpicture}[
+			% Stili dei componenti
+			scale=0.8, transform shape,
+			box/.style={rectangle, draw, fill=white, minimum width=8cm, minimum height=0.8cm, font=\sffamily},
+			cell/.style={rectangle, draw, fill=green!15, rounded corners=8pt, minimum width=8.5cm, minimum height=4.5cm},
+			op/.style={circle, draw, fill=pink!60, inner sep=1pt, minimum size=6mm, font=\small},
+			gate/.style={rectangle, draw, fill=yellow!30, minimum size=6.5mm, font=\small},
+			func/.style={ellipse, draw, fill=pink!60, minimum width=1cm, minimum height=0.5cm, font=\small},
+			label_style/.style={font=\sffamily\bfseries\large},
+			arrow/.style={-{Stealth[scale=0.8]}, thick, rounded corners=8pt}
+		]
+			\pgfmathsetmacro{\gateDistance}{1.9} % distanza verticale tra i gate
+	
+			% layers esterni e cell centrale
+			\node[box] (top) {top (output) layer};
+			\node[box] (bottom) [below=6.5cm of top] {bottom (input) layer};
+			\node[cell, yshift=0cm] (main_cell) at ($(top)!0.5!(bottom)$) {};
+			
+			% ingressi e uscite
+			\node[label_style, left=0.2cm of main_cell.158] (c_in) {$\mathbf{c}_{t-1}$};
+			\node[label_style, right=0.4cm of main_cell.22] (c_out) {$\mathbf{c}_{t}$};
+			\node[label_style, left=0.2cm of main_cell.-158] (z_in) {$\mathbf{z}_{t-1}$};
+			\node[label_style, right=0.4cm of main_cell.-22] (z_out) {$\mathbf{z}_{t}$};
+			\node[label_style, below=0.3cm of main_cell.-148] (x_t) {$\mathbf{x}_t$};
+			\node[label_style, above=0.3cm of main_cell.32] (y_out) {$\mathbf{y}_t$};
+			\draw[arrow, -{}] (x_t) |- ([xshift=2cm]main_cell.-158);
+			
+			% linea superiore - bus c_t
+			\node[op] (mul_forget) [right=1.3cm of c_in] {$\times$};
+			\node[op] (add_input) [right=2cm of mul_forget] {$+$};
+			\draw[arrow] (c_in) -- (mul_forget);
+			\draw[arrow] (mul_forget) -- (add_input);
+			\draw[arrow] (add_input) -- (c_out);
+	
+			% forget gate
+			\node[gate] (sg_f) [below=\gateDistance cm of mul_forget] {$\sigma$};
+			\draw[arrow] (sg_f) -- (mul_forget) node[midway, left, red] {$\mathbf{f}_t$};
+			\draw[arrow] (z_in) -| (sg_f);
+	
+			% input gate
+			\node[gate] (th_c) [below=\gateDistance cm of add_input] {tanh};
+			\node[op] (mul_input) at ($(add_input)!0.5!(th_c)$) {$\times$};
+			\node[gate] (sg_i) [left=0.5cm of th_c] {$\sigma$};
+			\draw[arrow] (sg_i) |- (mul_input) node[midway, left, magenta] {$\mathbf{i}_t$};
+			\draw[arrow] (th_c) -- (mul_input);
+			\draw[arrow] (mul_input) -- (add_input);
+			\draw[arrow] (z_in) -| (sg_i);
+			\draw[arrow] (z_in) -| (th_c);
+	
+			% output gate
+			\node[op, draw=none, fill=none] (rc_branch) [right=2cm of add_input] {};
+			\node[op, draw=none, fill=none] (lc_branch) [left=0.5cm of rc_branch] {};
+			\node[gate] (l_sg_o) [below=\gateDistance cm of lc_branch] {$\sigma$};
+			\node[gate, draw=none, fill=none] (r_sg_o) [below=\gateDistance cm of rc_branch] {};
+			\node[op] (mul_out) at ($(r_sg_o)!0.3!(rc_branch)$) {$\times$};
+			\node[func] (tanh_out) at ($(rc_branch)!0.5!(mul_out)$) {tanh};
+			\draw[arrow] (add_input) -| (tanh_out);
+			\draw[arrow] (tanh_out) -- (mul_out);
+			\draw[arrow] (z_in) -| (l_sg_o);
+			\draw[arrow] (l_sg_o) |- (mul_out) node[midway, above, blue] {$\mathbf{o}_t$};
+			\draw[arrow] (mul_out) |- (z_out);
+			\draw[arrow] (r_sg_o)++(0.3,-0.9) -| (y_out);
+		\end{tikzpicture}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+		\begin{itemize}[itemsep=3pt]
+			\item \textbf{forget gate} \(\mathbf{f}_t\): \\
+			determina quali termini della long term memory \(\textbf{c}_{t-1}\) devono essere dimenticati
+			\item \textbf{input gate} \(\mathbf{i}_t\): \\
+			determina quali termini della long term memory \(\textbf{c}_{t-1}\) devono essere aggiornati additivamente
+			\item \textbf{output gate} \(\mathbf{o}_t\): \\
+			determina quali termini della long term memory \(\textbf{c}_{t}\) devono essere usati per aggiornare lo stato interno
+			\(\textbf{z}_t\) (anche detto short term memory) e l'output \(\textbf{y}_t\)
+		\end{itemize}
+	\end{minipage}
+\end{center}
+Di seguito le formule che regolano il funzionamento di una LSTM:
+\begin{align*}
+	\text{forget gate}: \quad & \textbf{f}_t = \sigma (\textbf{W}_{z,f} \textbf{z}_{t-1} + \textbf{W}_{x,f} \textbf{x}_t) \\
+	\text{input gate}: \quad & \textbf{i}_t = \sigma (\textbf{W}_{z,i} \textbf{z}_{t-1} + \textbf{W}_{x,i} \textbf{x}_t) \\
+	\text{output gate}: \quad & \textbf{o}_t = \sigma (\textbf{W}_{z,o} \textbf{z}_{t-1} + \textbf{W}_{x,o} \textbf{x}_t) \\
+	\text{cell state}: \quad & \textbf{c}_t = \underbrace{\textbf{c}_{t-1} \odot \textbf{f}_t}_{\text{forget}} + \underbrace{\textbf{i}_t \odot \tanh (\textbf{W}_{z,c} \textbf{z}_{t-1} + \textbf{W}_{x,c} \textbf{x}_t)}_{\text{input}} \\
+	\text{hidden state}: \quad & \textbf{z}_t = \underbrace{\textbf{c}_t \odot \textbf{o}_t}_{\text{output}} \\
+\end{align*}
+
+\subsubsection*{Applicazioni delle LSTM}
+Le LSTM sono utilizzate con successo in molti ambiti, tra cui:
+\begin{itemize}
+	\item \textbf{natural language processing (NPL)}: modellazione del linguaggio, analisi del sentiment, traduzione automatica
+	tra lingue diverse, \dots
+	\item \textbf{time series analysis}: previsione dei mercati azionari, previsione del meteo, \dots 
+	\item \textbf{speech recognition}: trascrizione del linguaggio parlato in testo, \dots
+	\item \textbf{image and video captioning}: generazione di descrizioni testuali per immagini o video, \dots
+	\item \textbf{gesture recognition}: riconoscimento di gesti umani in video, \dots
+	\item \textbf{anomaly detection}: rilevamento di anomalie su dati sequenziali come frodi bancarie, intrusioni nella rete, \dots
+	\item \textbf{handwriting recognition}: riconoscimento di caratteri scritti a mano, \dots
+\end{itemize}
+
+\subsection{Unsupervised learning}
+\subsubsection*{Introduzione all'unsupervised learning}
+L'unsupervised learning è un paradigma di apprendimento automatico in cui il modello viene addestrato su dati non etichettati.
+Il dataset contiene solo input \(\textbf{x}\) senza output associati, e l'obiettivo del modello è quello di scoprire strutture
+nascoste, pattern o rappresentazioni significative nei dati per classificarli, raggrupparli o generare nuovi dati simili a
+quelli di input.
+
+Il vantaggio dell'addestramento di modelli di unsupervised learning è che non richiede di effettuare labeling dei dati nel
+dataset che alcune volte risulta costoso o difficile, né di definire a priori ogni classe o categoria in casi ambigui
+(differenza tra bere e sorseggiare), poiché il modello può scoprire autonomamente le relazioni tra i dati.
+
+Un modello di unsupervised learning è in grado di spiegare grandi dataset di input attraverso poche rappresentazioni in output.
+Il modello non fornisce un nome alle singole etichette o classi, ma ne conosce le proprietà di ognuna.
+
+\subsubsection*{Obiettivi di un modello di unsupervised learning}
+Un modello di unsupervised learning viene utilizzato per diversi scopi, tra cui:
+\begin{itemize}
+	\item \textbf{nuove rappresentazioni}: scoprire le key features dei dati di input che possono essere utilizzate per compiti
+	di classificazione
+	\item \textbf{generative modeling}: generare nuovi dati con le stesse caratteristiche o proprietà dei dati di input, ad
+	esempio per generare nuove immagini, a partire da un dataset di immagini, ricombinando le caratteristiche apprese
+\end{itemize}
+
+\subsubsection*{Autoencoder - AE}
+Gli autoencoder sono una classe di modelli di unsupervised learning composti da una rete neurale divisa in due parti:
+\begin{itemize}
+	\item \textbf{encoder}: insieme di layers collegati all'input, mappa i dati di input \(\textbf{x}\) in uno spazio latente
+	di dimensione inferiore, detto bottleneck, ottenendo una rappresentazione compressa \(\hat{\textbf{z}} = f(\textbf{x})\)
+	contenente solo le features più rilevanti
+	\item \textbf{bottleneck}: hidden layer centrale formato da poche unità, contiene la rappresentazione latente
+	\(\hat{\textbf{z}}\) dei dati di input, con dimensione inferiore rispetto all'input
+	\item \textbf{decoder}: insieme di layers collegati all'output, mappa la rappresentazione latente del bottleneck \(\hat{\textbf{z}}\)
+	di nuovo nello spazio originale dei dati di input, cercando di ricostruire fedelmente i dati di input a partire dalla
+	rappresentazione latente \(\textbf{x} \approx g(\hat{\textbf{z}}) = g(f(\textbf{x}))\)
+\end{itemize}
+L'addestramento di un autoencoder consiste nel minimizzare la differenza tra i dati di input \(\textbf{x}\) e i dati di output
+\(\hat{\textbf{x}} = g(f(\textbf{x}))\). Si nota che i dati di output corrispondono ai dati di input.
+
+\subsubsection*{Linear autoencoders}
+Si definiscono i linear autoencoder come gli autoencoder in cui le due funzioni di compressione e decompressione \(f\) e \(g\)
+sono combinazioni lineari, (trascurando le funzioni di attivazione). Le formule risultano come segue:
+\[\hat{\textbf{z}} = f(\textbf{x}) = \textbf{W} \textbf{x} \qquad\qquad \hat{\textbf{x}} = g(\hat{\textbf{z}}) = \textbf{W}^T \hat{\textbf{z}}\]
+
+\subsubsection*{Separazione di encoder e decoder con applicazioni}
+Lo stadio di encoder e decoder possono essere separati e sfruttarli per compiti diversi e opposti.
+
+Ad esempio, l'\textbf{encoder} può essere utilizzato per dimensionality reduction o feature extraction, ovvero per ridurre
+le dimensioni dei dati di input selezionando solo le features più rilevanti, per migliorarne la visualizzazione, per
+accelerarne i successivi processi di elaborazione o per compiti di classificazione.
+
+Il \textbf{decoder}, invece, può essere utilizzato per ricostruire o generare nuovi dati simili a quelli di input, partendo
+da una rappresentazione latente con dati degradati o incompleti. Ad esempio, il decoder può essere utilizzato per image/audio
+denoising (riduzione del rumore ed aumento della qualità di immagini o audio degradati), image reconstruction (colorazioni
+di immagini, \dots) o anomaly detection (analizzando le differenze tra i dati di input con imperfezioni e i dati di output
+ripuliti dalle imperfezioni).
+
+\subsubsection*{Variational autoencoder - VAE}
+I variational autoencoder sono una particolari di autoencoder più complessi in cui la rappresentazione nel latent space è
+modellata come una distribuzione di probabilità \(P(\textbf{z} \mid \textbf{x})\) (ad esempio gaussiana) e non più come un
+insieme discreto di punti \(\textbf{z}\) nello spazio latente come avveniva negli AE ``classici''.
+
+L'aggiunta dell'aspetto probabilistico permette ai VAE di rappresentare maggiori informazioni con meno parametri, di essere
+più robusti a rumore e di \textbf{generare nuovi dati}. Infatti i VAE sono in grado di costruire nuovi dati campionando punti
+dallo spazio latente secondo la distribuzione appresa quando vengono perturbati da un rumore in ingresso o da dati incompleti.
+I ``deterministic'' autoencoder, invece, non sono in grado di generare nuovi dati, ma solo di ricostruire i dati di input
+partendo da una perfetta rappresentazione latente.
+
+\subsubsection*{Generative adversarial networks - GAN}
+I generative adversarial networks sono una classe di modelli di unsupervised learning composti da due reti neurali in
+costante competizione tra di loro durante l'addestramento:
+\begin{itemize}
+	\item \textbf{generator}: rete neurale che prende in input un vettore di rumore casuale e genera dati sintetici che
+	assomigliano a quelli di input
+	\item \textbf{discriminator}: rete neurale che prende in input sia dati reali (provenienti dal dataset) che dati sintetici
+	costruiti dal generator, e cerca di distinguere tra i due, classificando correttamente i dati reali e quelli sintetici
+\end{itemize}
+
+\subsubsection*{Addestramento di una GAN}
+L'addestramento di una GAN consiste in un processo iterativo in cui il generator cerca di migliorare la qualità dei dati
+sintetici per ingannare il discriminator, mentre il discriminator cerca di migliorare la sua capacità di distinguere tra dati
+reali e sintetici. Durante il training possono verificarsi i seguenti probemi come:
+\begin{itemize}
+	\item \textbf{mode collapse}: il generator converge ad una distribuzione limitata, specializzandosi nella generazione di
+	pochi modi specifici, invece di generare una varietà di dati simili a quelli di input
+	\item \textbf{mode hopping}: come il mode collapse, ma con il generator che alterna tra due o più modi specifici, invece
+	di generare una varietà di dati simili a quelli di input
+\end{itemize}
+Per risolverli si può usare batch size maggiori, discriminatori più potenti, tecniche di regolarizzazione (ad esempio
+riducendo la complessità per migliorare la generalizzazione), \dots
+
+\subsubsection*{Applicazioni delle GAN}
+Esempi di applicazioni delle GAN includono la generazione di contenuti creativi e verosimili come immagini, musica o testo,
+l'upscaling di immagini a bassa risoluzione, la generazione di volti umani realistici (come in
+\href{https://thispersondoesnotexist.com}{https://thispersondoesnotexist.com}), \dots
+
+\newpage
+
+\subsection{Transfer learning}
+\subsubsection*{Introduzione}
+Il trasfer learning è una tecnica di apprendimento automatico in cui un modello addestrato su un compito specifico viene
+riutilizzato come punto di partenza per addestrare un nuovo modello su un compito correlato, ma diverso. In pratica si cerca
+di trasferire la conoscenza acquisita risolvendo un compito ad un altro modello per affrontare un nuovo problema.
+
+\subsubsection*{Esempi}
+Alcuni esempi di transfer learning includono:
+\begin{itemize}
+	\item un pre-addestramento di un modello su ambienti simulati o sintetici, per poi trasferire la conoscenza acquisita su
+	ambienti reali, utilizzando tecniche di domain adaptation per adattare il modello al nuovo dominio; tale processo risulta
+	utile per contenere i costi di produzione se l'addestramento su ambienti reali è costoso o difficile
+	\item un pre-addestramento di base language model per poi trasferire la conoscenza acquisita su compiti specifici per
+	sviluppare modelli esperti in ambito medico o finanziario
+\end{itemize}
+Di solito si utilizzano modelli pre-addestrati popolari per compiti generali, come ad esempio ``ResNet-50'' per il riconoscimento
+di immagini.
+
+\subsubsection*{Addestramento}
+L'addestramento di un modello con transfer learning si dividede in due fasi:
+\begin{itemize}
+	\item \textbf{pre-addestramento}: addestramento del modello per risolvere un compito generale o di base, i primi layers
+	di feature detection (sensibili all'ambiente in cui agisce) vengono temporaneamente disabilitati e ci si concentra
+	sull'addestramento degli hidden layers di alto livello che caratterizzano il processo risolutivo del problema
+	\item \textbf{fine-tuning}: addestramento fine e dettagliato del modello completo (con tutti i layers abilitati)
+	sull'ambiente specifico in cui l'agente dovrà operare per adattare il modello al nuovo dominio e migliorare le
+	sue prestazioni su compiti specifici
+\end{itemize}
+
+\subsection{Language models}
+\subsubsection*{Introduzione ai language models}
+I language models sono modelli probabilistici che descrivono e rappresentano il linguaggio umano. Fino a prima dell'avvento
+delle reti neurali si usavano gli HMMs (basati sulla probabilità). Con la riscoperta delle reti neurali, si sono sviluppati
+modelli di language modeling sempre più complessi e potenti chiamati LLM o large language models che sfruttano per l'appunto
+deep neural networks molto grandi (large). Fanno parte, insieme ai LVM (large vision models) ed altri modelli, della
+categoria di ``generative AI'', ovvero modelli in grado di generare nuovi dati a partire da dati di input.
+
+\subsubsection*{Word embedding and token classification}
+\begin{itemize}
+	\item \textbf{token}: unità di base del linguaggio, che può essere una parola o un simbolo (spazi e punteggiatura), vengono
+	rappresentati come vettori numerici per essere processati dai modelli di language modeling
+	\item \textbf{sentences}: sequenze di token che formano frasi o periodi, rappresentati come sequenze di vettori numerici
+	\item \textbf{vocabulary}: insieme di tutti i token conosciuti dal modello, GPT-2 ad esempio ha un vocabolario di 50.000 token
+	\item \textbf{word encoding}: processo di trasformazione delle parole e dei simboli del linguaggio naturale in numeri
+	o vettori numerici per poter essere processati
+	\item \textbf{word embedding}: classificazione o clustering dei token in spazi di dimensioni inferiori, basandosi sulle
+	relazioni semantiche e sintattiche tra di essi
+\end{itemize}
+
+\subsubsection*{Token prediction and text generation}
+Il processo di token prediction consiste nel costruire una catena di token, partendo da un token di input e prevedendo
+successivamente il token successivo, fino a generare una sequenza di token che formano un testo coerente e significativo.
+L'algoritmo di token prediction può essere schematizzato come segue:
+\begin{enumerate}
+	\item ricezione di un prompt o sentence di input (con annessa word encoding)
+	\item calcolo della distribuzione di probabilità per ogni token del vocabolario \(\textbf{P}(\text{next token} \mid \text{last tokens})\)
+	\item scelta del token successivo secondo determinate strategie (greedy selection, random selection, \dots)
+	\item concatenazione del nuovo token scelto alla sentence in ingresso
+	\item ripetizione del processo dal punto 2, fino a che non viene generato un ``.''
+\end{enumerate}
+
+\subsubsection*{Sequence to sequence model with LSTM}
+Per implementare un language model si possono utilizzare le LSTM, in quanto, grazie alle loro capacità di memoria, permettono di
+comprendere il contesto dei vari token prima di generarne altri coerenti con il contesto. In particolare, si può utilizzare un
+sequence-to-sequence model basato su due reti LSTM (che ``srotolate'' formano una catena o sequenza di LSTM in cascata), in cui:
+\begin{itemize}
+	\item la prima LSTM è detta \textbf{source}, riceve in ingresso i vari token progressivamente ad ogni istante di tempo
+	e ne comprende il contesto e le relazioni tra di essi
+	\item la seconda LSTM è detta \textbf{target}, riceve in input lo stato interno della prima LSTM e genera i token per
+	costruire la sentence di output, coerente con il contesto compreso dalla prima LSTM
+\end{itemize}
+Il problema che si incontra è che le LSTM, a causa della loro struttura di memoria (le RNN rispettano la Markov assumption),
+rischiano di dare maggiore importanza ai token più vicini/recenti e perdono informazioni sui token più lontani, con
+conseguente progressiva perdita di contesto e coerenza nella generazione del testo. Per risolvere questo problema,
+si utilizzano le attention units.
+
+\subsubsection*{Attention units e tecnica del self-attention}
+Le \textbf{attention units} sono componenti aggiuntivi della target LSTM che permettono alla target LSTM di attenzionare
+(catturare il contesto) di determinati layers della source LSTM. In questo modo, la target LSTM ha un contesto più ampio
+e completo, evitando di perdere le informazioni dei token più lontani. In particolare nei LLM sono richieste anche le
+\textbf{self-attention}, ovvero collegamenti tra i vari hidden layers della stessa LSTM. Per implementare le attention
+units e le self-attention, si utilizzano i transformers.
+
+\subsubsection*{Transformers}
+I transformers sono una particolare struttura in grado di implementare le self-attentions. Sono l'elemento fondamentale degli
+LLM come GPT (Generative Pre-trained Transformer). Ogni transformer riceve in input un token e restituisce in output un vettore
+con la probabilità di ciascun token successivo.
+
+\subsubsection*{Struttura a colonne e layers dei transformers}
+I transformers si organizzano in tante colonne verticali con un numero compreso tra 12 e 96 transformers ognuna, che vengono
+affiancate tra di loro in un numero prossimo alla dimensinone del vocabolario (ad esempio 128k). La struttura viene descritta
+attraverso due parametri:
+\begin{itemize}
+	\item \textbf{context width}: numero di colonne affiancate tra di loro, indica la dimensione del contesto che il modello
+	è in grado di catturare
+	\item \textbf{context depth}: numero di transformers per colonna, indica quanto il modello è in grado di astrarre le
+	informazioni del contesto, cioè il livello di astrazione del contesto del modello (i transformers con self-attention
+	implementano concetti simili ai layers convoluzionali con perception-field)
+\end{itemize}
+
+La struttura a colonne è preceduta da un layer di input encoding ed è seguita da un layer di output decoding detto language
+modelling head.
+
+\subsubsection*{Input encoding}
+L'input encoding è un layer che costruisce i vettori di input da passare al transformer block. Ogni elemento del vettore di
+input viene calcolato unendo la parola con il relativo indice di posizione all'interno della sentence.
+
+È possibile che, se il modello utilizza un dataset di training con prompt piccoli, sia condizionato a dare maggiore importanza
+ai token iniziali, trascurando quelli più lontani. Per risolvere questo problema, si potrebbe usare un posizionamento relativo
+in base al contesto implementato anche dagli attentional layers dei transformers.
+
+\subsubsection*{Residual stream all'interno dei transformers}
+La struttura interna di un transformer è definita con il nome di residual stream. In pratica i dati all'interno del transformer
+fluiscono dall'ingresso all'uscita in maniera diretta attraverso uno stream di dati chiamato residual stream. I blocchi del
+transformer lavorano su una copia dei dati dello stream e si limitano soltanto ad aggiungere informazioni additivamente
+nel residual stream, senza sovrascrivere quelle già esistenti. In reti molto profonde (senza residual stream) si rischierebbe
+di perdere informazioni importanti per via del vanishing gradient problem, mentre con questa tecnica le informazioni vengono
+preservate, arricchite e propagate fino all'ultimo transformer.
+
+Un transformer è composto internamente da due layers principali, ciascuno preceduto da un layer di normalizzazione (per
+evitare problemi di vanishing o exploding gradient) e seguito dall'addizionamento dei dati nel residual stream. I due layers
+sono i seguenti:
+\begin{enumerate}
+	\item \textbf{multi head attention layer}: implementa le self-attention, ricevendo in ingresso i dati normalizzati anche
+	delle colonne vicine dello stesso layer, serve per espandere il contesto catturato man mano che si sale lungo la colonna
+	di transformers
+	\item \textbf{feed forward layer}: fully connected 2-layer feed forward network con un hidden layer e un output layer per
+	elaborare e processare i dati prima di passarli al transformer successivo
+\end{enumerate}
+
+\subsubsection*{Language model head}
+Il language model head è un layer di output che riceve in ingresso i dati dell'ultimo transformer della colonna e restituisce
+un vettore con la probabilità di ciascun token successivo. È formato a sua volta da più fasi:
+\begin{itemize}
+	\item \textbf{unembedding layer}: riconverte i dati dell'ultimo transformer al contrario di quanto fatto dall'input encoding
+	utilizzando una matrice di pesi che è la trasposta di quella dell'input encoding, si ottiene così un vettore di logits lungo
+	quanto il vocabolario del modello, che rappresenta in maniera grezza le probabilità di ciascun token successivo
+	\item \textbf{softmax layer}: normalizza i logits in un vettore di probabilità (pseudo-probabilità), in modo da poter
+	interpretare i valori come probabilità di ciascun token successivo
+\end{itemize}
+
+\subsubsection*{Training transformers}
+I transformers vengono addestrati con cross-entropy loss (o meglio negative log-likelihood loss) attraverso l'algoritmo di
+gradient descent e back propagation.
+
+Come visto in precedenza per le cross-entropy loss, il valore della loss per il singolo elemento si calcola usando la
+probabilità che il modello attribuisce al token corretto (più alto è il valore della probabilità, più bassa è la loss).
+La loss totale del modello si calcola come la media della loss di tutti i token previsti. L'obiettivo dell'addestramento
+è di minimizzare la loss media.
+
+\newpage
+
+\subsection{Continual learning}
+\subsubsection*{Catastrofic forgetting problem}
+In un determinato contesto di deep learning, spesso capita di addestrare un modello per lavorare in un certo dominio di
+addestramento, per poi voler estendere la conoscenza rieseguendo un fine tuning su un nuovo dominio di test. Ad esempio
+si effettua un primo addestramento per ambienti indoor e diurni, per poi estendere le capacità del modello su ambienti
+outdoor e notturni. Quando si effettua il re-training del modello sul nuovo dominio, molto spesso la conoscenza acquisita
+durante il primo addestramento sul vecchio dominio viene dimenticata, in favore della nuova conoscenza. La loss rispetto
+al nuovo dominio diminuisce, ma la loss rispetto al vecchio dominio torna ad aumentare. Questo fenomeno è detto catastrofic
+forgetting problem, ed è un problema comune nella gestione di modelli di apprendimento che necessitano di continue evoluzioni.
+
+Il catastrofic forgetting problem, però, può risultare vantaggioso perché permette di soddisfare il ``Right to be forgotten''
+previsto dal GDPR (General Data Protection Regulation) dell'Unione Europea.
+
+\subsubsection*{Continual learning paradigm}
+Il continual learning è un paradigma di apprendimento automatico che mira a risolvere il catastrofic forgetting problem
+permettendo ai modelli di continuare ad eseguire processi di apprendimento e acquisire nuove conoscenze senza dimenticare
+quelle già apprese o senza avere problemi di interferenza in cui il modello confonde le nuove informazioni con quelle vecchie.
+Bisogna trovare il plasticity-stability trade-off, ovvero un equilibrio tra la plasticità del modello (capacità di apprendere
+nuove conoscenze) e la stabilità del modello (capacità di preservare le conoscenze già acquisite).
+
+\subsubsection*{Applicazioni del continual learning}
+Spesso si usa il continual learning quando non si hanno a disposizione subito grandi dataset di training per addestrare un
+modello con tutte le features desiderate, ma i dati arrivano progressivamente nel tempo. L'aumento di conoscenza del modello
+comprende:
+\begin{itemize}
+	\item \textbf{domain incremental}: ovvero l'estensione della conoscenza su nuovi domini, ad esempio estendere le capacità
+	di un modello addestrato su immagini reali, anche su disegni o cartoon-style
+	\item \textbf{task incremental}: ovvero l'aggiunta di nuovi task, ad esempio estendere le capacità di classificazione
+	del modello con nuove classi di oggetti che il modello prima non conosceva
+\end{itemize}
+
+\subsubsection*{Strategie di apprendimento}
+Esistono tre tipi di strategie di apprendimento (che possono essere anche combinate tra di loro) per implementare il
+continual learning:
+\begin{itemize}
+	\item \textbf{architectural strategies}: consistono nel modificare l'architettura del modello originale per adattarla
+	al nuovo dominio o task, ad esempio aggiungendo nuovi layers o aumentandone la dimensione, in modo da aumentare la
+	capacità del modello di apprendere nuove conoscenze senza interferire con quelle già apprese, oppure aggiungendo piccoli
+	modelli modulari in grado di risolvere task specifici
+	\item \textbf{rehearsal strategies}: consistono nel mantenere un piccolo dataset di esempi rappresentativi del vecchio
+	dominio o task e includerlo nel nuovo addestramento, oppure freezare alcuni layers del modello originale per preservare
+	le conoscenze acquisite durante il primo addestramento, senza che vengano sovrascritte durante il re-training
+	\item \textbf{regularization strategies}: consistono nell'aggiungere vincoli su addestramenti succesivi, ad esempio
+	utilizzando la distillazione della conoscenza oppure penalizzando le modifiche ai parametri più importanti per
+	performare correttamente nel vecchio dominio
+\end{itemize}
+
+\subsubsection*{Perché è utile avere algoritmi efficienti di continual learning}
+Dato il continuo evolversi del mondo reale, è importante che i modelli di apprendimento automatico siano in grado di adattarsi e
+aggiornare le proprie conoscenze in modo continuo ed in modo efficiente. Infatti la crescita del numero di parametri delle reti
+neurali sta superando la crescita della memoria all'interno dell'hardware dedicato. Inoltre ad oggi addestrare un modello da zero
+ha un'impronta ecologica estremamente elevata e poco sostenibile.

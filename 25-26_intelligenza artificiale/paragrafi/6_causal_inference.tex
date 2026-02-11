@@ -1,0 +1,474 @@
+\section{Causal inference}
+\subsection{Causality and Simpson's paradox}
+\subsubsection*{Correlazione vs causalità}
+In generale correlazione non implica causalità. Quando si osserva una correlazione tra due variabili \(X \to Y\), non è possibile
+concludere automaticamente che la prima variabile \(X\) è causa dell'altra \(Y\). La correlazione infatti potrebbe essere dovuta
+a una terza variabile \(Z\) che causa sia \(X\) che \(Y\), oppure potrebbe essere una casuale coincidenza statistica.
+
+Alcuni esempi di correlazione senza causalità sono:
+\begin{itemize}
+	\item ``when the rooster crows, the sun rises'': c'è correlazione tra il canto del gallo e l'alba, ma il canto del gallo
+	non causa l'alba, è invece l'alba che causa il canto del gallo
+	\item ``drownings increase with ice cream consmption'': c'è correlazione tra il numero di annegamenti e il consumo di gelato,
+	ma non è il consumo di gelato a causare gli annegamenti, è invece l'estate che causa sia l'aumento del consumo di gelato che
+	l'aumento degli annegamenti
+	\item ``countries with more chocolate consumption have more Nobel laureates'': c'è correlazione statistica tra il consumo di
+	cioccolato e il numero di premi Nobel, ma nessuna delle due variabili causa l'altra
+	\item ``cholesterol concentration is directly proportional to the physical activity of a person'': c'è correlazione tra la
+	concentrazione di colesterolo e l'attività fisica di una persona, ma nessuna delle due è causa dell'altra, è invece l'età che
+	causa sia l'aumento della concentrazione di colesterolo che l'aumento dell'attività fisica svolta
+	\item recommendation systems: un utente che acquista un computer potrebbe essere interessato anche ad un mouse, ma non è
+	detto che un utente che acquista un mouse sia interessato anche a un computer
+\end{itemize}
+
+\subsubsection*{Simpson's paradox}
+Il Simpson's paradox è un fenomeno statistico in cui una tendenza che appare in diversi gruppi di dati scompare o si inverte
+quando i gruppi vengono combinati insieme. Questo paradosso può verificarsi quando c'è una variabile confondente anche detta
+\textbf{confounding variable} che influisce sui dati in modo diverso nei diversi gruppi. In altre parole la confounding variable
+è la causa comune di due o più variabili osservate, e se non viene tenuta in considerazione può portare a conclusioni errate
+sulla relazione causale tra le variabili osservate. Questo aspetto verrà affrontato più avanti.
+
+Un esempio può essere il caso descritto sopra in cui la concentrazione di colesterolo e l'attività fisica di una persona sembrano
+essere in correlazione diretta. Analizzando i dati per fasce di età si scopre, invece, che in realtà c'è correlazione inversa
+tra le due variabili osservate, ovvero più una persona pratica attività fisica più bassa è la sua concentrazione di colesterolo.
+L'età è la variabile confondente, per calcolare effettivamente la relazione tra colesterolo e attività fisica è necessario
+eliminare l'effetto dell'età sull'attività fisica, ad esempio analizzando i dati per fasce di età.
+
+Un altro esempio classico del Simpson's paradox è il caso di valutazione dell'efficacia di un farmaco ad esempio con i dati
+seguenti:
+\begin{center}
+	\begin{tabular}{c|c c}
+		& \textbf{si - farmaco} & \textbf{no - farmaco} \\
+		\midrule
+		\textbf{Uomini} & 81/87 (93\%) & 234/270 (87\%) \\
+		\textbf{Donne} & 192/263 (73\%) & 55/80 (69\%) \\
+		\midrule
+		\textbf{Totale} & 273/350 (78\%) & 289/350 (83\%) \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+Il farmaco sembra essere più efficace sia per gli uomini che per le donne, ma quando si combinano i dati di uomini e donne,
+il farmaco sembra essere meno efficace. Tale paradosso si verifica perché la variabile confondente (in questo caso il genere)
+influisce sui dati in modo diverso nei due gruppi. Ovvero il genere influisce sia sulla probabilità di essere trattati con il
+farmaco che sulla probabilità di guarire. Per calcolare quanto è realmente efficace il farmaco è necessario eliminare l'effetto
+della variabile confondente (genere) sulla probabilità di assumere il farmaco.
+
+\subsection{Structural Causal Model}
+\subsubsection*{Probemi di interpretazione della full joint probability e passaggio ai causal model}
+Analizzando la full joint probability \(P(X_1, X_2, \ldots, X_n)\) di un set di variabili aleatorie \(X_1, X_2, \ldots, X_n\)
+si osserva che tale distribuzione può essere fattorizzata in più modi diversi, ognuno dei quali esprime una certa struttura
+di dipendenza tra le variabili aleatorie. Ciò si verifica perché le correlazioni statistiche sono bidirezionali. Ogni struttura
+di dipendenza può essere rappresentata attraverso una bayesian network diversa, per cui esistono più bayesian network che
+rappresentano in maniera altrettando valida la stessa full joint probability.
+
+Quando si esprimono, invece, le dipendenze tra variabili in termini di relazioni causali unidirezionali, allora è possibile
+identificare una sola struttura di dipendenza tra le variabili, e quindi una sola bayesian network che rappresenta la full joint
+probability. La rete formata si chiama causal model e permette di spiegare come sono generati i dati osservati, e permette di
+effettuare inferenze causali, ovvero di prevedere l'effetto di un intervento su una variabile osservata.
+
+\subsubsection*{Variabili endogene ed esogene, causa e causa diretta}
+\begin{itemize}
+	\item \textbf{variabile esogena}: variabile che non dipende da nessun'altra variabile del modello; le variabili esogene
+	rappresentano variabili esterne non osservate; spesso sono omesse nei grafi se mutualmente indipendenti tra di loro
+	\item \textbf{variabile endogena}: variabile che dipende da almeno un'altra variabile del modello secondo una certa funzione
+	deterministica; le variabili endogene rappresentano variabili osservate influenzate da altre variabili del modello
+	\item \textbf{funzioni di causalità} \(f_X(A,B,\dots)\): descrive il rapporto causale tra una variabile endogena \(X\)
+	e le variabili da cui dipende \(A, B, \dots\); siccome è un rapporto causale, la funzione è unidirezionale e ha senso
+	invertirla (si potrebbe fare matematicamente, ma non ha interpretazione a livello causale)
+	\item \textbf{causa diretta}: una variabile \(X\) si dice causa diretta di una variabile \(Y\) se la sua funzione \(f_Y\)
+	dipende anche dalla variabile \(X\)
+	\item \textbf{causa} (in generale): una variabile \(X\) si dice causa di una variabile \(Y\) se \(X\) è causa diretta
+	di \(Y\) oppure se è causa diretta di una delle cause dirette di \(Y\)
+\end{itemize}
+
+\subsubsection*{Structural Causal Model - SCM}
+Un Structural Causal Model (SCM) è un insieme di variabili esogene \(U\) e variabili endogene \(V\) con un insieme di funzioni
+deterministiche \(F\) che descrivono le relazioni causali tra le variabili. Il tutto può essere rappresentato graficamente
+attraverso un grafo. Ad esempio:
+\[U = \left\{ A, B \right\}, \qquad V = \left\{ C \right\}, \qquad F = \left\{ f_C \right\}\qquad \text{con} \; C = f_C(A,B) = 2A + 3B\]
+
+\subsubsection*{d-separation criterion}
+Il d-separation criterion è un criterio utilizzato per determinare se due variabili \(X\) e \(Y\) sono indipendenti
+condizionatamente a un insieme di variabili \(Z\) in un grafo causale: \(X \indep Y \mid Z\)
+
+Due variabili \(X\) e \(Y\) sono d-separated condizionatamente ad un insieme di variabili \(Z\) se e solo se tutti i percorsi \(p\)
+tra le due variabili soddisfano almeno una delle seguenti condizioni:
+\begin{itemize}
+	\item \(p\) contiene una chain \(A \to B \to C\) o un fork \(A \leftarrow B \to C\) tale che il nodo \(B\) è in \(Z\)
+	\item \(p\) contiene un collider \(A \to B \leftarrow C\) tale che il nodo \(B\) e i suoi discendenti non sono in \(Z\)
+\end{itemize}
+
+\newpage
+
+\subsection{Interventions}
+\subsubsection*{Variabile confounder o causa comune}
+\begin{center}
+	\begin{minipage}{0.68\textwidth}
+		In alcuni casi si potrebbero avere due variabili \(X\) causa diretta di \(Y\) che sono a loro volta causate da \(Z\)
+		come riportato nel grafo a destra. \(Z\) è causa comune sia di \(X\) che di \(Y\) ed è anche detta confounder.
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{tikzpicture}[
+			var/.style={circle, draw=black, thick, minimum size=0.8cm, fill=white},
+			arrow/.style={-{Stealth[scale=1.2]}, thick},
+			node distance=1.5cm]
+			% nodi
+			\node[var] (Z) {\(Z\)};
+			\node[var] (X) [below left of=Z] {\(X\)};
+			\node[var] (Y) [below right of=Z] {\(Y\)};
+			% archi
+			\draw[arrow] (Z) -- (X);
+			\draw[arrow] (Z) -- (Y);
+			\draw[arrow] (X) -- (Y);
+		\end{tikzpicture}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Osservazione}
+Quando si vuole osservare come si distribuisce la variabile \(Y\) quando la variabile \(X\) assume un certo valore, si calcola
+la probabilità condizionata \(P(Y \mid X)\) applicando le opportune regole di marginalizzazione, di fattorizzazione e di Bayes
+(\(\textbf{P}(X)\) si può portare dentro la sommatoria perché non dipende da \(Z\)):
+\[\textbf{P}(Y \mid X) = \frac{\sum_{Z} \textbf{P}(Y, \, X, \, Z)}{\textbf{P}(X)} = \frac{\sum_{Z} \textbf{P}(Y \mid X, \, Z) \textbf{P}(X \mid Z) \textbf{P}(Z)}{\textbf{P}(X)} = \sum_{Z} \textbf{P}(Y \mid X, \, Z) \frac{\textbf{P}(X \mid Z) \textbf{P}(Z)}{\textbf{P}(X)} = \dots\]
+\[\textbf{P}(Y \mid X) = \sum_{Z} \textbf{P}(Y \mid X, \, Z) \textbf{P}(Z \mid X)\]
+
+\subsubsection*{Dall'osservazione all'intervento}
+Tale probabilità condizionata indica le frequenze con cui \(Y\) assume ogni suo valore quando \(X\) assume un certo valore ed è
+basata sui dati utilizzati per costruire la rete. Ciò significa che se nel dataset, per una specifica istanza dell'ambiente,
+osservo il valore di \(X\), allora posso stimare quale sarà la distribuzione di \(Y\) quando \(X\) assume quel valore.
+
+Tuttavia, tale distribuzione non rappresenta specificatamente l'effetto causale di \(X\) su \(Y\) perché il valore di \(X\)
+è influenzato da \(Z\). Ciò significa che quando si osserva (o condiziona) un certo valore di \(X\), si sta indirettamente
+vincolando i valori che \(Z\) può assumere siccome \(Z\) ha causato \(X\). Nel calcolo della probabilità condizionata, infatti,
+compare un fattore di peso \(\textbf{P}(Z \mid X)\) che rappresenta il vincolo che si impone a \(Z\) sapendo che \(X\) assume
+un certo valore.
+
+Inolte, vincolando i valori di \(Z\), l'effetto di \(Z\) su \(Y\) non è più generale, ma dipende dal valore osservato di \(X\).
+Se ad esempio \(Z\) è il genere di una persona, \(X\) è la probabilità di essere trattati con un farmaco e \(Y\) è la probabilità
+di guarire, allora quando si osserva un certo valore di \(X\) (ad esempio essere trattati con il farmaco), si sta indirettamente
+alterando la distribuzione di \(Z\) siccome le donne sono più propense ad essere trattate con il farmaco rispetto agli uomini.
+Ciò significa che la probabilità di guarire \(Y\) in generale tiene conto maggiormente di come le donne rispondono al farmaco
+rispetto a come rispondono gli uomini, ovvero tiene conto sia dell'effetto diretto di \(X\) su \(Y\) che dell'effetto indiretto
+di \(Z\) su \(Y\) attraverso \(X\).
+
+\begin{center}
+	\begin{minipage}{0.68\textwidth}
+		Quando si vuole calcolare l'effetto causale di \(X\) su \(Y\) è necessario eliminare l'effetto indiretto di \(Z\) su \(Y\)
+		attraverso \(X\) e per farlo è necessario intervenire sul grafo eliminando tutte le dipendenze che \(X\) ha con le altre
+		variabili del modello. Ciò significa alterare il grafo come riportato a destra.
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\begin{tikzpicture}[
+			var/.style={circle, draw=black, thick, minimum size=0.8cm, fill=white},
+			arrow/.style={-{Stealth[scale=1.2]}, thick},
+			node distance=1.5cm]
+			% nodi
+			\node[var] (Z) {\(Z\)};
+			\node[var] (X) [below left of=Z] {\(X\)};
+			\node[var] (Y) [below right of=Z] {\(Y\)};
+			% archi
+			\draw[arrow, color=black!35] (Z) -- (X) node[midway] (taglio) {};
+			\draw[arrow] (Z) -- (Y);
+			\draw[arrow] (X) -- (Y);
+			\draw[red, ultra thick] ($(taglio)+(-0.2,-0.15)$) -- ($(taglio)+(0.2,0.15)$);
+    		\draw[red, ultra thick] ($(taglio)+(-0.2,0.15)$) -- ($(taglio)+(0.2,-0.15)$);
+		\end{tikzpicture}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Intervento}
+Quando si vuole calcolare come si distribuisce \(Y\) quando si impone un certo valore a \(X\) (cioè intervenendo su \(X\),
+eliminando tutte le dipendenze che \(X\) ha con le altre variabili del modello), si calcola la probabilità condizionata
+\(\textbf{P}(Y \mid do(X))\) applicando le opportune regole di marginalizzazione, di fattorizzazione e di Bayes, ottenendo
+la formula di back-door adjustment o adjustment formula:
+\[\textbf{P}(Y \mid X) = \frac{\sum_{Z} \textbf{P}(Y, \, X, \, Z)}{\textbf{P}(X)} = \frac{\sum_{Z} \textbf{P}(Y \mid X, \, Z) \textbf{P}(X) \textbf{P}(Z)}{\textbf{P}(X)} = \sum_{Z} \textbf{P}(Y \mid X, \, Z) \frac{\textbf{P}(X) \textbf{P}(Z)}{\textbf{P}(X)} = \dots\]
+\[\textbf{P}(Y \mid do(X)) = \sum_{Z} \textbf{P}(Y \mid X, \, Z) \textbf{P}(Z)\]
+Per indicare che si sta intervenendo su \(X\) e non semplicemente osservando \(X\), si utilizza la notazione do-operator
+\(do(X)\). Si nota per l'appunto che il fattore di peso \(\textbf{P}(Z)\), ora non dipende più da \(X\) come invece accadeva
+prima, proprio perché è stata eliminata la dipendenza tra \(X\) e \(Z\) intervenendo su \(X\).
+
+\subsubsection*{Average Causal Effect - ACE}
+L'average Causal Effect (ACE) o causal effect difference è una misura di quanto il risultato di una variabile \(Y\) cambia
+in funzione di un intervento su una variabile \(X\). In particolare, l'ACE è definito come la differenza tra la probabilità
+di \(Y\) quando si interviene su \(X\) imponendo un certo valore e la probabilità di \(Y\) quando si interviene su \(X\).
+\[\text{ACE} = P(Y = y \mid do(X)) - P(Y = y \mid do(\neg X))\]
+
+Ad esempio applicando la formula di back-door adjustment e calcolando l'ACE per il caso del farmaco, si ottiene un valore di
+ACE postivo \(\approx 5\%\) cioè significa che assumere il farmaco aumenta la probabilità di guarire del 5\% rispetto a non
+assumere il farmaco.
+\begin{align*}
+	P(Y = 1 \mid do(X = 1)) &= \sum_{Z} P(Y \! = \! 1 \mid X \! = \! 1, \, Z) P(Z) \\
+	&= P(Y \! = \! 1 \mid X \! = \! 1, \, Z \! = \! 0) P(Z \! = \! 0) + P(Y \! = \! 1 \mid X \! = \! 1, \, Z \! = \! 1) P(Z \! = \! 1) \\
+	&= 0.93 \cdot 0.51 + 0.73 \cdot 0.49 = 0.832 \\
+	\\
+	P(Y = 1 \mid do(X = 0)) &= \sum_{Z} P(Y \! = \! 1 \mid X \! = \! 0, \,Z) P(Z) \\
+	&= P(Y \! = \! 1 \mid X \! = \! 0, \, Z \! = \! 0) P(Z \! = \! 0) + P(Y \! = \! 1 \mid X \! = \! 0, \, Z \! = \! 1) P(Z \! = \! 1) \\
+	&= 0.87 \cdot 0.51 + 0.69 \cdot 0.49 = 0.7818
+\end{align*}
+\[\text{ACE} = P(Y \! = \! 1 \mid do(X \! = \! 1)) - P(Y \! = \! 1 \mid do(X \! = \! 0)) = 0.832 - 0.7818 = 0.0502 \approx 5\%\]
+
+\subsection{Backdoor adjustment formula}
+\subsubsection*{Backdoor path}
+Un backdoor path è qualsiasi percorso tra due variabili \(X\) e \(Y\) che inizia con un arco entrante in \(X\). Un backdoor path
+può essere naturalmente bloccato se contiene un collider oppure può essere bloccato condizionando sui nodi che costituiscono
+catene o fork. 
+
+\subsubsection*{Backdoor criterion}
+Un insieme di variabili \(S\) soddisfa il backdoor criterion se:
+\begin{itemize}
+	\item blocca qualsiasi backdoor path tra \(X\) e \(Y\)
+	\item non contiene nessun discendente di \(X\)
+\end{itemize}
+Eventualmente, \(S = \varnothing\) se tutti i backdoor path sono naturalmente bloccati per opera di collider. Inoltre si nota
+che se c'è un collider \(A \to B \leftarrow C\) che blocca un backdoor path tra \(X\) e \(Y\), allora non si può condizionare
+solo su \(B\) perché \(A\) e \(C\) diventano dipendenti e il backdoor path non è più bloccato.
+
+\subsubsection*{Adjustment formula with backdoor criterion}
+Se un insieme di variabili \(S\) soddisfa il backdoor criterion, allora è possibile calcolare la probabilità condizionata
+\(\textbf{P}(Y \mid do(X))\) con la adjustment formula generalizzata come segue:
+\[\textbf{P}(Y \mid do(X)) = \sum_{S} \textbf{P}(Y \mid X, \, S) \textbf{P}(S)\]
+
+\subsubsection*{Model check with backdoor criterion}
+Nel caso in cui si abbia un modello causale in cui esistano più set \(S\) che soddisfano il backdoor criterion, allora è
+possibile calcolare più stime di \(\textbf{P}(Y \mid do(X))\) con la adjustment formula generalizzata. Se una delle stime
+differisce dalle altre, allora è possibile concludere che il modello causale è errato.
+
+\subsection{Unobserved confounders and front-door adjustment formula}
+\subsubsection*{Unobserved confounders}
+Alcune volte potrebbero esserci dei confounder non osservabili e di cui non si conosce nemmeno l'esistenza. In questi casi,
+non è possibile calcolare la probabilità condizionata \(\textbf{P}(Y \mid do(X))\) con la adjustment formula generalizzata
+perché non si conosce l'insieme di variabili \(S\) che soddisfa il backdoor criterion.
+
+È possibile, però, che ci siano altre variabili osservabili \(Z\) comprese tra \(X\) e \(Y\), per cui è possibile applicare
+il backdoor criterion ripetutamente tra \(X\) e \(Z\) e tra \(Z\) e \(Y\). In questo modo è possibile calcolare le probabilità
+condizionate \(\textbf{P}(Z \mid do(X))\) e \(\textbf{P}(Y \mid do(Z))\) per poi calcolare la probabilità condizionata
+\(\textbf{P}(Y \mid do(X))\) combinando le due appena calcolate.
+\[\textbf{P}(Z \mid do(X)) = \textbf{P}(Z \mid X) \;\; \text{per collider} \; U \to Y \leftarrow Z\qquad \textbf{P}(Y \mid do(Z)) = \sum_{X} \textbf{P}(Y \mid Z, X) \textbf{P}(X)\]
+\begin{align*}
+	\textbf{P}(Y \mid do(X)) &= \sum_{Z} \textbf{P}(Y \mid do(Z)) \textbf{P}(Z \mid do(X)) = \\
+	&= \sum_{Z} \left( \sum_{X'} \textbf{P}(Y \mid Z, X') \textbf{P}(X') \right) \textbf{P}(Z \mid X) = \\
+	&= \sum_{Z} \textbf{P}(Z \mid X) \sum_{X'} \textbf{P}(Y \mid Z, X') \textbf{P}(X') \qquad\qquad \text{front-door adjustment formula}
+\end{align*}
+
+\subsubsection*{Front-door criterion}
+Un insieme di variabili \(S\) soddisfa il front-door criterion se:
+\begin{itemize}
+	\item \(S\) blocca ogni percorso diretto da \(X\) a \(Y\)
+	\item ogni backdoor path da \(X\) a \(S\) è bloccato
+	\item ogni backdoor path da \(S\) a \(Y\) è bloccato condizionando su \(X\)
+\end{itemize}
+
+\subsubsection*{Front-door adjustment}
+Se un insieme di variabili \(S\) soddisfa il front-door criterion, allora è possibile calcolare la probabilità condizionata
+\(\textbf{P}(Y \mid do(X))\) con la front-door adjustment formula come segue:
+\[\textbf{P}(Y \mid do(X)) = \sum_{S} \textbf{P}(S \mid X) \sum_{X'} \textbf{P}(Y \mid S, X') \textbf{P}(X')\]
+
+\newpage
+
+\subsection{Counterfactuals}
+\subsubsection*{Controlled direct effect - CDE}
+Il controlled direct effect (CDE) è una misura dell'effetto diretto di una variabile \(X\) su una variabile \(Y\) quando si
+modifica il valore di \(X\) (da \(x\) a \(x'\)) e si impone un certo valore \(z\) a una variabile \(Z\) che media l'effetto
+di \(X\) su \(Y\). Il risultato dipende sia dal valore \(z\), sia dalla coppia di valori \(x, x'\). Non è una proprietà della
+rete costante per qualsiasi valore, ma una misura per certi valori.
+
+In particolare, il CDE si calcola come la differenza tra la probabilità di \(Y\) quando si interviene su \(X\) imponendo un
+certo valore \(x\) e la stessa probabilità quando si interviene su \(X\) imponendo un altro valore \(x'\), mantenendo fisso
+il valore \(z\) della variabile mediatrice \(Z\).
+\[\text{CDE}(x, x',z) = P(Y = y \mid do(X = x), do(Z = z)) - P(Y = y \mid do(X = x'), do(Z = z))\]
+
+Imponendo un certo valore \(z\) alla variabile mediatrice \(Z\), si elimina l'effetto indiretto di \(X\) su \(Y\) attraverso
+\(Z\), e si misura solo l'effetto diretto di \(X\) su \(Y\). Se ci sono più variabili mediatici, o in generale più percorsi
+non diretti da \(X\) a \(Y\), allora è necessario imporre un certo valore a tutte le variabili mediatici o bloccare tali
+percorsi in altro modo per misurare solo l'effetto diretto di \(X\) su \(Y\). Per questo scopo si formula il generalized
+controlled direct effect.
+
+\subsubsection*{Generalized controlled direct effect}
+Il generalized controlled direct effect (GCDE) è una misura dell'effetto diretto di una variabile \(X\) su una variabile \(Y\)
+quando si modifica il valore di \(X\) (da \(x\) a \(x'\)), bloccando tutti i percorsi non diretti da \(X\) a \(Y\) attraverso
+altre variabili. È possibile calcolare il CDE per una rete generale se:
+\begin{itemize}
+	\item \(\exists \; \textbf{S}_1\) che blocca ogni backdoor path da \(Z\) a \(Y\)
+	\item \(\exists \; \textbf{S}_2\) che blocca ogni backdoor path da \(X\) a \(Y\) dopo aver rimosso ogni arco entrante
+	in \(Z\) (per il punto precedente)
+\end{itemize}
+In questo caso, si può definire \(\textbf{S} = \left\{ \textbf{S}_1, \textbf{S}_2 \right\}\), allora il CDE si calcola come segue:
+\[\text{CDE}(x, x') = \sum_{\textbf{s} \in \textbf{S}} P(Y = y \mid x, z, s) P(\textbf{S} = \textbf{s}) - \sum_{\textbf{s} \in \textbf{S}} P(Y = y \mid x', z, s) P(\textbf{S} = \textbf{s})\]
+dopo aver definito \(P(y \mid do(x), do(z)) = \sum_{\textbf{s} \in \textbf{S}} P(Y = y \mid x, z, s) P(\textbf{S} = \textbf{s})\)
+
+\subsubsection*{Definizione di counterfactuals}
+Un counterfactual è una proposizione ipotetica che descrive cosa sarebbe successo se una certa variabile \(X\) avesse assunto
+un certo valore \(x'\) in un dato contesto passato, quando invece \(X\) ha assunto un altro valore \(x\). In pratica consiste
+nel chiedersi cosa sarebbe successo se si avesse fatto una scelta diversa in passato, conoscendo cosa è successo realmente.
+
+Per indicare che \(Y\) sarebbe stata \(y\) (conseguenza) se \(X\) fosse stata \(x'\) (condizione), nel caso particolare in
+cui si è verifica l'evidenza \(e\), si utilizza la notazione a pedice (potential outcome) come segue:
+\[Y_{X = x'}(e) = y\]
+
+I counterfactuals sono definiti a livello individuale di singolo evento. Indicano il risultato deterministico di un evento
+in determinate situazioni e non sono delle probabilità. Per essere calcolati, i counterfactuals richiedono la conoscenza
+di tutte le funzioni di causalità del modello, ovvero richiedono un SCM.
+
+\subsubsection*{Calcolo deterministico del counterfactual}
+Il calcolo deterministico del counterfactual \(Y_{X = x'}(e)\) si effettua in tre passi:
+\begin{itemize}
+	\item conoscendo l'evidenza \(e\), ovvero la situazione reale che si è verificata, si calcolano tutti i parametri della SCM
+	compresi i parametri esogeni \(U\) omessi nei grafi
+	\item si modifica la SCM intervenendo su \(X\) e imponendo il valore \(x'\) sulla variabile \(X\) (intervenire consiste
+	nell'eliminare tutte le dipendenze che \(X\) ha con le altre variabili del modello)
+	\item si calcola il valore di \(Y\) con la nuova SCM modificata mantenendo fissi tutti gli altri parametri calcolati
+	al primo passo, escuso il valore imposto a \(X\) 
+\end{itemize}
+
+\subsubsection*{Probabilità di un counterfactual - pre-intervention e post-intervention}
+Per passare da un counterfactual a un intervention, è necessario calcolare la probabilità del counterfactual:
+\[\textbf{P}(Y_x) \equiv \textbf{P}(Y \mid do(X = x'))\]
+Quando si vuole imporre anche l'evidenza \(E = e\) che è stata osservata, serve fare maggiore attenzione:
+\[\textbf{P}(Y_{x} \mid E = e) \not\equiv \textbf{P}(Y \mid do(X = x), E = e)\]
+nel primo caso si sta effettuando prima l'intervento su \(X\) e poi si sta imponendo l'evidenza \(E = e\), mentre nel secondo
+caso si sta prima imponendo \(E = e\) e poi si sta effettuando l'intervento su \(X\). 
+
+\subsubsection*{Calcolo probabilistico dei counterfactuals}
+Il calcolo probabilistico dei counterfactuals \(P(Y_x \mid E = e)\) si effettua in tre passi:
+\begin{itemize}
+	\item \textbf{abduction}: aggiornare la distribuzione di probabilità \(\textbf{P}(U)\) sapendo che è avvenuto un certo
+	evento \(E = e\), ovvero calcolare la distribuzione di probabilità \(\textbf{P}(U \mid E = e)\)
+	\item \textbf{action} o invtervention: modificare la SCM intervenendo su \(X\) (eliminandone le dipendenze) e imponendo
+	il valore \(x\), ovvero l'azione che si sarebbe voluto fare in passato
+	\item \textbf{prediction}: usando il modello modificato, è possibile calcolare la probabilità del counterfactual
+	\(P(Y_x = y \mid E = e) = \sum_{u} P(U = u \mid E = e)\) per tutti i valori di \(u\) che soddisfano \(Y_x(u) = y\),
+	sfruttando le probabilità \(\textbf{P}(U \mid E = e)\) calcolate al primo passo
+\end{itemize}
+
+\subsection{Linear SCM e Linear Gaussian models}
+\subsubsection*{Linear SCM - direct effects e total causal effects}
+Un linear SCM è un SCM in cui tutte le funzioni di causalità sono funzioni lineari. I coefficienti di causalità che compaiono
+nelle funzioni di causalità indicano gli effetti diretti tra variabili endogene.
+
+In particolare:
+\begin{itemize}
+	\item il \textbf{direct effect} di una variabile \(X\) su una variabile \(Y\) è rappresentato dal coefficiente di
+	causalità associato alla variabile \(X\) nella funzione di causalità di \(Y\).
+	\item il \textbf{total causal effect} di una variabile \(X\) su una variabile \(Y\) è rappresentato dalla somma degli effetti di tutti
+	i percorsi da \(X\) a \(Y\) calcolati moltiplicando i coefficienti di causalità che compaiono nelle funzioni di causalità
+	lungo ogni percorso.
+\end{itemize}
+
+\subsubsection*{Linear Gaussian models}
+Un linear Gaussian model è un linear SCM in cui tutte le variabili esogene sono variabili aleatorie continue con distribuzione
+normale (gaussiana). Per un linear Gaussian model valgono le seguenti proprietà:
+\[1. \quad X \indep Y \mid Z  \Rightarrow \left< \begin{array}{l}
+	P(Y \mid X, Z) = P(Y \mid Z) \\[4pt]
+	E[Y \mid X, Z] = E[Y \mid Z]
+\end{array} \right. \qquad\qquad 2. \quad \begin{aligned}
+	\hat{Y} &= E[Y \mid X_1, X_2, \dots, X_n] \\[4pt]
+	&= r_0 + r_1 X_1 + r_2 X_2 + \dots + r_n X_n
+\end{aligned}\]
+Dove i coefficienti \(r_1, r_2, \dots, r_n\) sono detti partial regression coefficients e rappresentano una retta/iperpiano
+che approssima al meglio la distribuzione dei dati, minimizzando la somma dei quadrati degli errori. Per calcolarli si
+ricorrono algoritmi iterativi come ad esempio l'algoritmo di gradient descent.
+
+Si osserva che i coefficienti di regressione delle variabili endogene, ``regrediti'' sulle variabili genitori, rappresentano
+i coefficienti di causalità tra le variabili endogene. Inoltre il primo termine \(r_0\) determina l'effetto delle variabili
+esogene sulla variabile endogena.
+
+\subsubsection*{Calcolo dei causal effects con i linear Gaussian models}
+Dato un linear Gaussian model, è quindi possibile calcolare facilmente i direct effects e i total causal effects tra variabili
+endogene, semplicemente facendo regressione lineare dei dati del dataset tra le variabili endogene e i loro genitori. 
+
+\subsection{Causal discovery and PC algorithm}
+\subsubsection*{Causal discovery and constraint-based methods}
+Il processo di causal discovery consiste nell'identificare la struttura causale che meglio rappresenta i dati osservati. Per
+farlo, si possono utilizzare diversi approcci, tra cui i constraint-based methods. Tali metodi si basano sulla misura delle
+dipendenze e indipendenze condizionate tra le variabili osservate per identificare la struttura causale del grafo.
+Alcuni esempi di constraint-based methods sono
+\begin{itemize}
+	\item Peter Spirtes and Clark Glymour (PC) algorithm
+	\item Fast Causal Inference (FCI) algorithm
+	\item Greedy Equivalent Search (GES) algorithm
+\end{itemize} 
+
+\subsubsection*{PC algorithm assumptions}
+Il PC algorithm ha quattro assunzioni fondamentali:
+\begin{enumerate}
+	\item \textbf{acyclicity}: la struttura causale non contiene cicli
+	\item \textbf{causal sufficiency}: non ci sono confounder non osservati
+	\item \textbf{causal Markov condition}: variabili che soddisfano il d-separation criterion nel grafo, hanno distribuzioni
+	indipendenti condizionate nel dataset
+	\item \textbf{faithfulness}: opposto alla causal Markov condition, se due variabili sono indipendenti condizionate su un
+	insieme di altre variabili nel dataset allora sono d-separated nel grafo
+\end{enumerate}
+
+\subsubsection*{Markov equivalent class and colliders}
+Si osserva che le chain \(A \to B \to C\), \(C \to B \to A\) e la fork \(A \leftarrow B \to C\) implicano tutte la stessa
+indipendenza condizionata \(A \indep C \mid B\). Si dice che fanno parte della stessa Markov equivalence class (MEC),
+e risultano indistinguibili. Per questo motivo il PC algorithm utilizza i colliders per orientare gli archi del grafo
+in quanto \(A \to B \leftarrow C\) implica \(A \indep C\), \(A \not \indep C \mid B\).
+
+\subsubsection*{PC algorithm structure}
+Il PC algorithm è composto da quattro fasi:
+\begin{enumerate}
+	\item si parte da un \textbf{fully connected undirected graph}, ovvero un grafo in cui ogni coppia di variabili
+	è connessa da un arco non orientato
+	\item si identifica lo \textbf{skeleton del grafo}, ovvero si eliminano gli archi tra le variabili \(X\) e \(Y\)
+	che risultano indipendenti condizionate \(X \indep Y \mid S\) su un certo insieme di variabili \(S\); consiste
+	in un classico test statistico come Fisher Z-test o BIC difference; in generale si parte con \(S = \varnothing\)
+	e si aumenta gradualmente la dimensione di \(S\) aggiungendo sempre più variabili fino a soddisfare la condizione
+	di indipendenza, se tale condizione non si soddisfa mai, allora le due variabili sono dipendenti e si mantiene
+	l'arco tra \(X\) e \(Y\)
+	\item si \textbf{orientano gli archi dei colliders}, ovvero le coppie di variabili \(X\) e \(Y\) che hanno
+	\(S = \varnothing\) in quanto formano un collider \(X \to Z \leftarrow Y\) con altre variabili \(Z\), le
+	altre coppie di variabili \(X\) e \(Y\) che hanno \(S \neq \varnothing\) fanno parte della stessa MEC e non
+	possono essere orientate in quanto indistinguibili
+	\item si \textbf{orientano gli altri archi} propagando l'orientamento dei colliders, ad esempio ci sono partially
+	directed path \(X \to Z - Y\) e non c'è nessun collegamento tra \(X\) e \(Y\), allora si orienta \(Z \to Y\) per
+	non creare un collider \(X \to Z \leftarrow Y\) (che altrimenti sarebbe stato identificato al punto precedente)
+\end{enumerate}
+
+\newpage
+
+\subsection{Causal discovery for time series data}
+\subsubsection*{Time invariant data and time series data}
+Gli algoritmi di PC e FCI sono stati progettati per dataset time-invariant, ovvero datasetsenza correlazione temporale
+tra i samples. I dataset di questo tipo non hanno un ordine temporale, per cui è possibile scambiare i samples senza
+alterare la distribuzione dei dati.
+
+Alcuni dataset, però, possono essere time-series o time-dependent, ovvero i samples hanno una dipendenza/correlazione
+temporale tra di loro. In questi casi gli algoritmi di PC e FCI non sono adatti in quanto non tengono conto di tale
+correlazione temporale.
+
+\subsubsection*{PCMCI algorithm}
+Il PCMCI algorithm è un algoritmo di causal discovery progettato per time-series data. È basato sempre sulla causal discovery
+di un grafo causale, ma il grafo causale è ottenuto replicando le variabili del dataset per certo numero di time step indietro
+fino a \(t-\tau\) (con \(\tau\) massimo delay considerato). La rete è ottenuta con lo stesso principio dei grafi degli HMMs.
+In questo modo è possibile esprimere come le variabili di un certo time step influenzano le variabili dei time step successivi.
+
+Si divide in due fasi:
+\begin{itemize}
+	\item \textbf{PC algorithm}: si applica il PC algorithm per identificare soltanto lagged dependences, ovvero le dipendenze
+	tra le variabili a diversi time step
+	\item \textbf{Momentary Conditional Independence (MCI) test}: si applica un test di indipendenza condizionata per effettuare
+	false positive rate optimization control
+\end{itemize}
+
+\subsubsection*{F-PCMCI algorithm}
+Il F-PCMCI algorithm è un algoritmo basato sul PCMCI algorithm, ma ottmizzato per la robotica. In particolare, prima di applicare
+il PCMCI algorithm, viene applicato un filtro (Transfer Entropy-based filter) per eliminare le variabili irrilevanti. In questo
+modo si riduce la complessità computazionale, migliorando sia i tempi di esecuzione, sia la qualità del grafo causale identificato.
+
+\subsubsection*{CanDOIT algorithm}
+Il CanDOIT algorithm (Causal Discovery with Observational and Interventional Time-series data) è un algoritmo di causal discovery
+che si basa sull'idea di combinare dati osservazionali e dati interventional per effettuare causal discovery sul grafo ottenuto
+da un precedente algoritmo come F-PCMCI o L-PCMCI (più permmissivo dell'F-PCMCI). In questo modo, quando si hanno unobservable
+confounders che generano confusione all'L-PCMCI, si sfruttano le intervention per identificare correttamente il grafo causale,
+aggiungendo eventualmente variabili esogene (per rispettare la faithfullness).
+
+\subsubsection*{ROS-Causal}
+Il ROS-Causal (Robot Operating System for Causal Discovery) è un framework software per la robotica che comprende una serie
+di sensori, attuatori e algoritmi di causal discovery come F-PCMCI e CAnDOIT. È possibile integrare ROS-Causal all'interno
+di robot che operano in ambienti dinamici, complessi e multiagente.
+In particolare, attraverso CAnDOIT, possono effettuare causal discovery in tempo reale, combinando dati osservazionali e dati
+interventional, per identificare la struttura causale dell'ambiente. In questo modo, possono adattare il loro comportamento
+in base alle osservazioni dell'ambiente, degli altri agenti e dei risultati delle loro azioni, migliorando la loro capacità
+di prendere decisioni informate e di interagire efficacemente con l'ambiente circostante.

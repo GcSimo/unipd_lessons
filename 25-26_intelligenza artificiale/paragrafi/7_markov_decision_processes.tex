@@ -1,0 +1,266 @@
+\section{Markov decision processes}
+\subsection{Utility, policy and Markov models}
+\subsubsection*{Sequential decision problem}
+Un sequential decision problem è un problema in cui un agente deve prendere una serie di decisioni nel tempo su quale strada
+percorrere lungo una catena di Markov.
+
+\subsubsection*{Utility}
+L'utilità è una funzione \(U(s)\) che assegna un valore numerico a ogni possibile stato \(s\) del mondo. Rappresenta una misura
+di quanto è conveniente e desiderabile per l'agente essere in quello stato, immaginando che poi compierà sempre la scelta migliore
+possibile fino al raggiungimento dell'obiettivo. Di solito l'utilità viene normalizzata tra 0 e 1.
+
+\subsubsection*{Expected utility}
+L'expected utility \(EU(a)\) di un'azione \(a\) è la media pesata delle utilità degli stati raggiunti dopo aver compiuto l'azione
+pesata per l'utilità di ogni stato raggiunto. L'agente sceglie l'azione che massimizza l'expected utility.
+\[EU(a) = \sum_{s'} P(\textit{\footnotesize RESULT}\,(a) = s') \cdot U(s')\]
+
+\subsubsection*{Policy}
+Una policy è una sequenza di azioni che un agente deve compiere per massimizzare la propria utilità. In un sequential decision
+problem viene anche detta Markov decision policy. Di solito si calcola semplificando il problema ricorsivamente in problemi più
+semplici, per poi riassemblare la soluzione finale.
+
+\subsubsection*{Markov models}
+Un Markov model è un modello che soddisfa la proprietà di Markov, ovvero che uno stato \(s\) dipende soltanto dallo stato
+precedente. Esistono 4 classi di Markov model principali:
+\begin{center}
+	\begin{tabular}{c | c | c}
+		& \textbf{passive} (observation only) & \textbf{active} (possible actions) \\
+		\midrule
+		\multirow{2}{*}{\textbf{fully observable}} & \textbf{MC} & \textbf{MDP} \\
+		&\small Markov Chain & \small Markov Decision Process \\
+		\midrule
+		\multirow{2}{*}{\textbf{partially observable}} & \textbf{HMM} & \textbf{POMDP} \\
+		& \small Hidden Markov Model & \small Partially Observable Markov Decision Process \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+In base alla combinazione delle due caratteristiche si ottiene un modello diverso, con le seguenti proprietà:
+\begin{itemize}
+	\item i modelli della prima colonna sono passivi, ovvero l'agente non può compiere azioni o in generale le azioni
+	che compie non influenzano l'evoluzione dell'ambiente
+	\item i modelli della seconda colonna sono attivi, ovvero l'agente può compiere azioni che influenzano l'evoluzione
+	dell'ambiente
+	\item i modelli della prima riga sono fully observable, ovvero l'agente è onniscente
+	\item i modelli della seconda riga sono partially observable, ovvero l'agente deve fare inferenza per stimare
+	lo stato del mondo
+\end{itemize}
+
+\newpage
+
+\subsection{Markov Decision Processes - MDP}
+\subsubsection*{Struttura di un MDP}
+Un Markov Decision Process (MDP) è un modello che rappresenta un sequential decision problem in un ambiente fully observable
+e stocastico. Un MDP è definito da quattro elementi:
+\begin{itemize}
+	\item un insieme di stati del mondo \(S\) con uno stato iniziale \(s_0\);
+	\item un insieme di azioni per ogni stato \(s\), \(\textit{\small ACTIONS}(s)\)
+	\item un transition model \(P(s' \mid s, a)\)
+	\item una reward function \(R(s,a,s')\)
+\end{itemize}
+Spesso si aggiunge anche un quinto elemento, il discount factor \(\gamma\), che compare nella Bellman equation per calcolare
+l'utilità di ogni stato. Brevemente, indica quanto l'agente preferisce ricompense immediate rispetto a ricompense future.
+Verrà approfondito nei prossimi paragrafi.
+
+\subsubsection*{Transition model}
+Il transition model \(P(s' \mid s, a)\) è la probabilità di raggiungere lo stato \(s'\) dopo aver compiuto l'azione \(a\)
+dallo stato \(s\). Rappresenta la dinamica dell'ambiente, ovvero come l'ambiente evolve in risposta alle azioni dell'agente.
+Siccome l'ambiente è stocastico, il risultato delle azioni non è deterministico. In generale viene usato per calcolare
+la probabilità di successo di un'azione usata per calcolare l'expected utility.
+\[P(\textit{\footnotesize RESULT}\,(a) = s') =  \sum_s P(s' \mid s, a) P(s)\]
+
+\subsubsection*{Reward function}
+La reward function \(R(s,a,s')\) rappresenta la ricompensa immediata che l'agente riceve dopo aver compiuto l'azione \(a\)
+dallo stato \(s\) e aver raggiunto lo stato \(s'\). Può essere sia positiva che negativa. Viene utilizzata per calcolare
+l'expected utility e guidare l'agente nella scelta delle azioni ottimali.
+
+Le reward functions sono progettate in modo da guidare l'agente verso il raggiungimento dell'obiettivo desiderato in un piccolo
+numero di passi. Per fare ciò le ricompense sono generalmente negative in modo da penalizzare l'agente per ogni passo compiuto.
+Si osserva che più le reward sono negative, più l'agente è propenso a percorrere strade rischiose pur di arrivare all'obiettivo.
+Più le reward sono positive, più l'agente è propenso a percorrere strade più lunghe e sicure, ritardando il raggiungimento
+dell'obiettivo per massimizzare le ricompense immediate.
+
+Nota: la reward è una ricompensa immediata che dipende localmente dallo stato corrente e dall'azione compiuta, la utility
+è globale e tiene conto anche delle scelte future.
+
+\subsubsection*{Policy}
+Una policy è la soluzione a un MDP, ovvero una funzione che associa a ogni stato \(s\) la miglior azione \(a\) da compiere
+per massimizzare l'expected utility a lungo termine.
+
+La qualità di una policy si misura in base alla sua expected utility della sequenze di stati raggiunti. La optimal policy è
+quella policy che massimizza l'expected utility.
+
+L'optimal policy può essere determinata semplicemente scegliendo l'azione \(a\) che massimizza l'expected utility, ovvero
+che massimizza l'action-utility function \(Q(s,a)\) (approfondita nei prossimi paragrafi):
+\[\pi^*(s) = \argmax_a Q(s,a)\]
+
+\newpage
+
+\subsection{Utilities over time}
+\subsubsection*{Evoluzione dell'utilità nel tempo}
+Esistono due modi per definire l'evoluzione temporare dell'ambiente:
+\begin{itemize}
+	\item \textbf{finite horizon}: l'ambiente evolve per un numero finito di passi temporali dopo i quali non succede più nulla,
+	la policy ottimale si dice non stazionaria in quanto può cambiare in base al numero di passi temporali rimanenti 
+	\item \textbf{infinite horizon}: l'ambiente evolve per un numero infinito di passi temporali, la policy ottimale si dice
+	stazionaria in quanto è sempre la stessa, è il caso più semplice e che verrà trattato di seguito
+\end{itemize}
+
+\subsubsection*{Bellman equation}
+La Bellman equation è un'equazione che permette di calcolare l'utilità di ogni stato \(s\) in un MDP. Consiste in una media
+della somma della reward immediata \(R(s,a,s')\) e dell'utilità dello stato raggiunto \(U(s')\) pesata per la probabilità di
+raggiungere quello stato \(P(s' \mid s, a)\), massimizzata per tutte le azioni possibili \(a\) da compiere dallo stato \(s\).
+Scegliendo l'azione \(a\) ottima ed essendo ricorsiva, l'utilità di uno stato \(s\) tiene conto di tutte le ricompense future
+sapendo di compiere sempre la scelta migliore.
+\[U(s) = \max_a \sum_{s'} P(s' \mid s, a) \cdot [R(s,a,s') + \gamma U(s')]\]
+
+La somma da massimizzare viene anche detta action-utility function o Q-function:
+\[U(s) = \max_a Q(s,a) \qquad \text{con } Q(s,a) = \sum_{s'} P(s' \mid s, a) \cdot [R(s,a,s') + \gamma U(s')]\]
+
+L'utilità \(U(s)\) dello stato \(s\) viene calcolata con processi iterativi come il value iteration algorithm o il policy
+iteration algorithm, approfonditi nei prossimi paragrafi.
+
+\subsubsection*{Discount factor \(\gamma\) of the Bellman equation}
+Compare anche il discount factor \(\gamma \in [0,1]\) che rappresenta quanto l'agente preferisce ricompense immediate rispetto
+a ricompense future. Un buon trade-off si trova per \(\gamma \in [0.9, 0.99]\).
+\begin{itemize}
+	\item \(\gamma \to 0\): l'agente è miope e preferisce ricompense immediate, anche se portano a vicoli ciechi o a situazioni
+	pericolose nel medio termine, l'agente impiega quindi più tempo a raggiungere l'obiettivo
+	\item \(\gamma \to 1\): l'agente è lungimirante, preferisce ricompense future, anche al costo di sacrificare basse ricompense
+	immediate, l'agente impiega quindi meno tempo a raggiungere l'obiettivo
+\end{itemize}
+
+\subsubsection*{Value iteration algorithm}
+Il value iteration algorithm è un algoritmo iterativo che calcola l'utilità di ogni stato \(s\) in un MDP basandosi sulla
+Bellman equation e su un processo iterativo di propagazione del calcolo. L'algoritmo inizia con tutte le utilità inizializzate
+ad un valore arbitrario (ad esempio 0) e ad ogni iterazione aggiorna le utilità di tuttigli stati attraverso la Bellman equation.
+L'algoritmo termina quando le utilità convergono, ovvero quando l'aggiornamento delle utilità è inferiore a una soglia di
+tolleranza \(\varepsilon\).
+
+\begin{algo}{Value-Iteration}{mdp, $\varepsilon$}{mdp: \(\{S, \; A(s), \; P(s' \mid s, a), \; R(s,a,s'), \; \gamma\}\), $\varepsilon$: soglia di tolleranza}{vettore di utility function $U$ per ogni stato del mondo}
+	\State \(U \gets\) utility iniziale (ad esempio 0 per tutti gli stati)
+	\Repeat
+		\State \(U' \gets U\) \Comment{salva l'utilità prima dell'aggiornamento per verificare la convergenza}
+		\ForAll{\(s \in S\)} \Comment{per ogni stato del mondo}
+			\State \(U'[s] \gets \max_a \sum_{s'} P(s' \mid s, a) \cdot [R(s,a,s') + \gamma U'[s']]\) \Comment{Bellman equation update}
+		\EndFor
+	\Until{\(\max_s |U[s] - U'[s]| < \varepsilon \cdot (1 - \gamma) / \gamma\)} \Comment{condizione di convergenza}
+	\State \Return \(U\)
+\end{algo}
+
+\subsubsection*{Policy iteration algorithm}
+Il policy iteration algorithm è un algoritmo iterativo che calcola l'optimal policy di un MDP basandosi sulla Bellman equation
+e su un processo iterativo come per il value iteration algorithm. Ogni iterazione dell'algoritmo consiste in due fasi:
+\begin{itemize}
+	\item \textbf{policy evaluation}: calcola l'utilità di ogni stato considerando la policy corrente, basandosi sulla Bellman
+	equation; siccome l'azione da compiere è già fissata, non si utilizza l'operatore di massimizzazione e le utilità di ogni
+	stato possono essere calcolate analiticamente
+	\item \textbf{policy improvement}: aggiorna la policy scegliendo per ogni stato l'azione che massimizza l'utilità calcolata
+	nella fase di policy evaluation precedente
+\end{itemize}
+L'algoritmo termina quando i cambiamenti della policy non introducono più cambiamenti nell'utilità.
+
+\begin{algo}{Policy-Iteration}{mdp, $\varepsilon$}{mdp: \(\{S, \; A(s), \; P(s' \mid s, a), \; R(s,a,s'), \; \gamma\}\), $\varepsilon$: soglia di tolleranza}{policy $\pi$: vettore con ogni azione da compiere per ogni stato del mondo}
+	\Repeat
+		\State policy\_stable \(\gets\) \textbf{true} \Comment{inizializza controllo stabilità della policy}
+		\State \(U \gets\) \Call{Policy-Evaluation}(mdp, $\pi$, $U$) \Comment{fase 1 di policy evaluation}
+		\ForAll{\(s \in S\)} \Comment{per ogni stato del mondo}
+			\State \(a^* = \argmax_{a \in A(s)}\) \Call{Q-Value}(mdp, $s$, $a$, $U$) \Comment{calcola l'azione ottima}
+			\If{\Call{Q-Value}{mdp, $s$, $a^*$, $U$} \(>\) \Call{Q-Value}{mdp, $s$, $\pi[s]$, $U$}} \Comment{se migliora la policy}
+				\State \(\pi[s] \gets a^*\) \Comment{aggiorna la policy}
+				\State policy\_stable \(\gets\) \textbf{false} \Comment{la policy non si è ancora stabilizzata}
+			\EndIf
+		\EndFor
+	\Until{policy\_stable} \Comment{condizione di convergenza}
+	\State \Return \(U\)
+\end{algo}
+
+\subsubsection*{Value iteration vs Policy iteration}
+Il policy iteration algorithm ha i seguenti vantaggi rispetto al value iteration algorithm:
+\begin{itemize}
+	\item non utilizza l'operatore \(\max\) per cui le equazioni sono lineari e più semplici da risolvere
+	\item converge in un numero di iterazioni più basso rispetto al value iteration algorithm
+	\item i risultati intermedi sono policy subottimali che possono essere utilizzate come soluzioni approssimate
+	senza attendere la convergenza completa
+	\item in generale è migliore per grandi spazi di stato
+\end{itemize}
+Viceversa, il value iteration algorithm ha i seguenti vantaggi rispetto al policy iteration algorithm:
+\begin{itemize}
+	\item è più semplice da implementare
+	\item le iterazioni da compiere sono più veloci (anche se ne servono di più)
+	\item è migliore per piccoli spazi di stato
+\end{itemize}
+
+\subsubsection*{Esempio di applicazione di un MDP}
+Un esempio di applicazione di un MDP è il progetto di ``Automatic hand-washing guidance for people with dementia''. L'obiettivo
+è di guidare le persone con demenza (che fanno fatica a svolgere compiti sequenziali) a lavarsi le mani in modo corretto,
+attraverso un sistema di assistenza che riceve in input la situazione del processo di lavaggio delle mani da una fotocamera
+e fornisce in output dei suggerimenti vocali per guidare le persone a compiere i passi necessari per lavarsi le mani.
+
+Lo spazio degli stati è rappresentato da tutte le possibili situazioni del processo di lavaggio delle mani e le azioni
+sono i suggerimenti vocali che il sistema può fornire per guidare le persone a compiere i passi necessari per lavarsi le mani
+e passare allo stato successivo.
+
+\newpage
+
+\subsection{Partially Observable Markov Decision Processes - POMDP}
+\subsubsection*{Struttura di di un POMDP}
+Un Partially Observable Markov Decision Process (POMDP) è un modello che rappresenta un sequential decision problem in un
+ambiente partially observable e stocastico. A differenza di un MDP, l'agente non è onnisciente e necessita di un sensor
+model per stimare lo stato in cui si trova. Un POMDP è definito dai quattro elementi di un MDP con l'aggiunta di un quinto
+elemento (il sensor model):
+\begin{itemize}
+	\item un insieme di stati del mondo \(S\) con uno stato iniziale \(s_0\);
+	\item un insieme di azioni per ogni stato \(s\), \(\textit{\small ACTIONS}(s)\)
+	\item un transition model \(P(s' \mid s, a)\)
+	\item una reward function \(R(s,a,s')\)
+	\item un \textbf{sensor model} \(P(e \mid s)\)
+\end{itemize}
+
+\subsubsection*{Belief state and belief estimation}
+Al posto di considerare uno stato \(s\) del mondo, in un POMDP si considera un belief state \(b\) che corrisponde ad alla
+distribuzione di probabilità di trovarsi in uno specifico stato, per ogni stato del mondo.
+\[b(s_i) \equiv P(s_i)\]
+Il belief state viene aggiornato ad ogni azione compiuta attraverso operazioni di filtering simili a quelle per gli HMMs.
+A differenza di questi, però, il transition model include anche l'azione compiuta. Inoltre il calcolo, seppur ricorsivo, è
+deterministico non probabilistico come negli HMMs siccome le variabili \(b, a, e\) sono tutte note.
+\[b'(s') = \alpha \cdot P(e \mid s') \cdot \sum_s P(s' \mid s, a) b(s) \qquad\qquad b' = \textit{FORWARD}(b, a, e)\]
+
+\subsubsection*{Trasformare un POMDP in un Observable MDP}
+L'idea è di trasformare un POMDP in un Observable MDP per poter riutilizzare gli algoritmi e le tecniche già viste in precedenza
+per gli MDP. Per fare ciò, si ridefinisce sia il transition model che la reward function in funzione della distribuzione
+probabilistica dei belief state, al posto degli stati deterministici \(s\) e \(s'\).
+
+\subsubsection*{Transition model}
+La formula del transition model \(P(b' \mid b, a)\) si ottiene marginalizzando per tutte le possibili osservazioni \(e\),
+dove \(b\) è il belief state iniziale, \(b'\) è il belief state aggiornato dopo aver compiuto l'azione \(a\) e aver ricevuto
+l'osservazione \(e\). Inoltre si espande \(P(e \mid b, a)\) marginalizzando per tutti i possibili stati \(s\) e \(s'\).
+\begin{align*}
+	P(b' \mid b, a) &= \sum_e P(b' \mid b, a, e) P(e \mid b, a) & \text{si marginalizza per \(e\)} \\
+	&= \sum_e P(b' \mid b, a, e) \sum_{s'} P(e \mid a, s', b) P(s' \mid a, b) & \text{si marginalizza per \(s'\)} \\
+	&= \sum_e P(b' \mid b, a, e) \sum_{s'} P(e \mid s') P(s' \mid a, b) & \text{dalla sensor Markov assumption} \\
+	&= \sum_e P(b' \mid b, a, e) \sum_{s'} P(e \mid s') \sum_s P(s' \mid s, a) b(s) & \text{dalla 1° order Markov assumption}
+\end{align*}
+Si nota che, siccome il mondo è deterministico, se \(P(b' \mid b, a, e) = 1\) allora vale \(b' = \textit{FORWARD}(b, a, e)\), 
+altrimenti \(P(b' \mid b, a, e) = 0\).
+
+\subsubsection*{Reward function}
+La formula della reward function \(\rho(b, a)\) si ottiene come la media della reward function \(R(s,a,s')\) di un MDP
+moltiplicata per la probabilità di successo di un'azione \(a\) \(P(s' \mid s, a)\), pesata per la probabilità di trovarsi
+nello stato \(s\) \(b(s)\).
+\[\rho(b, a) = \sum_s b(s) \sum_{s'} P(s' \mid s, a) R(s,a,s')\]
+
+\subsubsection*{Optimal policy}
+Si osserva che una policy ottima per un MDP basato sui belief state è anche una policy ottima per il POMDP originale. Il
+problema è che ci potrebbero essere infiniti belief state per cui risulta notevolmente difficile calcolare la policy ottima.
+Per risolvere questo problema, si utilizzano algoritmi che portano a soluzioni approssimate.
+
+\subsubsection*{Esempio di applicazione di un POMDP}
+Un esempio di applicazione di un POMDP è il progetto ``ActiVis: Active Vision with Human in the Loop for People with Vision
+Impariments''. L'obiettivo è di guidare le persone con disabilità visive a muoversi in modo sicuro e autonomo, attraverso un
+sistema di assistenza che riceve in input la situazione dell'ambiente da una fotocamera e fornisce in output dei suggerimenti
+vocali.
+
+Si sfrutta un POMDP controller per suggerire all'umano quali azioni compiere per esplorare l'ambiente e classificare
+gli oggetti presenti, in modo da poter poi guidare l'umano a interagire con gli oggetti presenti. In particolare si parla
+di ``Man on the Loop'' POMDP controller, in quanto l'umano è parte integrante del processo decisionale e di esplorazione
+dell'ambiente e agisce insieme al sistema di assistenza per raggiungere l'obiettivo.

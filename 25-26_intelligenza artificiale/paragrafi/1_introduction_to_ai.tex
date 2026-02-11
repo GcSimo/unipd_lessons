@@ -1,0 +1,180 @@
+\section{Introduction to AI}
+\subsection{Introduzione}
+\subsubsection*{Definizione (una delle tante possibli)}
+\begin{center}
+    ``L'intelligenza artificiale è lo studio di come far compiere ai computer compiti che attualmente sono svolti in maniera
+	migliore dagli esseri umani'' \\[5pt]
+    \hspace*{\fill} {--- Elaine Rich \& Kevin Knight, 1965}
+\end{center}
+
+\subsubsection*{Branche dell'intelligenza artificiale}
+L'intelligenza artificiale è multidisciplinare. Da domande e questi di varie discipline sono stati originati vari filoni di
+ricerca del'IA, tra cui:
+\begin{itemize}
+	\item \textbf{filosofia}: origine della conoscenza, logica, metodi di ragionamento, struttura fisica della mente
+	\item \textbf{matematica}: rappresentazione formale della conoscenza, teoria della probabilità, computabilità
+	\item \textbf{neuroscienze}: funzionamento del cervello umano, neural networks, brain machine interfaces
+	\item \textbf{psicologia}: percezione, controllo motorio, interazioni umano-macchina
+	\item \textbf{linguistica}: rappresentazione della conoscenza, natural language processing
+	\item \textbf{control theory}: cybernetica, robotica
+	\item \textbf{economia}: teoria dell'utilità, teoria delle decisioni (game theory, multiagent systems)
+	\item \textbf{informatica}: algoritmi, strutture dati, hardware dedicato (GPU, TPU) e Internet of Things (IoT)
+\end{itemize}
+
+\subsection{Storia}
+\subsubsection*{Storia dell'IA}
+\begin{center}
+	\begin{tabularx}{\textwidth}{c X}
+		1943 &
+		\textbf{McCulloch} e \textbf{Pitts} propongono il primo modello di circuito booleano basato sulla struttura del cervello
+		umano \\
+		\midrule
+
+		1950 &
+		\textbf{Alan Turing} pubblica il paper ``Computing Machinery and Intelligence'', in cui propone il Turing Test come
+		criterio per stabilire se una macchina possa essere considerata intelligente. \\
+		\midrule
+
+		1956 &
+		\textbf{John McCarthy} conia il termine ``intelligenza artificiale'' \\
+		\midrule
+
+		1966-73 & 
+		\textbf{primo inverno dell'IA} causato dall'aumento della complessità computazionale degli algoritmi intelligenti da
+		sviluppare e dalla riduzione dei finanziamenti alla ricerca \\
+		\midrule
+
+		1970-80 &
+		sviluppo di sistemi esperti e sviluppo delle \textbf{reti neurali} \\
+		\midrule
+
+		1980-87 &
+		\textbf{secondo inverno dell'IA} causato dalla delusione per le limitazioni delle reti neurali dovute allo scarso
+		sviluppo tecnologico di allora e dalla riduzione dei finanziamenti alla ricerca \\
+		\midrule
+
+		1997 &
+		\textbf{Deep Blue} di IBM sconfigge il campione del mondo di scacchi Garry Kasparov \\
+		\midrule
+
+		2005 &
+		\textbf{Stanley}, un'auto autonoma sviluppata dalla Stanford University, vince la DARPA Grand Challenge \\
+		\midrule
+
+		2011 &
+		Apple lancia \textbf{Siri}, un assistente virtuale basato su intelligenza artificiale e riconoscimento vocale \\
+		\midrule
+
+		2012 &
+		\textbf{AlexNet}, una rete neurale convoluzionale, vince la competizione ImageNet, segnando un grande passo avanti
+		nel riconoscimento delle immagini e riportando popolarità alle reti neurali \\
+		\midrule
+
+		2017 &
+		\textbf{AlphaGo} di DeepMind sconfigge il campione mondiale di Go, Lee Sedol \\
+		\midrule
+
+		2019 &
+		Boston Dynamics presenta \textbf{Spot}, un robot quadrupede capace di muoversi in ambienti complessi \\
+		\midrule
+
+		2022 &
+		OpenAI rilascia \textbf{ChatGPT}, un modello di linguaggio basato su GPT-3.5, che dimostra capacità avanzate di
+		generazione di testo e comprensione del linguaggio naturale \\
+
+
+	\end{tabularx}
+\end{center}
+
+\subsubsection*{Stato attuale basato sll'AI index di Stanford}
+\begin{enumerate}
+	\item \textbf{performance}: i modelli di intelligenza artificiale continuano a migliorare in vari compiti, avvicinandosi
+	sempre di più alle capacità umane
+	\item \textbf{presenza quotidiana}: la presenza di tecnologie basate su intelligenza artificiale è in crescita in vari settori della
+	vita quotidiana, tra cui sanità, finanza, trasporti e intrattenimento
+	\item \textbf{finanziamenti}: gli investimenti in ricerca e sviluppo nell'ambito dell'intelligenza artificiale sono in
+	crescita, sia da parte di governi che di aziende private
+	\item \textbf{divario USA-Cina}: il divario tra Stati Uniti e Cina in termini di ricerca e sviluppo nell'ambito
+	dell'intelligenza artificiale si sta riducendo, con la Cina che sta facendo progressi significativi
+	\item \textbf{etica}: c'è una crescente attenzione all'etica, alla regolamentazione e alle implicazioni sociali
+	\item \textbf{impiego nazionale}: in generale l'impiego di intelligenza artificiale nei vari paesi è in crescita, anche se 
+	è presente ancora un certo divario tra paesi sviluppati e in via di sviluppo
+	\item \textbf{costi}: i costi associati allo sviluppo e all'implementazione di tecnologie basate su intelligenza artificiale
+	stanno diminuendo, rendendo queste tecnologie sempre più accessibili
+	\item \textbf{regolamentazione}: i governi stanno iniziando a sviluppare regolamentazioni specifiche sia per l'uso
+	responsabile dell'intelligenza artificiale che per gli investimenti nel settore
+	\item \textbf{educazione}: c'è un crescente diffusione di programmi educativi e corsi di formazione sull'informatica
+	e sull'intelligenza artificiale, anche se c'è ancora divario tra paesi e regioni
+	\item \textbf{sviluppo}: la ricerca e lo sviluppo nell'ambito dell'intelligenza artificiale stanno continuando a progredire
+	rapidamente, con nuove tecnologie e approcci che emergono costantemente
+	\item \textbf{impatto}: l'impatto dell'intelligenza artificiale sulle ricerche scientifiche di alto livello è molto
+	significativo, dati anche i premi Nobel per la fisica e la chimica del 2024 assegnati a ricerche che hanno fatto uso
+	di intelligenza artificiale
+	\item \textbf{ragionamento complesso}: i modelli di intelligenza artificiale continuano ad avere difficoltà con compiti
+	che richiedono ragionamento complesso e precisione
+\end{enumerate}
+
+\subsection{Tipi di intelligenza}
+\subsubsection*{I 4 tipi di intelligenza}
+Esistono 4 modi diversi per definire cosa si intende ``intelligenza artificiale''. In base alla definizione scelta si potrà
+sviluppare un processo per decidere se un sistema è intelligente o meno e di conseguenza si avranno obiettivi e metodi di
+sviluppo diversi. Le 4 definizioni sono:
+
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\begin{itemize}
+			\item[] think humanly - pensare come un umano
+			\item[] acting humanly - agire come un umano
+		\end{itemize}
+	\end{minipage}
+	\begin{minipage}{0.45\textwidth}
+		\begin{itemize}
+			\item[] think rationally - pensare razionalmente
+			\item[] acting rationally - agire razionalmente
+		\end{itemize}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Think humanly - cognitive science}
+Si basa sullo studio cognitive science, ovvero la branca della psicologia che studia i processi mentali come l'apprendimento,
+la memoria, il ragionamento e la percezione. L'obiettivo è quello di creare modelli computazionali che simulino i processi
+cognitivi della mente umana ottenuti dalla predizione dei comportamenti (introspezione ed esperimenti psicologici, top-down
+approach) o dalla identificazione dei modelli umani (brain-imaging, bottom-up approach).
+
+\subsubsection*{Acting humanly - Turing test}
+Dalla definizione di Alan Turing: ``Una macchina è intelligente se fa cose intelligenti''. Questo principio è alla base del
+Turing Test o Imitation Game, che serve appunto a valutare se una macchina agisce in modo intelligente come un essere umano.
+Il test coinvolge vari settori come natural language processing, knowledge representation, automated reasoning e machine learning
+a cui si aggiungono computer vision, speech recognition e robotics nei test più estesi.
+
+\subsubsection*{Think rationally - logic}
+Questa definizione si basa sul ragionamento logico ed è in contrapposizione con la cognitive science in quanto non sempre gli
+esseri umani pensano in modo razionale. L'obiettivo è quello di creare sistemi che seguano le regole della logica formale per
+ragionare correttamente e prendere decisioni basate su informazioni disponibili (sfruttando la logica della filosofia greca
+e i metodi probabilistici per il calcolo dell'incertezza).
+
+\subsubsection*{Acting rationally - rational agent}
+Questa definizione si basa sulla teoria dei rational agent (o sistemi intelligenti), ovvero agenti che agiscono in modo
+da massimizzare la loro performance measure, basandosi su ciò che percepiscono dall'ambiente in cui operano. Questa è
+l'interpretazione più diffusa e accettata come standard per l'intelligenza artificiale attuale. Un rational agent deve
+essere in grado di operare autonomamente, percepire l'ambiente, adattarsi ai cambiamenti, vivere per un tempo prolungato
+e raggiungere i propri obiettivi, attraverso le stesse tecniche definite nel Turing Test e nel ragionamento logico.
+
+\subsection{Rischi e benefici dell'IA}
+\subsubsection*{Benefici}
+\begin{itemize}
+	\item diminuzione del lavoro ripetitivo e noioso
+	\item aumento della produttività di servizi e benefici
+	\item accelerazione di ricerche scientifiche
+\end{itemize}
+
+\subsubsection*{Rischi}
+\begin{itemize}
+	\item impiego in applicazioni militari
+	\item violazione della privacy
+	\item bias nei dati e nei modelli
+	\item perdita di posti di lavoro
+	\item cybersecurity
+	\item value alignment problem: serve allineare i valori dell'IA per evitare che i goal dell'IA sovrastino i valori umani,
+	creando superintelligenze pericolose e fuori controllo
+\end{itemize}
