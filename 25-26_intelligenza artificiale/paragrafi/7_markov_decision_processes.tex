@@ -90,7 +90,7 @@ La qualità di una policy si misura in base alla sua expected utility della sequ
 quella policy che massimizza l'expected utility.
 
 L'optimal policy può essere determinata semplicemente scegliendo l'azione \(a\) che massimizza l'expected utility, ovvero
-che massimizza l'action-utility function \(Q(s,a)\) (approfondita nei prossimi paragrafi):
+che massimizza l'action-utility function \(Q(s,a)\) (approfondita nei prossimi paragrafi - \hyperlink{q_function}{link}):
 \[\pi^*(s) = \argmax_a Q(s,a)\]
 
 \newpage
@@ -113,8 +113,9 @@ Scegliendo l'azione \(a\) ottima ed essendo ricorsiva, l'utilità di uno stato \
 sapendo di compiere sempre la scelta migliore.
 \[U(s) = \max_a \sum_{s'} P(s' \mid s, a) \cdot [R(s,a,s') + \gamma U(s')]\]
 
-La somma da massimizzare viene anche detta action-utility function o Q-function:
+La somma da massimizzare viene anche detta action-utility function o \hypertarget{q_function}{Q-function}:
 \[U(s) = \max_a Q(s,a) \qquad \text{con } Q(s,a) = \sum_{s'} P(s' \mid s, a) \cdot [R(s,a,s') + \gamma U(s')]\]
+
 
 L'utilità \(U(s)\) dello stato \(s\) viene calcolata con processi iterativi come il value iteration algorithm o il policy
 iteration algorithm, approfonditi nei prossimi paragrafi.
