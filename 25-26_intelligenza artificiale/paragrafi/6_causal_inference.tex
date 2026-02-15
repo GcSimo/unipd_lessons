@@ -9,7 +9,7 @@ Alcuni esempi di correlazione senza causalità sono:
 \begin{itemize}
 	\item ``when the rooster crows, the sun rises'': c'è correlazione tra il canto del gallo e l'alba, ma il canto del gallo
 	non causa l'alba, è invece l'alba che causa il canto del gallo
-	\item ``drownings increase with ice cream consmption'': c'è correlazione tra il numero di annegamenti e il consumo di gelato,
+	\item ``drownings increase with ice cream consumption'': c'è correlazione tra il numero di annegamenti e il consumo di gelato,
 	ma non è il consumo di gelato a causare gli annegamenti, è invece l'estate che causa sia l'aumento del consumo di gelato che
 	l'aumento degli annegamenti
 	\item ``countries with more chocolate consumption have more Nobel laureates'': c'è correlazione statistica tra il consumo di
@@ -54,12 +54,12 @@ farmaco che sulla probabilità di guarire. Per calcolare quanto è realmente eff
 della variabile confondente (genere) sulla probabilità di assumere il farmaco.
 
 \subsection{Structural Causal Model}
-\subsubsection*{Probemi di interpretazione della full joint probability e passaggio ai causal model}
+\subsubsection*{Problemi di interpretazione della full joint probability e passaggio ai causal model}
 Analizzando la full joint probability \(P(X_1, X_2, \ldots, X_n)\) di un set di variabili aleatorie \(X_1, X_2, \ldots, X_n\)
 si osserva che tale distribuzione può essere fattorizzata in più modi diversi, ognuno dei quali esprime una certa struttura
 di dipendenza tra le variabili aleatorie. Ciò si verifica perché le correlazioni statistiche sono bidirezionali. Ogni struttura
 di dipendenza può essere rappresentata attraverso una bayesian network diversa, per cui esistono più bayesian network che
-rappresentano in maniera altrettando valida la stessa full joint probability.
+rappresentano in maniera altrettanto valida la stessa full joint probability.
 
 Quando si esprimono, invece, le dipendenze tra variabili in termini di relazioni causali unidirezionali, allora è possibile
 identificare una sola struttura di dipendenza tra le variabili, e quindi una sola bayesian network che rappresenta la full joint
@@ -143,7 +143,7 @@ vincolando i valori che \(Z\) può assumere siccome \(Z\) ha causato \(X\). Nel 
 compare un fattore di peso \(\textbf{P}(Z \mid X)\) che rappresenta il vincolo che si impone a \(Z\) sapendo che \(X\) assume
 un certo valore.
 
-Inolte, vincolando i valori di \(Z\), l'effetto di \(Z\) su \(Y\) non è più generale, ma dipende dal valore osservato di \(X\).
+Inoltre, vincolando i valori di \(Z\), l'effetto di \(Z\) su \(Y\) non è più generale, ma dipende dal valore osservato di \(X\).
 Se ad esempio \(Z\) è il genere di una persona, \(X\) è la probabilità di essere trattati con un farmaco e \(Y\) è la probabilità
 di guarire, allora quando si osserva un certo valore di \(X\) (ad esempio essere trattati con il farmaco), si sta indirettamente
 alterando la distribuzione di \(Z\) siccome le donne sono più propense ad essere trattate con il farmaco rispetto agli uomini.
@@ -195,7 +195,7 @@ di \(Y\) quando si interviene su \(X\) imponendo un certo valore e la probabilit
 \[\text{ACE} = P(Y = y \mid do(X)) - P(Y = y \mid do(\neg X))\]
 
 Ad esempio applicando la formula di back-door adjustment e calcolando l'ACE per il caso del farmaco, si ottiene un valore di
-ACE postivo \(\approx 5\%\) cioè significa che assumere il farmaco aumenta la probabilità di guarire del 5\% rispetto a non
+ACE positivo \(\approx 5\%\) cioè significa che assumere il farmaco aumenta la probabilità di guarire del 5\% rispetto a non
 assumere il farmaco.
 \begin{align*}
 	P(Y = 1 \mid do(X = 1)) &= \sum_{Z} P(Y \! = \! 1 \mid X \! = \! 1, \, Z) P(Z) \\
@@ -318,7 +318,7 @@ Il calcolo deterministico del counterfactual \(Y_{X = x'}(e)\) si effettua in tr
 	\item si modifica la SCM intervenendo su \(X\) e imponendo il valore \(x'\) sulla variabile \(X\) (intervenire consiste
 	nell'eliminare tutte le dipendenze che \(X\) ha con le altre variabili del modello)
 	\item si calcola il valore di \(Y\) con la nuova SCM modificata mantenendo fissi tutti gli altri parametri calcolati
-	al primo passo, escuso il valore imposto a \(X\) 
+	al primo passo, escluso il valore imposto a \(X\) 
 \end{itemize}
 
 \subsubsection*{Probabilità di un counterfactual - pre-intervention e post-intervention}
@@ -334,7 +334,7 @@ Il calcolo probabilistico dei counterfactuals \(P(Y_x \mid E = e)\) si effettua 
 \begin{itemize}
 	\item \textbf{abduction}: aggiornare la distribuzione di probabilità \(\textbf{P}(U)\) sapendo che è avvenuto un certo
 	evento \(E = e\), ovvero calcolare la distribuzione di probabilità \(\textbf{P}(U \mid E = e)\)
-	\item \textbf{action} o invtervention: modificare la SCM intervenendo su \(X\) (eliminandone le dipendenze) e imponendo
+	\item \textbf{action} o intervention: modificare la SCM intervenendo su \(X\) (eliminandone le dipendenze) e imponendo
 	il valore \(x\), ovvero l'azione che si sarebbe voluto fare in passato
 	\item \textbf{prediction}: usando il modello modificato, è possibile calcolare la probabilità del counterfactual
 	\(P(Y_x = y \mid E = e) = \sum_{u} P(U = u \mid E = e)\) per tutti i valori di \(u\) che soddisfano \(Y_x(u) = y\),
@@ -430,7 +430,7 @@ Il PC algorithm è composto da quattro fasi:
 
 \subsection{Causal discovery for time series data}
 \subsubsection*{Time invariant data and time series data}
-Gli algoritmi di PC e FCI sono stati progettati per dataset time-invariant, ovvero datasetsenza correlazione temporale
+Gli algoritmi di PC e FCI sono stati progettati per dataset time-invariant, ovvero dataset senza correlazione temporale
 tra i samples. I dataset di questo tipo non hanno un ordine temporale, per cui è possibile scambiare i samples senza
 alterare la distribuzione dei dati.
 
@@ -446,23 +446,23 @@ In questo modo è possibile esprimere come le variabili di un certo time step in
 
 Si divide in due fasi:
 \begin{itemize}
-	\item \textbf{PC algorithm}: si applica il PC algorithm per identificare soltanto lagged dependences, ovvero le dipendenze
+	\item \textbf{PC algorithm}: si applica il PC algorithm per identificare soltanto lagged dependencies, ovvero le dipendenze
 	tra le variabili a diversi time step
 	\item \textbf{Momentary Conditional Independence (MCI) test}: si applica un test di indipendenza condizionata per effettuare
 	false positive rate optimization control
 \end{itemize}
 
 \subsubsection*{F-PCMCI algorithm}
-Il F-PCMCI algorithm è un algoritmo basato sul PCMCI algorithm, ma ottmizzato per la robotica. In particolare, prima di applicare
+Il F-PCMCI algorithm è un algoritmo basato sul PCMCI algorithm, ma ottimizzato per la robotica. In particolare, prima di applicare
 il PCMCI algorithm, viene applicato un filtro (Transfer Entropy-based filter) per eliminare le variabili irrilevanti. In questo
 modo si riduce la complessità computazionale, migliorando sia i tempi di esecuzione, sia la qualità del grafo causale identificato.
 
 \subsubsection*{CanDOIT algorithm}
 Il CanDOIT algorithm (Causal Discovery with Observational and Interventional Time-series data) è un algoritmo di causal discovery
 che si basa sull'idea di combinare dati osservazionali e dati interventional per effettuare causal discovery sul grafo ottenuto
-da un precedente algoritmo come F-PCMCI o L-PCMCI (più permmissivo dell'F-PCMCI). In questo modo, quando si hanno unobservable
+da un precedente algoritmo come F-PCMCI o L-PCMCI (più permissivo dell'F-PCMCI). In questo modo, quando si hanno unobservable
 confounders che generano confusione all'L-PCMCI, si sfruttano le intervention per identificare correttamente il grafo causale,
-aggiungendo eventualmente variabili esogene (per rispettare la faithfullness).
+aggiungendo eventualmente variabili esogene (per rispettare la faithfulness).
 
 \subsubsection*{ROS-Causal}
 Il ROS-Causal (Robot Operating System for Causal Discovery) è un framework software per la robotica che comprende una serie

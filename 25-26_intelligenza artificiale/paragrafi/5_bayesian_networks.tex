@@ -7,7 +7,7 @@ intelligente (che agisce razionalmente) deve essere in grado di tenere conto di 
 informate e agire in modo efficace. In generale esistono tre motivi principali per cui un agente intelligente che non
 è un grado di gestire l'incertezza potrebbe fallire di fronte a situazioni complesse:
 \begin{itemize}
-	\item \textbf{lazyness}: un certo fenomeno può avere molte cause possibili, elencarle tutte richiede troppo tempo e
+	\item \textbf{laziness}: un certo fenomeno può avere molte cause possibili, elencarle tutte richiede troppo tempo e
 	risorse computazionali ed è necessario un sistema per selezionare solo le cause più probabili
 	\item \textbf{theoretical ignorance}: un agente può non avere conoscenza completa del mondo, ad esempio non conoscere
 	le leggi fisiche che regolano un fenomeno, è richiesto saper fare inferenze basate su osservazioni passate
@@ -58,7 +58,7 @@ la decision theory:
 	\item \textbf{evento}: sottoinsieme di possibili outcomes
 	\item \textbf{random variable}: variabile che rappresenta una proprietà o funzionalità di un processo attraverso un
 	insieme di possibili numeri
-	\item \textbf{assimomi della probabilità}: \(\qquad 0 \leq P(e) \leq 1, \qquad \sum_{e \in W} P(e) = 1\)
+	\item \textbf{assiomi della probabilità}: \(\qquad 0 \leq P(e) \leq 1, \qquad \sum_{e \in W} P(e) = 1\)
 	\item \textbf{joint probability} o probabilità congiunta: \(P(e_1, e_2, \ldots, e_n) = P(e_1 \land e_2 \land \dots \land e_n)\)
 	\item \textbf{unconditional probability} o prior probability: \(P(e)\), indica il grado di credenza in un evento in assenza
 	di informazioni aggiuntive
@@ -108,7 +108,7 @@ La chain rule si basa sulla applicazione ricorsiva della product rule per esprim
 di più variabili aleatorie come il prodotto di tante probabilità condizionate più semplici in cui applicare le opportune
 semplificazioni per l'indipendenza e indipendenza condizionata.
 \[\textbf{P}(A_1, A_2, \ldots, A_n) = \prod_{i=1}^{n} \textbf{P}(A_i \mid A_1, A_2, \ldots, A_{i-1})\]
-Ad esempio, per tre variabili aleatorie \(x_1, x_2, x_3\), in base alle indipendenze che sussitono tra le tre variabili,
+Ad esempio, per tre variabili aleatorie \(x_1, x_2, x_3\), in base alle indipendenze che sussistono tra le tre variabili,
 si può avere che:
 \[\textbf{P}(x_1, x_2, x_3) = \textbf{P}(x_1 \mid x_2, x_3) \textbf{P}(x_2 \mid x_3) \textbf{P}(x_3) =  \left\langle \begin{array}{l l}
 	\textbf{P}(x_3 \mid x_2) \textbf{P}(x_2 \mid x_1) \textbf{P}(x_1) & x_3 \indep x_1 \mid x_2 \\[4pt]
@@ -122,7 +122,7 @@ Una \textbf{full joint distribution} (FJD) è una rappresentazione completa in s
 combinazioni di valori delle variabili aleatorie in un dominio, a cui, ad ogni combinazione, è associata la relativa
 probabilità congiunta. La FJD consente di rispondere a qualsiasi domanda riguardante qualsiasi tipo di probabilità (a
 priori, a posteriori, congiunta) di qualsiasi evento o combinazione di eventi nel dominio utilizzando le opportune 
-regole della probabilità e ricorrendo eventualemnte a tecniche semplificative come normalizzazione e marginalizzazione.
+regole della probabilità e ricorrendo eventualmente a tecniche semplificative come normalizzazione e marginalizzazione.
 
 L'univo svantaggio della FJD è che la sua dimensione cresce esponenzialmente con il numero di variabili aleatorie
 coinvolte, rendendo impraticabile la sua costruzione e utilizzo in domini complessi con molte variabili. Richiede
@@ -161,7 +161,7 @@ ciascuna variabile aleatoria solo sul suo parent set:
 
 \subsubsection*{Definizione di bayesian network}
 Una bayesian network (BN) (anche detta  ``belief network'', ``probabilistic graphic model'' (PGM) o ``direct acyclic
-graph'' (DAG)) è una rappresentazione grafica sottoforma di grafo diretto aciclico che modella le relazioni di dipendenza
+graph'' (DAG)) è una rappresentazione grafica sotto forma di grafo diretto aciclico che modella le relazioni di dipendenza
 probabilistica tra un insieme di variabili aleatorie. In una BN, ogni nodo rappresenta una variabile aleatoria, mentre gli
 archi diretti tra i nodi indicano le relazioni di dipendenza condizionata tra le variabili. Gli archi entranti di un nodo
 rappresentano le variabili che condizionano quella variabile, ovvero provengono dal parent set di quella variabile.
@@ -494,7 +494,7 @@ Di seguito lo pseudocodice per il Gibbs sampling:
 	\State $C$ $\leftarrow$ vettore vuoto, conta la frequenza di ogni simbolo di $X$ nei campioni generati 
 	\State \textit{sample} $\leftarrow$ sample con valori casuali ad eccezione di quelli specificati in $e$
 	\For{$i = 1$ to \textit{num-samples}}
-		\State \textbf{choose} $Z_i$ tra le variabili di \textit{bn} escuse quelle in $e$, secondo una distribuzione \(\rho(i)\)
+		\State \textbf{choose} $Z_i$ tra le variabili di \textit{bn} escluse quelle in $e$, secondo una distribuzione \(\rho(i)\)
 		\State \textit{sample}[$Z_i$] $\leftarrow$ campione di $Z_i$ generato dalla probabilità $\textbf{P}(Z_i \mid \text{MarkovBlanket}(Z_i))$
 		\State $C[j]$ $\leftarrow$ $C[j]$ + 1 con $j$ tale per cui vale \textit{sample}$[X] = x_j$
 	\EndFor
@@ -504,7 +504,7 @@ Di seguito lo pseudocodice per il Gibbs sampling:
 \newpage
 
 \subsection{Probabilistic reasoning over time - Hidden Markov models}
-\subsubsection*{Time and uncertanty}
+\subsubsection*{Time and uncertainty}
 In alcuni problemi di intelligenza artificiale, è necessario rappresentare su ambienti stocastici e sequenziali, ovvero in
 cui è necessario rappresentare sia l'incertezza che il passaggio del tempo. Si considerano le seguenti assunzioni:
 \begin{itemize}
@@ -531,7 +531,7 @@ la complessità del transition model.
 \end{align*}
 
 Una dinamica di evoluzione di un sistema che rispetta la Markov assumption viene chiamata Markov process. Se di ordine
-superiore al primo è utilie specificarne anche l'ordine (es. second order Markov process). La rappresentazione grafica
+superiore al primo è utile specificarne anche l'ordine (es. second order Markov process). La rappresentazione grafica
 di una Markov process di primo ordine è una rete bayesiana strutturata come catena in cui ogni nodo corrisponde ad uno
 stato del mondo in un istante di tempo specifico, influenzato dallo stato del mondo nell'istante di tempo precedente.
 
@@ -626,8 +626,9 @@ Di queste si analizzerà in dettaglio soltanto la prima, ovvero il filtering, ch
 importante. Infatti è utilizzata dagli agenti intelligenti per mantenere una stima aggiornata dello stato del mondo
 in cui si trovano, quando il mondo non è fully observable. 
 
-\subsubsection*{Filtering in generale}
-L'operazione di filtering serve a calcolare la probabilità a posteriori \(\textbf{P}(\textbf{X}_t \mid \textbf{e}_{1:t})\):
+\subsubsection*{Kalman filtering}
+L'operazione di filtering si basa sulle equazioni del Kalman filtering, ampiamente diffuso specialmente nei sistemi
+di navigazione e posizionamento GPS:
 \begin{align*}
 	\textbf{P}(\textbf{X}_t \mid \textbf{e}_{1:t}) &= \textbf{P}(\textbf{X}_t \mid \textbf{e}_{1:t-1}, \textbf{e}_t) &\text{divisione delle evidenze} \\[6pt]
 	&= \alpha \cdot \underbrace{\textbf{P}(\textbf{e}_t \mid \textbf{X}_t)}_{\text{update}} \cdot \underbrace{\textbf{P}(\textbf{X}_t \mid \textbf{e}_{1:t-1})}_{\text{prediction}} &\text{dal teorema di Bayes} \\[10pt]
@@ -635,7 +636,7 @@ L'operazione di filtering serve a calcolare la probabilità a posteriori \(\text
 \end{align*}
 
 \subsubsection*{Filtering come prediction e update}
-Si nota che si può scomporre il calcolo in due fasi principali:
+L'algoritmo del Kalman filtering si divide in due fasi principali:
 \begin{itemize}
 	\item \textbf{prediction}: calcolo della probabilità \(\textbf{P}(\textbf{X}_t \mid \textbf{e}_{1:t-1})\) dello stato
 	\(\textbf{X}_t\) conoscendo tutte le evidenze precedenti \(\textbf{e}_{1:t-1}\); si utilizza il transition model
@@ -669,7 +670,7 @@ e restituisce in output \(\textbf{f}_t = \textbf{P}(\textbf{X}_t \mid \textbf{e}
 \subsubsection*{Matrix representation of sensor model}
 In maniera analoga, è possibile rappresentare il sensor model \(\textbf{P}(\textbf{e}_t \mid \textbf{X}_t)\) come matrice
 di osservazione \(\textbf{O}_t\) associata ad ogni possibile evidenza \(\textbf{e}_t\). Esistono, quindi, tante matrici di
-osservazione \(\textbf{O}_t\) quante sono le possibli evidenze \(\textbf{e}_t\) osservabili. Le matrici di osservazione
+osservazione \(\textbf{O}_t\) quante sono le possibili evidenze \(\textbf{e}_t\) osservabili. Le matrici di osservazione
 sono matrici diagonali in cui ogni elemento \(O_{t,jj}\) rappresenta la probabilità di osservare l'evidenza \(\textbf{e}_t\)
 dato lo stato \(\textbf{x}_j\):
 \[O_{t,jj} = P(\textbf{e}_t \mid\textbf{X}_t = \textbf{x}_j) \qquad\qquad \textbf{P}(\textbf{e}_t) = \textbf{P}(\textbf{e}_t \mid\textbf{X}_t) \cdot \textbf{P}(\textbf{X}_t) = \textbf{P}(\textbf{X}_t) \cdot \textbf{O}_t = \textbf{O}_t \cdot \textbf{P}(\textbf{X}_t)\]
@@ -713,7 +714,7 @@ Alcune volte può capitare che, a causa di un dataset limitato, alcune combinazi
 vengano osservate, portando a stime di probabilità pari a zero per quelle combinazioni. Per evitare questo problema, si
 può utilizzare tecniche di smoothing come il Laplacian smoothing
 
-Il Laplacian smoothing consiste nell'inizializzare tutte le distribuzioni di probabiiltà a probabilità uniformi. Ad esempio
+Il Laplacian smoothing consiste nell'inizializzare tutte le distribuzioni di probabilità a probabilità uniformi. Ad esempio
 per una variabile aleatoria binaria \(X\) con \(k\) valori possibili si inizializza la CPT di \(X\) con probabilità uniformi
 \(P(X = x_i) = 1/k\) per ogni valore \(i \in [1, k]\). Successivamente, considerando un dataset con \(N\) samples in cui
 la combinazione di valori \(X = x_i\) si verifica \(m_i\) volte, si aggiorna la CPT di \(X\) con la seguente formula:

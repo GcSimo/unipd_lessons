@@ -1,7 +1,6 @@
 \section{Machine learning}
 \subsection{Types of machine learning and problem formulation}
 \subsubsection*{Types of machine learning}
-Sono stati teorizzati tre diversi approcci di machine learning:
 \begin{itemize}
 	\item \textbf{supervised learning}: il dataset di addestramento è formato da coppie di input e output, e l'obiettivo
 	dell'agente è di imparare le regole di mappatura tra input e output
@@ -31,19 +30,20 @@ La funzione ipotesi \(h\) è una funzione matematica parametrica, per cui può e
 come ad esempio lineare, sinusoidale, polinomiale di grado \(n\), esponenziale, \dots
 
 \subsubsection*{Bias and underfitting}
-Il \textbf{bias} è la misura di quanto la funzione ipotesi \(h\) è in grado di rappresentare correttamente i dati dei
-training set. Un modello con un alto bias non si adatta bene ai dati di addestramento e ne sottostima la complessità
-(ad esempio un modello lineare per dati non lineari). Viceversa un modello con un basso bias rappresenta bene i dati
-di addestramento (quando la classe dell'ipotesi è appropriata ai dati).
+Il \textbf{bias} è la misura dell'errore sistematico dovuto alla scelta della classe della funzione ipotesi \(h\): se
+la classe è troppo semplice, la funzione ipotesi non riesce a rappresentare correttamente i dati dei training set. Un
+modello con un alto bias non si adatta bene ai dati di addestramento e ne sottostima la complessità (ad esempio un modello
+lineare per dati non lineari). Viceversa un modello con un basso bias rappresenta bene i dati di addestramento (quando
+la classe dell'ipotesi è appropriata ai dati).
 
 Un modello è in \textbf{underfitting} quando ha un alto bias, ovvero quando non riesce a catturare la reale complessità
 dei dati di addestramento e di conseguenza avrà sempre basse performance sia sui training set che sui validation e test set.
 
 \subsubsection*{Variance and overfitting}
-La \textbf{variance} è la misura di quanto la funzione ipotesi \(h\) è sensibile alle variazioni nei dati di addestramento.
-Un modello con un'alta variance si adatta troppo bene ai dati di addestramento (ad esempio un modello polinomiale di grado
-troppo elevato). Viceversa, uno con bassa variance riesce a generalizzare meglio e l'addestramento con dati diversi produce
-modelli simili.
+La \textbf{variance} è la misura di quanto varia la funzione ipotesi \(h\) in funzione delle fluttuazioni nei dati di
+addestramento. Un modello con un'alta variance si adatta troppo bene ai dati di addestramento (ad esempio un modello
+polinomiale di grado troppo elevato). Viceversa, uno con bassa variance riesce a generalizzare meglio e l'addestramento
+con dati diversi produce modelli simili.
 
 Un modello è in \textbf{overfitting} quando si adatta troppo bene ai dati di addestramento, ma non riesce a generalizzare
 sui dati di test. Avrà alte performance nel training set, ma basse performance sul test set.
@@ -302,7 +302,7 @@ discreto, viene passata attraverso una funzione di attivazione detta threshold f
 
 
 \subsection{Support Vector Machines - SVM}
-\subsubsection*{Stuttura}
+\subsubsection*{Struttura}
 Le Support Vector Machines (SVM) sono modelli di classificazione con le seguenti caratteristiche:
 \begin{itemize}
 	\item cercano di trovare il maximum margin separator, ovvero il decision boundary con la distanza massima tra i campioni

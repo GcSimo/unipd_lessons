@@ -2,7 +2,7 @@
 \subsection{Knowledge-based agents}
 \subsubsection*{Definizione di Knowledge Base (KB)}
 Una Knowledge Base (KB) è una raccolta strutturata di conoscenze rappresentate in ``sentences'' (frasi) espresse con un 
-inguaggio formale. Il linguaggio umano non è formale in quanto ambiguo e impreciso, quindi si utilizzano altri tipi di
+linguaggio formale. Il linguaggio umano non è formale in quanto ambiguo e impreciso, quindi si utilizzano altri tipi di
 linguaggi (formali) come la propositional logic o la first order logic (FOL).
 
 \subsubsection*{Definizione di inferenza}
@@ -17,7 +17,7 @@ Per costruire un KB agent (con la relativa KB) è possibile usare un approccio d
 deve agire di fronte ad un certo stato dell'ambiente esterno. Un KB agent può essere visto da due punti di vista:
 \begin{itemize}
 	\item \textbf{knowledge level}: si concentra sulla conoscenza pura che l'agente possiede e su come la utilizza per prendere
-	decisioni (inferenza), è domain-specific overo dipende dal dominio in cui l'agente opera
+	decisioni (inferenza), è domain-specific ovvero dipende dal dominio in cui l'agente opera
 	\item \textbf{implementation level}: si concentra sui dettagli tecnici e sulle strutture dati utilizzate per implementare
 	il knowledge base e le operazioni di inferenza, è domain-independent ovvero è indipendente dal dominio in cui l'agente opera
 \end{itemize}
@@ -95,7 +95,7 @@ Di seguito la spiegazione in ciascun paragrafo separato per ogni passaggio.
 
 \subsubsection*{Inference by model checking}
 L'inferenza tramite model checking consiste nell'elencare tutti i possibili modelli della knowledge base \(KB\) (ovvero costruire
-la tabella di verità della KB in funzione di tutte le variabili della KB) e vericare se nelle righe in cui \(KB\) è vera, anche
+la tabella di verità della KB in funzione di tutte le variabili della KB) e verificare se nelle righe in cui \(KB\) è vera, anche
 la proposizione \(\alpha\) è vera. Se questo vale, allora \(KB \models \alpha\).
 
 Tale metodo risulta poco vantaggioso quando il numero di proposizioni atomiche nella KB è elevato, in quanto il numero di
@@ -273,8 +273,8 @@ Di seguito la spiegazione in ciascun paragrafo separato per ogni passaggio.
 L'existential instantiation è un procedimento che serve per generare una nuova sentence senza quantificatori esistenziali a
 partire da una sentence con quantificatori esistenziali. In pratica consiste nel sostituire la variabile quantificata \(x\)
 con un nuovo simbolo detto Skolem constant \(k\) ovvero un termine che non compare altrove nella KB. Se la variabile quantificata
-è all'interno del scope di un quantificatore universale per un'altra variabile \(y\), allora si usa la Skolem function \(F(y\).
-In questo caso la Skolem function prende come argomento la variabile \(y\) e restitituisce un termine unico per ogni valore di
+è all'interno dello scope di un quantificatore universale per un'altra variabile \(y\), allora si usa la Skolem function \(F(y\).
+In questo caso la Skolem function prende come argomento la variabile \(y\) e restituisce un termine unico per ogni valore di
 \(y\). In generale la existential instantiation si indica come segue:
 \[\text{con Skolem constant} \; k \quad \frac{\exists x \; \alpha}{Subst( \left\{ x \; / \; k \right\}, \; \alpha )} \qquad\quad \text{con Skolem function} \; F(y) \quad \frac{\forall y \; \exists x \; \alpha}{Subst( \left\{ x \; / \; F(y) \right\}, \; \alpha )}\]
 È possibile applicare l'existential instantiation soltanto una volta per ogni quantificatore esistenziale presente. Il nuovo KB
@@ -283,7 +283,7 @@ Di seguito due esempi con una Skolem constant e una Skolem function:
 \[\frac{\exists x \; King(x) \land Greedy(x) \Rightarrow Evil(x)}{\textit{King}(k) \land \textit{Greedy}(k) \Rightarrow \textit{Evil}(k)} \qquad\qquad\qquad \frac{\forall y \; \exists x \; Loves(x, y)}{\textit{Loves}(F(y), y)}\]
 
 \subsubsection*{2. Universal instantiation - UI}
-L'universal intantiation è un procedimento che serve per generare nuove sentence senza variabili o quantificatori universali a
+L'universal instantiation è un procedimento che serve per generare nuove sentence senza variabili o quantificatori universali a
 partire da una sentence con un quantificatore universale. In pratica consiste nel sostituire la variabile quantificata \(x\)
 con un ground term \(g\), ovvero un termine che non contiene variabili (ad esempio una costante o una funzione di costanti).
 Le sentence ottenute sono dette ground instances della sentence originale. In generale la universal instantiation si indica
@@ -291,7 +291,8 @@ come segue:
 \[\frac{\forall x \; \alpha}{Subst( \left\{ x \; / \; g \right\}, \; \alpha )} \qquad\qquad \text{con} \; g \; \text{ground term}\]
 È possibile applicare la universal instantiation più volte usando sostituzioni diverse, ottenendo di conseguenza ground instances
 diverse della stessa sentence originale. Il nuovo KB ottenuto dalle UI rimane logicamente equivalente al KB di partenza.
-Di seguito un esempio:
+A pagina seguente un esempio.
+
 \[\frac{\forall x \; King(x) \land Greedy(x) \Rightarrow Evil(x)}{\left\{ \begin{array}{c l}
 	\textit{King}(\textit{John}) \land \textit{Greedy}(\textit{John}) \Rightarrow \textit{Evil}(\textit{John}), & \text{per} \; \phi_1 = \left\{ x / \textit{John} \right\} \\
 	\textit{King}(\textit{Father}(\textit{John})) \land \textit{Greedy}(\textit{Father}(\textit{John})) \Rightarrow \textit{Evil}(\textit{Father}(\textit{John})), & \text{per} \; \phi_2 = \left\{ x / \textit{Father}(\textit{John}) \right\} \\
@@ -377,5 +378,5 @@ esse siano accurate, complete ed efficienti per poter essere usate su KB agents.
 	\item \textbf{codifica della conoscenza}: rappresentazione della conoscenza in un linguaggio logico formale
 	\item \textbf{codifica di un'istanza del problema}: rappresentazione di un'istanza specifica del problema
 	\item \textbf{fare query alla KB}: utilizzo di metodi di inferenza per rispondere a query specifiche  
-	\item \textbf{degub e valutazione}: verifica della correttezza e dell'efficienza della KB
+	\item \textbf{debug e valutazione}: verifica della correttezza e dell'efficienza della KB
 \end{enumerate}

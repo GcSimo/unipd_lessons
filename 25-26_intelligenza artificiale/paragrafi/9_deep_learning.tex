@@ -46,7 +46,7 @@ un percettrone, ma non la XOR, che è non linearmente separabile:
 
 \subsubsection*{Altre funzioni di attivazione}
 Oltre alla threshold function dei percettroni, esistono altre funzioni di attivazione più complesse, che permettono di
-modellare meglio valori continuti e facilitano l'addestramento delle reti neurali. Alcuni esempi di funzioni sono:
+modellare meglio valori contenuti e facilitano l'addestramento delle reti neurali. Alcuni esempi di funzioni sono:
 
 \begin{tabular}{l l}
 	- sigmoid o logistic function: & \(\displaystyle g(x) = \sigma(x) = \frac{1}{1 + e^{-x}} \phantom{\int}\) \\
@@ -84,7 +84,7 @@ Esistono due modi di rappresentare graficamente una rete neurale multilayer:
 	\item \textbf{diagramma semplificato}: struttura a grafo con gli input e i singoli neuroni come nodi e con le connessioni
 	tra i vari elementi come archi orientati a cui è associato il relativo peso
 	\item \textbf{computational graph}: rappresentazione più dettagliata ed esplicita in cui ogni operazione (prodotto
-	dell'ingressoper il peso, somme, funzioni di attivazione) è rappresentata come un nodo del grafo e i dati che fluiscono
+	dell'ingresso per il peso, somme, funzioni di attivazione) è rappresentata come un nodo del grafo e i dati che fluiscono
 	tra le operazioni sono rappresentati come archi orientati
 \end{itemize}
 
@@ -216,7 +216,7 @@ output layer:
 	funzione di attivazione sigmoid che restituisce un valore compreso tra 0 e 1, interpretato come la probabilità che
 	l'input appartenga alla classe positiva
 	\item \textbf{multi-class classification}: l'output layer è formato da tanti neuroni quanti sono
-	le classi, con una funzione di attivazione softmax che restituisce un vettore con valori comresi tra 0 e 1, interpretato
+	le classi, con una funzione di attivazione softmax che restituisce un vettore con valori compresi tra 0 e 1, interpretato
 	come la pseudo-probabilità che l'input appartenga a ciascuna classe; la funzione non corrisponde a una vera distribuzione
 	di probabilità, ma ne rispetta comunque gli assiomi:
 	\[\text{softmax}(\textbf{z})_k = \frac{e^{z_k}}{\sum_{j} e^{z_j}}\]
@@ -390,7 +390,7 @@ Se ci sono combinazioni di più nodi, si applicano anche le seguenti regole:
 	\item richiede la memorizzazione di tutti i risultati intermedi, rendendo il processo di addestramento molto dispendioso
 	in termini di memoria
 	\item può soffrire di vanishing gradient problem, ovvero quando \(g'(\cdot) \ll 1\) (ad esempio con sigmoid o tanh) la
-	propagazione degli errori ha molto poco effetto sull'aggiornanmento dei pesi
+	propagazione degli errori ha molto poco effetto sull'aggiornamento dei pesi
 \end{itemize}
 
 \subsubsection*{Deep networks and overfitting}
@@ -625,7 +625,7 @@ costante competizione tra di loro durante l'addestramento:
 \subsubsection*{Addestramento di una GAN}
 L'addestramento di una GAN consiste in un processo iterativo in cui il generator cerca di migliorare la qualità dei dati
 sintetici per ingannare il discriminator, mentre il discriminator cerca di migliorare la sua capacità di distinguere tra dati
-reali e sintetici. Durante il training possono verificarsi i seguenti probemi come:
+reali e sintetici. Durante il training possono verificarsi i seguenti problemi come:
 \begin{itemize}
 	\item \textbf{mode collapse}: il generator converge ad una distribuzione limitata, specializzandosi nella generazione di
 	pochi modi specifici, invece di generare una varietà di dati simili a quelli di input
@@ -644,7 +644,7 @@ l'upscaling di immagini a bassa risoluzione, la generazione di volti umani reali
 
 \subsection{Transfer learning}
 \subsubsection*{Introduzione}
-Il trasfer learning è una tecnica di apprendimento automatico in cui un modello addestrato su un compito specifico viene
+Il transfer learning è una tecnica di apprendimento automatico in cui un modello addestrato su un compito specifico viene
 riutilizzato come punto di partenza per addestrare un nuovo modello su un compito correlato, ma diverso. In pratica si cerca
 di trasferire la conoscenza acquisita risolvendo un compito ad un altro modello per affrontare un nuovo problema.
 
@@ -661,7 +661,7 @@ Di solito si utilizzano modelli pre-addestrati popolari per compiti generali, co
 di immagini.
 
 \subsubsection*{Addestramento}
-L'addestramento di un modello con transfer learning si dividede in due fasi:
+L'addestramento di un modello con transfer learning si divide in due fasi:
 \begin{itemize}
 	\item \textbf{pre-addestramento}: addestramento del modello per risolvere un compito generale o di base, i primi layers
 	di feature detection (sensibili all'ambiente in cui agisce) vengono temporaneamente disabilitati e ci si concentra
@@ -732,7 +732,7 @@ con la probabilità di ciascun token successivo.
 
 \subsubsection*{Struttura a colonne e layers dei transformers}
 I transformers si organizzano in tante colonne verticali con un numero compreso tra 12 e 96 transformers ognuna, che vengono
-affiancate tra di loro in un numero prossimo alla dimensinone del vocabolario (ad esempio 128k). La struttura viene descritta
+affiancate tra di loro in un numero prossimo alla dimensione del vocabolario (ad esempio 128k). La struttura viene descritta
 attraverso due parametri:
 \begin{itemize}
 	\item \textbf{context width}: numero di colonne affiancate tra di loro, indica la dimensione del contesto che il modello
@@ -836,7 +836,7 @@ continual learning:
 	\item \textbf{rehearsal strategies}: consistono nel mantenere un piccolo dataset di esempi rappresentativi del vecchio
 	dominio o task e includerlo nel nuovo addestramento, oppure freezare alcuni layers del modello originale per preservare
 	le conoscenze acquisite durante il primo addestramento, senza che vengano sovrascritte durante il re-training
-	\item \textbf{regularization strategies}: consistono nell'aggiungere vincoli su addestramenti succesivi, ad esempio
+	\item \textbf{regularization strategies}: consistono nell'aggiungere vincoli su addestramenti successivi, ad esempio
 	utilizzando la distillazione della conoscenza oppure penalizzando le modifiche ai parametri più importanti per
 	performare correttamente nel vecchio dominio
 \end{itemize}

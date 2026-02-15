@@ -24,7 +24,7 @@ si dice ottima se minimizza il costo totale delle azioni.
 	\item \textbf{Romania problem}: trovare il percorso più breve che collega la città di Arad a Bucarest in Romania in un
 	ambiente rappresentato come un grafo pesato dove i nodi sono le città e gli archi sono le strade con i relativi costi di
 	viaggio
-	\item \textbf{travelling salesperson problem}: trovare il percorso più breve che deve compiere il commesso viaggiatore per
+	\item \textbf{traveling salesperson problem}: trovare il percorso più breve che deve compiere il commesso viaggiatore per
 	visitare un insieme di città, ciascuna esattamente una volta e ritornare alla città di partenza, in un ambiente rappresentato
 	come un grafo completo pesato dove i nodi sono le città e gli archi sono le distanze tra le città; a tale problema possono
 	essere associati varianti come il vehicle routing problem (VRP) o il controllo di una fresa CNC
@@ -155,7 +155,7 @@ Espande il nodo più profondo (livello più lontano dalla radice) prima di espan
 la complessità temporale dell'algoritmo. Ha le stesse caratteristiche del DFS.
 
 \subsubsection*{Iterative deepening search}
-Sfrutta l'approccio del Depht-limited DFS eseguendo ripetutamente il DFS con un limite di profondità crescente ad ogni iterazione
+Sfrutta l'approccio del Depth-limited DFS eseguendo ripetutamente il DFS con un limite di profondità crescente ad ogni iterazione
 fino a trovare la soluzione. Questo permette di combinare i vantaggi del BFS (completezza e ottimalità) con quelli del DFS (bassa
 complessità spaziale).
 \begin{itemize}
@@ -211,7 +211,7 @@ medio di figli per nodo nell'albero di ricerca generato dall'algoritmo di ricerc
 Un'ottima euristica ha un effective branching factor \(b^* = 1\), ovvero l'algoritmo di ricerca espande solo i nodi lungo
 il cammino ottimale verso il goal e la complessità temporale e spaziale diventano lineari in \(O(d)\).
 
-\subsubsection*{Greedy best-firts search}
+\subsubsection*{Greedy best-first search}
 Espande il nodo che sembra più vicino allo stato di goal in base alla funzione euristica \(h(n)\).
 \begin{itemize}
 	\item \textbf{strategy / frontier}: priority queue ordinata per \(h(n)\) (lowest-h(n) first)

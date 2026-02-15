@@ -29,8 +29,8 @@ lo stato. Se l'agente non ha sensori, l'ambiente è completamente non osservabil
 
 \subsubsection*{Deterministic vs stochastic}
 Un ambiente si dice deterministic se lo stato successivo dell'ambiente è completamente determinato dallo stato attuale e
-dall'azione dell'agente. Viceversa si dice stochastic o non-determinisc se lo stato successivo dipende anche da fattori
-casuali o imprevedibili. Per vivere in un ambiente non-deterministico, l'agente deve essere in grado di gestire l'incertezza
+dall'azione dell'agente. Viceversa si dice stochastic o non-deterministic se lo stato successivo dipende anche da fattori
+casuali o imprevedibili. Per vivere in un ambiente non-deterministic, l'agente deve essere in grado di gestire l'incertezza
 e implementare regole di teoria della probabilità. 
 
 \subsubsection*{Episodic vs sequential}
@@ -75,7 +75,7 @@ Un model-based reflex agent mantiene un modello interno dello stato dell'ambient
 attuali. La scelta delle azioni è basata sia sulla percezione attuale che sul modello interno dello stato dell'ambiente. Questi
 agenti sono adatti per ambienti partially observable, in quanto possono utilizzare il modello interno per inferire informazioni
 sullo stato attuale dell'ambiente che non sono direttamente osservabili. Inoltre sono più complessi da implementare perché
-richiedono un transition model e un sensor model per aggiornare il modello internoche basandosi rispettivamente sulle azioni
+richiedono un transition model e un sensor model per aggiornare il modello interno che si basano rispettivamente sulle azioni
 compiute (prediction) e sulle percezioni dell'agente (update). Vengono spesso usati i Kalman-filters per implementare, per
 l'appunto, le due fasi di prediction e update.
 

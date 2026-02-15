@@ -40,7 +40,7 @@ In base alla combinazione delle due caratteristiche si ottiene un modello divers
 	che compie non influenzano l'evoluzione dell'ambiente
 	\item i modelli della seconda colonna sono attivi, ovvero l'agente può compiere azioni che influenzano l'evoluzione
 	dell'ambiente
-	\item i modelli della prima riga sono fully observable, ovvero l'agente è onniscente
+	\item i modelli della prima riga sono fully observable, ovvero l'agente è onnisciente
 	\item i modelli della seconda riga sono partially observable, ovvero l'agente deve fare inferenza per stimare
 	lo stato del mondo
 \end{itemize}
@@ -97,7 +97,7 @@ che massimizza l'action-utility function \(Q(s,a)\) (approfondita nei prossimi p
 
 \subsection{Utilities over time}
 \subsubsection*{Evoluzione dell'utilità nel tempo}
-Esistono due modi per definire l'evoluzione temporare dell'ambiente:
+Esistono due modi per definire l'evoluzione temporale dell'ambiente:
 \begin{itemize}
 	\item \textbf{finite horizon}: l'ambiente evolve per un numero finito di passi temporali dopo i quali non succede più nulla,
 	la policy ottimale si dice non stazionaria in quanto può cambiare in base al numero di passi temporali rimanenti 
@@ -132,7 +132,7 @@ a ricompense future. Un buon trade-off si trova per \(\gamma \in [0.9, 0.99]\).
 \subsubsection*{Value iteration algorithm}
 Il value iteration algorithm è un algoritmo iterativo che calcola l'utilità di ogni stato \(s\) in un MDP basandosi sulla
 Bellman equation e su un processo iterativo di propagazione del calcolo. L'algoritmo inizia con tutte le utilità inizializzate
-ad un valore arbitrario (ad esempio 0) e ad ogni iterazione aggiorna le utilità di tuttigli stati attraverso la Bellman equation.
+ad un valore arbitrario (ad esempio 0) e ad ogni iterazione aggiorna le utilità di tutti gli stati attraverso la Bellman equation.
 L'algoritmo termina quando le utilità convergono, ovvero quando l'aggiornamento delle utilità è inferiore a una soglia di
 tolleranza \(\varepsilon\).
 
@@ -256,7 +256,7 @@ Per risolvere questo problema, si utilizzano algoritmi che portano a soluzioni a
 
 \subsubsection*{Esempio di applicazione di un POMDP}
 Un esempio di applicazione di un POMDP è il progetto ``ActiVis: Active Vision with Human in the Loop for People with Vision
-Impariments''. L'obiettivo è di guidare le persone con disabilità visive a muoversi in modo sicuro e autonomo, attraverso un
+Impairments''. L'obiettivo è di guidare le persone con disabilità visive a muoversi in modo sicuro e autonomo, attraverso un
 sistema di assistenza che riceve in input la situazione dell'ambiente da una fotocamera e fornisce in output dei suggerimenti
 vocali.
 
