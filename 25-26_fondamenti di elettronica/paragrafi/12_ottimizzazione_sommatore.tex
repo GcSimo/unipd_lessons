@@ -1,0 +1,250 @@
+\section{Ottimizzazione del sommatore}
+\subsection{Ottimizzazione del full adder con generate e propagate}
+\subsubsection*{Propagate, Generate-1 e Generate-0 o Delete}
+Analizzando la propagazione del riporto in un sommatore ripple carry si osservano tre casi:
+\begin{enumerate}
+	\item \textbf{Propagate (P)}: \\
+	quando la somma dei bit \(A_i + B_i = 1\) (ovvero \(A_i = 0, B_i = 1\) oppure \(A_i = 1, B_i = 0\)) il riporto in ingresso
+	\(C_i\) viene propagato in uscita \(C_{i+1}\) (ovvero \(C_{i+1} = C_i\))
+	\item \textbf{Generate-1 (G1)}: \\
+	quando \(A_i = B_i = 1\) il riporto in uscita \(C_{i+1}\) è forzatamente 1 indipendentemente dal valore di \(C_i\) del
+	riporto in ingresso (ovvero \(C_{i+1} = 1\))
+	\item \textbf{Generate-0 o Delete (G0)}: \\
+	quando \(A_i = B_i = 0\) il riporto in uscita \(C_{i+1}\) è forzatamente 0 indipendentemente dal valore di \(C_i\) del
+	riporto in ingresso (ovvero \(C_{i+1} = 0\))
+\end{enumerate}
+Si generano quindi 2 segnali di controllo per ogni bit \(i\) (si igora \(G0\)):
+\[P = A_i \oplus B_i \qquad G = A_i \cdot B_i\]
+
+\subsubsection*{Struttura ottimizzata del full adder - tempi di ritardo, numero di MOS e capacità logica}
+È possible riscrivere le equazioni logiche delle uscite full adder in funzione dei segnali \(P\) e \(G\):
+\[S = P \oplus C_\text{in} \qquad C_\text{out} = G + P \cdot C_\text{in}\]
+Si suddivide quindi il full adder in tre sezioni:
+\begin{enumerate}
+	\item \textbf{setup}: generazione dei segnali di \(P\) e \(G\) con una XOR e una AND
+	\item \textbf{CGP} (Carry Generation and Propagation): calcolo del riporto \(C_\text{out}\) con una AND e una OR
+	\item \textbf{somma}: calcolo della somma \(S\) con una XOR
+\end{enumerate}
+
+Si osserva che per il calcolo del riporto e della somma, l'ultimo segnale ad essere disponibile (detto segnale critico) è
+il segnale del riporto in ingresso, infatti i segnali \(P\) e \(G\) sono già pronti all'arrivo del riporto del FA precedente.
+I tempi di ritardo di questi due blocchi non dipendono quindi dal tempo di ritardo del setup. Si ha quindi:
+\[t_\text{setup} = \max(t_\text{xor}, t_\text{and}) \qquad\qquad t_c = t_\text{or} + t_\text{and} \qquad\qquad t_s = t_\text{xor}\]
+
+Implementando il full adder con XOR ottimizzate e utilizzando porte TG, si utilizzano 10 MOS per il setup, 8 MOS per il CGP
+e 6 MOS per la somma, per un totale di 24 MOS e una capacità logica complessiva di 7.75C, dove C è la capacità di
+gate/drain/source di una coppia di NMOS e PMOS.
+
+\newpage
+
+
+\subsection{Architettura Ripple Carry con FA ottimizzato}
+\subsubsection*{Struttura}
+La struttura di un sommatore ripple carry con FA ottimizzato è identica a quella del sommatore ripple carry classico, con
+la differenza che ogni FA è diviso nelle tre sezioni e il percorso del segnale critico del carry è accorciato.
+
+\subsubsection*{Tempi di ritardo}
+Il tempo di ritardo quando il riporto deve propagarsi per tutti i FA del sommatore è:
+\[t_\text{carry,rc} = t_\text{setup} + n \cdot t_c \qquad t_\text{sum,rc} = t_\text{setup} + (n-1) \cdot t_c + t_s\]
+Rispetto ad un sommatore con struttura tradizionale con tempo di ritardo \(t_\text{sum,rc} = (n-1) \cdot t_c + t_s\), il vantaggio
+è che il tempo \(t_c\), che domina il comportamento lineare, è minore nella architettura ottimizzata in quanto il calcolo del
+riporto è stato semplificato e velocizzato precalcolando i segnali \(P\) e \(G\) in anticipo.
+
+Il tempo di ritardo calcolato per una specifica somma in questione è dato dalla catena di propagazione più lunga, ovvero quando
+tutti i FA della catena devono attendere il riporto del FA precedente.
+
+\subsubsection*{Numero di MOS}
+Utilizzando FA ottimizzati con 24 MOS ciascuno, il numero totale di MOS diventa:
+\[N_\text{MOS,rc} = n \cdot 24\]
+
+\subsubsection*{Consumo/capacità logica}
+La capacità logica del sommatore ripple carry con FA ottimizzato (approssimando) è:
+\[C_\text{L,rc} = n \cdot 8C\]
+
+\subsection{Architettura Carry Bypass - CBP}
+\subsubsection*{Struttura}
+L'architettura Carry Bypass raggruppa i FA in \(k\) gruppi di \(m\) FA ciascuno (con \(n = k \cdot m\)), e si aggiunge un
+multiplexer che permette di bypassare il calcolo del riporto all'interno del gruppo se tutti i FA del gruppo sono in
+condizione di propagate (ovvero \(P_i = 1\) per ogni FA \(i\) del gruppo). In questo modo il riporto in ingresso del gruppo
+può essere propagato in un \(t_\text{mux}\) direttamente al blocco successivo.
+Il numero ottimale di FA per gruppo \(m\) è dato dalla seguente formula:
+\[m_\text{opt} = \sqrt{n \cdot \frac{t_\text{mux}}{2t_c}} \qquad \text{per} \; t_c = t_\text{mux} \rightarrow m_\text{opt} = \sqrt{n/2} \quad \begin{array}{c c}
+	n=8 \rightarrow m=2 & n=16 \rightarrow m=3,4 \\ n=32 \rightarrow m=4 & n=64 \rightarrow m=5,6
+\end{array}\]
+
+\subsubsection*{Tempi di ritardo}
+Il tempo di ritardo quando il riporto deve propagarsi per tutti i FA del sommatore è:
+\[t_\text{carry,cbp} = t_\text{setup} + m \cdot t_c + k \cdot t_\text{mux} \qquad \begin{aligned}
+	t_\text{sum,cbp} &= t_\text{setup} + m \cdot t_c + (k-1) \cdot t_\text{mux} + (m-1) \cdot t_c + t_s \\
+	&= t_\text{setup} + (2m-1) \cdot t_c + (k-1) \cdot t_\text{mux} + t_s
+\end{aligned}\]
+Si osserva che conviene usare un sommatore CBP con \(m=4\) rispetto ad un RC quando i numeri da sommare sono più grandi di 8 bit.
+
+\subsubsection*{Numero di MOS}
+Rispetto ad un RC, si aggiungono \(k\) MUX 2:1 con invertitori in ingresso e uscita (10 MOS) e una porta NAND+NOT per calcolare
+la condizione di propagate del gruppo (10 MOS) per un totale di 20 MOS aggiuntivi per blocco.
+Il numero totale di MOS (per gruppi da 4 FA) diventa quindi:
+\[N_\text{MOS,cbp} = n \cdot 24 + k \cdot 20 = n \cdot (24 + 20/m) = n \cdot 29\]
+
+\subsubsection*{Consumo/capacità logica}
+Rispetto ad un RC, si aggiunge la capacità logica dei \(k\) MUX 2:1 (2.5C ciascuno), mentre si può trascurare quella della
+porta NAND+NOT essendo molto piccola. Si ha quindi (per gruppi da 4 FA):
+\[C_\text{L,cbp} = n \cdot 8C + k \cdot 2.5C = n \cdot (8 + 2.5/m)C = n \cdot 8.625C\]
+
+\subsection{Architettura Linear Carry Select - LCS}
+\subsubsection*{Struttura}
+L'idea alla base del sommatore Carry Select è di calcolare in parallelo due somme per ogni blocco di FA, una assumendo che il
+riporto in ingresso sia 0 e l'altra assumendo che sia 1, e poi selezionare il risultato corretto con un MUX 2:1 in base al
+riporto effettivo in ingresso al blocco. Anche in questo caso si suddivide il sommatore in \(k\) blocchi di \(m\) FA ciascuno
+(con \(n = k \cdot m\)). La scelta ottimale di \(m\) è simile a quella del CBP:
+\[m_\text{opt} = \sqrt{n \cdot \frac{t_\text{mux}}{t_s}} \qquad \text{per} \; t_s = t_\text{mux} \rightarrow m_\text{opt} = \sqrt{n} \quad \begin{array}{c c}
+	n=8 \rightarrow m=2,3 & n=16 \rightarrow m=4 \\ n=32 \rightarrow m=5,6 & n=64 \rightarrow m=8
+\end{array}\]
+
+\subsubsection*{Tempi di ritardo}
+Il tempo di ritardo si divide in tre fasi: il precalcolo dei riporti, la propagazione del riporto e il calcolo della somma.
+Nel caso in cui il riporto deve propagarsi per tutti i FA del sommatore, il tempo di ritardo è:
+\[t_\text{carry,lcs} = (t_\text{setup} + m \cdot t_c)_\text{precalcolo} + (k \cdot t_\text{mux})_\text{propagazione} \qquad t_\text{sum,lcs} = t_\text{setup} + m \cdot t_c + k \cdot t_\text{mux} + t_s\]
+Si osserva che conviene usare un sommatore LCS con \(m=4\) rispetto ad un RC per numeri più grandi di 8 bit e con \(m=8\)
+rispetto ad un CBP per numeri più grandi di 16 bit.
+
+\subsubsection*{Numero di MOS}
+Rispetto ad un RC, si raddoppia lo stadio di CGP (\(8n\)) e si aggiungono \(n\) MUX 2:1 (\(10n\)) per arrivare a:
+\[N_\text{MOS,lcs} = 24n + 8n + 10n = 42n\]
+
+\subsubsection*{Consumo/capacità logica}
+Anche per la capacità logica si raddoppia lo stadio di CGP (\(2.5nC\)) e si aggiungono \(n\) MUX 2:1 (\(2.5nC\)) per un totale di:
+\[C_\text{L,lcs} = 8nC + 2.5nC + 2.5nC = 13nC\]
+
+\subsection{Architettura Square Root Carry Select - SRCS}
+\subsubsection*{Struttura}
+Si osserva che nel LCS descritto sopra, i riporti per ogni blocco vengono calcolati in parallelo e sono pronti tutti assieme,
+ma il segnale del riporto, prima di arrivare all'ultimo blocco, deve attraversare tutti i MUX precedenti. L'ultimo blocco,
+quindi, rimane in attesa finché il segnale del riporto attraversi tutti i MUX. Per ridurre il tempo perso, si è pensato
+di incrementare progressivamente di un FA dimensione dei blocchi di FA in modo che, mentre il segnale si propaga nel MUX,
+il blocco successivo (al posto di rimanere in attesa) calcola la somma anche per il FA extra. In questo modo, si riesce a
+ridurre il numero di blocchi e di conseguenza il tempo di ritardo totale (anche se non è sempre detto).
+
+Lo SRCS si basa proprio su questa idea, suddividendo il sommatore in \(k\) blocchi di FA di dimensione crescente partendo da
+un \(m\) piccolo (anche 2) fino a \(m+k-1\). Il numero totale di bit sommabili è quindi:
+\[n = k \cdot m + \frac{k(k-1)}{2} = \frac{k^2}{2} + k \left( m - \frac{1}{2} \right) \qquad \text{per} k \gg m \quad k \approx \sqrt{2n}\]
+
+\subsubsection*{Tempi di ritardo}
+Il tempo di ritardo riprende le formule del LCS, ma con \(k \approx \sqrt{2n}\):
+\[t_\text{carry,srcs} = t_\text{setup} + m \cdot t_c + \sqrt{2n} \cdot t_\text{mux} \qquad t_\text{sum,srcs} = t_\text{setup} + m \cdot t_c + \sqrt{2n} \cdot t_\text{mux} + t_s\]
+Si osserva che conviene usare un sommatore SRCS con \(m=2\) rispetto a qualsiasi altro sommatore per numeri più grandi di 8 bit.
+
+\subsubsection*{Numero di MOS}
+Il numero di MOS non cambia rispetto al LCS, in quanto le archietture sono molto simili e rimane \(42n\).
+
+\subsubsection*{Consumo/capacità logica}
+Anche la capacità logica non cambia rispetto al LCS, rimanendo \(13nC\).
+
+\subsection{Architettura Carry Look Ahead - CLA}
+\subsubsection*{Formula completa del calcolo del riporto}
+L'architettura Carry Look Ahead si basa sull'idea di calcolare in anticipo tutti i riporti necessari per la somma, in modo
+da non doverli propagare attraverso i FA. Si osserva che il riporto in uscita di ogni FA dipende dai segnali \(P\) e \(G\)
+dei FA precedenti e dal riporto in ingresso \(C_0\):
+\begin{align*}
+	C_0 &= G_0 + P_0 C_\text{in} \\
+	C_1 &= G_1 + P_1 C_0 = G_1 + P_1 (G_0 + P_0 C_\text{in}) = G_1 + P_1 G_0 + P_1 P_0 C_\text{in} \\
+	C_2 &= G_2 + P_2 G_1 + P_2 P_1 G_0 + P_2 P_1 P_0 C_\text{in} = G_{0:2} + P_{0:2} C_\text{in} \\
+	C_3 &= G_3 + P_3 G_2 + P_3 P_2 G_1 + P_3 P_2 P_1 G_0 + P_3 P_2 P_1 P_0 C_\text{in} = G_{0:3} + P_{0:3} C_\text{in}
+\end{align*}
+\[C_n = G_{0:n} + P_{0:n} C_\text{in}\]
+
+\subsubsection*{Carry Lookahead Unit e segnali \(P\) e \(G\) di blocco}
+Si osserva che sarebbe possibile calcolare tutti i riporti attraverso una rete combinatoria in singolo stadio, ma dall'elevato
+numero di porte necessarie (soprattutto per numeri grandi) si avrebbe un enorme tempo di ritardo e si preferisce quindi
+suddividere il calcolo in più stadi gerarchici. Si sviluppa un componente chiamato CLU (Carry Lookahead Unit) che riceve
+in ingresso i segnali \(P_{m:k}\), \(G_{m:k}\) e \(P_{k+1:n}\), \(G_{k+1:m}\) di due blocchi \([m:k]\) e \([k+1:n]\) e
+calcola in output i segnali \(P_{m:n}\) e \(G_{m:n}\) del blocco unito \([m:n]\) secondo la seguente formula:
+\[G_{m:n} = G_{k+1:n} + G_{m:k} \cdot P_{k+1:n} \qquad\qquad P_{m:n} = P_{m:k} \cdot P_{k+1:n}\]
+
+La prima espressione sopra equivale a dire che il generate del blocco \([m:n]\) \(G_{m:n}\) equivale ad avere un generate
+nel blocco \([k+1:n]\) \(G_{k+1:n}\), oppure ad avere un generate nel blocco \([m:k]\) \(G_{m:k}\) e che il riporto venga
+propagato attraverso il blocco \([k+1:n]\) \(P_{k+1:n}\).
+
+La CLU è impementata in logica statica complementare per ridurre i tempi di ritardo (altrimenti si avrebbero reti di Elmore
+molto lunghe) con 14 MOS per unità.
+
+\subsubsection*{Albero di Kogge-Stone per il calcolo dei riporti}
+Basandosi sulla strurrura dell'albero di Kogge-Stone con le CLU per ogni nodo, si è in grado di calcolare tutti i segnali
+\(P\) e \(G\) con un numero di stadi logaritmico rispetto al numero di bit sommabili \(n\). In questo modo si calcolano tutti
+i riporti in parallelo in quanto dipendono solo dai segnali \(P\) e \(G\) e dal riporto in ingresso \(C_\text{in}\), senza
+doverli propagare attraverso i FA.
+
+\subsubsection*{Struttura}
+La struttura di un CLA si compone di 4 ``piani'':
+\begin{enumerate}
+	\item calcolo di setup: calcolo dei segnali \(P_i\) e \(G_i\) per ogni coppia di bit \(A_i\) e \(B_i\) come nei FA ottimizzati
+	\item albero di CLU: calcolo dei segnali \(P_{0,i}\) e \(G_{0:i}\) per ogni blocco di bit, attraverso le CLU disposte ad
+	albero di Kogge-Stone con profondità di \(\log_2 n\)
+	\item calcolo dei riporti: avviene in parallelo per ogni bit secondo la formula \(C_n = G_{0:n} + P_{0:n} C_\text{in}\)
+	\item calcolo delle somme: avviene in parallelo per ogni bit secondo la formula \(S_i = P_i \oplus C_i\)
+\end{enumerate}
+
+Per contenere i tempi di ritardo, i vari moduli (setup, CLU, riporti e somme) sono implementati in logica statica complementare
+in modo da non avere lunghe reti di Elmore. Il numero di MOS per ogni modulo di setup, CLU, riporto e somma è rispettivamente
+14, 14, 8, 6 MOS.
+
+\subsubsection*{Tempi di ritardo}
+I tempi di ritardo al caso peggiore equivalgono al tempo impiegato a calcolare il riporto in uscita e la somma per l'ultimo
+bit più significativo:
+\[t_\text{sum,cla} = t_\text{setup} + \log_2 n \cdot t_{clu} + t_c \qquad t_\text{sum,cla} = t_\text{setup} + \log_2 n \cdot t_{clu} + t_c + t_s\]
+
+\subsubsection*{Numero di MOS}
+Il numero totale di MOS impiegati in un sommatore CLA è dato dalla somma dei MOS dei vari moduli:
+\[N_\text{MOS,cla} = n \cdot 14_\text{setup} + (n \log_2 n - n + 1) \cdot 14_\text{clu} + n \cdot 8_\text{riporti} + n \cdot 6_\text{somme}) = 14 \cdot (n \log_2 n + n + 1)\]
+
+\subsubsection*{Consumo/capacità logica}
+La capacità logica complessiva del sommatore CLA è sicuramente la più elevata dato il numero di MOS impiegati.
+
+\subsection{Architetture a confronto}
+\subsubsection*{Tempi di ritardo:}
+\begin{center}
+	\begin{tabular}{l l l}
+		\textbf{architettura} & \textbf{tempo di ritardo - carry} & \textbf{tempo di ritardo - somma} \\
+		\toprule
+ 		Ripple Carry & \(t_\text{setup} + n \cdot t_c\) & \(t_\text{setup} + (n-1) \cdot t_c + t_s\) \\
+		Carry Bypass & \(t_\text{setup} + m \cdot t_c + k \cdot t_\text{mux}\) & \(t_\text{setup} + (2m-1) \cdot t_c + (k-1) \cdot t_\text{mux} + t_s\) \\
+		Linear Carry Select & \(t_\text{setup} + m \cdot t_c + k \cdot t_\text{mux}\) & \(t_\text{setup} + m \cdot t_c + k \cdot t_\text{mux} + t_s\) \\
+		Square Root Carry Select & \(t_\text{setup} + m \cdot t_c + \sqrt{2n} \cdot t_\text{mux}\) & \(t_\text{setup} + m \cdot t_c + \sqrt{2n} \cdot t_\text{mux} + t_s\) \\
+		Carry Look Ahead & \(t_\text{setup} + \log_2 n \cdot t_{clu} + t_c\) & \(t_\text{setup} + \log_2 n \cdot t_{clu} + t_c + t_s\) \\
+	\end{tabular}
+\end{center}
+
+\subsubsection*{Numero di MOS}
+\begin{center}
+	\begin{tabular}{l c c c c c}
+		\textbf{architettura} & \textbf{n bit} & \textbf{8 bit} & \textbf{16 bit} & \textbf{32 bit} & \textbf{64 bit} \\
+		\toprule
+ 		Ripple Carry & \(24n\) & 192 & 384 & 768 & 1536 \\
+		Carry Bypass & \(29n\) & 232 & 464 & 928 & 1856 \\
+		Linear Carry Select & \(42n\) & 336 & 672 & 1344 & 2688 \\
+		Square Root Carry Select & \(42n\) & 336 & 672 & 1344 & 2688 \\
+		Carry Look Ahead & \(14n \log_2 n + 14n + 14\) & 462 & 1134 & 2702 & 6286 \\
+	\end{tabular}
+\end{center}
+
+\subsubsection*{Consumo/capacità logica}
+\begin{center}
+	\begin{tabular}{l c c c c c}
+		\textbf{architettura} & \textbf{n bit} & \textbf{8 bit} & \textbf{16 bit} & \textbf{32 bit} & \textbf{64 bit} \\
+		\toprule
+ 		Ripple Carry & \(8nC\) & 62C & 124C & 248C & 486C \\
+		Carry Bypass & \(8.625nC\) & 67C & 134C & 268C & 526C \\
+		Linear Carry Select & \(13nC\) & 102C & 204C & 408C & 816C \\
+		Square Root Carry Select & \(13nC\) & 102C & 204C & 408C & 816C \\
+		Carry Look Ahead & - & 101C & 223C & 486C & 1069C \\
+	\end{tabular}
+\end{center}
+
+\subsection{Moltiplicatore con sommatore ottimizzato in architettura CLA}
+Un esempio di applicazione di un sommatore ottimizzato con architettura CLA è nell'ultima fase di somma dei
+riporti parziali in un moltiplicatore binario. In questo modo il tempo di ritardo complessivo, rimane
+sempre lineare (somme dei prodotti parziali), ma la pendenza della retta diminuisce:
+\begin{align*}
+	t_\text{mult,rc} &= t_{and} + (N-1) \cdot \max(t_c,  t_s) + n \cdot t_c + t_s \approx (2n + 1) T\\
+	t_\text{mult,cla} &= t_{and} + (N-1) \cdot \max(t_c,  t_s) + t_\text{setup} + \log_2 n \cdot t_{clu} + t_c + t_s \approx (n + \log_2 n + 3) T
+\end{align*}

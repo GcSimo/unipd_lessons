@@ -1,0 +1,148 @@
+\section{Clock e sincronizzazione}
+
+\subsection{Distribuzione del clock}
+\subsubsection*{Struttura della rete di distribuzione}
+Il circuito di distribuzione del clock è costituito da un circuito di generazione del segnale di clock, una rete di
+distribuzione globale ai vari moduli del circuito e una rete di distribuzione locale all'interno dei singoli moduli.
+
+Durante la distribuzione possono provocarsi ritardi e sfasamenti, l'importante è che la fase relativa del segnale di clock
+che arriva a tutti i moduli sia perfettamente sincronizzata, non importa il ritardo assoluto dall'origine.
+
+\subsubsection*{Ritardo delle piste in interconnessione}
+Per calcolare il ritardo delle piste di interconnessione si modella la pista come una serie di celle con una certa resistenza
+(data dalla legge di Ohm) e una certa capacità parassita (data dalle capacità di area e dalle capacità di bordo). Calcolando
+il tempo di ritardo della rete di Elmore così costruita si osserva che il modello RC equivale ad una lunga pista con tutta
+la capacità condensata al centro della pista stessa.
+\[R_{W,\text{pista}} = \rho \; \frac{L_\text{lunghezza}}{h_\text{altezza} \cdot W_\text{spessore}} = R_q \; \frac{L}{W} \qquad \text{con} \; R_q = \text{resistenza per quadro} [\Omega / q]\] 
+\[C_{W,\text{pista}} = C_{W\!A} \cdot W \cdot L + C_{W\!B} \cdot 2L \qquad \text{con} \; \begin{array}{l}
+	C_{W\!A} = \text{capacità di area} = [f\!F/\mu m^2] \\
+	C_{W\!B} = \text{capacità di bordo} = [f\!F/\mu m]
+\end{array}\]
+\begin{align*}
+	t_\text{pista} &= 0.69 \cdot R_{out} \cdot C_{out} \qquad\qquad\qquad\quad\; \text{circuito che pilotala pista} \\
+	&\quad + 0.69 \cdot (R_{out} + R_w/2) \cdot C_{W,\text{pista}} \qquad \text{prima metà della pista con capacità al centro} \\
+	&\quad + 0.69 \cdot (R_{out} + R_w) \cdot C_L \qquad\qquad\quad\, \text{seconda metà pista e carico pilotato}
+\end{align*}
+
+\subsubsection*{Errori nella propagazione del clock}
+Le sorgenti di errori del clock possono essere:
+\begin{itemize}
+	\item \textbf{errori sistematici}: errori prevedibili e corretti in fase di progettazione, come carichi capacitivi diversi
+	per ogni percorso di clock o lunghezze diverse delle piste di clock
+	\item \textbf{errori casuali}: randomici e non prevedibili come sbavature dei processi di produzione
+\end{itemize}
+Gli errori si manifestano come:
+\begin{itemize}
+	\item \textbf{skew}: sfasamento costante nel tempo (e talvolta calcolabili e compensabili) tra due segnali di clock generati
+	dalla stessa sorgente, dovuto a ritardi diversi nei percorsi di distribuzione
+	\item \textbf{jitter}: variazione completamente casuali e che variano da ciclo a ciclo di clock, con media nulla e non
+	prevedibili, per questo si definisce il valore di jitter massimo (in modulo)
+\end{itemize}
+
+\subsubsection*{Effetti del ritardo di propagazione del Clock}
+Analizzando due segnali sfasati di uno skew \(t_\text{skew}\), lo sfasamento reale può variare nel range di
+\(t_\text{skew} \pm 2t_\text{jitter}\) ad esempio se il segnale in anticipo viene anticipato di un jitter e il
+segnale in ritardo viene ritardato di un jitter o viceversa. Il massimo e il minimo sfasamento tra due segnali
+si indicano con:
+\[\delta_{min} = t_\text{skew} - 2 t_\text{jitter} \qquad\qquad \delta_{max} = t_\text{skew} + 2 t_\text{jitter}\]
+Tale sfasamento può violare i vincoli di temporizzazione dei circuiti sequenziali e la sincronizzazione tra moduli diversi:
+in particolare uno sfasamento positivo nel clock potrebbe violare le condizioni su \(t_\text{hold}\), mentre uno sfasamento
+negativo potrebbe non rispettare il \(t_\text{setup}\).
+\begin{align*}
+	t_\text{prop,reale} &= t_\text{prop,ideale} - t_\text{skew} + 2 t_\text{jitter} & & t_\text{skew} > 0 \;\; \text{se ritarda progressivamente} \\
+	t_\text{cont,reale} &= t_\text{cont,ideale} - t_\text{skew} - 2 t_\text{jitter} & & t_\text{skew} < 0 \;\; \text{se anticipa progressivamente}
+\end{align*}
+
+\subsection{Generazione del clock e Phase Locked Loop - PLL}
+\subsubsection*{Struttura del PLL}
+Un PLL (o Anello ad Aggancio di Fase) è un circuito con retroazione che genera un segnale di clock ad una data frequenza
+con elevata precisione. È composto da PFD, CP, VCO e due divisori di frequenza.
+
+\subsubsection*{Voltage Controlled Oscillator (VCO)}
+Il VCO è un oscillatore che genera un'onda quadra la cui frequenza è regolata da una tensione analogica in ingresso \(V_C\).
+È costituito da un anello di N ``invertitori'' (raddrizzati) controllati in corrente in modo da variare il tempo \(t_p\) di
+propagazione e quindi la frequenza di oscillazione complessiva: \(f_\text{out} = 1 \, / \, 2 N t_p\).
+
+Un invertitore controllato in corrente è costituito da un invertitore CMOS collegato a \(V_{DD}\) e \(GND\) attraverso un PMOS
+e un NMOS rispettivamente che funzionano da generatori ideali di corrente. I due MOS extra sono collegati gate-gate ad altri
+due mos identici che formano un circuito di corrente speculare in cui il gate degli nmos è pilotato dalla tensione di controllo
+\(V_C\) e il pmos ha drain e gate ponticellati per lavorare in saturazione a diodo. Si hanno le seguenti relazioni:
+\[I = {k_n}' Z_n \frac{(V_C - V_{TN})^2}{2} \quad \text{oppure} \quad I = {k_n}' Z_n V_{DSATN} \left(V_C - V_{TN} - \frac{V_{DSATN}}{2}\right)\]
+\[\Delta T_\text{ritardo invertitore} = \frac{C \cdot V_{DD}/2}{I} \qquad T_\text{periodo anello} = 2N \Delta T_\text{ritardo invertitore}\] 
+Si osserva quindi che il tempo di ritardo \(t_p\) del singolo invertitore dipende dalla corrente \(I\) e di consegienza da
+\(V_C\): aumentando \(V_C\) aumenta \(I\) e diminuisce \(t_p\), aumentando la frequenza di oscillazione.
+
+Siccome gli invertitori controllati in corrente non godono di proprietà rigenerative, inoltre per ridurre il consumo statico
+di correnti ``analogiche'' che pilotano gate, si inserisce un invertitore CMOS classico dopo ogni invertitore controllato in
+corrente. Si aggiunge, infine, un altro invertitore CMOS classico da solo per rendere l'anello invertente.
+
+\subsubsection*{Phase Frequency Detector (PFD)}
+Il PFD è un circuito sequenziale asincrono che riceve in input due segnali di clock \(REF\) e \(IN\) e produce in uscita
+due segnali di controllo \(U\!P\) e \(DOW\!N\) che indicano se il segnale \(IN\) è in anticipo o in ritardo rispetto a \(REF\).
+\begin{itemize}
+	\item se \(IN\) è in anticipo rispetto a \(REF\) in uscisa si ha \(UP = 0\) e \(DOWN = 1\)
+	\item se \(IN\) è in ritardo rispetto a \(REF\) in uscisa si ha \(UP = 1\) e \(DOWN = 0\)
+	\item se i due segnali sono sincronizzati in uscita si ha \(UP = 0\) e \(DOWN = 0\)
+\end{itemize}
+Il circuito è implementato da due flip flop con ingressi fissi a 1, controllati dai due segnali di clock in ingresso, inoltre
+possiedono un segnale di reset asincrono che azzera entrambi i flip flop quando entrambi sono settati a 1. In questo modo
+quando arriva il fronte di uno dei due segnali di clock, il flip flop corrispondente si setta a 1 e l'altro rimane a 0. Quando
+arriva anche l'altro fronte di clock, il secondo flip flop si setta a 1 e il segnale di reset azzera entrambi i flip flop.
+
+\subsubsection*{Charge Pump (CP)}
+La Charge Pump è un circuito che riceve in ingresso i segnali \(U\!P\) e \(DOW\!N\) dal PFD e produce in uscita una tensione
+di controllo \(V_C\) per il VCO. Il circuito è costituito da un invertitore CMOS che pilota una capacità \(C\). Quando
+arriva un impulso sul segnale \(U\!P\), l'invertitore porta il nodo di uscita a \(V_{DD}\) e la capacità si carica, mentre
+quando arriva un impulso sul segnale \(DOW\!N\), l'invertitore porta il nodo di uscita a \(GND\) e la capacità si scarica.
+
+Per rendere il sistema stabile e limitare la velocità di caricamento/scaricamento della capacità, si utilizzano due mos
+in regime di generatori ideali di corrente (come nel VCO) per limitare la corrente di carica e scarica della capacità.
+Le tensioni che pilotano tali mos sono fissate in fase di progettazione.
+
+\subsubsection*{Divisori di frequenza}
+Nel PLL sono presenti anche due divisori di frequenza, uno in ingresso al PFD che divide la frequenza del segnale \(f_{REF}\)
+di un fattore \(N\) e uno che collega il VCO al PFD (retroazione) che divide la frequenza del segnale \(f_{IN}\) di un fattore
+\(M\). La PLL quindi lavora per mantenere la condizione:
+\[\frac{f_{IN}}{M} = \frac{f_{REF}}{N} \qquad \Rightarrow \qquad f_{IN} = \frac{M}{N} \; f_{REF}\]
+Si osserva che \(M\) e \(N\) possono essere solo multipli di 2, ma questo non ci interessa perché alla fine il rapporto
+semplifica tale fattore 2 e si può ottenere qualsiasi rapporto di frequenze razionale.
+
+\subsection{Struttura della rete di distribuzione del clock}
+\subsubsection*{Struttura globale ad albero a H}
+Per minimizzare lo skew tra i vari moduli dei circuito si utilizza la distribuzione del clock ad albero ad H, ovvero
+una struttura ad albero in cui i rami originati da ogni biforcazione hanno la stessa lunghezza e di conseguenza lo
+stesso tempo di ritardo RC. In prossimità dei moduli si aggiungono dei buffer (``dinamici'' in funzione del carico) per
+ripristinare il segnale di clock e adattarlo al carico.
+
+\subsubsection*{Struttura locale a griglia}
+Per distribuire il clock all'interno dei moduli si utilizza una rete a griglia che forma una scacchiera di piste orizzontali
+e verticali polarizzate contemporaneamente al segnale di clock, a cui sono collegati i vari elementi sincroni del modulo. In
+questo modo si cerca di contenere lo skew locale evitando di avere numerose piste di clock con lunghezze diverse.
+
+\subsubsection*{Origine di Skew e Jitter}
+Le principali origini di skew e jitter nella distribuzione del clock sono:
+\begin{itemize}
+	\item variazioni del processo di fabbricazione: \\
+	ad esempio imprecisioni sulle dimensioni \(W\) ed \(L\), sugli spessori dell'ossido e sui livelli di drogaggio che
+	influenzano \(k_n\) e \(V_{TN}\) nei circuiti PLL e nei buffer di distribuzione del clock; tali erorri casuali sono
+	costanti nel tempo (localmente ad un singolo chip) e di conseguenza si definiscono skew
+	\item variazioni delle interconnessioni: \\
+	ad esempio imprecisioni nello spessore del dielettrico, nella geometria delle piste e planarizzazione del chip che
+	generano skew in quanto costanti nel tempo (localmente ad un singolo chip)
+	\item variazioni della temperatura: \\
+	un uso non omogeneo del chip può generare gradienti di temperatura che provocano variazioni nelle tensioni di soglia e
+	nella mobilità dei portatori, tali variazioni cambiano nel tempo, ma per tempi infinitesimi sono costanti e generano skew
+	\item variazioni della tensione di alimentazione: \\
+	le cadute di tensione sulle linee di alimentazione possono variare nel tempo in funzione del carico dei moduli vicini
+	generando skew (variazioni lente), oppure possono essere causate da rumore di commutazioni logiche che generano jitter,
+	per ridurre tali jitter si aggiungono capacità di decoupling (disaccoppiamento) tra le linee di alimentazione in prossimità
+	dei buffer del clock
+\end{itemize}
+
+\subsubsection*{Riduzione dello sfasamento nella distribuzione locale e DLL}
+Per bilanciare il carico locale dei singoli moduli e ridurre lo skew dovuto ai carichi diersi sui buffer, si utilizzano 
+circuiti chiamati Delay Locked Loop (DLL). Sono simili ai PLL, ma non possiedono divisori di frequenza in quanto si vuole
+avere in uscita lo stesso segnale di clock in ingresso. Inoltre il VCO è sostituito da una catena di ritardo VCDL (Voltage
+Controlled Delay Line) che riceve in ingresso (oltre alla tensione \(V_C\)) la frequenza originale e produce in uscita
+lo stesso segnale ritardato di un tempo regolabile in base al carico del modulo. In questo modo si è in grado di compensare
+le variazioni di carico locale e ridurre lo skew.

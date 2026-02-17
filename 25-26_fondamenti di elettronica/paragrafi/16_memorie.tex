@@ -1,0 +1,328 @@
+\section{Memorie a semiconduttore}
+
+\subsection{Introduzione alle memorie a semiconduttore}
+\subsubsection*{Clasificazione delle memorie}
+Le memorie a semiconduttore si classificano in:
+\begin{itemize}
+	\item memorie volatili perdono il contenuto memorizzato in assenza di alimentazione
+	\begin{itemize}[topsep=0pt]
+		\item SRAM (Static RAM) e DRAM (Dynamic RAM)
+	\end{itemize}
+	\item memorie non volatili mantengono il contenuto memorizzato anche in assenza di alimentazione
+	\begin{itemize}[topsep=0pt]
+		\item memorie di sola lettura (ROM) programmabili una sola volta in fase di produzione
+		\item memorie riscrivibili EEPROM, Flash-EEPROM
+	\end{itemize}
+\end{itemize}
+
+\subsubsection*{Registro come elemento fondamentale delle memorie}
+L'elemento fondamentale di una memoria è il registro, che memorizza un bit di informazione. Un registro può essere realizzato
+con un flip-flop D, soltanto che si avrebbe un enorme spreco di spazio. Per questo motivo si usano delle celle di memoria
+compatte con una stessa linea per lettura e scrittura e un segnale di abilitazione. La gestione di lettura e scrittura
+avviene a livello di matrice di celle di memoria.
+
+\subsubsection*{Architettura tipica delle memorie}
+Le singole celle di memoria sono organizzate in matrici di righe e colonne. Attraverso un decoder di riga si attiva una
+word line (orizzontale) che abilita la lettura/scrittura di tutte le celle di una riga. Le celle di ogni colonna sono
+collegate assieme tramite una bit line (verticale) che termina in un MUX (decoder di colonna) che seleziona su quale
+colonna agire. Ogni colonna possiede un sense amplifier per ottimizzare la lettura del dato.
+
+Ogni matrice è detta banco di memoria, in un chip possono esserci più banchi di memoria indipendenti selezionabili tramite
+un selettore di blocco.
+
+Ogni cella possiede un indirizzo univoco e, se si utilizzano potenze di 2 per il numero di banchi, righe e colonne, l'indirizzo
+può essere spezzato in tre parti: indirizzo di banco, indirizzo di riga, indirizzo di colonna.
+
+\subsection{Matrice di celle per memorie ROM}
+La memoria ROM (Read Only Memory) è una memoria non volatile programmabile una sola volta in fase di produzione che permette
+l'immagazzinamento di informazioni binarie fisse e non modificabili. L'informazione viene memorizzata a livello hardware per
+cui non è possibile modificarla in seguito.
+
+\subsubsection*{ROM NOR}
+La ROM NOR è costituita da una matrice di celle in cui ogni cella è formata da un transistor collegato tra la bit line
+e il ground. La word line attiva il gate del transistor portando la bit line a massa che altrimenti rimane a \(V_{DD}\)
+tramite un pmos di pull-up. La cella memorizza uno 0 se il transistor è collegato alla bit line, altrimenti memorizza un 1
+se non c'è nessun collegamento.
+
+\subsubsection*{ROM NAND}
+La ROM NAND è costituita da una matrice di celle in cui una colonna è formata da una serie di transistor (uno per cella)
+collegati dall'estremità inferiore a massa e dall'estremità superiore alla bit line e a un pmos di pull-up. Ci sono inoltre
+le word line che attivano i gate dei transistor di una stessa riga. Per la lettura, si portano tutte le word line a 1 tranne
+quella della riga da leggere che viene portata a 0. Se per la riga selezionata il transistor non è bypassato, agisce come
+interruttore aperto e la bit line rimane a \(V_{DD}\), leggendo un 1. Altrimenti se c'è un bypass source-drain, la bit line
+rimane a massa, (tutti gli altri transistor sono attivi) e si legge uno 0.
+
+In alternativa ai collegamenti di bypass per i transistor, si droga il substrato del nmos in modo da avere una \(V_{TN}\)
+minore di 0. I transistor così ottenuti sono detti a svuotamento e sono sempre attivi. A livello di fabbricazione, si
+aggiunge una maschera ACTIVE per i drogaggi del substrato e si risparmia molto spazio evitando di fare i contatti metal
+per i collegamenti di bypass.
+
+\subsubsection*{Pro e contro}
+Le ROM NOR hanno tempi di accesso più veloci rispetto alle ROM NAND in quanto queste ultime devono scaricare a massa
+la bit line attraverso una serie di nmos in cascata. Si ha infatti una lunga rete di Elmore con elevate resistenze.
+
+Le ROM NAND, invece, sono più compatte in quanto non hanno bisogno dei contatti metallici per collegare i vari nmos della
+ROM NOR a massa e, avendo i mos in cascata, è possibile ridurre lo spazio tra le word line
+
+\subsection{Matrice di celle per memorie non volatili e scrivibili}
+\subsubsection*{Mosfet a gate flottante}
+I mosfet a gate flottante sono dei mosfet particolari in cui è possible programmare la tensione di soglia in modo da avere
+transistor ``normali'', sempre attivi (a svuotamento) o sempre spenti (a arricchimento). Per fare ciò si aggiunge un ulteriore
+strato di ossido tra il canale e l'elettrodo di gate, detto floating gate, senza collegamenti elettrici. Si forma in questo
+modo un doppio condensatore cmos tra canale e floating gate e tra floating gate e gate di controllo.
+
+In base a come è caricato il floating gate, si modifica la tensione di soglia del mosfet:
+\begin{itemize}
+	\item se il floating gate è neutro, si ha la \(V_{TN}\) standard del mosfet
+	\item se il floating gate è carico positivamente il gate di controllo deve applicare una tensione minore per creare
+	il canale in quanto la carica positiva nel FG attrae gli elettroni nel canale, si ha quindi una \(V_{TN} < 0\) che
+	fa funzionare il mosfet come un transistor a svuotamento sempre attivo
+	\item se il floating gate è carico negativamente, il gate di controllo deve applicare una tensione maggiore per vincere
+	le cariche negative nel FG che respingono gli elettroni nel canale, si ha quindi una \(V_{TN} > V_{DD}\) che fa
+	funzionare il mosfet come un transistor a arricchimento sempre spento 
+\end{itemize}
+
+Per caricare/scaricare il floating gate ci si basa sul fenomeno quantistico dell'effetto tunnel, ovvero se si applica una
+tensione molto elevata tra canale e gate di controllo, gli elettroni possono attraversare lo strato di ossido e andare a
+caricare/scaricare il floating gate. Lo strato di ossido tra canale e FG è contenuto per permettere tale effetto di tunneling
+mentre quello tra FG e gate di controllo è più spesso per evitare perdite di carica. Si hanno quindi due operazioni fondamentali:
+\begin{itemize}
+	\item \textbf{programmazione}: iniezione di elettroni nel FG rendendo \(V_T\) alta e il mosfet sempre spento, avviene
+	tramite l'applicazione di un potenziale positivo molto alto al gate di controllo mentre il canale è a massa (il gate
+	attira elettroni dal canale verso il FG)
+	\item \textbf{cancellazione}: rimozione di elettroni dal FG rendendo \(V_T\) bassa e il mosfet sempre attivo, avviene
+	tramite l'applicazione di un potenziale positivo molto alto al canale mentre il gate di controllo è a massa
+	(il canale attrae elettroni dal FG verso il canale)
+\end{itemize}
+Le operazioni di programmazione e cancellazione possono avvenire in maniera uniforme se source e drain hanno lo stesso
+potenziale oppure in maniera laterale se il potenziale si applica solo a uno dei due, lasciando l'altro libero.
+
+Si osservano le seguenti considerazioni:
+\begin{itemize}
+	\item per ritornare allo stato neutro del FG è necessario dosare opportunamente le tensioni di programmazione e 
+	cancellazione per non sovraccaricare o scaricare eccessivamente il FG ottenendo l'effetto contrario
+	\item lo strato di ossido tra canale e FG va fatto sottile per permettere l'effetto tunnel, ma non troppo sottile
+	per evitare perdite di carica nel tempo
+	\item le tensioni di programmazione e cancellazione sono molto elevate rispetto alle normali tensioni di funzionamento
+	in modo che nel normale funzionamento non avvenga alcun effetto tunnel
+\end{itemize}
+
+\subsubsection*{Memorie EEPROM (NOR)}
+Le memorie EEPROM( Electrically Erasable and Programmable Read Only Memory) sono memorie non volatili riscrivibili che
+utilizzano mosfet a gate flottante per memorizzare i dati. Le EEPROM hanno struttura simile alle ROM NOR in cui ogni
+cella è formata da nmos a gate flottante che collega la massa alla bit line attraverso un nmos di selezione. Gli nmo
+di selezione sono controllati da una word line e il fg-nmos funge da interruttore programmabile per collegare o meno
+l'nmos della cella a massa. È presente inoltre una control line che collega tutti i gate dei fg-nmos di una stessa riga.
+Le operazioni di lettura, programmazione e cancellazione possono essere fatte a livello di singola cella come segue:
+\begin{itemize}
+	\item l'operazione di \textbf{lettura} avviene attivando la word line della cella da leggere e verificando lo stato della bit line
+	come in una ROM NOR, la control line non viene usata
+	\item l'operazione di \textbf{programmazione} (nmos sempre spento, bit 1) avviene attivando la word line della cella da programmare e applicando
+	una tensione elevata tra la control line (potenziale potisivo) e la bit line (potenziale negativo) in modo da iniettare
+	elettroni nel floating gate tramite effetto tunnel
+	\item l'operazione di \textbf{cancellazione} (nmos sempre attivo, bit 0) avviene attivando la word line della cella da cancellare e applicando
+	una tensione elevata tra la bit line (potenziale positivo) e la control line (potenziale negativo) in modo da rimuovere
+	elettroni dal floating gate tramite effetto tunnel
+\end{itemize}
+
+\subsubsection*{Memorie Flash-EEPROM (NOR e NAND)}
+A differenza delle EEPROM, le memorie Flash-EEPROM non permettono operazioni di scrittura a livello di singola cella, ma solo
+a livello di intere pagine (gruppi di righe). Tutti i fg-nmos che condividono la stessa word line sono programmati assieme.
+Manca inoltre il transistor di selezione tra bit line e fg-nmos e di conseguenza le memorie Flash-EEPROM sono più compatte
+delle EEPROM classiche. È possibile implementarle sia con struttura NOR che NAND. L'operazione di programmazione deve sempre
+essere preceduta da una fase di cancellazione della pagina da sovrascrivere.
+
+\begin{itemize}
+	\item \textbf{Flash-EEPROM NOR}: \\
+	i fg-nmos di coppie di righe non sono collegati direttamente a massa, ma ad una source line, le operazioni di lettura,
+	programmazione e cancellazione avvengono come segue:
+	\begin{itemize}[topsep=0pt]
+		\item \textbf{lettura}: avviene come in una normale ROM NOR, le source line sono portate a massa
+		\item \textbf{cancellazione}: le source line vengono portate ad un potenziale positivo elevato, mentre le word line
+		della pagina da cancellare a massa, in modo da rimuovere elettroni e avere fg-nmos sempre attivi (bit 0)
+		\item \textbf{programmazione}: tutte le source line e le word line son portate a massa, tranne la
+		word line della pagina da programmare che viene portata ad un potenziale positivo elevato. Le bit line vengono
+		portate ad un potenziale basso per le celle da programmare (fg-nmos sempre spenti, bit 1) e vengono lasciate aperte
+		per le altre celle (fg-nmos sempre attivi, bit 0)
+	\end{itemize}
+	\item \textbf{Flash-EEPROM NAND}: \\
+	la struttura è simile a quella delle ROM NAND, si aggiungono due nmos in testa e in coda alla serie di fg-nmos che vengono
+	controllati da due linee di selezione. Il collegamento a massa avviene tramite la source line usata anche nelle operazioni
+	di scrittura. Le operazioni di lettura, programmazione e cancellazione avvengono come segue:
+	\begin{itemize}[topsep=0pt]
+		\item \textbf{lettura}: avviene come in una normale ROM NAND, la source line è portata a massa e i due nmos dice
+		selezione vengono abilitati
+		\item \textbf{cancellazione}: la source line e le bit line sono portate ad un potenziale positivo elevato, mentre le
+		word line della pagina da cancellare sono portate a massa, in modo da rimuovere elettroni e avere fg-nmos sempre attivi
+		(bit 0), i due nmos di selezione sono abilitati
+		\item \textbf{programmazione}: vengono abilitati solo i mos di selezione che collegano la serie alla bit line, lasciando
+		isolata la source line. Le word line della pagina da programmare sono portate ad un potenziale positivo elevato, mentre
+		le bit line sono portate ad un potenziale basso per le celle da programmare (fg-nmos sempre spenti, bit 1) o tenute
+		ad un potenziale alto per le altre celle (fg-nmos sempre attivi, bit 0)
+	\end{itemize}
+\end{itemize}
+
+Il vantaggi NAND-NOR sono analoghi a quelli delle ROM NAND-NOR: le Flash-EEPROM NAND sono più compatte ma più lente viceversa
+le Flash-EEPROM NOR sono più veloci ma più ingombranti.
+
+\subsubsection*{Memorie Flash multilivello (MLC)}
+Per aumentare la densità di memorizzazione delle memorie Flash-EEPROM, è possibile utilizzare più livelli di carica
+nel floating gate per memorizzare più di un bit per cella. Usando \(N = 2^k\) livelli di carica, è possibile memorizzare
+\(k\) bit per cella. Si richede però una circuiteria di lettura e scrittura più complessa e precisa per gestire i vari
+livelli di carica.
+
+\subsection{Matrice di celle per memorie RAM}
+\subsubsection*{Memoria RAM statica}
+La memoria RAM statica (SRAM) è costituita da celle di memoria formate da due invertitori cross-coupled in cui l'uscita
+di un invertitore controlla l'ingresso dell'altro e viceversa (come in un flip-flop senza TG). Alle uscite dei due invertitori
+sono collegati due nmos di selezione che collegano le uscite (una dritta, l'altra negata) a due bit line complementari.
+Il costo in termini di area è di 6 mos per cella.
+
+Alle bit line è collegato anche un modulo detto sense amplifier con circuiteria analoga alla cella, soltanto che le uscite
+degli invertitori sono collegate direttamente alle bit line e ci sono due mos che controllano l'alimentazione del sense
+amplifier tramite un segnale di abilitazione (attivo alto). È presente anche un pmos controllato da un segnale \(EQ\) che
+collega le due bit line per bilanciarle prima della lettura (attivo basso).
+
+La SRAM vista da fuori ha i seguenti ingressi/uscite:
+\begin{itemize}
+	\item \(n\) bit dei segnali di indirizzo in ingresso
+	\item \(m\) bit di dati in ingresso/uscita (segnali bidirezionale)
+	\item \(CS\) segnale di chip select in ingresso attivo basso
+	\item \(WE\) segnale di write enable in ingresso attivo basso
+	\item \(OE\) segnale di output enable in ingresso attivo basso
+\end{itemize}
+La lettura e scrittura avvengono come segue:
+\begin{itemize}
+	\item \textbf{lettura}: dall'esterno si rendono disponibili i bit di indirizzo, si porta \(CS\) a basso per abilitare
+	il chip, si porta \(WE\) ad alto per abilitare la lettura, si porta \(OE\) a basso per abilitare l'uscita dei dati.
+	Dall'interno si attiva il segnale \(EQ\) per bilanciare le bit line, si disattiva il segnale \(EQ\), si attiva la word
+	line della riga da leggere e la cella inizia a polarizzare le bit line in base al dato memorizzato, si attiva il sense
+	amplifier per accelerare la polarizzazione delle bit line e di conseguenza del dato nella cella letta e si leggono i dati
+	dalle bit line in uscita
+	\item \textbf{scrittura}: dall'esterno si rendono disponibili i bit di indirizzo e i dati da scrivere, si porta \(CS\)
+	a basso per abilitare il chip, si porta \(WE\) a basso per abilitare la scrittura, si porta \(OE\) ad alto per disabilitare
+	l'uscita dei dati. Dall'interno si polarizzano le bit line con i dati da scrivere, si attiva la word line della riga
+	da scrivere e la cella viene forzata a memorizzare il dato presente sulle bit line
+\end{itemize}
+Si nota che la lettura non è distruttiva perché la cella in autonomia è in grado di mantenere il dato memorizzato al valore
+logico corretto e agire per limitare i disturbi per la proprietà di bistabilità degli invertitori cross-coupled.
+
+Si nota che gli invertitori della cella non sono in grado di polarizzare velocemente le bit line a causa dell'elevata
+capacità parassita delle bit line e della resistenza dei mos di selezione. Per questo entra in azione il sense amplifier
+che accelera la polarizzazione delle bit line e di conseguenza del dato nella cella letta.
+
+\subsubsection*{Memoria RAM dinamica}
+Nelle memorie RAM dinamiche (DRAM) ogni cella di memoria è costituita da un mos di selezione che collega una bit line ad
+una capacità di storage che immagazzina la carica elettrica rappresentante il dato logico (1 o 0). La capacità di storage
+è soggetta a correnti di perdita che scaricano la carica nel tempo, per questo motivo è necessario un circuito di refresh
+che periodicamente legge e riscrive il dato in ogni cella per mantenere il contenuto della memoria.
+
+La SRAM vista da fuori ha i seguenti ingressi/uscite:
+\begin{itemize}
+	\item \(n\) bit dei segnali di indirizzo (ed eventualmente di selezione del banco) in ingresso
+	\item \(m\) bit di dati in ingresso/uscita (segnali bidirezionale)
+	\item \(CS\) segnale di chip select in ingresso attivo basso
+	\item \(WE\) segnale di write enable in ingresso attivo basso
+	\item \(RAS\) segnale di row address strobe di sincronismo per l'indirizzo di riga
+	\item \(CAS\) segnale di column address strobe di sincronismo per l'indirizzo di colonna
+	\item \(DQM\) segnale di data mask analogo allo \(OE\) delle SRAM, attivo basso
+\end{itemize}
+La lettura e scrittura avvengono come segue:
+\begin{itemize}
+	\item \textbf{lettura}: dall'esterno si rendono disponibili i bit di indirizzo di riga e banco, si porta \(CS\) a basso
+	per abilitare il chip, si porta \(WE\) ad alto per abilitare la lettura, si porta \(DQM\) a basso per abilitare l'uscita
+	dei dati. Si porta \(RAS\) a basso per attivare il decoder di riga e selezionare la word line della riga da leggere, infine
+	si rendono disponibili i bit di indirizzo di colonna e si porta \(CAS\) a basso per attivare il decoder di colonna e
+	selezionare la bit line della colonna da leggere. Dall'interno si attiva il sense amplifier per precaricare la bit line
+	ad un valore intermedio, si attiva la cella selezionata che polarizza la bit line in base al dato memorizzato (se 1 la
+	bit line aumenta lievemente di potenziale, se 0 diminuisce lievemente di potenziale), si attiva il sense amplifier che
+	ripristina la bit line al valore logico corretto (riscrivendo il dato nella cella), infine si leggono i dati dalle bit line.
+	\item \textbf{scrittura}: dall'esterno si rendono disponibili i bit di indirizzo di riga e banco, si porta \(CS\)
+	a basso per abilitare il chip, si porta \(DQM\) ad alto per disabilitare l'uscita dei dati. Si porta \(RAS\) a basso
+	per attivare il decoder di riga e selezionare la word line della riga da scrivere, infine si rendono disponibili
+	i bit di indirizzo di colonna e si porta \(CAS\) a basso per attivare il decoder di colonna e selezionare la bit line della
+	colonna da scrivere. Infine di abilita il segnale \(WE\) a basso per attivare la scrittura. Dall'interno si polarizzano
+	le bit line con i dati da scrivere, si attiva la word line della riga da scrivere e si carica la capacità di storage con
+	il dato presente sulla bit line.
+\end{itemize}
+Si nota che la lettura è distruttiva perché la cella non è in grado di mantenere il dato memorizzato autonomamente a causa
+della perdita di carica nella capacità di storage. Durante la lettura, il dato letto viene ripristinato nella cella tramite
+il sense amplifier mentre polarizza la bit line al valore logico corretto.
+
+Il ciclo di refresh per manterenere valido il contenuto delle singole celle consiste in una lettura integrale della memoria
+eseguita in paralello su tutte le bitline e su tutti i banchi di memoria. Durante tale operazione il decoder di colonna
+è disabilitato e il segnale delle bit line non viene portato all'uscita.
+
+Le capacità di storage possono essere realizzate verticalmente per risparmiare spazio in diversi modi:
+\begin{itemize}
+	\item trench: si scava un buco profondo nel substrato e lo si riempie di materiale metallico per formare un condensatore
+	a gusci cilindrici, il problema è che l'elevata profondità crea una rete di Elmore all'interno del metallo ritardando
+	le operazioni di carica e scarica
+	\item stack: si costruisce un condensatore verso l'alto sopra il substrato, il problema è che tutte le piste di
+	interconnessione si trovano sopra il condensatore, distanti dal substrato e i contatti metallici avranno una rete di
+	Elmore che rallenterà la propagazione dei segnali
+\end{itemize}
+
+\subsection{Tempi di accesso}
+\subsubsection*{Circuiti equivalenti di WL e BL}
+Per analizzare i tempi di accesso delle memorie, si modellano le word line e le bit line con circuiti equivalenti RC
+risolvibili con le reti di Elmore.
+
+Per le word line, rispetto al modello per le interconnessioni, bisogna aggiungere le capacità parassite dei gate dei mos
+delle celle collegate alla word line (per le SRAM va raddoppiata perché ci sono due mos per cella collegati alla WL).
+\[R_{W\!L} = R_q \; \frac{D_\text{\;lunghezza orizzontale celle}}{{L_{W\!L}}_\text{\;spessore word line}} \qquad\quad C_{W\!L} = {C_A}^{W\!L} \cdot D \cdot L_{W\!L} + {C_B}^{W\!L} \cdot 2D + {C_g}_\text{gate dei mos}\]
+\[t_{p,W\!L} = 0.69 \cdot R_0 \cdot C_{W\!L} + 0.69 \cdot R_{W\!L} \cdot C_{W\!L} / 2 \qquad \text{con} \; R_0 = \text{dec. di riga}\]
+
+Per le bit line, rispetto al modello per le interconnessioni, bisogna aggiungere le capacità parassite dei drain/source
+dei mos delle celle collegate alla bit line.
+\[R_{B\!L} = R_q \; \frac{H_\text{\;altezza verticale celle}}{{L_{B\!L}}_\text{\;spessore bit line}} \qquad\quad C_{B\!L} = {C_A}^{B\!L} \cdot H \cdot L_{B\!L} + {C_B}^{B\!L} \cdot 2H + {C_d}_\text{drain dei mos}\]
+\[t_{p,B\!L} = 0.69 \cdot R_0 \cdot C_{B\!L} + 0.69 \cdot R_{B\!L} \cdot C_{B\!L} / 2 \qquad \text{con} \; R_0 = \text{dec. di colonna}\]
+
+Per le bit line delle NAND, bisogna considerare la resistenza equivalente della serie di mos collegati alla bit line:
+\[t_{p,B\!L} = 0.69 \cdot R_n \cdot 2 C_\text{drain} \cdot \frac{M(M+1)}{2} + 0.69 \cdot M \cdot R_n \cdot C_{B\!L} \qquad \text{con} \; N_{mos} = \text{numero di mos in serie}\]
+
+\subsection{Circuiti periferici}
+\subsubsection*{Decoder di riga}
+Il decoder di riga prende in ingresso un indirizzo binario di \(n\) bit e attiva una sola delle \(2^n\) uscite, ovvero la
+word line corrispondente all'indirizzo in ingresso. Può essere realizzato anche in logica negata in cui l'uscita attivata
+è portata a 0 mentre tutte le altre sono portate a \(V_{DD}\).
+
+Una prima implementazione potrebbe essere quella di dedicare una porta AND (o NOR) per ogni uscita del decoder che riceve
+in ingresso gli \(n\) bit dell'indirizzo (diretti o negati a seconda del valore logico necessario per attivare l'uscita).
+Il tempo di ritardo cresce esponenzialmente con \(n\) a causa del carico degli invertitori sugli inressi, per cui si usa
+una struttura a stadi. In logica negata si usano NAND al posto delle NOR.
+
+Si suddividono gli \(n\) bit di ingresso in \(k\) gruppi di \(m\) bit ciascuno, con \(n = k \cdot m\). Si costruisce un
+predecoder con \(k\) gruppi di \(2^m\) porte NAND che prende in ingresso gli \(m\) bit di ogni gruppo e produce \(2^m\)
+uscite parziali. Tali uscite parziali vengono poi combinate in un secondo stadio con porte NOR per ottenere le \(2^n\) uscite
+finali del decoder. In questo modo si rallenta la crescita del tempo di ritardo complessivo. In logica negata si usano NOR
+nel predecoder e NAND nel secondo stadio.
+
+\subsubsection*{Decoder di colonna}
+Il decoder di colonna svolge il ruolo di un MUX, selezionando una sola delle \(2^n\) bit line in base all'indirizzo di colonna
+in ingresso, ma viene realizzato con tante porte TG per ogni bit line che vengono attivate una alla volta, pilotate dalle
+uscite di un decoder di colonna vero e proprio. Le porte TG permettono un collegamento bidirezionale tra la bit line selezionata
+e il bus di I/O della memoria.
+
+\subsubsection*{Sense amplifier}
+Il sense amplifier viene posizionato uno per colonna, generalmente indicato tra la matrice di celle e il decoder di colonna.
+Un caso particolare di utilizzo del sense amplifier è nelle memorie DRAM dove è presente solo una bit line per colonnna:
+si divide la matrice di celle in due metà speculari e si posizionano i sense amplifier al centro. Si aggiungono inoltre due
+celle fittizie (reference cell) per ogni colonna per equilibrare il carico capacitivo dei due rami delle bit line.
+Durante la lettura, prima si ha una precarica delle bit line ad un valore intermedio, poi si attiva la word line della riga
+da leggere e la cella di riferimento nella metà opposta. La cella da leggere altera la bit line in base al dato memorizzato
+e viene attivato il sense amplifier rileva la differenza di potenziale tra le due bit line e ripristina il valore logico corretto.
+
+\subsubsection*{Buffer bidirezionale di I/O - invertitore tri-state}
+Per alcune applicazioni è utile avere un invertitore che, oltre allo stato logico alte e basso, possa assumere uno stato di
+alta impedenza (tri-state), ovvero con resistenza di uscita molto elevata che isola il circuito a valle. Per fare ciò si
+utilizza un invertitore cmos a cui vengono aggiunti un nmos e un pmos tra le reti di pull-up e pull-down e l'uscita
+dell'invertitore. I due mos aggiuntivi sono controllati da un segnale di abilitazione: quando è attivo, i mos sono spenti
+e l'uscita è in alta impedenza, quando è inattivo, i mos sono accesi e l'invertitore funziona normalmente. Il segnale di
+abilitazione può essere diretto o negato (con pallino) a seconda della logica desiderata.
+
+in questo modo è possibile realizzare un buffer bidirezionale di I/O per le memorie RAM utilizzando due invertitori tri-state
+collegati in parallelo e in modo opposto e controllati da due segnali di abilitazione diversi. Un invertitore sarà orientato
+per l'ingresso dei dati nella memoria (scrittura) e verrà abilitato quando si vuole scrivere, l'altro invertitore sarà
+orientato per l'uscita dei dati dalla memoria (lettura) e verrà abilitato quando si vuole leggere. Quando nessuno dei due
+invertitori è abilitato, il bus di I/O è in alta impedenza e non interferisce con altri dispositivi collegati.

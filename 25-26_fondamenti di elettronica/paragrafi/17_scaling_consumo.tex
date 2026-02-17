@@ -1,0 +1,260 @@
+\section{Scaling e consumo}
+\subsection{Storia e trend di evoluzione}
+\subsubsection*{Breve storia}
+\begin{itemize}
+	\item 1925: prima idea del transistor a effetto di campo (FET)
+	\item 1949: realizzazione del primo transistor bipolare
+	\item anni 60: prime porte logiche, primi mos e prime idee di circuiti integrati con mos
+	\item anni 70: ic nmos 4004 e 8008 di Intel (il 4004 aveva 2300 transistor e clock \(<\)1MHz)
+	\item anni 80: ic cmos 8086 di Intel (30000 transistor, 5MHz, 3\(\mu m\), 16 bit, 5V)
+	\item anni 2000: microprocessori Pentium 4 di Intel (42 milioni di transistor, 1GHz)
+	\item anni 2005: processori dual core (Core 2 Duo di Intel)
+\end{itemize}
+
+\subsubsection*{Legge di Gordon Moore}
+\begin{center}
+    \text{"Le prestazioni dei processori e il numero di transistor ad esso relativo raD\!Doppiano ogni 18 mesi"} \\[5pt]
+    \hspace*{\fill} {--- Gordon Moore, 1965}
+\end{center}
+
+\subsubsection*{Evoluzione delle specifiche dei processori}
+Per mantenere tale trend di crescita (specialmente il numero di transistor), è stato necessario agire su diversi fattori in
+tempi diversi in modo che, quando si raggiungono i limiti fisici di un parametro, si possa intervenire su un altro.
+I principali fattori sono:
+\begin{itemize}
+	\item frequenza di clock (saturato intorno al 2005)
+	\item consumo di potenza (saturato nei primi 2000)
+	\item numero di core logici (in aumento)
+	\item prestazioni single thread (quasi in saturazione)
+	\item evoluzione delle tecnologie di fabbricazione, es. dimensione mos (prossimo a saturare)
+\end{itemize}
+
+\subsubsection*{Consumo di potenza}
+Il consumo di potenza è diventato un fattore limitante per l'evoluzione dei processori a partire dai primi anni 2000, in quanto
+con la diffusione dei dispositivi mobili, era necessario mantenere il consumo energetico entro certi limiti per garantire una
+buona autonomia della batteria. Inoltre un elevato consumo di potenza comporta un aumento del calore emesso e si richiede
+dissipatori sempre più efficienti.
+
+\subsubsection*{Dimensioni dei transistor}
+L'evoluzione delle tecnologie di fabbricazione, in particolare la riduzione delle dimensioni dei transistor, ha permesso
+di aumentare il numero di transistor per unità di area, di ridurre le capacità parassite riducendo ritardi e consumi e di
+ridurre le tensioni di alimentazione riducendo i consumi.
+
+\subsubsection*{Integrazione 3D e moduli multichip}
+Per mantenere in crescita il numero di transistor si adottano tecniche di integrazione 3D o moduli multichip, rispettivamente
+impilare più wafer interconnessi verticalmente o affiancare più chip su un unico package.
+
+\newpage
+
+\subsection{Strategie di scaling}
+\subsubsection*{Scaling a \(V_{D\!D}\) costante}
+Si mantiene costante la tensione di alimentazione \(V_{D\!D}\) e si riducono le dimensioni \(W\), \(L\) e \(t_{OX}\) dei mos
+di un fattore \(\alpha\). Si ottengono le seguenti variazioni:
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\begin{tabular}{l c}
+			\textbf{parametro} & \textbf{scaling} \\
+			\toprule
+			\(W\), \(L\) \(t_{OX}\) & \(1/\alpha\) \\
+			\(V_{D\!D}\) & 1 \\
+			Area & 1/\(\alpha^2\) \\
+			Capacità & 1/\(\alpha\) \\
+			\(I_\text{DSAT}\) & \(\alpha\) \\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\begin{tabular}{l c}
+			\textbf{parametro} & \textbf{scaling} \\
+			\toprule
+			\(t_p\) & 1/\(\alpha^2\) \\
+			\(P_\text{dyn}\) & \(\alpha\) \\
+			\(P_\text{dyn}\)/Area & \(\alpha^3\) \\
+			\(E \approx V_{D\!D}/L, V_{D\!D}/t_{OX}\) & \(\alpha\) \\
+			\(C \, {V_{D\!D}}^2\) & 1/\(\alpha\) \\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+\end{center}
+Le criticità di questo tipo di scaling sono l'aumento dei consumi per unità di area che inducono ad un surriscaldamento elevato
+del chip e alla necessità di dissipatori più efficienti.
+
+\subsubsection*{Scaling a campo \(E\) costante o full scaling o full scaling}
+Si mantiene costante il campo elettrico \(E\) e si riducono le dimensioni \(W\), \(L\) e \(t_{OX}\) dei mos di un fattore \(\alpha\).
+Si adotta il modello a canale lungo. Si ottengono le seguenti variazioni:
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\begin{tabular}{l c}
+			\textbf{parametro} & \textbf{scaling} \\
+			\toprule
+			\(W\), \(L\) \(t_{OX}\) & \(1/\alpha\) \\
+			\(V_{D\!D}\) & \color{red}{1/\(\alpha\)}\color{black} \\
+			Area & 1/\(\alpha^2\) \\
+			Capacità & 1/\(\alpha\) \\
+			\(I_\text{DSAT}\) & \color{red}{1/\(\alpha\)}\color{black}\\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\begin{tabular}{l c}
+			\textbf{parametro} & \textbf{scaling} \\
+			\toprule
+			\(t_p\) & \color{red}{1/\(\alpha\)}\color{black} \\
+			\(P_\text{dyn}\) & \color{red}{1/\(\alpha^2\)}\color{black} \\
+			\(P_\text{dyn}\)/Area & \color{red}{1}\color{black} \\
+			\(E \approx V_{D\!D}/L, V_{D\!D}/t_{OX}\) & \color{red}{1}\color{black} \\
+			\(C \, {V_{D\!D}}^2\) & \color{red}{1/\(\alpha^3\)}\color{black} \\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+\end{center}
+La criticità di questo tipo di scaling è l'aumento della tensione di soglia \(V_T\) dei transistor che porta ad un
+aumento esponenziale delle correnti di perdita aumentando il consumo statico. Le porte non risulterebbero totalmente
+spente.
+
+Inoltre le dimensioni di \(V_{D\!D}\) aumentano e inducono ad un amento della resistenza equivalente dei mos, aumentando
+i tempi di ritardo dei circuiti.
+
+\subsubsection*{General scaling}
+Nello general scaling si sceglie di ridurre la tensione di alimentazione \(V_{D\!D}\) di un fattore \(k/\alpha\) per
+evitare di avere aumenti nella tensione di soglia \(V_T\) e nella resistenza equivalente dei mos. Si adotta il modello
+a canale corto in quanto, per le dimensioni del canale, tanti effetti non si possono più trascurare. Si ottengono le
+seguenti variazioni:
+\begin{center}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\begin{tabular}{l c}
+			\textbf{parametro} & \textbf{scaling} \\
+			\toprule
+			\(W\), \(L\) \(t_{OX}\) & \(1/\alpha\) \\
+			\(V_{D\!D}\) & \color{red}{\(k/\alpha\)}\color{black} \\
+			Area & 1/\(\alpha^2\) \\
+			Capacità & 1/\(\alpha\) \\
+			\(I_\text{DSAT}\) & \color{red}{\(k/\alpha\)}\color{black}\\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\begin{tabular}{l c}
+			\textbf{parametro} & \textbf{scaling} \\
+			\toprule
+			\(t_p\) & \color{red}{1/\(\alpha\)}\color{black} \\
+			\(P_\text{dyn}\) & \color{red}{\(k^2/\alpha^2\)}\color{black} \\
+			\(P_\text{dyn}\)/Area & \color{red}{\(k^2\)}\color{black} \\
+			\(E \approx V_{D\!D}/L, V_{D\!D}/t_{OX}\) & \color{red}{\(k\)}\color{black} \\
+			\(C \, {V_{D\!D}}^2\) & \color{red}{\(k^2/\alpha^3\)}\color{black} \\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+\end{center}
+In generale di adotta \(k = \sqrt{\alpha}\). Le criticità di questo tipo di scaling sono il ritorno dell'aumento lineare del
+consumo per unità di area con \(\alpha\) e di conseguenza la necessità di avere dissipatori più grandi ed efficienti.
+
+\newpage
+
+\subsection{Compromesso tra velocità e consumo}
+\subsubsection*{Parametri e tecniche di riduzione del consumo}
+In generale i parametri che si vuole ottimizzare sono:
+\begin{itemize}
+	\item la latenza: velocità di elaborazione o tempo di risposta, utile per applicazioni real-time che richiedono risposte
+	veloci e immediate
+	\item il flusso: quantità di dati elaborati per unità di tempo, utile per applicazioni che richiedono l'elaborazione
+	di grandi quantità di dati in tempi lunghi (streaming, elaborazione batch, ecc.)
+\end{itemize}
+Inoltre si cerca sempre di minimizzare il consumo energetico agendo sul consumo dinamico e statico agendo su:
+\begin{itemize}
+	\item \(V_{D\!D}\): riduzione di \(V_{D\!D}\) riduce il consumo dinamico, ma diminuisce la velocità
+	\item \(V_{TN}\): aumentando di \(V_{TN}\) riduce il consumo statico, ma diminuisce la velocità 
+	\item architettura: il parallelismo e pipeline aumentano il flusso e il consumo in proporzione
+\end{itemize}
+Esistono diverse tecniche intelligenti per ottimizzare i vari parametri sopra in riferimento al consumo:
+\begin{center}
+	\begin{tabular}{l c c}
+		\textbf{tecnica impiegata} & \textbf{consumo dinamico} & \textbf{consumo statico} \\
+		\toprule
+		riduzione di \(V_{D\!D}\) & \multirow{3}{4cm}{~~~~~ molto efficiente (agisce quadraticamente)} & \multirow{3}{*}{impatto limitato} \\
+		impiego di \(V_{D\!D}\) multiple & & \\
+		riduzione dinamica di \(V_{D\!D}\) & & \\
+		\midrule
+		riduzione di \(V_{TN}\) & \multirow{3}{*}{nessun impatto} & \multirow{3}{*}{molto efficiente} \\
+		impiego di \(V_{TN}\) multiple & & \\
+		variazione dinamica di \(V_{TN}\) & & \\
+		\midrule
+		riorganizzazione logica e strutturale & \multirow{1}{*}{molto efficiente} & \multirow{1}{*}{impatto limitato} \\
+		\midrule
+		modalità stand-by & \multirow{1}{*}{poco efficiente} & \multirow{1}{*}{molto efficiente} \\
+		\midrule
+		clock gating & \multirow{1}{*}{efficiente} & \multirow{1}{*}{molto efficiente} \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+\subsubsection*{Riduzione globale di \(V_{D\!D}\) e compensazione con parallelismo e pipeline}
+La riduzione di \(V_{D\!D}\) provoca una riduzione della frequenza del clock. Per mantenere invariate le prestazioni servono
+misure compensative come l'ottimizzazione logica e strutturale (es. sommatore cla al posto di rc) o l'adozione di architetture
+con pipeline e parallelismo.
+
+Un esempio di parallelismo può essere il raddoppio della rete logica in due reti logiche identiche, ma con registri che
+lavorano a fronti di clock opposti e l'uscita è selezionata da un multiplexer. In questo modo si può dimezzare la frequenza
+del clock e ridurre \(V_{D\!D}\) mantenendo invariate le prestazioni (il flusso). Il nuovo consumo è compreso tra il 30\% e il
+40\% del consumo originale, ma serve il doppio dell'area.
+
+Un esempio di pipeline può essere l'inserimento di registri tra le varie fasi di un datapath in modo che, mantenendo sempre
+la stessa frequenza di clock, si può ridurre la velocità di ogni fase agendo su \(V_{D\!D}\). Il consumo risulta compreso
+tra il 50\% e il 60\% del consumo originale, ma serve più area per i registri aggiuntivi e si aumenta la latenza.
+
+\subsubsection*{Tensione di alimentazione multiple e circuiti traslatori di livello}
+Una tecnica intelligente è ridurre \(V_{D\!D}\) in maniera selettiva solo per i blocchi che finiscono in anticipo l'operazione
+e che quindi rimangono inattivi in attesa degli altri blocchi. In questo modo si riduce il consumo dinamico senza penalizzare
+le prestazioni complessive del sistema. Tra due blocchi che lavorano a tensioni di alimentazinoe diverse serve aggiungere un
+circuito traslatore di livello che converte i segnali logici alti tra i due livelli di tensione.
+
+Il circuito traslatore di livello da \(V_{D\!D1}\) a \(V_{D\!D2}\) è composto da 2 nmos e 2 pmos. Tutti i mos devono sopportare
+la tensione \(\max \{V_{D\!D1}, V_{D\!D2}\}\) e almeno i due nmos devono avere \(V_{TN} < V_{D\!D1}\). In pratica si hanno
+due nmos complementari controllati da \(V_{D\!D1}\) che controllano se portare l'uscita a \(GND\) e disattivare i pmos, oppure
+se attivare i pmos per portare l'uscita a \(V_{D\!D2}\).
+
+È possibile utilizzare tensioni di alimentazione multiple anche all'interno dello stesso blocco logico, ad esempio
+utilizzando una tensione più alta per le parti critiche del circuito che richiedono maggiore velocità e una tensione più bassa
+per le parti meno critiche, in modo da ottimizzare il consumo energetico complessivo del blocco ed avere tutti i segnali
+pronti nello stesso istante (si ritardano quelli più veloci).
+
+A livello pratico si è osservato che non ha senso utilizzare più di 2 tensioni di alimentazione diverse in un sistema, in
+quanto più linee di alimentazione richiedono maggiori interconnessioni e complessità di progettazione.
+
+\subsubsection*{Riduzione dinamica di \(V_{D\!D}\) in funzione del carico computazionale - DVS, DTS}
+Il Dynamic Supply Voltage Scaling (DVS) consiste nel ridurre dinamicamente \(V_{D\!D}\) (e in proporzione la frequenza) quando
+il carico computazionale diminuisce e il processore non necessita di alte prestazioni. Il circuito di gestione della tensione
+è composto da un modulo simile alla CP + VCO per generare \(V_{D\!D}\) controllato da un comparatore tra un registro scritto
+dal SO e un oscillatore ad anello (che trasforma la tensione analogica in frequenza). Il comportamento di tale circuito 
+non è lineare, ma è monotono crescente e ciò è sufficiente per il controllo. Il registro di controllo è gestito dal SO/BIOS
+o programmatore che imposta il livello di prestazioni richiesto in modo da garantire la minima frequenza per tutti i programmi
+in esecuzione. Nel caso di multicore, ogni core può avere il proprio circuito DVS indipendente.
+
+Il Dynamic Threshold Voltage Scaling (DTS) consiste nel variare dinamicamente la tensione di soglia \(V_{TN}\) dei mos
+in funzione del carico computazionale. Per fare ciò si agisce sulla tensione di substrato \(V_{BS}\) dei mos, in modo da
+modificare \(V_{TN}\) in base alla formula dell'effetto body. Aumentando \(V_{BS}\) si aumenta \(V_{TN}\) e si riduce
+il consumo statico, mentre diminuendo \(V_{BS}\) si diminuisce \(V_{TN}\) e si aumenta la velocità. Per controllare \(V_{BS}\)
+si utilizzano due generatori di tensione per \(V_{BSn}\) (nmos) e \(V_{BSp}\) (pmos) per ogni modulo. Per poter far variare
+il potenziale di substrato degli nmos in maniera indipendente è necessario isolare il substrato p degli nmos circondandoli
+da una barriera di ossido n (substrato dei pmos). Tale processo produttivo è chiamato tripple well. Per garantire il corretto
+funzionamento delle giunzioni pn tra i substrati p (nmos), n (involucro) e p (wafer), è necessario che il potenziale del
+substrato p degli nmos \(V_{BSn} \leq 0V\), che il potenziale del substrato n degli nmos (involucro) \(V_{BSp} \geq 0V\)
+ponendo \(V_{B} = 0\) il potenziale dell'ossido p del wafer.
+
+\subsubsection*{Modalità Stand-by e clock gating}
+La modalità stand-by consiste nello isolare completamente un blocco logico dall'alimentazione quando non è in uso, in modo
+da eliminare completamente il consumo statico e dinamico. Tale modalità è utile per blocchi che rimangono inattivi per lunghi
+periodi di tempo. Per fare ciò si utilizzano due transistor che collegano/isolano le piste di alimentazione \(V_{D\!D}\) e
+\(GND\) generali dalle piste di alimentazione virtuale del blocco logico. Si nota che se sono circuiti di memoria, il
+contenuto dei registri va perso.
+
+Il clock gating consiste nel disabilitare il clock di un blocco logico quando non è in uso, in modo da evitare di commutare
+i suoi flip-flop e alzare/abbassare tutte le piste di distribuzione del clock, riducendo il consumo. Per disabilitare il clock
+si usano porte TG combinate opportunamento con dei PLL in quanto le TG creano ritardi e cambi di carico capacitivo sulla linea
+di clock principale.
