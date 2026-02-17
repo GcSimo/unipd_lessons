@@ -1,0 +1,85 @@
+<div class="notebook">
+
+<div class="nb-cell markdown" name="md3">
+# Laboratory 4 - Exercises
+</div>
+
+<div class="nb-cell markdown" name="md1">
+## Exercise 1
+</div>
+
+<div class="nb-cell program" name="p3">
+% Facts &amp; Rules
+% jia is a woman.
+woman(jia).
+
+% john is a man.
+man(john).
+
+% john is healthy.
+healthy(john).
+
+% jia is healthy.
+healthy(jia).
+
+% john is wealthy.
+wealthy(john).
+
+% anyone is a traveler if she/he is healthy and wealthy.
+traveler(X) :- healthy(X), wealthy(X).
+
+% anyone can travel if she/he is a traveler.
+can_travel(X) :- traveler(X).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q4">
+% Who can travel?
+can_travel(X)
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q5">
+% Who is healthy and wealthy?
+healthy(X),wealthy(X).
+</div>
+
+<div class="nb-cell markdown" name="md2">
+## Exercise 2
+</div>
+
+<div class="nb-cell program" name="p4">
+% X is even if X=0 or the predecessor of X is odd for positive X or |X| is even for negative X
+even_slow(X) :- X =:= 0, !; X &gt; 0, odd_slow(X-1); X &lt; 0, even_slow(-X). % without cut
+even_fast(X) :- X =:= 0, !; X &gt; 0, odd_fast(X-1), !; X &lt; 0, even_fast(-X), !. % with cut
+even(X) :- even_fast(X).
+
+% X is odd if the predecessor of X is even for positive X or |X| is odd for negative X
+odd_slow(X) :- X &gt; 0, even_slow(X-1); X &lt; 0, odd_slow(-X). % without cut
+odd_fast(X) :- X &gt; 0, even_fast(X-1), !; X &lt; 0, odd_fast(-X), !. % with cut
+odd(X) :- odd_fast(X).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q6">
+even(0), odd(1), even(2), odd(3), even(4), odd(5), even(6), odd(7).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q11">
+odd(-1), even(-2), odd(-3), even(-4), odd(-5), even(-6), odd(-7).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q12">
+not(odd(0)), not(even(1)), not(odd(2)), not(even(3)), not(odd(4)), not(even(5)), not(odd(6)), not(even(7)).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q7">
+not(even(-1)), not(odd(-2)), not(even(-3)), not(odd(-4)), not(even(-5)), not(odd(-6)), not(even(-7)).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q8">
+even_slow(12346).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q9">
+even_fast(12346).
+</div>
+
+</div>

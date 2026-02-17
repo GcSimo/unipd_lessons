@@ -1,0 +1,479 @@
+<div class="notebook">
+
+<div class="nb-cell markdown" name="md1">
+# Laboratory 4 - Lecture
+</div>
+
+<div class="nb-cell markdown" name="md2">
+## Facts and rules
+</div>
+
+<div class="nb-cell program" name="p1">
+% rule
+colleague(X, Y) :- work(X, Z), work(Y, Z).
+
+% facts
+work(emp1, deepmind).
+work(emp2, deepmind).
+work(emp3, ibm).
+work(emp4, ibm).
+</div>
+
+<div class="nb-cell query" name="q1">
+aggregate_all(count, (colleague(emp1, emp2)), Count).
+</div>
+
+<div class="nb-cell query" name="q2">
+colleague(emp1, emp3).
+</div>
+
+<div class="nb-cell program" name="p3">
+%facts
+
+%%% antonio likess all
+likes(mary, pizza).
+likes(john, icecream).
+likes(antonio, Thing).
+food(pizza).
+food(icecream).
+
+eats(Person, Thing) :- likes(Person, Thing), food(Thing).
+</div>
+
+<div class="nb-cell query" name="q3">
+likes(john, pizza).
+</div>
+
+<div class="nb-cell query" name="q4">
+eats(john, X).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q5">
+eats(antonio, X).
+</div>
+
+<div class="nb-cell markdown" name="md3">
+## Inference engine
+</div>
+
+<div class="nb-cell program" name="p2">
+parent(tommaso,francesca).
+parent(tommaso,vittorio).
+parent(francesca,linda).
+parent(vittorio,bianca).
+grampa(X,Y) :- parent(X,Z), parent(Z,Y).
+</div>
+
+<div class="nb-cell query" name="q6">
+grampa(tommaso,bianca).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q7">
+grampa(tommaso, Who).
+</div>
+
+<div class="nb-cell program" name="p4">
+parent(tommaso,francesca).
+parent(tommaso,vittorio).
+parent(francesca,linda).
+parent(francesca,leonardo).
+parent(vittorio,bianca).
+grampa(X,Y) :- parent(X,Z), parent(Z,Y).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q8">
+grampa(tommaso, Who).
+</div>
+
+<div class="nb-cell program" name="p5">
+likes(mary,food).
+likes(mary,wine). 
+likes(john,beer). 
+likes(john,wine).
+</div>
+
+<div class="nb-cell query" name="q9">
+likes(mary,X), likes(john,X).
+</div>
+
+<div class="nb-cell program" name="p6">
+likes(mary,food).
+likes(mary,wine). 
+likes(john,beer).
+likes(john,wine). 
+likes(mary, john).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q10">
+likes(mary,X), likes(john,X).
+</div>
+
+<div class="nb-cell program" name="p7">
+likes(mary,food). 
+likes(mary,wine). 
+likes(john,beer). 
+likes(john,wine). 
+likes(mary, john). 
+likes(john, john).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q11">
+likes(mary,X), likes(john,X).
+</div>
+
+<div class="nb-cell program" name="p8">
+likes(mary,food). 
+likes(mary,wine).
+likes(john,beer). 
+likes(john,wine). 
+likes(mary, john). 
+likes(john, mary).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q12">
+likes(mary,X), likes(john,X).
+</div>
+
+<div class="nb-cell query" name="q13">
+trace, likes(mary,X), likes(john,X).
+</div>
+
+<div class="nb-cell markdown" name="md4">
+## Terms classifications
+</div>
+
+<div class="nb-cell program" name="p9">
+likes(mary, valentino_rossi).
+likes(mary, valentino46).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q14">
+likes(mary, X).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q15">
+likes(mary, _X).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q16">
+likes(mary, _item).
+</div>
+
+<div class="nb-cell program" name="p10">
+book('Le tigri di Mompracem',author(emilio,salgari)).
+</div>
+
+<div class="nb-cell query" name="q17">
+book('Le tigri di Mompracem', X).
+</div>
+
+<div class="nb-cell query" name="q18">
+var(X).
+</div>
+
+<div class="nb-cell query" name="q19">
+X = 5, var(X).
+</div>
+
+<div class="nb-cell query" name="q20">
+X = Y, var(X), var(Y).
+</div>
+
+<div class="nb-cell query" name="q21">
+nonvar(X).
+</div>
+
+<div class="nb-cell query" name="q22">
+X = 5, nonvar(X).
+</div>
+
+<div class="nb-cell query" name="q23">
+X = Y, nonvar(X), nonvar(Y).
+</div>
+
+<div class="nb-cell query" name="q24">
+integer(5).
+</div>
+
+<div class="nb-cell query" name="q25">
+integer(5.0).
+</div>
+
+<div class="nb-cell query" name="q26">
+X = 10, integer(X).
+</div>
+
+<div class="nb-cell query" name="q27">
+X = 10.0, integer(X).
+</div>
+
+<div class="nb-cell query" name="q28">
+number(5).
+</div>
+
+<div class="nb-cell query" name="q29">
+number(5.0).
+</div>
+
+<div class="nb-cell query" name="q30">
+number(atom).
+</div>
+
+<div class="nb-cell query" name="q31">
+X = 10, number(X).
+</div>
+
+<div class="nb-cell query" name="q32">
+X = abc, number(X).
+</div>
+
+<div class="nb-cell query" name="q33">
+atom('hello').
+</div>
+
+<div class="nb-cell query" name="q34">
+atom(hello).
+</div>
+
+<div class="nb-cell query" name="q35">
+atom('hello world').
+</div>
+
+<div class="nb-cell query" name="q36">
+atom('123').
+</div>
+
+<div class="nb-cell query" name="q37">
+atom(123).
+</div>
+
+<div class="nb-cell query" name="q38">
+X = abc, atom(X).
+</div>
+
+<div class="nb-cell query" name="q39">
+X = 123,  atom(X).
+</div>
+
+<div class="nb-cell query" name="q40">
+atomic(5).
+</div>
+
+<div class="nb-cell query" name="q41">
+atomic(5.0).
+</div>
+
+<div class="nb-cell query" name="q42">
+atomic(hello).
+</div>
+
+<div class="nb-cell query" name="q43">
+X = 10, atomic(X).
+</div>
+
+<div class="nb-cell query" name="q44">
+X = abc, atomic(X).
+</div>
+
+<div class="nb-cell markdown" name="md5">
+## Unification
+</div>
+
+<div class="nb-cell query" name="q45">
+tommaso=tommaso.
+</div>
+
+<div class="nb-cell query" name="q46">
+tommaso=X.
+</div>
+
+<div class="nb-cell program" name="p11">
+parent(tommaso,francesca).
+parent(tommaso,vittorio).
+parent(francesca,linda).
+parent(vittorio,bianca).
+grampa(X,Y) :- parent(X,Z), parent(Z,Y).
+</div>
+
+<div class="nb-cell query" data-chunk="100" name="q47">
+grampa(X,Y), grampa(tommaso,Z).
+</div>
+
+<div class="nb-cell query" name="q48">
+X = father(X).
+</div>
+
+<div class="nb-cell query" name="q49">
+unify_with_occurs_check(X, father(X))
+</div>
+
+<div class="nb-cell markdown" name="md10">
+## Arithmetics
+</div>
+
+<div class="nb-cell query" name="q50">
+3+2=X
+</div>
+
+<div class="nb-cell query" name="q51">
+3+2 = 5
+</div>
+
+<div class="nb-cell query" name="q52">
+X is 3+2
+</div>
+
+<div class="nb-cell query" name="q53">
+5 is 3+2
+</div>
+
+<div class="nb-cell query" name="q54">
+X is 3.0 + 2.0
+</div>
+
+<div class="nb-cell query" name="q55">
+X is 2, 5 is 3 + X
+</div>
+
+<div class="nb-cell markdown" name="md6">
+## Lists
+</div>
+
+<div class="nb-cell query" name="q56">
+[Head|Tail] = [antonio, vittorio, tommaso].
+</div>
+
+<div class="nb-cell query" name="q57">
+[Head|Tail] = [antonio, [2, [b,c]], f(X), [] ].
+</div>
+
+<div class="nb-cell query" name="q58">
+[Testa|Coda] = [].
+</div>
+
+<div class="nb-cell query" name="q59">
+[One, Two | Remaining] = [antonio, [2, [b,c]], f(X), [] ].
+</div>
+
+<div class="nb-cell query" name="q60">
+[One, Two | Remaining] = [antonio, 2, [b,c], f(X), [] ].
+</div>
+
+<div class="nb-cell query" name="q61">
+length([a,b,c], 3)
+</div>
+
+<div class="nb-cell query" name="q62">
+length([],0)
+</div>
+
+<div class="nb-cell query" name="q63">
+length(['pippo', [a,b]], 3)
+</div>
+
+<div class="nb-cell query" name="q64">
+append([a,b],[1,2,3],X).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q65">
+append(X,[1,2,3],[a,b,1,2,3]).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q66">
+append(X,Y,[1,2,3]).
+</div>
+
+<div class="nb-cell markdown" name="md7">
+## Backtracking and cut operator
+</div>
+
+<div class="nb-cell program" name="p12">
+antibodies_owner(maria).
+dance(linda).
+sing(linda).
+sing(gianni).
+noproblems(vittorio).
+
+healthy(X) :- happy(X).
+healthy(X) :- antibodies_owner(X).
+happy(X) :- sing(X), dance(X).
+happy(X) :- noproblems(X).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q67">
+healthy(X)
+</div>
+
+<div class="nb-cell program" name="p13">
+antibodies_owner(maria).
+dance(linda).
+sing(linda).
+sing(gianni).
+noproblems(vittorio).
+
+healthy(X) :- happy(X).
+healthy(X) :- antibodies_owner(X).
+happy(X) :- sing(X), !, dance(X).
+happy(X) :- noproblems(X).
+</div>
+
+<div class="nb-cell query" data-chunk="10" name="q68">
+healthy(X)
+</div>
+
+<div class="nb-cell markdown" name="md8">
+## Fail operator
+</div>
+
+<div class="nb-cell program" name="p14">
+bird(nightingale).
+bird(blackbird).
+penguin(king_penguin).
+ostrich(camelus_ostrich).
+
+fly(X) :- penguin(X), !, fail.
+fly(X) :- ostrich(X), !, fail.
+fly(X) :- bird(X).
+</div>
+
+<div class="nb-cell query" name="q69">
+fly(blackbird)
+</div>
+
+<div class="nb-cell query" name="q70">
+fly(king_penguin).
+</div>
+
+<div class="nb-cell query" name="q71">
+fly(camelus_ostrich).
+</div>
+
+<div class="nb-cell query" name="q72">
+fly(X)
+</div>
+
+<div class="nb-cell markdown" name="md9">
+## Not operator
+</div>
+
+<div class="nb-cell program" name="p15">
+bird(nightingale).
+bird(blackbird).
+penguin(king_penguin).
+ostrich(camelus_ostrich).
+fly(X) :- bird(X), not(penguin(X)), not(ostrich(X)).
+</div>
+
+<div class="nb-cell query" name="q73">
+fly(blackbird)
+</div>
+
+<div class="nb-cell query" name="q74">
+fly(king_penguin).
+</div>
+
+<div class="nb-cell query" name="q75">
+fly(camelus_ostrich).
+</div>
+
+</div>
