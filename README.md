@@ -1,5 +1,5 @@
 # Appunti delle lezioni
-File con appunti dei corsi svolti durante la facoltà di Ingnegneria Informatica svolta presso l'Università di Padova
+File con appunti dei corsi svolti durante la facoltà di Ingegneria Informatica svolta presso l'Università di Padova
 
 ## Guide
 Guide scritte in Markdown sull'utilizzo di alcuni strumenti di programmazione - [link alla cartella _guide_](guide/)
