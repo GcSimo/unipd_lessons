@@ -6,6 +6,9 @@ Guide scritte in Markdown sull'utilizzo di alcuni strumenti di programmazione - 
 - [_guida sull'uso di Git e GitHub_](guide/git.md)
 - [_guida sull'uso di CMake_](guide/cmake.md)
 - [_guida sul linguaggio GoLang_](guide/golang.md)
+- [_guida sull'uso di PostgreSQL_](guide/postgre_sql.md)
+- [_guida sul linguaggio Python_](guide/python.md)
+- [_guida sul linguaggio prolog_](guide/prolog.md)
 
 ## Primo semestre 2023-24
 ### Analisi 1
@@ -73,6 +76,25 @@ Appunti del corso di Laboratorio di programmazione scritti in Latex - [link alla
 Appunti del corso di Ingegneria del Software scritti in Markdown - [link alla cartella _ingegneria del software_](24-25_ingegneria%20del%20software)
 * [_appunti ingSoft in MarkDown_](24-25_ingegneria%20del%20software/ing_soft.md)
 
+## Primo semestre 2025-26
+### Fondamenti di elettronica
+Appunti del corso di Fondamenti di elettronica scritti in Latex - [link alla cartella _fondamenti di elettronica_](25-26_fondamenti%20di%20elettronica)
+* [_appunti elettronica in LaTeX_](25-26_fondamenti%20di%20elettronica/elettronica.tex)
+* [_appunti elettronica in pdf_](25-26_fondamenti%20di%20elettronica/elettronica.pdf)
+
+### Basi di dati - database
+Appunti del corso di Basi di dati scritti in Latex - [link alla cartella _database_](25-26_database)
+* [_appunti database in LaTeX_](25-26_database/database.tex)
+* [_appunti database in pdf_](25-26_database/database.pdf)
+
+### Intelligenza artificiale
+Appunti del corso di Intelligenza artificiale scritti in Latex - [link alla cartella _intelligenza artificiale_](25-26_intelligenza%20artificiale)
+* [_appunti intelligenza artificiale in LaTeX_](25-26_intelligenza%20artificiale/ai.tex)
+* [_appunti intelligenza artificiale in pdf_](25-26_intelligenza%20artificiale/ai.pdf)
+
+## Secondo semestre 2025-26
+...
+
 ---
 
 ## TO-DO List (che quasi sicuramente non sarà completata)
@@ -98,3 +120,9 @@ Appunti del corso di Ingegneria del Software scritti in Markdown - [link alla ca
 
 * Appunti di **sistemi operativi**
   * rivedere la sezione sulla gestione files, siccome potrebbe mancare qualcosa che è scritto nelle slides
+
+* Appunti di **fondamenti di elettronica**
+  * aggiungere immagini dimostrative per la seconda parte del corso (dalla sezione 11 compresa in poi)
+
+* Appunti di **fondamenti di telecomunicazioni**
+  * scrivere interamente il file latex
