@@ -1,0 +1,343 @@
+\section{Linear voltage regulators}
+\subsection{Performance indicators}
+\subsubsection*{Line regulation}
+Line regulation is the measure of how well a power supply maintains a constant output voltage \(V_{out}\) for a change in the
+input voltage \(V_{in}\). It is usually expressed in percentage as the ratio of the change in output voltage to the change in
+input voltage:
+\[\text{Line regulation} = \frac{\Delta V_{out}}{\Delta V_{in}} \cdot 100\%\]
+
+\subsubsection*{Load regulation}
+Load regulation is the measure of how well a power supply maintains a constant output voltage \(V_{out}\) for a change in the load
+conditions. It is usually expressed in percentage as the ratio between the maximum change in output voltage to the nominal output
+voltage:
+\[\text{Load regulation} = \frac{V_{out, min-load} - V_{out, max-load}}{V_{out, nominal-load}} \cdot 100\%\]
+
+\subsection{Simple Zener regulator}
+\subsubsection*{Zener diode characteristic}
+A Zener diode is a special type of diode that can operate in breakdown region (or Zener region) without being damaged. In reverse
+breakdown region, the Zener diode maintains a constant voltage \(V_Z\) across its terminals for a wide range of current \(I_Z\)
+between \(I_{Z,min}\) and \(I_{Z,max}\).
+
+\subsubsection*{Simple Zener regulator}
+The main idea of the simple Zener regulator is to use a Zener diode in reverse bias to maintain a constant output voltage
+\(V_{out} = V_Z\) across the load. The input voltage \(V_{in}\) is connected to the series combination of a resistor \(R\)
+and the Zener diode, and the load is connected in parallel to the Zener diode.
+\begin{center}
+	\begin{circuitikz}[american, scale=0.8, transform shape]
+		\ctikzset{diodes/scale=0.8}
+		\draw (0,1) node (vinplus) {} node[below] {\(+\)} to[short, o-] ++(0,0)
+			to[R, l=$R_S$, i=$I_{RS}$] ++(3,0)
+			to[short, i=$I_L$] ++(2.5,0) node (voutplus) {} node[right] {\(+\)}
+			to[R, l_=$R_L$] ++(0,-2) node (voutminus) {} node[right] {\(-\)}
+			to[short, -o] ++(-5.5,0) node (vinminus) {} node[above] {\(-\)};
+		\draw (3.5,-1) node (vzenerminus) {} to[zzDo, i_<=$I_Z$] ++(0,2) node (vzenerplus) {};
+
+		\node at (vzenerplus) [xshift=-0.3cm, yshift=-0.2cm] {\(+\)};
+		\node at (vzenerminus) [xshift=-0.3cm, yshift=0.2cm] {\(-\)};
+
+		\draw[-{Latex}]
+			($(vinminus) + (-0.2, 0.1)$) to[out=120, in=240] 
+			node[midway, fill=white, inner sep=4pt] {$V_{in}$} 
+			($(vinplus) + (-0.2, -0.1)$);
+		\draw[-{Latex}]
+			($(voutminus) + (0.4, 0.1)$) to[out=60, in=-60] 
+			node[midway, fill=white, inner sep=4pt] {$V_{out}$} 
+			($(voutplus) + (0.4, -0.1)$);
+		\draw[-{Latex}]
+			($(vzenerminus) + (-0.5, 0.3)$) to[out=130, in=-130] 
+			node[midway, fill=white, inner sep=2pt] {$V_Z$} 
+			($(vzenerplus) + (-0.5, -0.3)$);
+	\end{circuitikz}
+\end{center}
+
+To ensure proper operation, component values must be chosen to satisfy the following conditions:
+\begin{itemize}
+	\item the series resistor \(R_S\) must be large enough to limit the current through the Zener diode \(I_Z < I_{Z,max}\) when
+	load is disconnected and all the current flows through the Zener diode:
+	\[R_S \geq \frac{V_{in} - V_Z}{I_{Z,max}}\]
+	\item the load resistor \(R_L\) must be large enough to ensure the minimum Zener diode current \(I_Z > I_{Z,min}\); if the
+	load is too small, current will flow only through the load and the Zener diode will not be able to maintain a constant
+	output voltage:
+	\[R_L \geq \frac{V_Z}{I_{Z,min}}\]
+\end{itemize}
+
+\subsubsection*{Limitations of the simple Zener regulator}
+\begin{itemize}
+	\item due to constant voltage \(V_{RS}\) and constant current \(I_{RS}\), there is a constant and significant power dissipation
+	in the series resistor \(R_S\) even when the load is disconnected, expecially when the load can require a large current \(I_L\)
+	\item output voltage \(V_{out}\) changes linearly with variation ofthe load current \(I_L\) due to the not null Zener impedance
+	\(R_Z\): \(V_{out} = V_Z + I_Z R_Z\), this circuit has poor load regulation
+\end{itemize}
+
+\subsection{Transistor series voltage regulator}
+\subsubsection*{Circuit}
+The main idea is to use a transistor \(Q_1\) as a variable resistor in series with the load, and to use a Zener diode to maintain
+a constant voltage \(V_Z\) at the base of the transistor. The output voltage \(V_{out}\) is constant and equal to the difference
+between the Zener voltage \(V_Z\) (constant) and the base-emitter voltage \(V_{BE}\) (also approximately constant):
+\[V_{out} = V_Z - V_{BE}\]
+
+\noindent
+The series resistor \(R_S\) is used to guarantee the minimum current through the Zener diode \(I_Z > I_{Z,min}\):
+\[R_S \geq \frac{V_{in} - V_Z}{I_{Z,min} + I_B}\]
+
+\begin{center}
+	\begin{minipage}{0.8\textwidth}
+		\centering \begin{circuitikz}[scale=0.8, transform shape]
+			\ctikzset{diodes/scale=0.8}
+			\node[npn, rotate=90] (Q1) at (3,4) {};
+			\node[above] at (3, 4) {$Q_1$};
+			\draw (0, 4) node[circ] (vinplus) {} node[below] {\(+\)} -- (Q1.C);
+			\draw (0, 0) node[circ] (vinminus) {} node[above] {\(-\)} -- (6, 0);
+			\draw (1.5, 4) to[R, l_=$R_S$] (1.5, 2) to[short, i=$I_{RS}$] (3, 2) to[short, i_=$I_B$] (Q1.B);
+			\draw (3, 0) node(vzenerminus) {} to[zzDo, i_<=$I_Z$] (3, 2) node(vzenerplus) {};
+			\draw (Q1.E) to[short, i_=$I_L$] (6, 4) node[circ] (voutplus) {} node[right] {\(+\)} to[R, l_=$R_L$] (6, 0) node[circ] (voutminus) {} node[right] {\(-\)};
+	
+			\node at (vzenerplus) [xshift=-0.3cm, yshift=-0.2cm] {\(+\)};
+			\node at (vzenerminus) [xshift=-0.3cm, yshift=0.2cm] {\(-\)};
+	
+			\node at (Q1.B) [xshift=0.2cm, yshift=-0.1cm] (q1b) {\(+\)};
+			\node at (Q1.E) [xshift=0.2cm, yshift=-0.2cm] (q1e) {\(-\)};
+	
+			\draw[-{Latex}]
+				($(vinminus) + (-0.2, 0.1)$) to[out=120, in=-120] 
+				node[midway, fill=white, inner sep=4pt] {$V_{in}$} 
+				($(vinplus) + (-0.2, -0.1)$);
+			\draw[-{Latex}]
+				($(voutminus) + (0.5, 0.1)$) to[out=60, in=-60] 
+				node[midway, fill=white, inner sep=4pt] {$V_{out}$} 
+				($(voutplus) + (0.5, -0.1)$);
+			\draw[-{Latex}]
+				($(vzenerminus) + (-0.5, 0.3)$) to[out=130, in=-130] 
+				node[midway, fill=white, inner sep=2pt] {$V_Z$} 
+				($(vzenerplus) + (-0.5, -0.3)$);
+			\draw[-{Latex}]
+				($(q1e) + (0, -0.1)$) to[out=260, in=0] 
+				node[pos=0.35, fill=white, inner sep=3pt] {$V_{BE}$} 
+				($(q1b) + (0.2, 0)$);
+		\end{circuitikz}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Advantages compared to the simple Zener regulator}
+\begin{itemize}
+	\item the circuit is more resilient to variations in the load current \(I_L\) because when the transistor works in forward
+	active region, a change in the emitter current \(I_L = I_E\) produces mainly a change in the collector current \(I_C\) and
+	only a small change in the base current \(I_B = I_C / \beta\), so the Zener diode current \(I_Z\) remains almost constant
+	\item there is also a feedback effect: if the \(V_L\) drops, \(V_{BE}\) increases, the transistor \(Q_1\) becomes more
+	conductive and \(V_{out}\) increases again; vice versa if \(V_{out}\) increases
+	\item the power dissipation in the series resistor \(R_S\) is reduced because the current through it doesn't have to be
+	large enough to power the load \(I_L\) but only to guarantee the minimum Zener current \(I_Z\)
+\end{itemize}
+
+\subsubsection*{Problems and limitations}
+\begin{itemize}
+	\item with circuit heating, \(V_Z\) and \(V_{BE}\) can change in different ways, so the output voltage \(V_{out}\) is
+	subject to temperature variations
+	\item the output voltage \(V_{out}\) can't be controlled or adjusted to a specific value, it is fixed by the Zener voltage
+	\(V_Z\) and the base-emitter voltage \(V_{BE}\)
+\end{itemize}
+
+\newpage
+
+\subsection{Adjustable series voltage regulator with feedback}
+\subsubsection*{Circuit}
+The idea of the circuit is to use the transistor series voltage regulator (described in the previous section) to impose
+a constant voltage \(V_F\) to the partial resistor \(R_2\) of the potentiometer that acts as a voltage divider \(R_1\)
+and \(R_2\). The output voltage \(V_{out}\) is given by:
+\[V_{out} = I_{R2} \cdot (R_1 + R_2) = \frac{V_F}{R_2} \cdot (R_1 + R_2) = \frac{V_Z + V_{BE1}}{R_2} (R_1 + R_2)\]
+
+\noindent
+The transistor \(Q_2\) is used as a pass transistor to provide the required current to the load.
+
+\begin{center}
+	\begin{minipage}{0.9\textwidth}
+		\centering 
+		\begin{circuitikz}[scale=0.8, transform shape]
+			\ctikzset{diodes/scale=0.8}
+			% Q2: Transistor di potenza superiore
+			% rotate=90 ruota il BJT NPN in modo che il collettore sia a sinistra e l'emettitore a destra
+			\node[npn, rotate=90] (Q2) at (4, 5) {};
+			\node[above] at (4, 5) {$Q_2$};
+
+			% Q1: Transistor amplificatore di errore
+			% xscale=-1 inverte orizzontalmente il transistor mettendo la base a destra
+			\node[npn, xscale=-1] (Q1) at (4, 2.8) {};
+			\node[left=20pt] at (Q1.B) {$Q_1$};
+
+			% Terminali di ingresso e linee principali (Top e Bottom Rails)
+			\draw (0, 5) node[circ] (vinplus) {} node[below] {\(+\)} -- (Q2.C);
+			\draw (0, 0) node[circ] (vinminus) {} node[above] {\(-\)} -- (8.5, 0);
+
+			% Ramo della resistenza Rs
+			\draw (1.5, 5) node {} to[R, l_=$R_S$] (1.5, 2) -- (Q1.E);
+
+			% Ramo della resistenza R3
+			\draw (2.5, 5) node {} to[R, l_=$R_3$] (2.5, 3.5) to[short] (4, 3.5);
+
+			% Connessione tra Collettore di Q1 e Base di Q2
+			\draw (Q1.C) -- (Q2.B);
+
+			% Diodo Zener
+			\draw (4, 0) node (vzenerminus) {} to[zzDo] (4, 2) node (vzenerplus) {} -- ++(0,0.5);
+
+			% Ramo di Uscita e Carico RL
+			\draw (Q2.E) -- (8.5, 5) node[circ] (voutplus) {} node[right] {\(+\)};
+			\draw (8.5, 0) node[circ] (voutminus) {} node[right] {\(-\)};
+			\draw (8.5, 5) to[R, l_=$R_L$] (8.5, 0);
+
+			% Partitore di tensione (R1 e R2)
+			\draw (6.5, 5) node {} to[R] (6.5, 0.5) -- ++(0, -0.5);
+
+			\draw[{Latex}-{Latex}] (7, 5) to[] node[midway, fill=white, inner sep=1pt] {$R_1$} (7, 2.7);
+			\draw[{Latex}-{Latex}] (7, 2.7) to[] node[midway, fill=white, inner sep=1pt] {$R_2$} (7, 0);
+
+			% Cursore K (collegamento alla base di Q1)
+			\draw[-{Latex}] (Q1.B) -- ++(1.5, 0) node[pos=0.8, above] {K} node[below, xshift=-0.3cm, yshift=-0.1cm] (vfplus) {\(+\)};
+			\node at (vfplus) [xshift=0.1cm, yshift=-2.2cm] (vfminus) {\(-\)};
+
+			% Etichette di polarità (+ / -) interne
+			\node at (vzenerplus) [xshift=-0.4cm, yshift=-0.2cm] {\(+\)};
+			\node at (vzenerminus) [xshift=-0.4cm, yshift=0.2cm] {\(-\)};
+
+			% Posizionamento dei nodi per l'arco V_BE1
+			\node at ($(Q1.B) + (0.2, -0.2)$) (q1b) {\(+\)};
+			\node at ($(Q1.E) + (0.2, -0.2)$) (q1e) {\(-\)};
+
+			\node at (Q2.B) [xshift=0.2cm, yshift=-0.1cm] (q2b) {\(+\)};
+			\node at (Q2.E) [xshift=0.2cm, yshift=-0.2cm] (q2e) {\(-\)};
+
+			% Frecce delle tensioni (usando la tua struttura originaria)
+			\draw[-{Latex}]
+				($(vinminus) + (-0.2, 0.1)$) to[out=120, in=-120] 
+				node[midway, fill=white, inner sep=4pt] {$V_{in}$} 
+				($(vinplus) + (-0.2, -0.1)$);
+				
+			\draw[-{Latex}]
+				($(voutminus) + (0.5, 0.1)$) to[out=60, in=-60] 
+				node[midway, fill=white, inner sep=4pt] {$V_{out}$} 
+				($(voutplus) + (0.5, -0.1)$);
+				
+			\draw[-{Latex}]
+				($(vzenerminus) + (-0.5, 0.3)$) to[out=130, in=-130]
+				node[midway, fill=white, inner sep=2pt] {$V_Z$} 
+				($(vzenerplus) + (-0.5, -0.3)$);
+				
+			\draw[-{Latex}]
+				($(q1e) + (0.2, 0)$) to[out=-20, in=-50] 
+				node[pos=0.5, fill=white, inner sep=1pt] {$V_{BE1}$} 
+				($(q1b) + (0.1, -0.1)$);
+			
+			\draw[-{Latex}]
+				($(q2e) + (0, -0.1)$) to[out=260, in=0] 
+				node[pos=0.35, fill=white, inner sep=1pt] {$V_{BE2}$} 
+				($(q2b) + (0.2, 0)$);
+			
+			\draw[-{Latex}]
+				($(vfminus) + (-0.1, 0.3)$) to[out=110, in=-110] 
+				node[midway, fill=white, inner sep=1pt] {$V_F$} 
+				($(vfplus) + (-0.1, -0.3)$);
+		\end{circuitikz}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Advantages compared to the transistor series voltage regulator}
+\begin{itemize}
+	\item the output voltage \(V_{out}\) can be adjusted by changing the ratio between the two half resistors \(R_1\) and \(R_2\)
+	of the potentiometer in the voltage divider
+	\item the feedback effect is more complex and stronger: if \(V_{out}\) increases, \(V_F\) increases, \(V_{BE1}\) increases, 
+	\(I_{C1}\) increases, \(V_{R3}\) increases, \(V_{B2}\) decreases, \(V_{BE2}\) decreases, \(I_{E2}\) decreases, \(V_{out}\)
+	decreases again; vice versa if \(V_{out}\) decreases
+\end{itemize}
+
+\subsection{Short circuit protection}
+\subsubsection*{Circuit}
+Short circuit protection is implemented by adding a transistor \(Q_3\) and a small resistor \(R_4\) (\(\approx 1 \; \Omega\)) in
+the output branch (highlighted by the red rectangle in the circuit). When the load current \(I_L\) is too high, the voltage drop
+across \(R_4\) becomes large enough to turn on the transistor \(Q_3\), which starts to absorbe current from the resistor \(R_3\)
+that produce a voltage drop \(V_{R3}\) that reduces the base voltage of \(Q_2\) and consequently the voltage \(V_{BE2}\) that
+turns off \(Q_2\) and reduces the current \(I_L\) to a safe value.
+
+The limit current \(I_{L,max}\) that can be delivered to the load is approximately given by:
+\[I_{L,max} \approx \frac{V_{BE3, turn-on}}{R_4}\]
+
+\begin{center}
+	\begin{minipage}{0.9\textwidth}
+		\centering 
+		\begin{circuitikz}[scale=0.8, transform shape]
+			\ctikzset{diodes/scale=0.8}
+			% Q2: Transistor di potenza superiore
+			% rotate=90 ruota il BJT NPN in modo che il collettore sia a sinistra e l'emettitore a destra
+			\node[npn, rotate=90] (Q2) at (3.5, 5) {};
+			\node[above] at (3.5, 5) {$Q_2$};
+
+			% Q1: Transistor amplificatore di errore
+			% xscale=-1 inverte orizzontalmente il transistor mettendo la base a destra
+			\node[npn, xscale=-1] (Q1) at (3.5, 2.2) {};
+			\node[left=20pt] at (Q1.B) {$Q_1$};
+
+			% Terminali di ingresso e linee principali (Top e Bottom Rails)
+			\draw (0, 5) node[circ] (vinplus) {} node[below] {\(+\)} -- (Q2.C);
+			\draw (0, 0) node[circ] (vinminus) {} node[above] {\(-\)} -- (8.5, 0);
+
+			% Ramo della resistenza Rs
+			\draw (1, 5) node {} to[R, l_=$R_S$] (1, 1.5) -- (Q1.E);
+
+			% Ramo della resistenza R3
+			\draw (2, 5) node {} to[R, l_=$R_3$] (2, 3.5) to[short] (3.5, 3.5) node[circ] {};
+
+			% Q3: Transistor di protezione contro cortocircuiti
+			\node[npn, rotate=90, xscale=-1, anchor=collector] (Q3) at (3.5, 3.5) {};
+			\node[below=20pt] at (Q3.B) {$Q_3$};
+			\draw (Q2.E) -- (Q3.B);
+			\draw (Q3.E) -- ++(0.9, 0) -- ++(0, 1.5);
+
+			% Connessione tra Collettore di Q1 e Base di Q2
+			\draw (Q1.C) -- (Q2.B);
+
+			% Diodo Zener
+			\draw (3.5, 0) node (vzenerminus) {} to[zzDo] (3.5, 1.5) node (vzenerplus) {} -- ++(0,0.2);
+
+			% Ramo di Uscita e Carico RL
+			\draw (Q2.E) to[R, l_=$R_4$] ++(1.5, 0) -- (8.5, 5) node[circ] (voutplus) {} node[right] {\(+\)};
+			\draw (8.5, 0) node[circ] (voutminus) {} node[right] {\(-\)};
+			\draw (8.5, 5) to[R, l_=$R_L$] (8.5, 0);
+
+			% Partitore di tensione (R1 e R2)
+			\draw (6.5, 5) -- ++(0,-0.5) to[R] (6.5, 0) -- ++(0, -0);
+
+			\draw[{Latex}-{Latex}] (7, 5) to[] node[midway, fill=white, inner sep=1pt] {$R_1$} (7, 2.2);
+			\draw[{Latex}-{Latex}] (7, 2.2) to[] node[midway, fill=white, inner sep=1pt] {$R_2$} (7, 0);
+
+			% Cursore K (collegamento alla base di Q1)
+			\draw[-{Latex}] (Q1.B) -- ++(1.9, 0) node[pos=0.8, above] {K} node[below, xshift=-0.3cm, yshift=-0.1cm] (vfplus) {\(+\)};
+			\node at (vfplus) [xshift=0.1cm, yshift=-1.7cm] (vfminus) {\(-\)};
+
+			% Etichette di polarità (+ / -) interne
+			\node at (vzenerplus) [xshift=-0.4cm, yshift=-0.2cm] {\(+\)};
+			\node at (vzenerminus) [xshift=-0.4cm, yshift=0.2cm] {\(-\)};
+
+			% Frecce delle tensioni (usando la tua struttura originaria)
+			\draw[-{Latex}]
+				($(vinminus) + (-0.2, 0.1)$) to[out=120, in=-120] 
+				node[midway, fill=white, inner sep=4pt] {$V_{in}$} 
+				($(vinplus) + (-0.2, -0.1)$);
+				
+			\draw[-{Latex}]
+				($(voutminus) + (0.5, 0.1)$) to[out=60, in=-60] 
+				node[midway, fill=white, inner sep=4pt] {$V_{out}$} 
+				($(voutplus) + (0.5, -0.1)$);
+				
+			\draw[-{Latex}]
+				($(vzenerminus) + (-0.5, 0.3)$) to[out=140, in=-140]
+				node[midway, fill=white, inner sep=1pt] {$V_Z$} 
+				($(vzenerplus) + (-0.5, -0.3)$);
+			
+			\draw[-{Latex}]
+				($(vfminus) + (-0.1, 0.3)$) to[out=110, in=-110] 
+				node[midway, fill=white, inner sep=1pt] {$V_F$} 
+				($(vfplus) + (-0.1, -0.3)$);
+
+			\draw[color=red] (1.25, 5.6) -- ++(5, 0) -- ++(0,-2.5) -- ++(-5,0) -- cycle;
+		\end{circuitikz}
+	\end{minipage}
+\end{center}

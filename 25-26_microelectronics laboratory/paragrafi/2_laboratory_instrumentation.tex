@@ -1,0 +1,133 @@
+\section{Laboratory instrumentation}
+\subsection{Oscilloscope}
+\subsubsection*{Introduction}
+An oscilloscope is an electronic instrument that displays electrical signals graphically as a voltage versus time plot. Some common
+use cases of oscilloscopes include:
+\begin{itemize}
+	\item \textbf{wave shape}: observing the shape of electrical signals
+	\item \textbf{amplitude}: measuring the voltage levels of signals
+	\item \textbf{frequency}: measuring the frequency of periodic signals
+	\item \textbf{time between events}: measuring the time interval between two events in a signal
+	\item \textbf{AC/DC components}: analyzing the DC and AC components of signals
+	\item \textbf{noise}: detecting and analyzing noise in electrical signals
+\end{itemize}
+
+\subsubsection*{Oscilloscope architecture}
+\begin{itemize}
+	\item \textbf{input coupling}: switch that add a capacitor in series to the input signal to block the DC component and only
+	let the AC component pass through, it is often used to isolate the AC signal from the DC offset and to analyze the AC
+	characteristics of the signal
+	\item \textbf{amplitude control}: amplifier/attenuator that adjusts the amplitude of the input signal to provide a
+	suitable voltage range for the analog-to-digital converter (ADC)
+	\item \textbf{channel isolation}: optical (with photodiodes) or galvanic (with transformers) isolation to isolate the input
+	signal from the internal circuitry of the oscilloscope and to prevent interference and damage to the device
+	\item \textbf{Analog to Digital Converter (ADC)}: samples the analog input signal at regular intervals and converts it into
+	digital values for processing and display in real time
+	\item \textbf{memory}: stores the digital values of the signal for processing and display
+	\item \textbf{processor}: manage the sample storage in memory, processes the digital values of the signal to perform various
+	functions such as triggering, measurement, graphics processing, \dots and controls the user interface
+	\item \textbf{triggering}: digital elaboration of the input signal to detect specific events (rising edge, falling edge,
+	edge delay, pulse width, n-cycles, \dots) and align the signal on the screen based on the detected events
+\end{itemize}
+
+\subsubsection*{Oscilloscope performances}
+\begin{itemize}
+	\item \textbf{bandwidth}: the frequency range of the oscilloscope, measured in MHz; the upper limit is the frequency at which
+	a sinusoidal signal is attenuated by 3 dB (about 70.7\% of the original amplitude); it is recommended to use an oscilloscope
+	with a bandwidth at least 5 times higher than the frequency of the signal to be measured to ensure accurate
+	reproduction of the signal 
+	\item \textbf{sampling rate}: the number of samples taken per second to reconstruct the input signal; as for bandwidth, it is
+	recommended to have a sampling rate at least 5 times higher than the frequency of the signal to be measured
+	\item \textbf{record length}: the number of samples that can be stored in memory for analysis and display; it determines the
+	maximum time interval that can be observed on the oscilloscope screen at maximum sampling rate, obtained by the formula: 
+	\(\textit{acquired time} = \textit{record length} \; / \; \textit{sampling rate}\); if the time window is bigger than the
+	acquired time, the oscilloscope will automatically reduce the sampling rate to fit the signal in the time window, which can
+	result in a loss of detail and accuracy in the signal representation
+\end{itemize}
+NOTE: the oscilloscope acquisition is not continuous, it has a dead time between acquisitions during which the oscilloscope
+is busy to flush the memory and prepare for the next acquisition.
+
+\subsubsection*{Oscilloscope control panel}
+\begin{itemize}
+	\item \textbf{channel inputs}: BNC connectors (coaxial cables) for connecting probes to the oscilloscope
+	\item \textbf{volts/div}: adjust the vertical scale of the signal on the screen, it determines how many volts are represented
+	by each vertical grid division
+	\item \textbf{vertical position}: adjust the vertical position of the signal on the screen, it allows to move the signal up
+	or down to align it with the grid or to compare it with other signals
+	\item \textbf{time/div}: adjust the horizontal scale of the signal on the screen, it determines how much time is represented
+	by each horizontal grid division
+	\item \textbf{horizontal position}: adjust the horizontal position of the signal on the screen, it allows to move the signal
+	left or right to align it with the grid or to compare it with other signals
+	\item \textbf{trigger level}: adjust the voltage level at which the oscilloscope triggers and starts the acquisition of the
+	signal
+	\item other controls for trigger options, coupling, autoscale, cursors, math functions, \dots
+\end{itemize}
+
+\subsubsection*{Oscilloscope display}
+The oscilloscope display is divided into a grid of horizontal and vertical divisions, which are used to measure the amplitude
+and time of the signal. The vertical divisions represent voltage levels, while the horizontal divisions represent time intervals.
+There are also indicators for:
+\begin{itemize}
+	\item \textbf{waveform markers}: horizontal line that indicates the 0 V level on the screen for every channel
+	\item \textbf{waveform position}: vertical line that indicates the zero time point on the screen (where the trigger event occurs)
+	\item \textbf{cursors}: vertical and horizontal lines that can be moved by the user to measure voltage levels and time intervals
+	\item \textbf{div settings}: indicators for the current volts/div and time/div settings for each channel
+	\item other indicators for general settings, measurements, information, \dots
+\end{itemize}
+
+\subsubsection*{Triggering}
+Triggering is a feature of the oscilloscope that allows to horizontally align the signal on the screen by positioning the zero time
+point at a specific event in the signal. The trigger can be set to detect different types of trigger events, such as:
+\begin{itemize}
+	\item \textbf{rising edge}: when the voltage level becomes greater than a specified threshold
+	\item \textbf{falling edge}: when the voltage level becomes smaller than a specified threshold
+	\item \textbf{edge delay}: after a specified time delay from the rising or falling edge
+	\item \textbf{pulse width}: when the signal pulse width is greater or smaller than a specified value
+	\item \textbf{n-cycles}: after a specified number of cycles of the signal
+	\item \textbf{digital patterns}: recognize typical patterns of  digital protocols (I2C, SPI, CAN, USB, \dots)
+\end{itemize}
+NOTE: it is not possible to trigger two signals at the same time, if two signals have different frequencies, only one of them will
+be triggered and correctly displayed on the screen.
+
+\subsubsection*{Cursors}
+Cursors are vertical and horizontal lines that can be moved by the user to measure voltage levels and time intervals on the
+oscilloscope display. They can be used to measure amplitude, frequency, period, rise time, fall time, duty cycle, \dots of
+the signal. It is a more accurate measurement method compared to counting the number of divisions on the grid.
+
+\subsubsection*{Acquisition mode}
+There are different acquisition modes that determine how the oscilloscope samples and processes the input signal. Particularly
+important is the \textbf{average mode}, which takes multiple acquisitions of the signal and displays an average of them to filter
+high frequency noise and improve the signal quality. Note that the average mode slow down the acquisition process.
+
+\subsubsection*{AC/DC coupling}
+The AC/DC coupling switch allows to add a capacitor in series to the input signal to filter out the DC component. This
+is useful to analyze the AC characteristics of the signal without being affected by the DC offset. It is important to
+note that when the signal frequency is too low, the capacitor starts to filter out low frequencies (10-20 Hz) that are
+part of the AC signal, causing voltage ``droop'' or ``sag'' in the waveform. In general it is recommended to use AC coupling
+for signals with frequencies over 50-200 Hz.
+
+\subsubsection*{Input impedance and amplification/attenuation stage}
+In normal working conditions, the input impedance of the oscilloscope is set to HiZ (high impedance) with a value of
+\(1 \; M\Omega\). Some oscilloscopes can also have a low impedance setting (LoZ) with a value of \(50 \; \Omega\) that
+bypasses the conditioning stage and directly connects the input signal to the ADC. This setting is useful for measuring
+high frequency signals but it can cause damage to the oscilloscope if the input voltage is bigger than 5 V.
+
+\subsection{Function generator}
+\subsubsection*{Introduction}
+A function generator is an electronic instrument that generates electrical waveforms of adjustable shapes, frequencies and
+amplitudes. It acts as an AC voltage source in series with a DC offset voltage source and an internal resistance.
+
+\subsubsection*{Output impedance}
+The output impedance of a function generator is \(50 \; \Omega\) and the instrument expects to be connected to a load with
+the same impedace. For this reason the real output voltage is doubled to ensure the desired voltage across the load. When
+the function generator is connected to a load with a different impedance, the load impeadance must be set accordingly. In
+particular, when it is connected to a HiZ load, the instument must be set to HiZ mode.
+
+\subsection{Multimeter}
+The multimeter is an electronic instrument that can measure voltage, current and resistance. It is used to measure a wide
+voltage/current range with high accuracy. 
+
+\subsection{Power supply}
+The power supply is an electronic instrument that provides a stable and adjustable DC voltage to power electronic circuits.
+Sometimes it is useful to link the GND terminal to the COM terminal (both of the power supply) to create a common reference
+point for the circuit.

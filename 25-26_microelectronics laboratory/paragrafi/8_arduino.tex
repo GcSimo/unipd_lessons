@@ -1,0 +1,856 @@
+\section{Arduino}
+\subsection{Introductions to Arduino and microcontrollers}
+\subsubsection*{Microcontrollers}
+Microcontrollers are complete computer systems with microprocessor (CPU), clock oscillator, memory and I/O peripherals integrated
+on a single chip. Microcontrollers are used to get data from the environment through sensors, process it and control actuators
+accordingly. Due to memory and processing power limitations, code for microcontrollers must be written in a very efficient way.
+
+\subsubsection*{Arduino Uno}
+Arduino Uno is a microcontroller board based on the ATmega328P microcontroller. It has 14 digital input/output pins and 6 analog
+input pins and a 16 MHz quartz crystal. It has an AREF pin for analog reference voltage for ADC and a reset button. It has a USB
+connection for programming and a power jack for external power supply. It has a 5V pin (400 mA) and a 3.3V pin (50 mA) connected
+to the onboard voltage regulator and a Vin pin connected directly to the input power supply source.
+
+The Atmega328P microcontroller has 32 KB of ISP flash memory for storing code, 2 KB of SRAM for storing variables and 1 KB of
+EEPROM for storing non volatile data. It has 23 GPIO (general purpose input/output), 32 general purpose working registers,
+6 channel 10-bit ADC, USART, SPI and I2C communication interfaces. It has three timers, internal and external interrupts and
+a watchdog timer. It operates at a voltage between 1.8 and 5.5 V.
+
+\subsubsection*{Arduino Mega}
+Arduino Mega is a microcontroller board based on the ATmega2560 microcontroller. It has 54 digital input/output pins and 16
+analog input pins and a 16 MHz quartz crystal. Due to the higher number of pins, it is used for more complex projects that
+require more I/O peripherals.
+
+\subsubsection*{Arduino Due}
+Arduino Due is a microcontroller board based on the Atmel SAM3X8E ARM Cortex-M3 CPU. It has 54 digital input/output pins and 12
+analog input pins and a 84 MHz quartz crystal. Due to the higher processing power, it is used for more complex projects that
+require more processing power and more I/O peripherals. \textbf{It operates at a voltage of 3.3 V and it is not 5V tolerant.}
+
+\subsubsection*{Arduino Nano 33 BLE Sense Rev2}
+Arduino Nano 33 BLE Sense Rev2 is a microcontroller board based on the Nordic Semiconductor nRF52840 ARM Cortex-M4 CPU in the
+same form factor as the Arduino Nano. It has 14 digital input/output pins and 8 analog input pins and a 64 MHz quartz crystal.
+It has a Bluetooth Low Energy (BLE) module and a wide range of sensors, including an accelerometer, a gyroscope, a magnetometer,
+a temperature sensor, a humidity sensor, a pressure sensor and a microphone and has an RGB LED. \textbf{It operates at a voltage
+of 3.3 V and it is not 5V tolerant.}
+
+\subsubsection*{Other boards}
+\begin{itemize}[topsep=-1pt, itemsep=-1pt]
+	\item Arduino Uno Wifi Rev2: same form factor as the Uno but with an ATmega4809 microcontroller and a WiFi module with
+	integrated TCP/IP protocol stack.
+	\item Arduino STAR - Otto: equiped with a powerful ARM processor to control power demanding peripherals like LCD, Audio, Camera, etc.
+	\item Arduino Alicepad: board for wearables and clothing
+	\item Arduino Nano: same microcontroller as the Uno but in a smaller form factor
+	\item Arduino Giga R1 Wifi: board with an ARM Cortex-M7 microcontroller and a WiFi module, designed for high performance
+	applications like robotics, AI and machine learning
+	\item Arduino Portenta H7: board with an ARM Cortex-M7 microcontroller and a WiFi module, designed for high performance
+	applications like robotics, AI and machine learning
+	\item Shields: passive boards that can be plugged on top of an Arduino board to extend its functionality
+\end{itemize}
+
+\subsection{Programming on Arduino - pin modes, interrupts and timers}
+\subsubsection*{Bootloader}
+The bootloader is a small program stored in a private section of the flash memory that allows to program the microcontroller
+through a simple serial communication. On the board, there is also an USB-to-serial converter that allows to connect the
+a computer to the microcontroller via USB and use it as a serial communication interface for programming and debugging.
+
+Usually the bootloader is pre-flashed on the microcontroller by the manufacturer. If the bootloader is not present or needs
+to be updated, it must be flashed on the microcontroller via the SPI communication pins (MOSI, MISO, SCK) connected to an
+external programmer.
+
+\subsubsection*{Program structure}
+An arduino program is called a sketch and it is written in C/C++. It has two main functions:
+\begin{itemize}
+	\item \texttt{setup()}: executed only once, when the microcontroller is powered on or reset; it is used to initialize
+	variables, object instances of peripherals, pin modes and other settings
+	\item \texttt{loop()}: executed repeatedly after the \texttt{setup()} function; it is used to implement the main logic
+	of the program
+\end{itemize}
+
+\noindent
+Considerations about the program structure:
+\begin{itemize}
+	\item global variables are preferrred to local variables, because they are stored in the flash memory and do not consume
+	SRAM, which is a very limited resource on microcontrollers
+\end{itemize}
+
+\subsubsection*{Pin modes and pin functions}
+Arduino pins can be configured in different modes and can perform different functions.
+\begin{itemize}
+	\item digital output: pin configured as a digital output, used to write digital signals (LOW or HIGH) through
+	\texttt{digitalWrite(PIN, [HIGH,LOW])} function
+	\item digital input: pin configured as a digital input, used to read digital signals (HIGH or LOW) through
+	\texttt{digitalRead(PIN)} function
+	\item analog output: pin configured as a digital PWM output, used to write PWM signals with custom duty cycle in
+	range 0-255 through \texttt{analogWrite(PIN, value)} function, PWM frequency can vary depending on board and pin used
+	\item analog input: pin configured as an analog input, used to read analog signals through the ADC and get
+	a digital value in range 0-1023 (for 10-bit ADC) through \texttt{analogRead(PIN)} function
+\end{itemize}
+
+\noindent
+To configure how the pin behaves, the \texttt{pinMode(PIN, MODE)} function is used in the \texttt{setup()} function, where
+\texttt{MODE} can be one of the following:
+\begin{itemize}
+	\item \texttt{OUTPUT}: configures the pin as a digital output
+	\item \texttt{INPUT}: configures the pin as an analog/digital input
+	\item \texttt{INPUT\_PULLUP}: configures the pin as a digital input with an internal pull-up resistor, in this mode the pin
+	is connected to \(V_{CC}\) through a \(\approx 22 \; k\Omega\) pull-up resistor, so the pin reads HIGH when it is not connected to
+	ground and LOW when it is connected to ground.
+\end{itemize}
+
+\subsubsection*{Analog readings and ADC configuration}
+The resolution of the ADC can be changed by calling the \texttt{analogReadResolution(bits)} function in the \texttt{setup()}
+function. By default, the resolution is 10 bits (0-1023), but it can be increased to 12 bits (0-4095) on some boards like the
+Arduino Due and the Arduino Nano 33 BLE Sense Rev2.
+
+It is possible to set an external high-voltage reference for the ADC by connecting that reference voltage to the AREF pin and
+calling the \texttt{analogReference(EXTERNAL)} function in the \texttt{setup()} function. By default, the reference voltage is
+the supply voltage (5V or 3.3V depending on the board).
+
+The resolution step of the ADC can be calculated as follows:
+\[\text{ADC step} = \frac{V_{REF}}{2^{\text{bits}}} \qquad \text{by default} \begin{array}{l l}
+	\text{Arduino Uno: } & \displaystyle \text{ADC step} = \frac{5 \; V}{2^{10 \; \text{bits}}} = 4.88 \; mV \\[7pt]
+	\text{Arduino Nano 33 BLE: } & \displaystyle \text{ADC step} = \frac{3.3 \; V}{2^{12 \; \text{bits}}} = 0.806 \; mV
+\end{array}\]
+
+\subsubsection*{The \texttt{millis}, \texttt{micros} and \texttt{delay} functions}
+These three functions are used to manage time in Arduino sketches and use internal timers of the microcontroller.
+\begin{itemize}
+	\item \texttt{millis()}: returns the number of milliseconds since the microcontroller was powered on or reset;
+	it returns an unsigned 32-bit integer, so it overflows after approximately 50 days
+	\item \texttt{micros()}: returns the number of microseconds since the microcontroller was powered on or reset;
+	it returns an unsigned 32-bit integer, so it overflows after approximately 70 minutes; due to limited clock speed
+	on some boards, the resolution of this function can be 4 microseconds (16 MHz clock)
+	\item \texttt{delay(ms)}: blocks the execution of the program for a specified number of milliseconds
+\end{itemize}
+
+\noindent
+Use of the \texttt{millis()} and \texttt{micros()} functions is preferred to the use of the \texttt{delay()} function,
+because it does not block the execution of the program and allows to implement non-blocking delays and timeouts, which
+are essential for implementing real-time applications.
+
+\subsubsection*{Interrupts}
+An interrupt is a signal that can be generated by an external event (for example a button press) or by an internal event
+(for example a timer overflow) that interrupts the normal execution of the program and executes a special function called
+interrupt service routine (ISR). Interrupts are used to handle events that require immediate attention and cannot be handled
+in the loop function of the program, for example user interactions.
+
+\noindent
+Interrupt service routines has the following characteristics:
+\begin{itemize}
+	\item they must be as short and fast as possible
+	\item only one interrupt can be executed at a time so if multiple interrupts are generated at the same time, they are
+	executed in order of priority
+	\item only \texttt{delayMicroseconds()} function works inside an ISR, while \texttt{delay()} and \texttt{millis()}
+	functions do not work because they rely on interrupts to update the internal timers
+	\item they do not accept parameters and do not return values, so they must use \texttt{volatile} global variables to
+	communicate with the main program. The keyword \texttt{volatile} is used to prevent the compiler from optimizing operations
+	on those variables and causing race conditions.
+\end{itemize}
+
+\noindent
+To attach an interrupt to a pin, the \texttt{attachInterrupt(digitalPinToInterrupt(PIN), ISR, MODE)} function is used in the
+\texttt{setup()} function where:
+\begin{itemize}
+	\item \texttt{PIN} is the pin number to which the interrupt is attached (only supported pins can be used)
+	\item \texttt{ISR} is the name of the interrupt service routine function
+	\item \texttt{MODE} is the condition that triggers the interrupt and can be one of the following:
+	\begin{itemize}[topsep=-1pt]
+		\item \texttt{RISING}: triggers the interrupt when the pin goes from LOW to HIGH
+		\item \texttt{FALLING}: triggers the interrupt when the pin goes from HIGH to LOW
+		\item \texttt{CHANGE}: triggers the interrupt when the pin changes state (from LOW to HIGH or vice versa)
+		\item \texttt{LOW}: triggers the interrupt when the pin is LOW (only for some boards)
+		\item \texttt{HIGH}: triggers the interrupt when the pin is HIGH (only for some boards)
+	\end{itemize}
+\end{itemize}
+
+\subsubsection*{Switch-case, \texttt{break} \texttt{continue} statements}
+Switch-case statements are used to execute different blocks of code based on the value of a variable. They are more efficient
+than if-else statements when there are many cases to handle, because they use a jump table instead of evaluating multiple
+conditions.
+
+The \texttt{break} and \texttt{continue} statements are used to control the flow of loops and switch-case statements. The
+\texttt{break} statement is used to exit a loop or a switch-case statement, while the \texttt{continue} statement is used
+to skip the current iteration of a loop and continue with the next iteration.
+
+\newpage
+
+\subsection{Simple circuits with Arduino}
+\subsubsection*{Drive a LED directly connected to an Arduino pin}
+To correctly bias a LED, a current limiting resistor must be used in series with the LED. The value of the resistor can be
+calculated using Ohm's law as follows.
+
+\begin{center}
+	\begin{minipage}{0.5\textwidth}
+		\centering \begin{circuitikz}[american, scale=0.8, transform shape]
+			\circuitikzset{diodes/scale=0.8}
+			\draw (0,0) node[left] {\(\begin{array}{c} V_{CC} \\ \text{\footnotesize Arduino pin} \end{array}\)} to[short, o-] ++(0.5,0) to[R, l=$R$] ++(2,0) to[leD, l=$LED$] ++(2, 0) node[ground] {};
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.45\textwidth}
+		\[R = \frac{V_R}{I_R} = \frac{V_{CC} - V_{LED}}{I_{LED}}\]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Drive high current into a LED with a BJT}
+Arduino pins can source or sink a limited amount of current (4mA for Nano 33 BLE Sense Rev2). If a higher current is needed,
+a BJT can be used as a switch to drive the LED. The base of the BJT is connected to the Arduino pin through a current limiting
+resistor, the collector is connected to the LED with a current limiting resistor in series and the emitter is connected to ground.
+The transistor is used as a switch in saturation regime, so the voltage drop across the collector-emitter junction is negligible
+and the current through the LED is determined by the current limiting resistor and the supply voltage.
+
+\begin{center}
+	\begin{minipage}{0.5\textwidth}
+		\centering \begin{circuitikz}[american, scale=0.8, transform shape]
+			\circuitikzset{diodes/scale=0.8}
+			\circuitikzset{transistors/scale=1.4}
+			\draw (0,0) node[left] {\(V_{CC}\)} to[short, o-] ++(0.5,0) to[R, l=$R_{LED}$] ++(2,0) to[leD, l=$LED$] ++(2, 0) node[npn, anchor=collector, rotate=90] (npn) {};
+			\draw (npn.emitter) -- ++(0.5, 0) node[ground] {};
+			\draw (npn.base) to[R, l=$R_B$] ++(0,-1.5) to[short, -o] ++(0, -0.5) node[left] {\(\begin{array}{c} V_{CC} \\ \text{\footnotesize Arduino pin} \end{array}\)};
+
+			\node [xshift=0.2cm, yshift=0.1cm] at (npn.B) (vplus) {$+$};
+			\node [xshift=-0.2cm, yshift=-0.2cm] at (npn.E) (vminus) {$-$};
+			\draw[-{Latex}] (vminus) to[out=-90, in=10] node[pos=0.3, fill=white, inner sep=1pt] {$V_{BE}$} (vplus);
+		\end{circuitikz}
+	\end{minipage}
+	\begin{minipage}{0.45\textwidth}
+		\[R_{LED} = \frac{V_{R_{LED}}}{I_{R_{LED}}} = \frac{V_{CC} - V_{LED}}{I_{LED}}\]
+		\vspace{5pt}
+		\[R_B = \frac{V_{R_B}}{I_{R_B}} = \frac{V_{CC} - V_{BE}}{I_B}\]
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Dimming an LED / RGB-LED with \texttt{analogWrite()} and PWM signal}
+By using the \texttt{analogWrite(PIN, value)} function, it is possible to generate a PWM signal on a digital pin (with PWM support)
+and control the brightness of a LED by changing the duty cycle of the PWM signal. Value can be in range 0-255, where 0 means 0\% duty
+cycle (LED off) and 255 means 100\% duty cycle (LED fully on).
+
+On the Arduino Nano 33 BLE Sense Rev2, there is a built-in RGB LED controlled by three virtual pins (\texttt{LED\_R},
+\texttt{LED\_G}, \texttt{LED\_B}). By using the \texttt{analogWrite()} function on these pins, it is possible to control
+the brightness of each color and create different colors by mixing the three primary colors.
+
+\subsubsection*{Read a button state with \texttt{digitalRead()}, pull-up resistors and debouncing}
+A button is a simple switch that can be used to connect a pin to ground when pressed. The main problem is that when the button
+is not pressed, the pin is left floating and can read random values. To solve this problem, a pull-up resistor should be used
+to connect the pin to \(V_{CC}\). In this way, when the button is not pressed, the pin reads HIGH and when the button is pressed,
+the pin reads LOW.
+
+\begin{center}
+	\begin{circuitikz}[american, scale=0.8, transform shape]
+		\draw (0,0) node[left] {\(V_{CC}\)} to[short, o-] ++(0.5,0) to[R, l=$R_{PU}$] ++(2,0) to[push button, l=\texttt{button}] ++(2, 0) node[ground] {};
+		\draw (2.5, 0) to[short, -o] ++(0, 1) node[above] {\texttt{digital pin}};
+	\end{circuitikz}
+\end{center}
+
+To choose the value of the pull-up resistor, it is necessary to consider the current that flows through the resistor when the
+button is pressed (when the button is not pressed, the current is negligible because the pin is in high impedance state). The
+suggested current is in the order of 0.1 - 0.2 mA, so the value of the pull-up resistor can be calculated as follows.
+\[I_{R_{PU}} = \frac{V_{CC}}{R_{PU}} \qquad \text{common values are}: \begin{array}{l}
+	20-22 \; k\Omega \text{ for } 5 \; V \text{ boards} \\[7pt]
+	10-12 \; k\Omega \text{ for } 3.3 \; V \text{ boards}
+\end{array}\]
+
+On some boards like the Arduino Uno, there are internal pull-up resistors of 20 k\(\Omega\) that can be enabled by configuring
+the pin mode as \texttt{INPUT\_PULLUP}. In this way the button can be connected directly between the pin and ground, without
+the need of an external pull-up resistor.
+
+Usually, when a button is pressed, the transition from HIGH to LOW is not clean and immediate, but there are some oscillations
+called bouncing due to mechanical switch contacts oscillations. To solve this problem, a simple software debouncing technique
+can be used, which consists in waiting for a short time (10 and 50 ms) between two consecutive readings of the button state.
+
+Alternatively, a pull-down resistor can be used between the pin and ground and the button will be connected between the pin
+and \(V_{CC}\). The button behaviour becomes active-HIGH, meaning the state will be HIGH when the button is pressed and LOW
+when the button is not pressed. 
+
+\subsubsection*{Read a potentiometer value with \texttt{analogRead()}}
+It is possible to read the voltage value of a potentiometer wiper terminal by connecting it to an analog input pin. The voltage
+at the wiper terminal will be in range \([0, V_{CC}]\) and can be read by an analog pin using the \texttt{analogRead()} function.
+The value returned is in range \([0, \;1023]\) for a 10-bit ADC or in range \([0, \; 4095]\) for a 12-bit ADC and is linearly
+proportional to the wiper voltage.
+
+In some applications, it is necessary to scale the value read from the potentiometer to a different range (for example \([0, \; 255]\)
+to control the brightness of an LED). To do this, it is possible to use the \texttt{map(x, in\_min, in\_max, out\_min, out\_max)}
+function to map the value \(x\) from the input range \([\texttt{in\_min}, \; \texttt{in\_max}]\) to the output range
+\([\texttt{out\_min}, \; \texttt{out\_max}]\) as follows:
+\[\texttt{map(x, in\_min, in\_max, out\_min, out\_max)} \; = \; \frac{(\texttt{x} - \texttt{in\_min}) \times (\texttt{out\_max} - \texttt{out\_min})}{\texttt{in\_max} - \texttt{in\_min}} + \texttt{out\_min}\]
+
+\subsubsection*{Read analog sensors with \texttt{analogRead()}}
+Sometimes the output voltage of an analog sensor has a smaller range \([0, V_{sensor,max} < V_{CC}]\). To correctly read the
+sensor value, it is necessary to scale the sensor output voltage to the full range of the ADC. This can be done in different ways:
+\begin{itemize}
+	\item using the \texttt{map()} function to map the value read from the sensor, but does not increase the resolution of the ADC
+	because is done after the ADC conversion
+	\item using an external op-amp to amplify the sensor output voltage to the full range of the ADC; attention must be paid to
+	not exceed the maximum input voltage of the ADC
+	\item using the AREF pin to set the reference voltage of the ADC to the maximum sensor output voltage, so the ADC will
+	automatically scale the sensor output voltage to the full range of the ADC (this one is the preferred solution)
+\end{itemize}
+
+\subsubsection*{Read temperature with analog TMP36 temperature sensor}
+TMP36 is an analog temperature sensor that outputs a voltage linearly proportional to the temperature. The output voltage has
+a 0.5 V offset (0.5 V correspond to 0\(^\circ C\)) and a slope of 10 mV/\(^\circ C\).
+To read the temperature with an Arduino, the output voltage of the TMP36 sensor can be read with an analog input pin and
+converted into temperature using the following mapping formula considering (155 correspond to 0.5 V and 330 is the temperature
+range for 3.3 V power supply).
+\[T = \frac{V_{out} - 0.5 \; V}{10 \; mV/^\circ C} = (V_{out} - 0.5 \; V) \times 100 \; ^\circ C/V \quad \rightarrow \quad \texttt{temperature = (value-155) * 330 / 1023;}\]
+
+\subsubsection*{Read humidity with analog HIH5030 humidity sensor}
+HIH5030 is an analog humidity sensor that outputs a voltage linearly proportional to the relative humidity. The output voltage
+can be read with an analog input pin and converted into relative humidity using one of the following mapping formulas (from the datasheet).
+\[\begin{array}{c}
+	RH = (V_{out} / V_{CC} - 0.1515) / 0.00636 \\[5pt]
+	V_{out} = \text{measured\_value} \cdot V_{CC} / 1023
+\end{array} \quad \rightarrow \quad \texttt{humidity = (value / 1023 - 0.1515) / 0.00636;}\]
+
+\newpage
+
+\subsection{Asynchronous Serial Protocol}
+\subsubsection*{Introduction to asynchronous serial protocols}
+Asyncronous Serial Protocol is a family of communication protocols that allow to exchange data between the microcontroller
+and other devices using a serial communication interface. It has the following characteristics:
+\begin{itemize}
+	\item asynchronous: the data is transmitted without a clock signal, so the sender and the receiver must agree before the
+	communication on the baud rate (bits per second) and the format of the data (start and stop bits, parity bit, etc.)
+	\item serial: the data is transmitted serially, one bit at a time, not in parallel
+\end{itemize}
+
+\subsubsection*{UART - Universal Asynchronous Receiver-Transmitter protocol}
+The UART protocol is the asynchronous serial protocol used for the communication between an Arduino board and other device.
+It is a full-duplex protocol that uses two lines for communication: TX (transmit) and RX (receive). The TX line of one device is connected to the RX line
+of the other device and vice versa. In idle state, lines are HIGH. The communication has the following format:
+\begin{itemize}
+	\item start bit: 1 bit LOW, indicates the start of a data frame
+	\item data bits: bits transmitted in little endian order (least significant bit first)
+	\item stop bit: 1 bit HIGH, indicate the end of a data frame
+\end{itemize}
+
+\noindent
+
+\subsubsection*{Serial communication with Arduino}
+In Arduino boards, the UART protocol is implemented on the digital pins 0 (RX) and 1 (TX) for communication with other devices
+and on the USB port for communication with the computer via the USB-to-serial converter. The Arduino IDE provides a built-in
+Serial Monitor or a Serial plotter to visualize the data sent from the Arduino to the computer through the USB port and to send
+data from the computer to the Arduino.
+
+In Arduino sketches, the UART protocol is accessed through the \texttt{Serial} class, which provides the following functions:
+\begin{itemize}
+	\item \texttt{Serial.begin(baud\_rate)}: initializes the serial communication with the specified baud rate, usually used
+	in the \texttt{setup()} function, common baud rates are 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600,
+	115200 bps 
+	\item \texttt{Serial.print(data)}: sends data to the serial port as human-readable ASCII text
+	\item \texttt{Serial.println(data)}: same as \texttt{Serial.print()}, plus append a newline character at the end
+	\item \texttt{Serial.available()}: returns if there is data available to read from the serial port
+	\item \texttt{Serial.read()}: reads a byte of data from the serial port; returns -1 if no data is available
+\end{itemize}
+
+\newpage
+
+\subsection{Serial Peripheral Interface - SPI}
+\subsubsection*{Introduction to SPI protocol}
+Serial Peripheral Interface (SPI) is a synchronous serial communication protocol that uses a master-slave architecture to exchange
+data between a single controller device (master) and one or more controlled peripheral devices (slaves).
+
+\subsubsection*{SPI connection lines}
+The SPI protocol uses at least four lines for communication:
+\begin{itemize}
+	\item SCLK (Serial Clock): generated by the master to synchronize the communication
+	\item CIPO (Controller In Peripheral Out): transmit data from the peripheral to the controller (ex MISO)
+	\item COPI (Controller Out Peripheral In): transmit data from the controller to the peripheral (ex MOSI)
+	\item CS (Chip Select): line used to select a specific peripheral device (active LOW)
+\end{itemize}
+SCLK, CIPO and COPI lines are shared between all devices on the SPI bus, while each peripheral device has its own CS line
+connected to the master.
+
+\subsubsection*{SPI communication process}
+The SPI communication woks as follows:
+\begin{itemize}
+	\item the master selects the slave device by pulling its CS line LOW
+	\item the master generates the clock signal on the SCLK line
+	\item on each clock edge, the master and the slave exchange one bit of data on the CIPO and COPI lines
+	\item after the communication is finished, the master stops the clock signal and pulls the CS line HIGH
+\end{itemize}
+
+\subsection{Libraries in Arduino}
+\subsubsection*{Introduction to Arduino/C/C++ libraries}
+A library is a collection of functions and declarations that provide extra functionality which can be used in multiple
+arduino sketches without the need to write the code from scratch. Libraries are organized in:
+\begin{itemize}
+	\item header file (.h): contains the declarations of the functions and variables provided by the library
+	\item source file (.cpp): contains the implementation of the functions declared in the header file
+\end{itemize}
+
+\subsubsection*{Classes and objects in Arduino libraries}
+Usually libraries contain classes that are user-defined data structures that encapsulate data and functions and are used to
+manage peripherals and sensors or software tools in a more organized way. Classes are defined in the header file and implemented
+in the source file. Classes are instantiated in the arduino sketch to create objects of that class, which can be used to call
+the functions provided by the library and manage the peripheral or sensor associated with that class.
+Classes have the following components:
+\begin{itemize}
+	\item class constructor: a special function that is called when an object of the class is instantiated, it initializes
+	the object and its variables
+	\item public functions: functions that can be called from outside the class, they are used to provide the functionality
+	of the class
+	\item private variables: variables that can only be accessed from within the class, they are used to store the state of
+	the object and other internal data
+	\item private functions: functions that can only be called from within the class, they are used to implement internal
+	functionality of the class that is not exposed to the user, conventionally they are prefixed with an underscore to indicate
+	that they are private
+\end{itemize}
+
+\newpage
+
+\subsubsection*{Example of header file with class definition}
+\begin{lstlisting}[language=C++]
+	#ifndef CLASS_NAME_H // include guard to prevent multiple inclusions
+	#define CLASS_NAME_H // of the header file
+
+	#include <Arduino.h> // Arduino library with Arduino-specific functions and types
+
+	class ClassName {
+		public:
+			ClassName(); // constructor
+			void function1(); // public function or procedure
+			int function2(int param); // public function with parameter and return value
+
+		private:
+			int variable1; // private variable
+			float variable2; // private variable
+			void privateFunction(); // private function
+	};
+
+	#endif // CLASS_NAME_H
+\end{lstlisting}
+
+\subsubsection*{Example of source file with class implementation}
+\begin{lstlisting}[language=C++]
+	#include <Arduino.h> // Arduino library with Arduino-specific functions and types
+	#include "ClassName.h" // header file with class definition
+
+	ClassName::ClassName() {
+		// constructor implementation
+	}
+
+	void ClassName::function1() {
+		// function implementation
+	}
+
+	int ClassName::function2(int param) {
+		// function implementation
+	}
+
+	void ClassName::privateFunction() {
+		// private function implementation
+	}
+\end{lstlisting}
+
+\subsubsection*{Library file organisation and syntax highlighting}
+To use a user-made library in an Arduino sketch, the library files (header and source files) must be placed in a specific folder
+with the same name as the library in the Arduino libraries folder.
+
+Usually, user-defined libraries contains symbols and variables that are not recognized by the Arduino IDE as keywords. To enable
+syntax highlighting for those symbols, it is possible to add a keyword file in the library folder with the same name as the library
+and the extension .txt that contains the list of keywords to be highlighted, for example:
+\begin{lstlisting}
+	--- inside ClassName.txt file ---
+	ClassName    KEYWORD1
+	function1    KEYWORD2
+	function2    KEYWORD2
+\end{lstlisting}
+
+\newpage
+
+\subsection{I\texorpdfstring{\textsuperscript{2}}{2}C Protocol}
+\subsubsection*{Introduction to I\texorpdfstring{\textsuperscript{2}}{2}C Protocol}
+The I\(^2\)C (Inter-Integrated Circuit) is a synchronous serial communication protocol that uses a master-slave architecture
+where multiple devices can communicate over a common bus made of only two lines.
+
+\subsubsection*{I\texorpdfstring{\textsuperscript{2}}{2}C connection lines}
+The I\(^2\)C protocol uses two lines for communication:
+\begin{itemize}
+	\item SDA (Serial Data): line used to transmit data between devices
+	\item SCL (Serial Clock): line used to synchronize the communication, is generated by the master device and can be forced
+	low by the slave devices to pause the communication when they are not ready to receive or transmit data
+\end{itemize}
+NOTE: SDA line can change state only when SCL is LOW, exept for the start and stop conditions.
+
+\subsubsection*{I\texorpdfstring{\textsuperscript{2}}{2}C communication process}
+Every device on the I\(^2\)C bus has a unique 7-bit address that is used to identify the device during communication. If the
+datasheet of the device specify an 8-bit address, a right shift of 1 bit must be applied (the least significant bit is eliminated).
+The communication process works as follows:
+\begin{itemize}
+	\item the master device initiates the communication by sending a start condition (SCL keeps HIGH while SDA goes from
+	HIGH to LOW) and starts generating the clock signal on the SCL line
+	\item the master device sends the 7-bit address of the slave device it wants to communicate with, followed by a R/W bit
+	(0 for write, 1 for read) to indicate if it wants to send or receive data from the slave and in the end the master
+	releases the SDA line to allow the slave device to respond
+	\item the slave device with the matching address responds with an ACK bit (0) if it is ready to communicate, otherwise
+	it responds with a NACK bit (1) if it is not ready
+	\item if the slave device ACKs the address, the master and the slave can exchange data bytes, according to the R/W bit
+	sent by the master; after each byte of data, the receiver must send an ACK bit (0) or a NACK bit (1) to indicate whether
+	transmission was successful or not
+	\item after the communication is finished, the master sends a stop condition (SCL keeps HIGH while SDA goes from LOW to HIGH)
+	and stops generating the clock signal on the SCL line
+\end{itemize}
+
+\subsubsection*{\texorpdfstring{\texttt{Wire.h}}{Wire} library to handle I\texorpdfstring{\textsuperscript{2}}{2}C communications}
+In Arduino, the I\(^2\)C protocol is implemented through the \texttt{Wire} library, which provides functions to easily manage
+I\(^2\)C communication. The library provides the following functions:
+\begin{itemize}
+	\item \texttt{Wire.begin()}: initializes the I\(^2\)C communication, must be called in the \texttt{setup()} function before
+	using any other function of the library;
+	\item \texttt{Wire.beginTransmission(address)}: initiates a transmission to the slave device with the specified address
+	\item \texttt{Wire.write(data)}: enqueues a byte of data to the buffer for the slave device
+	\item \texttt{Wire.endTransmission()} sends the bytes equeued in the buffer and ends the transmission
+	\item \texttt{Wire.requestFrom(address, quantity)}: requests a specified quantity of bytes from the slave device with the
+	specified address; returns the number of bytes received from the slave device
+	\item \texttt{Wire.read()}: reads a byte of data received from the slave device; returns -1 if no data is available
+\end{itemize}
+The I\(^2\)C buffer is limited to 32 bytes, so if more data needs to be sent or received, it is necessary to split the data
+into multiple transmissions.
+
+There can be multiple Wire buses on the same Arduino board, for example on the Arduino Nano 33 BLE Sense Rev2 there is a second
+I\(^2\)C bus connected by \texttt{Wire1.h} library, specifically designed to manage the built-in sensors on the board.
+
+\subsubsection*{Using DS1621 digital temperature sensor with I\texorpdfstring{\textsuperscript{2}}{2}C communication}
+The DS1621 is a digital temperature sensor that communicates over the I\(^2\)C bus. It has a 7-bit address that can be partially
+configured using external pins of the sensor obtaining the 7-bit address in the following format: ``\texttt{1 0 0 1 A2 A1 A0}''.
+I\(^2\)C commands for the DS1621 sensor are as follows:
+\begin{itemize}
+	\item \texttt{0xAC}: write the next byte into the configuration register of the sensor
+	\item \texttt{0x02}: enable the continuous conversion mode of the sensor (temperature is continuously measured and updated in the sensor registers)
+	\item \texttt{0xEE}: start a single temperature conversion (temperature is measured once and updated in the sensor registers)
+	\item \texttt{0xAA}: read the temperature value from the sensor registers
+\end{itemize}
+
+Temperature values are represented in two bytes: the first byte contains the integer part of the temperature in two's complement
+format, while the second byte contains the fractional part of the temperature in increments of 0.5\(^\circ C\) (0 for +0\(^\circ C\)
+and 128 for +0.5\(^\circ C\)).
+
+The following sketch shows how to use the \texttt{Wire} library to read the temperature value from the DS1621 sensor and print
+it to the serial monitor.
+
+\begin{lstlisting}[language=c++]
+	#include <Wire.h> // I2C communication library
+
+	#define DS1621_ADDR 0x48 // I2C address of the DS1621 sensor when A2, A1, A0 are LOW
+	#define DS1621_CONFIG_REG 0xAC          // configuration register address
+	#define DS1621_CONTINUOUS_CONV_CMD 0x02 // enable continuous conversion mode
+	#define DS1621_START_CONV_CMD 0xEE      // start temperature conversion
+	#define DS1621_READ_TEMP_CMD 0xAA       // read temperature value
+
+	void setup() {
+		Wire.begin(); // initialize I2C communication
+
+		Wire.beginTransmission(DS1621_ADDR);    // start transmission to the sensor
+		Wire.write(DS1621_CONFIG_REG);          // write to configuration register
+		Wire.write(DS1621_CONTINUOUS_CONV_CMD); // enable continuous conversion mode
+		Wire.endTransmission();                 // end transmission
+
+		Wire.beginTransmission(DS1621_ADDR); // start transmission to the sensor
+		Wire.write(DS1621_START_CONV_CMD);   // start temperature conversions
+		Wire.endTransmission();              // end transmission
+
+		Serial.begin(9600); // initialize serial communication for debugging
+	}
+
+	void loop() {
+		Wire.beginTransmission(DS1621_ADDR); // start transmission to the sensor
+		Wire.write(DS1621_READ_TEMP_CMD);    // send command to read temperature
+		Wire.endTransmission();              // end transmission
+
+		Wire.requestFrom(DS1621_ADDR, 2);    // request 2 bytes of data from the sensor
+
+		byte byte1 = Wire.read(); // read the integer part of the temperature
+		byte byte2 = Wire.read(); // read the fractional part of the temperature
+
+		// compute the temperature value
+		float temp = byte1 + (byte2 == 128 ? 0.5 : 0); 
+		
+		// print temperature value to serial monitor
+		Serial.println("Temperature: " + temp + " C"); 
+
+		delay(1000); // wait before reading the temperature again
+	}
+\end{lstlisting}
+
+\newpage
+
+\subsubsection*{Using TSL2561 light sensor with I\texorpdfstring{\textsuperscript{2}}{2}C communication}
+The TSL2561 is a digital light sensor that communicates over the I\(^2\)C bus. It is equipped with two photodiodes on the same
+CMOS chip that measure the visible and infrared light intensity with 16-bit resolution. There are two indipendent ADC channels
+(0 and 1) to store respectively the visible light intensity and the infrared light intensity.
+
+Values in the two channels registers are updated every 402ms. It is possible to further customize the integration time and the
+gain of the sensor with additional commands (see datasheet).
+
+The sensor has a 7-bit address that can be partially configured using an external pin of the sensor (0x29 when LOW,
+0x39 when floating, 0x49 when HIGH). I\(^2\)C commands for the TSL2561 sensor are:
+\begin{itemize}[itemsep=-1pt]
+	\item \texttt{0x00}: write the next byte into the command register of the sensor
+	\item \texttt{0x03}: power on the sensor (written on the command register)
+	\item \texttt{0x00}: power off the sensor (written on the command register)
+	\item \texttt{0x81}: access timing register of the sensor
+	\item \texttt{0x02}: set low gain (1x) with 402ms integration time (written on the timing register)
+	\item \texttt{0x8C}, \texttt{0x8D}: read channel 0 LSB (least significant byte) and MSB (most significant byte)
+	\item \texttt{0x8E}, \texttt{0x8F}: read channel 1 LSB (least significant byte) and MSB (most significant byte)
+\end{itemize}
+
+The following sketch shows how to use the \texttt{Wire} library to read the light intensity values from the TSL2561 sensor and print
+it to the serial monitor.
+
+\begin{lstlisting}
+	#include <Wire.h> // I2C communication library
+
+	#define TSL2561_ADDR 0x29 // I2C address of the TSL2561 sensor when ADDR_PIN is LOW
+	#define TSL2561_CMD_REG 0x00        // command register address
+	#define TSL2561_POWER_ON 0x03       // power on the sensor
+	#define TSL2561_POWER_OFF 0x00      // power off the sensor
+	#define TSL2561_TIMING_REG 0x81     // timing register address
+	#define TSL2561_LOW_GAIN_402MS 0x02 // set low gain with 402ms integration time
+	#define TSL2561_READ_CH0_LSB 0x8C   // read channel 0 LSB
+	#define TSL2561_READ_CH0_MSB 0x8D   // read channel 0 MSB
+	#define TSL2561_READ_CH1_LSB 0x8E   // read channel 1 LSB
+	#define TSL2561_READ_CH1_MSB 0x8F   // read channel 1 MSB
+
+	void setup() {
+		Wire.begin(); // initialize I2C communication
+
+		Wire.beginTransmission(TSL2561_ADDR); // start transmission to the sensor
+		Wire.write(TSL2561_CMD_REG);          // write to command register
+		Wire.write(TSL2561_POWER_ON);         // power on the sensor
+		Wire.endTransmission();               // end transmission
+
+		Wire.beginTransmission(TSL2561_ADDR); // start transmission to the sensor
+		Wire.write(TSL2561_TIMING_REG);       // write to timing register
+		Wire.write(TSL2561_TIMING_LOW_GAIN);  // set low gain with 402ms integration time
+		Wire.endTransmission();               // end transmission
+
+		Serial.begin(9600); // initialize serial communication for debugging
+	}
+
+	void loop() {
+		Wire.beginTransmission(TSL2561_ADDR); // start transmission to the sensor
+		Wire.write(TSL2561_READ_CH0_LSB);     // send command to read channel 0 LSB
+		Wire.endTransmission();               // end transmission
+		Wire.requestFrom(TSL2561_ADDR, 1);    // request 1 bytes of data from the sensor
+		byte ch0_lsb = Wire.read();           // read channel 0 LSB
+
+		Wire.beginTransmission(TSL2561_ADDR); // start transmission to the sensor
+		Wire.write(TSL2561_READ_CH0_MSB);     // send command to read channel 0 MSB
+		Wire.endTransmission();               // end transmission
+		Wire.requestFrom(TSL2561_ADDR, 1);    // request 1 bytes of data from the sensor
+		byte ch0_msb = Wire.read();           // read channel 0 MSB
+		
+		float lum = 256* ch0_msb + ch0_lsb;   // compute lux value from channel values
+		Serial.println("Lux: " + lum + " lx"); // print lux value to serial monitor
+		delay(1000); // wait before reading the light intensity again
+	}
+\end{lstlisting}
+
+\newpage
+
+\subsection{Adafruit HX8357 LCD TFT display}
+Adafruit HX8357 is an LCD TFT display with a resolution of 480x320 pixels with touchscreen capabilities. It can be controlled
+via SPI communication and there is an Arduino library provided by Adafruit that allows to easily control the display.
+
+\subsubsection*{Connections}
+To connect the display to an Arduino board via SPI, the following connections must be made:
+\begin{itemize}
+	\item SCLK (Serial Clock) to the SCLK pin of the Arduino
+	\item CIPO (Controller In Peripheral Out) to the MISO pin of the Arduino
+	\item COPI (Controller Out Peripheral In) to the MOSI pin of the Arduino
+	\item CS (Chip Select) to a digital pin of the Arduino (for example pin 10)
+	\item DC (Data/Command) to a digital pin of the Arduino (for example pin 9); data/command pin is used to distinguish
+	if the message transmitted to the display is data or command
+	\item RST (Reset) to a digital pin of the Arduino (for example pin 8)
+\end{itemize}
+
+\subsubsection*{Object initialization}
+To use the display functions in an Arduino sketch, it is necessary to import the library adn its dependencies and instantiate
+an object of the class that manages the display, as in the following example:
+\begin{lstlisting}
+	#include <SPI.h>             // SPI protocol communication library
+	#include <Adafruit_GFX.h>    // core graphics library for displays
+	#include <Adafruit_HX8357.h> // library for the HX8357 display
+	
+	#define TFT_CS 10  // chip select pin
+	#define TFT_DC 9   // data/Command pin
+	#define TFT_RST 8  // reset pin
+	
+	// create an instance object of the display class
+	Adafruit_HX8357 tft = Adafruit_HX8357(TFT_CS, TFT_DC, TFT_RST);
+
+\end{lstlisting}
+
+\subsubsection*{Basic library functions}
+\begin{itemize}
+	\item \texttt{tft.begin()}: initializes the display and must be called in the \texttt{setup()} function before using
+	any other function of the library
+	\item \texttt{tft.setRotation(i)}: sets the rotation of the display, where \(i\) can be in range 0-3 and corresponds
+	to a specific orientation of the display (0°, 90°, 180°, 270°)
+	\item \texttt{tft.fillScreen(color)}: fills the entire display with the specified color
+	\item \texttt{tft.setTextColor(color)}: sets the color for text rendering
+	\item \texttt{tft.setTextSize(size)}: sets the size for text rendering, where \(size\) is an integer that scales the
+	default text size (1 is default size, 2 is double size, etc.); default text size is 5x8 pixels.
+	\item \texttt{tft.setCursor(x, y)}: sets the cursor position for text rendering at the specified coordinates
+	\item \texttt{tft.print(text)}: prints the text at the current cursor position with current text, color and size
+	\item \texttt{tft.println(text)}: same as \texttt{tft.print()}, plus moves the cursor to the beginning of next line
+	\item \texttt{tft.drawPixel(x, y, color)}: draws a pixel at the specified coordinates with the specified color
+	\item \texttt{tft.drawLine(x0, y0, x1, y1, color)}: draws a line based on the specified parameters
+	\item \texttt{tft.drawRect(x, y, w, h, color)}: draws a rectangle based on the specified parameters
+	\item \texttt{tft.fillRect(x, y, w, h, color)}: draws a filled rectangle based on the specified parameters
+	\item \texttt{tft.drawCircle(x, y, r, color)}: draws a circle based on the specified parameters
+	\item \texttt{tft.fillCircle(x, y, r, color)}: draws a filled circle based on the specified parameters
+\end{itemize}
+
+\subsubsection*{Pixel organization}
+The display is organized in a grid of pixels, where the top-left corner is the origin (0, 0) and the bottom-right corner is
+(479, 319). Every text character is rendered from the current cursor pixel-position to bottom-right corner of the display.
+
+\subsubsection*{Color coding}
+The display is capable of 18-bit color depth, but the color is usually specified in 16-bit format (5 bits for red, 6 bits for
+green and 5 bits for blue) to save memory and bandwidth. Standard colors are pre-defined in the library as constants, for example:
+\begin{center}
+	\begin{minipage}{0.45\textwidth}
+		\begin{itemize}
+			\item \texttt{HX8357\_BLACK}: black color (0x0000)
+			\item \texttt{HX8357\_RED}: red color (0xF800)
+			\item \texttt{HX8357\_GREEN}: green color (0x07E0)
+			\item \texttt{HX8357\_ BLUE}: blue color (0x001F)
+		\end{itemize}
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\begin{itemize}
+			\item \texttt{HX8357\_CYAN}: cyan color (0x07FF)
+			\item \texttt{HX8357\_MAGENTA}: magenta color (0xF81F)
+			\item \texttt{HX8357\_YELLOW}: yellow color (0xFFE0)
+			\item \texttt{HX8357\_WHITE}: white color (0xFFFF)
+		\end{itemize}
+	\end{minipage}
+\end{center}
+It is possile to create custom colors with the \texttt{tft.color565(r, g, b)} library function, where \(r\), \(g\) and \(b\)
+are the red, green and blue components of the color in range (\([0, 255]\)).
+
+\subsubsection*{Touchscreen functions}
+The display has a built-in resistive touchscreen that can be used to detect touch events and get the coordinates of the touch.
+Touchscreen is realized by two layers of conductive material separated by a small gap. When the screen is touched, the two layers
+come into contact and the resistance between them changes, allowing to get the coordinates and the pressure of the touch.
+
+The LCD has 4 pins for the touchscreen (XP, XM, YP, YM) that can be connected to the Arduino (D7, A3, A2, D8 respectively)
+and managed with the following library functions:
+\begin{itemize}
+	\item \texttt{Touchscreen(XP, YP, XM, YM, resistance)}: constructor of the touchscreen class that initializes the touchscreen
+	object with the specified pins and the resistance value of the touchscreen
+	\item \texttt{ts.getPoint()}: function that returns a structure with the coordinates (x, y, pressure) in range (\([0, 4095]\))
+	for the x and y coordinates and in range (\([0, 255]\)) for the pressure value; if the pressure value is greater than the
+	\texttt{ts.pressureThreshhold} (equal to 0), the touch is considered valid
+\end{itemize}
+
+The following code snippet shows how to get the coordinates of a touch event and map them to the display coordinates.
+\begin{lstlisting}
+	Touchscreen ts = Touchscreen(XP, YP, XM, YM, resistance); // object constructor
+	TSPoint p = ts.getPoint(); // get the coordinates of the touch (x, y, pressure)
+	p.x = map(p.x, 0, 4095, 0, tft.width()); // map x coordinate to display width
+	p.y = map(p.y, 0, 4095, 0, tft.height()); // map y coordinate to display height
+
+	// check if a touch event occured by comparing the pressure value to the threshold
+	if (p.pressure > ts.pressureThreshhold) {
+		// touch event has occured at coordinates (p.x, p.y) with p.pressure
+	}
+\end{lstlisting}
+
+\newpage
+\footnotesize
+
+\subsection{Heart rate monitor}
+\subsubsection*{Introduction to heart rate monitoring on Arduino}
+The idea for building a heart rate monitor is to detect the heart rate of a person by measuring the changes in reflectance of red and
+infrared light on the skin caused by the blood flow in the arteries. To do this an optical sensor is used in pair with a red LED and
+an infrared LED. The photodiode signal has a small pulsation component superimposed on a large DC component, so the signal must be
+conditioned and filtered to extract the pulsation component and get a clean signal that can be read by the ADC of the Arduino board. 
+
+\subsubsection*{Circuit components}
+\begin{center}
+	\begin{tikzpicture}[scale=0.7, transform shape]
+		\draw (5.5, 8) to[american resistor, *-, l={$R_{IR}$}] (5.5, 6);
+		\node[ground] at (5.5, 4.25){};
+		\draw (5.5, 6) to[empty led] (5.5, 4);
+		\draw (7.75, 8) to[american resistor, *-, l={$R_{RED}$}] (7.75, 6);
+		\node[ground] at (7.75, 4.25){};
+		\draw (7.75, 6) to[empty led] (7.75, 4);
+		\node[shape=rectangle, minimum width=2.465cm, minimum height=0.715cm] at (5.5, 8.375){} node[anchor=north, align=center, text width=2.077cm, inner sep=6pt] at (5.5, 8.75){\small IR LED pin};
+		\node[shape=rectangle, minimum width=2.465cm, minimum height=0.715cm] at (7.75, 8.375){} node[anchor=north, align=center, text width=2.077cm, inner sep=6pt] at (7.75, 8.75){\small RED LED pin};
+		\draw (10, 4) to[empty photodiode, i^<=$I_{PD}$, current/distance=0.6] (10, 6);
+		\node[ground] at (10, 4.25){};
+		\node[op amp] at (12.06, 6){\small opamp 1};
+		\node[ground] at (10.87, 5.51){};
+		\draw (10, 6) |- (10.87, 6.49);
+		\draw (10.87, 7.99) to[variable american resistor, l={$R_{pot}$}] (13.25, 8);
+		\draw (13.25, 6) to[capacitor, l={$C_1$}] (14.75, 6);
+		\draw (14.75, 6) to[american resistor, -*, l_={$R_4$}] (14.75, 8);
+		\draw (14.75, 6) to[american resistor, l_={$R_1$}] (14.75, 4);
+		\node[op amp, yscale=-1] at (16.69, 5.51){} node[anchor=center] at (16.58, 5.51) {\small opamp 2};
+		\node[ground] at (14.75, 4.25){};
+		\draw (10.87, 7.99) -| (10.87, 6.49);
+		\draw (13.25, 8) -| (13.25, 6);
+		\draw (14.75, 6) -- (15.5, 6);
+		\node[ground] at (11.977, 5.461){};
+		\draw (11.977, 6.539) to[short, -*] (11.977, 7.039);
+		\node[shape=rectangle, minimum width=1.215cm, minimum height=0.426cm] at (11.977, 7.269){} node[anchor=north, align=center, text width=1.109cm, inner sep=2pt] at (11.977, 7.5){\small $V_{CC}$};
+		\node[shape=rectangle, minimum width=1.215cm, minimum height=0.426cm] at (14.75, 8.23){} node[anchor=north, align=center, text width=1.109cm, inner sep=2pt] at (14.75, 8.461){\small $V_{CC}$};
+		\node[ground] at (16.607, 4.971){};
+		\draw (16.607, 6.049) to[short, -*] (16.607, 6.549);
+		\node[shape=rectangle, minimum width=1.215cm, minimum height=0.426cm] at (16.607, 6.779){} node[anchor=north, align=center, text width=1.109cm, inner sep=2pt] at (16.607, 7.01){\small $V_{CC}$};
+		\draw (18, 5.5) to[american resistor, l_={$R_2$}] (18, 3.5);
+		\draw (18.75, 5.5) to[capacitor, l={$C_2$}] (18.75, 3.5);
+		\draw (15.5, 3.5) to[american resistor, l={$R_3$}] (15.5, 1.5);
+		\node[ground] at (15.5, 1.75){};
+		\draw (15.5, 5.02) -- (15.5, 3.5);
+		\draw (18.75, 3.5) -- (15.5, 3.5);
+		\draw (19.5, 5.5) to[capacitor, l={$C_1$}] (21, 5.5);
+		\draw (21, 5.5) to[american resistor, -*, l_={$R_4$}] (21, 7.5);
+		\draw (21, 5.5) to[american resistor, l_={$R_1$}] (21, 3.5);
+		\node[op amp, yscale=-1] at (22.94, 5.01){} node[anchor=center] at (22.83, 5.01) {\small opamp 3};
+		\node[ground] at (21, 3.75){};
+		\draw (21, 5.5) -- (21.75, 5.5);
+		\node[shape=rectangle, minimum width=1.215cm, minimum height=0.426cm] at (20.75, 7.73){} node[anchor=north, align=center, text width=1.109cm, inner sep=2pt] at (20.75, 7.961){\small $V_{CC}$};
+		\node[ground] at (22.857, 4.471){};
+		\draw (22.857, 5.549) to[short, -*] (22.857, 6.049);
+		\node[shape=rectangle, minimum width=1.215cm, minimum height=0.426cm] at (22.857, 6.279){} node[anchor=north, align=center, text width=1.109cm, inner sep=2pt] at (22.857, 6.51){\small $V_{CC}$};
+		\draw (24.25, 5) to[american resistor, l_={$R_2$}] (24.25, 3);
+		\draw (25, 5) to[capacitor, l={$C_2$}] (25, 3);
+		\draw (21.75, 3) to[american resistor, l={$R_3$}] (21.75, 1);
+		\node[ground] at (21.75, 1.25){};
+		\draw (21.75, 4.52) -- (21.75, 3);
+		\draw (25, 3) -- (21.75, 3);
+		\draw (17.88, 5.51) to[short] (18, 5.5);
+		\draw (18, 5.5) -- (19.5, 5.5);
+		\draw (24.13, 5.01) to[short] (24.25, 5);
+		\draw (24.25, 5) to[short, -*] (25.75, 5);
+		\node[shape=rectangle, minimum width=1.465cm, minimum height=0.83cm] at (25.75, 5.5){} node[anchor=north, align=center, text width=1.359cm, inner sep=2pt] at (25.75, 5.933){\small Analog input pin};
+		\node[shape=rectangle, minimum width=1.09cm, minimum height=1.09cm] at (7, 4.687){} node[anchor=north, align=center, text width=0.702cm, inner sep=6pt] at (7, 5.25){\small RED LED};
+		\node[shape=rectangle, minimum width=1.09cm, minimum height=1.09cm] at (4.75, 4.687){} node[anchor=north, align=center, text width=0.702cm, inner sep=6pt] at (4.75, 5.25){\small IR LED};
+	\end{tikzpicture}
+\end{center}
+
+\noindent
+Circuit is composed by:
+\begin{enumerate}
+	\item two LEDs (red and infrared) connected in series with two resistors to limit the current through them, controlled by two digital
+	pins of the Arduino board to turn them on and off
+	\item a photodiode connected in reverse bias to a transimpedance amplifier (opamp 1) with a potentiometer in the feedback loop that
+	converts the photodiode current into a voltage signal
+	\item a passive high pass filter with a cutoff frequency of \(f_C \approx 0.8 \; Hz\) and a voltage offset of \(0.15 \; V\) (\(C_1\),
+	\(R_1\) and \(R_4\)) to remove the DC component of the signal and apply a small positive offset to the signal to make it suitable
+	for op amps with single positive power supply
+	\item an active low pass filter with a cutoff frequency of \(f_C \approx 3 \; Hz\) and a gain of \(A_v = 11\) (opamp 2, \(R_2\), \(R_3\)
+	and \(C_2\)) to filter the signal, remove high frequency noise and amplify the pulsation component of the signal
+	\item a second passive high pass filter with offset (\(C_1\), \(R_1\) and \(R_4\))
+	\item a second active low pass filter (opamp 3, \(R_2\), \(R_3\) and \(C_2\))
+	\item the output terminal connected to an analog input pin of the Arduino board
+\end{enumerate}
+
+\subsubsection*{Oxygen saturation monitoring}
+Oxygen saturation can be estimated by measuring the ratio of the pulsation component of the red and infrared signals, since oxygenated
+and deoxygenated hemoglobin have different light absorption coefficients for red and infrared light. The ratio can be computed with the
+following formula:
+\[R = \frac{\displaystyle \left(\frac{AC}{DC}\right)_{RED}}{\displaystyle \left(\frac{AC}{DC}\right)_{IR}} = \frac{\displaystyle \frac{V_{\text{max, RED}} - V_{\text{min, RED}}}{V_{\text{min, RED}}}}{\displaystyle \frac{V_{\text{max, IR}} - V_{\text{min, IR}}}{V_{\text{min, IR}}}} \qquad\qquad \text{SpO}_2 = 97.94 + 1.15 \cdot R\]

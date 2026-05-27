@@ -1,0 +1,101 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[english]{babel} % corretta sillabazione in inglese
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage[table]{xcolor} % per colorare le tabelle
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{hyperref} % per collegamenti
+\usepackage{graphicx} % per immagini
+\usepackage{listings} % per codice
+\usepackage{xcolor} % per colori
+\usepackage{tikz} % per disegnare bayesian network
+\usepackage{circuitikz} % per disegni di circuiti elettrici
+
+% definizione colori per codice
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% definizione stile codice
+\lstdefinestyle{mystyle}{
+	language=C++,
+	morekeywords={constexpr,string,C_style_cast,noexcept,alignof,std,wait,signal,acquire,release},
+	emph={int,char,double,float,unsigned,string,vector,initializer_list,semaphore},
+	backgroundcolor=\color{backcolour},    % sfondo
+	commentstyle=\color{codegreen},        % commenti
+	keywordstyle=\color{magenta},          % keywords
+	identifierstyle=\color{blue},          % variabili
+	stringstyle=\color{codepurple},        % stringhe
+	directivestyle={\color{purple}},       % direttive
+	emphstyle={\color{magenta}},           % tipi
+	numberstyle=\tiny\color{codegray},     % numeri
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=-12pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=4
+}
+
+% utilizzo stile codice
+\lstset{style=mystyle}
+\lstset{literate={~} {{\raisebox{0.4ex}{\texttildelow}}}{1}}
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+% per elenchi puntati
+\setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
+\setlist[enumerate]{partopsep=0pt, topsep=3pt, itemsep=0pt}
+
+% percorso delle immagini da inserire
+\graphicspath{{./}}
+
+% per disegni
+\usetikzlibrary{positioning, shapes.geometric, arrows.meta, calc}
+
+
+\title{Microelectronics laboratory notes}
+\author{Giacomo Simonetto}
+\date{First semester 2025-26}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+	Microelectronics laboratory notes for the first semester of the academic year 2025-26 at the University of Padua.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\include{paragrafi/1_prototyping_techiques.tex}
+\include{paragrafi/2_laboratory_instrumentation.tex}
+\include{paragrafi/3_mosfet_and_bjt.tex}
+\include{paragrafi/4_op_amps.tex}
+\include{paragrafi/5_linear_voltage_regulators.tex}
+\include{paragrafi/6_signal_generators.tex}
+\include{paragrafi/7_output_stages.tex}
+\include{paragrafi/8_arduino.tex}
+
+\end{document}

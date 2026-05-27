@@ -1,0 +1,194 @@
+\section{Prototyping techniques}
+\subsection{PCB and PCA}
+\subsubsection*{Difference between PCB and PCA}
+\begin{itemize}
+	\item \textbf{PBC - Printed Circuit Board}: only the surface with conductive pads for mounting electronic components, tracks
+	or traces, called metal lines, to connect the components, and via holes to connect different layers of the PCB or to mount
+	components with through-hole technology
+	\item \textbf{PCA - Printed Circuit Assembly}: a PCB with electronic components mounted on it
+\end{itemize}
+
+\subsubsection*{PCB classification}
+
+\begin{itemize}[itemsep=5pt]
+	\item classification based on \textbf{substrate materials}:
+	\begin{itemize}[topsep=0pt]
+		\item \textbf{FR-4}: organic composite rigid material made on fiberglass cloth wth an epoxy resin binder, it is rigid,
+		flame resistant and supports up to 135°C temperatures
+		\item \textbf{ceramic}: rigid inorganic ceramic substrate (Al\(_2\)O\(_3\), AlNi, \dots) for better performance at high
+		frequencies and thermal conductivity
+		\item \textbf{metal core}: metal core under the substrate (copper or aluminum) for better heat dissipation
+		\item \textbf{flexible substrates}: flexible materials for applications where the PCB can be bent or folded
+	\end{itemize}
+	\item classification based on \textbf{physical nature}:
+	\begin{itemize}[topsep=0pt]
+		\item \textbf{rigid}: made of solid materials that do not bend
+		\item \textbf{flexible}: made of materials that can bend without breaking (for wearable devices, \dots)
+		\item \textbf{rigi-flex}: combination of rigid and flexible sections in the same PCB, usually flex parts are used
+		for interconnections between rigid sections (FFC - flat flexible cables)
+	\end{itemize}
+	\item classification based on \textbf{number of layers}:
+	\begin{itemize}[topsep=0pt]
+		\item \textbf{single-sided}: only one layer of conductive tracks, components mounted on the same side
+		\item \textbf{double-sided}: two layers of conductive tracks, components can be mounted on both sides
+		\item \textbf{multi-layer}: more than two layers of conductive tracks, components can be mounted on both sides, used for complex circuits
+	\end{itemize}
+	\item classification based on \textbf{production methods of the conductive pattern}:
+	\begin{itemize}[topsep=0pt]
+		\item \textbf{discrete conductor pattern}: conductive tracks are printed by depositing conductive material directly
+		on the substrate without using a lithographic imaging process
+		\item \textbf{graphic conductor pattern}: tracks are printed using a photographic process (deposit, photoresist,
+		UV exposure, etching) to obtain finer and more precise patterns
+	\end{itemize}
+\end{itemize}
+
+\subsubsection*{Component classification}
+\begin{itemize}[itemsep=5pt]
+	\item classification based on \textbf{mounting technology}:
+	\begin{itemize}[topsep=0pt]
+		\item \textbf{TH - Through-Hole}: components with leads or pins that go through holes in the PCB
+		\item \textbf{SMT - Surface-Mount}: components that are soldered directly on the surface of the PCB
+	\end{itemize}
+	\item classification based on \textbf{package types}:
+	\begin{itemize}[topsep=0pt]
+		\item \textbf{DIP - Dual Inline Package}: TH package with two parallel pin rows, with 100 mil pitch
+		\item \textbf{SOP - Small Outline Package}: SMT package with no pins and 25 mil pitch
+		\item \textbf{SSOP - Shrink SOP}: SMT package smaller than SOP
+		\item \textbf{TSSOP - Thin SSOP}: SMT package smaller than SSOP
+		\item \textbf{DQNF - Dual Quad Flat No-leads}: SMT package soldered with pads or balls
+	\end{itemize}
+\end{itemize}
+
+\vspace{5pt}
+
+\textbf{Pitch} is the distance between two adjacent pins or leads of a component. It is measured in mils:
+\[1 \; \text{mil} \; = \; \frac{1}{1000} \; \text{inch} \; = \; 0.0254 \;\text{mm}\]
+
+
+\subsubsection*{SMT assembly process}
+\begin{enumerate}[itemsep=0pt]
+	\item \textbf{setup}: preparation of the PCB and components for assembly
+	\item \textbf{screen print}: application of solder paste on the PCB pads using a stencil
+	\item \textbf{SMT placement}: placement of components on the PCB using a pick-and-place machine
+	\item \textbf{reflow}: heating the PCB to melt the solder paste and create permanent connections between components and PCB pads
+	\item \textbf{hand assembly}: manual placement of components that cannot be placed by the machine (large through-hole components, \dots)
+	\item \textbf{wave solder}: soldering of through-hole components by passing the PCB over a wave of molten solder
+	\item \textbf{final assembly}: manual assembly of remaining components and final checks
+	\item \textbf{wash}: cleaning of the PCB to remove flux residues and contaminants
+	\item \textbf{circuit test}: testing components and connections to ensure proper functionality
+	\item \textbf{stress test}: testing the PCB under extreme conditions (temperature, humidity, \dots)
+	\item \textbf{functional test}: testing the PCB in real operating conditions to verify that it performs as expected
+	\item \textbf{pack/ship}: packaging and shipping of the assembled PCB to customers or distributors
+\end{enumerate}
+
+\subsection{Resistors}
+\subsubsection*{Resistor color code}
+Resistor values are indicated with color bands on the resistor body. The first two bands on the left represent digits, the
+third band is a multiplier, the fourth band indicates the tolerance of the resistor value. The color code is as follows:
+
+\begin{table}[h]
+	\centering
+	\newcommand{\cbox}[1]{\textcolor{#1}{\rule[-0.1cm]{0.4cm}{0.4cm}}}
+	\renewcommand{\arraystretch}{1.1}
+
+	\definecolor{gold}{RGB}{255, 215, 0}
+	\definecolor{silver}{RGB}{192, 192, 192}
+
+	\begin{tabular}{|l|c|c|c|c|c|c|}
+		\hline
+		\(\;\;\;\) \textbf{Color} & \textbf{1st Band} & \textbf{2nd Band} & \textbf{3rd Band Multiplier} & \textbf{4th Band Tolerance} \\
+		\hline
+		\cbox{black} \(\;\) \textcolor{black}{Black} & 0 & 0 & $\times \; 1 \; \Omega$ & \\
+		\hline
+		\cbox{brown} \(\;\) \textcolor{black}{Brown} & 1 & 1 & $\times \; 10 \; \Omega$ & $\pm \; 1\%$ \\
+		\hline
+		\cbox{red} \(\;\) \textcolor{black}{Red} & 2 & 2 & $\times \; 100 \; \Omega$ & $\pm \; 2\%$ \\
+		\hline
+		\cbox{orange} \(\;\) \textcolor{black}{Orange} & 3 & 3 & $\times \; 1 \; \text{k}\Omega$ & \\
+		\hline
+		\cbox{yellow} \(\;\) \textcolor{black}{Yellow} & 4 & 4 & $\times \; 10 \; \text{k}\Omega$ & \\
+		\hline
+		\cbox{green} \(\;\) \textcolor{black}{Green} & 5 & 5 & $\times \; 100 \; \text{k}\Omega$ & $\pm \; 0.5\%$ \\
+		\hline
+		\cbox{blue} \(\;\) \textcolor{black}{Blue} & 6 & 6 & $\times \; 1 \; \text{M}\Omega$ & $\pm \; 0.25\%$ \\
+		\hline
+		\cbox{violet} \(\;\) \textcolor{black}{Violet} & 7 & 7 & $\times \; 10 \; \text{M}\Omega$ & $\pm \; 0.10\%$ \\
+		\hline
+		\cbox{gray} \(\;\) \textcolor{black}{Grey} & 8 & 8 & $\times \; 100 \; \text{M}\Omega$ & $\pm \; 0.05\%$ \\
+		\hline
+		\cbox{white} \(\;\) \textcolor{black}{White} & 9 & 9 & $\times \; 1 \; \text{G}\Omega$ &  \\
+		\hline
+		\cbox{gold} \(\;\) \textcolor{black}{Gold} & & & $\times \; 0.1 \; \Omega$ & $\pm \; 5\%$ \\
+		\hline
+		\cbox{silver} \(\;\) \textcolor{black}{Silver} & & & $\times \; 0.01 \; \Omega$ & $\pm \; 10\%$ \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\vspace{-15pt}
+
+\subsubsection*{E-series}
+Resistors values are standardized in the E-series, where the number \(n\) after ``E'' indicates the number of values per decades
+distributed logarithmically: \(\text{step size} = 10 ^ {1/n}\). The most common series are:
+\begin{itemize}
+	\item \textbf{E6}: 6 values per decade, 20\% tolerance, 47\% step size, 2 digit bands
+	\item \textbf{E12}: 12 values per decade, 10\% tolerance, 21\% step size, 2 digit bands
+	\item \textbf{E24}: 24 values per decade, 5\% tolerance, 10\% step size, 2 digit bands
+	\item \textbf{E48}: 48 values per decade, 2\% tolerance, 5\% step size, 3 digit bands
+	\item \textbf{E96}: 96 values per decade, 1\% tolerance, 2.5\% step size, 3 digit bands
+	\item \textbf{E192}: 192 values per decade, 0.5\% / 0.25\% / 0.10\% tolerance, 1.23\% step size, 3 digit bands
+\end{itemize}
+
+\noindent
+In the laboratory we use E12 resistors, the most common and widely available. If the required value is not available in the E12
+series, we can combine resistors in series or parallel to obtain the desired value.
+
+\subsection{Capacitors}
+\subsubsection*{Ceramic capacitors}
+Ceramic capacitors are made with one or more layers of ceramic dielectric material coated by silver plates. They are small, cheap,
+with low capacitance values and not polarized. They are used for decoupling and filtering DC and AC signals. Capacitance values are
+indicated in \(pF\) with a three-digit code:
+\begin{itemize}
+	\item the first two digits represent the significant figures of the capacitance value
+	\item the third digit indicates the number of zeros to add to the values
+\end{itemize}
+For example, a capacitor with code ``103'' has a capacitance of \(10 \times 10^3 \; pF = 10 \; nF\).
+
+\subsubsection*{Film capacitors}
+Film capacitors are made with a thin plastic film (polyester, polystyrene, polypropylene, polycarbonate, metalized paper, Teflon,
+\dots) as dielectric material  that separates the two electrode layers made of metal foils (zinc or aluminum) sometimes applied
+directly to the dielectric film. By having a wide surface area, they can achieve higher capacitance values from \(5 \; pF\)
+to \(100 \; \mu F\). They have low tolerance, good reliability and high temperature ratings. They come in different shapes
+and sizes, normally in rectangular forms.
+
+\subsubsection*{Electrolytic capacitors}
+Electrolytic capacitors are made of a metal oxide film (aluminum) as dielectric material, covered by an electrolyte solution
+on one side as a second dielectric layer. Both layers are coupled with two aluminum foils as electrodes and sealed in a cylindrical
+aluminum case. They can achieve very high capacitance values and are used for low frequency, power supplies and decoupling applications.
+They are polarized, with the positive terminal connected to the aluminum oxide layer. If they are connected in reverse, the oxide
+layer can break down and cause the capacitor to fail.
+
+\subsection{Integrated circuits}
+Integrated circuits (ICs) are electronic components that contain multiple transistors, diodes, resistors and capacitors
+inside the same package. In the laboratory we use ICs in DIP packages, which are easy to handle and mount on breadboards.
+Every IC has a notch or a dot to indicate the position of pin 1 and to orient the component correctly.
+
+\subsection{Breadboards}
+Breadboards are prototyping tools that allow to build and test electronic circuits without soldering. They are made of two
+horizontal rails or buses usually used for power supply connections, and a grid of vertical connected holes for mounting
+components and making connections. 
+
+\subsection{Software for prototyping circuits}
+\subsubsection*{Common prototyping software}
+\begin{itemize}
+	\item \textbf{Fritzing}: design circuits on a virtual breadboard and simulate their behavior
+	\item \textbf{LTspice}: simulate electronic circuits and analyze their behavior
+	\item \textbf{Fusion PCB}: prototype and design PCBs
+\end{itemize}
+
+\subsubsection*{Circuit simulation}
+Circuit study consist in solving first order equations and trascurating noise, temperature, parassitic capacitance,
+channel length modulation, \dots ~ Computer aided simulations are useful to observe the behavior of circuits
+considering also second/third order effects and non-idealities by solving matematical models of the componets provided
+by the manufacturer. Circuit study and design is still required to understand the behavior of the circuit and understand
+simulation results.
