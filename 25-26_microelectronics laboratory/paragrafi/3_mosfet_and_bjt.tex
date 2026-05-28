@@ -10,7 +10,7 @@ is controlled by the voltage applied to the Gate (\(V_{GS}\)).
 		\centering \begin{circuitikz}[american]
 			\ctikzset{tripoles/mos style=arrows}
 			
-			% NMOS transistor and terminal labels
+			% nmos transistor and terminal labels
 			\draw (0,0) node[nmos, scale=1.5] (nmos) {};
 			\node[left=0cm] at (nmos.G) {Gate};
 			\node[above=0.1cm] at (nmos.D) {Drain};
@@ -28,8 +28,8 @@ is controlled by the voltage applied to the Gate (\(V_{GS}\)).
 				node[midway, fill=white, inner sep=4pt] {$V_{DS}$} 
 				([xshift=0.3cm, yshift=0.1cm] nmos.D);
 		
-			% I_DS Corrente Drain-Source
-			\node at ($(nmos.D)+(-0.5, -0.1)$) {\(I_{DS} \downarrow\)}; % Testo I_DS vicino al drain
+			% I_DS Drain-Source current
+			\node at ($(nmos.D)+(-0.5, -0.2)$) {\(I_{DS} \downarrow\)};
 		\end{circuitikz} \\[5pt]
 		NMOS transistor
 	\end{minipage}
@@ -46,18 +46,18 @@ is controlled by the voltage applied to the Gate (\(V_{GS}\)).
 	
 			% V_GS (Gate-Source Voltage)
 			\draw[-{Latex}]
-				([xshift=-0.6cm, yshift=0.25cm] pmos.S) to[out=180, in=90] 
+				([xshift=-0.4cm, yshift=0.25cm] pmos.G) to[out=90, in=180] 
 				node[midway, fill=white, inner sep=4pt] {$V_{GS}$} 
-				([xshift=-0.4cm, yshift=0.25cm] pmos.G);
-			
+				([xshift=-0.6cm, yshift=0.25cm] pmos.S);
+
 			% V_DS (Drain-Source Voltage)
 			\draw[-{Latex}]
-				([xshift=0.3cm, yshift=-0.1cm] pmos.S) to[out=-60, in=60] 
+				([xshift=0.3cm, yshift=0.1cm] pmos.D) to[out=60, in=-60] 
 				node[midway, fill=white, inner sep=4pt] {$V_{DS}$} 
-				([xshift=0.3cm, yshift=0.1cm] pmos.D);
+				([xshift=0.3cm, yshift=-0.1cm] pmos.S);
 		
-			% I_DS Corrente Drain-Source
-			\node at ($(pmos.S)+(-0.5, -0.1)$) {\(I_{DS} \downarrow\)}; % Testo I_DS vicino al drain
+			% I_DS Drain-Source current
+			\node at ($(pmos.D)+(-0.5, 0.2)$) {\(I_{DS} \uparrow\)};
 		\end{circuitikz}\\[5pt]
 		PMOS transistor
 	\end{minipage}
@@ -103,7 +103,7 @@ collector to emitter (\(I_{CE}\)) is controlled by the current flowing into the 
 \subsubsection*{Open Collector Curve}
 When the base-emitter junction is forward biased and the collector is not connected to any voltage source (open collector), the BJT
 behaves like a diode between the base and the emitter, with a voltage drop of about 0.7 V for silicon BJTs. There is an exponential
-depencence between the base current \(I_B\) and the collector-emitter voltage \(V_{CE}\) (the same characteristic of a diode).
+dependence between the base current \(I_B\) and the collector-emitter voltage \(V_{CE}\) (the same characteristic of a diode).
 \[I_B = I_S \left(\exp \left( \frac{V_{BE}}{\eta V_T}\right) - 1\right)\]
 
 \subsubsection*{Operation regions of a NPN BJT}
@@ -114,8 +114,8 @@ depencence between the base current \(I_B\) and the collector-emitter voltage \(
 	and the base-emitter junction is forward biased:
 	\[I_C = \beta I_B \qquad\qquad I_E = I_C + I_B = (\beta + 1) I_B \qquad\qquad I_B = I_S \left(\exp \left( \frac{V_{BE}}{\eta V_T}\right) - 1\right)\]
 	\item \textbf{saturation region} - \(V_C < V_B\) and \(V_E < V_B\): \\
-	the BJT acts as a closed switch between the collector and emitter, and both the collector-base and base-emitter junctions are
-	forward biased; the collector current \(I_C\) depends on the external circuit and previous equations are not valid anymore and
+	the BJT acts as a closed switch between the collector and emitter and both the collector-base and base-emitter junctions are
+	forward biased; the collector current \(I_C\) depends only on the external circuit and previous equations are not valid anymore;
 	the voltage drops \(V_{BE}\) and \(V_{CE}\) are approximately constant:
 	\[V_{BE} \approx 0.7 \; V \qquad\qquad V_{CE} \approx V_{CE, sat} \approx 0.2 \; V\]
 \end{itemize}

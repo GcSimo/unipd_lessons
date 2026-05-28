@@ -1,7 +1,7 @@
 \section{Signal generators}
 \subsection{Bistable circuits - Schmitt trigger}
-\subsubsection*{Generic bistable circuit - schmitt trigger}
-A generic bistable circuit, called also schmitt trigger is a circuit that has two stable states and can remain in either state
+\subsubsection*{Generic bistable circuit - Schmitt trigger}
+A generic bistable circuit, called also Schmitt trigger is a circuit that has two stable states and can remain in either state
 indefinitely until an external trigger is applied to change its state. 
 
 It can be made of an op amp with positive feedback (no virtual ground). When the circuit turns on, \(V_{out}\), \(V_+\) and
@@ -91,7 +91,7 @@ the output back to \(L_+\).
 		\end{circuitikz}
 	\end{minipage}
 	\begin{minipage}{0.45\textwidth}
-		\centering \includegraphics[width=0.7\textwidth]{immagini/inverting_bistable.png}
+		\centering \includegraphics[width=0.7\textwidth]{immagini/non_inverting_bistable.png}
 	\end{minipage}
 \end{center}
 
@@ -241,29 +241,46 @@ inverting integrator or vice versa to ensure oscillation.
 		\end{circuitikz}
 	\end{minipage}
 	\begin{minipage}{0.35\textwidth}
-		\centering \includegraphics[width=0.8\textwidth]{immagini/astable_multivibrator.png}
+		\centering \includegraphics[width=0.7\textwidth]{immagini/astable_multivibrator.png}
 	\end{minipage}
 \end{center}
 
-\subsubsection*{Circuit behaviour}
-When \(V_{out2}\) is at \(L_+\), there is a constant current \(I_R = L_+ / R\) through the resistor \(R\) that discarge the
-capacitor \(C\) at a constant rate of \(\frac{L_+}{RC}\). The output voltage \(V_{out1}\) decreases linearly with time, as
-given by the following reasoning:
-\[I_C = C \frac{dV_C}{dt} = - C \frac{dV_{out1}}{dt} = \frac{L_+}{R} \;\; \rightarrow \;\; V_{out1}(t) = V_{out1}(0) - \int \frac{L_+}{R} dt = V_{out1}(0) - \frac{L_+}{RC} t\]
-When the output voltage \(V_{out1}\) reaches the negative threshold voltage \(V_{TL}\) of the bistable circuit, the output
-voltage \(V_{out2}\) switches to \(L_-\) and the current through the resistor \(R\) becomes \(I_R = L_- / R\) (and changes sign).
-The capacitor starts charging at a constant rate of \(\frac{L_-}{RC}\) and the output voltage \(V_{out1}\) increases linearly
-until it reaches the positive threshold voltage \(V_{TH}\) of the bistable circuit that changes the output voltage \(V_{out2}\)
-back to \(L_+\) and the cycle repeats indefinitely.
+\subsubsection*{Circuit behavior}
+\begin{itemize}
+	\item When \(V_{out2}\) is at \(L_+\), there is a constant current \(I_R = L_+ / R\) through the resistor \(R\) that charge
+	the capacitor \(C\) at a constant rate of \(L_+ / RC\). (\footnotesize Note: capacitor is charged because the \(I_R\) current
+	enters through the positive terminal of the capacitor for the polarity convention used \normalsize )
+	\item Due to virtual ground imposed by the left op amp on the positive terminal of the capacitor, the negative terminal
+	of the capacitor starts decreasing linearly with a constant rate of \(- L_+ / RC\) as the capacitor voltage \(V_C\)
+	increases.
+	\item The voltage output \(V_{out1}\) is directly connected to the negative terminal of the capacitor and have the same
+	behavior explained in the previous point and demonstrated by the following equations:
+	(\footnotesize Note: supposing \(V_{out1}(0) = V_{TH}\) at \(t=0\), corresponding to the time instant when \(V_{out2}\) starts to be at \(L_+\) \normalsize)
+\end{itemize}
+\vspace{5pt}
+\[I_C = C \frac{d \, V_C(t)}{dt} = - C \frac{d \, V_{out1}(t)}{dt} = \frac{L_+}{R} \quad \rightarrow \quad V_{out1}(t) = V_{out1}(0) - \int \frac{L_+}{R} \, dt = V_{TH} - \frac{L_+}{RC} \, t\]
+\vspace{0pt}
+
+\begin{itemize}
+	\item When the output voltage \(V_{out1}\) reaches the negative threshold voltage \(V_{TL}\) of the bistable circuit, the output
+	voltage \(V_{out2}\) switches to \(L_-\) and the current through the resistor \(R\) becomes \(I_R = L_- / R\) (changing sign and
+	direction).
+	\item The capacitor starts discharging at a constant rate of \(L_- / RC\) and the output voltage \(V_{out1}\) increases linearly
+	with a slope of \(-L_- / RC\) until it reaches the positive threshold voltage \(V_{TH}\). At that point, the bistable circuit
+	changes the output voltage \(V_{out2}\) back to \(L_+\) and the cycle repeats indefinitely.
+\end{itemize}
+\vspace{5pt}
+\[I_C = C \frac{d \, V_C(t)}{dt} = - C \frac{d \, V_{out1}(t)}{dt} = \frac{L_-}{R} \quad \rightarrow \quad V_{out1}(t) = V_{out1}(0) - \int \frac{L_-}{R} \, dt = V_{TL} - \frac{L_-}{RC} \, t\]
+\vspace{0pt}
 
 The period of the output signals is the time it takes for the output voltage \(V_{out1}\) to go from \(V_{TH}\) to \(V_{TL}\)
-and back to \(V_{TH}\):
+(during \(T_1\)) and back to \(V_{TH}\) (during \(T_2\)).
 \begin{align*}
-	\text{in } T_1, \; V_{out1} \text{ goes from } V_{TH} \text{ to } V_{TL}: \quad &\frac{V_{TH} - V_{TL}}{T_1} = \frac{L_+}{RC} \quad \rightarrow \quad T_1 = RC \frac{(V_{TH} - V_{TL})}{L_+} \\
-	\text{in } T_2, \; V_{out1} \text{ goes from } V_{TL} \text{ to } V_{TH}: \quad &\frac{V_{TL} - V_{TH}}{T_2} = \frac{L_-}{RC} \quad \rightarrow \quad T_2 = RC \frac{(V_{TL} - V_{TH})}{L_-}
+	\text{at } T_1, \; V_{out1} \text{ reaches } V_{TL}: \quad &V_{out1}(T_1) = V_{TH} - \frac{L_+}{RC} \, T_1 = V_{TL} \quad \rightarrow \quad T_1 = RC \, \frac{(V_{TH} - V_{TL})}{L_+} \\
+	\text{at } T_2, \; V_{out1} \text{ reaches } V_{TH}: \quad &V_{out1}(T_2) = V_{TL} - \frac{L_-}{RC} \, T_2 = V_{TH} \quad \rightarrow \quad T_2 = RC \, \frac{(V_{TL} - V_{TH})}{L_-}
 \end{align*}
 If the bistable circuit is symmetric, with \(L_+ = L_-\), then the total period of the output signals is:
-\[T = T_1 + T_2 = RC \frac{(V_{TH} - V_{TL})}{L_+} + RC \frac{(V_{TL} - V_{TH})}{L_-} = 2 RC \frac{(V_{TH} - V_{TL})}{L_+}\]
+\[T = T_1 + T_2 = RC \, \frac{(V_{TH} - V_{TL})}{L_+} + RC \, \frac{(V_{TL} - V_{TH})}{L_-} = 2 RC \, \frac{(V_{TH} - V_{TL})}{L_+}\]
 
 \newpage
 
@@ -308,6 +325,6 @@ attenuated to 30\%, maybe a second order low-pass filter is needed.
 	\end{minipage}
 \end{center}
 
-The trasnfer characteristic of the low-pass filter is given by:
+The transfer characteristic of the low-pass filter is given by:
 \[H(j\omega) = \frac{V_{out3}}{V_{in3}} = -\frac{Z_f}{Z_{in}} = - \frac{R_4 \cdot Z_{C4}}{R_4 + Z_{C4}} \cdot \frac{1}{R_3} = - \frac{R_4 / j\omega C_4}{R_4 + 1 / j\omega C_4} \cdot \frac{1}{R_3} = \underbrace{- \frac{R_4}{R_3}}_{\text{\footnotesize gain}} \cdot \underbrace{\frac{1}{1 + j\omega R_4 C_4}}_{\text{\footnotesize low-pass filter}}\]
-\[\left|H(j\omega)\right| = \left|\cdot \frac{1}{\sqrt{1 + (\omega R_4 C_4)^2}}\right| = \frac{1}{\sqrt{2}} \quad \rightarrow \quad \omega = \frac{1}{R_4 C_4} \quad \rightarrow \quad f_c = \frac{1}{2\pi R_4 C_4}\]
+\[\left| H(j\omega)_\text{filter only} \right| = \left| \frac{1}{\sqrt{1 + (\omega R_4 C_4)^2}} \right| = \frac{1}{\sqrt{2}} \quad \rightarrow \quad \omega = \frac{1}{R_4 C_4} \quad \rightarrow \quad f_c = \frac{1}{2\pi R_4 C_4}\]

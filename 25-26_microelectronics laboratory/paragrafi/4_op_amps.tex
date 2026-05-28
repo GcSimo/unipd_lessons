@@ -53,7 +53,7 @@ conditions those properties are not achievable.
 			\item \(A\): open-loop gain of the op amp
 			\item \(R_{in}\): input resistance of the op amp
 			\item \(R_{out}\): output resistance of the op amp
-			\item \(V_{in}\): differentialinput voltage (\(V_{in} = V^+ - V^-\))
+			\item \(V_{in}\): differential input voltage (\(V_{in} = V^+ - V^-\))
 			\item \(V_{out}\): output voltage
 			\item \(V_{DD+}\) and \(V_{SS-}\): power supply voltages for the op amp
 		\end{itemize}
@@ -84,7 +84,7 @@ conditions those properties are not achievable.
 		
 		The resistor series \(R_{in}\) and \(R_f\) acts as a voltage divider and the output voltage \(V_{out}\) is proportional
 		to the input voltage \(V_{in}\) by a factor \(-R_f / R_{in}\):
-		\[V_{out} = -\frac{R_f}{R_{in}} V_{in}\]
+		\[V_{out} = -\frac{R_f}{R_{in}} V_{in} \qquad H(s) = \frac{V_{out}}{V_{in}} = -\frac{R_f}{R_{in}}\]
 
 		The output signal is out of phase (inverted) with the input signal.
 	\end{minipage}
@@ -109,7 +109,7 @@ conditions those properties are not achievable.
 		
 		The resistor series \(R_{in}\) and \(R_f\) acts as a voltage divider and the output voltage \(V_{out}\)
 		is proportional to the input voltage \(V_{in}\) by a factor \(1 + R_f / R_{in}\):
-		\[V_{out} = \left(1 + \frac{R_f}{R_{in}}\right) V_{in}\]
+		\[V_{out} = \left(1 + \frac{R_f}{R_{in}}\right) V_{in} \qquad H(s) = \frac{V_{out}}{V_{in}} = 1 + \frac{R_f}{R_{in}}\]
 
 		The output signal is in phase (non-inverted) with the input signal.
 	\end{minipage}
@@ -118,12 +118,12 @@ conditions those properties are not achievable.
 \subsubsection*{Voltage follower - buffer}
 \begin{center}
 	\begin{minipage}{0.35\textwidth}
-		\centering \begin{circuitikz}[american, scale=0.8, transform shape]
-			\node[op amp] (opamp) at (0,0) {};
+		\centering \begin{circuitikz}[american, scale=0.9, transform shape]
+			\node[op amp, xscale=0.6, yscale=0.6] (opamp) at (0,0) {};
 			\draw (opamp.+) to[short, -o] ++(0, 0) node[left] {\(V_{in}\)};
 			\draw (opamp.out) to[short, -o] ++(0.5,0) node[right] {$V_{out}$};
 
-			\draw (opamp.-) to[short] ++(0, 0.8) coordinate (fb_up)
+			\draw (opamp.-) to[short] ++(0, 0.6) coordinate (fb_up)
 				to[short] (fb_up -| opamp.out)
 				to[short, -*] (opamp.out);
 		\end{circuitikz}
@@ -150,12 +150,12 @@ conditions those properties are not achievable.
 	\item \textbf{power supply rejection}: the output voltage is not affected by power supply voltage variations
 	\item \textbf{infinite output current}: the op amp can provide any amount of current to the load
 	\item \textbf{infinite open-loop bandwidth}: any frequency can be amplified without attenuation
-	\item \textbf{infinite slew rate}: the output voltage can change instantaneously in response to changes in the input voltage
+	\item \textbf{infinite slew rate}: the output voltage can change instantaneously in response to changes in the input differential voltage
 \end{itemize}
 
 \subsection{Non idealities of op amps}
 \subsubsection*{Input offset voltage}
-When both inputs are connected to ground, the output has a small offset voltage \(V_0\) that keeps the output at some dc voltage
+When both inputs are connected to ground, the output has a small offset voltage \(V_0\) that keeps the output at some DC voltage
 level instead of 0 V. This output voltage can be measured by connecting the op amp as a voltage follower with the non inverting
 input connected to ground.
 
@@ -179,8 +179,8 @@ Some ICs have specific pins to add a potentiometer that can be used to compensat
 			
 			\draw[color=red] (-2.4,1.1) -- ++(3.4,0) -- ++(0,-2.7) -- ++(-3.4,0) -- cycle;
 		\end{circuitikz} \\[5pt]
-		\footnotesize Zero output offset voltage \(V_0\) op amp model with input offset voltage \(V_{OS}\) compensation
-		hilghlighted in red.
+		\footnotesize Ideal op amp with zero output offset voltage \(V_0\) with non-ideal input offset voltage \(V_{OS}\)
+		correction highlighted in the red rectangle.
 	\end{minipage}
 	\hfill
 	\begin{minipage}{0.27\textwidth}
@@ -217,16 +217,16 @@ voltage of \(\left|V_{OS}\right| \leq 3 \; mV\), the output offset voltage \(V_0
 \[\left|V_0\right| = \left|V_{OS}\right| \cdot \left(1 + \frac{R_f}{R_{in}}\right) = 3 \; mV \cdot \left(1 + \frac{99 \; k\Omega}{1.2 \; k\Omega}\right) = 0.25 \; V \quad \longrightarrow \quad -0.25 \; V < V_0 < 0.25 \; V\]
 
 \subsubsection*{Input bias and offset currents}
-Due to finite input resistance, there is a small input bias current \(I_B\) that flows into the input terminals of the op amp.
-This is because the input terminals are connected to the base or gate of internal transistors (BJT or MOSFET) that have a non-infinite
-resistance. The difference between the two input bias currents is called input offset current \(I_{OS}\).
+Due to finite input resistance, there are small input bias currents \(I_{B_+}\) and \(I_{B_-}\) that flow into the input terminals
+of the op amp. This happens because the input terminals are connected to the base or gate of internal transistors (BJT or MOSFET)
+that have a non-infinite resistance. The difference between the two input bias currents is called input offset current \(I_{OS}\).
 
 It is possible to create a model that include this effect by adding two ideal current generators in parallel to the input terminals
-to generate the input bias currents \(I_{B_+}\) and \(I_{B_-}\).
+to simulate the input bias currents \(I_{B_+}\) and \(I_{B_-}\).
 
 These currents cause voltage drops across the resistors \(R_{in}\) and \(R_f\) and consequently generate a small input
 voltage offsets that will be amplified to a considerable output voltage offset. To mitigate this effect, it is recommended to
-add a compensation resistor \(R_{B}\) in series to the non-inverting input with a value equal to the parallel of \(R_{in}\)
+add a compensation resistor \(R_{B}\) between the non-inverting input and ground with a value equal to the parallel of \(R_{in}\)
 and \(R_f\). Using this value, the output voltage offset depends only by the input offset current \(I_{OS}\) that is usually
 5-10 times smaller than the individual input bias currents \(I_{B_+}\) and \(I_{B_-}\).
 \[V_{out} = V_{out,1} + V_{out,2} = I_{B_-} \cdot R_f - I_{B_+} \cdot R_{B} \cdot \left(1 + \frac{R_f}{R_{in}} \right) \qquad \text{using superposition}\]
@@ -335,13 +335,14 @@ amplifier the total output current \(I_{out}\) is:
 		\node[op amp] (opamp) at (0,0) {};
 		\draw (opamp.+) to[short, -o] ++(0, 0) node[left] {\(V_{in}\)};
 		\draw (opamp.-) to[R, l_=$R_{in}$] ++(-2,0) node[ground] {};
-		\draw (opamp.out) -- ++(0.7,0) to[short, -o, i_=$I_L$] ++(0.7,0) node[right] {$V_{out}$};
-		\draw (opamp.out) ++(-0.4, 0) to[short, i_=$I_{out}$] ++(0.7, 0);
+		\draw (opamp.out) -- ++(1, 0) to[R, l=$R_L$, i>^=$I_L$] ++(3,0) node[ground] {};
+		\draw (opamp.out) ++(-0.3, 0) to[short, i=$I_{out}$] ++(0.7, 0);
 
 		\draw (opamp.-) to[short, *-] ++(0, 1) coordinate (fb_up)
 			to[R, l=$R_{f}$, ] (fb_up -| opamp.out)
-			to[short] ++(0.5, 0) coordinate (fb_out)
-			to[short, -*, i<=$I_f$] (fb_out |- opamp.out);
+			to[short] ++(0.7, 0) coordinate (fb_out)
+			to[short, -*, i<=$I_f$] (fb_out |- opamp.out)
+			to[short, -o] ++(0,-0.5) node[right] {\(V_{out}\)};
 	\end{circuitikz}
 \end{center}
 
@@ -349,14 +350,14 @@ amplifier the total output current \(I_{out}\) is:
 To correctly design the circuit and choose the correct feedback resistor \(R_f\) and input resistor \(R_{in}\) of an inverting
 amplifier based on the load resistance \(R_L\), the following steps can be followed:
 \begin{itemize}
-	\item[1.] calculate the minimumequivalent resistance \(R_{eq} = R_L \parallel R_f\) based on \(V_{out, max}\) and \(I_{out, max}\)
+	\item[1.] calculate the minimum equivalent resistance \(R_{eq} = R_L \parallel R_f\) based on \(V_{out, max}\) and \(I_{out, max}\)
 	\item[2.] fix the load resistance based on the application requirements and calculate the minimum feedback resistor \(R_f\)
 	(it is recommended to choose \(R_f\) slightly bigger than the minimum value)
 	\item[3.] choose the input resistor \(R_{in}\) based on the desired gain of the amplifier and the value of \(R_f\) chosen
 	in the previous step
 	\item[4.] calculate the maximum output current \(I_{out}\) for the chosen resistor values and verify the requirements
 \end{itemize}
-It is recommended to choose resistor values between input impeadance (\(1 \; M\Omega \; - \; 10 \; M\Omega\)) and output impedance
+It is recommended to choose resistor values between input impedance (\(1 \; M\Omega \; - \; 10 \; M\Omega\)) and output impedance
 (\(10 \; \Omega \; - \; 100 \; \Omega\)) of the op amp. Usually, \(1 \; k\Omega \; - \; 100 \; k\Omega\) should be a good choice.
 
 \subsubsection*{Slew rate and full-power bandwidth}
@@ -366,7 +367,7 @@ or distorted.
 
 The full-power bandwidth is the highest frequency at which a full-scale signal can be developed at the output without distortion.
 It is related to the slew rate \(SR\) and the maximum output voltage \(V_{out, max}\) by the following formula:
-\[f_{FPBW} = \frac{SR}{2 \pi V_{out, max}}\]
+\[f_{FPBW} = \frac{SR}{2 \pi \, V_{out, max}}\]
 \[\text{\footnotesize sinusoidal output signal: } V_{out} = V_M \sin (\omega t) \quad \rightarrow \quad \text{\footnotesize signal slew rate: } \left. \frac{d V_{out}}{d t} \right|_{max} = \left. V_M \omega \cos (\omega t) \right|_{max} = V_M \omega\]
 \[\text{\footnotesize signal SR should be less than the op amp SR: } \quad V_M \omega < SR \quad \rightarrow \quad V_M < \frac{SR}{\omega}\]
 \[\text{\footnotesize obtaining the full-power bandwidth: } \quad \omega = 2 \pi f_M < \frac{SR}{V_M} \quad \rightarrow \quad f_M < \frac{SR}{2 \pi V_M}\]

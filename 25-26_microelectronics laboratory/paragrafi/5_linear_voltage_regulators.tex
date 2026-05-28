@@ -10,7 +10,7 @@ input voltage:
 Load regulation is the measure of how well a power supply maintains a constant output voltage \(V_{out}\) for a change in the load
 conditions. It is usually expressed in percentage as the ratio between the maximum change in output voltage to the nominal output
 voltage:
-\[\text{Load regulation} = \frac{V_{out, min-load} - V_{out, max-load}}{V_{out, nominal-load}} \cdot 100\%\]
+\[\text{Load regulation} = \frac{V_{out, min \; load} - V_{out, max \; load}}{V_{out, nominal \; load}} \cdot 100\%\]
 
 \subsection{Simple Zener regulator}
 \subsubsection*{Zener diode characteristic}
@@ -50,6 +50,7 @@ and the Zener diode, and the load is connected in parallel to the Zener diode.
 	\end{circuitikz}
 \end{center}
 
+\noindent
 To ensure proper operation, component values must be chosen to satisfy the following conditions:
 \begin{itemize}
 	\item the series resistor \(R_S\) must be large enough to limit the current through the Zener diode \(I_Z < I_{Z,max}\) when
@@ -58,15 +59,15 @@ To ensure proper operation, component values must be chosen to satisfy the follo
 	\item the load resistor \(R_L\) must be large enough to ensure the minimum Zener diode current \(I_Z > I_{Z,min}\); if the
 	load is too small, current will flow only through the load and the Zener diode will not be able to maintain a constant
 	output voltage:
-	\[R_L \geq \frac{V_Z}{I_{Z,min}}\]
+	\[R_L \geq \frac{V_Z}{I_{RS} - I_{Z,min}}\]
 \end{itemize}
 
 \subsubsection*{Limitations of the simple Zener regulator}
 \begin{itemize}
-	\item due to constant voltage \(V_{RS}\) and constant current \(I_{RS}\), there is a constant and significant power dissipation
-	in the series resistor \(R_S\) even when the load is disconnected, expecially when the load can require a large current \(I_L\)
-	\item output voltage \(V_{out}\) changes linearly with variation ofthe load current \(I_L\) due to the not null Zener impedance
-	\(R_Z\): \(V_{out} = V_Z + I_Z R_Z\), this circuit has poor load regulation
+	\item Due to constant voltage \(V_{RS}\) and constant current \(I_{RS}\), there is a constant and significant power dissipation
+	in the series resistor \(R_S\) even when the load is disconnected, especially when the load can require a large current \(I_L\).
+	\item Output voltage \(V_{out}\) changes linearly with variation of the load current \(I_L\) due to the not null Zener impedance
+	\(R_Z\): \(V_{out} = V_Z + I_Z R_Z\), this circuit has poor load regulation.
 \end{itemize}
 
 \subsection{Transistor series voltage regulator}
@@ -77,8 +78,9 @@ between the Zener voltage \(V_Z\) (constant) and the base-emitter voltage \(V_{B
 \[V_{out} = V_Z - V_{BE}\]
 
 \noindent
-The series resistor \(R_S\) is used to guarantee the minimum current through the Zener diode \(I_Z > I_{Z,min}\):
-\[R_S \geq \frac{V_{in} - V_Z}{I_{Z,min} + I_B}\]
+The series resistor \(R_S\) is used to guarantee that the current through the Zener diode respects the datasheet specifications
+\(I_{Z,max} > I_Z > I_{Z,min}\):
+\[\frac{V_{in} - V_Z}{I_{Z,min} + I_B} \; > \; R_S \; > \; \frac{V_{in} - V_Z}{I_{Z,max} + I_B} \qquad\qquad \text{where} \; I_B = \frac{I_L}{\beta} = I_S \cdot \left(e^{\frac{V_{BE}}{\eta V_T}} - 1\right)\]
 
 \begin{center}
 	\begin{minipage}{0.8\textwidth}
@@ -112,7 +114,7 @@ The series resistor \(R_S\) is used to guarantee the minimum current through the
 				($(vzenerplus) + (-0.5, -0.3)$);
 			\draw[-{Latex}]
 				($(q1e) + (0, -0.1)$) to[out=260, in=0] 
-				node[pos=0.35, fill=white, inner sep=3pt] {$V_{BE}$} 
+				node[pos=0.35, fill=white, inner sep=1pt] {$V_{BE}$} 
 				($(q1b) + (0.2, 0)$);
 		\end{circuitikz}
 	\end{minipage}
@@ -142,8 +144,8 @@ The series resistor \(R_S\) is used to guarantee the minimum current through the
 \subsection{Adjustable series voltage regulator with feedback}
 \subsubsection*{Circuit}
 The idea of the circuit is to use the transistor series voltage regulator (described in the previous section) to impose
-a constant voltage \(V_F\) to the partial resistor \(R_2\) of the potentiometer that acts as a voltage divider \(R_1\)
-and \(R_2\). The output voltage \(V_{out}\) is given by:
+a constant voltage \(V_F\) to the partial resistor \(R_2\) of the potentiometer that acts as a voltage divider made of
+two resistors \(R_1\) and \(R_2\). The output voltage \(V_{out}\) is given by:
 \[V_{out} = I_{R2} \cdot (R_1 + R_2) = \frac{V_F}{R_2} \cdot (R_1 + R_2) = \frac{V_Z + V_{BE1}}{R_2} (R_1 + R_2)\]
 
 \noindent
@@ -253,12 +255,12 @@ The transistor \(Q_2\) is used as a pass transistor to provide the required curr
 \subsubsection*{Circuit}
 Short circuit protection is implemented by adding a transistor \(Q_3\) and a small resistor \(R_4\) (\(\approx 1 \; \Omega\)) in
 the output branch (highlighted by the red rectangle in the circuit). When the load current \(I_L\) is too high, the voltage drop
-across \(R_4\) becomes large enough to turn on the transistor \(Q_3\), which starts to absorbe current from the resistor \(R_3\)
+across \(R_4\) becomes large enough to turn on the transistor \(Q_3\), which starts to absorb current from the resistor \(R_3\)
 that produce a voltage drop \(V_{R3}\) that reduces the base voltage of \(Q_2\) and consequently the voltage \(V_{BE2}\) that
 turns off \(Q_2\) and reduces the current \(I_L\) to a safe value.
 
 The limit current \(I_{L,max}\) that can be delivered to the load is approximately given by:
-\[I_{L,max} \approx \frac{V_{BE3, turn-on}}{R_4}\]
+\[I_{L,max} \approx \frac{V_{BE3, turn \, on}}{R_4}\]
 
 \begin{center}
 	\begin{minipage}{0.9\textwidth}

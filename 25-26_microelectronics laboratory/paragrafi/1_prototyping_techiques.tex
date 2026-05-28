@@ -2,9 +2,9 @@
 \subsection{PCB and PCA}
 \subsubsection*{Difference between PCB and PCA}
 \begin{itemize}
-	\item \textbf{PBC - Printed Circuit Board}: only the surface with conductive pads for mounting electronic components, tracks
-	or traces, called metal lines, to connect the components, and via holes to connect different layers of the PCB or to mount
-	components with through-hole technology
+	\item \textbf{PCB - Printed Circuit Board}: only the surface with conductive pads for mounting electronic components, along
+	with tracks or traces, called metal lines, to connect the components, and ``via holes'' to connect different layers of the
+	PCB or to mount components with through-hole technology
 	\item \textbf{PCA - Printed Circuit Assembly}: a PCB with electronic components mounted on it
 \end{itemize}
 
@@ -13,7 +13,7 @@
 \begin{itemize}[itemsep=5pt]
 	\item classification based on \textbf{substrate materials}:
 	\begin{itemize}[topsep=0pt]
-		\item \textbf{FR-4}: organic composite rigid material made on fiberglass cloth wth an epoxy resin binder, it is rigid,
+		\item \textbf{FR-4}: organic composite rigid material made on fiberglass cloth with an epoxy resin binder, it is rigid,
 		flame resistant and supports up to 135°C temperatures
 		\item \textbf{ceramic}: rigid inorganic ceramic substrate (Al\(_2\)O\(_3\), AlNi, \dots) for better performance at high
 		frequencies and thermal conductivity
@@ -24,7 +24,7 @@
 	\begin{itemize}[topsep=0pt]
 		\item \textbf{rigid}: made of solid materials that do not bend
 		\item \textbf{flexible}: made of materials that can bend without breaking (for wearable devices, \dots)
-		\item \textbf{rigi-flex}: combination of rigid and flexible sections in the same PCB, usually flex parts are used
+		\item \textbf{rigid-flex}: combination of rigid and flexible sections in the same PCB, usually flex parts are used
 		for interconnections between rigid sections (FFC - flat flexible cables)
 	\end{itemize}
 	\item classification based on \textbf{number of layers}:
@@ -52,10 +52,10 @@
 	\item classification based on \textbf{package types}:
 	\begin{itemize}[topsep=0pt]
 		\item \textbf{DIP - Dual Inline Package}: TH package with two parallel pin rows, with 100 mil pitch
-		\item \textbf{SOP - Small Outline Package}: SMT package with no pins and 25 mil pitch
+		\item \textbf{SOP - Small Outline Package}: SMT package with pins at 25 mil pitch
 		\item \textbf{SSOP - Shrink SOP}: SMT package smaller than SOP
 		\item \textbf{TSSOP - Thin SSOP}: SMT package smaller than SSOP
-		\item \textbf{DQNF - Dual Quad Flat No-leads}: SMT package soldered with pads or balls
+		\item \textbf{QFN / DFN - Dual or Quad Flat No-leads}: SMT package soldered with pads or balls
 	\end{itemize}
 \end{itemize}
 
@@ -128,7 +128,7 @@ third band is a multiplier, the fourth band indicates the tolerance of the resis
 \vspace{-15pt}
 
 \subsubsection*{E-series}
-Resistors values are standardized in the E-series, where the number \(n\) after ``E'' indicates the number of values per decades
+Resistor values are standardized in the E-series, where the number \(n\) after ``E'' indicates the number of values per decades
 distributed logarithmically: \(\text{step size} = 10 ^ {1/n}\). The most common series are:
 \begin{itemize}
 	\item \textbf{E6}: 6 values per decade, 20\% tolerance, 47\% step size, 2 digit bands
@@ -140,8 +140,8 @@ distributed logarithmically: \(\text{step size} = 10 ^ {1/n}\). The most common 
 \end{itemize}
 
 \noindent
-In the laboratory we use E12 resistors, the most common and widely available. If the required value is not available in the E12
-series, we can combine resistors in series or parallel to obtain the desired value.
+In the laboratory we use E12 resistors, the most common and widely available. If the required value is not an E12 standard one,
+we can combine resistors in series or parallel to obtain the desired value.
 
 \subsection{Capacitors}
 \subsubsection*{Ceramic capacitors}
@@ -157,9 +157,9 @@ For example, a capacitor with code ``103'' has a capacitance of \(10 \times 10^3
 \subsubsection*{Film capacitors}
 Film capacitors are made with a thin plastic film (polyester, polystyrene, polypropylene, polycarbonate, metalized paper, Teflon,
 \dots) as dielectric material  that separates the two electrode layers made of metal foils (zinc or aluminum) sometimes applied
-directly to the dielectric film. By having a wide surface area, they can achieve higher capacitance values from \(5 \; pF\)
-to \(100 \; \mu F\). They have low tolerance, good reliability and high temperature ratings. They come in different shapes
-and sizes, normally in rectangular forms.
+directly to the dielectric film and everything is rolled up to occupy a small volume. By having a wide surface area, they can
+achieve higher capacitance values from \(5 \; pF\) to \(100 \; \mu F\). They have low tolerance, good reliability and high
+temperature ratings. They come in different shapes and sizes, normally in rectangular forms.
 
 \subsubsection*{Electrolytic capacitors}
 Electrolytic capacitors are made of a metal oxide film (aluminum) as dielectric material, covered by an electrolyte solution
@@ -187,8 +187,8 @@ components and making connections.
 \end{itemize}
 
 \subsubsection*{Circuit simulation}
-Circuit study consist in solving first order equations and trascurating noise, temperature, parassitic capacitance,
+Circuit study consist in solving first order equations and neglecting noise, temperature, parasitic capacitance,
 channel length modulation, \dots ~ Computer aided simulations are useful to observe the behavior of circuits
-considering also second/third order effects and non-idealities by solving matematical models of the componets provided
+considering also second/third order effects and non-idealities by solving mathematical models of the components provided
 by the manufacturer. Circuit study and design is still required to understand the behavior of the circuit and understand
 simulation results.
