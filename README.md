@@ -1,5 +1,5 @@
 # Appunti delle lezioni
-File con appunti dei corsi svolti durante la facoltà di Ingegneria Informatica svolta presso l'Università di Padova
+Appunti in Latex degli insegnamenti svolti durante la laurea triennale di ingegneria informatica presso l'Università di Padova.
 
 ## Guide
 Guide scritte in Markdown sull'utilizzo di alcuni strumenti di programmazione - [link alla cartella _guide_](guide/)
@@ -93,7 +93,10 @@ Appunti del corso di Intelligenza artificiale scritti in Latex - [link alla cart
 * [_appunti intelligenza artificiale in pdf_](25-26_intelligenza%20artificiale/ai.pdf)
 
 ## Secondo semestre 2025-26
-...
+### Microelectronics Laboratory
+Appunti del corso di Microelectronics laboratory scritti in Latex - [link alla cartella _microelectronics laboratory_](25-26_microelectronics%20laboratory)
+* [_appunti microelectronics laboratory in LaTeX_](25-26_microelectronics%20laboratory/microelectronics.tex)
+* [_appunti microelectronics laboratory in pdf_](25-26_microelectronics%20laboratory/microelectronics.pdf)
 
 ---
 
