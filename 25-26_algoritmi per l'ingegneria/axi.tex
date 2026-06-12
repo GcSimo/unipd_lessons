@@ -1,0 +1,76 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{hyperref} % per link e riferimenti ipertestuali
+\usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{algorithm} % per codice
+\usepackage[noend]{algpseudocode}
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+% per elenchi puntati
+\setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
+\setlist[enumerate]{partopsep=0pt, topsep=3pt, itemsep=0pt}
+
+% percorso delle immagini da inserire
+%\graphicspath{{./}}
+
+% per algoritmi in pseudocodice
+\renewcommand{\algorithmicprocedure}{\textbf{Algoritmo:}\;}
+\renewcommand{\algorithmicrequire}{\qquad\textbf{Input:} \quad\;\;\,}
+\renewcommand{\algorithmicensure}{\qquad\textbf{Output:} \;\;\;}
+\algnewcommand\algorithmicin{\textbf{in}}
+\algnewcommand\algorithmicto{\textbf{to}}
+%\algrenewtext{For}[3] {\algorithmicfor\ #1 \gets #2 \algorithmicto\ #3 \algorithmicdo}
+\algrenewtext{For}[2]{\algorithmicfor\ #1 \algorithmicto\ #2 \algorithmicdo}
+\algrenewtext{ForAll}[2] {\algorithmicforall\ #1 \algorithmicin\ #2 \algorithmicdo}
+
+\newenvironment{algo}[4]{
+	\noindent\rule{\textwidth}{0.4pt}
+	\begin{algorithmic}[1]
+		\addtocounter{ALG@line}{-1}
+		\Procedure{#1}{#2}
+		\Require #3
+		\Ensure #4
+		\Statex }{
+		\EndProcedure
+	\end{algorithmic}
+	\rule{\textwidth}{0.4pt}}
+
+\title{Appunti di Algoritmi per l'ingegneria}
+\author{Giacomo Simonetto}
+\date{Secondo semestre 2025-26}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+	Appunti del corso di Algoritmi per l'Ingegneria della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\include{paragrafi/1_intro_e_storia.tex}
+\include{paragrafi/2_formalizzazioni.tex}
+\include{paragrafi/3_divide_and_conquer.tex}
+\include{paragrafi/4_programmazione_dinamica.tex}
+\include{paragrafi/5_greedy.tex}
+
+\end{document}

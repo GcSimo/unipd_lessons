@@ -1,0 +1,203 @@
+\section{Formalizzazioni dei concetti base}
+\subsection{Algoritmo}
+\subsubsection*{Definizione formale}
+Un algoritmo è una macchina a stati finiti che riceve una sequenza di input, effettua una sequenza finita di transizioni tra
+gli stati interni della macchina e produce una sequenza di output.
+
+Si osserva che tale definizione coincide con la definizione di una macchina di Turing.
+
+\subsubsection*{Stopping problem}
+Si definisce lo ``stopping problem'' come la proprietà di un algoritmo di non poter continuare all'infinito. Ad esempio non
+esiste un algoritmo che calcoli tutte le cifre di $\pi$ o che verifica se un'equazione diofantea (o diofantina) ha soluzioni
+intere.
+
+\subsubsection*{Progettazione di un algoritmo}
+La progettazione di un algoritmo è il processo di ideazione e formalizzazione di un algoritmo per risolvere uno specifico
+problema computazionale. Questo processo coinvolge:
+\begin{itemize}
+	\item la conoscenza del dominio del problema ed eventuali proprietà che lo caratterizzano, in quanto potrebbero
+	semplificare il processo di risoluzione
+	\item la conoscenza di metodi generali di progettazione di algoritmi, come i paradigmi di programmazione
+\end{itemize}
+
+\subsubsection*{Analisi di un algoritmo}
+L'analisi di un algoritmo è il processo di valutazione dell'algoritmo secondo i diversi aspetti:
+\begin{itemize}
+	\item correttezza: valuta se l'algoritmo porta alla soluzione corretta del problema per ogni possibile input
+	\item efficienza: valuta il consumo di risorse in termini di passi effettuati (complessità temporale), di memoria
+	occupata (complessità spaziale) ed eventuali altri parametri (es. consumo energetico)
+\end{itemize}
+
+\subsection{Problema computazionale}
+\subsubsection*{Definizione formale}
+Un problema computazionale è composto dai seguenti tre elementi:
+\begin{itemize}
+	\item un insieme \(\mathcal{I}\) di istanze, che rappresentano i possibili input del problema, si nota che alcuni
+	problemi potrebbero avere un numero infinito di istanze, per cui \(\mathcal{I}\) potrebbe essere un insieme infinito
+	\item un insieme \(\mathcal{S}\) di soluzioni, che rappresentano tutti gli output del problema per ogni istanza
+	di \(\mathcal{I}\)
+	\item una relazione \(\pi \subseteq \mathcal{I} \times \mathcal{S}\) che associa ogni istanza \(i \in \mathcal{I}\)
+	ad una o più soluzioni \(s_j \in \mathcal{S}\) valide per quella istanza (è un sottoinsieme del prodotto cartesiano
+	tra \(\mathcal{I}\) e \(\mathcal{S}\))
+\end{itemize}
+
+\subsubsection*{Rappresentazione delle istanze e delle soluzioni come stringhe}
+I dati di un'istanza e di una soluzione sono rappresentati come stringhe, ovvero sequenze finite di simboli. Si assumono
+le seguenti convenzioni:
+\[\begin{array}{ c l }
+	\Sigma = \{ 0, \; 1, \; \dots \} & \qquad \text{l'alfabeto dei simboli delle stringhe} \\[6pt]
+	\Sigma^0 = \{\varepsilon\} & \qquad \text{l'insieme della sola stringa vuota} \\[6pt]
+	\Sigma^i & \qquad \text{l'insieme di tutte le stringhe di lunghezza} \; i \; \text{(potenza cartesiana)} \\[6pt]
+	\Sigma^+ = \bigcup_{i = 1}^{\infty} \Sigma^i & \qquad \text{l'insieme di tutte le stringhe esclusa la stringa vuota} \\[6pt]
+	\Sigma^* = \bigcup_{i =0}^{\infty} \Sigma^i & \qquad \text{l'insieme di tutte le stringhe inclusa la stringa vuota} \\[6pt]
+	\mathcal{I} \subseteq \Sigma^*, \quad \mathcal{S} \subseteq \Sigma^* & \qquad \text{gli insiemi di istanze e soluzioni sono sottoinsiemi di } \Sigma^*
+\end{array}\]
+La taglia di una istanza è la quantità di informazione necessaria per rappresentarla ed è pari al numero di simboli che
+compongono la stringa che la rappresenta, o meglio la sua lunghezza. Per un numero intero \(n\) rappresentato in binario,
+la taglia è il numero di cifre che lo compongono \(\approx \log_{2} n\).
+
+\subsubsection*{Osservazioni sulla rappresentazione dei dati nell'insieme delle istanze}
+L'insieme delle istanze \(\mathcal{I}\) impone il tipo di rappresentazione in cui i dati in input devono essere codificati.
+Fornire i dati in una diversa rappresentazione potrebbe portare a soluzioni errate, ad esempio se l'algoritmo svolge la somma
+di numeri in base 10 e gli vengono forniti in base 2.
+
+Inoltre la scelta della rappresentazione influisce sull'efficienza dell'algoritmo in quanto alcune operazioni risultano
+più efficienti in una rappresentazione rispetto ad un'altra. Ad esempio la convoluzione nel dominio del tempo è \(O(n^2)\),
+mentre nel dominio della frequenza è \(O(n \log n)\).
+
+All'interno dell'algoritmo è possibile aggiungere una fase di conversione dei dati da una rappresentazione ad un'altra
+(ad esempio per ridurre la complessità computazionale), ma è sempre necessario specificare la rappresentazione dei dati
+in ingresso.
+
+\subsubsection*{Funzioni e algoritmi}
+Il concetto di relazione è più generale di quello di funzione, in quanto una relazione può associare più elementi del
+codominio (es. soluzioni) ad un unico elemento del dominio (es. un'istanza). Una funzione, invece, può associare al massimo
+un elemento del codominio ad ogni elemento del dominio.
+
+Un algoritmo che risolve un problema computazionale definisce una funzione tra l'insieme delle istanze e quello delle soluzioni.
+A partire da una istanza, restituirà soltanto una delle possibili soluzioni per tale istanza. È possibile, inoltre, che due
+algoritmi diversi risolvono lo stesso problema computazionale, ma producano soluzioni diverse a partire dalla stessa istanza.
+
+\subsubsection*{Analisi della correttezza di un algoritmo}
+Un algoritmo \(\mathcal{A}\) risolve un problema computazionale \(\pi\) se e solo se, detta \(A\) la funzione di trasferimento
+tra ingresso e uscita definita da \(\mathcal{A}\), valgono le seguenti condizioni:
+\[1. \; \mathcal{I}_\text{istanze} \subseteq I_\text{input} \qquad\quad 2. \quad \mathcal{S}_\text{soluzioni} \subseteq O_\text{output} \qquad\quad 3. \quad \forall i \in \mathcal{I} \text{ vale } (i, A(i)) \in \pi\]
+\[\text{con} \qquad \pi \subseteq \mathcal{I}_\text{istanze} \times \mathcal{S}_\text{soluzioni} \qquad \text{e} \qquad A: I_\text{input} \to O_\text{output}\]
+L'analisi della correttezza consiste in particolare nel verificare la terza condizione.
+
+\subsubsection*{Analisi della complessità di un algoritmo}
+L'analisi della complessità computazionale di un algoritmo consiste nel valutare il tempo necessario all'algoritmo per
+raggiungere la soluzione a partire da una data istanza generica.
+
+La misurazione del tempo effettivo impiegato dipende molto dall'architettura della macchina su cui avviene la misurazione.
+Il valore ottenuto sarebbe troppo variabile e non permette di stimare in maniera corretta e generale la complessità di un
+algoritmo. Per questo motivo si simula l'esecuzione su random access machines con instruction set semplici e tempo di
+esecuzione costante per ogni istruzione, usato come unità di misura del tempo di esecuzione. Questa semplificazione
+permette sia di stimare la complessità di un algoritmo in maniera più generale, sia di confrontare tra loro algoritmi
+diversi prima di implementarli su una macchina reale.
+
+Si effettua l'analisi al caso peggiore (worst-case) definendo come tempo impiegato da un algoritmo \(\mathcal{A}\) per
+risolvere un'istanza \(i\) di taglia \(n\) come:
+\[T_\mathcal{A}(n) := \sup \;\; T_\mathcal{A}(x) \qquad \text{con} \; \left\{ x \; : \; |x| = n \;\; \wedge  \;\; x \in \Sigma^n \right\}\]
+L'analisi al caso migliore è poco utile, mentre l'analisi al caso medio è notevolmente più complessa da effettuare, in quanto
+richiede di conoscere a priori la distribuzione di probabilità delle varie istanze per una specifica taglia \(n\). In alcuni
+casi quest'ultima viene preferita all'analisi al caso peggiore, se il caso peggiore è molto raro e mediamente (per la maggior
+parte dei casi) la complessità risulta inferiore, ad esempio per il quicksort o per l'algoritmo del simplesso.
+
+\newpage
+
+\subsection{Dimostrazione per induzione}
+\subsubsection*{Assiomi di Peano dei numeri naturali}
+\begin{enumerate}
+	\item esiste un numero naturale \(0\)
+	\item ogni numero naturale \(n\) ha un successore \(s(n)\)
+	\item numeri diversi hanno successori diversi: \(n \neq m \implies s(n) \neq s(m)\)
+	\item \(0\) non è il successore di nessun numero naturale: \(s(n) \neq 0 \;\; \forall n\)
+	\item forma debole del principio di induzione:
+	\[\left[ \raisebox{3pt}{ \(\underbrace{P(0)}_{\text{caso base}} \wedge \;\; \underbrace{\forall n \; (P(n) \implies P(n + 1))}_{\text{passo induttivo}} \)} \;\; \right] \implies P(n) \;\; \forall n\]
+\end{enumerate}
+
+\vspace{5pt}
+
+\noindent
+Il quinto assioma può essere sostituito con il principio del minimo intero che sostiene che ogni insieme ordinabile non
+vuoto ha un elemento minimo. Il principio di induzione e quello del minimo intero sono equivalenti, siccome il primo
+implica il secondo e viceversa.
+
+\subsubsection*{Forma forte del principio di induzione}
+Esiste una formulazione più forte del principio di induzione, equivalente alla forma debole enunciata sopra, ma che facilita
+le dimostrazioni basate su questo principio.
+\[ \left[ \raisebox{3pt}{ \(\underbrace{P(0)}_{\text{caso base}} \wedge \;\; \underbrace{\forall n \; ((P(0) \wedge P(1) \wedge \ldots \wedge P(n)) \implies P(n + 1))}_{\text{passo induttivo}} \)} \;\; \right] \implies P(n) \;\; \forall n\]
+Tale forma forte è ad esempio usata per dimostrare la correttezza del quicksort e negli ordinali transfiniti.
+
+\subsubsection*{Rafforzamento dell'ipotesi induttiva}
+Alcune ipotesi induttive più ``permissive'' potrebbero non essere dimostrabili tramite il principio di induzione, anche se
+sono vere. Si riescono invece a dimostrare ipotesi più forti e ambiziose che implicano quelle più deboli. Ad esempio
+potrebbe non essere dimostrabile che \(T(n) \leq n\), ma si riesce a dimostrare che \(T(n) \leq n - 1\) che implica
+\(T(n) \leq n\).
+
+Questo fenomeno paradossale viene chiamato rafforzamento dell'ipotesi induttiva. Si spiega con il fatto che l'ipotesi
+induttiva compare sia nelle premesse che nelle conseguenze e, un suo rafforzamento, potrebbe sia rafforzare le conseguenze
+che rafforzare le premesse a sua volta. Alcune volte il rafforzamento delle premesse è maggiore rispetto a quello delle
+conseguenze e ciò permette di dimostrare queste ultime più facilmente.
+
+\subsubsection*{Mappatura sui numeri naturali}
+Il principio di induzione è definito solo sui i numeri naturali e può essere applicato solo su proprietà che ricevono come
+argomenti numeri naturali. Per dimostrare la correttezza di un algoritmo su un certo insieme di input (che non necessariamente
+coincide con l'insieme dei numeri naturali) è necessario effettuare una opportuna mappatura tra gli elementi di tale insieme
+e i numeri naturali. Spesso si clusterizza l'insieme degli input in base alla loro taglia e si mappa ogni cluster ad un numero
+naturale che corrisponde alla taglia degli input in quel cluster.
+
+Ad esempio, si vorrebbe dimostrare una certa proprietà che vale per gli alberi binari completi, ma gli alberi binari completi
+non sono mappabili 1:1 con i numeri naturali. Si clusterizzano, quindi, in base alla loro taglia (ad esempio in base al numero
+di nodi interni) e si mappa ogni cluster ad un numero naturale equivalente proprio al numero di nodi interni. Si applica
+quindi il principio di induzione dimostrando che la proprietà vale per ogni cluster.
+
+\subsubsection*{Limiti dell'induzione}
+Il principio di induzione si utilizza principalmente per dimostrare ipotesi formulate a priori. Non aiuta a formulare nuove
+ipotesi, che vanno pensate con l'aiuto di altre proprietà o intuizioni.
+
+\subsubsection*{Induzione parametrica}
+L'induzione parametrica o induzione empirica è una tecnica che permette di individuare i parametri di una funzione generale
+o di un modello generale che si ritiene soddisfare al meglio i dati. Può essere usata, ad esempio, nell'addestramento di
+reti neurali. In pratica consiste nell'applicare il principio di induzione imponendo che la formula valga per il caso base
+e per il passo induttivo.
+
+Ad esempio di vuole calcolare la formula analitica della seguente sommatoria:
+\[s(n) = \sum_{k=1}^{n} k^2\]
+Si notano le seguenti proprietà:
+\begin{itemize}
+	\item \(s(n) \leq n^3\) se tutti i valori della sommatoria fossero \(n^2\)
+	\item \(s(n) \geq n^3 / 8\) siccome almeno \(n / 2\) valori della sommatoria sono maggiori o uguali a \((n / 2)^2\)
+	\item \(s(n) \approx n^3 / 3 - 1/3\) se si tratta la sommatoria come un'integrale finito
+\end{itemize}
+per cui si ipotizza che la formula analitica sia un'equazione di terzo grado \[s(n) = a n^3 + b n^2 + c n + d\]
+
+\begin{itemize}
+	\item \textbf{caso base} \\
+	si impone che valga il caso base \(s(0) = 0\) da cui si ottiene \(d = 0\)
+	\item \textbf{passo induttivo} \\
+	si impone che valga il passo induttivo \(s(n + 1) = s(n) + (n + 1)^2\):
+\begin{align*}
+	a (n + 1)^3 + b (n + 1)^2 + c (n + 1) + d & = a n^3 + b n^2 + c n + d + (n + 1)^2 \\
+	a n^3 + (3 a + b) n^2 + (3 a + 2 b + c) n + (a + b + c + d) & = a n^3 + b n^2 + c n + d + n^2 + 2 n + 1 \\
+	3a n^2 + (3 a + 2 b) n + (a + b + c) & = n^2 + 2 n + 1
+\end{align*}
+da cui si ottengono le tre equazioni che determinano gli altri tre parametri \(a\), \(b\) e \(c\):
+\[3a = 1 \Rightarrow a = 1/3 \qquad\quad 3a + 2b = 2 \Rightarrow b = 1/2 \qquad\quad a + b + c = 1 \Rightarrow c = 1/6\]
+\end{itemize}
+
+\noindent
+Si osserva che è possibile trovare gli stessi quattro parametri imponendo che la formula valga per quattro valori
+particolari di \(n\) (ad esempio \(n = 0, 1, 2, 3\)) e risolvendo il sistema di quattro equazioni in quattro incognite.
+Tale procedimento, però, senza aver osservato all'inizio che la formula è un'equazione di terzo grado, non permette di
+affermare che i parametri trovati valgano per ogni \(n\). L'equazione, ad esempio, potrebbe essere di grado superiore
+per cui i quattro punti scelti non sono sufficienti.
+
+\subsection{Formule utili}
+\vspace{5pt}
+\[\begin{array}{c l}
+	\displaystyle a \, ^{\log_b c} = c \, ^{\log_b a} & \qquad \text{esponenziale di un logaritmo} \\[10pt]
+	\displaystyle \sum_{k=0}^{n-1} r^k = \frac{r^n - 1}{r - 1} & \qquad \text{serie geometrica di ragione \(r\)}
+\end{array}\]
+
