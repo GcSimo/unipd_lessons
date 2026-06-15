@@ -9,6 +9,8 @@
 \usepackage{tabularx} % per tabelle con larghezza flessibile
 \usepackage{hyperref} % per link e riferimenti ipertestuali
 \usepackage{booktabs} % per linee orizzontali tabelle
+\usepackage{diagbox} % per celle con testo diagonale
+\usepackage{xcolor} % per colorare testo e sfondi
 \usepackage{algorithm} % per codice
 \usepackage[noend]{algpseudocode}
 
@@ -20,6 +22,10 @@
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 \newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+% operatore argmin
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
 
 % per elenchi puntati
 \setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
@@ -69,7 +75,11 @@
 
 \include{paragrafi/1_intro_e_storia.tex}
 \include{paragrafi/2_formalizzazioni.tex}
-\include{paragrafi/3_divide_and_conquer.tex}
+\include{paragrafi/3a_divide_and_conquer.tex}
+\include{paragrafi/3b_karatzuba.tex}
+\include{paragrafi/3c_strassen.tex}
+\include{paragrafi/3d_supercircolanti.tex}
+\include{paragrafi/3e_fft.tex}
 \include{paragrafi/4_programmazione_dinamica.tex}
 \include{paragrafi/5_greedy.tex}
 

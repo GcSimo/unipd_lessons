@@ -1,1 +1,257 @@
 \section{Paradigma Greedy}
+\subsection{Proprietà della scelta greedy}
+\subsubsection*{Scelta greedy}
+Il paradigma greedy è un caso particolare di divide and conquer, in cui la soluzione di un'istanza viene costruita ad ogni
+passo induttivo, attraverso la scelta di un elemento ottimo locale, con l'obiettivo di ottenere una soluzione globale ottima.
+La scelta effettuata è detta scelta greedy e spesso è estremamente banale (con costo costante), la parte complessa è
+dimostrare che la scelta greedy porta ad una soluzione globale ottima.
+
+\subsubsection*{Proprietà di scelta greedy}
+La proprietà di scelta greedy è la condizione che deve soddisfare una scelta greedy per garantire che la scelta effettuata
+localmente non comprometta l'ottimalità della soluzione globale. Una scelta greedy riduce sia l'istanza da risolvere che
+lo spazio generale delle soluzioni (ottimali e subottimali). Per portare alla soluzione (e soddisfare la proprietà di scelta
+greedy) è necessario che lo spazio delle soluzioni, dopo la riduzione, contenga ancora almeno una soluzione ottima globale. 
+
+\subsubsection*{Dimostrazione della correttezza di un algoritmo greedy}
+A livello pratico, per dimostrare che una scelta greedy soddisfa la proprietà di scelta greedy, è necessario dimostrare
+che esiste una soluzione ottima globale che soddisfi la scelta greedy. Spesso si considera una generica soluzione
+ottima globale e, se tale soluzione non contiene la scelta greedy, di dimostra che è possibile modificarla senza
+comprometterne l'ottimalità, in modo che soddisfi la scelta greedy.
+
+\subsubsection*{Algoritmi greedy subottimali}
+Esistono alcuni problemi per cui sono stati sviluppati algoritmi greedy subottimali, che non garantiscono in assoluto il
+raggiungimento della soluzione ottima globale, ma la raggiungono o ci si avvicinano molto con alta probabilità. Questi
+algoritmi risultano essere molto più veloci degli algoritmi ottimi e sono impiegati in cui si è disposti a sacrificare
+un po' di ottimalità in cambio di una maggiore velocità di esecuzione.
+
+\subsection{Scheduling di attività}
+\subsubsection*{Formalizzazione del problema}
+Data una sequenza \(S=\left\{ a_1, a_2, \dots a_n \right\}\) di \(n\) attività \(a_i : [s_i, f_i)\), identificate dal proprio
+istante di inizio \(s_i\) e di fine \(f_i\) con \(s_i < f_i\), si vuole individuare un sottoinsieme fattibile
+\(A \subseteq S\) di dimensione massima.
+
+\begin{itemize}[topsep=5pt]
+	\item un sottoinsieme \(A \subseteq S\) di attività è fattibile se composto da attività mutualmente compatibili
+	\item due attività \(a_i\) e \(a_j\) sono compatibili se e solo se i loro intervalli di tempo non si sovrappongono:
+	\vspace{-5pt}
+	\[a_i : [s_i, f_i) \cap a_j : [s_j, f_j) = \emptyset \qquad \Longleftrightarrow \qquad s_i \geq f_j \;\; \vee \;\; s_j \geq f_i\]
+\end{itemize}
+
+\subsubsection*{Definizione della scelta greedy}
+Data una sequenza \(S\) di \(n\) attività, si costruisce l'insieme soluzione \(A\) scegliendo l'attività \(a_i \in S\) che
+termina per prima (con \(f_i = \min_j f_j\)) unita all'insieme soluzione \(A_\text{sub}\) della sottoistanza \(S_\text{sub}\)
+ottenuta partendo da \(S\) e rimuovendo tutte le attività incompatibili con l'attività scelta \(a_i\).
+
+Di seguito si formalizza la scelta greedy attraverso la proprietà di sottostruttura espressa in termini di equazioni alle
+ricorrenze.
+\[A(S) = \begin{cases}
+	\left\{ a_1 \right\} & \text{se } |S| = n = 1 \\[5pt]
+	\displaystyle \left\{ \left\{ a_k \in S \text{ con } k = \argmin f_i \right\} \;\; \cup \;\; A( \, S - \left\{ a_l \in S \text{ incompatibili con } a_k \right\} \,) \right\} & \text{se } |S| = n > 1
+\end{cases}\]
+
+\subsubsection*{Algoritmo ricorsivo ottimizzato basato sulla scelta greedy}
+Per rendere più pratica l'operazione di scelta dell'attività ottima, si ordina la sequenza \(S\) in ordine crescente rispetto
+agli istanti di fine \(f_i\) delle varie attività, con costo di ordinamento \(\Theta(n \log_2 n)\). In questo modo l'attività
+da scegliere sarà sempre la prima della sequenza \(S\) ordinata.
+
+Inoltre si osserva che non è necessario visitare tutta la sequenza \(S\) per rimuovere le tutte le attività incompatibili
+ogni volta che viene scelta un'attività \(a_i\). È sufficiente fermarsi non appena si trova la prima attività compatibile
+\(a_j\) che sarà l'attività successiva da aggiungere all'insieme soluzione \(A\). Le attività incompatibili con \(a_i\)
+saranno anche incompatibili con \(a_j\), per cui verranno rimosse successivamente senza influenzare la scelta ottima.
+
+\begin{algo}{REC\_GREEDY\_SEL}{$\underline{s}$, $\underline{f}$, i}{$\underline{s}$ e $\underline{f}$ istanti di inizio e fine ordinati per $f_i$, indice $i$ della prima attività compatibile}{$A = \left\{ a_{i_1}, a_{i_2}, \dots a_{i_k} \right\} \subseteq S$ fattibile e di dimensione massima}
+	\State \(n \gets \text{len}(\underline{s})\)
+	\If{\(i > n\)} \Return \(\varnothing\) \Comment{caso base: non ci sono più attività da considerare} \EndIf
+	\State \(A \gets \left\{ i \right\}\) \Comment{scelta greedy: si sceglie la prima attività della sequenza}
+	\State \(j \gets i + 1\)
+	\While{\(j \leq n\) \textbf{and} \(\underline{s}[j] < \underline{f}[i]\)} \(j \gets j + 1\) \Comment{si saltano le attività incompatibili con \(a_i\)} \EndWhile
+	\State \Return \(A \cup \text{REC\_GREEDY\_SEL}(\underline{s}, \underline{f}, j)\) \Comment{proprietà di sottostruttura con chiamata ricorsiva}
+\end{algo}
+
+\subsubsection*{Dimostrazione della correttezza - verifica della proprietà greedy}
+Di seguito si dimostra che la scelta greedy ideata rispetta la proprietà greedy, ovvero che esiste una soluzione ottima
+\(A^*\) che rispetta la scelta greedy dell'algoritmo.
+
+Si suppone di avere una generica soluzione ottima \(A*\):
+\begin{itemize}
+	\item se la prima attività \(a_1\) della soluzione ottima \(A^*\) è \(a_k\) con \(k = \argmin_i f_i\), allora la scelta
+	greedy è banalmente rispettata
+	\item se la prima attività \(a_1\) della soluzione ottima \(A^*\) non è \(a_k\) con \(k = \argmin_i f_i\), vuol dire che
+	\(f_1 > f_k\), per cui è possibile sostituire \(a_1\) con \(a_k\) senza perdere fattibilità, ottenendo una nuova soluzione
+	che rispetta la scelta greedy e rimane soluzione ottima
+\end{itemize}
+
+\subsubsection*{Analisi della complessità}
+Escludendo il costo dell'ordinamento iniziale \(\Theta(n \log_2 n)\), la complessità dell'algoritmo è data soltanto dalle
+operazioni di confronto durante la visita della sequenza \(S\) per saltare le attività incompatibili. Siccome le attività
+della sequenza vengono visitate in maniera sequenziale e ad ogni visita vengono effettuate un numero costante di operazioni,
+la complessità asintotica dell'algoritmo è \(T(n) = \Theta(n)\).
+
+\newpage
+
+\subsection{Codice di Huffman}
+\subsubsection*{Introduzione al codice di Huffman}
+Il codice di Huffman è un codice a prefisso utilizzato in teoria dell'informazione per codificare simboli con una certa
+distribuzione di probabilità nota, in sequenze di bit dette parole di codice di lunghezza variabile. Ha la caratteristica
+di essere ottimo, ovvero di minimizzare la lunghezza media dei codici generati.
+
+Essendo un codice a prefisso, il codice di Huffman garantisce che nessuna parola di codice associata ad un simbolo sia
+prefisso di un'altra parola associata ad un altro simbolo. Questo aspetto aiuta in fase di decodifica perché, appena si
+individua una parola di codice associata ad un simbolo, la si può decodificare immediatamente e senza ambiguità.
+
+Le prestazioni di un codice di Huffman sono misurate in termini di lunghezza media dei codici generati ed è definita come
+la lunghezza media delle parole di codice, pesata in base alla loro probabilità:
+\[L = \sum_{i=0}^{\# \; \text{parole}} p_i \cdot l_i \qquad \text{con} \qquad \begin{aligned}
+	p_i & = \text{probabilità di occorrenza del simbolo } i \\[3pt]
+	l_i & = \text{lunghezza della parola di codice associata al simbolo } i
+\end{aligned}\]
+
+\subsubsection*{Rappresentazione tramite Trie}
+Il trie è un albero binario pieno (ogni nodo interno ha due figli), non completo (le foglie possono essere a livelli diversi)
+utilizzato per rappresentare le parole di codice generate dal codice di Huffman. Ha le seguenti caratteristiche:
+\begin{itemize}
+	\item ogni nodo interno del trie ha esattamente due figli, quello di sinistra raggiungibile tramite un arco etichettato
+	con un bit 0 e quello di destra raggiungibile tramite un arco etichettato con un bit 1
+	\item ogni foglia del trie rappresenta un simbolo, la cui parola di codice è data dalla concatenazione dei bit etichettati
+	sugli archi del percorso che va dalla radice alla foglia
+\end{itemize}
+Si osservano le seguenti proprietà del trie:
+\begin{itemize}
+	\item se una parola di codice fosse prefisso di un'altra, allora la parola più corta sarebbe rappresentata da un
+	nodo interno del trie lungo il percorso che porta dalla radice alla foglia che rappresenta la parola più lunga; ciò è
+	correttamente impossibile per come definito il trie
+	\item si possono scambiare le due etichette \(0,1\) degli archi che collegano i due figli al padre senza alterare
+	le prestazioni del codice
+	\item si possono scambiare simboli che si trovano allo stesso livello del trie senza alterare le prestazioni del codice,
+	anche se hanno nodi padre diversi
+\end{itemize}
+
+\subsubsection*{Algoritmo greedy e costruzione dell'albero}
+La costruzione dell'albero avviene in maniera bottom-up:
+\begin{itemize}
+	\item si parte inizializzando una foresta di \(n\) alberi, ognuno costituito da un singolo nodo foglia che rappresenta
+	un simbolo con la relativa probabilità di occorrenza
+	\item ad ogni passo si scelgono i due alberi con le probabilità della radice più piccole, e si crea un nuovo nodo padre
+	comune alle due radici, con probabilità pari alla somma delle probabilità delle due radici; per convenzione si collega
+	l'albero con probabilità più piccola alla sinistra assegnando un bit 0 all'arco, e l'albero con probabilità più grande
+	a destra assegnando un bit 1 all'arco
+	\item si ripete il passo precedente fino a quando tutte le foreste non si sono unite in un unico albero, che rappresenta
+	il trie del codice di Huffman e la radice ha probabilità pari a 1
+\end{itemize}
+
+La scelta greedy è quella di prendere i due alberi le cui radici hanno le probabilità più piccole.
+
+\newpage
+
+\subsubsection*{Implementazione greedy iterativa con priority queue}
+\vspace{-7pt}
+\begin{algo}{IT\_MCM}{$\underline{c}$, $\underline{f}$}{vettori $\underline{c}$ e $\underline{f}$ rispettivamente degli $n$ simboli e delle relative frequenze}{riferimento alla radice del trie che rappresenta il codice di Huffman}
+	\State \(n \gets \text{len}(\underline{c})\)
+	\State \(Q \gets \text{PriorityQueue}()\) \Comment{creazione di una coda di priorità vuota}
+	\ForAll{\(c\)}{\(\underline{c}\)} \Comment{inizializzazione della coda di priorità con i nodi foglia}
+		\State \(z \gets \text{new\_node}(\textit{symbol}: c, \;\; \textit{freq}: \underline{f}[c], \;\; \textit{left\_node}: \text{null}, \;\; \textit{right\_node}: \text{null})\)
+		\State \(Q.\text{insert}(z.\text{freq}, z)\)
+	\EndFor
+	\For{\(i \gets 1\)}{\(n-1\)} \Comment{ad ogni iterazione diminuisco di 1 il numero di alberi nella foresta}
+		\State \(x \gets Q.\text{extract\_min}() \;\; - \;\; y \gets Q.\text{extract\_min}()\)
+		\State \(z \gets \text{new\_node}(\textit{symbol}: \text{null}, \;\; \textit{freq}: x.\text{freq} + y.\text{freq}, \;\; \textit{left\_node}: x, \;\; \textit{right\_node}: y)\)
+		\State \(Q.\text{insert}(z.\text{freq}, z)\)
+	\EndFor
+	\State \Return \(Q.\text{extract\_min}()\)
+\end{algo}
+\vspace{-18pt}
+
+\subsubsection*{Analisi della complessità computazionale}
+Si sceglie di usare un heap binario per implementare la coda di priorità, che garantisce un costo \(\Theta(\log_2 n)\) per ogni
+inserimento ed estrazione. La complessità dell'algoritmo è data da:
+\begin{itemize}
+	\item \(n + n-1 = 2n-1\) inserimenti nella coda di priorità, con costo \(\Theta(\log_2 n)\) per ogni inserimento
+	\item \(2(n-1) + 1 = 2n-1\) estrazioni dalla coda di priorità, con costo \(\Theta(\log_2 n)\) per ogni estrazione
+	\item costo lineare \(\Theta(n)\) dei due for, al netto delle operazioni di inserimento ed estrazione
+\end{itemize}
+\vspace{-7pt}
+
+\[T(n) = (2n-1) \cdot T_{\, \text{insert()}} + (2n-1) \cdot T_{\, \text{extract\_min}()} + \Theta(n) = \Theta(n \log_2 n)\]
+
+\noindent
+Si osserva che, i primi \(n\) inserimenti delle foglie possono essere fatti in tempo \(\Theta(n)\) tramite l'algoritmo di
+costruzione di un heap dato un array di \(n\) elementi. Siccome, però, l'algoritmo di Huffman richiede almeno \(n\) estrazioni
+e non si dispone di algoritmi migliori di \(\Theta(\log_2 n)\) per l'estrazione, la complessità dell'algoritmo rimane \(\Theta(n \log_2 n)\).
+
+\subsubsection*{Dimostrazione della correttezza}
+Di seguito si dimostra che la scelta greedy di estrarre i due nodi di frequenza minima \(a\) e \(b\) per primi per
+posizionali al livello più basso dell'albero, porta ad una soluzione ottima globale.
+\begin{itemize}
+	\item si considera un albero ottimo \(T\) con costo ottimo \(B(T) = \sum_{i \in T} f(i) \cdot d(i) \leq B(T^*)\) minore
+	di qualsiasi altro albero \(T^*\) in cui:
+	\begin{itemize}[topsep=-2pt]
+		\item due foglie \(a\) e \(b\) che si trovano alla massima profondità dell'albero, uniti da un nodo padre \(p\)
+		\item due foglie \(x\) e \(y\) con frequenze minime \(\max\left\{ f(x), f(y) \right\} \leq \min \left\{ f(a), f(b) \right\}\)
+	\end{itemize}
+	\item se \(a \equiv x\) e \(b \equiv y\), la scelta greedy è banalmente rispettata
+	\item altrimenti si ipotizza di scambiare \(a\) con \(x\) e \(b\) con \(y\), ottenendo un nuovo albero \(T'\) e provocando
+	una variazione del costo dell'albero \(\Delta B = B(T') - B(T)\) pari a:
+	\begin{align*}
+		\Delta B &= (f(a) \, d(x) \!+\! f(b) \, d(y) \!+\! f(x) \, d(a) \!+\! f(y) \, d(b)) - (f(a) \, d(a) \!+\! f(b) \, d(b) \!+\! f(x) \, d(x) \!+\! f(y) \, d(y)) \\
+		&= f(a) \, (d(x) \!-\! d(a)) + f(y) \, (d(b) \!-\! d(y)) + f(x) \, (d(a) \!-\! d(x)) + f(b) \, (d(y) \!-\! d(b)) \\
+		&= \underbrace{(f(a) - f(x))}_{\geq 0} \, \underbrace{(d(x) - d(a))}_{\leq 0} + \underbrace{(f(b) - f(y))}_{\geq 0} \, \underbrace{(d(y) - d(b))}_{\leq 0} \leq 0 \quad \Rightarrow \quad B(T') \leq B(T)
+	\end{align*}
+	\item da \(B(T) \leq B(T')\) per l'ipotesi iniziale e \(B(T') \leq B(T)\) per il punto sopra, si ha che \(B(T) = B(T')\),
+	ovvero che anche l'albero \(T'\) che soddisfa la proprietà greedy è ottimo.
+\end{itemize}
+
+È utile notare che la scelta greedy non distingue se i nodi contenuti nella priority queue siano foglie o radici di
+sottoalberi, ma si basa solo sulla loro frequenza. Ciò significa che la dimostrazione sopra (che lavora solo con le foglie)
+vale anche per i nodi interni ad un certo livello dell'albero (che eventualmente potrebbero essere sostituiti da foglie
+di pari frequenza senza modificare il costo dell'albero).
+
+\newpage
+
+\subsection{(2,1)-boxing}
+\subsubsection*{Formalizzazione del problema}
+Sia data una sequenza di oggetti \(O = \left\{ o_1, o_2, \dots o_n \right\}\) con la sequenza dei rispettivi pesi
+\(P = \left\{ p_1, p_2, \dots p_n \right\}\) positivi e minori di 1,ordinati in peso crescente (\(0 < p_1 \leq p_2 \leq \dots \leq p_n \leq 1\)),
+e sia data inoltre una sequenza di scatole \(B = \left\{ b_1, b_2, \dots b_m \right\}\), tali che ogni scatola
+\(b_p = \{ o_i, o_j \}\) può contenere al massimo due oggetti \(o_i, o_j\) di peso massimo complessivo inferiore ad 1 (\(p_i + p_j \leq 1\)).
+
+Il problema del (2,1)-boxing consiste nel trovare una disposizione degli oggetti \(O\) nelle scatole \(B\) che minimizzi
+il numero di scatole utilizzate.
+
+\subsubsection*{Definizione della scelta greedy}
+Si sceglie di inserire per ogni scatola l'oggetto più pesante \(o_j\) non ancora assegnato (l'ultimo della sottostringa
+\(O_{i:j}\) degli oggetti non ancora assegnati) con eventuale aggiunta del più leggero \(o_i\) non ancora assegnato (il
+primo della sottostringa \(O_{i:j}\)) se il peso lo permette.
+
+Di seguito si formalizza la scelta greedy attraverso la proprietà di sottostruttura espressa in termini di equazioni alle
+ricorrenze.
+\[B(O_{i:j}, \; P_{i:j}) = \begin{cases}
+	\{b_p = \{o_i\}\} & \text{se } i = j \\[3pt]
+	\{b_p = \{o_j\}\} \;\; \cup \;\; B(O_{i:j-1}, \; P_{i:j-1}) & \text{se } i < j \text{ e } p_i + p_j > 1 \\[3pt]
+	\{b_p = \{o_i, \, o_j\}\} \;\; \cup \;\; B(O_{i+1:j-1}, \; P_{i+1:j-1}) & \text{se } i < j \text{ e } p_i + p_j \leq 1
+\end{cases}\]
+
+\subsubsection*{Dimostrazione della correttezza}
+Per prima cosa si osserva che la scelta è fattibile, ovvero soddisfa il limite massimo di peso per ogni scatola imposto
+dal problema in tutti e tre i casi della definizione ricorsiva della scelta greedy.
+
+Si dimostra ora che esiste una soluzione ottima che soddisfa la scelta greedy.
+\begin{itemize}
+	\item si ipotizza una soluzione ottima \(B^*(O_{i:j}, \; P_{i:j})\) per l'istanza \(O_{i:j}\), \(P_{i:j}\) e si analizza
+	la scatola contenente l'oggetto più pesante \(b_p = \{o_j, \dots\}\):
+	\item se la scatola contiene solo l'oggetto più pesante \(b_p = \left\{o_j\right\}\) e vale \(p_i + p_j > 1\), allora
+	la scelta greedy è banalmente rispettata
+	\item se la scatola contiene solo l'oggetto più pesante \(b_p = \left\{o_j\right\}\), ma vale \(p_i + p_j \leq 1\),
+	allora è possibile spostare l'oggetto più leggero \(o_i\) dalla scatola in cui è inserito alla scatola \(b_p\) senza
+	violare il vincolo di peso massimo e senza modificare il numero di scatole utilizzate, ottenendo una nuova soluzione
+	ottima che rispetta la scelta greedy
+	\item se la scatola contiene sia l'oggetto più pesante che quello più leggero \(b_p = \left\{o_i, o_j\right\}\), allora
+	la scelta greedy è banalmente rispettata siccome deve necessariamente valere \(p_i + p_j \leq 1\)
+	\item se la scatola contiene l'oggetto più pesante e un oggetto che non è il più leggero \(b_p = \left\{ o_j, o_k \right\}\),
+	e l'oggetto più leggero si trova in un'altra scatola \(b_q = \{o_i, o_h\}\) allora è possibile scambiare \(o_i\) con \(o_k\)
+	senza violare il vincolo di peso massimo (come illustrato di seguito) e senza modificare il numero di scatole utilizzate,
+	ottenendo una nuova soluzione ottima that rispetta la scelta greedy
+	\[b_p = \{ o_j, o_k\} \;\Rightarrow\; \begin{cases}
+		\; p_j + p_k \leq 1 \;\Rightarrow\; p_j + p_i \leq p_j + p_k \leq 1 & \text{per } p_i \leq p_k \text{ con } o_i \text{ il più leggero} \\
+		\; p_j + p_k \leq 1 \;\Rightarrow\; p_h + p_k \leq p_j + p_k \leq 1 & \text{per } p_h \leq p_j \text{ con } o_j \text{ il più pesante}
+	\end{cases}\]
+\end{itemize}

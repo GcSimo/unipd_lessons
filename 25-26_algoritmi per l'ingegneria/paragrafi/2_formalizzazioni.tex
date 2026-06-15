@@ -194,10 +194,24 @@ Tale procedimento, però, senza aver osservato all'inizio che la formula è un'e
 affermare che i parametri trovati valgano per ogni \(n\). L'equazione, ad esempio, potrebbe essere di grado superiore
 per cui i quattro punti scelti non sono sufficienti.
 
-\subsection{Formule utili}
+\subsection{Formule matematiche utili}
 \vspace{5pt}
 \[\begin{array}{c l}
 	\displaystyle a \, ^{\log_b c} = c \, ^{\log_b a} & \qquad \text{esponenziale di un logaritmo} \\[10pt]
-	\displaystyle \sum_{k=0}^{n-1} r^k = \frac{r^n - 1}{r - 1} & \qquad \text{serie geometrica di ragione \(r\)}
+	\displaystyle \sum_{k=0}^{n-1} r^k = \frac{r^n - 1}{r - 1} & \qquad \text{serie geometrica di ragione \(r\)} \\[20pt]
+	\begin{array}{c}
+		z = a + ib \;\; \leftrightarrow \;\; z = \rho (\cos \varphi + i \sin \varphi) \;\; \leftrightarrow \;\; z = \rho \cdot e^{i \varphi} \\[5pt]
+		\begin{cases}
+			\rho = \sqrt{a^2 + b^2} \\
+			\varphi = \arctan(b / a)
+		\end{cases} \longleftrightarrow \quad \begin{cases}
+			a = \rho \cos(\varphi) \\
+			b = \rho \sin(\varphi)
+		\end{cases}
+	\end{array} & \quad\;\; \begin{array}{c}
+		\text{rappresentazioni di un numero} \\ \text{complesso con passaggio tra} \\ \text{le varie rappresentazioni}
+	\end{array} \\[30pt]
+	\displaystyle\sum_{k=0}^{n-1} \binom{n}{k} a^k b^{n-k} = (a + b)^n \qquad \sum_{k=0}^{n} \binom{n}{k} = 2^n & \quad\;\; \begin{array}{c}
+		\text{binomio di Newton con} \\ \text{caso particolare per } a = b = 1 \\ \text{(sottosequenze di una stringa)}
+	\end{array} \\[30pt]
 \end{array}\]
-

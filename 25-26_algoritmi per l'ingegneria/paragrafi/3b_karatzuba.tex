@@ -1,0 +1,86 @@
+
+\section{Moltiplicazione di polinomi - Karatsuba}
+\subsubsection*{Definizione formale di polinomio e degree bound}
+Un polinomio \(P(x)\) di grado \(N-1\) (con \(N\) termini) è definito come:
+\[P(x) \; := \; \sum_{i=0}^{N-1} \, a_i \, x^i \qquad\qquad \text{con} \;\; a_0, a_1, \dotsc \; a_{N-1} \; \text{fissati}\]
+Si osserva che un polinomio può essere visto anche come un numero espresso in base \(x\) con \(0\leq a_i < x\) secondo la
+notazione posizionale.
+
+Il degree bound \(\alpha\) è un limite superiore al grado di un polinomio, che indica l'insieme di tutti i polinomi di
+grado inferiore o uguale ad \(\alpha\), ovvero \(N - 1 \leq \alpha\).
+
+\subsection{Prodotto tra polinomi usando la definizione}
+\subsubsection*{Tecnica risolutiva}
+Dati due polinomi \(P(x)\) e \(Q(x)\) di grado \(N - 1\), il loro prodotto \(P(x) \cdot Q(x)\) è definito come segue.
+\[P(x) \; := \; \sum_{i=0}^{N-1} \, a_i \, x^i \qquad\quad Q(x) \; := \; \sum_{i=0}^{N-1} \, b_i \, x^i \qquad\quad P(x) \cdot Q(x) \; = \; \sum_{i=0}^{2N-2} \, c_i \, x^i\]
+
+\subsubsection*{Analisi della complessità}
+Per calcolare il prodotto usando la definizione sono necessarie:
+\begin{itemize}
+	\item \(N^2\) moltiplicazioni tra i coefficienti \(a_i\) e \(b_j\)
+	\item \((N-1)^2 = N^2 - 1 - (2N - 2)\) addizioni tra i prodotti \(a_i \cdot b_j\) per ottenere i coefficienti \(c_k\)
+\end{itemize}
+Complessivamente il prodotto usando la definizione ha complessità \(\Theta(N^2)\).
+
+\subsection{Prodotto tra polinomi con approccio divide and conquer}
+\subsubsection*{Tecnica risolutiva}
+I polinomi \(P(x)\) e \(Q(x)\), di grado \(N-1\), possono essere scomposti in polinomi più semplici di grado \(< N/2\)
+e il prodotto tra \(P(x)\) e \(Q(x)\) risulta essere in funzione del prodotto di questi polinomi più semplici, ovvero:
+\[P(x) = A(x) + B(x) \cdot x^{N/2} \qquad\qquad Q(x) = C(x) + D(x) \cdot x^{N/2}\]
+\[P(x) \cdot Q(x) = B(x) \, D(x) \cdot x^N + (A(x) \, D(x) + B(x) \, C(x)) \cdot x^{N/2} + A(x) \, C(x)\]
+
+\subsubsection*{Equazione alle ricorrenze}
+L'equazione alle ricorrenze per questo approccio è la seguente:
+\[T(N) \; = \; \begin{cases}
+	\; 1 & \text{se } N = 1 \\[3pt]
+	\; 4 \cdot T(N/2) + \beta_{std} \; N & \text{se } N > 1
+\end{cases}\]
+\begin{itemize}
+	\item il caso base è rappresentato dal prodotto di due polinomi di grado 0 che richiede un solo prodotto
+	\item il passo ricorsivo prevede 4 chiamate ricorsive per calcolare i quattro prodotti \(AC\), \(AD\), \(BC\) e \(BD\)
+	tra polinomi di grado \(< N/2\)
+	\item il costo per ogni nodo interno è dato dalle somme dei coefficienti dei termini di grado uguale, che è proporzionale
+	alla taglia \(N\)
+\end{itemize}
+
+\subsubsection*{Analisi della complessità}
+Dal formulone si ottiene che la complessità rimane sempre \(\Theta(N^2)\), da come evidenziato di seguito:
+\begin{align*}
+	T(N) \;\; &= \sum_{l=0}^{(\log_2 N) - 1} \!\! \left( 4^l \cdot \beta_{std} \; \frac{N}{2^l} \right) + 4^{\log_2 N} \cdot T_0(n) \; = \; \beta_{std} \; N \cdot \! \sum_{l=0}^{(\log_2 N) - 1} \!\! \left( 2^{2l}/2^l \right) + N^{\log_2 4} \; = \\[3pt]
+	&= \;\; \beta_{std} \; N \cdot \sum_{l=0}^{(\log_2 N) - 1} \!\! 2^l + N^2 \; = \; \beta_{std} \; N \cdot \frac{2^{\log_2 N} - 1}{2 - 1} + N^2 \; = \\[3pt]
+	&= \, \underbrace{\, \beta_{std} \; (N^2 - N) \,}_{\begin{array}{c} \text{\scriptsize costo delle somme} \\[-3pt] \text{ \scriptsize nei nodi interni} \end{array}}
+	\;\; + \!\!\!\!\!\! \underbrace{\;\;\;N^2\;\;}_{\begin{array}{c} \text{\scriptsize costo dei prodotti} \\[-3pt] \text{\scriptsize nelle foglie} \end{array}} \!\!\!\!\!\! = \;\; \Theta \, (N^2)
+\end{align*}
+
+\subsection{Prodotto di polinomi con l'algoritmo di Karatsuba (1962)}
+\subsubsection*{Tecnica risolutiva}
+Karatsuba osserva che è possibile ricavare la somma dei due prodotti \(AD + BC\) riutilizzando i due prodotti \(AC\) e \(BD\)
+già precedentemente calcolati come segue:
+\[(A + B) \cdot (C + D) = AC + (AD + BC) + BD \implies AD + BC = (A + B) \cdot (C + D) - AC - BD\]
+In questo modo il numero di prodotti da calcolare ricorsivamente si riduce da 4 a 3, con l'effetto di aumentare lievemente
+il costo della fase di divide dovuto al calcolo delle somme \((A + B)\) e \((C + D)\).
+
+\subsubsection*{Equazione alle ricorrenze ed analisi della complessità}
+L'equazione alle ricorrenze per l'algoritmo di Karatsuba è la seguente:
+\[T(N) \; = \; \begin{cases}
+	\; 1 & \text{se } N = 1 \\[3pt]
+	\; 3 \cdot T(N/2) + \beta_{kz} \; N & \text{se } N > 1
+\end{cases}\]
+
+Dal formulone si ottiene che la complessità è \(\Theta(N^{\log_2 3}) \approx \Theta(N^{1.58})\), da come evidenziato di seguito:
+\begin{align*}
+	T(N) \;\; &= \sum_{l=0}^{(\log_2 N) - 1} \!\! \left( 3^l \cdot \beta_{kz} \; N / 2^l \right) + 3^{\log_2 N} \cdot T(1) \; =  \; \beta_{kz} \; N \cdot \! \sum_{l=0}^{(\log_2 N) - 1} \!\! \left( (3/2)^l \right) + N^{\log_2 3} \; = \\[3pt]
+	&= \;\; \beta_{kz} \; N \cdot \frac{(3/2)^{\log_2 N} - 1}{(3/2) - 1} + N^{\log_2 3} \; = \; 2 \beta_{kz} \; N \cdot (N^{\log_2 3 - \log_2 2} - 1) + N^{\log_2 3} \; = \\[3pt]
+	&= \;\; \underbrace{\, 2 \beta_{kz} \; (N^{\log_2 3} - N) \,}_{\begin{array}{c} \text{\scriptsize costo delle somme} \\[-3pt] \text{\scriptsize nei nodi interni} \end{array}}
+	\;\; + \!\!\!\!\!\! \underbrace{\;\;N^{\log_2 3}\;\;}_{\begin{array}{c} \text{\scriptsize costo dei prodotti} \\[-3pt] \text{\scriptsize nelle foglie} \end{array}} \!\!\!\!\!\! = \;\; \Theta \, (N^{\log_2 3}) \; \approx \; \Theta \, (N^{1.58})
+\end{align*}
+
+\subsubsection*{Considerazioni sull'algoritmo di Karatsuba}
+\begin{itemize}
+	\item per valori di \(N\) piccoli, l'algoritmo standard (D\&C) rimane ancora più efficiente di quello di Karatsuba,
+	in quanto il costo aggiuntivo della fase di divide è maggiore del risparmio ottenuto dalla chiamata ricorsiva in meno
+	\item per valori di \(N\) molto grandi, è possibile migliorare ulteriormente l'efficienza asintotica nel calcolo del
+	prodotto di polinomi utilizzando ad esempio l'algoritmo di Toom-Cook
+	\item la vera novità dell'algoritmo di Karatsuba è stata quella di trovare il primo algoritmo sub-quadratico per
+	risolvere un problema che tutti i più grandi matematici ritenevano impossibile da risolvere in meno di \(\Theta(N^2)\)
+\end{itemize}

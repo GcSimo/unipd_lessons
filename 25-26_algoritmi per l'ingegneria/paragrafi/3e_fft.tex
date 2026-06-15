@@ -1,0 +1,396 @@
+\section{Moltiplicazione di polinomi e FFT - Fast Fourier Transform}
+{
+	\footnotesize Nota: la DFT (Discrete Fourier Transform) è la trasformata matematica discreta di Fourier, la FFT (Fast Fourier
+	Transform) è l'algoritmo efficiente per calcolare la DFT.
+}
+
+\subsubsection*{Cenni sulla moltiplicazione di polinomi}
+Dati due polinomi \(p(x)\) e \(q(x)\) rispettivamente di degree bound \(n\) e \(m\), il loro prodotto \(p(x) \cdot q(x)\)
+è un polinomio di degree bound \(n + m\) il cui vettore di coefficienti \(c\) è dato dal prodotto di convoluzione tra i vettori
+di coefficienti \(a\) e \(b\) dei polinomi \(p(x)\) e \(q(x)\), come illustrato di seguito:
+\[p(x) = \sum_{i=0}^{n-1} a_i \, x^i = a_0 \, x^0 + a_1 \, x^1 + \dots + a_{n-1} \, x^{n-1} \qquad\quad q(x) = \sum_{i=0}^{m-1} b_i \, x^i = b_0 \, x^0 + b_1 \, x^1 + \dots + b_{m-1} \, x^{m-1}\]
+\[p(x) \cdot q(x) = \sum_{i=0}^{n+m-2} c_i \, x^i \qquad\quad \text{con} \quad c_k = \!\! \sum_{\substack{i+j=k \\[2pt] 0 \leq i < n \\[2pt] 0 \leq j < m}} \!\! a_i b_j = \sum_{i=0}^{k} a_i \cdot b_{k - i} \qquad \text{per} \; k = 0, 1, \dotsc, n + m\]
+
+\noindent
+Applicando la pura definizione per il calcolo della convoluzione, la complessità risultante è quadratica nel degree bound dei
+polinomi. La soluzione più efficiente che verrà descritta di seguito consiste in:
+\begin{itemize}
+	\item trasformare, tramite la DFT, i polinomi \(p(x)\) e \(q(x)\) dalla rappresentazione per vettori di coefficienti
+	alla rappresentazione per vettori di punti o valori, valutando i polinomi nelle radici n-esime dell'unità, con complessità
+	\(\Theta(n \cdot \log n)\) con \(n\) pari al degree bound dei polinomi
+	\item eseguire il prodotto di Hadamard tra i vettori di punti o valori ottenuti, che equivale al prodotto di convoluzione
+	dei vettori di coefficienti, con complessità lineare nel degree bound dei polinomi con complessità \(\Theta(n)\) con \(n\)
+	pari al degree bound dei polinomi
+	\item eseguire l'inversa della DFT per trasformare il vettore di punti o valori del polinomio risultante in un vettore
+	di coefficienti con complessità \(\Theta(n \cdot \log n)\) con \(n\) pari al degree bound dei polinomi
+\end{itemize}
+
+\subsection{Rappresentazioni di un polinomio}
+\subsubsection*{Rappresentazione tramite vettore di coefficienti}
+Un polinomio \(p(x)\) di degree bound \(n\) può essere rappresentato tramite un vettore di coefficienti \(\underline{a}\)
+di dimensione \(n\), in cui l'elemento \(a_i\) rappresenta il coefficiente del termine \(x^i\) del polinomio. Il prodotto
+di due polinomi rappresentati in questo modo è dato dal prodotto di convoluzione tra i vettori di coefficienti.
+\[\underline{a} = (a_0, a_1, \dotsc, a_{n-1}) \qquad \underline{b} = (b_0, b_1, \dotsc, b_{m-1}) \qquad \underline{c} = (c_0, c_1, \dotsc, c_{n+m-2})\qquad \underline{c} = \underline{a} * \underline{b}\]
+
+\subsubsection*{Rappresentazione tramite vettore di punti o valori}
+Un polinomio \(p(x)\) di degree bound \(n\) può essere rappresentato tramite un vettore di punti o valori \(\underline{y}\)
+di dimensione \(n\), in cui l'elemento \(y_i\) rappresenta il valore del polinomio in un punto specifico \(x_i\). Esistono
+infiniti modi di rappresentare un polinomio per punti, a seconda dei punti scelti, ma data una qualsiasi rappresentazione
+esiste solo un polinomio di grado \(n\) associato a tale rappresentazione.
+
+Il prodotto di due polinomi rappresentati per punti è dato dal prodotto element-wise tra i vettori di punti, avendo
+l'accortezza di estenderli con nuovi elementi fino alla dimensione necessaria a rappresentare il polinomio risultante,
+ovvero \(n + m - 1\) se i polinomi di partenza hanno degree bound \(n\) e \(m\).
+\[(\underline{x}, \; \underline{y}) \text{ rappresentazione per punti di } p(x) \text{ con } \begin{array}{c}
+	\underline{x} = (x_0, x_1, \dotsc, x_{n-1}) \\ \underline{y} = (y_0, y_1, \dotsc, y_{n-1})
+\end{array} \text{ e } y_i = p(x_i)\]
+
+\newpage
+
+\subsection{Valutazione di un polinomio}
+\subsubsection*{Valutazione di un polinomio usando la definizione}
+Il processo di valutazione di un polinomio \(p(x)\) consiste nel calcolare il valore del polinomio in un punto specifico
+\(x_i\). Tale processo permette di trasformare un polinomio dalla rappresentazione per vettore di coefficienti alla
+rappresentazione per punti.
+
+Il costo di valutazione di un polinomio \(p(x)\) di degree bound \(n\) in un punto \(x_i\) usando la definizione di polinomio
+è lineare nel degree bound del polinomio.
+\[T(n) \; = \underbrace{\; n - 2 \;}_{\text{potenze \(x^2, x^3, ...\)}} + \underbrace{\; n - 1 \;}_{\text{prodotti \(a_i \cdot x^i\)}} + \;\;\underbrace{\; n + 1 \;}_{\text{addizioni}} \; = \; 3n - 4 \; = \; \Theta(n)\]
+Considerando che un polinomio deve essere valutato in \(n\) punti per essere trasformato in una rappresentazione per punti,
+la complessità complessiva della trasformazione risulta quadratica.
+
+\subsubsection*{Valutazione di un polinomio con l'algoritmo di Horner}
+L'idea dell'algoritmo di Horner è quella di riscrivere un polinomio \(p(x)\) in una forma che permette di valutare
+il polinomio ricorsivamente come segue:
+\[p(x) = a_0 + a_1 x + a_2 x^2 + \dots + a_{n-1} x^{n-1} = a_0 + x \cdot \left( a_1 + a_2 x + \dots + a_{n-1} x^{n-2} \right)\]
+L'equazione alle ricorrenze e la complessità dell'algoritmo di Horner rimangono lineari nel degree bound del polinomio,
+per cui non c'è un netto miglioramento rispetto all'approccio precedente.
+\[T(n) \; = \; \begin{cases}
+	\; 0 & \text{se } n = 1 \\[3pt]
+	\; T(n-1) + 2 & \text{se } n > 1
+\end{cases} \qquad\qquad T(n) = 2(n-1) = \Theta(n)\]
+
+\subsubsection*{Valutazione di un polinomio sulle radici dell'unità}
+Questo approccio si basa sulla possibilità di riutilizzare i conti fatti per valutare un polinomio \(p(x)\) in un punto
+\(x_i\) per valutare lo stesso polinomio in altri punti \(x_j\), legati a \(x_i\) da una certa simmetria. Di seguito viene
+illustrato un esempio per un polinomio di degree bound \(n = 8\).
+\[\begin{array}{c c}
+	p(x) \; = \; a_0 + a_1 x + a_2 x^2 + a_3 x^3 + a_4 x^4 + a_5 x^5 + a_6 x^6 + a_7 x^7 &  \substack{\text{polinomio } p(x) \text{ di} \\ \text{degree bound } 8} \\[10pt]
+	p(x) \; = \; \underbrace{(a_0 + a_2 x^2 + a_4 x^4 + a_6 x^6)}_{p^{[0]}(x^2)} \; + \; x \cdot \underbrace{(a_1 + a_3 x^2 + a_5 x^4 + a_7 x^6)}_{p^{[1]}(x^2)} & \substack{\text{si dividono le potenze} \\ \text{pari e dispari ottenendo} \\ \text{due polinomi in } x^2 \\ \text{di degree bound } 4} \\[20pt]
+    p(x) = p^{[0]}(x^2) + x \cdot p^{[1]}(x^2) \qquad \begin{aligned} p(-x) &= p^{[0]}((-x)^2) - x \cdot p^{[1]}((-x)^2) \\ &= p^{[0]}(x^2) - x \cdot p^{[1]}(x^2) \end{aligned} & \substack{\text{le valutazioni del} \\\text{polinomio in } p(x) \text{ e} \\  p(-x) \text{ condividono gli} \\ \text{stessi due contribuiti} \\ p^{[0]}(x^2) \text{ e } p^{[1]}(x^2)} \\[22pt]
+	\begin{array}{c}
+		p^{[0]}(x^2) = p^{[0][0]}(x^4) + x^2 \cdot p^{[0][1]}(x^4) \\
+		p^{[0]}(-x^2) = p^{[0][0]}(x^4) - x^2 \cdot p^{[0][1]}(x^4) \\[7pt]
+		\begin{aligned}
+			p(ix) &= p^{[0]}({ix}^2) + ix \cdot p^{[1]}({ix}^2) \\ &= p^{[0]}(-x^2) + ix \cdot p^{[1]}(-x^2)
+		\end{aligned}
+	\end{array} \begin{array}{c}
+		p^{[1]}(x^2) = p^{[1][0]}(x^4) + x^2 \cdot p^{[1][1]}(x^4) \\
+		p^{[1]}(-x^2) = p^{[1][0]}(x^4) - x^2 \cdot p^{[1][1]}(x^4) \\[7pt]
+		\begin{aligned}
+			p(ix) &= p^{[0]}({ix}^2) - ix \cdot p^{[1]}({ix}^2) \\ &= p^{[0]}(-x^2) - ix \cdot p^{[1]}(-x^2)
+		\end{aligned}
+	\end{array} & \substack{\text{calcolando i polinomi} \\ p^{[0]}(x^2) \text{ e } p^{[1]}(x^2) \\ \text{ si ottengono ``gratis''} \\ p^{[0]}(-x^2) \text{ e } p^{[1]}(-x^2) \\ \text{che forniscono anche} \\[1pt] \text{le due valutazioni} \\ p(ix) \text{ e } p(-ix) \\ \text{ con } i^2 = -1} 
+\end{array}\]
+È possibile infine eseguire un'ulteriore divisione ottenendo gli otto contributi \(p^{[i][j][k]}(x^8)\), ciascuno di
+degree bound \(8/2/2/2 = 1\) che forniscono le valutazioni del polinomio \(p(x)\) anche per \(x \pm ix\) e \(-x \pm ix\).
+Si valuta, \(p(x)\) sugli 8 punti \(\pm x, \; \pm ix,\; x \pm ix, \; -x \pm ix\) che sono proprio le radici ottave dell'unità.
+
+Successivamente si dimostrerà che questo approccio (basato sulla DFT) ha complessità \(\Theta(n \cdot \log n)\) con \(n\)
+pari al degree bound del polinomio, contro la complessità quadratica degli approcci precedenti.
+
+\subsection{Interpolazione di un polinomio}
+\subsubsection*{Interpolazione con la matrice di Vandermonde}
+L'interpolazione di un polinomio \(p(x)\) consiste nel calcolare il vettore di coefficienti \(\underline{a}\) a partire
+dal vettore di punti \(\underline{y}\). Tale processo permette di trasformare un polinomio dalla rappresentazione per
+punti alla rappresentazione per vettore di coefficienti.
+
+Un possibile approccio per l'interpolazione consiste nell'invertire la formula di valutazione di un polinomio di grado
+\(n\), ottenendo così un sistema a \(n\) equazioni con \(n\) incognite (\(a_0, a_1, \dots a_{n-1}\)), i cui coefficienti
+sono le potenze di \(x\).
+\[p(x) = y = \sum_{i=0}^{n-1} a_i x^i \; \rightarrow \; \sum_{i=0}^{n-1} {x_j}^i a_i = y_j \; \rightarrow \; \underbrace{\begin{bmatrix}
+	1 & x_0 & {x_0}^2 & \dots & {x_0}^{n-1} \\
+	1 & x_1 & {x_1}^2 & \dots & {x_1}^{n-1} \\
+	\vdots & \vdots & \vdots & \ddots & \vdots \\
+	1 & x_{n-1} & {x_{n-1}}^2 & \dots & {x_{n-1}}^{n-1}
+\end{bmatrix}}_{\text{matrice di Vandermonde} \;\; V(x_0, x_1, \dotsc, x_{n-1})} \cdot \begin{bmatrix}
+	a_0 \\ a_1 \\ \vdots \\ a_{n-1}
+\end{bmatrix} = \begin{bmatrix}
+	y_0 \\ y_1 \\ \vdots \\ y_{n-1}
+\end{bmatrix}\]
+La matrice delle potenze di \(x\) è detta matrice di Vandermonde, denotata con \(V(x_0, x_1, \dots, x_{n-1})\). Il determinate
+della matrice di Vandermonde è dato dalla seguente formula.
+\[\det \left( V (\underline{x}) \right) \; = \prod_{0 \, \leq \, i \, < \, j \, \leq \, n-1} (x_j - x_i) \]
+Se i punti \(x_0, x_1, \dotsc, x_{n-1}\) sono distinti, allora il determinante della matrice di Vandermonde è sempre
+diverso da zero. Questo implica che la matrice è invertibile e il sistema di equazioni ha una soluzione unica. La complessità
+rimane quadratica nel degree bound del polinomio dovuta al prodotto tra matrice inversa e vettore di punti, supponendo di
+disporre dell'inversa della matrice di Vandermonde gratis.
+\[\underline{a} = \left[ \; V(x_0, x_1, \dots x_{n-1}) \; \right]^{-1} \cdot \, \underline{y}\]
+
+\subsubsection*{Interpolazione con il polinomio interpolatore di Lagrange}
+Un altro approccio per l'interpolazione consiste nell'utilizzare il polinomio interpolatore di Lagrange
+\[p(x) \; = \; \sum_{k=0}^{n-1} \; y_k \, L_k(x) \qquad\qquad L_k(x) \; = \; \frac{\displaystyle \prod_{j \neq k} (x - x_j)}{\displaystyle \prod_{j \neq k} (x_k - x_j)}\]
+Si osserva che quando \(x = x_k\), significa che si sta cercando di valutare il polinomio \(L_k(x)\) in un punto \(x_k\),
+il polinomio interpolatore \(L_k(x) = 1\) solo per \(k\), mentre per gli altri \(L_i(x) = 0\) e il risultato della
+sommatoria è proprio \(y_k\).
+
+Il costo computazionale dell'approccio con il polinomio interpolatore di Lagrange rimane sempre quadratico nel degree bound
+del polinomio da interpolare, in quanto è necessario calcolare \(n\) polinomi interpolatori di Lagrange \(L_k(x)\) (per
+\(k \in [0, \, n-1]\)), ciascuno di grado \(n-1\).
+
+\subsubsection*{Interpolazione di un polinomio sulle radici dell'unità}
+Nei prossimi capitoli si osserverà che la valutazione di un polinomio \(p(x)\) sulle radici \(n\)-esime dell'unità
+equivale al prodotto tra la matrice di Fourier e il vettore dei coefficienti del polinomio \(p(x)\). Di conseguenza,
+per la trasformata inversa si utilizza l'inversa della matrice di Fourier e il vettore dei valori del polinomio \(p(x)\)
+sulle radici \(n\)-esime dell'unità.
+
+La valutazione costa \(\Theta(n \log_2 n)\), si dimostrerà che anche l'interpolazione costa \(\Theta(n \log_2 n)\),
+ottenendo così un sistema efficiente per cambiare rappresentazione e ottenere un algoritmo efficiente per il prodotto
+di polinomi rappresentati per punti.
+
+\subsection{Matrice di Fourier e radici n-esime dell'unità}
+\subsubsection*{Definizione di matrice di Fourier}
+La matrice di Fourier \(F_n \in \mathbb{C}^{n \times n}\) è definita come la matrice di Vandermonde \(V\) i cui coefficienti
+sono le radici \(n\)-esime dell'unità.
+\[F_n = V\! \left( {\omega_n\!}^0, {\omega_n\!}^1, \dots, {\omega_n\!}^{n-1} \right) \qquad\qquad \text{con} \quad \omega_n = e^{-2\pi i / n} \;\; \text{radice principale dell'unità}\]
+
+\subsubsection*{Radici n-esime dell'unità con relative proprietà e lemmi}
+\begin{itemize}
+	\item una radice \(n\)-esima dell'unità è un numero complesso \(z_k = e^{i \varphi}\) con \(\varphi = 2\pi k/n\) e \(k \in [0, \; n\!-\!1]\)
+	\[{z_k}^n = [\exp (2 \pi i k / n)]^n = \exp (2 \pi i k / n \cdot n) = \exp (2 \pi i k) = 1\]
+	\item una radice \(z_k\) è detta radice principale \(\omega_n\) se elevata per i vari valori di \(k \in [0, \; n\!-\!1]\)
+	genera tutte le restanti radici \(n\)-esime; esistono più radici principali, solitamente si sceglie quella con \(k = 1\)
+	\[{\omega_n\!}^k = {z_1\!}^k = [\exp (2 \pi i / n)]^k = \exp (2 \pi i k / n) = z_k\]
+\end{itemize}
+\[\begin{array}{c c}
+	{\omega_n}^i \cdot {\omega_n}^j = {\omega_n}^{i+j} & \qquad \begin{array}{c}\textbf{chiusura della moltiplicazione} \\ \text{l'insieme delle radici \(n\)-esime dell'unità} \\ \text{è chiuso rispetto alla moltiplicazione}\end{array} \\[15pt]
+	{\omega_n}^k \cdot {\omega_n}^{-k} = 1 & \qquad \begin{array}{c}\textbf{elemento inverso} \\ \text{l'insieme delle radici \(n\)-esime dell'unità possiede} \\ \text{l'elemento inverso } {\omega_n}^{n-k} \text{ rispetto alla moltiplicazione}\end{array} \\[15pt]
+	{\omega_{d \cdot n}}^{d \cdot k} = {\omega_n}^k & \qquad \begin{array}{c}\textbf{lemma di cancellazione} \\ \text{moltiplicando per uno stesso fattore } d \text{ sia l'esponente} \\ \text{che il grado della radice, il risultato non cambia}\end{array} \\[15pt]
+	{\omega_n}^{n/2} = {\omega_{2 \cdot n/2}}^{1 \cdot n/2} = \omega_2 & \qquad \begin{array}{c}\textbf{corollario del lemma di cancellazione} \end{array} \\[4pt]
+	({\omega_n}^i)^2 = ({\omega_n}^{i + n/2})^2 = {\omega_n}^i & \qquad \begin{array}{c}\textbf{lemma di dimezzamento} \\ \text{le due radici } {\omega_n}^i \text{ e }{\omega_n}^{i + n/2} \text{ sono opposte} \\ \text{ed i loro quadrati sono uguali}\end{array} \\[15pt]
+	\displaystyle \sum_{j=0}^{n-1} {({\omega_n}^i)}^j = \begin{cases} 0 & \text{se } i \; \text{mod} \; n = 0 \\[3pt] n & \text{altrimenti} \end{cases} & \qquad \begin{array}{c}\textbf{lemma di somma} \\ \text{la somma di tutte le potenze di una radice } n\text{-esima} \\ \text{dell'unità è zero se la radice è diversa da 1, altrimenti è \(n\)}\end{array}
+\end{array}\]
+\vspace{0pt}
+
+\noindent
+NOTA: il lemma di somma indica anche la somma degli elementi lungo la righe o la colonna \(i\)-esima della matrice di Fourier,
+per cui la somma di tutte le righe e di tutte le colonne della matrice di Fourier è zero, tranne per la prima riga e la prima
+colonna, la cui somma è \(n\).
+
+\subsubsection*{Inversa della matrice di Fourier}
+La matrice di Fourier è invertibile essendo una Vandermonde con determinante pari a \(n\) (per il lemma di somma) in quanto è
+composta dalle radici \(n\)-esime dell'unità, tutte distinte tra loro.
+\[F_{\omega_n}(i,j) = {\omega_n}^{ij} \qquad\qquad {F_{\omega_n}\!}^{-1}(i,j) = \frac{1}{n} \cdot {\omega_n}^{-ij} = \frac{1}{n} \cdot [F_{\omega_n}(i,j)]^{-1} = \frac{1}{n} \cdot F_{\omega_n}(n-i, \; j)\]
+\vspace{-14pt}
+\begin{align*}
+	{F_n}^{-1} &= \frac{1}{n} \cdot V \!\left( \left({\omega_n}^{-1}\right)^0, \; \left({\omega_n}^{-1}\right)^1, \; \left({\omega_n}^{-1}\right)^2, \dots, \left({\omega_n}^{-1}\right)^{n-1} \right) \\
+	&= \frac{1}{n} \cdot V \!\left( \left({\omega_n}^0\right)^{n-1}, \; \left({\omega_n}^1\right)^{n-1}, \; \left({\omega_n}^2\right)^{n-1}, \dots, \left({\omega_n}^{n-1}\right)^{n-1} \right) \\
+	&= \frac{1}{n} \cdot V \!\left( {\omega_n}^0, \; {\omega_n}^{n-1}, \; {\omega_n}^{n-2}, \dots, {\omega_n}^1 \right)
+\end{align*}
+
+\noindent
+La matrice inversa di Fourier è la matrice di Fourier scalata di \(1/n\) in cui le righe da \(1\) a \(n-1\) vengono
+invertite e l'insieme dei generatori è l'ultima riga della matrice di partenza.
+\[({F_n\!}^{-\!1} \cdot F_n)(h, k) = \sum_{l=0}^{n-1} {F_n\!}^{-\!1}(h, l) \cdot F_n(l, k) = \sum_{l=0}^{n-1} \frac{1}{n} \, {\omega_n\!}^{-hl} \, {\omega_n\!}^{hk}= \frac{1}{n} \sum_{l=0}^{n-1} {\omega_n\!}^{l(k-h)} = \begin{cases} 1 & {\scriptstyle \text{se } h = k} \\ 0 & \text{\scriptsize altrimenti} \end{cases} = \; \mathbb{I}_n(h,k)\]
+
+\subsection{Discrete Fourier Transform e algoritmo FFT}
+\subsubsection*{Valutazione del polinomio sulle radici dell'unità con la matrice di Fourier}
+Si osserva che il processo di valutazione di un polinomio \(p(x)\) sulle radici \(n\)-esime dell'unità, equivale al prodotto
+tra la matrice di Fourier \(F_n\) e il vettore dei coefficienti \(\underline{a}\) del polinomio \(p(x)\). Come per la matrice
+di Vandermonde, però, la complessità del prodotto applicando la pura definizione è \(\Theta(n^2)\).
+\[\underline{y} \; = \begin{pmatrix}
+	p(\omega_0) \\[3pt] p(\omega_1) \\[3pt] \vdots \\[3pt] p(\omega_{n-1})
+\end{pmatrix} = \begin{pmatrix}
+	\sum_{i=0}^{n-1} a_i \, {\omega_0}^i \\[3pt]
+	\sum_{i=0}^{n-1} a_i \, {\omega_1}^i \\[3pt]
+	\vdots \\[3pt]
+	\sum_{i=0}^{n-1} a_i \, {\omega_{n-1}}^i
+\end{pmatrix} = 
+\begin{pmatrix}
+	{\omega_0}^0 & {\omega_0}^1 & \dots & {\omega_0}^{n-1} \\
+	{\omega_1}^0 & {\omega_1}^1 & \dots & {\omega_1}^{n-1} \\
+	\vdots & \vdots & \ddots & \vdots \\
+	{\omega_{n-1}}^0 & {\omega_{n-1}}^1 & \dots & {\omega_{n-1}}^{n-1}
+\end{pmatrix} \begin{pmatrix}
+	a_0 \\ a_1 \\ \vdots \\ a_{n-1}
+\end{pmatrix} = \; F_n \cdot \underline{a}\]
+
+\subsubsection*{Formalizzazione della DFT}
+Il prodotto tra la matrice di Fourier \(F_n\) e un generico vettore \(\underline{a}\) viene chiamato Discrete Fourier
+Transform (DFT) del vettore \(\underline{a}\). È possibile, quindi, definire tale prodotto come una funzione come segue:
+\[\underline{y} = F_n \cdot \underline{a} = \text{DFT}_n \left( \underline{a} \right)\]
+
+\subsubsection*{Algoritmo efficiente per calcolare la DFT}
+Si riprende la proprietà di sottostruttura individuata per valutare un polinomio \(p(x)\) per due generici punti \(x\) e
+\(-x\) e la si applica per due generiche radici \(n\)-esime dell'unità opposte tra loro (\(\pm \; {\omega_n}^i\)).
+\[\left\{ \; \begin{aligned}
+	p(x) = p^{[0]}\!\left(x^2\right) + x \cdot p^{[1]}\!\left(x^2\right) \\
+	p(-x) = p^{[0]}\!\left(x^2\right) - x \cdot p^{[1]}\!\left(x^2\right)
+\end{aligned} \right. \quad \longrightarrow \quad \left\{ \; \begin{aligned}
+	p \!\left({\omega_n}^i\right) = p^{[0]}\!\left({\omega_{n/2}}^i\right) + {\omega_n}^i \cdot p^{[1]}\!\left({\omega_{n/2}}^i\right) \\
+	p \!\left({\omega_n}^{i + n/2}\right) = p^{[0]}\!\left({\omega_{n/2}}^i\right) - {\omega_n}^i \cdot p^{[1]}\!\left({\omega_{n/2}}^i\right)
+\end{aligned} \right.\]
+\[\text{osservando che} \quad -{\omega_n}^i = {\omega_n}^{i + n/2} \qquad \left({\omega_n}^i\right)^2 = \left({\omega_n}^{i + n/2}\right)^2 = {\omega_{n/2}}^i \qquad \]
+
+\noindent
+Si costruisce il vettore dei valori \(\underline{y}\) che assume il polinomio valutato sulle radici \(n\)-esime dell'unità:
+\[\underline{y} = \text{DFT}_n \left( \underline{a} \right) = \left\{ \;\; \begin{aligned}
+	y_i = {y_i}^{[0]} + {\omega_n}^i \cdot {y_i}^{[1]} \\[4pt]
+	y_{i + n/2} = {y_i}^{[0]} - {\omega_n}^i \cdot {y_i}^{[1]}
+\end{aligned} \right. \quad \text{ per } i \in [0, \; n/2\!-\!1] \quad \text{con} \quad \begin{aligned}{}
+	{y_i}^{[0]} &= p^{[0]} \! \left( {\omega_{n/2}}^i \right) \\ {y_i}^{[1]} &= p^{[1]} \! \left( {\omega_{n/2}}^i \right)
+\end{aligned}\]
+
+\noindent
+Si osserva che i vettori \(\underline{y}^{[0]}\) e \(\underline{y}^{[1]}\) corrispondono alla valutazione dei polinomi
+\(p^{[0]}(x)\) e \(p^{[1]}(x)\) sulle radici \(n/2\)-esime dell'unità, che possono essere calcolati riapplicando lo stesso
+approccio in maniera ricorsiva.
+\[y^{[0]} = F_{n/2} \cdot \underline{a}^{[0]} = \text{DFT}_{n/2} \! \left( \underline{a}^{[0]} \right) \qquad \text{e} \qquad y^{[1]} = F_{n/2} \cdot \underline{a}^{[1]} = \text{DFT}_{n/2} \! \left( \underline{a}^{[1]} \right)\]
+
+\subsubsection*{Analisi della complessità dell'algoritmo efficiente per calcolare la DFT}
+Il costo di ogni nodo interno è dato interamente dal costo del combine che comprende:
+\begin{itemize}
+	\item \(n/2\) moltiplicazioni tra i valori \(y_i^{[1]}\) e le radici \(n\)-esime dell'unità \({\omega_n}^i\)
+	\item \(n/2\) addizioni per calcolare i valori \(y_i\)
+	\item \(n/2\) sottrazioni per calcolare i valori \(y_{i + n/2}\)
+	\item \(n/2 - 2\) prodotti per calcolare le radici \(n\)-esime dell'unità \({\omega_n}^i\) a partire da \(\omega_n\);
+	il \(-2\) è dovuto al fatto che \({\omega_n}^0 = 1\) e \({\omega_n}^1 = \omega_n\) sono banali e non serve calcolarle
+\end{itemize}
+L'equazione alle ricorrenze e la complessità asintotica risultano essere:
+\[T(n) \; = \; \begin{cases}
+	\; 0 & \text{se } n = 1 \\[3pt]
+	\; 2 \cdot T(n/2) + 2n - 2 & \text{se } n > 1
+\end{cases} \qquad\qquad T(n) = 2 n \log_2 n - 2 \log_2 n\]
+
+\subsubsection*{Osservazione dei valori alle foglie dell'albero della ricorsione}
+Costruendo l'albero della ricorsione si può osservare che i valori alle foglie sono ordinati secondo la permutazione
+bit-reversal. Tale permutazione è ottenuta invertendo i bit dell'indice \(i\) che identifica la foglia (es. \(i = 6\)
+con rappresentazione binaria \(110\) diventa \(011\) che corrisponde a \(3\)).
+\[\begin{array}{c c}
+	\text{DFT}_{n}(\underline{a}) & (a_0, \; a_1, \; a_2, \; a_3, \; a_4, \; a_5, \; a_6, \; a_7) \\[3pt]
+	\text{DFT}_{n/2}(\underline{a}^{[*]}) & (a_0, \; a_2, \; a_4, \; a_6) \quad\;\; (a_1, \; a_3, \; a_5, \; a_7) \\[3pt]
+	\text{DFT}_{n/4}(\underline{a}^{[*][*]}) & (a_0, \, a_4) \quad (a_2, \, a_6) \quad\; (a_1, \, a_5) \quad (a_3, \, a_7) \\[3pt]
+	\text{DFT}_{n/8}(\underline{a}^{[*][*][*]}) & (a_0) \;\; (a_4) \;\; (a_2) \;\; (a_6) \;\; (a_1) \;\; (a_5) \;\; (a_3) \quad (a_7)
+\end{array}\]
+
+\subsubsection*{Implementazione in pseudocodice dell'algoritmo FFT}
+\begin{algo}{FFT}{$\underline{a}$}{rappresentazione tramite vettore di coefficienti $\underline{a}$ del polinomio $p(x)$}{rappresentazione tramite vettore di punti $\underline{y}$ del polinomio $p(x)$}
+	\State \(n \gets \text{length}(\underline{a})\)
+	\State
+	\If{\(n = 1\)} \Comment{caso base}
+		\State \textbf{return} \(a\)
+	\EndIf
+
+	\State
+	\State \(\underline{a}^{[0]} \gets (a_0, a_2, a_4, \dots, a_{n-2})\) \Comment{fase di divide}
+	\State \(\underline{a}^{[1]} \gets (a_1, a_3, a_5, \dots, a_{n-1})\)
+
+	\State
+	\State \(\underline{y}^{[0]} \gets \text{FFT}(\underline{a}^{[0]})\) \Comment{chiamate ricorsive}
+	\State \(\underline{y}^{[1]} \gets \text{FFT}(\underline{a}^{[1]})\)
+
+	\State
+	\State \(\omega_n \gets \exp(2 \pi i /n)\) \Comment{fase di combine}
+	\State \(\omega_i \gets 1\)
+	\For{\(i \gets 0\)}{\(n/2-1\)}
+		\State \(t \gets \omega_i \cdot y_i^{[1]}\)
+		\State \(y_i \gets y_i^{[0]} + t\)
+		\State \(y_{i + n/2} \gets y_i^{[0]} - t\)
+		\State \(\omega_i \gets \omega_i \cdot \omega_n\)
+	\EndFor
+		
+	\State \textbf{return} \(\underline{y}\)
+\end{algo}
+
+\newpage
+
+\subsection{Moltiplicazione di polinomi con la DFT e padding dei coefficienti}
+\subsubsection*{Padding dei coefficienti per il prodotto di polinomi}
+Il prodotto di due polinomi \(p(x)\) e \(q(x)\) con degree bound rispettivamente \(n\) e \(m\) è un polinomio
+\(r(x) = p(x) \cdot q(x)\) con degree bound \(n + m - 1\). Per poter rappresentare correttamente tramite vettore di punti
+il polinomio risultante è necessario valutare \(r(x)\) su almeno \(n + m - 1\) punti distinti.
+
+Dal prodotto element-wise tra i vettori di punti di \(p(x)\) e \(q(x)\) si otterrà un vettore di punti non sufficientemente
+lungo per rappresentare \(r(x)\). È necessario estendere le rappresentazioni tramite vettore di coefficienti al degree bound
+\(n + m - 1\) del polinomio risultante, aggiungendo elementi nulli ai vettori di coefficienti di \(p(x)\) e \(q(x)\).
+Questa operazione è detta padding dei coefficienti.
+\begin{align*}
+	\underline{a} = (a_0, a_1, \dots, a_{n-1}) \; \rightarrow \; \underline{a} = (a_0, a_1, \dots, a_{n-1}, \overbrace{0, 0, \dots, 0}^{m \; \text{elementi}}) \\
+	\underline{b} = (b_0, b_1, \dots, b_{m-1}) \; \rightarrow \; \underline{b} = (b_0, b_1, \dots, b_{m-1}, \underbrace{0, 0, \dots, 0}_{n \; \text{elementi}}) \\
+\end{align*}
+
+\subsubsection*{Padding per raggiungere la potenza di due più vicina}
+Siccome l'algoritmo FFT è stato strutturato per funzionare con polinomi di degree bound pari ad una potenza di due,
+è necessario estendere i vettori di coefficienti al degree bound pari alla potenza di due maggiore più vicina al degree
+bound del polinomio risultante. Sarà necessario aggiungere ulteriori elementi nulli di padding ai vettori di coefficienti.
+\begin{align*}
+	\underline{a} = (a_0, a_1, \dots, a_{n-1}, 0, 0, \dots, 0) \; \rightarrow \; \underline{a} = \overbrace{(a_0, a_1, \dots, a_{n-1}, 0, 0, \dots, 0)}^{2^k \, > \, n + m - 1 \; \text{elementi}}) \\
+	\underline{b} = (b_0, b_1, \dots, b_{m-1}, 0, 0, \dots, 0) \; \rightarrow \; \underline{b} = \underbrace{(b_0, b_1, \dots, b_{m-1}, 0, 0, \dots, 0)}_{2^k \, > \, n + m - 1 \; \text{elementi}}) \\
+\end{align*}
+
+\subsubsection*{Note sulla complessità dopo il padding}
+Definita \(N = 2^k\) la dimensione dei vettori di coefficienti dopo i due padding, la complessità del prodotto di polinomi
+tramite la DFT è \(\Theta(N \log_2 N)\).
+
+Supponendo che i degree bound dei polinomi \(p(x)\) e \(q(x)\) siano entrambi \(n\), il primo padding porterà la
+dimensione dei vettori a \(2n\), pari al degree bound del polinomio risultante. La potenza più vicina a \(2n\) potrà
+essere al massimo \(2 \cdot 2n = 4n\), siccome due potenze di due consecutive differiscono di un fattore 2.
+
+Di conseguenza, la dimensione finale sarà al massimo \(N = 4n\), che provocherà un peggioramento di circa quattro volte
+della complessità del prodotto, ma senza alterare quella asintotica di \(\Theta(n \log_2 n)\).
+
+\subsubsection*{Note sull'interpretazione del padding in generale}
+In generale non sempre è possibile applicare un padding all'input per ottenere una taglia di dimensione ottimale. Di seguito
+alcune osservazioni utili per interpretare il padding in generale:
+\begin{itemize}
+	\item nel prodotto tra polinomi, il padding di elementi nulli non altera il polinomio, in quanto equivale ad aggiungere
+	coefficienti di grado superiore nulli
+	\item nel mergesort, il padding potrebbe essere fatto con valori facili da discriminare (es. \(-\infty\) o \(+\infty\))
+	per cui dopo averli eliminati dal risultato, questo rimane sempre corretto
+	\item nella trasformata di Fourier, gli elementi da aggiungere al vettore di coefficienti sono molto complessi da
+	determinare, per cui non è possibile applicare un padding in maniera efficiente
+\end{itemize}
+
+\noindent
+NOTA: il padding di zeri nei vettori di input della DFT per la moltiplicazione di polinomi altera il risultato della DFT
+perché banalmente si sta valutando il polinomio su radici dell'unità in numero superiore. Tuttavia, in questo contesto
+non è un problema, in quanto entrambe le rappresentazioni (seppur sostanzialmente diverse) sono equivalenti per rappresentare
+lo stesso polinomio di partenza.
+
+\subsubsection*{Padding per \(k\)-potenza di un polinomio}
+Si osserva che man mano che il polinomio viene elevato a potenza, il degree bound continua a crescere e sarebbe necessario
+effettuare continui padding per mantenere la dimensione dei vettori di coefficienti sufficientemente grandi per rappresentare
+i risultati intermedi e pari ad una potenza di due.
+
+In alternativa a tale processo di padding continuo, si può effettuare un padding iniziale già sufficientemente grande
+per garantire che tutti i risultati intermedi e finali siano rappresentabili senza dover effettuare ulteriori padding.
+
+Analizzando la complessità di entrambi i processi, si osserva che il costo complessivo dell'elevamento a potenza è
+praticamente lo stesso ed è pari a \(\Theta(2kn \log_2 kn)\), ma che non altera la complessità asintotica.
+
+\subsection{Osservazioni utili per l'esame}
+\subsubsection*{Vettore di output di una trasformazione data la matrice e un certo vettore di input}
+Quando viene richiesto di calcolare il vettore di output di una trasformazione data la matrice relativa e un certo vettore
+di input, è utile osservare che il vettore di output è dato dalla combinazione lineare delle colonne della matrice pesate
+dai coefficienti del vettore di input.
+\[\underline{y} = F \cdot \underline{a} = \sum_{i=0}^{n-1} F(*,i) \cdot a_i \qquad \text{con } F(*,i) \text{ colonna } i\text{-esima di } F\]
+Nel caso della trasformata di Fourier esistono alcuni vettori notevoli:
+\begin{itemize}
+	\item \(\underline{a} = [1, 0, 0, \dots 0] \;\; \rightarrow \;\; \underline{y} = F_n \cdot \underline{a} = [1, 1, 1, \dots, 1]\)
+	siccome la prima colonna della matrice di Fourier è composta da tutti 1
+	\item \(\underline{a} = [0, 1, 0, 0, \dots 0] \;\; \rightarrow \;\; \underline{y} = F_n \cdot \underline{a} = [{\omega_n}^0, {\omega_n}^1, {\omega_n}^2, \dots, {\omega_n}^{n-1}]\)
+	siccome la seconda colonna della matrice di Fourier è composta dalle radici \(n\)-esime dell'unità
+	\item \(\underline{a} = [1, 1, 1, \dots 1] \;\; \rightarrow \;\; \underline{y} = F_n \cdot \underline{a} = [n, 0, 0, \dots, 0]\)
+	siccome la somma di tutte le righe della matrice di Fourier è zero, tranne per la prima riga, la cui somma è \(n\) (lemma di somma)
+\end{itemize}
+
+\subsubsection*{Composizione di trasformate di Fourier}
+La composizione di due trasformate di Fourier \({F_n}^2\) provoca un ribaltamento degli elementi del vettore di input, escluso
+il primo elemento, che rimane invariato, a cui si aggiunge uno scalamento di \(n\).
+\[{F_n}^2 \cdot \underline{a} = (a_0, a_{n-1}, a_{n-2}, \dots, a_1) \cdot n\]
+
+\noindent
+Siccome il ribaltamento applicato due volte riporta gli elementi del vettore di input alla posizione originale, si ha che
+la composizione di quattro trasformate di Fourier \({F_n}^4\) provoca soltanto uno scalamento di \(n^2\) senza modificare
+la posizione degli elementi del vettore di input.
+\[{F_n}^4 \cdot \underline{a} = (a_0, a_1, a_2, \dots, a_{n-1}) \cdot n^2\]

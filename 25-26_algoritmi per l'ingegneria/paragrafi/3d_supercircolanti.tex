@@ -1,0 +1,110 @@
+\section{Moltiplicazione di matrici supercircolanti - Tr. di Hadamard}
+\subsubsection*{Definizione di matrici supercircolanti}
+Una matrice \(A \in \mathbb{C}^{n \times n}\), con \(n=2^k\) si dice supercircolante se:
+\begin{itemize}
+	\item per \(n = 1\) (banalmente tutti i numeri sono considerati matrici supercircolanti))
+	\item per \(n > 1\) la matrice si può dividere in quattro blocchi \(n/2 \times n/2\) uguali a due a due lungo la diagonale
+	principale e la diagonale secondaria e tali blocchi sono a loro volta supercircolanti
+	\[A = \begin{bmatrix} A_1 & A_2 \\ A_2 & A_1 \end{bmatrix} \]
+\end{itemize}
+
+\subsubsection*{Osservazioni sulle matrici supercircolanti}
+\begin{itemize}
+	\item nelle matrici supercircolanti, ogni riga è ottenuta tramite uno shift circolare della riga precedente
+	\item le righe successive alla prima sono univocamente definite a partire dalla prima riga, detta riga generatrice,
+	tramite opportuni shift circolari
+	\item dato che è sufficiente la prima riga per definire una matrice supercircolante, la taglia di una matrice
+	supercircolante \(A\) è pari al numero di elementi della sua prima riga, ovvero \(n\)
+	\item si osserva che l'insieme delle matrici supercircolanti è chiuso rispetto alla somma:
+	\[A + B = \begin{bmatrix} A_1 & A_2 \\ A_2 & A_1 \end{bmatrix} + \begin{bmatrix} B_1 & B_2 \\ B_2 & B_1 \end{bmatrix} = \begin{bmatrix} A_1 + B_1 & A_2 + B_2 \\ A_2 + B_2 & A_1 + B_1 \end{bmatrix} \quad \text{supercircolante per def.}\]
+	\item si osserva che l'insieme delle matrici supercircolanti è chiuso rispetto alla moltiplicazione:
+	\[A \cdot B = \begin{bmatrix} A_1 & A_2 \\ A_2 & A_1 \end{bmatrix} \cdot \begin{bmatrix} B_1 & B_2 \\ B_2 & B_1 \end{bmatrix} = \begin{bmatrix} A_1 B_1 + A_2 B_2 & A_1 B_2 + A_2 B_1 \\ A_2 B_1 + A_1 B_2 & A_2 B_2 + A_1 B_1 \end{bmatrix} \quad \text{supercircolante per def.}\]
+	\item siccome l'insieme delle matrici supercircolanti è chiuso rispetto alle operazioni di somma e moltiplicazione, allora
+	è considerato un anello, in più si osserva che è anche commutativo, siccome le due operazioni godono della proprietà
+	commutativa, ovvero \(A + B = B + A\) e \(A \cdot B = B \cdot A\)
+\end{itemize}
+
+\subsubsection*{Somme tra matrici supercircolanti}
+Per sommare due matrici supercircolanti è sufficiente sommare le prime righe dei due addendi elemento per elemento, ottenendo
+la prima riga della matrice risultante dalla somma. La complessità di questo approccio è \(T_{add}(n) = \Theta(n)\) con \(n\)
+pari alla taglia delle matrici.
+
+\subsection{Moltiplicazioni tra matrici supercircolanti}
+\subsubsection*{Moltiplicazioni usando la definizione}
+Usando la definizione di moltiplicazione di matrici, si osserva che si richiede il calcolo di 4 prodotti tra sottomatrici
+supercircolanti di dimensione \(n/2 \times n/2\) e 2 somme tra matrici supercircolanti di dimensione \(n/2 \times n/2\).
+L'equazione alle ricorrenze per questo approccio è la seguente:
+\[T(n) \; = \; \begin{cases}
+	\; 1 & \text{se } n = 1 \\[3pt]
+	\; 4 \cdot T(n/2) + 2 \cdot n/2 & \text{se } n > 1
+\end{cases} \;\; = \;\; \begin{cases}
+	\; 1 & \text{se } n = 1 \\[3pt]
+	\; 4 \cdot T(n/2) + n & \text{se } n > 1
+\end{cases}\]
+Dal master theorem con \(a = 4\), \(b = 2\) e \(\omega(n) = n\) si ottiene una funzione soglia di
+\(\sigma(n) = n^{\log_2 4} = n^2\), tale per cui \(\omega(n) = \sigma(n) \cdot O(n^{-1})\), ovvero si ricade
+nel primo caso del master theorem. La complessità è quindi \(T(n) = \Theta(\sigma(n)) = \Theta(n^2)\).
+
+\newpage
+
+\subsubsection*{Moltiplicazioni con approccio D\&C ottimizzato}
+Si osserva che secondo opportune manipolazioni algebriche è possibile ricavare i due blocchi \(C_1\) e \(C_2\) del prodotto
+attraverso soli 2 prodotti, con l'overhead di 6 somme e due moltiplicazioni per uno scalare.
+\[\begin{array}{l}
+	U = (A_1 + A_2) \cdot (B_1 + B_2) = A_1 B_1 + A_1 B_2 + A_2 B_1 + A_2 B_2 \\[3pt]
+	V = (A_1 - A_2) \cdot (B_1 - B_2) = A_1 B_1 - A_1 B_2 - A_2 B_1 + A_2 B_2
+\end{array} \qquad \begin{array}{l}
+	C_1 = (U + V)/2 = A_1 B_1 + A_2 B_2 \\[3pt]
+	C_2 = (U - V)/2 = A_1 B_2 + A_2 B_1
+\end{array}\]
+L'equazione alle ricorrenze per questo approccio è la seguente:
+\[T(n) \; = \; \begin{cases}
+	\; 1 & \text{se } n = 1 \\[3pt]
+	\; 2 \cdot T(n/2) + 6 \cdot n/2 + 2 \cdot n/2 & \text{se } n > 1
+\end{cases} \;\; = \;\; \begin{cases}
+	\; 1 & \text{se } n = 1 \\[3pt]
+	\; 2 \cdot T(n/2) + 4n & \text{se } n > 1
+\end{cases}\]
+Dal master theorem con \(a = 2\), \(b = 2\) e \(\omega(n) = 4n\) si ottiene una funzione soglia di
+\(\sigma(n) = n^{\log_2 2} = n\) paragonabile a \(\omega(n)\). La complessità dal secondo caso del
+master theorem risulta essere \(T(n) = \Theta(n \cdot \log n)\).
+
+\subsection{Trasformata di Hadamard e Fast Hadamard Transform (FHT)}
+\subsubsection*{Autovalori alle foglie dell'albero della ricorsione}
+L'albero della ricorsione per il prodotto di matrici supercircolanti con approccio D\&C ottimizzato è un albero binario
+completo in cui ogni nodo figlio sinistro riceve le somme tra i blocchi \(A_1\) e \(A_2\) e tra i blocchi \(B_1\) e \(B_2\),
+mentre ogni nodo figlio destro riceve le differenze tra i medesimi blocchi, affinché siano moltiplicate opportunamente.
+
+Le foglie ricevono due matrici degeneri in scalati \(a\) e \(b\) che è possibile dimostrare essere proprio gli autovalori
+delle due matrici supercircolanti \(A\) e \(B\) di partenza.
+
+\subsubsection*{Trasformata e prodotto di Hadamard}
+È possibile interpretare le operazioni di divide come una trasformazione lineare che, partendo da una matrice supercircolante
+rappresentata con la sua prima riga, restituisce il vettore di autovalori della matrice supercircolante stessa. In questo modo
+il prodotto di matrici supercircolanti può essere interpretato come un prodotto di autovalori, che risulta avere complessità
+\(\Theta(n)\) con \(n\) pari alla taglia delle matrici supercircolanti. Una volta fatto ciò, le operazioni di combine effettuano
+l'inverso della trasformazione lineare, restituendo la matrice supercircolante risultante dal prodotto.
+
+La trasformazione lineare impiegata prende il nome di \textbf{trasformata di Hadamard}, mentre il prodotto membro a membro
+tra i vettori di autovalori prende il nome di \textbf{prodotto di Hadamard}.
+
+La trasformata e la relativa antitrasformata di Hadamard possono essere calcolate in \(\Theta(n \cdot \log n)\), mentre
+il prodotto di Hadamard può essere calcolato in \(\Theta(n)\). Di conseguenza, il prodotto di matrici supercircolanti tramite
+la trasformata di Hadamard ha complessità complessiva di \(\Theta(n \cdot \log n)\).
+
+\subsubsection*{Cambio di rappresentazioni per risolvere problemi più efficientemente}
+L'idea alla base del prodotto di matrici supercircolanti tramite la trasformata di Hadamard è quello di convertire i dati
+in ingresso in una rappresentazione che permette di risolvere il problema richiesto in maniera più efficiente, per poi
+convertire il risultato ottenuto nella rappresentazione originale. Altri esempi di algoritmi che adottano questa tecnica sono:
+\begin{itemize}
+	\item l'algoritmo di Strassen, anche se non è chiaro come interpretare la rappresentazione intermedia
+	\item l'algoritmo di FFT, che utilizza una trasformata di Fourier per calcolare il prodotto di polinomi in maniera
+	più efficiente
+\end{itemize}
+
+\subsubsection*{Osservazione sulle simmetrie}
+Una simmetria è una proprietà di invarianza rispetto ad una certa trasformazione. Ad esempio la proprietà commutativa è
+l'invarianza rispetto alla trasformazione che scambia i due operandi di un'operazione. 
+
+Conoscere le simmetrie permette di identificare ed eliminare i gradi di libertà di un problema, riducendo sia il peso della
+rappresentazione utilizzata che nelle operazioni di calcolo.

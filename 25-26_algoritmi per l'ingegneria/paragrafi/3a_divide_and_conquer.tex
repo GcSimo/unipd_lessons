@@ -1,0 +1,317 @@
+\section{Paradigma Divide and Conquer}
+\subsection{Proprietà di sottostruttura}
+\subsubsection*{Idea generale}
+Il paradigma divide and conquer (divide et impera) è un approccio che consiste nel suddividere un'istanza di grandi dimensioni
+in una o più istanze di dimensioni inferiori, più semplici da risolvere, e poi combinare le soluzioni di queste istanze per
+ottenere la soluzione dell'istanza originale.
+
+\subsubsection*{Proprietà di sottostruttura}
+Dato un problema \(\pi \subseteq \mathcal{I} \times \mathcal{S}\), il paradigma si compone di tre componenti:
+\begin{itemize}[topsep=5pt, itemsep=3pt]
+	\item \(A_D : \mathcal{I} \to \mathcal{I}*\), funzione di divide che suddivide un'istanza \(i \in \mathcal{I}\) di
+	taglia \(|i| > n_0\) in una sequenza di una o più istanze più piccole \(<\!i_1, i_2, \dots i_k\!>\) di taglia
+	\(|i_j| < |i|\) per ogni \(j\)
+	\item \(A_C : \mathcal{S}* \to \mathcal{S}\), funzione di combine che combina la sequenza di soluzioni
+	\(<\!s_1, s_2, \dots s_k\!>\) associate alle istanze \(<\!i_1, i_2, \dots i_k\!>\) nella soluzione \(s\) associata
+	all'istanza \(i\)
+	\item \(D\&C : \mathcal{I} \to \mathcal{S}\), chiamata ricorsiva che trasforma individualmente ogni istanza	\(i_j\)
+	nella corrispettiva soluzione \(s_j\), applicando eventualmente le due funzioni \(A_D\) e \(A_C\) in modo ricorsivo
+\end{itemize}
+
+\noindent
+Le due funzioni \(A_D\) e \(A_C\) devono soddisfare la seguente proprietà di sottostruttura:
+\[\forall i \in \mathcal{I}, |i| > n_0 \text{ vale } \left[ \; D(i) = \; <\!i_1, \dots, i_k\!> \; \wedge \; \forall j \; (i_j, s_j) \in \pi \; \wedge \; C(<\!s_1, \dots, s_k\!>) = s \implies (i, s) \in \pi \; \right]\]
+
+\subsubsection*{Chiamata ricorsiva (conquer) e definizione del caso base}
+La chiamata ricorsiva \(D\&C\) è definita come segue:
+\begin{itemize}
+	\item se \(|i| > n_0\) allora \(D\&C(i) = A_C(A_D(i))\), ovvero riapplica il modello di divide and conquer
+	\item se \(|i| \leq n_0\) allora utilizza una soluzione diretta ed immediata per risolvere \(i\)
+\end{itemize}
+In generale il parametro \(n_0\) è scelto in base al problema. Può essere il minimo valore per cui è possibile applicare
+il modello di divide and conquer, oppure un valore sufficientemente grande sotto di cui si conosce un algoritmo più
+efficiente per risolvere il problema.
+
+
+\begin{algo}{D\&C}{i}{\text{istanza \(i \in \mathcal{I}\)}}{\text{soluzione \(s \in \mathcal{S}\)}}
+\If{\(|i| \leq n_0\)} \Comment{caso base \(\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\;\)}
+	\State \(s \gets A_\text{diretto}(i)\) \Comment{soluzione diretta ed immediata \(\quad\qquad\qquad\qquad\qquad\quad\,\)}
+	\State \textbf{return} \(s\)
+\Else \Comment{passo ricorsivo \(\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\)}
+	\State \(<\!i_1, i_2, \dots i_k\!> \; \gets A_D(i)\) \Comment{divide \(\quad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\)}
+	\For{\(j \gets 1\)}{\(k\)} \Comment{conquer \(\quad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad\:\)}
+		\State \(s_j \gets D\&C(i_j)\)
+	\EndFor
+	\State \(s \gets A_C(<\!s_1, s_2, \dots s_k\!>)\) \Comment{combine \(\quad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad\)}
+	\State \textbf{return} \(s\)
+\EndIf
+\end{algo}
+
+\newpage
+
+\subsection{Analisi della correttezza}
+\subsubsection*{Proprietà di sottostruttura in funzione di un parametro intero}
+Per dimostrare la correttezza di un algoritmo divide and conquer, si utilizza la proprietà di sottostruttura e il principio
+di induzione in forma forte. Per prima cosa si esprime la proprietà di sottostruttura in funzione di un parametro intero,
+in modo da renderla più adatta alla dimostrazione induttiva, ovvero:
+\[\forall i \in \mathcal{I} \; \underbrace{\left[ \; (i, \; D\&C(i)) \in \pi \; \right]}_{P(i)} \quad = \quad \forall n \in \mathbb{N} \; \underbrace{\left[ \forall i \in \mathcal{I} \text{ con } |i| = n  \text{ vale } (i, D\&C(i)) \in \pi \; \right]}_{P(n)}\]
+
+\subsubsection*{Dimostrazione con il principio di induzione in forma forte}
+Si dimostra, infine, che \(P(n)\) è vera per ogni \(n \in \mathbb{N}\) tramite il principio di induzione in forma forte:
+\begin{itemize}
+	\item si dimostra che \(P(n)\) è vera per ogni \(n \leq n_0\) (caso base)
+	\item si dimostra che se \(P(n)\) è vera per tutti i valori \(n \leq m\) allora anche \(P(m + 1)\) è vera (passo induttivo)
+\end{itemize}
+
+\subsection{Albero della ricorsione}
+\subsubsection*{Albero della ricorsione}
+L'albero della ricorsione è una rappresentazione grafica che rappresenta le chiamate ricorsive di un algoritmo divide and
+conquer con le seguenti caratteristiche:
+\begin{itemize}
+	\item ogni nodo rappresenta una chiamata ricorsiva \(D\&C(i)\) per un'istanza \(i \in \mathcal{I}\)
+	\item ogni nodo ha come figli i nodi che rappresentano le chiamate ricorsive \(D\&C(i_j)\) per ogni istanza
+	\(i_j\) ottenuta dalla procedura di divide \(A_D(i)\)
+	\item la taglia dell'istanza dei nodi figli è inferiore alla taglia dell'istanza del nodo padre, in quanto la taglia
+	dell'istanza diminuisce ad ogni chiamata ricorsiva
+	\item ogni foglia rappresenta una chiamata ricorsiva \(D\&C(i)\) per un'istanza \(i \in \mathcal{I}\) di taglia
+	\(|i| \leq n_0\), ovvero un caso base
+\end{itemize}
+
+\subsubsection*{Esplorazione dell'albero della ricorsione}
+L'esplorazione dell'albero della ricorsione avviene secondo la visita in-order, ovvero prima si visita il figlio sinistro,
+poi il nodo padre, poi il figlio destro. In questo modo, dato il nodo dell'albero che si sta attualmente visitando, si è
+certi che tutti i nodi a sinistra di esso sono stati visitati, e i nodi a destra di esso sono ancora da visitare.
+
+La costruzione della soluzione avviene secondo la visita post-order, ovvero prima si risolvono le istanze dei figli, poi
+viene costruita la soluzione per il nodo padre, secondo l'algoritmo DFS (Depth First Search).
+
+Lo spazio occupato è proporzionale allo spazio richiesto da ciascuna chiamata ricorsiva e dal numero di chiamate ricorsive
+attive contemporaneamente, ovvero la profondità dell'albero della ricorsione.
+
+\subsubsection*{Cenni sulla ricorsione nei primi linguaggi di programmazione}
+La memoria a disposizione sui primi computer era molto limitata e non era sufficiente per implementare uno stack che isolasse
+le variabili locali delle varie chiamate ricorsive attive. I primi linguaggi di programmazione, infatti, salvavano le variabili
+locali in posizioni fisse di memoria, comuni ad ogni chiamata ricorsiva. Per questo motivo, all'inizio la ricorsione non era
+supportata ed il suo utilizzo era fortemente scoraggiato. Il primo linguaggio di programmazione a supportare nativamente la
+ricorsione è stato il linguaggio LISP, sviluppato da John McCarthy nel 1958.
+
+Ad oggi, la ricorsione è supportata nativamente da tutti i principali linguaggi di programmazione ed esistono ottimizzazioni
+a livello hardware (istruzioni macchina per la gestione dello stack) per renderla efficiente e non sprecare memoria.
+
+\subsection{Analisi della complessità e formulone}
+\subsubsection*{Equazione alle ricorrenze}
+L'equazione alle ricorrenze è un'equazione che esprime la complessità temporale di un algoritmo divide and conquer
+in funzione della complessità temporale delle chiamate ricorsive e delle operazioni di divide e combine. Di seguito
+è riportata la forma generale con le proprietà indicate sotto:
+\[T(n) \; = \; \begin{cases}
+	\; T_0(n) & \text{se } n \leq n_0 \quad - \quad \text{caso base} \\[3pt]
+	\; s(n) \cdot T(f(n)) + \omega(n) & \text{se } n > n_0 \quad - \quad \text{passo ricorsivo}
+\end{cases}\]
+\begin{itemize}
+	\item \(T_0(n)\) è il costo dell'algoritmo diretto per risolvere un'istanza di taglia \(n \leq n_0\)
+	\item \(s(n)\) è il numero di chiamate ricorsive effettuate per risolvere un'istanza di taglia \(n\) e coincide con
+	il numero di nodi figli di ogni nodo dell'albero della ricorsione
+	\item \(f(n)\) è la taglia della sottoistanza, generata dalla procedura di divide di un'istanza di taglia \(n\), che
+	viene passata alla chiamata ricorsiva
+	\item \(T(f(n))\) è il costo di ogni chiamata ricorsiva per risolvere un'istanza di taglia \(f(n)\)
+	\item \(\omega(n) = T_D(n) + T_C(n)\) è il costo complessivo delle procedure di divide e di combine
+\end{itemize}
+
+\vspace{5pt}
+
+\noindent
+Per ottenere il valore analitico ed eliminare le ricorrenze è necessario risolvere l'equazione attraverso un'analisi
+analitica, o ricorrendo al formulone o al master theorem. 
+
+\subsubsection*{Iterate di \(f\)}
+Si definisce l'iterata di una funzione \(f\) come la potenza della composizione di \(f\) con se stessa.
+\[\begin{cases}
+	f^{(0)}(n) = n \\[3pt]
+	f^{(l)}(n) = f(f^{(l-1)})(n) & \text{per } l > 0
+\end{cases}\]
+Si osserva che \(f^{(i)}(n)\) corrisponde alla taglia dell'istanza all'i-esima chiamata ricorsiva. In particolare,
+inizialmente \(f^{(i)}(n) = n\) per \(i = 0\) e progressivamente diminuisce ad ogni iterata, fino a raggiungere il caso
+base \(f^{(k+1)}(n) \leq n_0\) per un determinato valore di \(i = k\). Si definisce \(k\) come il massimo valore di \(i\)
+per cui la taglia dell'istanza è ancora maggiore di \(n_0\), ovvero:
+\[k = f^*(n, n_0) := \max \left\{ k : f^{(k)}(n) > n_0 \right\}\]
+
+\subsubsection*{Formulone}
+Il formulone è una formula generale che risolve l'equazione generale alle ricorrenze indicata sopra, se sono soddisfatte
+opportune condizioni indicate sotto.
+\[
+T(n) = \underbrace{
+	\overbrace{\sum_{l=0}^{f^* (n, \, n_0)}}^{\begin{array}{c} \text{\footnotesize per ogni} \\ \text{\footnotesize livello interno} \end{array}}
+	\overbrace{\left[ \prod_{j=0}^{l-1} s \left(f^{(j)}(n) \right) \right. \!}^{\begin{array}{c} \text{\footnotesize \# nodi al} \\ \text{\footnotesize livello \(l\)-esimo} \end{array}}
+	\; \cdot \!\!\! \overbrace{\left. \phantom{\prod_{j}^{l} \!\!\!\!\!\!\!\!} \omega \left( f^{(l)}(n) \right) \right]}^{\begin{array}{c} \text{\footnotesize costo interno} \\ \text{\footnotesize di ogni nodo} \\ \text{\footnotesize al livello \(l\)-esimo} \end{array}}
+	}_\text{lavoro compiuto nei nodi interni}
+	\;\; + \;\;\;
+	\underbrace{ \overbrace{\prod_{j=0}^{f^*(n, n_0)} s \left(f^{(j)}(n) \right) \!}^{\begin{array}{c} \text{\footnotesize \# di foglie} \end{array}}
+	\; \cdot \; \overbrace{ \phantom{\prod_{j}^{f^*} \!\!\!\!\!\!\!\!} T_0 \left( f^{(f^*(n, n_0) + 1)}(n) \right)}^{\begin{array}{c} \text{\footnotesize costo di ogni foglia}\end{array}}
+	}_\text{lavoro compiuto nelle foglie}
+\]
+
+\vspace{5pt}
+
+\begin{itemize}
+	\item il numero di figli dei nodi di un certo livello è costante, ovvero \(s(f^{(l)}(n)) = s_l\) per ogni livello \(l\)
+	\item la taglia di tutti i nodi di un certo livello è costante, ovvero \(f^{(l)}(n) = f_l\) per ogni  livello \(l\)
+\end{itemize}
+
+\subsubsection*{Formulone applicato ad un caso particolare}
+Di seguito un esempio di applicazione del formulone ad un caso particolare con:
+\begin{itemize}
+	\item \(s(n) = a\): numero di figli costante per ogni nodo interno
+	\item \(f(n) = n/2\): la taglia dell'istanza si dimezza ad ogni chiamata ricorsiva
+	\item \(\omega(n) = \beta \, n\): costo di divide and conquer lineare per ogni nodo interno
+	\item \(T_0(n) = 1\): costo costante per ogni foglia
+\end{itemize}
+\begin{align*}
+	T(n) \;\; &= \sum_{l=0}^{(\log_2 n) - 1} \left( a^l \cdot \beta \; \frac{n}{2^l} \right) \; + \; a^{\log_2 n} \cdot T_0(n) \; = \; \beta \, n \cdot \! \sum_{l=0}^{(\log_2 n) - 1} \!\! \left( a/2 \right)^l \; + \; n^{\log_2 a} = \\[3pt]
+	&= \;\; \beta \, n \cdot \frac{(a/2)^{\log_2 n} - 1}{(a/2) - 1} + n^{\log_2 a} \; = \; \frac{\beta}{a/2 - 1} \cdot n \left( n^{\log_2 a/2} - 1\right) + n^{\log_2 a} = \\[3pt]
+	&= \; \underbrace{\frac{\beta}{a/2 - 1} \cdot (n^{\log_2 a} - n)}_{\text{costo dei nodi interni}} \;\; + \!\! \underbrace{ \;\; n^{\log_2 a} \;\;}_{\text{costo delle foglie}}
+	\!\! = \;\; \Theta \left( n^{\log_2 a} \right)
+\end{align*}
+
+\subsubsection*{Complessità degli algoritmi di ordinamento basati sui confronti}
+Al momento non si conoscono funzioni che legano problemi alla relativa complessità asintotica e più in generale non si
+conoscono metodi per individuare in maniera assoluta i lower bound di problemi, ad eccezione di quelli deducibili banalmente.
+
+Ad esempio gli algoritmi di ordinamento basati sui confronti hanno lower bound banale di \(\Theta(n \log n)\), siccome
+\(n \log n\) è la quantità di informazione necessaria a rappresentare tutte le possibili permutazioni di \(n\) elementi ed
+equivale al numero minimo di confronti (rappresentabili in bit) necessari per distinguere tutte le possibili permutazioni.
+\[\# \text{permutazioni} = n! \approx n^n \qquad\quad \text{informazione}(\text{perm} \,_i) = \log_2(n!) \approx \log_2(n^n) = n \log_2 n\]
+
+
+\subsection{Master theorem}
+\subsubsection*{Assunzioni iniziali}
+Il master theorem è un teorema che fornisce una soluzione asintotica immediata in funzione di due parametri \(a\) e \(b\)
+per una classe di equazioni alle ricorrenze con le seguenti caratteristiche:
+\begin{itemize}
+	\item \(s(n) = a\): numero di figli costante per ogni nodo interno
+	\item \(f(n) = n/b\): la taglia dell'istanza si divide per una costante \(b > 1\) ad ogni chiamata ricorsiva
+	\item \(n_0 = 1\): caso base per istanze di taglia 1
+\end{itemize}
+
+\[T(n) \; = \; \begin{cases}
+	\; T_0(n) & \text{se } n \leq 1 \\[3pt]
+	\; a \cdot T(n/b) + \omega(n) & \text{se } n > 1
+\end{cases}\]
+
+\subsubsection*{Funzione soglia}
+Si definisce una \textbf{funzione soglia} \(\sigma(n)\) che rappresenta il numero di foglie dell'albero della ricorsione.
+Permette di calcolare in maniera immediata il costo complessivo dovuto al lavoro compiuto nelle foglie che funge da lower
+bound della complessità dell'algoritmo.
+\[\sigma(n) = n^{\log_b a} \qquad T(n) \, \geq \, T_{\text{foglie}}(n) \, = \, T_0(n) \cdot \# \; \text{foglie} \, = \, T_0(n) \cdot \sigma(n)\]
+
+\subsubsection*{Classi di funzioni e relative complessità asintotiche}
+Paragonando il costo dovuto al lavoro compiuto da ogni nodo interno \(\omega(n)\) con la funzione soglia \(\sigma(n)\), si
+individuano tre casi per cui è possibile calcolare la complessità asintotica di \(T(n)\) in maniera immediata:
+\[T(n) \; = \; \begin{cases}
+	\; \Theta (n^{\log_b a}) & \text{\footnotesize se il lavoro nei nodi interni \(\omega(n)\) è trascurabile rispetto a quello delle foglie \(\sigma(n)\)}  \\[3pt]
+	\; \Theta (n^{\log_b a} \, \log_b n) & \text{\footnotesize se il lavoro nei nodi interni \(\omega(n)\) è dello stesso ordine di quello delle foglie \(\sigma(n)\)}  \\[3pt]
+	\; \Theta (\omega(n)) & \text{\footnotesize se il lavoro nei nodi interni \(\omega(n)\) domina quello delle foglie \(\sigma(n)\)}
+\end{cases}\]
+
+\subsubsection*{Analisi del caso 1}
+Si verifica quando il lavoro nei nodi interni \(\omega(n)\) è trascurabile rispetto a quello delle foglie \(\sigma(n)\):
+\[\exists \varepsilon > 0 \text{ tale che } \omega(n) = O \! \left(n^{(\log_b a )- \epsilon}\right) = \sigma(n) \cdot O \! \left(n^{-\varepsilon}\right)\]
+Di seguito si osserva che calcolando il contributo complessivo dei nodi interni usando \(\omega(n) = n ^{(\log_b a) - \varepsilon}\),
+il risultato è comparabile con quello delle foglie senza far aumentare la complessità asintotica di \(\Theta(n^{\log_b a})\).
+\begin{align*}
+	T_{\text{int}}(n) &= \sum_{l=0}^{(\log_b n) - 1} a^l \cdot \omega \! \left( \frac{n}{b^l} \right) \; = \; \sum_{l=0}^{(\log_b n) - 1} a^l \cdot \left( \frac{n}{b^l} \right)^{(\log_b a) - \varepsilon} \; = \; n^{\log_b a} \; n^{-\varepsilon} \; \cdot \!\! \sum_{l=0}^{(\log_b n) - 1} \frac{a^l}{b^{l (\log_b a) - l \varepsilon}} \; = \\[3pt]
+	&= \;\; n^{\log_b a} \; n^{-\varepsilon} \; \cdot \!\! \sum_{l=0}^{(\log_b n) - 1} \frac{a^l}{a^l \cdot b^{l \varepsilon}} \; = \; n^{\log_b a} \; n^{-\varepsilon} \; \cdot \!\! \sum_{l=0}^{(\log_b n) - 1} {(b^{\varepsilon})}^l \; = \; n^{\log_b a} \; n^{-\varepsilon} \cdot \frac{(b^{\varepsilon})^{(\log_b n)} - 1}{b^{\varepsilon} - 1} \; = \\[3pt]
+	&= \;\; n^{\log_b a} \; n^{-\varepsilon} \cdot \frac{n^{\varepsilon} - 1}{b^{\varepsilon} - 1} \; \approx \; n^{\log_b a} \; n^{-\varepsilon} \cdot \frac{n^{\varepsilon}}{b^{\varepsilon} - 1} \; = \; \frac{n^{\log_b a}}{b^{\varepsilon} - 1} \; = \; \frac{\sigma(n)}{b^{\varepsilon} - 1} \; = \; O(\sigma(n))
+\end{align*}
+Si osserva che per \(\varepsilon \to 0^+\) il coefficiente moltiplicativo sarebbe molto elevato, ma comunque costante, per
+cui asintoticamente trascurabile.
+
+\subsubsection*{Analisi del caso 2}
+Si verifica quando il lavoro nei nodi interni \(\omega(n)\) è dello stesso ordine di quello delle foglie \(\sigma(n)\):
+\[\omega(n) = \Theta(n^{\log_b a}) = \Theta (\sigma(n))\]
+Di seguito si dimostra che il contributo complessivo dei nodi interni ha una complessità asintotica maggiore di quella delle
+foglie e domina la complessità totale dell'algoritmo, che risulta essere \(\Theta(n^{\log_b a} \, \log_b n)\).
+\begin{align*}
+	T_{\text{int}}(n) &= \sum_{l=0}^{(\log_b n) - 1} \left( a^l \cdot \omega \! \left( \frac{n}{b^l} \right) \right) \; = \; \sum_{l=0}^{(\log_b n) - 1} \left( a^l \cdot \left( \frac{n}{b^l} \right)^{\log_b a} \right) \; = \; n^{\log_b a} \; \cdot \!\! \sum_{l=0}^{(\log_b n) - 1} \left( \frac{a^l}{b^{l (\log_b a)}} \right) \\[3pt]
+	&= n^{\log_b a} \; \cdot \!\! \sum_{l=0}^{(\log_b n) - 1} \frac{a^l}{a^l} \; = \; n^{\log_b a} \cdot (\log_b n) \; = \; \Theta(n^{\log_b a} \, \log_b n)
+\end{align*}
+Di seguito si osserva che il costo complessivo di ogni livello ha la stessa complessità asintotica di quello delle foglie,
+per cui è possibile calcolare la complessità totale moltiplicando la complessità di ogni livello per il numero di livelli.
+Gli algoritmi di questa tipologia (es. mergesort e quicksort) hanno la particolarità che il costo delle fasi di divide o
+combine è proporzionale alla taglia dell'istanza.
+\[T_{\text{\(l\)-esimo livello}}(n) = a^l \cdot \omega \! \left( \frac{n}{b^l} \right) = a^l \cdot \left( \frac{n}{b^l} \right)^{\log_b a} = a^l \cdot \frac{n^{\log_b a}}{b^{l (\log_b a)}} = a^l \cdot \frac{n^{\log_b a}}{a^l} = n^{\log_b a} = \sigma(n)\]
+
+\newpage
+
+\subsubsection*{Analisi del caso 3}
+Si verifica quando il lavoro nei nodi interni \(\omega(n)\) domina quello delle foglie \(\sigma(n)\):
+\[\exists \varepsilon > 0 \text{ tale che } \omega(n) = \Omega(n^{\log_b a + \epsilon}) = \sigma(n) \cdot \Omega(n^{\epsilon})\]
+Dalla condizione precedente si può dedurre anche la seguente condizione di regolarità, ovvero che il lavoro interno complessivo
+nei nodi figli (al livello inferiore) è minore del lavoro interno del nodo padre.
+\[\exists c \in \mathbb{R} \text{ con } 0 < c < 1 \text{ tale che } \forall n \in \mathbb{N} \text{ si ha } a \cdot \omega \! \left( \frac{n}{b} \right) \leq c \cdot \omega(n)\]
+Per la dimostrazione del terzo caso si utilizza la condizione di regolarità appena enunciata, in quanto rende lo svolgimento
+più semplice e immediato. Di seguito sono riportati alcuni passaggi preliminari che verranno poi usati nella successiva
+dimostrazione.
+\[a\cdot \omega \! \left(\frac{n}{b}\right) \leq c\cdot \omega(n) \;\; \Rightarrow \;\; \omega \! \left(\frac{n}{b}\right) \leq \frac{c}{a} \cdot \omega(n) \;\; \Rightarrow \;\; \omega \! \left(\frac{n}{b^l}\right) \leq \left( \frac{c}{a} \right)^l \cdot \omega(n)\]
+\[T_{\text{int}}(n) = \!\! \sum_{l=0}^{(\log_b n) - 1} a^l \cdot \omega \! \left( \frac{n}{b^l} \right) \; \leq \!\! \sum_{l=0}^{(\log_b n) - 1} a^l \cdot \frac{c^l}{a^l} \cdot \omega(n) \; = \; \omega(n) \cdot \!\!\! \sum_{l=0}^{(\log_b n) - 1} c^l \; < \; \omega(n) \cdot \frac{1}{1 - c} \; = \; \Theta(\omega(n))\]
+Dall'analisi precedente si osserva che il costo complessivo dei nodi interni è proporzionale al costo di ogni nodo interno
+e domina la complessità totale dell'algoritmo se il costo del singolo nodo interno è asintoticamente maggiore di quello delle
+foglie, ovvero se \(\omega(n) = \Omega(n^{\log_b a + \epsilon})\).
+
+\subsubsection*{Considerazione sugli altri casi}
+Esistono funzioni che non possono essere classificate in nessuno dei tre casi del master theorem, ad esempio quando
+\(\omega(n) = n^{\log_b a} \log n\). In questi casi è necessario risolvere l'equazione alle ricorrenze attraverso
+altri metodi risolutivi, ad esempio il formulone o l'analisi analitica.
+
+\subsection{Applicazioni del divide and conquer}
+Nei seguenti capitoli sono riportati alcuni esempi di applicazioni efficienti del paradigma divide and conquer:
+\begin{itemize}
+	\item esponenziazione con esponente intero
+	\item moltiplicazione di polinomi tramite l'algoritmo di Karatsuba
+	\item moltiplicazione di matrici tramite l'algoritmo di Strassen
+	\item moltiplicazione di matrici supercircolanti tramite la trasformata di Hadamard
+	\item moltiplicazione di polinomi tramite la trasformata di Fourier (FFT) e l'algoritmo di Cooley-Tukey
+\end{itemize}
+
+\newpage
+
+\section{Esponenziazione con esponente intero}
+\subsubsection*{Formalizzazione del problema}
+Dato un elemento \(x\) proveniente da una struttura algebrica con operazione associativa (ad esempio numeri in \(\mathbb{N}\),
+\(\mathbb{R}\), \(\mathbb{C}\), matrici, \dots) costante, si vuole calcolare \(x^n\) con \(n \in \mathbb{N}\). Siccome si
+tratta \(x\) come costante, si esclude che possa essere un polinomio per semplificare la risoluzione.
+
+\subsubsection*{Osservazioni sulla taglia del problema}
+Essendo \(x\) costante, viene escluso dal calcolo della taglia che è determinata unicamente da \(n\). Si osserva che la
+quantità di informazione necessaria a rappresentare \(n\) è \(\log_2 n\), per cui la taglia del problema in funzione di
+cui va espressa la complessità è \(\text{taglia}(n) = |n| = \log_2 n\), con \(n = 2 ^{\text{\, taglia}(n)}\).
+
+\subsection{Algoritmo ovvio basato sulla definizione}
+L'algoritmo ovvio per calcolare \(x^n\) si basa sulla definizione ricorsiva di potenza come composizione multipla
+dell'operazione associativa della struttura algebrica, ovvero:
+\[x^n := \begin{cases}
+	\; x^{(0)} = 1 & \text{se } n = 0 \\[3pt]
+	\; x^{(n-1)} \; \circ \; x & \text{se } n > 0 \quad - \quad \circ \;\; \text{è l'operazione associativa della struttura algebrica}
+\end{cases}\]
+La complessità equivale al costo di \(n - 1\) composizioni dell'operazione associativa, per cui la complessità risulta
+essere esponenziale in funzione della taglia del problema, ovvero:
+\[T(n) = n - 1 = 2^{\, \text{taglia}(n)} - 1 = \Theta \left( 2^{\, \text{taglia}(n)} \right)\]
+
+\subsection{Algoritmo efficiente basato sul divide and conquer}
+Si osserva che se l'operazione è associativa, come richiesto nelle ipotesi, è possibile riarrangiare le composizioni
+di funzioni in modo da riutilizzare i risultati di composizioni già calcolate. Di seguito la definizione ricorsiva
+dell'algoritmo efficiente basato sul divide and conquer:
+\[x^n := \begin{cases}
+	\; x^{(0)} = 1 & \text{se } n = 0 \\[3pt]
+	\; x^{(1)} = x & \text{se } n = 1 \\[3pt]
+	\; x^{(n/2)} \; \circ \; x^{(n/2)} & \text{se } n > 1 \text{ è pari} \\[3pt]
+	\; x^{\lfloor n/2 \rfloor} \; \circ \; x^{\lfloor n/2 \rfloor} \; \circ \; x & \text{se } n > 1 \text{ è dispari}
+\end{cases}\]
+L'equazione alle ricorrenze per questo algoritmo al caso peggiore è la seguente, osservando che è sufficiente una chiamata
+ricorsiva per calcolare \(x^{(n/2)}\) e, al caso peggiore, si aggiungono 2 operazioni di composizione.
+\[T(n) = \begin{cases}
+	\; 1 & \text{se } n = 0, 1 \\[3pt]
+	\; T(n/2) + 2 & \text{se } n > 1
+\end{cases}\]
+Utilizzando il master theorem con \(a = 1\), \(b = 2\) e \(\omega(n) = O(1)\), si ottiene una complessità lineare
+in funzione della taglia del problema, ovvero:
+\[T(n) = \Theta \left( \log_2 n \right) = \Theta \left( \text{taglia}(n) \right)\]

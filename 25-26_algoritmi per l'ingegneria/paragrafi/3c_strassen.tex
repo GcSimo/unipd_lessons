@@ -1,0 +1,192 @@
+\section{Moltiplicazione di matrici - Strassen}
+\subsubsection*{Note introduttive sulle matrici}
+Per la seguente sezione relativa al prodotto di matrici, si considerano solo matrici quadrate \(n \times n\)
+(\(\in \mathbb{R}^{n \times n}\)) con \(n = 2^k\) potenza di 2, per un certo \(k \in \mathbb{N}\). In questo modo
+le matrici sono perfettamente scomponibili ricorsivamente in quattro sottomatrici di dimensione \(n/2 \times n/2\).
+
+Per convenzione si assume che la taglia di una matrice è pari al numero di righe (o di colonne) di cui è composta,
+ovvero \(A \in \mathbb{R}^{n \times n} \;\Rightarrow\; |A| = n\).
+
+\subsection{Prodotto di matrici usando la definizione}
+\subsubsection*{Tecnica risolutiva}
+Date due matrici \(A, B \in \mathbb{R}^{n \times n}\), con \(n = 2^k\), il loro prodotto \(C = A \cdot B\) è sempre una
+matrice \(C \in \mathbb{R}^{n \times n}\) i cui elementi \(c_{ij}\) sono calcolati come segue:
+\[c_{ij} = \sum_{k=1}^{n} a_{ik} \cdot b_{kj} \qquad\qquad \text{per } i, j = 1, 2, \dotsc, n\]
+In altre parole il prodotto di matrici è una matrice che ha come elementi il prodotto interno dei vettori riga e colonna
+rispettivamente della prima matrice \(A\) e della seconda matrice \(B\).
+
+\subsubsection*{Analisi della complessità}
+Il prodotto interno tra un vettore riga e un vettore colonna richiede \(n\) moltiplicazioni e \(n-1\) addizioni, per un costo
+totale di \(T(n) = 2n - 1\). Siccome vanno fatti \(n^2\) prodotti interni, il costo totale della moltiplicazione di matrici
+risulta \(\Theta(n^3)\): \[T(n) = n^2 (2n - 1) = 2n^3 - n^2 = \Theta(n^3)\]
+
+\subsection{Prodotto di matrici con approccio divide and conquer}
+\subsubsection*{Tecnica risolutiva}
+Le matrici \(A, B \in \mathbb{R}^{n \times n}\) possono essere scomposte ciascuna in quattro sottomatrici di dimensioni
+\(n/2 \times n/2\), identificati con \(X_{11}, X_{12}, X_{21}, X_{22} \in \mathbb{R}^{n/2 \times n/2}\). Il prodotto
+\(C = A \cdot B\) risulta essere in funzione dei prodotti tra queste sottomatrici.
+\[\begin{array}{c c}
+	C_{11} = A_{11} \cdot B_{11} + A_{12} \cdot B_{21} \qquad\quad & \qquad\quad C_{21} = A_{21} \cdot B_{11} + A_{22} \cdot B_{21} \\[5pt]
+	C_{12} = A_{11} \cdot B_{12} + A_{12} \cdot B_{22} \qquad\quad & \qquad\quad C_{22} = A_{21} \cdot B_{12} + A_{22} \cdot B_{22}
+\end{array}\]
+
+\subsubsection*{Equazione alle ricorrenze}
+L'equazione alle ricorrenze per questo approccio è la seguente:
+\[T(n) \; = \; \begin{cases}
+	\; 1 & \text{se } n = 1 \\[3pt]
+	\; 8 \cdot T(n/2) + 4 n^2 & \text{se } n > 1
+\end{cases}\]
+\begin{itemize}
+	\item il caso base è rappresentato dal prodotto di due matrici \(1 \times 1\) che richiede un solo prodotto
+	\item il passo ricorsivo prevede 8 chiamate ricorsive per calcolare gli otto prodotti tra le sottomatrici di dimensione \(n/2 \times n/2\)
+	\item il costo per ogni nodo interno è dato dalle 4 somme dei prodotti tra sottomatrici \(n/2 \times n/2\)
+\end{itemize}
+
+\subsubsection*{Analisi della complessità}
+Dal formulone si ottiene che la complessità rimane sempre \(\Theta(n^3)\), da come evidenziato di seguito:
+\begin{align*}
+	T(n) \;\; &= \sum_{l=0}^{(\log_2 n) - 1} \!\! \left( 8^l \cdot \left( \frac{n}{2^l} \right)^2 \right) + 8^{\log_2 n} \cdot T_0(n) \; = \; n^2 \cdot \! \sum_{l=0}^{(\log_2 n) - 1} \!\! 2^l + n^{\log_2 8} = n^2 \cdot \frac{2^{\log_2 n} - 1}{2 - 1} + n^3 \; = \\[3pt]
+	&= \underbrace{\;n^2 \cdot (n - 1)\;}_{\begin{array}{c} \text{\scriptsize costo delle somme} \\[-3pt] \text{\scriptsize dei nodi interni} \end{array}}
+	+ \!\!\!\!\!\! \underbrace{\;\;\; n^3 \;\;}_{\begin{array}{c} \text{\scriptsize costo dei prodotti} \\[-3pt] \text{\scriptsize alle foglie} \end{array}}
+	\!\!\!\!\!\! =  \;\; 2n^3 - n^2  \; = \; \Theta(n^3)
+\end{align*}
+
+\subsubsection*{Vantaggi dell'algoritmo D\&C ricorsivo rispetto a quello iterativo basato sulla definizione}
+Ad oggi le macchine moderne performano molto meglio con l'algoritmo D\&C ricorsivo rispetto a quello iterativo basato sulla
+definizione in quanto si lavora con sottomatrici sempre più piccole fino a quando riescono ad essere totalmente memorizzate
+all'interno della cache. In questo modo si riducono drasticamente i tempi di accesso alla memoria principale dovuti ai
+continui cache miss quando si scorrono per intero righe e colonne per calcolare i prodotti interni.
+
+\subsection{Prodotto di matrici con l'algoritmo di Strassen (1969)}
+\subsubsection*{Tecnica risolutiva}
+Ispirandosi a Karatsuba, Strassen osserva che è possibile ricavare gli 8 prodotti tra le sottomatrici \(A_{ij}\) e \(B_{ij}\)
+riutilizzando solo 7 prodotti, calcolati su opportune somme e differenze di sottomatrici.
+\vspace{-12pt}
+\begin{center}
+	\begin{minipage}{0.25\textwidth}
+		\begin{align*}
+			A_1 &= (A_{12} - A_{22}) \\
+			A_2 &= (A_{11} + A_{22}) \\
+			A_3 &= (A_{11} - A_{21}) \\
+			A_4 &= (A_{11} + A_{12}) \\
+			A_5 &= A_{11} \\
+			A_6 &= A_{22} \\
+			A_7 &= (A_{21} + A_{22})
+		\end{align*}
+	\end{minipage}
+	\begin{minipage}{0.25\textwidth}
+		\begin{align*}
+			B_1 &= (B_{21} + B_{22}) \\
+			B_2 &= (B_{11} + B_{22}) \\
+			B_3 &= (B_{11} + B_{12}) \\
+			B_4 &= B_{22} \\
+			B_5 &= (B_{12} - B_{22}) \\
+			B_6 &= (B_{21} - B_{11}) \\
+			B_7 &= B_{11}
+		\end{align*}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\begin{align*}
+			P_i = A_i \cdot B_i \qquad \text{per } i = 1, 2, \dotsc, 7
+		\end{align*}
+		\vspace{-20pt}
+		\begin{align*}
+			C_{11} &= P_1 + P_2 - P_4 + P_6 \\
+			C_{12} &= P_4 + P_5 \\
+			C_{21} &= P_6 + P_7 \\
+			C_{22} &= P_2 - P_3 + P_5 - P_7
+		\end{align*}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Osservazioni sui prodotti di Strassen}
+\begin{itemize}
+	\item se si sviluppano i conti per le quattro espressioni di \(C_{ij}\) si può notare che si ottengono esattamente
+	le stesse espressioni dell'approccio D\&C standard
+	\item esiste una simmetria tra le espressioni dei blocchi \(A_i\) e \(B_i\): tra \(A_1\) e \(B_5\), tra \(A_2\)
+	e \(B_2\), tra \(-A_3\) e \(B_6\), tra \(A_4\) e \(B_3\), tra \(A_5\) e \(B_7\), tra \(A_6\) e \(B_4\), tra \(A_7\) e \(B_1\)
+\end{itemize}
+
+\subsubsection*{Equazione alle ricorrenze}
+L'equazione alle ricorrenze per l'algoritmo di Strassen è la seguente:
+\[T(n) \; = \; \begin{cases}
+	\; 1 & \text{se } n = 1 \\[3pt]
+	\; 7 \cdot T(n/2) + 18 \; n^2/4 & \text{se } n > 1
+\end{cases}\]
+
+\begin{itemize}
+	\item il caso base è rappresentato dal prodotto di due matrici \(1 \times 1\) che richiede un solo prodotto
+	\item il passo ricorsivo prevede 7 chiamate ricorsive per calcolare i sette prodotti \(P_i\) tra i blocchi \(A_i\) e \(B_i\)
+	di dimensione \(n/2 \times n/2\)
+	\item il costo della fase di divide consiste nelle 10 somme e differenze tra sottomatrici \(A_{ij}, B_{ij} \in \mathbb{R}^{n/2 \times n/2}\)
+	per calcolare i blocchi \(A_i\) e \(B_i\) (complessivamente \(10 \cdot n^2/4\))
+	\item il costo della fase di conquer consiste nelle 8 somme/differenze tra i prodotti \(P_i \in \mathbb{R}^{n/2 \times n/2}\)
+	per calcolare i blocchi \(C_{ij}\) (complessivamente \(8 \cdot n^2/4\))
+\end{itemize}
+
+\subsubsection*{Analisi della complessità}
+Applicando il formulone si ottiene che la complessità è \(\Theta(n^{\log_2 7}) \approx \Theta(n^{2.81})\), da come mostrato di seguito:
+\begin{align*}
+	T(n) \;\; &= \sum_{l=0}^{(\log_2 n) - 1} \!\! \left( 7^l \cdot \frac{18}{4} \cdot \left( \frac{n}{2^l} \right)^2 \right) + 7^{\log_2 n} \cdot T_0(n) \; = \; \frac{9}{2} \; n^2 \cdot \! \sum_{l=0}^{(\log_2 n) - 1} \!\! \left( (7/4)^l \right) + n^{\log_2 7} \; = \\[3pt]
+	&= \;\; \frac{9}{2} \; n^2 \cdot \frac{(7/4)^{\log_2 n} - 1}{(7/4) - 1} + n^{\log_2 7} \; = \; \frac{9}{2} n^2 \cdot \frac{n^{\log_2 (7/4)} - 1}{3/4} + n^{\log_2 7} \; = \\[3pt]
+	&= \;\; \frac{9}{2} \cdot \frac{4}{3} \; n^2 \cdot \left( n^{(\log_2 7) - 2} - 1 \right) + n^{\log_2 7} \; = \; 6 n^2 \cdot (n^{\log_2 7}/n^2 - 1) + n^{\log_2 7} \\[3pt]
+	&= \; \underbrace{\; 6 n^{\log_2 7} - 6n^2 \;}_{\begin{array}{c} \text{\scriptsize costo delle somme} \\[-3pt] \text{\scriptsize dei nodi interni} \end{array}}
+	\;\; + \!\!\!\! \underbrace{\;\; n^{\log_2 7} \;\;}_{\begin{array}{c} \text{\scriptsize costo dei prodotti} \\[-3pt] \text{\scriptsize alle foglie} \end{array}}
+	\!\!\!\!\!\! = \;\; 7n^{\log_2 7} - 6n^2 \; = \; \Theta(n^{\log_2 7}) \; \approx \; \Theta(n^{2.81})
+\end{align*}
+
+\subsubsection*{Osservazioni generali sull'algoritmo di Strassen}
+\begin{itemize}
+	\item una volta le moltiplicazioni di numeri erano molto costose, ora i blocchi logici sono altamente ottimizzati; inoltre
+	molti processori dispongono dell'istruzione MADD (multiply and add) che consente di eseguire in un solo ciclo di clock
+	una moltiplicazione seguita da un'addizione
+	\item se si volesse eseguire il quadrato di una matrice \(A\) con l'algoritmo di Strassen, si risparmierebbero 5 somme
+	e sottrazioni siccome \(A_i = B_i \;\; \forall i\)
+	\item in generale non si può avere corrispondenza tra i blocchi \(A_i\) e \(B_i\), perché se così fosse, l'algoritmo
+	diventerebbe commutativo portando sicuramente ad un risultato sbagliato siccome la moltiplicazione di matrici non è
+	commutativa
+	\item utilizzando la definizione, la complessità asintotica del prodotto di matrici era \(n^\Omega\) con \(\Omega = 3\),
+	con Strassen si è riusciti a ridurre il valore di \(\Omega\) a \(\log_2 7 \approx 2.81\); ad oggi si conoscono algoritmi
+	per il prodotto di matrici con \(\Omega \approx 2.37\), ma risultano poco vantaggiosi in quanto hanno costanti asintotiche
+	molto elevate che li rendono svantaggiosi per valori di \(n\) piccoli
+\end{itemize}
+
+\subsection{Algoritmo ibrido per il prodotto di matrici}
+\subsubsection*{Idea implementativa}
+Per valori di \(n \leq n_0\) si osserva che l'algoritmo standard (D\&C) rimane ancora più efficiente di quello di Strassen.
+Si vuole determinare tale valore \(n_0\) e sviluppare un algoritmo tale che per \(n > n_0\) utilizzi l'algoritmo di Strassen, 
+mentre per \(n < n_0\) utilizzi l'algoritmo standard (D\&C).
+
+\subsubsection*{Calcolo del parametro \(n_0\)}
+Per calcolare il parametro \(n_0\), si cerca il valore che minimizza la complessità dell'algoritmo di Strassen imponendo
+che per \(n \leq n_0\) venga utilizzato l'algoritmo standard (D\&C), ovvero:
+\begin{itemize}
+	\item i livelli dell'albero della ricorsione arrivano a \((\log_2 (n/n_0)) - 1\)
+	\item il costo delle foglie è pari alla complessità dell'algoritmo standard (D\&C), ovvero \(T_0(n) = 2n^3 - n^2\)
+\end{itemize}
+\begin{align*}
+	T(n, n_0) \;\; &= \sum_{l=0}^{(\log_2 (n/n_0)) - 1} \!\! \left( 7^l \cdot \frac{18}{4} \cdot \left( \frac{n}{2^l} \right)^2 \right) \; + \; 7^{\log_2 (n/n_0)} \cdot \left( 2n_0^3 - n_0^2 \right) \; = \; \dots \; = \\[3pt]
+	&= \;\; n^{\log_2 7} \cdot \underbrace{\frac{2 n_0 + 5}{{n_0}^{(\log_2 7) - 2}}}_{g(n_0)} - 6n^2
+\end{align*}
+Si procede a minimizzare la funzione \(T(n, n_0)\) per trovare il valore ottimale di \(n_0\):
+\vspace{-5pt}
+\[\min_{n_0} \, T(n, n_0) \;\; \longrightarrow \;\; \min_{n_0} \, g(n_0) \;\; \longrightarrow \;\; \begin{array}{l} n_{0, \min} \approx 10.477 \\[3pt] g(n_{0, \min}) = 3.895 \end{array}\]
+
+\subsubsection*{Considerazioni sul parametro \(n_0\)}
+Dal punto di vista teorico, si sceglie \(n_0 = 8\) in quanto è la potenza di 2 più vicina a \(n_{0, \min}\). Riscrivendo
+l'equazione alle ricorrenze e la complessità asintotica dell'algoritmo ibrido, si ottiene:
+\[T(n, n_{0, \min}) \; = \; \begin{cases}
+	\; 2n^3 - n^2 & \text{se } n \leq 8 \\[3pt]
+	\; 7 \cdot T(n/2) + 18 \; n^2/4 & \text{se } n > 8
+\end{cases} \qquad T(n, n_{0, \min}) \; = \begin{cases}
+	\; 2n^3 - n^2 & \text{se } n \leq 8 \\[3pt]
+	\; 3.918 \cdot n^{\log_2 7} - 6n^2 & \text{se } n > 8
+\end{cases}\]
+
+Dal punto di vista pratico, non è detto che \(n_0 = 8\) sia il valore ottimale, in quanto il modello teorico non tiene conto
+di overhead dovuti al cambio di algoritmo, alla gestione della cache e altri fattori specifici della macchina su cui viene
+eseguito l'algoritmo.
+
+Ad oggi si sta sviluppando una branca di ricerca chiamata \textbf{adaptive software} che punta ad aggiustare dinamicamente i parametri
+degli algoritmi di algebra lineare (come \(n_0\)) attraverso analisi e test pratici effettuati sulla macchina stessa, al fine
+di ottenere le migliori prestazioni possibili per quella determinata macchina.
