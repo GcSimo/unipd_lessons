@@ -3,14 +3,15 @@
 \subsubsection*{Scelta greedy}
 Il paradigma greedy è un caso particolare di divide and conquer, in cui la soluzione di un'istanza viene costruita ad ogni
 passo induttivo, attraverso la scelta di un elemento ottimo locale, con l'obiettivo di ottenere una soluzione globale ottima.
-La scelta effettuata è detta scelta greedy e spesso è estremamente banale (con costo costante), la parte complessa è
+La scelta effettuata è detta scelta greedy e spesso è estremamente banale (con costo costante). La parte complessa è
 dimostrare che la scelta greedy porta ad una soluzione globale ottima.
 
 \subsubsection*{Proprietà di scelta greedy}
 La proprietà di scelta greedy è la condizione che deve soddisfare una scelta greedy per garantire che la scelta effettuata
-localmente non comprometta l'ottimalità della soluzione globale. Una scelta greedy riduce sia l'istanza da risolvere che
-lo spazio generale delle soluzioni (ottimali e subottimali). Per portare alla soluzione (e soddisfare la proprietà di scelta
-greedy) è necessario che lo spazio delle soluzioni, dopo la riduzione, contenga ancora almeno una soluzione ottima globale. 
+localmente non esclude il raggiungimento dell'ottimalità della soluzione globale. Una scelta greedy riduce sia l'istanza da
+risolvere che lo spazio generale delle soluzioni (ottimali e subottimali) raggiungibili. Per portare alla soluzione ottima
+(e soddisfare la proprietà di scelta greedy) è necessario che lo spazio delle soluzioni, dopo la riduzione, contenga ancora
+almeno una soluzione ottima globale.
 
 \subsubsection*{Dimostrazione della correttezza di un algoritmo greedy}
 A livello pratico, per dimostrare che una scelta greedy soddisfa la proprietà di scelta greedy, è necessario dimostrare
@@ -21,8 +22,8 @@ comprometterne l'ottimalità, in modo che soddisfi la scelta greedy.
 \subsubsection*{Algoritmi greedy subottimali}
 Esistono alcuni problemi per cui sono stati sviluppati algoritmi greedy subottimali, che non garantiscono in assoluto il
 raggiungimento della soluzione ottima globale, ma la raggiungono o ci si avvicinano molto con alta probabilità. Questi
-algoritmi risultano essere molto più veloci degli algoritmi ottimi e sono impiegati in cui si è disposti a sacrificare
-un po' di ottimalità in cambio di una maggiore velocità di esecuzione.
+algoritmi risultano essere molto più veloci degli algoritmi ottimi e sono impiegati in situazioni in cui si è disposti
+a sacrificare un po' di ottimalità in cambio di una maggiore velocità di esecuzione.
 
 \subsection{Scheduling di attività}
 \subsubsection*{Formalizzazione del problema}
@@ -38,9 +39,10 @@ istante di inizio \(s_i\) e di fine \(f_i\) con \(s_i < f_i\), si vuole individu
 \end{itemize}
 
 \subsubsection*{Definizione della scelta greedy}
-Data una sequenza \(S\) di \(n\) attività, si costruisce l'insieme soluzione \(A\) scegliendo l'attività \(a_i \in S\) che
-termina per prima (con \(f_i = \min_j f_j\)) unita all'insieme soluzione \(A_\text{sub}\) della sottoistanza \(S_\text{sub}\)
-ottenuta partendo da \(S\) e rimuovendo tutte le attività incompatibili con l'attività scelta \(a_i\).
+Data una sequenza \(S\) di \(n\) attività, si costruisce l'insieme soluzione \(A\) scegliendo, ad ogni passo ricorsivo,
+l'attività \(a_i \in S\) che termina per prima (con \(f_i = \min_j f_j\)) unita alla soluzione \(A_\text{sub}\)
+della sottoistanza \(S_\text{sub}\) ottenuta partendo da \(S\) e rimuovendo tutte le attività incompatibili con
+l'attività scelta \(a_i\).
 
 Di seguito si formalizza la scelta greedy attraverso la proprietà di sottostruttura espressa in termini di equazioni alle
 ricorrenze.
@@ -65,26 +67,26 @@ saranno anche incompatibili con \(a_j\), per cui verranno rimosse successivament
 	\State \(A \gets \left\{ i \right\}\) \Comment{scelta greedy: si sceglie la prima attività della sequenza}
 	\State \(j \gets i + 1\)
 	\While{\(j \leq n\) \textbf{and} \(\underline{s}[j] < \underline{f}[i]\)} \(j \gets j + 1\) \Comment{si saltano le attività incompatibili con \(a_i\)} \EndWhile
-	\State \Return \(A \cup \text{REC\_GREEDY\_SEL}(\underline{s}, \underline{f}, j)\) \Comment{proprietà di sottostruttura con chiamata ricorsiva}
+	\State \Return \(A \; \cup \; \text{REC\_GREEDY\_SEL}(\underline{s}, \underline{f}, j)\) \Comment{proprietà di sottostruttura con chiamata ricorsiva}
 \end{algo}
 
 \subsubsection*{Dimostrazione della correttezza - verifica della proprietà greedy}
 Di seguito si dimostra che la scelta greedy ideata rispetta la proprietà greedy, ovvero che esiste una soluzione ottima
 \(A^*\) che rispetta la scelta greedy dell'algoritmo.
 
-Si suppone di avere una generica soluzione ottima \(A*\):
+Si suppone di avere una generica soluzione ottima \(A^*\):
 \begin{itemize}
-	\item se la prima attività \(a_1\) della soluzione ottima \(A^*\) è \(a_k\) con \(k = \argmin_i f_i\), allora la scelta
+	\item se la prima attività \(a_1\) della soluzione ottima \(A^*\) è \(a_k\) con \(k = \argmin f_i\), allora la scelta
 	greedy è banalmente rispettata
-	\item se la prima attività \(a_1\) della soluzione ottima \(A^*\) non è \(a_k\) con \(k = \argmin_i f_i\), vuol dire che
-	\(f_1 > f_k\), per cui è possibile sostituire \(a_1\) con \(a_k\) senza perdere fattibilità, ottenendo una nuova soluzione
-	che rispetta la scelta greedy e rimane soluzione ottima
+	\item se la prima attività \(a_1\) della soluzione ottima \(A^*\) non è \(a_k\) con \(k = \argmin f_i\), vuol dire che
+	\(f_1 > f_k\), per cui è possibile sostituire \(a_1\) con \(a_k\) senza perdere la fattibilità della soluzione, ottenendo
+	una nuova soluzione che rispetta la scelta greedy e rimane soluzione ottima
 \end{itemize}
 
 \subsubsection*{Analisi della complessità}
 Escludendo il costo dell'ordinamento iniziale \(\Theta(n \log_2 n)\), la complessità dell'algoritmo è data soltanto dalle
 operazioni di confronto durante la visita della sequenza \(S\) per saltare le attività incompatibili. Siccome le attività
-della sequenza vengono visitate in maniera sequenziale e ad ogni visita vengono effettuate un numero costante di operazioni,
+della sequenza vengono visitate in maniera sequenziale e ad ogni visita viene effettuato un numero costante di operazioni,
 la complessità asintotica dell'algoritmo è \(T(n) = \Theta(n)\).
 
 \newpage
@@ -121,9 +123,9 @@ Si osservano le seguenti proprietà del trie:
 	nodo interno del trie lungo il percorso che porta dalla radice alla foglia che rappresenta la parola più lunga; ciò è
 	correttamente impossibile per come definito il trie
 	\item si possono scambiare le due etichette \(0,1\) degli archi che collegano i due figli al padre senza alterare
-	le prestazioni del codice
+	le prestazioni del codice (non alterano la lunghezza media dei codici generati)
 	\item si possono scambiare simboli che si trovano allo stesso livello del trie senza alterare le prestazioni del codice,
-	anche se hanno nodi padre diversi
+	anche se hanno nodi padre diversi (non alterano la lunghezza media dei codici generati)
 \end{itemize}
 
 \subsubsection*{Algoritmo greedy e costruzione dell'albero}
@@ -169,7 +171,7 @@ inserimento ed estrazione. La complessità dell'algoritmo è data da:
 	\item \(2(n-1) + 1 = 2n-1\) estrazioni dalla coda di priorità, con costo \(\Theta(\log_2 n)\) per ogni estrazione
 	\item costo lineare \(\Theta(n)\) dei due for, al netto delle operazioni di inserimento ed estrazione
 \end{itemize}
-\vspace{-7pt}
+\vspace{-10pt}
 
 \[T(n) = (2n-1) \cdot T_{\, \text{insert()}} + (2n-1) \cdot T_{\, \text{extract\_min}()} + \Theta(n) = \Theta(n \log_2 n)\]
 
@@ -183,7 +185,7 @@ Di seguito si dimostra che la scelta greedy di estrarre i due nodi di frequenza 
 posizionali al livello più basso dell'albero, porta ad una soluzione ottima globale.
 \begin{itemize}
 	\item si considera un albero ottimo \(T\) con costo ottimo \(B(T) = \sum_{i \in T} f(i) \cdot d(i) \leq B(T^*)\) minore
-	di qualsiasi altro albero \(T^*\) in cui:
+	di qualsiasi altro generico albero \(T^*\), in cui si hanno:
 	\begin{itemize}[topsep=-2pt]
 		\item due foglie \(a\) e \(b\) che si trovano alla massima profondità dell'albero, uniti da un nodo padre \(p\)
 		\item due foglie \(x\) e \(y\) con frequenze minime \(\max\left\{ f(x), f(y) \right\} \leq \min \left\{ f(a), f(b) \right\}\)
@@ -196,21 +198,21 @@ posizionali al livello più basso dell'albero, porta ad una soluzione ottima glo
 		&= f(a) \, (d(x) \!-\! d(a)) + f(y) \, (d(b) \!-\! d(y)) + f(x) \, (d(a) \!-\! d(x)) + f(b) \, (d(y) \!-\! d(b)) \\
 		&= \underbrace{(f(a) - f(x))}_{\geq 0} \, \underbrace{(d(x) - d(a))}_{\leq 0} + \underbrace{(f(b) - f(y))}_{\geq 0} \, \underbrace{(d(y) - d(b))}_{\leq 0} \leq 0 \quad \Rightarrow \quad B(T') \leq B(T)
 	\end{align*}
-	\item da \(B(T) \leq B(T')\) per l'ipotesi iniziale e \(B(T') \leq B(T)\) per il punto sopra, si ha che \(B(T) = B(T')\),
-	ovvero che anche l'albero \(T'\) che soddisfa la proprietà greedy è ottimo.
+	\item dalle relazioni \(B(T) \leq B(T')\) per l'ipotesi iniziale e \(B(T') \leq B(T)\) per il punto sopra, si ottiene
+	che \(B(T) = B(T')\), ovvero che anche l'albero \(T'\), che soddisfa la proprietà greedy, è ottimo.
 \end{itemize}
 
 È utile notare che la scelta greedy non distingue se i nodi contenuti nella priority queue siano foglie o radici di
 sottoalberi, ma si basa solo sulla loro frequenza. Ciò significa che la dimostrazione sopra (che lavora solo con le foglie)
 vale anche per i nodi interni ad un certo livello dell'albero (che eventualmente potrebbero essere sostituiti da foglie
-di pari frequenza senza modificare il costo dell'albero).
+di pari frequenza senza modificare il resto dell'albero).
 
 \newpage
 
 \subsection{(2,1)-boxing}
 \subsubsection*{Formalizzazione del problema}
 Sia data una sequenza di oggetti \(O = \left\{ o_1, o_2, \dots o_n \right\}\) con la sequenza dei rispettivi pesi
-\(P = \left\{ p_1, p_2, \dots p_n \right\}\) positivi e minori di 1,ordinati in peso crescente (\(0 < p_1 \leq p_2 \leq \dots \leq p_n \leq 1\)),
+\(P = \left\{ p_1, p_2, \dots p_n \right\}\) positivi e minori di 1, ordinati in peso crescente (\(0 < p_1 \leq p_2 \leq \dots \leq p_n \leq 1\)),
 e sia data inoltre una sequenza di scatole \(B = \left\{ b_1, b_2, \dots b_m \right\}\), tali che ogni scatola
 \(b_p = \{ o_i, o_j \}\) può contenere al massimo due oggetti \(o_i, o_j\) di peso massimo complessivo inferiore ad 1 (\(p_i + p_j \leq 1\)).
 
@@ -249,7 +251,7 @@ Si dimostra ora che esiste una soluzione ottima che soddisfa la scelta greedy.
 	\item se la scatola contiene l'oggetto più pesante e un oggetto che non è il più leggero \(b_p = \left\{ o_j, o_k \right\}\),
 	e l'oggetto più leggero si trova in un'altra scatola \(b_q = \{o_i, o_h\}\) allora è possibile scambiare \(o_i\) con \(o_k\)
 	senza violare il vincolo di peso massimo (come illustrato di seguito) e senza modificare il numero di scatole utilizzate,
-	ottenendo una nuova soluzione ottima that rispetta la scelta greedy
+	ottenendo una nuova soluzione ottima che rispetta la scelta greedy
 	\[b_p = \{ o_j, o_k\} \;\Rightarrow\; \begin{cases}
 		\; p_j + p_k \leq 1 \;\Rightarrow\; p_j + p_i \leq p_j + p_k \leq 1 & \text{per } p_i \leq p_k \text{ con } o_i \text{ il più leggero} \\
 		\; p_j + p_k \leq 1 \;\Rightarrow\; p_h + p_k \leq p_j + p_k \leq 1 & \text{per } p_h \leq p_j \text{ con } o_j \text{ il più pesante}

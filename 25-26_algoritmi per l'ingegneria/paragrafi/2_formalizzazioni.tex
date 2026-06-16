@@ -21,9 +21,9 @@ problema computazionale. Questo processo coinvolge:
 \end{itemize}
 
 \subsubsection*{Analisi di un algoritmo}
-L'analisi di un algoritmo è il processo di valutazione dell'algoritmo secondo i diversi aspetti:
+L'analisi di un algoritmo è il processo di valutazione dell'algoritmo secondo i seguenti aspetti:
 \begin{itemize}
-	\item correttezza: valuta se l'algoritmo porta alla soluzione corretta del problema per ogni possibile input
+	\item correttezza: valuta se l'algoritmo porta alla soluzione corretta del problema per ogni istanza
 	\item efficienza: valuta il consumo di risorse in termini di passi effettuati (complessità temporale), di memoria
 	occupata (complessità spaziale) ed eventuali altri parametri (es. consumo energetico)
 \end{itemize}
@@ -34,7 +34,7 @@ Un problema computazionale è composto dai seguenti tre elementi:
 \begin{itemize}
 	\item un insieme \(\mathcal{I}\) di istanze, che rappresentano i possibili input del problema, si nota che alcuni
 	problemi potrebbero avere un numero infinito di istanze, per cui \(\mathcal{I}\) potrebbe essere un insieme infinito
-	\item un insieme \(\mathcal{S}\) di soluzioni, che rappresentano tutti gli output del problema per ogni istanza
+	\item un insieme \(\mathcal{S}\) di soluzioni, che rappresentano gli output del problema per ogni istanza
 	di \(\mathcal{I}\)
 	\item una relazione \(\pi \subseteq \mathcal{I} \times \mathcal{S}\) che associa ogni istanza \(i \in \mathcal{I}\)
 	ad una o più soluzioni \(s_j \in \mathcal{S}\) valide per quella istanza (è un sottoinsieme del prodotto cartesiano
@@ -44,20 +44,20 @@ Un problema computazionale è composto dai seguenti tre elementi:
 \subsubsection*{Rappresentazione delle istanze e delle soluzioni come stringhe}
 I dati di un'istanza e di una soluzione sono rappresentati come stringhe, ovvero sequenze finite di simboli. Si assumono
 le seguenti convenzioni:
-\[\begin{array}{ c l }
-	\Sigma = \{ 0, \; 1, \; \dots \} & \qquad \text{l'alfabeto dei simboli delle stringhe} \\[6pt]
-	\Sigma^0 = \{\varepsilon\} & \qquad \text{l'insieme della sola stringa vuota} \\[6pt]
-	\Sigma^i & \qquad \text{l'insieme di tutte le stringhe di lunghezza} \; i \; \text{(potenza cartesiana)} \\[6pt]
-	\Sigma^+ = \bigcup_{i = 1}^{\infty} \Sigma^i & \qquad \text{l'insieme di tutte le stringhe esclusa la stringa vuota} \\[6pt]
-	\Sigma^* = \bigcup_{i =0}^{\infty} \Sigma^i & \qquad \text{l'insieme di tutte le stringhe inclusa la stringa vuota} \\[6pt]
-	\mathcal{I} \subseteq \Sigma^*, \quad \mathcal{S} \subseteq \Sigma^* & \qquad \text{gli insiemi di istanze e soluzioni sono sottoinsiemi di } \Sigma^*
+\[\begin{array}{c c l }
+	1. & \quad \Sigma = \{ 0, \; 1, \; \dots \} & \qquad \text{l'alfabeto dei simboli delle stringhe} \\[6pt]
+	2. & \quad \Sigma^0 = \{\varepsilon\} & \qquad \text{l'insieme della sola stringa vuota} \\[6pt]
+	3. & \quad \Sigma^i & \qquad \text{l'insieme di tutte le stringhe di lunghezza} \; i \; \text{(potenza cartesiana)} \\[6pt]
+	4. & \quad \Sigma^+ = \bigcup_{i = 1}^{\infty} \Sigma^i & \qquad \text{l'insieme di tutte le stringhe esclusa la stringa vuota} \\[6pt]
+	5. & \quad \Sigma^* = \bigcup_{i =0}^{\infty} \Sigma^i & \qquad \text{l'insieme di tutte le stringhe inclusa la stringa vuota} \\[6pt]
+	6. & \quad \mathcal{I} \subseteq \Sigma^*, \quad \mathcal{S} \subseteq \Sigma^* & \qquad \text{gli insiemi di istanze e soluzioni sono sottoinsiemi di } \Sigma^*
 \end{array}\]
 La taglia di una istanza è la quantità di informazione necessaria per rappresentarla ed è pari al numero di simboli che
-compongono la stringa che la rappresenta, o meglio la sua lunghezza. Per un numero intero \(n\) rappresentato in binario,
-la taglia è il numero di cifre che lo compongono \(\approx \log_{2} n\).
+compongono la stringa che la rappresenta, o meglio la sua lunghezza. Si noti che per un numero intero \(n\) rappresentato
+in binario, la taglia è il numero di cifre che lo compongono \(\approx \log_{2} n\) bit.
 
 \subsubsection*{Osservazioni sulla rappresentazione dei dati nell'insieme delle istanze}
-L'insieme delle istanze \(\mathcal{I}\) impone il tipo di rappresentazione in cui i dati in input devono essere codificati.
+L'insieme delle istanze \(\mathcal{I}\) impone il tipo di rappresentazione con cui i dati in input devono essere codificati.
 Fornire i dati in una diversa rappresentazione potrebbe portare a soluzioni errate, ad esempio se l'algoritmo svolge la somma
 di numeri in base 10 e gli vengono forniti in base 2.
 
@@ -66,22 +66,23 @@ più efficienti in una rappresentazione rispetto ad un'altra. Ad esempio la conv
 mentre nel dominio della frequenza è \(O(n \log n)\).
 
 All'interno dell'algoritmo è possibile aggiungere una fase di conversione dei dati da una rappresentazione ad un'altra
-(ad esempio per ridurre la complessità computazionale), ma è sempre necessario specificare la rappresentazione dei dati
-in ingresso.
+(ad esempio per ridurre la complessità computazionale di alcuni problemi), ma è sempre necessario specificare la
+rappresentazione dei dati in ingresso.
 
 \subsubsection*{Funzioni e algoritmi}
 Il concetto di relazione è più generale di quello di funzione, in quanto una relazione può associare più elementi del
 codominio (es. soluzioni) ad un unico elemento del dominio (es. un'istanza). Una funzione, invece, può associare al massimo
 un elemento del codominio ad ogni elemento del dominio.
 
-Un algoritmo che risolve un problema computazionale definisce una funzione tra l'insieme delle istanze e quello delle soluzioni.
-A partire da una istanza, restituirà soltanto una delle possibili soluzioni per tale istanza. È possibile, inoltre, che due
-algoritmi diversi risolvono lo stesso problema computazionale, ma producano soluzioni diverse a partire dalla stessa istanza.
+Un problema computazionale definisce una relazione tra l'insieme delle istanze e quello delle soluzioni in quanto una istanza
+può avere più soluzioni valide. Un algoritmo, invece, definisce una funzione tra i due insiemi. A partire da una istanza,
+restituirà soltanto una delle possibili soluzioni per tale istanza. È possibile, inoltre, che due algoritmi diversi risolvono
+lo stesso problema computazionale, ma producano soluzioni diverse, entrambe valide, a partire dalla stessa istanza.
 
 \subsubsection*{Analisi della correttezza di un algoritmo}
 Un algoritmo \(\mathcal{A}\) risolve un problema computazionale \(\pi\) se e solo se, detta \(A\) la funzione di trasferimento
 tra ingresso e uscita definita da \(\mathcal{A}\), valgono le seguenti condizioni:
-\[1. \; \mathcal{I}_\text{istanze} \subseteq I_\text{input} \qquad\quad 2. \quad \mathcal{S}_\text{soluzioni} \subseteq O_\text{output} \qquad\quad 3. \quad \forall i \in \mathcal{I} \text{ vale } (i, A(i)) \in \pi\]
+\[1. \quad \mathcal{I}_\text{istanze} \subseteq I_\text{input} \qquad\quad 2. \quad \mathcal{S}_\text{soluzioni} \subseteq O_\text{output} \qquad\quad 3. \quad \forall i \in \mathcal{I} \text{ vale } (i, A(i)) \in \pi\]
 \[\text{con} \qquad \pi \subseteq \mathcal{I}_\text{istanze} \times \mathcal{S}_\text{soluzioni} \qquad \text{e} \qquad A: I_\text{input} \to O_\text{output}\]
 L'analisi della correttezza consiste in particolare nel verificare la terza condizione.
 
@@ -90,15 +91,16 @@ L'analisi della complessità computazionale di un algoritmo consiste nel valutar
 raggiungere la soluzione a partire da una data istanza generica.
 
 La misurazione del tempo effettivo impiegato dipende molto dall'architettura della macchina su cui avviene la misurazione.
-Il valore ottenuto sarebbe troppo variabile e non permette di stimare in maniera corretta e generale la complessità di un
-algoritmo. Per questo motivo si simula l'esecuzione su random access machines con instruction set semplici e tempo di
-esecuzione costante per ogni istruzione, usato come unità di misura del tempo di esecuzione. Questa semplificazione
-permette sia di stimare la complessità di un algoritmo in maniera più generale, sia di confrontare tra loro algoritmi
-diversi prima di implementarli su una macchina reale.
+Il valore ottenuto sarebbe troppo variabile e non permetterebbe di stimare in maniera corretta e generale la complessità
+di un algoritmo. Per questo motivo si simula l'esecuzione su random access machines con instruction set semplici e tempo
+di esecuzione costante per ogni istruzione. Proprio il tempo di esecuzione di una istruzione è usato come unità di misura
+del tempo di esecuzione. Questa semplificazione permette di stimare la complessità di un algoritmo in maniera più
+generale, misurando banalmente il numero di istruzioni eseguite, e permette inoltre di confrontare tra loro algoritmi diversi
+prima di averli implementati su una macchina reale.
 
 Si effettua l'analisi al caso peggiore (worst-case) definendo come tempo impiegato da un algoritmo \(\mathcal{A}\) per
 risolvere un'istanza \(i\) di taglia \(n\) come:
-\[T_\mathcal{A}(n) := \sup \;\; T_\mathcal{A}(x) \qquad \text{con} \; \left\{ x \; : \; |x| = n \;\; \wedge  \;\; x \in \Sigma^n \right\}\]
+\[T_\mathcal{A}(n) \; := \; \sup \;\; T_\mathcal{A}(x) \qquad \text{con} \; \left\{ x \; : \; |x| = n \;\; \wedge \;\; x \in \Sigma^n \right\}\]
 L'analisi al caso migliore è poco utile, mentre l'analisi al caso medio è notevolmente più complessa da effettuare, in quanto
 richiede di conoscere a priori la distribuzione di probabilità delle varie istanze per una specifica taglia \(n\). In alcuni
 casi quest'ultima viene preferita all'analisi al caso peggiore, se il caso peggiore è molto raro e mediamente (per la maggior
@@ -142,7 +144,7 @@ che rafforzare le premesse a sua volta. Alcune volte il rafforzamento delle prem
 conseguenze e ciò permette di dimostrare queste ultime più facilmente.
 
 \subsubsection*{Mappatura sui numeri naturali}
-Il principio di induzione è definito solo sui i numeri naturali e può essere applicato solo su proprietà che ricevono come
+Il principio di induzione è definito solo sui i numeri naturali e può essere applicato solo su proprietà che hanno come
 argomenti numeri naturali. Per dimostrare la correttezza di un algoritmo su un certo insieme di input (che non necessariamente
 coincide con l'insieme dei numeri naturali) è necessario effettuare una opportuna mappatura tra gli elementi di tale insieme
 e i numeri naturali. Spesso si clusterizza l'insieme degli input in base alla loro taglia e si mappa ogni cluster ad un numero
@@ -150,8 +152,8 @@ naturale che corrisponde alla taglia degli input in quel cluster.
 
 Ad esempio, si vorrebbe dimostrare una certa proprietà che vale per gli alberi binari completi, ma gli alberi binari completi
 non sono mappabili 1:1 con i numeri naturali. Si clusterizzano, quindi, in base alla loro taglia (ad esempio in base al numero
-di nodi interni) e si mappa ogni cluster ad un numero naturale equivalente proprio al numero di nodi interni. Si applica
-quindi il principio di induzione dimostrando che la proprietà vale per ogni cluster.
+di nodi interni o alla sua altezza) e si mappa ogni cluster ad un numero naturale equivalente proprio al numero di nodi interni
+o alla sua altezza. Si applica quindi il principio di induzione dimostrando che la proprietà vale per ogni cluster.
 
 \subsubsection*{Limiti dell'induzione}
 Il principio di induzione si utilizza principalmente per dimostrare ipotesi formulate a priori. Non aiuta a formulare nuove
@@ -171,7 +173,8 @@ Si notano le seguenti proprietà:
 	\item \(s(n) \geq n^3 / 8\) siccome almeno \(n / 2\) valori della sommatoria sono maggiori o uguali a \((n / 2)^2\)
 	\item \(s(n) \approx n^3 / 3 - 1/3\) se si tratta la sommatoria come un'integrale finito
 \end{itemize}
-per cui si ipotizza che la formula analitica sia un'equazione di terzo grado \[s(n) = a n^3 + b n^2 + c n + d\]
+per cui si ipotizza che la formula analitica sia un'equazione di terzo grado:
+\[s(n) = a n^3 + b n^2 + c n + d\]
 
 \begin{itemize}
 	\item \textbf{caso base} \\
@@ -184,7 +187,7 @@ per cui si ipotizza che la formula analitica sia un'equazione di terzo grado \[s
 	3a n^2 + (3 a + 2 b) n + (a + b + c) & = n^2 + 2 n + 1
 \end{align*}
 da cui si ottengono le tre equazioni che determinano gli altri tre parametri \(a\), \(b\) e \(c\):
-\[3a = 1 \Rightarrow a = 1/3 \qquad\quad 3a + 2b = 2 \Rightarrow b = 1/2 \qquad\quad a + b + c = 1 \Rightarrow c = 1/6\]
+\[3a = 1 \implies a = 1/3 \qquad\quad 3a + 2b = 2 \implies b = 1/2 \qquad\quad a + b + c = 1 \implies c = 1/6\]
 \end{itemize}
 
 \noindent
@@ -192,15 +195,15 @@ Si osserva che è possibile trovare gli stessi quattro parametri imponendo che l
 particolari di \(n\) (ad esempio \(n = 0, 1, 2, 3\)) e risolvendo il sistema di quattro equazioni in quattro incognite.
 Tale procedimento, però, senza aver osservato all'inizio che la formula è un'equazione di terzo grado, non permette di
 affermare che i parametri trovati valgano per ogni \(n\). L'equazione, ad esempio, potrebbe essere di grado superiore
-per cui i quattro punti scelti non sono sufficienti.
+per cui i quattro punti scelti non sarebbero stati sufficienti.
 
 \subsection{Formule matematiche utili}
 \vspace{5pt}
 \[\begin{array}{c l}
-	\displaystyle a \, ^{\log_b c} = c \, ^{\log_b a} & \qquad \text{esponenziale di un logaritmo} \\[10pt]
-	\displaystyle \sum_{k=0}^{n-1} r^k = \frac{r^n - 1}{r - 1} & \qquad \text{serie geometrica di ragione \(r\)} \\[20pt]
+	\displaystyle a \, ^{\log_b c} = c \, ^{\log_b a} & \quad \text{esponenziale di un logaritmo} \\[10pt]
+	\displaystyle \sum_{k=0}^{n-1} r^k = \frac{r^n - 1}{r - 1} & \quad \text{serie geometrica di ragione \(r\)} \\[15pt]
 	\begin{array}{c}
-		z = a + ib \;\; \leftrightarrow \;\; z = \rho (\cos \varphi + i \sin \varphi) \;\; \leftrightarrow \;\; z = \rho \cdot e^{i \varphi} \\[5pt]
+		\overbrace{z = a + ib}^{\text{cartesiana}} \;\; \leftrightarrow \;\; \overbrace{z = \rho (\cos \varphi + i \sin \varphi)}^{\text{trigonometrica o polare}} \;\; \leftrightarrow \;\; \overbrace{\; z = \rho \cdot e^{i \varphi} \;}^{\substack{\text{esponenziale} \\ \text{o di Eulero}}} \\[5pt]
 		\begin{cases}
 			\rho = \sqrt{a^2 + b^2} \\
 			\varphi = \arctan(b / a)
@@ -208,10 +211,10 @@ per cui i quattro punti scelti non sono sufficienti.
 			a = \rho \cos(\varphi) \\
 			b = \rho \sin(\varphi)
 		\end{cases}
-	\end{array} & \quad\;\; \begin{array}{c}
+	\end{array} & \quad \begin{array}{c}
 		\text{rappresentazioni di un numero} \\ \text{complesso con passaggio tra} \\ \text{le varie rappresentazioni}
-	\end{array} \\[30pt]
-	\displaystyle\sum_{k=0}^{n-1} \binom{n}{k} a^k b^{n-k} = (a + b)^n \qquad \sum_{k=0}^{n} \binom{n}{k} = 2^n & \quad\;\; \begin{array}{c}
+	\end{array} \\[40pt]
+	\displaystyle\sum_{k=0}^{n-1} \binom{n}{k} a^k b^{n-k} = (a + b)^n \qquad \sum_{k=0}^{n} \binom{n}{k} = 2^n & \quad \begin{array}{c}
 		\text{binomio di Newton con} \\ \text{caso particolare per } a = b = 1 \\ \text{(sottosequenze di una stringa)}
 	\end{array} \\[30pt]
 \end{array}\]

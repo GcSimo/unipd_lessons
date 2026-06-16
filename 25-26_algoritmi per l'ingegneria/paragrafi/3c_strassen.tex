@@ -23,8 +23,15 @@ risulta \(\Theta(n^3)\): \[T(n) = n^2 (2n - 1) = 2n^3 - n^2 = \Theta(n^3)\]
 \subsection{Prodotto di matrici con approccio divide and conquer}
 \subsubsection*{Tecnica risolutiva}
 Le matrici \(A, B \in \mathbb{R}^{n \times n}\) possono essere scomposte ciascuna in quattro sottomatrici di dimensioni
-\(n/2 \times n/2\), identificati con \(X_{11}, X_{12}, X_{21}, X_{22} \in \mathbb{R}^{n/2 \times n/2}\). Il prodotto
-\(C = A \cdot B\) risulta essere in funzione dei prodotti tra queste sottomatrici.
+\(n/2 \times n/2\), identificate secondo il seguente sistema di indici \(X_{11}, X_{12}, X_{21}, X_{22} \in \mathbb{R}^{n/2 \times n/2}\).
+Il prodotto \(C = A \cdot B\) risulta essere in funzione dei prodotti tra queste sottomatrici.
+\[A = \begin{bmatrix}
+	A_{11} & A_{12} \\ A_{21} & A_{22}
+\end{bmatrix} \qquad\qquad\quad B = \begin{bmatrix}
+	B_{11} & B_{12} \\ B_{21} & B_{22}
+\end{bmatrix} \qquad\qquad\quad C = \begin{bmatrix}
+	C_{11} & C_{12} \\ C_{21} & C_{22}
+\end{bmatrix}\]
 \[\begin{array}{c c}
 	C_{11} = A_{11} \cdot B_{11} + A_{12} \cdot B_{21} \qquad\quad & \qquad\quad C_{21} = A_{21} \cdot B_{11} + A_{22} \cdot B_{21} \\[5pt]
 	C_{12} = A_{11} \cdot B_{12} + A_{12} \cdot B_{22} \qquad\quad & \qquad\quad C_{22} = A_{21} \cdot B_{12} + A_{22} \cdot B_{22}
@@ -43,12 +50,12 @@ L'equazione alle ricorrenze per questo approccio è la seguente:
 \end{itemize}
 
 \subsubsection*{Analisi della complessità}
-Dal formulone si ottiene che la complessità rimane sempre \(\Theta(n^3)\), da come evidenziato di seguito:
+Dal formulone si ottiene che la complessità rimane sempre \(\Theta(n^3)\), come evidenziato di seguito:
 \begin{align*}
 	T(n) \;\; &= \sum_{l=0}^{(\log_2 n) - 1} \!\! \left( 8^l \cdot \left( \frac{n}{2^l} \right)^2 \right) + 8^{\log_2 n} \cdot T_0(n) \; = \; n^2 \cdot \! \sum_{l=0}^{(\log_2 n) - 1} \!\! 2^l + n^{\log_2 8} = n^2 \cdot \frac{2^{\log_2 n} - 1}{2 - 1} + n^3 \; = \\[3pt]
 	&= \underbrace{\;n^2 \cdot (n - 1)\;}_{\begin{array}{c} \text{\scriptsize costo delle somme} \\[-3pt] \text{\scriptsize dei nodi interni} \end{array}}
 	+ \!\!\!\!\!\! \underbrace{\;\;\; n^3 \;\;}_{\begin{array}{c} \text{\scriptsize costo dei prodotti} \\[-3pt] \text{\scriptsize alle foglie} \end{array}}
-	\!\!\!\!\!\! =  \;\; 2n^3 - n^2  \; = \; \Theta(n^3)
+	\!\!\!\!\!\! = \;\; 2n^3 - n^2 \; = \; \Theta(n^3)
 \end{align*}
 
 \subsubsection*{Vantaggi dell'algoritmo D\&C ricorsivo rispetto a quello iterativo basato sulla definizione}
@@ -120,12 +127,12 @@ L'equazione alle ricorrenze per l'algoritmo di Strassen è la seguente:
 	di dimensione \(n/2 \times n/2\)
 	\item il costo della fase di divide consiste nelle 10 somme e differenze tra sottomatrici \(A_{ij}, B_{ij} \in \mathbb{R}^{n/2 \times n/2}\)
 	per calcolare i blocchi \(A_i\) e \(B_i\) (complessivamente \(10 \cdot n^2/4\))
-	\item il costo della fase di conquer consiste nelle 8 somme/differenze tra i prodotti \(P_i \in \mathbb{R}^{n/2 \times n/2}\)
+	\item il costo della fase di conquer consiste nelle 8 somme e differenze tra i prodotti \(P_i \in \mathbb{R}^{n/2 \times n/2}\)
 	per calcolare i blocchi \(C_{ij}\) (complessivamente \(8 \cdot n^2/4\))
 \end{itemize}
 
 \subsubsection*{Analisi della complessità}
-Applicando il formulone si ottiene che la complessità è \(\Theta(n^{\log_2 7}) \approx \Theta(n^{2.81})\), da come mostrato di seguito:
+Applicando il formulone si ottiene che la complessità è \(\Theta(n^{\log_2 7}) \approx \Theta(n^{2.81})\), come mostrato di seguito:
 \begin{align*}
 	T(n) \;\; &= \sum_{l=0}^{(\log_2 n) - 1} \!\! \left( 7^l \cdot \frac{18}{4} \cdot \left( \frac{n}{2^l} \right)^2 \right) + 7^{\log_2 n} \cdot T_0(n) \; = \; \frac{9}{2} \; n^2 \cdot \! \sum_{l=0}^{(\log_2 n) - 1} \!\! \left( (7/4)^l \right) + n^{\log_2 7} \; = \\[3pt]
 	&= \;\; \frac{9}{2} \; n^2 \cdot \frac{(7/4)^{\log_2 n} - 1}{(7/4) - 1} + n^{\log_2 7} \; = \; \frac{9}{2} n^2 \cdot \frac{n^{\log_2 (7/4)} - 1}{3/4} + n^{\log_2 7} \; = \\[3pt]
@@ -138,10 +145,10 @@ Applicando il formulone si ottiene che la complessità è \(\Theta(n^{\log_2 7})
 \subsubsection*{Osservazioni generali sull'algoritmo di Strassen}
 \begin{itemize}
 	\item una volta le moltiplicazioni di numeri erano molto costose, ora i blocchi logici sono altamente ottimizzati; inoltre
-	molti processori dispongono dell'istruzione MADD (multiply and add) che consente di eseguire in un solo ciclo di clock
-	una moltiplicazione seguita da un'addizione
+	molti processori dispongono dell'istruzione MADD (multiply and add) che consente di accumulare il risultato di una
+	moltiplicazione all'interno di un registro in un solo ciclo di clock
 	\item se si volesse eseguire il quadrato di una matrice \(A\) con l'algoritmo di Strassen, si risparmierebbero 5 somme
-	e sottrazioni siccome \(A_i = B_i \;\; \forall i\)
+	e sottrazioni siccome i blocchi \(A_i\) e \(B_j\) corrispondenti sarebbero uguali
 	\item in generale non si può avere corrispondenza tra i blocchi \(A_i\) e \(B_i\), perché se così fosse, l'algoritmo
 	diventerebbe commutativo portando sicuramente ad un risultato sbagliato siccome la moltiplicazione di matrici non è
 	commutativa
@@ -154,7 +161,7 @@ Applicando il formulone si ottiene che la complessità è \(\Theta(n^{\log_2 7})
 \subsection{Algoritmo ibrido per il prodotto di matrici}
 \subsubsection*{Idea implementativa}
 Per valori di \(n \leq n_0\) si osserva che l'algoritmo standard (D\&C) rimane ancora più efficiente di quello di Strassen.
-Si vuole determinare tale valore \(n_0\) e sviluppare un algoritmo tale che per \(n > n_0\) utilizzi l'algoritmo di Strassen, 
+Si vuole determinare tale valore \(n_0\) e sviluppare un algoritmo tale che per \(n > n_0\) utilizzi l'algoritmo di Strassen,
 mentre per \(n < n_0\) utilizzi l'algoritmo standard (D\&C).
 
 \subsubsection*{Calcolo del parametro \(n_0\)}
@@ -178,7 +185,7 @@ l'equazione alle ricorrenze e la complessità asintotica dell'algoritmo ibrido, 
 \[T(n, n_{0, \min}) \; = \; \begin{cases}
 	\; 2n^3 - n^2 & \text{se } n \leq 8 \\[3pt]
 	\; 7 \cdot T(n/2) + 18 \; n^2/4 & \text{se } n > 8
-\end{cases} \qquad T(n, n_{0, \min}) \; = \begin{cases}
+\end{cases} \quad = \quad \begin{cases}
 	\; 2n^3 - n^2 & \text{se } n \leq 8 \\[3pt]
 	\; 3.918 \cdot n^{\log_2 7} - 6n^2 & \text{se } n > 8
 \end{cases}\]
@@ -189,4 +196,4 @@ eseguito l'algoritmo.
 
 Ad oggi si sta sviluppando una branca di ricerca chiamata \textbf{adaptive software} che punta ad aggiustare dinamicamente i parametri
 degli algoritmi di algebra lineare (come \(n_0\)) attraverso analisi e test pratici effettuati sulla macchina stessa, al fine
-di ottenere le migliori prestazioni possibili per quella determinata macchina.
+di ottenere le migliori prestazioni possibili per quella determinata macchina in uso.

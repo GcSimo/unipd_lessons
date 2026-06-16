@@ -1,19 +1,19 @@
 \section{Programmazione dinamica}
 \subsection{Memoizzazione}
 \subsubsection*{Concetto di memoizzazione per istanze ripetute}
-Il paradigma della programmazione dinamica può essere visto come un caso particolare di divide and conquer. Si osserva
-che nell'albero della ricorsione di alcuni problemi, alcune sottoistanze possono essere affrontate più volte. Il paradigma
-di programmazione dinamica punta ad evitare tale lavoro ridondante, attraverso la memoizzazione. Tale processo consiste
-nel tenere traccia delle varie sottoistanze risolte con le rispettive soluzioni, in modo da poterle riutilizzare quando
-si presentano nuovamente.
+Il paradigma della programmazione dinamica è un caso particolare di divide and conquer. Viene utilizzato nei problemi in cui
+alcune sottoistanze vengono risolte più volte in punti diversi dell'albero della ricorsione. Per evitare il lavoro ridondante
+e migliorare l'efficienza dell'algoritmo, la programmazione dinamica sfrutta la memoizzazione che consiste nel tenere traccia
+delle varie sottoistanze risolte con le rispettive soluzioni, in modo da non doverle ricalcolare quando si presentano nuovamente.
 
 La presenza di sottoistanze uguali è abbastanza rara, per cui il paradigma di programmazione dinamica viene impiegato
 raramente e solo in determinati problemi con strutture particolari.
 
 \subsubsection*{Approccio bottom-up iterativo e ordine di visita delle sottoistanze}
-In alternativa all'approccio top-down ricorsivo, è possibile risolvere i problemi di programmazione dinamica con un approccio
-bottom-up iterativo. Durante questo processo, si esplorano tutte le sottoistanze dal caso base fino a raggiungere l'istanza
-principale richiesta dall'utente e si memorizzano le soluzioni in una struttura dati, come ad esempio una tabella. 
+In alternativa all'approccio top-down ricorsivo tipicamente usato nel D\&C, è possibile risolvere i problemi di programmazione
+dinamica con un approccio bottom-up iterativo. Durante questo processo, si esplorano tutte le sottoistanze dal caso base fino
+a raggiungere l'istanza principale richiesta dall'utente e si memorizzano le soluzioni temporanee in una struttura dati, come
+ad esempio una tabella.
 
 Per fare ciò, in fase di progettazione, è necessario identificare un ordine di visita delle sottoistanze in modo tale da
 garantire che una sottoistanza venga risolta solo dopo aver risolto tutte le sottoistanze da cui essa dipende. In altre
@@ -99,21 +99,23 @@ della matrice di trasferimento è possible convertire la definizione ricorsiva i
 ~
 
 \noindent
-La complessità della formula analitica di Binet è dominata dal calcolo di potenze di numeri reali, che risultano essere
-lineari nella taglia dell'istanza (per come visto in precedenza) per cui \(T(n) = \Theta(\log_2 n)\).
+La complessità della formula analitica di Binet è dominata dal calcolo delle potenze di numeri reali, che risultano
+essere lineari nella taglia dell'istanza dell'esponente per come visto nell'algoritmo efficiente di esponenziazione,
+per cui \(T(n) = \Theta(\log_2 n)\).
 
-In realtà la taglia di un numero reale non è propriamente \(\log_2 n\), in quanto dipende dalla rappresentazione in virgola
-mobile e si necessita di un'ulteriore analisi sugli errori di rappresentazione. Per questo motivo l'algoritmo basato sulla
-formula di Binet si accenna solo dal punto di vista teorico.
+Siccome si lavora con numeri reali, però, servono analisi più approfondite per valutare sia la complessità, siccome
+la taglia di un numero reale dipende dalla rappresentazione in virgola mobile utilizzata, sia l'accuratezza dei risultati,
+siccome le rappresentazioni in virgola mobile introducono errori di approssimazione che non possono essere trascurati.
+Per questo motivo l'algoritmo basato sulla formula di Binet si accenna solo dal punto di vista teorico.
 
 \subsubsection*{Soluzione ricorsiva con memoizzazione}
 È possibile sviluppare un approccio ricorsivo con memoizzazione, in cui la funzione ricorsiva costruisce e memorizza le
 soluzioni intermedie in un vettore come nell'algoritmo iterativo, piuttosto che costruirle da zero ogni volta e dimenticarle.
 La complessità di questo approccio è uguale a quella dell'algoritmo iterativo, ovvero esponenziale nella taglia dell'istanza.
 
-L'implementazione è composta da una funzione di inizializzazione INIT\_FIB(\(n\)) che costruisce il vettore dove salvare
-le soluzioni intermedie e da una funzione ricorsiva REC\_FIB\_MEM(\(n\)) che costruisce le soluzioni intermedie in modo
-ricorsivo memorizzandole nel vettore.
+L'implementazione è composta da una funzione di inizializzazione INIT\_FIB(\(n\)) che costruisce e inizializza il vettore
+dove salvare le soluzioni intermedie e da una funzione ricorsiva REC\_FIB\_MEM(\(n\)) che costruisce le soluzioni intermedie
+in modo ricorsivo memorizzandole nel vettore.
 
 \begin{algo}{INIT\_FIB}{n}{intero positivo $n \in \mathbb{Z}_{+,0}$}{$n$-esimo numero di Fibonacci $F(n) \in \mathbb{Z}_{+}$}
 	\If{\(n = 0\) \textbf{or} \(n = 1\)}
@@ -140,19 +142,19 @@ ricorsivo memorizzandole nel vettore.
 
 \subsection{Longest Common Subsequence - LCS}
 \subsubsection*{Definizione di sottosequenza e di sottostringa di una stringa}
-La sottosequenza di una stringa \(X\) è una sequenza di simboli non necessariamente contigui, ordinati con lo stesso ordine
-con cui sono presenti nella stringa \(X\). Una sottostringa è una sottosequenza in cui è richiesto che i simboli devono
-essere contigui, mentre una sottosequenza non richiede tale contiguità.
+La sottosequenza di una stringa \(X\) è una successione di simboli non necessariamente contigui che mantengono lo stesso
+ordinamento con cui si trovano nella stringa \(X\). Una sottostringa è una sottosequenza particolare in cui è richiesto
+che i simboli devono essere contigui.
 \[\begin{array}{c c}
 	\displaystyle \binom{n}{k} = \frac{n!}{k! \, (n-k)!} & \quad \text{\# di sottosequenze di lunghezza \(k\) di una stringa di lunghezza \(n\)} \\[13pt]
 	\displaystyle \sum_{k=0}^{n} \binom{n}{k} = 2^n & \quad \text{\# di tutte le sottosequenze di una stringa di lunghezza \(n\)}
 \end{array}\]
 
 \noindent
-Si nota che per ottenere una sottosequenza di lunghezza \(k\), si scelgono a caso \(k\) simboli dalla stringa di lunghezza
+Si nota che per ottenere una sottosequenza di lunghezza \(k\), si scelgono a caso \(k\) simboli dalla stringa \(X\) di lunghezza
 \(n\) senza tenere conto dell'ordine. È equivalente a cercare un sottoinsieme di \(k\) elementi da un insieme di \(n\)
 elementi, per questo motivo si utilizza il coefficiente binomiale. L'ordine dei simboli nella sottosequenza è imposto a
-posteriori in base all'ordine con cui sono presenti nella stringa originale.
+posteriori della scelta, in base all'ordine con cui si trovano nella stringa \(X\).
 
 \subsubsection*{Formalizzazione del problema}
 Date due stringhe \(X\) e \(Y\) rispettivamente di lunghezza \(m\) e \(n\), si vuole calcolare la sottosequenza più lunga
@@ -168,7 +170,7 @@ Date due stringhe \(X\) e \(Y\) rispettivamente di lunghezza \(m\) e \(n\), si v
 	simbolo \(a\) alla fine
 	\item \textbf{passo ricorsivo - caso 2}: \\
 	se le due stringhe \(X = \; <\!\!X', a\!\!>\) e \(Y = \; <\!\!Y', b\!\!>\) terminano con simboli diversi \(a\) e \(b\), allora la sottosequenza
-	comune più lunga sarà data dalla massima tra la sottosequenza comune più lunga tra \(X'\) e \(Y\) (\(\text{LCS}(X', Y)\)) e 
+	comune più lunga sarà data da quella di lunghezza massima tra la sottosequenza comune più lunga tra \(X'\) e \(Y\) (\(\text{LCS}(X', Y)\)) e
 	quella tra \(X\) e \(Y'\) (\(\text{LCS}(X, Y')\))
 \end{itemize}
 \vspace{5pt}
@@ -188,6 +190,8 @@ di sottostruttura e il calcolo della lunghezza \(l\) della LCS indicate come equ
 	\max \{ l(i-1, j), l(i, j-1) \} & \text{caso 2} - \text{se } X_i \neq Y_j
 \end{cases}\]
 
+\vspace{5pt}
+
 \noindent
 L'algoritmo viene definito con approccio bottom-up, ovvero si parte da un caso base semplice \(i = j = 0\) e si
 espandono le soluzioni intermedie facendo variare progressivamente un indice alla volta fino ad arrivare alla soluzione
@@ -205,22 +209,22 @@ seguenti caratteristiche:
 	\item la soluzione finale \(LCS(X, Y)\) è contenuta nella cella \((m,n)\) (in basso a destra) della tabella
 	\item in ogni cella è riportata una freccia che indica la cella riferita alla chiamata ricorsiva effettuata per
 	calcolare il valore della cella stessa, con le seguenti regole:
-	\begin{itemize}[topsep=0pt]
-		\item se \(X_i = Y_j\) la freccia è diagonale e punta alla cella \(i-1, j-1\)
-		\item se \(X_i \neq Y_j\) la freccia è orizzontale o verticale e punta rispettivamente alla cella \(i-1, j\)
-		o alla cella \(i, j-1\) a seconda di quale delle due chiamate ricorsive ha restituito il valore più grande
+	\begin{itemize}[topsep=-2pt]
+		\item se \(X_i = Y_j\) la freccia è diagonale e punta alla cella \((i\!-\!1, \; j\!-\!1)\)
+		\item se \(X_i \neq Y_j\) la freccia è orizzontale o verticale e punta rispettivamente alla cella \((i\!-\!1, \; j)\)
+		o alla cella \((i, \; j\!-\!1)\) a seconda di quale delle due chiamate ricorsive ha restituito il valore più grande
 		(alcune volte è indipendente scegliere tra orizzontale o verticale se i valori sono uguali)
 	\end{itemize}
 	\item per l'approccio di costruzione bottom-up, il popolamento della tabella parte dal caso base \((0,0)\) (in alto
 	a sinistra) e prosegue per righe (approccio row-major) oppure per colonne (approccio column-major), in base a che
-	indice si decide di variare per primo
+	indice si decide di far variare per primo
 \end{itemize}
 
 \noindent
-Di seguito ne è riportato un esempio per le stringhe \(X = \, <\!\!\!A, B, C, B, B, D\!\!\!>\) e \(Y = \; <\!\!\!A, D, C, C, B, D\!\!\!>\). 
+Di seguito ne è riportato un esempio per le stringhe \(X = \, <\!\!\!A, B, C, B, B, D\!\!\!>\) e \(Y = \; <\!\!\!A, D, C, C, B, D\!\!\!>\).
 \begin{center}
-	\renewcommand{\arraystretch}{1.3} % Increases cell height for a square-like look
-	\setlength{\tabcolsep}{12pt}      % Increases cell width padding
+	\renewcommand{\arraystretch}{1.3}
+	\setlength{\tabcolsep}{12pt}
 	\begin{tabular}{c|c|c|c|c|c|c|c|}
 	\diagbox{x}{y} & \(\begin{array}{c} \!\!\!\!Y_0\!\!\!\! \\ \varepsilon \end{array}\) & \(\begin{array}{c} \!\!\!\!Y_1\!\!\!\! \\ A \end{array}\) & \(\begin{array}{c} \!\!\!\!Y_2\!\!\!\! \\ D \end{array}\) & \(\begin{array}{c} \!\!\!\!Y_3\!\!\!\! \\ C \end{array}\) & \(\begin{array}{c} \!\!\!\!Y_4\!\!\!\! \\ C \end{array}\) & \(\begin{array}{c} \!\!\!\!Y_5\!\!\!\! \\ B \end{array}\) & \(\begin{array}{c} \!\!\!\!Y_6\!\!\!\! \\ D \end{array}\) \\
 	\hline
@@ -268,19 +272,19 @@ o \(j = 0\) (caso base).
 \begin{algo}{IT\_LCS}{$\underline{X}$, $\underline{Y}$}{stringhe $\underline{X}$ e $\underline{Y}$ rispettivamente di lunghezza $m$ e $n$}{$(l(m, n), \underline{b})$ lunghezza e tabella con le frecce per ricostruire la LCS($X$, $Y$)}
 	\State \(m \gets \text{len}(X)\)
 	\State \(n \gets \text{len}(Y)\)
-	\For {\(i \gets 0\)}{\(m\)} \(l[i, 0] \gets 0\) \Comment{inizializzazione caso base della prima riga} \EndFor 
+	\For {\(i \gets 0\)}{\(m\)} \(l[i, 0] \gets 0\) \Comment{inizializzazione caso base della prima riga} \EndFor
 	\For {\(j \gets 0\)}{\(n\)} \(l[0, j] \gets 0\) \Comment{inizializzazione caso base della prima colonna} \EndFor
 
 	\State
 	\For{\(i \gets 1\)}{\(m\)} \Comment{popolamento della tabella row-major}
 		\For{\(j \gets 1\)}{\(n\)}
 			\If{\(X_i = Y_j\)} \Comment{passo ricorsivo - caso 1}
-				\State \(l[i, j] \gets l[i-1, j-1] + 1 \quad-\quad b[i, j] \gets \text{``}\nwarrow\text{''}\) 
+				\State \(l[i, j] \gets l[i-1, j-1] + 1 \quad-\quad b[i, j] \gets \text{``}\nwarrow\text{''}\)
 			\ElsIf{\(l[i-1, j] \geq l[i, j-1]\)} \Comment{passo ricorsivo - caso 2 - cella verticale}
-				\State \(l[i, j] \gets l[i-1, j] \quad-\quad b[i, j] \gets \text{``}\uparrow\text{''}\) 
+				\State \(l[i, j] \gets l[i-1, j] \quad-\quad b[i, j] \gets \text{``}\uparrow\text{''}\)
 			\ElsIf{\(l[i-1, j] < l[i, j-1]\)} \Comment{passo ricorsivo - caso 2 - cella orizzontale}
-				\State \(l[i, j] \gets l[i, j-1] \quad-\quad b[i, j] \gets \text{``}\leftarrow\text{''}\) 
-				\State \(b[i, j] \gets \text{``}\leftarrow\text{''}\) 
+				\State \(l[i, j] \gets l[i, j-1] \quad-\quad b[i, j] \gets \text{``}\leftarrow\text{''}\)
+				\State \(b[i, j] \gets \text{``}\leftarrow\text{''}\)
 			\EndIf
 		\EndFor
 	\EndFor
@@ -295,7 +299,7 @@ o \(j = 0\) (caso base).
 	\If{\(m = 0\) \textbf{or} \(n = 0\)} \Comment{invocazione sul caso base \(\rightarrow\) nessuna azione necessaria}
 		\State \Return \(0\)
 	\EndIf
-	\For {\(i \gets 0\)}{\(m\)} \(l[i, 0] \gets 0\) \Comment{inizializzazione caso base della prima riga} \EndFor 
+	\For {\(i \gets 0\)}{\(m\)} \(l[i, 0] \gets 0\) \Comment{inizializzazione caso base della prima riga} \EndFor
 	\For {\(j \gets 0\)}{\(n\)} \(l[0, j] \gets 0\) \Comment{inizializzazione caso base della prima colonna} \EndFor
 	\For {\(i \gets 1\)}{\(m\)} \Comment{inizializzazione con valore sentinella \(-1\)}
 		\For {\(j \gets 1\)}{\(n\)} \Comment{per identificare i casi non ancora gestiti}
@@ -308,11 +312,11 @@ o \(j = 0\) (caso base).
 \begin{algo}{REC\_LCS}{$\underline{X}$, $\underline{Y}$, $m$, $n$}{stringhe $\underline{X}$ e $\underline{Y}$ e rispettive lunghezze $m$ e $n$}{$(l(m, n), \underline{b})$ lunghezza e tabella con le frecce per ricostruire la LCS($X$, $Y$)}
 	\If{\(l[m, n] = -1\)} \Comment{caso non ancora gestito}
 		\If{\(X_i = Y_j\)} \Comment{passo ricorsivo - caso 1}
-			\State \(l[i, j] \gets 1 + \text{REC\_LCS}(\underline{X}, \underline{Y}, i-1, j-1) \quad-\quad b[i, j] \gets \text{``}\nwarrow\text{''}\) 
+			\State \(l[i, j] \gets 1 + \text{REC\_LCS}(\underline{X}, \underline{Y}, i-1, j-1) \quad-\quad b[i, j] \gets \text{``}\nwarrow\text{''}\)
 		\ElsIf{\(\text{REC\_LCS}(\underline{X}, \underline{Y}, i\!-\!1, j) \geq \text{REC\_LCS}(\underline{X}, \underline{Y}, i, j\!-\!1)\)} \Comment{caso 2 - cella verticale}
-			\State \(l[i, j] \gets l[i-1, j] \quad-\quad b[i, j] \gets \text{``}\uparrow\text{''}\) 
+			\State \(l[i, j] \gets l[i-1, j] \quad-\quad b[i, j] \gets \text{``}\uparrow\text{''}\)
 		\Else \(\quad (\text{ovvero per }l[i-1, j] < l[i, j-1])\) \Comment{caso 2 - cella orizzontale}
-			\State \(l[i, j] \gets l[i, j-1] \quad-\quad b[i, j] \gets \text{``}\leftarrow\text{''}\) 
+			\State \(l[i, j] \gets l[i, j-1] \quad-\quad b[i, j] \gets \text{``}\leftarrow\text{''}\)
 		\EndIf
 	\EndIf
 	\State \Return (\(l[m][n], \;\; \underline{b}\))
@@ -326,7 +330,7 @@ con memoizzazione, per come di seguito spiegato:
 \begin{itemize}
 	\item nella versione iterativa, si visitano tutte le \(n \cdot m\) celle della tabella e per ogni cella viene fatto
 	un numero costante di operazioni
-	\item nella versione ricorsiva con memoizzazione, ogni cella della tabella deve venire inizializzata per cui il
+	\item nella versione ricorsiva con memoizzazione, ogni cella della tabella deve essere inizializzata per cui il
 	ragionamento è lo stesso della versione iterativa
 \end{itemize}
 Tale complessità, seppur quadratica per \(m = n\), è comunque molto più efficiente rispetto alla complessità esponenziale
@@ -349,14 +353,14 @@ cui vengono salvati i risultati. Corrisponde a tutte le possibili combinazioni d
 essere passati alle chiamate ricorsive.
 
 Se si è interessati a conoscere solo la lunghezza della LCS, è possibile ridurre la complessità spaziale a \(O(2 \cdot \min\{m, n\})\)
-memorizzando soltanto le due righe (o colonne) più recenti della tabella (quella precedente e quella che si sta popolando),
+memorizzando solo le due righe (o colonne) più recenti della tabella (quella precedente e quella che si sta popolando),
 in quando le equazioni alle ricorrenze dipendono solo dai valori delle celle adiacenti (diagonale, orizzontale e verticale).
 
 \subsubsection*{Osservazioni sulla struttura dati per la memoizzazione}
-È richiesta una struttura dati con le seguenti operazioni:
+Per gestire la memoizzazione è richiesta una struttura dati con le seguenti operazioni:
 \begin{itemize}
-	\item ricerca tramite la sottoistanza (coppia di indici (\(i, j\))) che restituisce \(-1\) se la sottoistanza cercata
-	non è ancora stata gestita
+	\item ricerca tramite la sottoistanza (coppia di indici (\(i, j\))) che restituisce la soluzione della sottoistanza cercata
+	o \(-1\) se tale sottoistanza non è ancora stata gestita
 	\item inserimento delle soluzioni per le sottoistanze risolte
 \end{itemize}
 La struttura più semplice che garantisce tali operazioni con complessità \(O(1)\) è una matrice bidimensionale, ma ha lo
@@ -380,22 +384,24 @@ Si osserva che parentesizzando in modo diverso, si ottengono complessità decisa
 parentesizzazioni richiederebbe costi esponenziali, per cui è necessario identificare un approccio più efficiente.
 
 \subsubsection*{Formalizzazione del problema}
-L'input del problema è una sequenza di \(n+1\) interi \(p_0, p_1, \dots, p_{n-1}, p_n\) che rappresentano le dimensioni
-delle \(n\) matrici da moltiplicare, secondo la relazione \(A_i \in \mathbb{C}^{p_{i-1} \times p_i}\) con \(i = 1, \dots, n\).
+L'input del problema è una sequenza di \(n+1\) interi \(<\! p_0, p_1, \dots, p_{n-1}, p_n \!>\) che rappresentano
+le dimensioni delle \(n\) matrici da moltiplicare, secondo la relazione \(A_i \in \mathbb{C}^{p_{i-1} \times p_i}\)
+con \(i = 1, \dots, n\).
 
-Inoltre si rappresenta una parentesizzazione di una sequenza di matrici \(A_i, A_{i+1}, \dots, A_j\) attraverso la coppia
-di indici \(i\) e \(j\) che identificano la prima e l'ultima matrice della sottostringa.
+Inoltre si rappresenta una parentesizzazione di una sequenza di matrici \(<\! A_i, A_{i+1}, \dots, A_j \!>\) attraverso
+la coppia di indici \(i\) e \(j\) che identificano la prima e l'ultima matrice della sottostringa.
 
 \subsubsection*{Idea risolutiva D\&C e presenza di istanze sovrapposte}
-Data una stringa di \(j\!-\!i\!+\!1\) matrici \(<\!\!A_i, A_{i+1}, \dots, A_j\!\!>\) delimitate dagli indici \(i\) e \(j\),
+Data una stringa di \(j-i+1\) matrici \(<\!\!A_i, A_{i+1}, \dots, A_j\!\!>\) delimitate dagli indici \(i\) e \(j\),
 si identifica la posizione \(k\) ottimale in cui dividere o parentesizzare tale stringa generando due sottostringhe
 \(<\!\!A_i, A_{i+1}, \dots, A_k\!\!>\) e \(<\!\!A_{k+1}, A_{k+2}, \dots, A_j\!\!>\) delimitate rispettivamente dalle
-coppie di indici \((i, k)\) e \((k+1, j)\). Una volta fatto ciò, si risolve ricorsivamente il problema per le due
-sottostringhe ottenendo due matrici \(A_{i:k}\) e \(A_{k+1:j}\) che poi verranno moltiplicate tra loro per ottenere
-la matrice \(A_{i:j}\) corrispondente al prodotto di tutte le matrici della stringa originale.
+coppie di indici \((i, k)\) e \((k+1, j)\). Una volta fatto ciò, si calcola ricorsivamente il costo dei prodotti
+necessari a risolvere le due sottostringhe e ottenere le due matrici \(A_{i:k}\) e \(A_{k+1:j}\) a cui poi si aggiungerà
+il costo necessario a moltiplicarle tra loro per ottenere la matrice \(A_{i:j}\) corrispondente al prodotto di tutte
+le matrici della stringa originale.
 
-Si definisce la funzione \(c[i, j]\) come il costo minimo del prodotto delle matrici della sottostringa
-\(<\!\!A_i, A_{i+1}, \dots, A_j\!\!>\) supponendo di aver scelto il valore \(k\) ottimo per minimizzare tale costo.
+Si definisce la funzione \(c[i, j]\) come il costo minimo della moltiplicazione delle matrici della sottostringa
+\(<\!A_i, A_{i+1}, \dots, A_j\!>\) supponendo di aver scelto il valore \(k\) ottimo per minimizzare tale costo.
 È utile notare che il costo del prodotto tra le due matrici \(A_{i:k} \in \mathbb{C}^{p_{i-1} \times p_k}\) e
 \(B_{k+1:j} \in \mathbb{C}^{p_k \times p_j}\) è dato da \(p_{i-1} \cdot p_k \cdot p_j\).
 
@@ -404,13 +410,14 @@ Si definisce la funzione \(c[i, j]\) come il costo minimo del prodotto delle mat
 	\; \displaystyle \min_{i \leq k < j} \left\{ \; c[i, k] \; + \; c[k+1, j] \; + \; p_{i-1} \cdot p_k \cdot p_j \; \right\} & \text{se } i < j
 \end{cases} \]
 
+\noindent
 Si osserva, però, che alcune sottostringhe di matrici possono comparire più volte nell'albero delle chiamate ricorsive,
 per cui un approccio puramente ricorsivo con D\&C risulterebbe inefficiente. Si preferisce quindi sfruttare il paradigma
 della programmazione dinamica.
 
 \subsubsection*{Soluzione tramite memoizzazione}
 Come per il problema LCS, si memorizzano le soluzioni delle sottoistanze identificate dalle coppie di indici \((i, j)\)
-all'interno delle celle di una tabella bidimensionale \(m\) di dimensione \(n \times n\). Si osserva che la tabella ha
+all'interno delle celle di una tabella bidimensionale di dimensione \(n \times n\). Si osserva che la tabella ha
 le seguenti caratteristiche:
 \begin{itemize}
 	\item siccome \(i \leq j\), le uniche celle della tabella che vengono effettivamente utilizzate sono quelle sopra
@@ -447,10 +454,10 @@ le seguenti caratteristiche:
 \begin{itemize}
 	\item il popolamento della tabella avviene per diagonali, partendo da quella principale e procedendo verso l'alto a destra:
 	il primo ``for'' varia la lunghezza \(l\) (sceglie la diagonale), il secondo ``for'' varia l'indice \(i\) (sceglie la riga
-	della cella da popolare) e l'indice \(j\) viene calcolato di conseguenza in base a \(i\) e \(l\) 
+	della cella da popolare) e l'indice \(j\) viene calcolato di conseguenza in base a \(i\) e \(l\)
 	\item in presenza di parentesizzazioni equivalenti (ad esempio per matrici quadrate), l'algoritmo individua quella con
 	valore di \(k\) minimo, in quanto utilizzando l'operatore \(<\) e non \(<=\) nell'if a riga 9, le soluzioni equivalenti
-	non vengono considerate come ottimali
+	non vengono considerate migliorative dell'ottimo localmente memorizzato
 	\item al posto di avere due tabelle triangolari superiori \(m\) e \(s\), è possibile utilizzare la stessa tabella \(m\)
 	popolata superiormente con i costi e inferiormente con i valori di \(k\) ottimali
 \end{itemize}
@@ -504,22 +511,23 @@ nel caso in cui si è interessati solo alla sua lunghezza e non ai simboli che l
 \subsubsection*{Note sull'implementazione}
 L'implementazione iterativa bottom-up a pagina seguente è molto simile a quella dell'algoritmo per la Longest Common
 Subsequence (LCS) tra due stringhe. Come per l'LCS, si utilizza una tabella \(p\) per memorizzare la lunghezza della
-sottosequenza palindroma più lunga per ogni sottostringa \(Z_{i:j}\) e una tabella \(b\) per memorizzare che cella 
+sottosequenza palindroma più lunga per ogni sottostringa \(Z_{i:j}\) e una tabella \(b\) per memorizzare a che cella
 adiacente è associata alla sottoistanza generata. La principale differenza è che la tabella è riempita a diagonali
 come nella Matrix Chain Multiplication (MCM).
 
-Per ricostruire la sottosequenza palindroma più lunga, si parte dalla cella \(p[1, n]\) che contiene la lunghezza della
-sottosequenza palindroma più lunga per l'intera stringa \(Z\) e si procede a scendere nella tabella \(p\) seguendo le
-direzioni memorizzate nella tabella \(b\) fino ad arrivare al caso base nelle celle della diagonale \(p[i, i]\).
+Una volta completato l'algoritmo, per ricostruire la sottosequenza palindroma più lunga, si parte dalla cella \(p[1, n]\)
+che contiene la lunghezza della sottosequenza palindroma più lunga per l'intera stringa \(Z\) e si procede scendendo
+nella tabella \(p\) seguendo le direzioni memorizzate nella tabella \(b\) fino ad arrivare al caso base nelle celle
+della diagonale \(p[i, i]\).
 
 \subsubsection*{Complessità computazionale e spaziale}
-La complessità computazionale è \(T(n) = \Theta(n^2)\) perché si devono visitare tutte le celle della tabella \(p\) di
-dimensione \(n \times n\) e per ogni cella si effettuano un numero costante di operazioni.
+La complessità computazionale è \(T(n) = \Theta(n^2)\) perché si devono visitare tutte le celle (o al più metà) della
+tabella \(p\) di dimensione \(n \times n\) e per ogni cella si effettuano un numero costante di operazioni.
 
 La complessità spaziale è \(S(n) = \Theta(n^2)\) per la tabella \(p\) di dimensione \(n \times n\) e per la tabella \(b\)
 di dimensioni analoghe. Come per la LCS, se si è interessati solo alla lunghezza della sottosequenza palindroma più lunga
 è possibile ridurre la complessità spaziale a \(S(n) = \Theta(n)\) memorizzando solo le due diagonali della tabella \(p\)
-necessarie per il calcolo iterativo.
+necessarie per soddisfare le dipendenze del calcolo iterativo.
 
 \newpage
 \subsubsection*{Implementazione iterativa}
@@ -552,7 +560,7 @@ necessarie per il calcolo iterativo.
 \end{algo}
 
 \begin{algo}{PRINT\_LPS}{$\underline{x}$, $\underline{b}$, $i$, $j$}{sequenza $\underline{x}$, tabella delle transizioni $\underline{b}$, indici $i$ e $j$}{nessun return, stampa la LPS($\underline{x}$) a standard output}
-	\If{\(i = j\)} print(\(x[i]\)) \Comment{caso base: sottosequenza di lunghezza 1} \EndIf 
+	\If{\(i = j\)} print(\(x[i]\)) \Comment{caso base: sottosequenza di lunghezza 1} \EndIf
 	\If{\(j - i = 1\)} \Comment{caso base: sottosequenza di lunghezza 2}
 		\If{\(x[i] = x[j]\)} print(\(x[i], x[j]\))
 		\Else ~ print(\(x[i]\)) \EndIf
