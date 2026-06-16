@@ -98,6 +98,11 @@ Appunti del corso di Microelectronics laboratory scritti in Latex - [link alla c
 * [_appunti microelectronics laboratory in LaTeX_](25-26_microelectronics%20laboratory/microelectronics.tex)
 * [_appunti microelectronics laboratory in pdf_](25-26_microelectronics%20laboratory/microelectronics.pdf)
 
+### Algoritmi per l'ingegneria
+Appunti del corso di Algoritmi per l'ingegneria scritti in Latex - [link alla cartella _algoritmi per l'ingegneria_](25-26_algoritmi%20per%20l%27ingegneria)
+* [_appunti algoritmi per l'ingegneria in LaTeX_](25-26_algoritmi%20per%20l%27ingegneria/axi.tex)
+* [_appunti algoritmi per l'ingegneria in pdf_](25-26_algoritmi%20per%20l%27ingegneria/axi.pdf)
+
 ---
 
 ## TO-DO List (che quasi sicuramente non sarà completata)
