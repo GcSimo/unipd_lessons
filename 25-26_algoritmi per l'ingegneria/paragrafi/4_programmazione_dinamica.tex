@@ -165,11 +165,11 @@ Date due stringhe \(X\) e \(Y\) rispettivamente di lunghezza \(m\) e \(n\), si v
 	\item \textbf{caso base}: \\
 	se una delle due stringhe \(X\) o \(Y\) è vuota, la sottosequenza comune più lunga è anch'essa vuota
 	\item \textbf{passo ricorsivo - caso 1}: \\
-	se le due stringhe \(X = \; <\!\!X', a\!\!>\) e \(Y = \; <\!\!Y', a\!\!>\) terminano con lo stesso simbolo \(a\), allora la sottosequenza
+	se le due stringhe \(X = \; \langle X', a \rangle\) e \(Y = \; \langle Y', a \rangle\) terminano con lo stesso simbolo \(a\), allora la sottosequenza
 	comune più lunga è data dalla sottosequenza comune più lunga tra \(X'\) e \(Y'\) (\(\text{LCS}(X', Y')\)) con l'aggiunta del
 	simbolo \(a\) alla fine
 	\item \textbf{passo ricorsivo - caso 2}: \\
-	se le due stringhe \(X = \; <\!\!X', a\!\!>\) e \(Y = \; <\!\!Y', b\!\!>\) terminano con simboli diversi \(a\) e \(b\), allora la sottosequenza
+	se le due stringhe \(X = \; \langle X', a \rangle\) e \(Y = \; \langle Y', b \rangle\) terminano con simboli diversi \(a\) e \(b\), allora la sottosequenza
 	comune più lunga sarà data da quella di lunghezza massima tra la sottosequenza comune più lunga tra \(X'\) e \(Y\) (\(\text{LCS}(X', Y)\)) e
 	quella tra \(X\) e \(Y'\) (\(\text{LCS}(X, Y')\))
 \end{itemize}
@@ -181,7 +181,7 @@ indici \(i\) e \(j\) che puntano all'ultimo simbolo di \(X\) e \(Y\) da consider
 di sottostruttura e il calcolo della lunghezza \(l\) della LCS indicate come equazioni alle ricorrenze.
 \[Z(X_{0:i}, Y_{0:j}) \; = \text{LCS}(i, j) \; = \; \begin{cases}
 	\; \varepsilon & \text{caso base} - \text{per } i = 0 \vee j = 0 \\[3pt]
-	\; \text{LCS}(i-1, j-1) \;\; \cup \; <\!\!X_i\!\!> & \text{caso 1} - \text{se } X_i = Y_j \\[3pt]
+	\; \text{LCS}(i-1, j-1) \;\; \cup \; \langle X_i \rangle & \text{caso 1} - \text{se } X_i = Y_j \\[3pt]
 	\; \max \{\; \text{LCS}(i-1, j), \; \text{LCS}(i, j-1)\; \} & \text{caso 2} - \text{se } X_i \neq Y_j
 \end{cases}\]
 \[\text{len}(Z(X_{0:i}, Y_{0:j})) \; = \; l(i, j) \; = \; \begin{cases}
@@ -221,7 +221,7 @@ seguenti caratteristiche:
 \end{itemize}
 
 \noindent
-Di seguito ne è riportato un esempio per le stringhe \(X = \, <\!\!\!A, B, C, B, B, D\!\!\!>\) e \(Y = \; <\!\!\!A, D, C, C, B, D\!\!\!>\).
+Di seguito ne è riportato un esempio per le stringhe \(X = \, \langle A, B, C, B, B, D \rangle\) e \(Y = \; \langle A, D, C, C, B, D \rangle\).
 \begin{center}
 	\renewcommand{\arraystretch}{1.3}
 	\setlength{\tabcolsep}{12pt}
@@ -384,24 +384,24 @@ Si osserva che parentesizzando in modo diverso, si ottengono complessità decisa
 parentesizzazioni richiederebbe costi esponenziali, per cui è necessario identificare un approccio più efficiente.
 
 \subsubsection*{Formalizzazione del problema}
-L'input del problema è una sequenza di \(n+1\) interi \(<\! p_0, p_1, \dots, p_{n-1}, p_n \!>\) che rappresentano
+L'input del problema è una sequenza di \(n+1\) interi \(\langle  p_0, p_1, \dots, p_{n-1}, p_n \rangle\) che rappresentano
 le dimensioni delle \(n\) matrici da moltiplicare, secondo la relazione \(A_i \in \mathbb{C}^{p_{i-1} \times p_i}\)
 con \(i = 1, \dots, n\).
 
-Inoltre si rappresenta una parentesizzazione di una sequenza di matrici \(<\! A_i, A_{i+1}, \dots, A_j \!>\) attraverso
+Inoltre si rappresenta una parentesizzazione di una sequenza di matrici \(\langle  A_i, A_{i+1}, \dots, A_j \rangle\) attraverso
 la coppia di indici \(i\) e \(j\) che identificano la prima e l'ultima matrice della sottostringa.
 
 \subsubsection*{Idea risolutiva D\&C e presenza di istanze sovrapposte}
-Data una stringa di \(j-i+1\) matrici \(<\!\!A_i, A_{i+1}, \dots, A_j\!\!>\) delimitate dagli indici \(i\) e \(j\),
+Data una stringa di \(j-i+1\) matrici \(\langle A_i, A_{i+1}, \dots, A_j \rangle\) delimitate dagli indici \(i\) e \(j\),
 si identifica la posizione \(k\) ottimale in cui dividere o parentesizzare tale stringa generando due sottostringhe
-\(<\!\!A_i, A_{i+1}, \dots, A_k\!\!>\) e \(<\!\!A_{k+1}, A_{k+2}, \dots, A_j\!\!>\) delimitate rispettivamente dalle
+\(\langle A_i, A_{i+1}, \dots, A_k \rangle\) e \(\langle A_{k+1}, A_{k+2}, \dots, A_j \rangle\) delimitate rispettivamente dalle
 coppie di indici \((i, k)\) e \((k+1, j)\). Una volta fatto ciò, si calcola ricorsivamente il costo dei prodotti
 necessari a risolvere le due sottostringhe e ottenere le due matrici \(A_{i:k}\) e \(A_{k+1:j}\) a cui poi si aggiungerà
 il costo necessario a moltiplicarle tra loro per ottenere la matrice \(A_{i:j}\) corrispondente al prodotto di tutte
 le matrici della stringa originale.
 
 Si definisce la funzione \(c[i, j]\) come il costo minimo della moltiplicazione delle matrici della sottostringa
-\(<\!A_i, A_{i+1}, \dots, A_j\!>\) supponendo di aver scelto il valore \(k\) ottimo per minimizzare tale costo.
+\(\langle A_i, A_{i+1}, \dots, A_j \rangle\) supponendo di aver scelto il valore \(k\) ottimo per minimizzare tale costo.
 È utile notare che il costo del prodotto tra le due matrici \(A_{i:k} \in \mathbb{C}^{p_{i-1} \times p_k}\) e
 \(B_{k+1:j} \in \mathbb{C}^{p_k \times p_j}\) è dato da \(p_{i-1} \cdot p_k \cdot p_j\).
 
@@ -456,7 +456,7 @@ le seguenti caratteristiche:
 	il primo ``for'' varia la lunghezza \(l\) (sceglie la diagonale), il secondo ``for'' varia l'indice \(i\) (sceglie la riga
 	della cella da popolare) e l'indice \(j\) viene calcolato di conseguenza in base a \(i\) e \(l\)
 	\item in presenza di parentesizzazioni equivalenti (ad esempio per matrici quadrate), l'algoritmo individua quella con
-	valore di \(k\) minimo, in quanto utilizzando l'operatore \(<\) e non \(<=\) nell'if a riga 9, le soluzioni equivalenti
+	valore di \(k\) minimo, in quanto utilizzando l'operatore \(<\) e non \(\leq\) nell'if a riga 9, le soluzioni equivalenti
 	non vengono considerate migliorative dell'ottimo localmente memorizzato
 	\item al posto di avere due tabelle triangolari superiori \(m\) e \(s\), è possibile utilizzare la stessa tabella \(m\)
 	popolata superiormente con i costi e inferiormente con i valori di \(k\) ottimali
@@ -476,7 +476,7 @@ cui non si possono fare ottimizzazioni a livello spaziale.
 
 \subsection{Longest Palindrome Subsequence - LPS}
 \subsubsection*{Definizione di sequenza palindroma}
-Una sequenza \(Z = \; <\!z_1, z_2, \dots, z_n\!>\) si dice palindroma se \(z_{1+h} = z_{n-h}\) per ogni \(h = 0, 1, \dots, n\!-\!1\).
+Una sequenza \(Z = \; \langle z_1, z_2, \dots, z_n \rangle\) si dice palindroma se \(z_{1+h} = z_{n-h}\) per ogni \(h = 0, 1, \dots, n\!-\!1\).
 
 \noindent
 Si ricorda che una sottosequenza non necessariamente deve contenere simboli contigui.

@@ -394,15 +394,35 @@ Nel caso della trasformata di Fourier esistono alcuni vettori notevoli:
 	siccome la seconda colonna della matrice di Fourier è composta dalle radici \(n\)-esime dell'unità
 	\item \(\underline{a} = [1, 1, 1, \dots 1] \;\; \rightarrow \;\; \underline{y} = F_n \cdot \underline{a} = [n, 0, 0, \dots, 0]\)
 	siccome la somma degli elementi lungo le righe della matrice di Fourier è zero, tranne per la prima riga, la cui somma è \(n\) (lemma di somma)
+	\item \(\underline{a} = (n,k)\text{-sparso}\) con \(n\) e \(k\) potenze di 2, è un vettore di \(n\) elementi con \(x_i = 0 \text{ per } i \text{ mod } k \neq 0\).
+	Un caso che compare spesso sono i vettori \((8,4)\text{-sparsi} : \underline{a} = [p, 0, 0, 0, q, 0, 0, 0]\) la cui trasformata è:
+	\(\underline{y} = F_8 \cdot [p, 0, 0, 0, q, 0, 0, 0] = p \cdot [1,1,1,1,1,1,1,1] + q \cdot [1,-1,1,-1,1,-1,1,-1]\)
 \end{itemize}
 
 \subsubsection*{Composizione di trasformate di Fourier}
 La composizione di due trasformate di Fourier \({F_n}^2\) provoca uno scalamento di un fattore \(n\) e un ribaltamento degli
 elementi del vettore di input, escluso il primo elemento, che rimane invariato.
-\[{F_n}^2 \cdot \underline{a} = (a_0, a_{n-1}, a_{n-2}, \dots, a_1) \cdot n\]
+\[{F_n}^2 \cdot \underline{a} = n \cdot (a_0, a_{n-1}, a_{n-2}, \dots, a_1) = n \cdot \underline{a}^*\]
 
 \noindent
 Siccome il ribaltamento applicato due volte riporta gli elementi del vettore di input alla posizione originale, la composizione
 di quattro trasformate di Fourier \({F_n}^4\) provoca soltanto uno scalamento di \(n^2\) senza modificare la posizione degli
 elementi del vettore di input.
-\[{F_n}^4 \cdot \underline{a} = (a_0, a_1, a_2, \dots, a_{n-1}) \cdot n^2\]
+\[{F_n}^4 \cdot \underline{a} = n^2 \cdot (a_0, a_1, a_2, \dots, a_{n-1}) = n^2 \cdot \underline{a}\]
+
+\subsubsection*{Inversa della trasformata di Fourier}
+Dalla composizione di due trasformate di Fourier si ottiene che l'inversa della trasformata di Fourier di un vettore
+\(\underline{y}\) è data dalla trasformata di Fourier del vettore \(\underline{y}\) scalato di \(1/n\), a cui vengono
+ribaltati gli elementi, escluso il primo.
+%\[\begin{array}{c c c}
+%	1. & \quad \underline{y} = F_n \cdot \underline{a} \;\; \rightarrow \;\; \underline{y} = \text{DFT}_n(\underline{a}) &
+%	\quad \substack{\text{si riscrive la trasformata} \\ \text{come funzione matematica}} \\[7pt]
+%	2. & \quad n \cdot \underline{a}^* = {F_n}^2 \cdot \underline{a} \;\; \rightarrow \;\; n \cdot \underline{a}^* = \text{DFT}_n(\text{DFT}_n(\underline{a})) &
+%	\quad \substack{\text{dalla formula di composizione} \\ \text{di due trasformate di Fourier}} \\[7pt]
+%	3. & \quad n \cdot \underline{a}^* = \text{DFT}_n(\text{DFT}_n(\underline{a})) = \text{DFT}_n(\underline{y}) &
+%	\quad \substack{\text{dalla formula 1.}\; : \; \text{DFT}_n(\underline{a}) \; = \; \underline{y}} \\[7pt]
+%	4. & \quad \underline{a}^* = \frac{1}{n} \cdot \text{DFT}_n(\underline{y}) &
+%	\quad \substack{\text{invertendo la formula sopra}}
+%\end{array}\]
+\[n \cdot \underline{a}^* = {F_n}^2 \cdot \underline{a} = \text{DFT}_n(\text{DFT}_n(\underline{a})) = \text{DFT}_n(\underline{y}) \implies \underline{a}^* = \frac{1}{n} \cdot \text{DFT}_n(\underline{y}) \]
+\[\text{con} \quad \underline{y} = \text{DFT}_n(\underline{a}) \quad \text{e} \quad \underline{a}^* = \left( a_0, a_{n-1}, a_{n-2}, \dots a_1 \right)\]

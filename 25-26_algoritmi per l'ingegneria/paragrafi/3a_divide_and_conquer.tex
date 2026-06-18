@@ -7,20 +7,20 @@ ottenere la soluzione dell'istanza originale.
 
 \subsubsection*{Proprietà di sottostruttura}
 Dato un problema \(\pi \subseteq \mathcal{I} \times \mathcal{S}\), il paradigma si compone di tre componenti:
-\begin{itemize}[topsep=5pt, itemsep=3pt]
+\begin{itemize}[topsep=5pt, itemsep=3pt] 
 	\item \(A_D : \mathcal{I} \to \mathcal{I}*\), funzione di divide che suddivide un'istanza \(i \in \mathcal{I}\) di
-	taglia \(|i| > n_0\) in una sequenza di una o più sottoistanze più piccole \(<\!i_1, i_2, \dots i_k\!>\) di taglia
-	\(|i_j| < |i|\) per ogni \(j\)
+	taglia \(|i| > n_0\) in una sequenza di una o più sottoistanze più piccole \(\langle i_1, i_2, \dots i_k \rangle\)
+	di taglia \(|i_j| < |i|\) per ogni \(j\)
 	\item \(A_C : \mathcal{S}* \to \mathcal{S}\), funzione di combine che combina la sequenza di soluzioni
-	\(<\!s_1, s_2, \dots s_k\!>\) associate alle sottoistanze \(<\!i_1, i_2, \dots i_k\!>\) nella soluzione \(s\) associata
-	all'istanza \(i\)
+	\(\langle s_1, s_2, \dots s_k \rangle\) associate alle sottoistanze \(\langle i_1, i_2, \dots i_k \rangle\)
+	nella soluzione \(s\) associata all'istanza \(i\)
 	\item \(D\&C : \mathcal{I} \to \mathcal{S}\), chiamata ricorsiva che trasforma individualmente ogni sottoistanza \(i_j\)
 	nella corrispettiva soluzione \(s_j\), eventualmente applicando le due funzioni \(A_D\) e \(A_C\) in modo ricorsivo
 \end{itemize}
 
 \noindent
 Le due funzioni \(A_D\) e \(A_C\) devono soddisfare la seguente proprietà di sottostruttura:
-\[\forall i \in \mathcal{I}, |i| > n_0 \text{ vale } \left[ \; D(i) = \; <\!i_1, \dots, i_k\!> \; \wedge \; \forall j \; (i_j, s_j) \in \pi \; \wedge \; C(<\!s_1, \dots, s_k\!>) = s \implies (i, s) \in \pi \; \right]\]
+\[\forall i \in \mathcal{I}, |i| > n_0 \text{ vale } \left[ \; D(i) = \; \langle i_1, \dots, i_k \rangle \; \wedge \; \forall j \; (i_j, s_j) \in \pi \; \wedge \; C(\langle s_1, \dots, s_k \rangle) = s \implies (i, s) \in \pi \; \right]\]
 
 \subsubsection*{Chiamata ricorsiva (conquer) e definizione del caso base}
 La chiamata ricorsiva \(D\&C(i)\) su un'istanza \(i\) è definita come segue:
@@ -37,11 +37,11 @@ efficiente per risolvere il problema.
 	\State \(s \gets A_\text{diretto}(i)\) \Comment{soluzione diretta ed immediata \(\quad\qquad\qquad\qquad\quad\,\)}
 	\State \textbf{return} \(s\)
 \Else \Comment{passo ricorsivo \(\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\)}
-	\State \(<\!i_1, i_2, \dots i_k\!> \; \gets A_D(i)\) \Comment{divide \(\quad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\)}
+	\State \(\langle i_1, i_2, \dots i_k\rangle \; \gets A_D(i)\) \Comment{divide \(\quad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\)}
 	\For{\(j \gets 1\)}{\(k\)} \Comment{conquer \(\quad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad\:\)}
 		\State \(s_j \gets D\&C(i_j)\)
 	\EndFor
-	\State \(s \gets A_C(<\!s_1, s_2, \dots s_k\!>)\) \Comment{combine \(\quad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad\)}
+	\State \(s \gets A_C(\langle s_1, s_2, \dots s_k \rangle)\) \Comment{combine \(\quad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad\)}
 	\State \textbf{return} \(s\)
 \EndIf
 \end{algo}
