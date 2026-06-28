@@ -1,0 +1,335 @@
+\section{Trasmissione dell'informazione multimediale}
+\subsection{Fasi di trasmissione dell'informazione}
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Stile per i blocchi di elaborazione generici
+		block/.style={
+			rectangle,
+			draw=blue!70!black,
+			fill=blue!5,
+			thick,
+			align=center,
+			rounded corners=3pt,
+			font=\footnotesize
+		},
+		% Stile specifico per il canale di trasmissione
+		channel/.style={
+			rectangle,
+			draw=orange!85!black,
+			fill=orange!8,
+			thick,
+			align=center,
+			rounded corners=3pt,
+			font=\footnotesize
+		},
+		% Stile per le frecce di collegamento
+		arrow/.style={
+			-{Stealth[scale=1.2]},
+			thick
+		},
+		% Stile per le etichette dei segnali
+		signal/.style={
+			align=center
+		},
+		% Stile per le parentesi
+		brace/.style={
+			decorate,
+			decoration={brace, amplitude=10pt, raise=6pt},
+			thick
+		}
+	]
+		% Catena di blocchi
+		\node [signal] at (0, 0) (tx) {\textbf{Input}};
+		\node [block] at (2.5, 0) (camp) {Sampling};
+		\node [block] at (5, 0) (quant) {Quantizer};
+		\node [block] at (7.5, 0) (invmap) {Inverse bit\\mapper};
+		\node [block] at (10, 0) (p2s) {P/S\\converter};
+		\node [block] at (13, 0) (cod) {Codificatore};
+		\node [channel] at (13,-1.25) (canale) {Rete o canale\\di trasmissione};
+		\node [block] at (13, -2.5) (decod) {Decodificatore};
+		\node [block] at (10, -2.5) (s2p) {S/P\\converter};
+		\node [block] at (7.5, -2.5) (bmap) {Bit mapper};
+		\node [block] at (2.5, -2.5) (interp) {Interpolatore};
+		\node [signal] at (0, -2.5) (out) {\textbf{Output}};
+		
+		% Collegamenti ed etichette
+		\draw [arrow] (tx) -- node[signal, below=0.1cm] {$s(t)$ \\ $t \in \mathbb{R}$} (camp);
+		\draw [arrow] (camp) -- node[signal, below=0.1cm] {$s_c(n)$ \\ $n \in \mathbb{Z}$} (quant);
+		\draw [arrow] (quant) -- node[signal, below=0.1cm] {$s_q(n)$ \\ $n \in \mathbb{Z}$} (invmap);
+		\draw [arrow] (invmap) -- node[signal, below=0.1cm] {$\vec{s}_w(n)$ \\ $n \in \mathbb{Z}$} (p2s);
+		\draw [arrow] (p2s) -- node[signal, below=0.1cm] {$s_d(n)$ \\ $n \in \mathbb{Z}$} (cod);
+		\draw [arrow] (cod) -- (canale);
+		\draw [arrow] (canale) -- (decod);
+		\draw [arrow] (decod) -- node[signal, above=0.1cm] {$s'_d(n)$ \\ $n \in \mathbb{Z}$} (s2p);
+		\draw [arrow] (s2p) -- node[signal, above=0.1cm] {$\vec{s}\,'_w(n)$ \\ $n \in \mathbb{Z}$} (bmap);
+		\draw [arrow] (bmap) -- node[signal, above=0.1cm] {$s'_c(n)$ \\ $n \in \mathbb{Z}$} (interp);
+		\draw [arrow] (interp) -- node[signal, above=0.1cm] {$s'(t)$ \\ $t \in \mathbb{R}$} (out);
+
+		% --- Parentesi e testi extra ---
+		\draw [brace] ($(camp.north west)-(0.2,0)$) -- ($(p2s.north east)+(0.2,-0.17)$)
+			node [midway,above=17pt, font=\small] {conversione analogico-digitale - ADC};
+		\draw [brace] ($(s2p.south east)+(0.2,0.17)$) -- ($(interp.south west)-(0.2,0)$)
+			node [midway, below=17pt, font=\small] {conversione digitale-analogico - DAC};
+	\end{tikzpicture}
+\end{figure}
+
+\noindent
+Il processo di trasmissione dell'informazione di segnali analogici attraverso servizi multimediali digitali prevede le
+seguenti fasi:
+\begin{enumerate}
+	\item conversione analogico-digitale (ADC): conversione dei segnali analogici in segnali digitali, comprende le
+	operazioni di campionamento, quantizzazione, e conversione dei simboli in sequenze seriali di bit
+	\item codifica (COD): compressione delle sequenze di bit per ridurre la quantità di informazione da trasmettere
+	e aggiunta di ridondanza per la protezione dai possibili errori di trasmissione
+	\item trasmissione (NET): invio dei simboli attraverso un canale di comunicazione della rete presente
+	\item decodifica (DEC): conversione dei simboli ricevuti in segnali digitali
+	\item conversione digitale-analogico (DAC): ricostruzione dei segnali analogici a partire dai segnali digitali
+	ricevuti, comprende la conversione dei simboli in sequenze seriali di bit e una fase di interpolazione
+\end{enumerate}
+
+\subsubsection*{Domini dei segnali analogici e digitali}
+Un \textbf{segnale analogico} è una funzione di una o più variabili dipendenti continue in funzione di altre variabili
+indipendenti continue.
+\[f \; : \; \mathcal{X} \subseteq \mathbb{R}^m \; \to \; \mathcal{Y} \subseteq \mathbb{R}^n \qquad\qquad f(\mathcal{X}, \mathcal{Y}) \; \in \; \mathbb{R}^m \times \mathbb{R}^n\]
+\begin{itemize}
+	\item segnale audio analogico su nastro magnetico: \(f(t) \in \mathbb{R} \times \mathbb{R}\)
+	\item segnale immagine analogico su diapositiva: \(f(x,y) \in \mathbb{R}^2 \times \mathbb{R}\)
+	\item segnale video analogico, non campionato: \(f(x,y,t) \in \mathbb{R}^3 \times \mathbb{R}\)
+\end{itemize}
+
+\noindent
+Un \textbf{segnale analogico campionato} è un segnale analogico in cui le variabili indipendenti sono state discretizzate
+attraverso un'acquisizione a intervalli regolari dei valori delle variabili dipendenti. Tale processo di acquisizione è
+detto campionamento (approfondito in seguito).
+\[f \; : \; \mathcal{X} \subseteq \mathbb{Z}^m \; \to \; \mathcal{Y} \subseteq \mathbb{R}^n \qquad\qquad f(\mathcal{X}, \mathcal{Y}) \; \in \; \mathbb{Z}^m \times \mathbb{R}^n\]
+\begin{itemize}
+	\item segnale audio campionato: \(f(k) \in \mathbb{Z} \times \mathbb{R}\)
+	\item segnale immagine campionato: \(f(m,n) \in \mathbb{Z}^2 \times \mathbb{R}\)
+	\item segnale video campionato: \(f(m,n,k) \in \mathbb{Z}^3 \times \mathbb{R}\)
+\end{itemize}
+
+\noindent
+Un \textbf{segnale digitale} è una funzione di una o più variabili dipendenti discrete in funzione di altre variabili
+indipendenti discrete. Si ottiene assegnando un valore discreto alle variabili dipendenti del segnale analogico campionato
+attraverso un processo di quantizzazione (approfondito in seguito).
+\[f \; : \; \mathcal{X} \subseteq \mathbb{Z}^m \; \to \; \mathcal{Y} \subseteq \mathbb{Z}^n \qquad\qquad f(\mathcal{X}, \mathcal{Y}) \; \in \; \mathbb{Z}^m \times \mathbb{Z}^n\]
+\begin{itemize}
+	\item segnale audio digitale su CD: \(f(n) \in \mathbb{Z} \times \mathbb{Z}\)
+	\item segnale immagine digitale su monitor: \(f(m,n) \in \mathbb{Z}^2 \times \mathbb{Z}\)
+	\item segnale video digitale su DVD: \(f(m,n,k) \in \mathbb{Z}^3 \times \mathbb{Z}\)
+\end{itemize}
+
+\newpage
+
+\subsection{Campionamento}
+\subsubsection*{Trasformata di Fourier}
+Dato un segnale a tempo continuo \(s(t)\) (con durata e ampiezza finita), la sua trasformata di Fourier restituisce lo
+spettro \(S(f)\) che rappresenta il contenuto frequenziale del segnale \(s(t)\).
+\begin{itemize}
+	\item la trasformata di Fourier di un tono puro sinusoidale \(s(t) = A \cdot \sin(2\pi f_0 t)\) è un impulso a frequenza
+	\(f_0\) con area costante
+	\item la trasformata di Fourier del segnale sinc(\(t\)) è un segnale rect(\(f\)), il sinc viene detto segnale a banda
+	limitata, proprio perché la sua trasformata di Fourier è limitata a un intervallo di frequenze \([f_m, f_M]\)
+\end{itemize}
+
+\subsubsection*{Teorema del campionamento di Shannon e criterio di Nyquist}
+Un segnale \(s(t)\) può essere ricostruito con errore nullo a partire dalla successione dei campioni \(s_c(n)\)
+ottenuti dal suo campionamento se e solo se tale segnale è banda limitata con frequenza massima \(f_M\) e la
+frequenza di campionamento \(F_c\) è almeno il doppio della frequenza massima \(f_M\) del segnale \(s(t)\).
+\[s_c(n) = s(t) \big|_{t=n \cdot T_c} \qquad\qquad \text{con} \; F_c = 1 / T_c \geq 2 f_M\]
+La relazione \(F_c \geq 2 f_M\) è detta criterio di Nyquist.
+
+\subsubsection*{Formula di interpolazione ideale}
+Se il criterio di Nyquist è soddisfatto, il segnale \(s(t)\) può essere ricostruito a partire dai campioni \(s_c(n)\)
+attraverso la formula di interpolazione ideale (convoluzione tra segnale campionato e segnale sinc(\(t\))):
+\[s(t) = \sum_{n \in \mathbb{Z}} s_c(n) \cdot \text{sinc}\!\left(\frac{t - n T_c}{T_c}\right)\]
+La formula di interpolazione ideale consiste nel sommare tanti segnali sinc(\(t\)) centrati negli istanti di campionamento
+\(n T_c\), scalati orizzontalmente per occupare tutto il periodo di campionamento \([-T_c, T_c]\) e pesati dai valori dei
+campioni ai rispettivi istanti \(s_c(n)\).
+
+\subsubsection*{Filtraggio di segnali limitati nel tempo con banda illimitata}
+I segnali multimediali reali hanno durata finita e di conseguenza sono a banda illimitata. Non è possibile, quindi, applicare
+strettamente il teorema di Shannon-Nyquist, di conseguenza il segnale campionato non può essere ricostruito con errore nullo.
+
+Si nota, però, che la maggior parte dei segnali si concentra solo su una banda limitata di frequenze. Di conseguenza,
+è possibile applicare un filtro passa-basso con frequenza di taglio \(f_c/2\) senza perdere informazioni rilevanti del
+segnale originale e senza introdurre errori di distorsione percepibili. In questo modo si limita il contenuto frequenziale
+del segnale e risulta possibile applicare il teorema di Shannon-Nyquist garantendo una ricostruzione del segnale campionato
+con errore trascurabile.
+
+\subsubsection*{Aliasing - frequenze spurie e sovrapposizione delle repliche dello spettro}
+Se si campiona un segnale che non rispetta il criterio di Nyquist, si verifica un fenomeno di aliasing, che consiste nello
+spostamento verso il basso delle alte frequenze del segnale campionato che non possono essere ricostruite correttamente.
+In altre parole nel segnale ricostruito sono presenti nuove frequenze spurie che non erano presenti nel segnale originale.
+
+Dal punto di vista della trasformata di Fourier, il campionamento di un segnale \(s(t)\) equivale alla replica in
+frequenza del suo spettro \(S(f)\) compreso nel range \([-f_M, f_M]\) a intervalli regolari di \(F_c\). Il fenomeno
+di aliasing corrisponde alla sovrapposizione (overlapping) di tali repliche se \(f_M > F_c/2\).
+
+Per limitare l'aliasing, si utilizza per l'appunto un filtro passa-basso sul segnale originale prima del campionamento
+per ridurre le alte frequenze che generano frequenze spurie o in altre parole per ridurre la banda ed evitare l'overlapping
+delle repliche.
+
+\newpage
+
+
+\subsection{Quantizzazione}
+\subsubsection*{Quantizzazione per livelli}
+Il processo di quantizzazione consiste nel discretizzare l'ampiezza di un segnale (si suppone già campionato) in un numero
+finito di \(L\) livelli. Si definisce, inoltre, la quantità di informazione o costo di codifica \(R = \log_2 L\) come
+il numero di bit necessari a rappresentare ogni livello.
+
+Aumentando il numero di livelli \(L\) aumenta la fedeltà del segnale quantizzato rispetto al segnale originale, ma aumenta
+anche il costo di codifica \(R\) per rappresentare ogni campione quantizzato.
+
+\subsubsection*{Quantizzazione uniforme}
+In un quantizzatore uniforme si suddividere l'intervallo di ampiezza del segnale in \(L\) livelli uniformemente distribuiti,
+ciascuno con un passo di quantizzazione \(\Delta\) costante. Il processo di quantizzazione consiste nel rappresentare ogni
+campione con il più vicino livello di quantizzazione (o multiplo di \(\Delta\)).
+\[Q(x, \Delta) = \Delta \cdot \text{round}\!\left( \frac{x}{\Delta} \right) \qquad \text{con} \; x \in [-A, A], \quad L = 2A / \Delta, \quad \varepsilon = \Delta / 2 \]
+
+\subsubsection*{Quantizzatori mid-rise, mid-tread e dead zone}
+In base a come viene trattato il valore zero, i quantizzatori uniformi vengono classificati in:
+\begin{itemize}
+	\item \textbf{mid-rise}: il valore zero è un valore di soglia tra due livelli di quantizzazione, se il segnale presenta
+	piccoli valori di rumore attorno allo zero, questi vengono amplificati e degenerano in uno dei due livelli adiacenti
+	\item \textbf{mid-tread}: il valore zero è associato ad un livello di quantizzazione centrato su zero e passo di
+	quantizzazione \(\Delta\) uguale a quello degli altri livelli, se il segnale presenta piccoli valori di rumore attorno
+	allo zero, questi vengono eliminati e il segnale quantizzato viene riportato a zero
+	\item \textbf{dead zone}: come il mid-rise, ma con un passo di quantizzazione maggiore rispetto agli altri livelli,
+	serve per comprimere ulteriormente i dati sparsi (con tanti valori piccoli non significativi)
+\end{itemize}
+
+\subsubsection*{Rumore di quantizzazione e distorsione}
+Il processo di quantizzazione porta inevitabilmente ad una perdita di informazione in quanto è un'operazione irreversibile.
+Inoltre si osserva che la qualità del segnale degrada molto velocemente al diminuire del numero di livelli \(L\). Per questo
+motivo si utilizzano \(\Delta\) piccoli e \(L\) elevati per garantire una buona fedeltà al segnale originale e non introdurre
+distorsioni o artefatti percepibili. Di solito si utilizzano quantizzatori a 8 bit per canale di colore (RGB) e 16 bit per
+campionamento audio.
+
+La quantizzazione può essere utilizzata una seconda volta come tecnica di compressione all'interno dei processi di codifica
+e può introdurre distorsioni evidenti allo scopo di diminuire la dimensione dei dati. La prima quantizzazione della
+conversione DAC, però, non deve indurre distorsioni percepibili.
+
+\subsubsection*{Costo della quantizzazione}
+Il costo della quantizzazione è dato dal numero di bit necessari a rappresentare ogni campione quantizzato, ovvero al tasso
+di codifica \(R = \log_2 L\) bit per campione.
+
+\subsubsection*{Mean Square Error (MSE) come indice della distorsione}
+Si definisce l'errore di quantizzazione \(e(n)\) come la differenza tra il campione del segnale campionato \(s_c(n)\) e
+il campione corrispondente del segnale quantizzato \(s_q(n)\):
+\[e(n) = s_c(n) - s_q(n)\]
+
+\noindent
+Il MSE (Mean Square Error) è un indice della distorsione dovuta alla quantizzazione, corrisponde all'errore quadratico
+medio ed equivale alla norma euclidea al quadrato del vettore errore o alla distanza euclidea al quadrato tra il vettore
+dei campioni del segnale campionato e il vettore dei campioni del segnale quantizzato (al netto della normalizzazione
+per il fattore \(1/N\)).
+\[\text{MSE}(s_c(n), s_q(n)) \; = \; \frac{1}{N} \sum_{n=0}^{N-1} [e(n)]^2 \; = \; \frac{1}{N} \sum_{n=0}^{N-1} [s_c(n) - s_q(n)]^2 \; = \; \frac{1}{N} ||\vec{e} \, ||^2 \; = \; \frac{1}{N} ||\vec{s_c} - \vec{s_q}||^2\]
+
+\subsubsection*{Peak Signal-to-Noise Ratio (PSNR) come indice della qualità}
+Il PSNR (Peak Signal-to-Noise Ratio) è un indice della qualità del segnale quantizzato, viene calcolato come rapporto
+in dB tra la potenza di picco del segnale e il MSE. Il PSNR e il MSE sono strettamente legati tra di loro e totalmente
+definiti l'uno dall'altro.
+Il PSNR non corrisponde esattamente alla qualità percepita da un osservatore umano, però viene spesso utilizzato data
+la sua semplicità di calcolo.
+\[\text{PSNR} = 10 \log_{10} \frac{\left( 2^b - 1\right)^2}{\text{MSE}}\]
+
+\noindent
+Di seguito è riportato un esempio di calcolo del PSNR per un'immagine in scala di grigi quantizzata a 8 bit con 255
+livelli di grigio, con alcune indicazioni sulla qualità percepita in base al valore del PSNR.
+\[\text{PSNR} = 10 \log_{10} \frac{255^2}{\text{MSE}} = 48 \text{dB} - 10 \log_{10} \text{MSE}\]
+\begin{itemize}
+	\item PSNR \(>\) 45 dB: ottima qualità, distorsioni non percepibili
+	\item 40 dB \(<\) PSNR \(<\) 45 dB: qualità molto buona, distorsioni difficilmente percepibili
+	\item 35 dB \(<\) PSNR \(<\) 40 dB: qualità buona, distorsioni percepibili
+	\item 30 dB \(<\) PSNR \(<\) 35 dB: qualità accettabile, distorsioni evidenti
+	\item PSNR \(<\) 30 dB: qualità scadente
+\end{itemize}
+
+\subsubsection*{Assenza di un blocco inverso alla quantizzazione}
+Siccome la quantizzazione è un'operazione irreversibile, non esiste alcun processo inverso in grado di ricostruire
+il segnale campionato originale a partire dal segnale quantizzato. Per questo motivo, durante la fase di ricostruzione
+del segnale analogico, non ci sarà alcun blocco inverso alla quantizzazione.
+
+\subsection{Inverse bit mapper (IBM) e parallel-to-serial converter (P/S)}
+Il quantizzatore produce in output simboli discreti che coincidono con i vari livelli di quantizzazione. Tali simboli
+vengono poi convertiti in vettori (o sequenze) di bit tramite il modulo Inverse Bit Mapper (IBM).
+
+L'IBM produce in output vettori di bit in parallelo, per cui è necessario un altro modulo detto Parallel to Serial
+Converter (P/S) per convertirli in sequenze seriali che potranno poi essere codificate e trasmesse.
+
+Il bitrate del blocco di conversione ADC è dato dal prodotto tra il tasso di codifica \(R\) del quantizzatore e la
+frequenza di campionamento \(F_c\) del segnale campionato.
+\(R_\text{ADC} = F_c \cdot R_{Q} = F_c \cdot \log_2 L\)
+
+\subsection{Serial-to-parallel converter (S/P) e bit mapper (BM)}
+Una volta che il ricevitore riceve i simboli trasmessi, questi vengono decodificati in sequenze seriali di bit. Tali
+sequenze vengono poi convertite in vettori di bit in parallelo tramite il modulo Serial to Parallel Converter (S/P)
+per poi essere trasformate in simboli discreti tramite il modulo Bit Mapper (BM). In questo modo si riottiene una
+ricostruzione del segnale quantizzato originale che poi verrà interpolato per ottenere il segnale analogico ricostruito.
+
+\subsection{Interpolazione}
+\subsubsection*{Formula di interpolazione ideale}
+Dal teorema di Shannon-Nyquist, per ricostruire un segnale analogico a partire dai campioni del segnale campionato
+secondo opportune condizioni, si utilizza la formula di interpolazione ideale:
+\[s(t) = \sum_{n \in \mathbb{Z}} s(n T_c) \cdot \text{sinc}\!\left(\frac{t - n T_c}{T_c}\right)\]
+Si nota però che tale formula non è implementabile in pratica, in quanto richiede di sommare un numero infinito di
+segnali sinc(\(t\)) a supporto infinito. Nella pratica si sostituisce la sinc(\(t\)) con altri segnali a supporto
+finito detti kernel di interpolazione.
+
+\subsubsection*{Kernel di interpolazione e vincoli}
+Un kernel di interpolazione è un segnale a supporto finito (implementabile nella pratica) che viene utilizzato al
+posto del kernel ideale sinc(\(t\)). La funzione di interpolazione diventa:
+\[s(t) = \sum_{n \in \mathbb{Z}} s(n T_c) \cdot h\!\left(\frac{t - n T_c}{T_c}\right) \qquad \text{con} \;\; h\!\left(\frac{t - n T_c}{T_c}\right) \;\; \begin{array}{c}
+	\text{kernel di interpolazione dilatato} \\
+	\text{nell'intervallo di camp. } [-T_c, T_c] \text{ e}\\
+	\text{traslato nell'istante di camp. } n T_c
+\end{array}\]
+I kernel di interpolazione devono rispettare alcuni vincoli per la conservazione dei valori negli istanti di campionamento
+per una corretta ricostruzione del segnale campionato, come illustrato di seguito.
+\[h(n) = \begin{cases}
+	1 & \text{se } n = 0 \\
+	0 & \text{se } n \in \mathbb{Z} \setminus \! \{0\}
+\end{cases} \implies \tilde{s}(kT_c) = \sum_{n \in \mathbb{Z}} s(nT_c) \cdot h\!\left(\frac{kT_c - nT_c}{T_c}\right) = \sum_{n \in \mathbb{Z}} s(nT_c) \cdot h(k\!-\!n) = s(kT_c)\]
+
+\subsubsection*{Esempi di kernel di interpolazione}
+\begin{itemize}
+	\item \textbf{sample and hold}, con kernel di interpolazione a gradino rettangolare:
+	\[h(t) = \text{rect}(t-1/2) = \begin{cases}
+		1 & \text{se } 0 \leq t < 1 \\
+		0 & \text{altrimenti}
+	\end{cases}\]
+	il segnale ricostruito è un segnale a gradino che mantiene il valore del campione per tutto l'intervallo di campionamento,
+	è il kernel di interpolazione più semplice da implementare, ma introduce distorsioni evidenti e alte frequenze spurie
+	dovute alla discontinuità delle funzioni di interpolazione, tali artefatti risultano accettabili solo se la \(f_c\) è elevata
+	
+	\item \textbf{interpolazione lineare} o di primo ordine, con kernel di interpolazione a triangolo:
+	\[h(t) = \text{triang}(t) = \begin{cases}
+		1 - |t| & \text{se } |t| < 1 \\
+		0 & \text{altrimenti}
+	\end{cases}\]
+	il segnale ricostruito corrisponde ad una linea spezzata che unisce i valori dei vari campioni, è più complesso da
+	implementare, ma introduce meno distorsioni e frequenze spurie rispetto al sample and hold
+	
+	\item \textbf{interpolazione cubica} o di terzo ordine, con kernel di interpolazione polinomiale di terzo grado: \\
+	si effettua un'interpolazione con polinomi di terzo grado tra i campioni, è più complesso da implementare e spesso
+	si usa negli algoritmi di interpolazione digitale delle immagini (es. cambio di risoluzione di un'immagine) in quanto
+	esistono algoritmi efficienti basati sul filtraggio numerico
+
+	\item \textbf{interpolazione con spline cardinali} con kernel di interpolazione polinomiale di grado \(n\): \\
+	è possibile usare come kernel di interpolazione un generico polinomio di grado \(n\) che implica la continuità delle
+	derivate fino all'ordine \(n-1\) del segnale ricostruito, riduce sempre di più le distorsioni e le frequenze spurie,
+	ma risulta sempre più complesso da implementare, per \(n \to \infty\) coincide con l'interpolazione ideale a sinc(\(t\))
+	
+	\item \textbf{interpolazione con sinc troncato} con kernel di interpolazione a sinc troncato:
+	\[h(t) = \text{sinc}(t) \cdot \text{rect}\!\left(\frac{t}{T}\right) = \begin{cases}
+		\frac{\sin(\pi t)}{\pi t} & \text{se } |t| < T \\
+		0 & \text{altrimenti}
+	\end{cases}\]
+	è il kernel utilizzato all'interno delle schede audio di fascia alta, in quanto rappresenta un'ottima approssimazione
+	fisicamente realizzabile del kernel ideale sinc(\(t\)); il parametro \(T\) viene scelto in fase di progettazione,
+	maggiore è \(T\), maggiore è la fedeltà della ricostruzione ed aumenta la complessità computazionale in quanto cresce
+	il numero di campioni coinvolti per la ricostruzione del segnale in ogni istante di tempo \(t\)
+\end{itemize}

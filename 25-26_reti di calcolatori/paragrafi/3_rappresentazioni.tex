@@ -1,0 +1,214 @@
+\section{Rappresentazione dei segnali multimediali}
+\subsection{Rappresentazione di segnali audio}
+\subsubsection*{Percezione del suono}
+Il sistema uditivo umano percepisce i suoni effettuando un'analisi in frequenza del segnale audio che giunge all'orecchio.
+Può essere modellato come un banco di filtri che scompongono il suono in più bande di frequenza, ciascuna delle quali
+è associata ad una fibra nervosa che trasmette l'informazione al cervello. L'ascolto di un tono puro attiverà un solo
+filtro che ecciterà la fibra nervosa corrispondente.
+
+\subsubsection*{Soglia di percezione acustica}
+La soglia di percezione acustica corrisponde al livello minimo di potenza sonora che può essere percepito dall'orecchio
+umano. Varia in funzione della frequenza del suono e cambia da persona a persona, in base all'età. In generale la soglia
+di percezione acustica è più bassa (ovvero l'orecchio umano è più sensibile) per le frequenze comprese tra 500 Hz e 5 kHz
+che corrispondono alla fascia del parlato umano.
+
+La soglia di pressione acustica non è sempre costante, ma in funzione dei suoni percepiti attraverso due fenomeni di mascheramento:
+\begin{itemize}
+	\item \textbf{mascheramento in frequenza}: la presenza di un suono forte in una certa banda di frequenza fa aumentare
+	la soglia di percezione acustica dei suoni alle frequenze adiacenti, per cui un suono debole nella stessa banda di
+	frequenza può non essere percepito
+	\item \textbf{mascheramento temporale}: la modifica della curva di soglia di percezione acustica dovuta alla presenza
+	di un suono forte in una certa banda di frequenza si propaga nel tempo per 2-5ms prima del suono forte e per 100-200ms
+	dopo il suono forte, per cui un suono debole in una banda di frequenza può non essere percepito se è stato appena emesso
+	un suono forte in una banda di frequenza vicina
+\end{itemize}
+
+\subsubsection*{Codifica percettiva}
+La codifica percettiva sfrutta le caratteristiche del sistema uditivo umano e i fenomeni di mascheramento per ridurre
+la quantità di dati necessaria a rappresentare un segnale audio senza introdurre distorsioni percepibili dall'orecchio
+umano. Si può realizzare attraverso un'analisi tempo-frequenza che applica riquantizzazioni alle frequenze mascherate.
+
+\subsubsection*{Digitalizzazione tramite Pulse Code Modulation (PCM)}
+La codifica PCM consiste nella digitalizzazione di un segnale audio analogico attraverso le sole fasi essenziali di
+campionamento, quantizzazione e inverse bit mapping. Non vengono applicate compressioni, per questo viene anche detta
+codifica lossless. Gli unici parametri che influenzano la qualità del segnale digitale sono, quindi, la frequenza di
+campionamento \(f_c\) e il numero di livelli di quantizzazione \(L\).
+
+\subsubsection*{Digitalizzazione di un segnale vocale}
+Per digitalizzare un segnale vocale con banda \([200 \; \text{Hz}, \; 3.4 \; \text{kHz}]\), si utilizza una frequenza
+di campionamento \(f_c = 8 \; \text{kHz}\) e un quantizzatore da 256 livelli con 8 bpS (128 livelli con 7 bpS in Asia
+e America). Eventualmente si suddividono i dati in pacchetti di 20 ms da 1.28 Mbit. Il bitrate risulta essere:
+\[R_\text{voce} = f_c \cdot \log_2 L = 8 \; \text{kHz} \cdot 8 \; \text{bpS} = 64 \; \text{kbit/s} \qquad \text{packet size} = 20 \; \text{ms} \cdot R_\text{voce} = 1280 \; \text{bit} = 160 \; \text{byte}\]
+
+\subsubsection*{Digitalizzazione di un segnale audio generico}
+Per digitalizzare un segnale audio stereo generico (es. musica) con banda \([15 \; \text{Hz}, \; 20 \; \text{kHz}]\) si
+utilizza una frequenza di campionamento di \(f_c = 44.1 \; \text{kHz}\) con 16 bpS, duplicato per i due canali. Il bitrate è di:
+\[R_\text{musica} = 2 \cdot f_c \cdot \log_2 L = 2 \cdot 44.1 \; \text{kHz} \cdot 16 \; \text{bpS} = 1.411 \; \text{Mbit/s}\]
+
+\subsubsection*{Memorizzazione dei segnali codificati con PCM nei CD}
+Nei CD audio, l'informazione audio memorizzata è codificata tramite codifica PCM, e comprende solo l'87\% dei dati memorizzati.
+Il restante 13\% è occupato dai codici di correzione d'errore (CRC). Il bitrate effettivo risulta essere:
+\[R_\text{CD} = R_\text{musica} \; / \; 0.87 = 1.622 \; \text{Mbit/s}\]
+Se si volesse calcolare la massima durata effettiva di un CD audio da 730 MB si esegue il seguente calcolo:
+\[\text{durata} = \frac{\text{\# bit disponibili}}{\text{bit/s effettivi}} = \frac{730 \; \text{MB} \cdot 8 \cdot 10^6 \; \text{bit/MB}}{1.622 \cdot 10^6 \; \text{bit/s}} \approx 3600 \; \text{s} = 1 \; \text{h}\]
+
+\subsection{Rappresentazione di immagini}
+\subsubsection*{Rappresentazione di immagini B/N - campionamento spaziale e HDR}
+La fase di acquisizione della luce di una scena reale tramite un sensore digitale (es. sensore CMOS) consiste in un
+campionamento spaziale della luce che colpisce il sensore in ogni pixel di cui esso è costituito. Ogni pixel misura
+l'intensità della luce che lo colpisce e la converte in un valore numerico, solitamente quantizzato su 8 bit da 0 a 255.
+Il risultato è una matrice di valori numerici che rappresentano l'immagine acquisita in scala di grigi (B/N).
+
+Esistono sensori digitali con gamma dinamica estesa e rappresentano le immagini in formato HDR in grado di supportare fino
+a 10-12 bit per pixel. Tali tecnologie non vanno, però confuse con gli algoritmi che simulano l'HDR combinando più immagini
+della stessa scena con esposizioni differenti.
+
+\subsubsection*{Percezione del colore}
+L'occhio umano percepisce la luce e i colori attraverso due tipi di cellule presenti sulla retina:
+\begin{itemize}
+	\item i bastoncelli, sono in numero maggiore e sono sensibili alla intensità luminosa
+	\item i coni, sono in numero minore e sono sensibili a tre bande di frequenza della luce corrispondenti ai colori
+	primari rosso (575 nm), verde (535 nm) e blu (445 nm)
+\end{itemize}
+
+\noindent
+Si osserva, quindi, che è sufficiente memorizzare il contributo di ciascun colore primario per rappresentare un qualsiasi
+colore percepito dall'occhio umano. Inoltre, essendo i coni in minoranza rispetto ai bastoncelli, l'occhio umano è più
+sensibile alle variazioni di luminosità che alle variazioni di colore.
+
+\subsubsection*{Rappresentazione di immagini a colori - RGB}
+La rappresentazione di immagini a colori tramite il formato RGB consiste nel memorizzare il contributo di ciascun colore
+primario (R, G, B) per ogni pixel dell'immagine. Ogni canale di colore è quantizzato su 8 bit con valori da 0 a 255, per
+cui complessivamente ogni pixel è rappresentato da 24 bit e può codificare fino a \(2^{24} = 16\,777\,216\) colori diversi.
+
+Anche per le immagini a colori esistono formati con gamma dinamica estesa (HDR) che supportano fino a 12 bit per canale
+di colore, con 36 bit per pixel e \(2^{36} = 68\,719\,476\,736\) colori rappresentabili.
+
+\subsubsection*{Rotazione dallo spazio RGB allo YCbCr}
+Applicando un'opportuna rotazione degli assi, è possibile avere la diagonale principale \((0,0,0) \to (1,1,1)\) dello spazio
+RGB come coordinata Y, con altre due coordinate ortogonali ad essa dette Cb e Cr. La coordinata Y è detta luminanza del colore,
+infatti sulla diagonale principale si trovano tutte le tonalità di grigio, mentre le coordinate Cb e Cr sono il complemento
+al blu e il complemento al rosso e rappresentano la componente cromatica detta anche crominanza del colore sul piano ortogonale
+alla luminanza.
+
+\subsubsection*{Sparsificazione del segnale YCbCr}
+Un segnale viene detto sparso quando presenta alcuni campioni ``importanti'' e altri campioni ``meno importanti'' che
+è possibile comprimere con apposite tecniche di sottocampionamento senza degradare eccessivamente il segnale rappresentato.
+
+Il segnale YCbCr viene detto sparso in quanto l'occhio umano è più sensibile alla luminanza Y, rispetto al contributo
+cromatico Cb e Cr. È possibile, quindi, applicare un processo di decimazione dei campioni Cb e Cr, riducendo il costo
+di ogni pixel senza introdurre distorsioni percepibili dall'occhio umano.
+
+\subsubsection*{Pipeline di conversione da RGB a YCbCr e viceversa}
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Stile per i blocchi di elaborazione generici
+		block/.style={
+			rectangle,
+			draw=blue!70!black,
+			fill=blue!5,
+			thick,
+			align=center,
+			rounded corners=3pt,
+			font=\footnotesize
+		},
+		% Stile specifico per il canale di trasmissione
+		channel/.style={
+			rectangle,
+			draw=orange!85!black,
+			fill=orange!8,
+			thick,
+			align=center,
+			rounded corners=3pt,
+			font=\footnotesize
+		},
+		% Stile per le frecce di collegamento
+		arrow/.style={
+			-{Stealth[scale=1.2]},
+			thick
+		},
+		% Stile per le etichette dei segnali
+		signal/.style={
+			align=center,
+			font=\footnotesize
+		},
+		% Stile per le parentesi
+		brace/.style={
+			decorate,
+			decoration={brace, amplitude=10pt, raise=6pt},
+			thick
+		},
+		% Distanza standard tra i nodi
+		%node distance=1.5cm and 1.8cm
+	]
+		% Catena di blocchi
+		\node (in) at (0.5,0) [signal] {\textbf{Immagine}\\\textbf{RGB}};
+		\node [block] at (4,0) (rgb2y) {RGB $\rightarrow$ YCbCr};
+		\node [block] at (8,0) (decim) {Decimazione};
+		\node [block] at (12,0) (write) {Scrittura file};
+		\node [channel] at (12,-1) (storage) {Storage};
+		\node [block] at (12,-2) (read) {Lettura file};
+		\node [block] at (8,-2) (interp) {Interpolazione};
+		\node [block] at (4,-2) (y2rgb) {YCbCr $\rightarrow$ RGB};
+		\node [signal] at (0.5,-2) (out) {\textbf{Display}\\ (immagine RGB)};
+
+		% Collegamenti ed etichette
+		\draw [arrow] (in) -- (rgb2y);
+		\draw [arrow] (rgb2y) -- node[signal, below] {Immagine\\YCbCr} (decim);
+		\draw [arrow] (decim) -- node[signal, below] {Formato\\YUV 4:2:0} (write);
+		\draw [arrow] (write) -- (storage);
+		\draw [arrow] (storage) -- (read);
+		\draw [arrow] (read) -- node[signal, above] {Formato\\YUV 4:2:0} (interp);
+		\draw [arrow] (interp) -- node[signal, above] {Immagine\\YCbCr} (y2rgb);
+		\draw [arrow] (y2rgb) -- (out);
+	\end{tikzpicture}
+\end{figure}
+
+\noindent
+Il processo di conversione da RGB a YCbCr e viceversa prevede i seguenti passaggi:
+\begin{enumerate}
+	\item conversione da RGB a YCbCr tramite una trasformazione lineare che ruota lo spazio dei colori, è implementabile
+	come un semplice prodotto tra la matrice di trasformazione e il vettore RGB di ogni pixel dell'immagine
+	\item decimazione dei campioni Cb e Cr, tramite il processo di chroma subsampling descritto in seguito
+	\item memorizzazione in memoria o invio al destinatario del file compresso
+	\item interpolazione per ricostruire i campioni Cb e Cr decimati, tramite un filtro di interpolazione
+	\item conversione da YCbCr a RGB tramite la trasformazione lineare inversa
+\end{enumerate}
+
+\subsubsection*{Decimazione per sottocampionamento della crominanza (chroma subsampling)}
+Il processo di decimazione dei campioni Cb e Cr viene effettuato tramite il formato YUV J:a:b. In pratica si suddivide
+l'immagine in blocchi di \(4 \times 2\) pixel e i tre valori J, a e b indicano quanti campioni di ciascun canale vengono
+memorizzati per ogni blocco. Di seguito alcuni formati di decimazione più diffusi, l'attuale standard universale è
+il 4:2:0, utilizzato nella quasi totalità dei formati foto e video attualmente esistenti.
+\begin{itemize}
+	\item \textbf{4:4:4}: non viene effettuata alcuna decimazione
+	\item \textbf{4:2:2}: per ogni riga si memorizzano solo 4 campioni di Y, 2 di Cb e 2 di Cr, riducendo la banda del
+	colore del 50\% e il costo complessivo della rappresentazione del 33.3\%
+	\item \textbf{4:2:0}: per ogni mezzo blocco di \(2 \times 2\) pixel si memorizzano solo 4 campioni di Y, 1 di Cb
+	e 1 di Cr, riducendo la banda del colore del 75\% e il costo complessivo della rappresentazione del 50\%
+	\item \textbf{4:1:1}: per ogni riga si memorizzano solo 4 campioni di Y, 1 di Cb e 1 di Cr, riducendo la banda del
+	colore del 75\% e il costo complessivo della rappresentazione del 50\%
+\end{itemize}
+
+\noindent
+In generale un'immagine HD di risoluzione \(1920 \times 1080\) rappresentata in formato RGB occupa approssimativamente
+6.22 MBytes. Applicando la trasformazione da RGB a YCbCr e il sottocampionamento 4:2:0, il costo scende a 3.11 MBytes,
+senza introdurre distorsioni percepibili dall'occhio umano.
+\begin{align*}
+	\text{size}(X_\text{RGB}) &= 1920 \times 1080 \; \text{pixel} \cdot 3 \; \text{canali} \cdot 8 \; \text{bit} \approx 49.77 \; \text{Mbit} = 6.22 \; \text{MByte} \\
+	\text{size}(X_\text{YCbCr}) &= 1920 \times 1080 \; \text{pixel} \cdot 3 \; \text{canali} \cdot 8 \; \text{bit} / 2 \approx 24.88 \; \text{Mbit} = 3.11 \; \text{MByte}
+\end{align*}
+
+\subsection{Rappresentazione di video}
+\subsubsection*{Percezione del movimento}
+Il fenomeno della persistenza retinale consiste nel fatto che un'immagine osservata permane per un breve periodo di tempo
+sulla retina dell'occhio umano. Questo permette di campionare nel tempo un segnale video e di visualizzare le immagini
+campionate in rapida successione, dando l'illusione di un movimento continuo. Le immagini campionate sono dette fotogrammi
+o frame e solitamente vengono visualizzate a 24, 30, 50 o 60 frame al secondo (fps).
+
+\subsubsection*{Formati video non compressi}
+Per un video non compresso, il bitrate è estremamente elevato e si richiederanno altre tecniche di compressione per poterlo
+trasmettere efficacemente in rete. Ad esempio un video HD di risoluzione \(1920 \times 1080\) con 50 fps con frame codificati
+in formato YCbCr 4:2:0 ha un bitrate di circa 155 MBytes/s.
+\[R_\text{YCbCr} = \text{frame-size}_\text{\;YCbCr} \cdot 50 \; \text{fps} = 3.11 \; \text{MBytes} \cdot 50 \; \text{fps} \approx 1.244 \; \text{Gbit/s} = 155.5 \; \text{MBytes/s}\]

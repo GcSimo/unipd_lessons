@@ -1,0 +1,267 @@
+\section{Codifica JPEG}
+\subsection{Processo di codifica JPEG}
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Stile per i blocchi di elaborazione
+		block/.style={
+			rectangle,
+			draw=blue!70!black,
+			fill=blue!5,
+			thick,
+			align=center,
+			rounded corners=3pt,
+			font=\footnotesize
+		},
+		% Stile per le frecce
+		arrow/.style={
+			-{Stealth[scale=1.2]},
+			thick
+		},
+		% Stile per i segnali testuali
+		signal/.style={
+			align=center,
+			font=\footnotesize
+		},
+		% Distanza standard tra i nodi
+		node distance=0.7cm
+	]
+		% Catena di blocchi
+		\node (in) at (0,0) [signal] {\textbf{Immagine}\\\textbf{YCbCr}};
+		\node [block, right=of in] (cent) {Centratura\\campioni};
+		\node [block, right=of cent] (blk) {Partizione\\blocchi \(8 \times 8\)};
+		\node [block, right=of blk] (dct) {DCT 2D};
+		\node [block, right=of dct] (quant) {Quantizzazione};
+		\node [block, right=of quant] (comp) {Codifica\\Lossless};
+		\node [signal, right=of comp] (out) {\textbf{Flusso}\\\textbf{JPEG}};
+
+		% Collegamenti ed etichette
+		\draw [arrow] (in) -- node[signal, above=0.1cm] {} (cent);
+		\draw [arrow] (cent) -- node[signal, above=0.1cm] {} (blk);
+		\draw [arrow] (blk) -- node[signal, above=0.1cm] {} (dct);
+		\draw [arrow] (dct) -- node[signal, above=0.1cm] {} (quant);
+		\draw [arrow] (quant) -- node[signal, above=0.1cm] {} (comp);
+		\draw [arrow] (comp) -- node[signal, above=0.1cm] {} (out);
+	\end{tikzpicture}
+\end{figure}
+
+\noindent
+La codifica JPEG processa immagini in formato YCbCr (o in B/N), per cui il primo passo di codifica rimane la conversione
+da RGB a YCbCr con relativo sottocampionamento come visto in precedenza.
+
+La codifica JPEG lavora solo su un canale, per cui in caso di immagini multicanale (YCbCr) ogni canale viene codificato
+separatamente. Il processo di codifica per un canale è composto da cinque fasi:
+\begin{enumerate}
+	\item centratura dei valori dei campioni dei pixel di un canale: si sottrae il valore 128 a tutti i campioni dei
+	pixel di un canale, in modo da portare i valori dall'intervallo \([0, 255]\) all'intervallo \([-128, 127]\) per
+	far lavorare meglio la DCT
+	\item partizione dell'immagine in blocchi di dimensione \(8 \times 8\) pixel: la dimensione è stata scelta come
+	compromesso tra complessità computazionale (blocchi grandi richiedono più risorse) e la qualità della compressione
+	(blocchi piccoli non catturano strutture globali) in base ai calcolatori e alle risoluzioni diffusi quanto è stato
+	definito lo standard (1991)
+	\item calcolo dei coefficienti della matrice DCT per ogni blocco (approfondito in seguito)
+	\item quantizzazione dei coefficienti DCT (approfondito in seguito)
+	\item codifica lossless dei coefficienti quantizzati (approfondito in seguito)
+\end{enumerate}
+
+\noindent
+Lo standard definisce la sintassi del formato, ma non pone vincoli sugli algoritmi implementativi, permettendo
+lo stesso la concorrenza tra diversi produttori di codec.
+
+\subsection{Discrete Cosine Transform - DCT}
+\subsubsection*{Trasformate sparsificanti per generare residui a bassa entropia}
+L'obiettivo di una codifica lossy è quello di eseguire una nuova quantizzazione dei dati per comprimere l'informazione
+memorizzata. Il problema è che se si esegue una riquantizzazione diretta sui campioni, la qualità del segnale digitale
+degrada molto velocemente in quanto i campioni non sono sparsi e hanno tutti approssimativamente la stessa importanza.
+È possibile, però, applicare trasformate lineari sparsificanti che rappresentano il segnale in un nuovo dominio in cui
+i campioni sono più sparsi e su cui è possibile eseguire una quantizzazione più aggressiva per eliminare i campioni meno
+importanti senza degradare troppo la qualità del segnale. La trasformata deve essere anche facilmente invertibile per
+poter tornare al dominio dei campioni originali.
+
+\subsubsection*{Trasformate ortogonali preservano le metriche di prestazione}
+Tra tutte le trasformate sparsificanti, si preferiscono quelle ortogonali per cui detta \(A\) la matrice di trasformazione
+si ha che \(A^{-1} = A^T\). La proprietà di queste trasformazioni è che preservano la distanza euclidea tra due segnali,
+e di conseguenza anche le metriche di prestazione come il MSE e il PSNR. Per cui una strategia di compressione ottimale
+(che massimizza il PSNR nella nuova rappresentazione) è anche ottimale nel dominio dei campioni originali.
+
+Di seguito si illustra il processo di trasformazione (1), quantizzazione (2) e ricostruzione (3) del segnale e si dimostra
+che l'MSE si conserva tra il dominio dei campioni e quello dei coefficienti trasformati
+\[\begin{array}{c c c}
+	0. & \vec{x} = [s(n\!+\!1), s(n\!+\!2) \ldots s(n\!+\!N)]^T \in \mathbb{R}^N
+	& \quad \text{segnale originale in notazione vettoriale}
+	\\[5pt]
+	1. & \vec{y} = A \; \vec{x}
+	& \quad \text{applicazione della trasformata ortogonale}
+	\\[5pt]
+	2. & \tilde{y} = [Q(y(1), \Delta_1), Q(y(2), \Delta_2), \ldots, Q(y(N), \Delta_N)]
+	& \quad \text{quantizzazione dei coefficienti trasformati}
+	\\[5pt]
+	3. & \tilde{x} = A^{-1} \; \tilde{y}
+	& \quad \text{ricostruzione del segnale originale}
+\end{array}\]
+\vspace{-10pt}
+\begin{align*}
+	\text{MSE}(\vec{x}, \tilde{x}) &= \frac{1}{N} \; || \, \vec{x} - \tilde{x} \, ||^2 = \frac{1}{N} \; (\vec{x} - \tilde{x})^T \cdot (\vec{x} - \tilde{x}) = \frac{1}{N} \; (A^T \vec{y} - A^T \tilde{y})^T \cdot (A^T \vec{y} - A^T \tilde{y}) = \\
+	&= \frac{1}{N} \; (\vec{y} - \tilde{y})^T \cdot A \cdot A^T \cdot (\vec{y} - \tilde{y}) = \frac{1}{N} \; || \, \vec{y} - \tilde{y} \, ||^2 = \text{MSE}(\vec{y}, \tilde{y})
+\end{align*}
+
+\subsubsection*{Trasformate bidimensionali applicate alle immagini}
+Le trasformate ortogonali sono state pensate per lavorare su vettori, per cui per applicarle alle immagini (matrici) è
+necessario prima applicarle alle righe e poi alle colonne della matrice dei campioni come segue. Si nota applicando la
+trasformata prima sulle righe e poi sulle colonne o viceversa, il risultato non cambia.
+\[Y = A \, X \, A^T = \underbrace{\, (A \, X) \,}_{\substack{\text{trasformata} \\ \text{delle colonne}}} \!\!\!\! A^T = A \underbrace{\, (A \,X^T)^T \,}_{\substack{\text{trasformata} \\ \text{sulle righe}}}\]
+\begin{itemize}
+	\item \(Z = A \, X\) trasformata delle colonne, il risultato è una matrice le cui colonne corrispondono al prodotto tra
+	la matrice di trasformazione \(A\) e le colonne di \(X\)
+	\item \(Y = Z \, A^T = (A \, Z^T)^T\) trasformata sulle righe, il risultato è una matrice le cui righe corrispondono
+	al prodotto tra la matrice di trasformazione \(A\) e le righe di \(Z\)
+\end{itemize}
+
+\subsubsection*{Trasformata di Fourier e Discrete Cosine Transform applicata alle immagini}
+Si nota che la trasformata di Fourier è una buona candidata per essere una trasformata sparsificante e ortogonale. In pratica
+rappresenta l'immagine come combinazione di sinusoidi orizzontali e verticali. Le basse frequenze corrispondono a variazioni
+lente del colore dei pixel (ad esempio superfici uniformi), mentre le alte frequenze corrispondono a variazioni rapide (ad
+esempio zone ricche di dettagli). Siccome le immagini in generale sono composte principalmente da basse frequenze, la
+trasformata di Fourier riesce a sparsificare bene i dati.
+
+Nella compressione JPEG, però, si usa la Discrete Cosine Transform (DCT) che è una variante discreta della trasformata di Fourier
+basata solo sulle funzioni coseno, restituisce solo coefficienti reali positivi e permette una migliore sparsificazione.
+
+\subsubsection*{Interpretazione della DCT bidimensionale a blocchi}
+Nell'algoritmo JPEG, si applica la DCT su blocchi di immagine di dimensione \(8 \times 8\) pixel, ottenendo una matrice di
+coefficienti DCT di dimensione \(8 \times 8\) per ogni blocco. La scelta della dimensione del blocco è un compromesso tra
+complessità e qualità della compressione.
+
+Ogni coefficiente della matrice DCT rappresenta la correlazione (o prodotto interno) tra il blocco di pixel dell'immagine
+e un particolare blocco della DCT costruito ad hoc per rappresentare un particolare pattern di frequenza. Essendo i blocchi
+della DCT ordinati in frequenza crescente, le matrici di coefficienti avranno una struttura sparsificata concentrando
+i coefficienti associati alle basse frequenze in alto a sinistra e quelli associati alle alte frequenze in basso a destra.
+
+\subsubsection*{Corrispondenza tra coefficienti DCT e le strutture dell'immagine}
+Analizzando la matrice di coefficienti DCT di un'immagine si notano le seguenti strutture:
+\begin{itemize}
+	\item superfici uniformi fanno crescere i coefficienti a bassa frequenza, concentrati in alto a sinistra
+	\item i dettagli fanno crescere i coefficienti a medio/alte frequenze, concentrati al centro
+	\item bordi e contorni fanno crescere i coefficienti lungo rette passanti per l'origine in alto a sinistra
+	\item strutture periodiche dell'immagine formano punti isolati di medio/alta frequenza, corrispondenti proprio alla
+	frequenza della struttura periodica
+\end{itemize}
+
+\subsection{Quantizzazione dei coefficienti DCT}
+\subsubsection*{Quantizzazione dei coefficienti DCT}
+La quantizzazione dei coefficienti DCT avviene tramite un quantizzatore uniforme e converte i coefficienti reali della DCT
+in valori interi detti indici di quantizzazione. Tali indici esprimono il fattore moltiplicativo dell'intervallo di
+quantizzazione \(\Delta\) necessario per ottenere il coefficiente DCT quantizzato. In questo modo si riesce a ridurre
+i valori da memorizzare e rendere la codifica lossless successiva più efficiente.
+\[x_\text{ind} = Q(x, \Delta) = \text{round} \left( \frac{x}{\Delta} \right) \qquad \tilde{x} = \Delta \cdot x_\text{ind} = \Delta \cdot \text{round} \left( \frac{x}{\Delta} \right)\]
+
+\subsubsection*{Tabella di quantizzazione}
+Siccome i coefficienti della DCT hanno importanza diversa in base alla loro frequenza, è possibile utilizzare quantizzatori
+diversi specifici per ogni coefficiente della matrice DCT. Si definisce, quindi, una tabella di quantizzazione \(q\) di
+dimensione \(8 \times 8\) che contiene i valori di quantizzazione \(\Delta(i,j)\) specifici per i corrispettivi coefficienti
+\(Y(i,j)\) della matrice DCT.
+
+Lo standard non fornisce una tabella specifica, ma ne suggerisce una di riferimento per la luminanza e una per la crominanza
+ottenute tramite test soggettivi sulla qualità percepita. Tali matrici hanno valori più bassi associati alle basse frequenze
+in alto a sinistra e valori più alti associati alle alte frequenze in basso a destra.
+
+\subsubsection*{Fattore di qualità}
+Per rendere la codifica più flessibile all'utente, si definisce un fattore di qualità \(Q\) compreso tra 1 e 100 che definisce
+il fattore di scala \(SF\) per la tabella di quantizzazione base \(q^*\). In questo modo l'utente può scegliere se utilizzare
+compressioni più aggressive (\(Q\) basso) o più conservative (\(Q\) alto).
+
+Siccome la tabella deve essere costituita da interi nel range \([1,256]\) per essere rappresentata in 64 byte (1 byte per
+valore), a seguito dello scalamento per \(SF\) viene eseguita l'operazione di troncamento della parte decimale e se il
+valore è maggiore di 256, viene sostituito con 256.
+\[SF \; = \; \begin{cases}
+	5000 / Q & \text{se } 0 < Q \leq 50 \\
+	200 - 2Q & \text{se } 50 < Q \leq 99 \\
+	1 & \text{se } Q = 100
+\end{cases} \qquad\qquad\qquad q \; = \; \frac{SF}{100} \; q^*\]
+
+\subsubsection*{Effetti della quantizzazione delle frequenze}
+Per immagini con bassa qualità, spesso si verificano fenomeni di sdoppiamento dei bordi e dei contorni dell'immagine.
+Questo è dovuto al fatto che comprimendo pesantemente le alte frequenze, queste non riescono più a delimitare correttamente
+i bordi e le zone di alta frequenza e le oscillazioni lente si propagano anche nei pixel adiacenti. Si parla di propagazione
+delle strutture a bassa frequenza.
+
+Per fattori di compressione molto bassi, si possono notare le strutture a blocchi di \(8 \times 8\) pixel.
+
+\subsection{Codifica lossless dei coefficienti DCT}
+\subsubsection*{Zig-zag scan}
+Per convertire la matrice di coefficienti DCT in un vettore, si utilizza lo zig-zag scan che parte dal coefficiente
+in alto a sinistra e si prosegue per diagonali ordinando i coefficienti in frequenza crescente. Al posto di riportare
+tutta la sequenza di coefficienti nulli alla fine del vettore, si posiziona un simbolo speciale EOB (End Of Block) dopo
+l'ultimo coefficiente non nullo.
+
+\subsubsection*{Codifica del coefficiente DC}
+Il primo coefficiente del vettore ottenuto dallo zig-zag scan è detto coefficiente DC e rappresenta la componente continua
+di frequenza nulla. Per codificarlo si utilizza una codifica predittiva usando il valore DC del blocco precedente e
+il residuo viene codificato con codifica categoria/valore. La tabella di codifica dei residui DC non è definita dallo
+standard per cui va indicata nel file JPEG.
+\[e_{\, \text{residuo}} = x_{\, \text{DC del blocco corrente}} - p_{\, \text{DC del blocco precedente}}\]
+
+\subsubsection*{Codifica dei blocchi AC}
+I restanti coefficienti del vettore sono detti AC e rappresentano le componenti di frequenza non nulla. Per codificarli
+si utilizza la codifica run-length che consiste nel creare una sequenza di simboli \((R,C)\) in cui \(R\) è il numero di
+coefficienti nulli consecutivi e \(C\) è il primo coefficiente AC non nullo. Se si incontrano più di 15 coefficienti
+nulli, si inserisce un simbolo speciale \((15,0)\) e il successivo simbolo calcola \(R\) a partire dal successivo
+coefficiente. La sequenza termina con il simbolo \((0,0)\). La codifica dei simboli \((R,C)\) avviene in due fasi:
+prima si codifica \(C\) con codifica categoria/valore \((k, v)\), poi si codifica la coppia \((R,k)\) con una codifica
+a prefisso. La tabella di codifica dei blocchi AC non è definita dallo standard per cui va indicata nel file JPEG.
+
+\newpage
+
+\subsection{Sintassi del formato JPEG baseline (1992)}
+\subsubsection*{Struttura del file JPEG}
+Un file JPEG è costituito da una struttura gerarchica di segmenti, come segue:
+\begin{itemize}
+	\item start of image: sezione di apertura del file
+	\item frame header: informazioni sulla dimensione dell'immagine, sullo spazio colore, sul campionamento dei canali
+	\item frame: sezione suddivisa a sua volta in uno o più scan, uno per ogni canale di cui è composta l'immagine,
+	ognuno dei quali contiene:
+	\begin{itemize}[topsep=0pt]
+		\item scan header: informazioni sul canale e sulle tabelle di quantizzazione
+		\item scan: sezione costituita da una sequenza di segmenti che possono essere codificati e decodificati in
+		parallelo, ognuno dei quali contiene:
+		\begin{itemize}[topsep=0pt]
+			\item segment header: informazioni sulle tabelle di codifica
+			\item segment: dati effettivi codificati, suddivisi in blocchi della DCT
+		\end{itemize}
+	\end{itemize}
+	\item end of image: sezione di chiusura del file
+\end{itemize}
+
+\subsection{Evoluzione del formati di compressione delle immagini}
+\begin{itemize}[itemsep=2pt]
+	\item \textbf{1992 - JPEG baseline}: \\
+	primo standard JPEG (\(8 \times 8\), DCT, zig-zag scan, Huffman), ampiamente usato e supportato da tutti i browser
+	e sistemi operativi per la sua semplicità e compatibilità
+	\item \textbf{1996 - PNG}: \\
+	formato lossless con predizione spaziale e codifica con dizionario con Huffman, usato per immagini nel web e per
+	immagini con trasparenza, poco diffuso in smartphone e fotocamere
+	\item \textbf{2000 - JPEG 2000}: \\
+	viene sostituita la DCT con la DWT (Discrete Wavelet Transform) più adatta a rappresentare le immagini, permette una
+	codifica progressiva lossy-to-lossless, usato nel cinema digitale, imaging medico e immagini satellitare
+	\item \textbf{2010 - WebP}: \\
+	proveniente dai codec video, basato su predizione spaziale, DCT a dimensione variabile e deblocking filter, usato per
+	immagini nel web
+	\item \textbf{2010 - WebP lossless}: \\
+	proveniente dai codec video, versione avanzata della PNG
+	\item \textbf{2015 - HEIC}: \\
+	proveniente dai codec video, versione avanzata di WebP, usata nell'ecosistema Apple, molto efficiente, ma soggetta
+	a royalty su tecnologie brevettate (solo aziende grosse come Apple si possono permettere di gestire la burocrazia
+	per ottenere le licenze)
+	\item \textbf{2019 - AVIF}: \\
+	versione di HEIC e WebP senza royalty, molto diffusa in ambito web e smartphone come alternativa efficiente a JPEG
+	\item \textbf{2019 - JPEG XL}: \\
+	versione avanzata di JPEG 2000, con codifica progressiva lossy-to-lossless, aggiunge codifica entropica dell'intero
+	file, supporto per immagini HDR e migliore gestione dei bordi e texture ad alte frequenze, dovrebbe diventare il nuovo
+	standard JPEG, ma il suo supporto è ancora limitato
+	\item \textbf{2025 - JPEG AI}: \\
+	sfrutta le codifiche basate su reti neurali (DNN e autoencoder) che utilizzano approcci di deep learning per estrapolare
+	le caratteristiche principali dell'immagine e codificarle in maniera efficiente in uno spazio latente, riescono a
+	modellare meglio strutture non lineari riducendo parecchio il bitrate, esistono due varianti: una ad alta complessità
+	(richiede GPU e NPU) ed una a bassa complessità (sufficiente una CPU, per smartphone), potrebbe diventare il futuro
+	standard JPEG
+\end{itemize}

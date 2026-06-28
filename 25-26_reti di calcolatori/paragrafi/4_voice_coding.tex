@@ -1,0 +1,126 @@
+\section{Codifica vocale}
+\subsection{Caratteristiche della voce e classi di codificatori}
+\subsubsection*{Suoni vocali e non vocali}
+Il segnale vocale può essere considerato un segnale localmente stazionario su periodi di 20 ms. In tali periodi, il carattere
+del segnale rimane costante per la stazionarietà durante la pronuncia di un fonema. In generale i periodi di stazionarietà
+si classificano in due categorie principali:
+\begin{itemize}
+	\item suoni vocali: segnali pseudoperiodici, associati alle vocali e alle consonanti s e f, caratterizzati da alcune
+	frequenze predominanti dovute alla periodicità data dalla vibrazione delle corde vocali
+	\item suoni non vocali: segnali aperiodici, associati alle consonanti p, t, k, s, f, h, caratterizzati da un
+	spettro piuttosto uniforme, simile al rumore bianco
+	\item suoni misti: transizioni tra i diversi fonemi
+\end{itemize}
+
+\subsubsection*{Classi di codificatori}
+\begin{itemize}
+	\item \textbf{codificatori a forme d'onda}: codificano la forma d'onda del segnale, senza ottimizzazioni per le
+	caratteristiche del segnale vocale; hanno bassa complessità, alta qualità del parlato, ma bitrate elevato; un esempio
+	è la codifica PCM
+	\item \textbf{codificatori vocali o vocoder}: modellano il modo in cui il segnale vocale viene generato, stimando
+	i parametri del modello e trasmettendo solo questi parametri; hanno bassa qualità del parlato, ma bitrate molto basso;
+	un esempio è la codifica LPC-10
+	\item \textbf{codificatori ibridi}: combinano le due tecniche precedenti, utilizzano tecniche di vocoding unite a
+	codifiche a forme d'onda per il residui di predizione; hanno qualità del parlato migliore dei vocoder e bitrate più
+	elevato; esempi sono ACELP, AMR-WB e Opus
+\end{itemize}
+
+\subsection{Codificatore vocoder basato su LPC-10}
+\subsubsection*{Codifica a predizione lineare (LPC-10)}
+La codifica a predizione lineare LPC-10 consiste nel produrre una predizione \(x_p(n)\) del campione corrente \(x(n)\)
+attraverso una combinazione lineare dei 10 campioni precedenti \(x(n\!-\!1), \; x(n\!-\!2), \; \dots \; x(n\!-\!10)\)
+pesati da opportuni coefficienti \(a_1, a_2, \dots, a_{10}\).
+\[x_p(n) = \sum_{k=1}^{10} a_k \, x(n-k)\]
+I coefficienti \(a_k\) vengono calcolati minimizzando l'errore di predizione quadratico medio tra il campione
+corrente \(x(n)\) e la sua predizione \(x_p(n)\). L'errore di predizione \(y(n)\) è definito come segue:
+\[y(n) = x(n) - x_p(n) = x(n) - a_1 \, x(n-1) - a_2 \, x(n-2) - \dots - a_{10} \, x(n-10)\]
+Si osserva che conoscendo i coefficienti \(a_k\) e l'errore di predizione \(y(n)\), è possibile ricostruire esattamente
+il campione corrente \(x(n)\). Risulta sufficiente che il codificatore trasmetta tali informazioni al decodificatore
+(opportunamente quantizzate) per permettere la ricostruzione del segnale vocale.
+
+\subsubsection*{Trasmissione del residuo}
+Se i coefficienti \(a_k\) sono stati calcolati correttamente, il residuo \(y(n)\) risulta essere:
+\begin{itemize}
+	\item un fruscio o rumore bianco per i suoni non vocali, di cui viene trasmesso solo la potenza, siccome il
+	decodificatore è in grado di generare da sé un rumore bianco casuale
+	\item un segnale pseudoperiodico con frequenza predominante detta pitch per i suoni vocali, che viene trasmesso
+	al decodificatore come treno di impulsi periodici
+\end{itemize}
+Per individuare pitch e potenza del residuo si utilizzano tecniche come la stima dell'autocorrelazione.
+
+\subsubsection*{Tasso di codifica}
+Supponendo di suddividere il segnale vocale in finestre di 20 ms, per ogni finestra si trasmettono:
+\begin{itemize}
+	\item 36 bit per i 10 coefficienti del filtro di predizione lineare
+	\item 1 bit per distinguere se l'errore di predizione è un treno di impulsi o rumore bianco
+	\item 6 bit per la potenza del residuo, sia per il rumore bianco che per il treno di impulsi
+	\item 7 bit per il pitch del residuo, solo se l'errore di predizione è un treno di impulsi
+\end{itemize}
+Complessivamente si ottiene un tasso di codifica medio di 2.4 kbps, che è molto più basso rispetto ai 64 kbps della
+codifica PCM, a discapito di una qualità del parlato molto più bassa.
+\[R_\text{voiced} = \frac{36 + 1 + 6 + 7 \; \text{bit}}{20 \; \text{ms}} = 2500 \; \text{bps} \qquad R_\text{unvoiced} = \frac{36 + 1 + 6 \; \text{bit}}{20 \; \text{ms}} = 2150 \; \text{bps} \qquad R_\text{avg} = 2400 \; \text{bps}\]
+
+\subsubsection*{Criticità del codificatore LPC-10}
+Il codificatore LPC-10 ha alcune criticità che lo rendono poco utilizzabile in applicazioni pratiche:
+\begin{itemize}
+	\item \textbf{decisione binaria}: la classificazione dei campioni in ``vocali'' e ``non vocali'' risulta troppo
+	stringente in quanto non tiene conto degli stati intermedi di transizione tra i fonemi; sarebbe opportuno
+	avere a disposizione più classi di campioni per catturare meglio la variabilità del segnale vocale
+	\item \textbf{errori di classificazione}: se il codificatore commette errori nel classificare un campione, si
+	verificheranno distorsioni e perdita di informazioni nel segnale ricostruito creando un effetto ``sussurrato''
+	o ``soffiato'' nel parlato; per risolvere ciò si possono utilizzare modelli con catene di feedback
+	\item \textbf{semplificazione del residuo}: trattando il residuo come generico rumore bianco, si perdono informazioni
+	importanti sulla struttura spettrale e sulla coerenza di fase del segnale originale, producendo un timbro artificiale;
+	risulta utile avere più parametri per modellare meglio il residuo
+	\item \textbf{latenza}: i codificatori a predizione lineare possiedono una certa latenza dovuta in parte al costo
+	computazionale, in parte ad eventuali buffer necessari nelle implementazioni pratiche
+	\item \textbf{resilienza}: i codificatori a predizione lineare sono molto sensibili agli errori casuali e agli errori
+	a burst, per cui è necessario impiegare opportune tecniche di FEC (Forward Error Correction)
+	\item \textbf{soppressione del silenzio}: per risparmiare banda, si può aggiungere un modulo di rilevamento dell'attività
+	vocale (VAD, Voice Activity Detection) che interrompe la trasmissione del segnale durante i periodi di silenzio, ma allo
+	stesso tempo può portare a improvvise interruzioni del parlato
+\end{itemize}
+
+\subsection{Codificatori più avanzati - ACELP, AMR-WB e Opus}
+\subsubsection*{Codificatore ACELP - G.729}
+Il codificatore ACELP (Algebraic Code-Excited Linear Prediction) è un codificatore basato su predizione lineare che
+dispone di un set molto esteso di residui (generati da codici algebrici) per eccitare il filtro di predizione. Ciò
+permette di modellare meglio gli stati intermedi di transizione tra fonemi e dispone di feedback loop per migliorare
+le prestazioni. Possiede anche moduli per la gestione dei mascheramenti.
+
+\subsubsection*{Codificatore AMR-WB - G.722.2}
+Il codificatore Adaptive Multi-Rate Wideband (AMR-WB) è un codificatore ibrido utilizzato come standard per l'HD-Voice
+nelle reti mobili LTE/5G. La particolarità di questo codificatore è l'estensione della banda passante fino a 7 kHz (contro
+i 4 kHz della banda telefonica tradizionale) e la possibilità di variare il bitrate da 6.6 kbps a 23.85 kbps in base alla
+qualità del canale radio. Questo permette maggiore qualità del parlato grazie all'aumento del contenuto armonico delle alte
+frequenze e una maggiore robustezza della trasmissione in caso di canali radio con banda limitata.
+
+\newpage
+
+\subsection{Codificatore Opus - RFC 6716}
+\subsubsection*{Caratteristiche generali}
+Il codificatore Opus è un codificatore ibrido con bitrate variabile da 6 kbps a 510 kbps e banda estesa da 8 kHz a 48 kHz,
+ampiamente utilizzato per servizi di videochiamata WebRTC (meet, zoom, teams), messaggistica (whatsapp, telegram), streaming
+audio (youtube, spotify) e gaming (discord, twitch).
+
+\subsubsection*{Architettura ibrida SILT + CELT}
+Opus si basa su due motori di elaborazione paralleli per codificare il segnale vocale e il segnale musicale:
+\begin{itemize}
+	\item \textbf{motore SILT}: utilizza la predizione lineare (LPC) basata sul modello del tratto vocale umano, come visto
+	in precedenza; si occupa della parte inferiore dello spettro armonico (\(\leq 8 \; \text{kHz}\)) tipica del parlato
+	\item \textbf{motore CELT}: utilizza una variante ottimizzata della trasformata discreta di Fourier (MDCT), simile
+	a quella utilizzata nei codificatori MP3 e AAC; si occupa di codificare la parte superiore dello spettro armonico
+	(\(> 8 \; \text{kHz}\)) tipica della musica e in generale dei suoni non vocali
+\end{itemize}
+
+\noindent
+Se il segnale è prevalentemente vocale, il codificatore utilizza solo il motore SILT, mentre se il segnale contiene anche
+componenti musicali, il codificatore utilizza entrambi i motori in parallelo. In questo modo, si riesce a garantire una
+qualità del parlato molto elevata con bassi bitrate e contemporaneamente una qualità musicale paragonabile a quella dei
+codificatori MP3 e AAC.
+
+\subsubsection*{Diffusione e vantaggi su altri codificatori}
+La sua grande diffusione è dovuta al fatto che ha una bassa latenza algoritmica e strutturale di soli 26.5 ms, dispone di
+grande flessibilità nella gestione del bitrate e ha una banda sufficientemente estesa sia per segnali vocali che musicali.
+Inoltre è open source e royalty-free, per cui può essere utilizzato liberamente senza costi di licenza da chiunque necessiti
+di un codificatore universale di qualità.

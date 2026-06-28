@@ -1,0 +1,123 @@
+\section{Segnali e servizi multimediali}
+\subsection{Segnali multimediali}
+\subsubsection*{Medium e multimedia}
+\begin{itemize}
+	\item un medium (o media al plurale) è un mezzo per rappresentare, immagazzinare e trasportare informazioni, esempi di
+	media sono testo, suono, immagini, video, ecc.
+	\item un multimedia è un sistema di rappresentazione/immagazzinamento/trasporto di informazioni che utilizza più media
+	diversi
+\end{itemize}
+
+\subsubsection*{Segnali e comunicazioni multimediali}
+\begin{itemize}
+	\item un segnale è una funzione di una o più variabili dipendenti in funzione di una o più variabili indipendenti
+	(tempo per audio, spazio per immagini, spazio-tempo per video, ecc.), può essere analogico (dominio e immagine
+	continui) o digitale (dominio e immagine discreti) e dal punto di vista ingegneristico è un mezzo che trasporta
+	informazioni
+	\item un segnale multimediale è la rappresentazione di uno o più media (audio, video, immagini, ecc.)
+	come segnali digitali (discreti e quantizzati) che trasmettono informazioni
+	\item una comunicazione multimediale è la trasmissione di segnali multimediali
+\end{itemize}
+
+\subsubsection*{Digitalizzazione dei segnali analogici e multimediali}
+Per rappresentare delle informazioni provenienti da segnali analogici (es. suono, immagini) in segnali multimediali è
+necessario eseguire le operazioni di campionamento, quantizzazione e codifica.
+
+Il processo di digitalizzazione comporta inevitabilmente una perdita di informazione. In quelli attualmente utilizzati,
+però, non è possibile percepire tale perdita. Per questo motivo i segnali multimediali digitali saranno considerati
+``segnali originali'' in quanto indistinguibili da quelli analogici di partenza.
+
+\subsubsection*{Sorgenti statiche e dinamiche}
+\begin{itemize}
+	\item una sorgente statica produce informazioni tempo invarianti (es. immagini, testi), supportano bene jitter, latenze
+	e variazioni di bitrate, ma non supportano bene errori di trasmissione
+	\item una sorgente dinamica produce informazioni in funzione del tempo (es. audio, video), richiedono sincronismo tra
+	diversi media (es. audio, video e testo dei sottotitoli), supportano bene errori di trasmissione, ma sono sensibili
+	a jitter e latenza	
+\end{itemize}
+
+\subsection{Servizi multimediali}
+\subsubsection*{Categorie dei servizi multimediali}
+Un servizio multimediale è un sistema di rappresentazione, immagazzinamento e trasporto di informazioni basato su segnali
+multimediali. I servizi multimediali possono essere classificati in streaming e bulk transfer, in base a come i dati
+trasmessi vengono fruiti dall'utente finale.
+
+\subsubsection*{Streaming}
+Un servizio streaming permette la fruizione dei media anche prima della completa ricezione dei dati. È composto da una
+sorgente dinamica che invia i dati a passo costante (stream) a uno o più ricevitori che li memorizzano in un buffer
+(playout) per poi riprodurli. Richiede una attenta gestione del buffer, della banda, della latenza, del jitter e
+dell'ordine con cui i pacchetti vengono ricevuti. In base al tipo di fruizione dei media, lo streaming può essere:
+\begin{itemize}
+	\item \textbf{stored}: il contenuto viene trasmesso in maniera asincrona, dopo essere stato prodotto, elaborato
+	e memorizzato in una memoria dedicata (server); es. video on demand come netflix e youtube, podcast e musica
+	come spotify, ecc.
+	\item \textbf{live}: il contenuto viene trasmesso appena viene prodotto, con latenze di poche decine di secondi;
+	es. eventi sportivi in diretta, ecc.
+	\item \textbf{real-time}: caso particolare dei servizi live streaming in cui la latenza non deve superare i 150 ms;
+	es. videochiamate, teleconferenze, giochi online, ecc.
+\end{itemize}
+
+\noindent
+I servizi di streaming in cui l'utente può interagire con il contenuto multimediale sono detti interattivi.
+\begin{itemize}
+	\item \textbf{streaming interattivo}: l'utente può interagire con il contenuto multimediale, ad esempio attraverso
+	chat, votazioni, commenti, domande in trasmissioni live o mettere in pausa, riavvolgere o saltare parti del contenuto
+	in servizi stored
+	\item \textbf{streaming non interattivo}: l'utente non può interagire con il contenuto multimediale, ad esempio nei
+	servizi real time
+\end{itemize}
+	
+\subsubsection*{Bulk transfer}
+Un servizio bulk transfer permette la fruizione dei media solo dopo la completa ricezione dei dati. Sono costituiti
+principalmente da sorgenti statiche, per cui tollerano bene latenze e jitter, ma non tollerano errori di trasmissione.
+Come per i servizi streaming, anche i servizi bulk transfer sono classificati in:
+\begin{itemize}
+	\item \textbf{stored}: il contenuto viene trasmesso in maniera asincrona, es. pagine web, download di file, ecc.
+	\item \textbf{live}: il contenuto viene trasmesso appena viene prodotto, es. messaggistica, email, ecc.
+	\item non esistono servizi bulk transfer real-time
+\end{itemize}
+
+\subsection{Requisiti e obiettivi dei servizi multimediali}
+\subsubsection*{Parametri di misurazione dei requisiti}
+\begin{itemize}
+	\item banda/tasso/throughput: quantità di informazione trasmessa per unità di tempo, in bit/s
+	\item latenza: ritardo dovuto alla trasmissione dei dati, in secondi
+	\item jitter: variazione della latenza, in secondi
+	\item tasso d'errore: percentuale di bit errati rispetto al totale dei bit trasmessi, in \%
+	\item complessità: costo computazionale, consumo, ritardi di computazione, \dots
+	\item fedeltà al segnale originale: compromesso tra qualità e tasso d'errore
+\end{itemize}
+
+\subsubsection*{Obiettivo dei servizi multimediali}
+L'obiettivo dei servizi multimediali è quello di utilizzare un'infrastruttura di rete già presente (es. rete internet)
+e sviluppare opportuni protocolli per privilegiare determinate esigenze (banda, latenza) rispetto ad altre, per garantire
+la migliore qualità possibile in funzione dei limiti strutturali imposti dalla rete.
+
+\subsubsection*{Classificazione banda-latenza}
+\begin{center}
+	\begin{minipage}{0.44\textwidth}
+		\begin{itemize}
+			\item bassa banda e latenza: controllo remoto
+			\item bassa banda, alta latenza: IoT, sensori
+		\end{itemize}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.55\textwidth}
+		\begin{itemize}
+			\item alta banda, bassa latenza: AR/VR, guida autonoma
+			\item alta banda, alta latenza: streaming video
+		\end{itemize}
+	\end{minipage}
+\end{center}
+
+\subsubsection*{Servizi URLL - Ultra Reliable Low Latency}
+Esistono alcuni servizi che richiedono latenza e tasso d'errore estremamente bassi come ad esempio:
+\begin{itemize}
+	\item automazione industriale, controllo del movimento (latenza \(\leq 1\) ms, tasso d'errore \(\leq 10^{-9}\))
+	\item tactile internet (latenza \(\leq 1\) ms, tasso d'errore \(\leq 10^{-4}\))
+	\item smart grid, controllo di sistemi energetici (latenza \(\leq 3-5\) ms, tasso d'errore \(\leq 10^{-7}\))
+	\item intelligent transport system, comunicazione tra veicoli (latenza \(\leq 5\) ms, tasso d'errore \(\leq 10^{-4}\))
+	\item guida autonoma (latenza \(\leq 15 - 20\) ms, tasso d'errore \(\leq 10^{-4}\))
+	\item controllo remoto (latenza \(\leq 5-100\) ms, tasso d'errore \(\leq 10^{-2}\))
+	\item automazione processi industriali, controllo di macchinari (latenza \(\leq 100\) ms, tasso d'errore \(\leq 10^{-5}\))
+\end{itemize}

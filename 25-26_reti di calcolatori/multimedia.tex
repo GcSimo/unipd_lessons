@@ -1,0 +1,59 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc} % standard unicode
+\usepackage[italian]{babel} % corretta sillabazione in italiano
+\usepackage{geometry} % per impostare margini e layout pagina
+\usepackage{amssymb} % per l'ambiente matematico
+\usepackage{amsmath} % per l'ambiente matematico
+\usepackage{enumitem} % per elenchi puntati
+\usepackage{multirow} % per celle che si espandono su più righe
+\usepackage{tabularx} % per tabelle con larghezza flessibile
+\usepackage{hyperref} % per link e riferimenti ipertestuali
+\usepackage{tikz} % per disegnare schemi
+
+% per margini
+\geometry{a4paper,left=25mm, right=25mm, bottom=25mm, top=30mm}
+
+% per centrare testo nelle tabelleX
+\renewcommand\tabularxcolumn[1]{m{#1}}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+% per elenchi puntati
+\setlist[itemize]{label=-, partopsep=0pt, topsep=3pt, itemsep=0pt}
+\setlist[enumerate]{partopsep=0pt, topsep=3pt, itemsep=0pt}
+
+% pacchetti per il disegno dello schema
+\usetikzlibrary{decorations.pathreplacing, shapes.geometric, arrows.meta, positioning, calc}
+
+% percorso delle immagini da inserire
+%\graphicspath{{./}}
+
+\title{Appunti di Multimedia}
+\author{Giacomo Simonetto}
+\date{Secondo semestre 2025-26}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+	Appunti del corso di Multimedia (Reti di Calcolatori) della facoltà di Ingegneria Informatica dell'Università di Padova.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\include{paragrafi/1_servizi.tex}
+\include{paragrafi/2_adc_dac.tex}
+\include{paragrafi/3_rappresentazioni.tex}
+\include{paragrafi/4_voice_coding.tex}
+\include{paragrafi/5_lossless_coding.tex}
+\include{paragrafi/6_jpeg.tex}
+\include{paragrafi/7_video_coding.tex}
+\include{paragrafi/8_metriche.tex}
+\include{paragrafi/9_streaming.tex}
+
+\end{document}

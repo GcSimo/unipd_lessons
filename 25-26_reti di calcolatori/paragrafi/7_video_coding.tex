@@ -1,0 +1,526 @@
+\section{Codifica video}
+\subsection{Principi di compressione video}
+\subsubsection*{Predizione temporale e decoded frame buffer}
+I codificatori video, oltre alla compressione spaziale e alla compressione basata su JPEG, sfruttano anche la ridondanza
+temporale tra fotogrammi successivi attraverso perdizioni temporali. Le immagini consecutive di un video, infatti, sono
+molto simili tra loro e tale sistema di predizione risulta estremamente efficace per ridurre il bitrate.
+
+In pratica il codificatore calcola i parametri del modello e l'errore di predizione dell'immagine corrente in funzione di
+una o più immagini precedenti (o successive) e invia al decodificatore tali informazioni. Il decodificatore avrà un buffer
+di immagini decodificate (decoded frame buffer) dove potrà memorizzare temporaneamente le immagini decodificate per poterle
+usare come riferimento per la predizione dei fotogrammi successivi.
+
+\subsubsection*{Criticità della predizione temporale e GOP}
+Con la predizione temporale si forma una catena continua di dipendenze temporali tra i fotogrammi e si verificano due
+criticità principali:
+\begin{itemize}
+	\item propagazione di errori: se un fotogramma viene perso o danneggiato, tutti i fotogrammi successivi che dipendono
+	da esso saranno anch'essi danneggiati
+	\item mancanza di accesso casuale: per accedere a un fotogramma intermedio, è necessario decodificare tutti i fotogrammi
+	precedenti in un processo lungo e inutilmente costoso.
+\end{itemize}
+Per mitigare tali problemi, i fotogrammi vengono raggruppati in unità chiamate GOP (Group of Pictures) che rendono fotogrammi
+di GOP diversi indipendenti tra loro.
+
+\subsubsection*{Parametri e metriche di prestazione dei codificatori video}
+I parametri di progetto che caratterizzano un codificatore video sono:
+\begin{itemize}
+	\item modalità di predizione temporale per la stima del movimento
+	\item struttura del GOP e dipendenze tra fotogrammi
+	\item strategia di mode selection per la predizione spaziale e temporale
+\end{itemize}
+
+\noindent
+Gli indici di prestazione di un codificatore video sono:
+\begin{itemize}
+	\item bitrate: quantità di dati per unità di tempo necessaria per trasmettere il video
+	\item qualità dell'immagine: misurata in termini di PSNR o tramite test soggettivi
+	\item complessità computazionale: tempo di codifica e decodifica e risorse computazionali richieste
+	\item ritardo di codifica e decodifica: tempo necessario per accumulare dati prima di poterli codificare
+	o decodificare (es. per la predizione temporale rispetto ad immagini successive)
+	\item robustezza agli errori: capacità di resistere a errori di trasmissione e perdita di pacchetti
+\end{itemize}
+
+\subsection{Stima e compensazione del movimento per block matching}
+\subsubsection*{Suddivisione in blocchi}
+Il movimento in un video può essere dovuto allo spostamento degli oggetti nella scena o al movimento della telecamera.
+Per stimare correttamente il movimento dei singoli oggetti, l'immagine viene suddivisa in blocchi di dimensione \(N \times M\)
+pixel e per ciascuno viene fatta la predizione del movimento. I blocchi si indicano attraverso la notazione \(B_{k}^{(\vec{p})}\)
+in cui \(k\) è l'indice del fotogramma e \(\vec{p}(x,y)\) è la posizione del pixel centrale del blocco.
+
+\subsubsection*{Stima del movimento con vettore e compensazione}
+L'obiettivo della stima del movimento non è quello di tracciare il movimento degli oggetti, ma di trovare un blocco di
+riferimento più simile a quello da predire per minimizzare il residuo di predizione.
+
+La stima del movimento consiste nell'individuare il vettore di movimento \(\vec{v}(x,y)\) che collega il blocco da
+predire \(B_k^{(\vec{p})}\) ad un altro blocco \(B_h^{(\vec{p} + \vec{v})}\) di un altro fotogramma \(h\) usato come
+riferimento per la predizione tale da minimizzare il costo di predizione \(J(\vec{v})\).
+\[J(\vec{v}) = d\left( B_k^{(\vec{p})}, B_h^{(\vec{p} + \vec{v})} \right) + \lambda \, R(\vec{v}) \qquad\qquad \vec{v}\,^* = \arg\min_{\vec{v} \in \mathcal{W}} J(\vec{v}\,^*)\]
+
+La dissimilarità (o differenza) tra due blocchi \(d(\vec{v}) = d(B_k^{(\vec{p})}, B_h^{(\vec{p} + \vec{v})})\) in
+funzione del vettore di movimento può essere calcolata come somma delle differenze assolute dei pixel (SAD) o come
+somma dei quadrati delle differenze dei pixel (SSD).
+
+Siccome il costo complessivo è dato sia dalla rappresentazione del residuo che da quella del vettore \(\vec{v}\),
+la formula di costo \(J(\vec{v})\) include un termine di penalizzazione \(R(\vec{v})\) che rappresenta il costo
+per rappresentare il vettore di movimento e un parametro \(\lambda\) che bilancia l'importanza dei due termini.
+
+\subsubsection*{Algoritmi e pattern di ricerca del vettore di movimento}
+L'algoritmo più semplice per la ricerca del vettore di movimento è la ricerca esaustiva (full search) che analizza il costo
+di predizione per tutti i possibili blocchi nella finestra di ricerca \(\mathcal{W}\) e seleziona quello con il costo minimo.
+Tale algoritmo è ottimale, ma molto complesso e costoso in termini di tempo di calcolo.
+
+In alternativa esistono algoritmi euristici subottimali come la ricerca hexagon che espande la ricerca analizzando i blocchi
+adiacenti e proseguendo solo nella direzione del blocco con il costo minore. La complessità computazionale è molto più bassa,
+ma non viene garantita l'ottimalità della soluzione.
+
+\subsubsection*{Codifica del residuo di predizione}
+La codifica del residuo di predizione può avvenire tramite diverse codifiche in base al contesto:
+\begin{itemize}
+	\item codifica Exp-Golomb, efficace in generale siccome i residui hanno valori sparsi e vicini allo zero
+	\item codifica aritmetica, più efficace se c'è poco movimento e quindi i residui sono molto vicini allo zero
+	\item codifica JPEG semplificata, in generale siccome i residui hanno valori molto simili tra di loro e per molti blocchi
+	è sufficiente solo il coefficiente DC
+	\item codifica JPEG completa, se il residuo ha valori poco sparsificati ad esempio per cambi di scena
+\end{itemize}
+
+\subsubsection*{Parametri e metriche prestazione della ricerca block-matching}
+I parametri di progetto che caratterizzano la stima del movimento sono:
+\begin{itemize}
+	\item forma e dimensione dei blocchi: blocchi piccoli riducono il costo dei residui di predizione, ma aumentano il
+	numero di vettori di movimento da rappresentare e quindi anche costo complessivo
+	\item dimensione della finestra di ricerca \(\mathcal{W}\): aumentando la finestra di ricerca aumenta la probabilità
+	di trovare blocchi di riferimento più simili, ma aumenta anche la complessità computazionale
+	\item funzione di dissimilarità: si preferisce la SAD in quanto più semplice da calcolare e simile al MSE
+	\item strategia di ricerca: la ricerca esaustiva è la più accurata, ma anche la più complessa, per cui si preferiscono
+	algoritmi euristici subottimali per ridurre la complessità computazionale
+\end{itemize}
+\noindent
+Le prestazioni della stima del movimento si misurano in termini di:
+\begin{itemize}
+	\item accuratezza della stima: misurata in termini di PSNR o MSE del residuo di predizione
+	\item bitrate o costo della predizione: misurato in termini di numero di bit necessari per rappresentare il residuo
+	e il vettore di movimento
+	\item complessità computazionale: misurata in termini di tempo di calcolo e risorse computazionali richieste
+\end{itemize}
+
+\subsubsection*{Criticità della stima del movimento}
+La stima del movimento risulta poco efficace in prossimità dei bordi dell'immagine o in aree di disocclusione in cui
+compaiono nuovi oggetti che non hanno corrispondenza nei fotogrammi precedenti.
+
+Si nota inoltre che in aree senza strutture come il cielo o superfici uniformi, il block-matching si basa sui pattern di rumore
+del blocco, che non sempre sono coerenti con il movimento reale. Tale problema, risulta irrilevante siccome il residuo di
+predizione sarà comunque quasi nullo.
+
+\subsection{Tipi di immagine e GOP}
+\subsubsection*{Tipi di immagine/frame}
+Le immagini o frame di un group of pictures si classificano in tre categorie principali:
+\begin{itemize}
+	\item frame I - intra coded: frame codificati senza predizione temporale, ma solo con predizione spaziale dalla stessa
+	immagine o codifica JPEG per cui hanno bassa complessità di codifica/decodifica; sono usati come base per la predizione di
+	tutti gli altri frame del GOP e garantiscono l'accesso casuale rapido al video e maggiore immunità agli errori
+	\item frame P - predictive: frame codificati con predizione temporale da un frame precedente (I o P) oppure tramite
+	predizione spaziale dalla stessa immagine, risultano di complessità maggiore rispetto ai frame I, ma hanno bitrate inferiore
+	\item frame B - bidirectional predictive: frame codificati con predizione temporale da due frame, uno precedente e uno
+	successivo (I o P), in questo modo si aumenta la probabilità di trovare blocchi di riferimento più simili a discapito
+	di una maggiore complessità di codifica/decodifica e all'introduzione di latenza in quanto dipendono da frame successivi
+\end{itemize}
+I frame I e P sono detti anchor frame (AF) in quanto sono usati come riferimento per la predizione di altri frame (P o B).
+
+\subsubsection*{Struttura di un Group-Of-Pictures}
+Il GOP è una sequenza di immagini che inizia con un frame I e termina con il frame precedente al successivo frame I.
+Un GOP è definito da due parametri principali:
+\begin{itemize}
+	\item \(N\): intervallo da un frame I al successivo frame I, denota il numero di frame nel GOP
+	\item \(M\): intervallo tra due AF successivi, denota il numero di frame B tra due I o P successivi
+\end{itemize}
+
+\subsubsection*{Tasso e distorsione dei vari tipi di immagine}
+Si osserva che i fotogrammi I hanno un bitrate di 3-5 volte maggiore rispetto ai fotogrammi P e 10-20 volte maggiore rispetto
+ai fotogrammi B. La qualità dei fotogrammi I è forzatamente maggiore rispetto ai fotogrammi P e B in quanto sono usati come
+riferimento per l'intero GOP.
+
+I parametri \(N\) e \(M\) del GOP fungono da compromesso tra il bitrate complessivo e la complessità di codifica/decodifica.
+Avere tanti AF aumenta il bitrate complessivo, ma riduce la complessità di codifica/decodifica, viceversa aumentando il numero
+di frame B si riduce il bitrate, ma si aumenta la complessità di codifica/decodifica e la latenza.
+
+\subsection{Codificatori e decodificatori ibridi}
+\subsubsection*{Codificatore ibrido per frame intra}
+Il codificatore ibrido per frame intra è composto da:
+\begin{itemize}
+	\item catena di blocchi per la codifica simil-JPEG (DCT, quantizzazione Q e variable length coding VLC)
+	\item anello di loopback che ricostruisce il frame decodificato tramite la normalizzazione dei coefficienti quantizzati
+	(Q*) e la Inverse DCT tipici del decodificatore JPEG ed effettua una predizione spaziale intra-frame tra i blocchi del
+	frame corrente per ridurre la ridondanza spaziale tra blocchi adiacenti
+\end{itemize}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Stile per i blocchi di elaborazione generici
+		block/.style={
+			rectangle,
+			draw=blue!70!black,
+			fill=blue!5,
+			thick,
+			align=center,
+			minimum width=1.1cm,
+			rounded corners=3pt,
+			font=\footnotesize
+		},
+		% Stile specifico per il canale di trasmissione
+		channel/.style={
+			rectangle,
+			draw=orange!85!black,
+			fill=orange!8,
+			thick,
+			align=center,
+			rounded corners=3pt,
+			font=\footnotesize
+		},
+		% Stile per i sommatori
+		sum/.style={
+			circle,
+			draw=blue!70!black,
+			fill=blue!5,
+			thick,
+			minimum size=0.4cm,
+			inner sep=0pt
+		},
+		% Stile per le frecce e le linee
+		arrow/.style={
+			-{Stealth[scale=1.2]},
+			thick
+		},
+		line/.style={
+			thick
+		},
+		% Stile per i segnali testuali
+		signal/.style={
+			align=center,
+			font=\footnotesize
+		}
+	]
+
+		% Catena di blocchi
+		\node (in) at (-0.5,0) [signal] {\textbf{Input}};
+		\node[sum] (adder1) at (1.5,0) {}; 	% Sommatore 1
+		\draw[thick, blue!70!black] (adder1.north) -- (adder1.south);
+		\draw[thick, blue!70!black] (adder1.west) -- (adder1.east);
+		\node[block] (dct) at (3,0) {DCT};
+		\node[block] (q) at (5,0) {Q};
+		\coordinate (split1) at (6.3,0);
+		\fill[blue!70!black] (split1) circle (2pt); % Punto di derivazione (dot)
+		\node[block] (vlc) at (7.5,0) {VLC};
+		\node[block] (cbuf) at (9.5, 0) {Channel\\Buffer};
+		\node (out) at (12, 0) [signal] {\textbf{Output}};
+
+		\node[block] (iq) at (6.3, -1) {Q*};
+		\node[block] (idct) at (6.3, -2) {IDCT};
+		\node[sum] (adder2) at (6.3, -3) {}; % Sommatore 2
+		\draw[thick, blue!70!black] (adder2.north) -- (adder2.south);
+		\draw[thick, blue!70!black] (adder2.west) -- (adder2.east);
+		\node[block] (framebuf) at (3.3, -3) {Decoded\\Frame Buffer};
+		\node[block] (intrapred) at (3.3, -1.5) {Intra\\Prediction};
+
+		% Collegamenti ed etichette
+		\draw[arrow] (in) -- (adder1.west);
+		\node[signal] at ($(adder1.west)+(-0.7, 0.2)$) {$B_2$};
+		\node[signal] at ($(adder1.west)+(-0.2, 0.25)$) {$+$};
+		\node[signal] at ($(adder1.west)+(0.8, -0.5)$) {$\hat{B}_2$};
+		\node[signal] at ($(adder1.south)+(-0.25, -0.2)$) {$-$};
+		\node[signal] at ($(adder1.east)+(0.3, 0.2)$) {$e_2$};
+
+		\draw[arrow] (adder1.east) -- (dct.west);
+		\draw[arrow] (dct.east) -- (q.west);
+		\draw[line] (q.east) -- (split1);
+		\draw[arrow] (split1) -- (vlc.west);
+		\draw[arrow] (vlc.east) -- (cbuf.west);
+		\draw[arrow] (cbuf.east) -- (out);
+
+		\draw[arrow] (split1) -- (iq.north);
+		\draw[arrow] (iq.south) -- (idct.north);
+		\draw[arrow] (idct.south) -- (adder2.north);
+		\node[signal] at ($(adder2.north)+(0.3, 0.3)$) {$\hat{e}_2$};
+		\node[signal] at ($(adder2.west)+(-0.4, 0.2)$) {$\hat{B}_2$};
+
+		\draw[arrow] (adder2.west) -- (framebuf.east);
+		\draw[arrow] (framebuf.north) -- (intrapred.south);
+		\coordinate (split2) at ($(intrapred.north -| adder1.south)+(0, 0.4)$);
+		\draw[line] (intrapred.north) -- +(0, 0.4) -- (split2);
+		\draw[arrow] (split2) -- (adder1.south);
+		\draw[arrow] (split2) -- +(0,-3) -| (adder2.south);
+	\end{tikzpicture}
+\end{figure}
+
+\subsubsection*{Codificatore ibrido per frame inter}
+Il codificatore ibrido per frame inter è composto da:
+\begin{itemize}
+	\item la stessa base del codificatore di tipo intra con codifica simil-JPEG e predizione spaziale intra-frame
+	\item un blocco di motion estimation (ME) che calcola il vettore di movimento \(\vec{v}\)
+	\item un blocco di motion compensation (MC) che calcola il blocco predetto \(\hat{B}_k^{(\vec{p})}\) a partire dal
+	vecchio frame di riferimento nel decoded frame buffer e dal vettore di movimento \(\vec{v}\)
+	\item un blocco di selezione tra predizione spaziale di tipo intra e predizione temporale di tipo inter
+\end{itemize}
+
+\noindent
+La scelta tra l'utilizzo della predizione spaziale o quella temporale dipende da un criterio di valutazione del
+compromesso tra bitrate e distorsione come il seguente:
+\[m_\text{modo di codifica} \in \left\{ \text{INTRA}, \text{INTER} \right\} \qquad\qquad m^* = \arg\min_{m} \! \underbrace{\, D_m \,}_\text{distorsione} \! + \; \lambda \! \underbrace{\, R_m \,}_\text{bitrate} \]
+Lo standard non definisce il tipo di criterio da utilizzare, la scelta che viene lasciata al progettista del
+codificatore che potrebbe anche pensare di usare sempre solo una delle due predizioni per risparmiare tempo
+di calcolo. In questo modo si permette di avere concorrenza tra diversi produttori.
+
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Stile per i blocchi di elaborazione generici
+		block/.style={
+			rectangle,
+			draw=blue!70!black,
+			fill=blue!5,
+			thick,
+			align=center,
+			minimum width=1.1cm,
+			rounded corners=3pt,
+			font=\footnotesize
+		},
+		% Stile specifico per il canale di trasmissione
+		channel/.style={
+			rectangle,
+			draw=orange!85!black,
+			fill=orange!8,
+			thick,
+			align=center,
+			rounded corners=3pt,
+			font=\footnotesize
+		},
+		% Stile per i sommatori
+		sum/.style={
+			circle,
+			draw=blue!70!black,
+			fill=blue!5,
+			thick,
+			minimum size=0.4cm,
+			inner sep=0pt
+		},
+		% Stile per le frecce e le linee
+		arrow/.style={
+			-{Stealth[scale=1.2]},
+			thick
+		},
+		line/.style={
+			thick
+		},
+		% Stile per i segnali testuali
+		signal/.style={
+			align=center,
+			font=\footnotesize
+		}
+	]
+		% Catena di blocchi
+		\node (in) at (0,0) [signal] {\textbf{Input}};
+		\node[sum] (adder1) at (2,0) {}; 	% Sommatore 1
+		\draw[thick, blue!70!black] (adder1.north) -- (adder1.south);
+		\draw[thick, blue!70!black] (adder1.west) -- (adder1.east);
+		\node[block] (dct) at (4,0) {DCT};
+		\node[block] (q) at (6.5,0) {Q};
+		\coordinate (split1) at (8,0);
+		\fill[blue!70!black] (split1) circle (2pt); % Punto di derivazione (dot)
+		\node[block] (vlc) at (9.5,0) {VLC};
+		\node[block] (cbuf) at (11.5,0) {Channel\\Buffer};
+		\node (out) at (13.5, 0) [signal] {\textbf{Output}};
+
+		\node[block] (iq) at (8, -1) {Q*};
+		\node[block] (idct) at (8, -2) {IDCT};
+		\node[sum] (adder2) at (8, -3) {}; % Sommatore 2
+		\draw[thick, blue!70!black] (adder2.north) -- (adder2.south);
+		\draw[thick, blue!70!black] (adder2.west) -- (adder2.east);
+		\node[block] (framebuf) at (6, -3) {Decoded\\Frame Buffer};
+		\node[block] (intrapred) at (6, -1.2) {Intra\\Prediction};
+		\node[block] (interintra) at (3.5, -1.2) {Inter/\\Intra};
+		\node[block] (mc) at (3.5, -3) {Motion\\Compensation};
+
+		\node (in2) at (-0.3,-3.3) [signal] {\textbf{old frame}\\(reference)\\dal DFB};
+		\node[block] (me) at (1, -2) {Motion\\Estimation};
+
+		% Collegamenti ed etichette
+		\draw[arrow] (in) -- (adder1.west);
+		\node[signal] at ($(adder1.west)+(-0.7, 0.2)$) {$B_2$};
+		\node[signal] at ($(adder1.west)+(-0.2, 0.25)$) {$+$};
+		\node[signal] at ($(adder1.south)+(0.25, -0.5)$) {$\hat{B}_2$};
+		\node[signal] at ($(adder1.south)+(-0.25, -0.2)$) {$-$};
+		\node[signal] at ($(adder1.east)+(0.3, 0.2)$) {$e_2$};
+
+		\draw[arrow] (adder1.east) -- (dct.west);
+		\draw[arrow] (dct.east) -- (q.west);
+		\draw[line] (q.east) -- (split1);
+		\draw[arrow] (split1) -- (vlc.west);
+		\draw[arrow] (vlc.east) -- (cbuf.west);
+		\draw[arrow] (cbuf.east) -- (out);
+
+		\draw[arrow] (split1) -- (iq.north);
+		\draw[arrow] (iq.south) -- (idct.north);
+		\draw[arrow] (idct.south) -- (adder2.north);
+		\node[signal] at ($(adder2.north)+(0.3, 0.3)$) {$\hat{e}_2$};
+		\node[signal] at ($(adder2.west)+(-0.3, 0.2)$) {$\hat{B}_2$};
+
+		\draw[arrow] (adder2.west) -- (framebuf.east);
+		\draw[arrow] (framebuf.north) -- (intrapred.south);
+		\draw[arrow] (intrapred.west) -- (interintra.east);
+		\draw[arrow] (framebuf.west) -- (mc.east);
+		\draw[arrow] (mc.north) -- (interintra.south);
+		\coordinate (split2) at ($(interintra.west -| adder1.south)$);
+		\draw[line] (interintra.west) -- (split2);
+		\draw[arrow] (split2) -- (adder1.south);
+		\draw[arrow] (split2) -- +(0,-2.6) -- ($(split2 -| adder2.south)+(0,-2.6)$) to[arrow] (adder2.south);
+
+		\draw[arrow] (1,0) -- (me.north);
+		\coordinate (split3) at ($(me.south -| mc.south)+(0,-1.7)$);
+		\draw[line] (me.south) -- +(0,-1.7) -- node[signal, midway, shift={(0cm, 0.03cm)}, fill=white, inner sep=1pt] {motion vector} (split3) {};
+		\draw[arrow] (split3.south) -- (mc.south);
+		\draw[arrow] (split3.south) -| (vlc.south);
+
+		\draw[arrow] (in2.north) |- (me.west);
+	\end{tikzpicture}
+\end{figure}
+
+\subsubsection*{Decodificatore ibrido}
+Il decodificatore ibrido ripercorre al contrario la catena di elaborazione del codificatore ibrido. Risulterà più
+veloce rispetto ai codificatori quanto non deve effettuare calcoli sulla predizione del movimento o selezioni tra
+predizione spaziale e temporale.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Stile per i blocchi di elaborazione generici
+		block/.style={
+			rectangle,
+			draw=blue!70!black,
+			fill=blue!5,
+			thick,
+			align=center,
+			minimum width=1.1cm,
+			rounded corners=3pt,
+			font=\footnotesize
+		},
+		% Stile specifico per il canale di trasmissione
+		channel/.style={
+			rectangle,
+			draw=orange!85!black,
+			fill=orange!8,
+			thick,
+			align=center,
+			rounded corners=3pt,
+			font=\footnotesize
+		},
+		% Stile per i sommatori
+		sum/.style={
+			circle,
+			draw=blue!70!black,
+			fill=blue!5,
+			thick,
+			minimum size=0.4cm,
+			inner sep=0pt
+		},
+		% Stile per le frecce e le linee
+		arrow/.style={
+			-{Stealth[scale=1.2]},
+			thick
+		},
+		line/.style={
+			thick
+		},
+		% Stile per i segnali testuali
+		signal/.style={
+			align=center,
+			font=\footnotesize
+		}
+	]
+		% Catena di blocchi
+		\node (in) at (0,0) [signal] {\textbf{Input}};
+		\node[block] (cbuf) at (2.5,0) {Channel\\buffer};
+		\node[block] (vld) at (5,0) {VLD};
+		\node[block] (iq) at (7.5,0) {Q*};
+		\node[block] (idct) at (10,0) {IDCT};
+		\node[sum] (adder) at (10,-1.5) {};
+		\draw[thick, blue!70!black] (adder.north) -- (adder.south);
+		\draw[thick, blue!70!black] (adder.west) -- (adder.east);
+		\node (out) at (12,-1.5) [signal] {\textbf{Output}};
+		\node[block] (framebuf) at (7.5,-1.5) {Decoded\\Frame Buffer};
+		\node[block] (intrapred) at (7.5,-3) {Intra\\Prediction};
+		\node[block] (switch) at (10,-3) {Intra/Inter};
+		\node[block] (mc) at (3.5,-3) {Motion\\Compensation};
+
+		% Collegamenti ed etichette
+		\draw[arrow] (in) -- (cbuf.west);
+		\draw[arrow] (cbuf.east) -- (vld.west);
+		\draw[arrow] (vld.east) -- (iq.west);
+		\draw[arrow] (iq.east) -- (idct.west);
+		\draw[arrow] (idct.south) -- (adder.north);
+		\draw[arrow] (adder.east) -- (out.west);
+		\node[signal] at ($(adder.north)+(0.15,0.5)$) {$\hat{e}$};
+		\node[signal] at ($(adder.east)+(0.5,0.2)$) {$\hat{B}$};
+		\node[signal] at ($(adder.west)+(-0.5,0.2)$) {$\hat{B}$};
+		\node[signal] at ($(adder.south)+(0.15,-0.5)$) {$\tilde{B}$};
+		\draw[arrow] (adder.west) -- (framebuf.east);
+		\draw[arrow] (framebuf.west) -| (mc.north);
+		\draw[arrow] (mc.south) -- ++(0,-0.8) -| ($(switch.south)+(0.15,0)$);
+		\draw[arrow] (switch.north) -- (adder.south);
+		\draw[arrow] (framebuf.south) -- (intrapred.north);
+		\draw[arrow] (intrapred.east) -- (switch.west);
+		\draw[arrow] ($(vld.south)+(-0.1,0)$) -- ++(0,-0.9) -- node[signal, midway, shift={(0cm, 0.03cm)}, fill=white, inner sep=1pt] {motion vector} ++(-3,0) |- (mc.west);
+		\draw[arrow] ($(vld.south)+(0.1,0)$) -- ++(0,-3.7) -| node[signal, midway, shift={(-2.2cm, 0.01cm)}, fill=white, inner sep=1pt] {inter/intra parameter} ($(switch.south)+(-0.15,0)$);
+	\end{tikzpicture}
+\end{figure}
+
+\newpage
+
+\subsection{Standard di codifica video principali}
+\subsubsection*{Evoluzione degli standard di codifica video}
+\begin{itemize}[itemsep=2pt]
+	\item \textbf{1995 - MPEG-2}: \\
+	primo standard video di grande diffusione usato per DVD e TV satellitare, è composto da un codec ibrido (I,P,B) senza
+	predizione spaziale (è presente solo JPEG), supporta fino a 1080p a 60fps con bitrate di 80 Mbps, fornisce strumenti di
+	codifica scalabile ovvero è possibile estrarre più flussi video con qualità ridotte da un unico flusso codificato (utile
+	per adattare la trasmissione alla rete)
+	\item \textbf{2003 - H.264/AVC}: \\
+	standard ancora oggi più diffuso e usato per lo streaming, rispetto a MPEG-2 permette predizione spaziale, blocchi a
+	dimensione variabile, trasformate simil-DCT intere e viene aggiunto un deblocking filter a fine codifica per rimuovere
+	gli artefatti di quantizzazione, il bitrate viene dimezzato rispetto a MPEG-2
+	\item \textbf{2013 - H.265/HEVC}: \\
+	usato per streaming 4K e DVB-T2, è composto da un codec ibrido basato su alberi quaternari, il bitrate viene dimezzato
+	rispetto a H.264, non è molto diffuso perché protetto da licenze e royalties
+	\item \textbf{2018 - AV1}: \\
+	alternativa royalty-free al H.265, usato per streaming Youtube e Netflix
+	\item \textbf{2021 - VVC/H.266}: \\
+	usato per video 8K e VR, è composto da un versatile video coding che aumenta la alta complessità di \(10\times\) rispetto
+	a H.265, dimezzandone il bitrate
+	\item \textbf{2025+ - Neural Video Coding}: \\
+	nuovi codec basati su reti neurali (DNN e autoencoders) contenuti nei nuovi standard MPEG-AI
+\end{itemize}
+
+\subsubsection*{Digitale terrestre}
+\begin{itemize}
+	\item \textbf{H.265/HEVC} 55-60\% in crescita: standard per il DVB-T2 in Europa (diventato standard nell'ottobre 2025)
+	e ATSC 3.0 negli USA, necessario per le trasmissioni in 4K e HDR
+	\item \textbf{H.264/AVC} 30-35\% in calo: usato come fallback per i canali SD/HD o in televisori più vecchi
+	\item \textbf{MPEG-2} 5-10\% in calo: limitato a mercati di nicchia o canali locali
+\end{itemize}
+
+\subsubsection*{Streaming}
+\begin{itemize}
+	\item \textbf{AV1} 35-40\%: adottato massicciamente da Netflix, Youtube e Meta
+	\item \textbf{H.264/AVC} 30\%: utilizzato per retrocompatibilità con dispositivi più vecchi
+	\item \textbf{H.265/HEVC} 25\%: per contenuti 4K HDR su dispositivi Apple e TV di fascia alta
+\end{itemize}
+
+\subsubsection*{Video real-time}
+\begin{itemize}
+	\item \textbf{H.264/AVC} 50\%: molto usato grazie all'accelerazione hardware molto diffusa
+	\item \textbf{VP9} 25\%: versione royalty free di H.264, utilizzato da Google Meet e in applicazioni browser-based grazie
+	alla sua efficienza superiore rispetto a H.264
+	\item \textbf{VP8} 15\%: ancora presente in WebRTC per la bassissima complessità computazionale
+	\item \textbf{AV1} 10\% in crescita: utilizzato per scenari di banda estremamente limitata, grazie al basso bitrate
+\end{itemize}

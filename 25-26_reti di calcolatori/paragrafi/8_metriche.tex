@@ -1,0 +1,321 @@
+\section{Metriche di rete}
+\subsection{Architettura di rete a strati}
+\subsubsection*{Concetti di livello, servizio, interfaccia e protocollo di un'architettura a strati}
+Un'architettura a strati è un modello concettuale che suddivide il funzionamento di un sistema in una pila gerarchica
+di livelli o strati. Ogni livello svolge una parte di compiti, necessari il funzionamento corretto dell'intero sistema.
+Permette di suddividere un problema complesso in più sotto-problemi più semplici da risolvere, favorendo la modularità,
+la riusabilità e la manutenibilità del sistema.
+
+Nelle implementazioni reali si cerca di mantenere il più possibile indipendenti i livelli, in modo da garantire modularità
+e riusabilità del sistema, ma in alcuni casi si utilizzano implementazioni cross-layer per migliorare l'efficienza e le
+prestazioni del sistema.
+
+Un'architettura a strati si basa su quattro concetti fondamentali:
+\begin{itemize}
+	\item \textbf{livello}: insieme di componenti che risolvono una serie di sottoproblemi omogenei del problema complesso;
+	ogni livello fornisce un insieme di servizi al livello superiore nascondendone i dettagli di implementazione
+	\item \textbf{servizio}: insieme di primitive o funzionalità che un livello offre al livello superiore
+	\item \textbf{interfaccia}: insieme di regole e convenzioni che definiscono come un livello può accedere ai servizi
+	del livello sottostante
+	\item \textbf{protocollo}: insieme di regole e convenzioni che definiscono come due livelli corrispondenti situati
+	in nodi diversi della rete comunicano tra loro
+\end{itemize}
+
+\subsubsection*{Livelli nelle reti di calcolatori - modello ISO/OSI}
+Il modello ISO/OSI (Open Systems Interconnection) è il modello di riferimento per le reti di calcolatori,
+suddivide il funzionamento di una rete nei seguenti sette livelli:
+\begin{itemize}
+	\item[0.] \textbf{physical medium}: rappresenta il mezzo fisico di trasmissione di segnali analogici, come cavi, fibre
+	ottiche, onde radio, ecc., collega fisicamente i vari nodi della rete
+	\item[L1.] \textbf{physical layer}: fornisce un canale digitale di trasmissione a bit inaffidabile tra due nodi adiacenti della
+	rete, gestisce la conversione digitale/analogica e viceversa per trasmettere i bit digitali sul mezzo fisico tramite
+	segnali analogici
+	\item[L2.] \textbf{data link}: fornisce un canale digitale di trasmissione a bit affidabile tra due nodi adiacenti della rete,
+	gestisce la correzione di errori sul bit introdotti dal canale inaffidabile del livello data link
+	\item[L3.] \textbf{network}: fornisce un canale digitale di trasmissione a pacchetti inaffidabile tra due nodi non
+	necessariamente adiacenti della rete, gestisce l'instradamento dei pacchetti attraverso la rete (non garantisce che i
+	pacchetti arrivino a destinazione, né che arrivino in ordine)
+	\item[L4.] \textbf{transport}: fornisce un canale di comunicazione end-to-end tra due processi in esecuzione su due nodi
+	doversi della rete, gestisce la segmentazione dei dati in pacchetti, la correzione di errori sul pacchetto e il controllo
+	del flusso di trasmissione dei pacchetti (ad esempio l'avvenuta ricezione)
+	\item[L5.] \textbf{session}: fornisce una connessione logica tra due processi in esecuzione su due nodi diversi della
+	rete, gestisce la creazione e la distruzione di un canale di comunicazione tra due processi
+	\item[L6.] \textbf{presentation}: fornisce un sistema di scambio dei dati tra due processi in esecuzione su due nodi
+	diversi della rete, gestisce la codifica, compressione, cifratura e formattazione dei dati da trasmettere
+	\item[L7.] \textbf{application}: fornisce un'interfaccia tra l'utente e la rete, gestisce gli input dell'utente e la
+	 visualizzazione dei dati ricevuti dalla rete
+\end{itemize}
+
+\subsubsection*{Incapsulamento dei dati e aggiunta degli headers}
+In fase di trasmissione, ogni livello di rete, riceve i dati dal livello superiore detti payload e, prima di trasmetterli
+al livello inferiore, ci aggiunge un header contenente informazioni di protocollo necessarie al livello corrispondente del
+nodo ricevente per poter interpretare correttamente i dati ricevuti. Il pacchetto formato da header e payload ad un certo
+livello diventa, quindi, il payload del livello inferiore.
+
+Viceversa in fase di ricezione, ogni livello di rete, riceve i dati dal livello inferiore, separa l'header di livello
+dal payload, processa il payload con le informazioni dell'header appena estratto e passa i dati processati al livello
+superiore senza l'header di livello appena consumato.
+
+\newpage
+
+\subsection{Paradigma di trasmissione a pacchetto}
+\subsubsection*{Pacchettizzazione del livello 4 di transport}
+Il livello 4 di transport suddivide i dati da trasmettere, ricevuti dai livello superiori, in pacchetti per poterli
+trasmettere agevolmente attraverso la rete. Teoricamente la pacchettizzazione dovrebbe essere invisibile ai livelli
+superiori però in alcuni casi è utile attuare un'implementazione cross-layer in cui i pacchetti coincidono le code
+unit dei codec video (blocchi in cui vengono divisi i frame).
+
+\subsubsection*{Vantaggi della trasmissione a pacchetti}
+I vantaggi della trasmissione a pacchetti sono:
+\begin{itemize}
+	\item \textbf{efficienza}: i pacchetti possono essere instradati in modo indipendente attraverso la rete,
+	permettendo di sfruttare al meglio le risorse disponibili e ridurre i tempi di trasmissione
+	\item \textbf{affidabilità}: in caso di errore o perdita di pacchetti, è possibile ritrasmettere solo i
+	pacchetti persi o danneggiati, invece di dover ritrasmettere l'intero flusso di dati
+	\item \textbf{scalabilità}: la trasmissione a pacchetti consente di gestire la comunicazione tra un numero
+	elevato di nodi e dispositivi con grandi volumi di traffico senza cambiare l'architettura dell'infrastruttura
+	\item \textbf{multiplexing statistico}: più flussi di dati possono condividere le stesse risorse di rete
+	garantendo una maggiore flessibilità
+\end{itemize}
+
+\subsection{Metriche di traffico}
+\subsubsection*{Unità di misura per il tasso di trasmissione}
+Il tasso di trasmissione o bitrate si può misura in:
+\begin{itemize}
+	\item bit/s (bps): bit per secondo, con relativi multipli kbps, Mbps, Gbps, Tbps
+	\item byte/s (Bps): byte per secondo, con relativi multipli kBps, MBps, GBps, TBps, con 1 B = 8 b
+\end{itemize}
+Per convenzione, non si utilizza la notazione binaria per cui 1 MB/s =\(2^{20}\) B/s, bensì si usa quella decimale in cui
+1 MB/s = \(10^6\) B/s.
+
+\subsubsection*{Bitrate, throughput, goodput}
+Tutti e tre i termini indicano il tasso o velocità di trasmissione dei dati tra due entità peer (livelli corrispondenti)
+di due nodi della rete, ma differiscono per il livello in cui sono misurati:
+\begin{itemize}
+	\item \textbf{bitrate}: velocità nominale del livello fisico L1, indicato con \(R_0\), dipende dalla larghezza di
+	banda, dalla modulazione utilizzata e dal rapporto segnale/rumore del canale, è il tasso massimo di trasmissione
+	dei bit su canale single-hop inaffidabile (canale tra nodi adiacenti senza garanzia di correttezza e consegna dei bit)
+	\item \textbf{throughput}: velocità media misurata tra il livello 2 di data link e il livello 4 di transport,
+	indicata con \(S\), in base al livello in cui si misura può tenere conto dell'overhead dovuto agli error
+	correction codes, agli header o alla ritrasmissione dei pacchetti persi o danneggiati
+	\item \textbf{goodput}: velocità effettiva misurata in un livello superiore al 4 (session, presentation o application),
+	corrisponde al throughput a lungo termine \(S_n\) e rappresenta il tasso di trasmissione dei dati utili, tenendo conto di tutti
+	gli overhead necessari alla trasmissione dei dati
+\end{itemize}
+In generale si ha che \(R_0 \geq S \geq \text{goodput}\), ovvero il tasso di trasmissione diminuisce con l'aumentare dei
+livelli di rete a causa dell'overhead introdotto dagli header di ogni livello.
+
+\subsubsection*{Protocol Data Unit, Protocol Control Information e Service Data Unit}
+\begin{itemize}
+	\item \textbf{Protocol Data Unit (PDU)}: insieme di dati che viene trasmesso tra due livelli corrispondenti di due nodi
+	della rete, coincide con il payload, ovvero i dati utili da trasmettere
+	\item \textbf{Protocol Control Information (PCI)}: insieme di informazioni di protocollo contenute nell'header di un
+	livello, costituisce l'overhead introdotto dal livello
+	\item \textbf{Service Data Unit (SDU)}: insieme di dati che viene passato al livello inferiore, è composta dal payload
+	e dall'header del livello superiore, e diventa il payload o SDU del livello inferiore.
+\end{itemize}
+
+\subsubsection*{Definizioni matematiche di throughput e goodput}
+Si considera \(b_n(t)\) come il numero di bit trasmessi nell'intervallo di tempo \([0,t]\) dal livello \(n\) di rete
+al livello inferiore, e si definiscono le seguenti metriche di throughput e goodput:
+\[\begin{array}{c c}
+	\displaystyle S_n(t;T) = \frac{b_n(t) - b_n(t-T)}{T} \quad\, & \quad \text{throughput medio nell'intervallo di tempo } [t,t+T] \\[10pt]
+	\displaystyle S_n(t) = \frac{d \, b_n(t)}{d \, t} \qquad\qquad\;\, ~ & \quad \text{throughput istantaneo al tempo } t \\[12pt]
+	\displaystyle S_n = \lim_{t,T \to \infty} S_n(t;T)  & \quad \text{goodput o throughput a lungo termine}
+\end{array}\]
+
+\noindent
+Si definiscono inoltre le metriche di throughput e l'efficienza in funzione della taglia delle PDU e SDU:
+\[\begin{array}{c c}
+	\displaystyle S_{n+1} = S_n \cdot \frac{|SDU_n|}{|PDU_n|} = S_n \cdot \frac{|SDU_n|}{|PCI_n| + |SDU_n|} & \begin{array}{c} \text{throughput massimo del} \\ \text{livello } n+1 \text{ in funzione} \\ \text{di quello del livello } n \end{array} \\[20pt]
+	\displaystyle \eta_n = \frac{S_{n+1}}{S_n} = \frac{|SDU_n|}{|PDU_n|} = \frac{|SDU_n|}{|PCI_n| + |SDU_n|} = \frac{1}{1 + \frac{|PCI_n|}{|SDU_n|}} = \frac{|PDU_{n+1}|}{|PDU_n|} & \begin{array}{c} \text{efficienza del livello } n \\ \text{con } 0 \leq \eta_n \leq 1 \end{array}
+\end{array}\]
+
+\noindent
+L'efficienza di un livello \(n\) indica la porzione di throughput del livello \(n\) che viene effettivamente utilizzata
+per trasmettere i dati utili del livello \(n+1\).
+
+\subsubsection*{Bitrate di una connessione multi-hop}
+In caso di connessioni multi-hop (con più nodi intermedi), il bitrate complessivo è dato dal bitrate del collegamento
+più lento. Se si trasmette a bitrate superiori, si verificano fenomeni di congestione e perdita di pacchetti in quanto
+il collegamento più lento non riesce a gestire il flusso di pacchetti in arrivo.
+
+\subsection{Metriche di ritardo}
+\subsubsection*{Componenti macroscopiche del ritardo della rete}
+Le metriche di ritardo misurano il tempo impiegato dai dati per viaggiare da un nodo sorgente a un nodo destinazione
+attraverso la rete. Di seguito i principali tipi di ritardo a livello macroscopico di rete:
+\begin{itemize}
+	\item \textbf{ritardo punto-punto} \(d_{p2p}\): tempo che intercorre tra l'inizio della trasmissione di un pacchetto
+	in un nodo e la ricezione completa dello stesso pacchetto in un nodo adiacente, a volte è indicato anche come ritardo
+	nodale \(d_\text{nodal}\)
+	\item \textbf{ritardo end-to-end} \(d_{e2e}\): tempo che intercorre tra l'inizio della trasmissione di un pacchetto
+	in un nodo e la ricezione completa dello stesso pacchetto nel nodo destinazione, è il risultato della somma di tutti
+	i ritardi nodali lungo il percorso del pacchetto attraverso la rete
+	\[d_{e2e} = \sum_{i = 1}^K d_\text{nodal,\,i} \qquad\qquad d_{e2e} = K \cdot d_\text{nodal} \text{ se i link sono identici}\]
+	\item \textbf{round trip time} \(d_\text{RTT}\): tempo che intercorre tra l'inizio della trasmissione di un pacchetto in
+	un nodo e la ricezione completa della risposta al pacchetto nello stesso nodo, è il risultato della somma dei ritardi
+	end-to-end della trasmissione del pacchetto di richiesta e della risposta
+	\[d_\text{RTT} = 2 \cdot d_{e2e}\]
+\end{itemize}
+
+\subsubsection*{Componenti del ritardo nodale}
+Il ritardo nodale \(d_\text{nodal}\) si può scomporre nelle seguenti componenti:
+\[d_\text{nodal} = d_\text{proc} + d_\text{queue} + d_\text{trans} + d_\text{prop}\]
+\begin{itemize}
+	\item \textbf{ritardo di processing} \(d_{proc}\): tempo necessario al nodo per elaborare il pacchetto, può essere
+	dovuto a error checking, routing, ecc.; in genere è trascurabile siccome l'elaborazione è eseguita in hardware dedicati
+	come ASIC, SmartNIC e DPU dedicate
+	\item \textbf{ritardo di accodamento} \(d_{queue}\): tempo che il pacchetto trascorre nel buffer in attesa di essere
+	trasmesso sul link, dipende dal traffico di rete e può essere molto variabile; può essere parzialmente ridotto con
+	l'uso di sistemi di scheduling, priorità e controllo di ammissione dei pacchetti
+	\item \textbf{ritardo di trasmissione} \(d_{trans}\): tempo che intercorre tra l'invio del primo bit e l'invio dell'ultimo
+	bit del pacchetto sul link, equivale al rapporto tra la dimensione del pacchetto e il bitrate del link; può essere
+	ridotto aumentando il bitrate del link; è detto anche tempo di forwarding o di inoltro
+	\[d_\text{trans} = \frac{L}{R} = \frac{|PDU_\text{PHY}|}{S_\text{PHY}} \qquad \text{con } L \text{ dimensione del pacchetto e } R \text{ bitrate del link}\]
+	\item \textbf{ritardo di propagazione} \(d_{prop}\): tempo necessario al pacchetto per propagarsi lungo il link tra due
+	nodi adiacenti, equivale al rapporto tra la distanza tra i due nodi e la velocità di propagazione del segnale sul mezzo
+	fisico; solitamente è trascurabile tranne in caso di link a lunga distanza come collegamenti satellitari o transoceanici;
+	non può essere ridotto siccome non si può controllare la velocità di propagazione del segnale, al limite si può ridurre
+	la distanza tra i due nodi
+	\[d_\text{prop} = \frac{d}{v} \qquad \text{con } d \text{ distanza tra i due nodi e } v \text{ velocità di propagazione}\]
+\end{itemize}
+
+\subsubsection*{Jitter}
+Il jitter è la varianza del ritardo di trasmissione. Risulta critico per applicazioni in cui si hanno vincoli di latenza
+stringenti (es. real-time come videoconferenze, gaming online, telemedicina, ecc.) oppure per applicazioni in cui si richiede
+un flusso continuo e costante di dati (es. streaming video o audio). Il jitter può essere mitigato con l'uso di un buffer
+a discapito di una maggiore latenza complessiva.
+
+\subsection{Prodotto banda-ritardo (BDP) e ritrasmissione dei pacchetti}
+\subsubsection*{Prodotto banda-ritardo}
+Il prodotto banda-ritardo, o Bandwidth-Delay Product (BDP), indica il numero di bit o pacchetti che possono essere
+simultaneamente in transito attraverso una connessione di rete tra due nodi. Si calcola come il prodotto tra il throughput
+a regime stazionario \(S\) per il ritardo RTT \(d_\text{RTT}\) (invio del pacchetto e acknowledgment della ricezione):
+\[BDP_\text{bit} = S \cdot d_\text{RTT} \qquad\qquad BDP_\text{pkt} = \frac{BDP_\text{bit}}{|PDU_\text{PHY}|}\]
+
+In caso di connessioni multi-hop, il BDP complessivo è calcolato in funzione del bitrate complessivo della connessione,
+ovvero quello del collegamento più lento. Il ritardo RTT risulta essere la somma dei ritardi RTT di tutti i collegamenti
+della connessione.
+
+\subsubsection*{Ritrasmissione dei pacchetti}
+Per assicurarsi che un pacchetto sia stato correttamente ricevuto dal nodo destinatario, il nodo sorgente deve attendere un
+acknowledgment (ACK) di conferma. Se l'ACK non arriva entro un certo tempo di timeout, il pacchetto viene considerato
+perso o danneggiato ed eventualmente dovrà essere ritrasmesso. Per questo motivo serve mantenere un buffer di trasmissione
+per salvare i pacchetti inviati in attesa di ricevere l'ACK, per averli pronti per un'eventuale ritrasmissione.
+
+La dimensione del buffer di trasmissione è pari al numero di pacchetti che possono essere simultaneamente in transito
+e di cui si deve attendere l'ACK, ovvero esattamente il prodotto banda-ritardo.
+
+In caso di connessioni multi-hop, l'ACK viene inviato solo dal nodo destinatario finale, quindi il buffer di trasmissione
+deve garantire la memorizzazione di tutti i pacchetti in transito lungo l'intero percorso della connessione.
+
+\subsubsection*{Prodotto banda-ritardo per Long Fat Networks (LFT) e connessioni multi-hop}
+Il prodotto banda-ritardo è particolarmente importante per le connessioni su Long Fat Networks (LFN), ovvero reti con
+elevata larghezza di banda e grande latenza come backbone transcontinentali, connessioni tra datacenter, connessioni
+satellitari e edge cloud.
+
+In questi casi la latenza risulta essere molto elevata, di conseguenza anche il BDP risulta molto elevato e si richiede
+un buffer di trasmissione molto grande. Il problema è che le dimensioni del buffer sono limitate dal protocollo di
+trasporto. Se la dimensione massima non è sufficiente (è minore del BDP), non è possibile inviare altri pacchetti
+senza prima aver ricevuto l'ACK per quelli contenuti nel buffer, causando un calo del throughput della connessione.
+
+\subsection{Metriche di affidabilità}
+\subsubsection*{Packet error rate - PER}
+Il packet error rate (\(PER\)) equivale al rapporto in percentuale tra il numero di pacchetti persi o danneggiati e il numero
+totale di pacchetti trasmessi. Indica la probabilità che un pacchetto venga perso o danneggiato durante la trasmissione.
+
+\subsubsection*{Dalla probabilità d'errore sul bit al packet error rate}
+Un canale di trasmissione punto-punto per bit viene modellato con un canale binario simmetrico (BSC) con probabilità
+d'errore \(\varepsilon\) sul bit. Si assume che gli errori sul bit siano indipendenti e identicamente distribuiti.
+È possibile passare dalla probabilità d'errore sul bit \(\varepsilon\) al packet error rate \(PER\) sul pacchetto
+di dimensione \(L\) bit con la seguente formula:
+\[PER = 1 - (1 - \varepsilon)^L \qquad\quad \text{con } (1 - \varepsilon)^L = \begin{array}{c} \text{\small probabilità di ricevere tutti gli } L \text{\small ~bit} \\ \text{\small che formano il pacchetto senza errori} \end{array}\]
+È utile definire la probabilità \(P(l)\) di ricevere \(l\) bit errati su \(L\) bit trasmessi:
+\[P(l) = \binom{L}{l} \varepsilon^l \; (1 - \varepsilon)^{L-l} \qquad\quad \text{con } \begin{array}{c c} \displaystyle \binom{L}{l} = \text{\small \# modi diversi di scegliere i bit errati}\end{array}\]
+
+\subsubsection*{Codifica di canale per rilevamento e correzione degli errori}
+Per poter rilevare e correggere gli errori sui bit introdotti dal canale, si aggiungono dei bit di ridondanza secondo
+le tecniche di codifica di canale. Esistono due tipi di codifica di canale:
+\begin{itemize}
+	\item \textbf{codici a blocco}: si partiziona il flusso di bit in blocchi di \(k\) bit a cui si aggiungono \(r\) bit
+	di ridondanza ottenendo blocchi in uscita di \(n = k + r\) bit che vengono trasmessi sul canale; si definisce il tasso
+	di codifica \(R = k/n < 1\) come fattore di riduzione del throughput dovuto all'overhead dei bit di ridondanza
+
+	\item \textbf{codici convoluzionali}: lavorano con lo stesso principio, ma l'uscita ad un certo istante di tempo dipende
+	anche dai dati trasmessi agli istanti di tempo precedenti (è dotato di memoria)
+\end{itemize}
+
+\noindent
+Attualmente si utilizzano le seguenti codifiche di canale:
+\begin{itemize}
+	\item \textbf{LDPC} o Low-Density Parity-Check: codici a blocco sparso con decodifica iterativa, utilizzati per dati
+	utente trasmessi ad alta velocità (5G, Wi-Fi 7/8, Ottica 400G/800G)
+	\item \textbf{polar codes}: codici basati su canali sintetici e decodifica successive cancellation, utilizzati per
+	canali di controllo e pacchetti brevi (5G, 6G)
+	\item \textbf{Reed-Solomon}: codici algebrici a blocchi su campi finiti, utilizzati per correzione di errori burst
+	su link ottici o storage
+	\item \textbf{turbo codes}: codici convoluzionali concatenati in parallelo, utilizzati nei sistemi legacy e in alcuni
+	uplink 4G/5G
+\end{itemize}
+
+\subsubsection*{Rilevamento di errori e controllo di parità}
+I codici a controllo di parità consistono nell'aggiungere un bit di parità \(p\) al blocco di \(k\) bit da trasmettere,
+ottenendo un blocco di \(n = k + 1\) bit. Il bit di parità è calcolato come la somma modulo 2 dei \(k\) bit del blocco,
+ovvero \(p=0\) se se il numero di bit a 1 è pari, \(p=1\) se il numero di bit a 1 è dispari.
+
+Questa struttura permette di rilevare fino ad 1 errore sul blocco di \(n\) bit, ma non permette di correggerlo. Si definisce
+la capacità di rilevamento errori su un flusso continuo pari a  \(1/n\) che corrisponde anche all'overhead introdotto.
+È possibile aumentare la capacità di rilevamento errori aggiungendo più bit di parità, ma aumenterà di conseguenza anche
+l'overhead e quindi il calo del throughput.
+
+\subsubsection*{Correzione di errori e codice di Hamming(n,k)}
+I codici di Hamming sono codici a blocco che permettono di rilevare e correggere errori sui bit. Il codice di Hamming(\(n\),\(k\))
+aggiunge \(r = n - k\) bit di ridondanza ogni \(k\) bit di dati, ottenendo blocchi di \(n\) bit. Riesce a rilevare fino a
+2 errori sul blocco e a correggere fino a 1 errore sul blocco. Un esempio comune è il codice di Hamming(7,4) che aggiunge
+3 bit di ridondanza ogni 4 bit di dati, con blocchi di 7 bit.
+
+\subsubsection*{Errori in burst e interleaving}
+Si parla di errori in burst quando si hanno più errori consecutivi su un blocco di dati. Sono tipici dei canali di
+trasmissione reali in cui si hanno fenomeni di fading, interferenze o rumore impulsivo che si protraggono nel tempo
+e di conseguenza coinvolgono più bit consecutivi.
+
+Il problema degli errori in burst si verifica quando si utilizzano codici a blocco, in quanto tutti gli errori si concentrano
+su uno o pochi blocchi, rendendone impossibile il rilevamento e la correzione. Per risolvere questo problema si utilizza la
+tecnica di interleaving che consiste nel rimescolare i bit di più blocchi in modo da distribuire gli errori e diminuire il
+numero di errori locale di ciascun blocco.
+
+Ad esempio è possibile comporre una matrice di \(x\) righe composte dagli \(n\) bit di \(x\) blocchi consecutivi, e
+trasmettere i bit leggendoli per colonna. Lo svantaggio è che si introduce un ritardo di trasmissione in quanto per
+decodificare il primo blocco è necessario attendere la ricezione di tutti gli \(x\) blocchi.
+
+\subsubsection*{Compromessi della codifica di canale}
+La codifica di canale comporta alcuni svantaggi:
+\begin{itemize}
+	\item calo del bitrate pari al tasso di codifica \(R\) a causa dell'overhead introdotto dai bit di ridondanza
+	\item aumento della complessità computazionale per l'encoding e il decoding dei blocchi di dati, maggiore è la capacità
+	di rilevamento e correzione errori, maggiore è la complessità computazionale
+	\item aumento del ritardo di trasmissione a causa dell'interleaving e delle codifiche convoluzionali
+\end{itemize}
+
+\subsubsection*{Congestione, packet loss rate e packet delivery ratio}
+Prima di essere inoltrati su un canale, i pacchetti vengono memorizzati in un buffer di trasmissione. Se il buffer si riempie
+a causa di un eccessivo traffico di rete, non è più possibile memorizzare i pacchetti in arrivo e si verifica un buffer overflow.
+I pacchetti in arrivo devono venire scartati secondo una delle possibili politiche di gestione del buffer come le seguenti:
+\begin{itemize}
+	\item drop tail policy: se c'è un buffer overflow, si scartano tutti i pacchetti in arrivo
+	\item early dropping casuale: quando l'occupazione del buffer supera una certa soglia (es. 2/3), si scartano casualmente
+	alcuni pacchetti in arrivo
+\end{itemize}
+In caso di perdita del pacchetto, questo può essere ritrasmesso dal nodo sorgente, dall'ultimo nodo intermedio o non essere
+ritrasmesso affatto, in base al protocollo di trasporto utilizzato.
+
+Si definisce il packet loss rate (\(PLOSS\)) è definito come il rapporto in percentuale tra il numero di pacchetti persi
+e il numero totale di pacchetti trasmessi. Indica la probabilità che un pacchetto venga perso durante la trasmissione.
+Spesso viene utilizzato in modo intercambiabile con il packet error rate o packet drop rate (\(PER\)).
+
+Come metrica complementare, di definisce anche il packet delivery ratio (\(PDR\)) come il rapporto in percentuale tra il
+numero di pacchetti ricevuti correttamente e il numero totale di pacchetti trasmessi e si calcola come \(PDR = 1 - PLOSS\).
+
+Si nota che le metriche di affidabilità \(PER\), \(PLOSS\) e \(PDR\) dipendono fortemente dal livello di rete in cui vengono
+misurate e dai protocolli implementati, in quanto dipende da come vengono gestiti il rilevamento, la correzione d'errori e
+la ritrasmissione dei pacchetti.

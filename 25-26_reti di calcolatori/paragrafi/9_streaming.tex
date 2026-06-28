@@ -1,0 +1,157 @@
+\section{Streaming}
+\subsection{Protocolli real-time (push) e streaming (pull)}
+Esistono diverse classi di applicazioni con requisiti differenti che devono operare tutti sulla stessa infrastruttura di
+rete IP già esistente. È necessario sviluppare protocolli di trasmissione appositi per soddisfare i requisiti di ciascuna
+classe sacrificando alcune funzionalità non necessarie.
+
+\subsubsection*{Protocollo Real Time - push}
+Il protocollo real time o push è un protocollo leggero ed essenziale pensato per la trasmissione dati di comunicazioni
+real-time con requisiti di latenza molto stringenti. È usato per servizi di videoconferenza, cloud gaming e chirurgia
+remota. È composto da:
+\begin{itemize}
+	\item \textbf{UDP} o User Datagram Protocol: protocollo di trasporto che offre solo un servizio di consegna dei pacchetti
+	senza garanzia di consegna, è estremamente leggero e veloce, ma molto essenziale
+	\item \textbf{RTP} o Real-Time Transport Protocol: aggiunge ai pacchetti UDP un header con informazioni di sequenza e
+	timestamp per sincronizzazione, ordinamento e gestione del jitter
+	\item \textbf{WebRTC} o Web Real-Time Communication: framework di sistema, aggiunge cifratura dei dati, meccanismi per
+	attraversare NAT e firewall, accesso hardware per gestire microfono e webcam direttamente dal browser
+\end{itemize}
+
+\subsubsection*{Protocollo Streaming - pull}
+Il protocollo streaming o pull è un protocollo più complesso e pesante pensato per la trasmissione dati di contenuti
+multimediali che richiedono maggiore affidabilità della trasmissione, ma tollerano una latenza maggiore. È composto da:
+\begin{itemize}
+	\item \textbf{CDN} o Content Delivery Network: rete di server distribuiti geograficamente che memorizzano copie dei
+	media da trasmettere, permettono di ridurre la latenza siccome avvicinano i contenuti agli utenti finali, riducono
+	il traffico sulla rete principale siccome la distribuzione avviene tramite reti locali e aumentano l'affidabilità
+	grazie alla ridondanza dei contenuti
+	\item \textbf{QUIC/TCP} o Quick UDP Internet Connections/Transmission Control Protocol: protocolli di trasporto che
+	offrono un servizio di trasmissione a pacchetti affidabile, garantendone la consegna
+	\item \textbf{HTTP/3} o Hypertext Transfer Protocol: protocollo di livello applicativo che permette la trasmissione
+	di contenuti multimediali tramite il protocollo di trasporto QUIC/TCP
+	\item \textbf{MPEG-DASH/HLS} o Dynamic Adaptive Streaming over HTTP/HTTP Live Streaming: protocolli di streaming che
+	gestiscono la trasmissione dei contenuti multimediali tramite il protocollo HTTP/3, adattando la qualità in base alle
+	prestazioni della connessione dell'utente finale
+	\item \textbf{codec video}: algoritmi di compressione e decompressione che avvengono all'interno dell'applicativo nella
+	macchina client
+\end{itemize}
+
+\subsection{Adattamento del tasso di codifica video}
+\subsubsection*{Scelta del tasso di codifica video}
+In generale il tasso di codifica video deve essere inferiore al throughput della rete \(R_C \leq S\). Ad oggi si
+conoscono strategie avanzate per adattare il tasso di codifica video in tempo reale alle prestazioni della rete,
+ma spesso le prestazioni della rete non si conoscono a priori, specialmente se le fasi di codifica e di trasmissione
+avvengono in momenti diversi o in contesti di distribuzione in cui un unico server offre servizi a molti client.
+
+Se il tasso di codifica è molto più basso rispetto al throughput disponibile, la qualità video sarà molto bassa e
+l'esperienza utente sarà scadente. Se il tasso di codifica è più alto rispetto al throughput disponibile, si verificheranno
+fenomeni di buffer overflow e di perdita dei pacchetti, causando interruzioni nella riproduzione del video e un'esperienza
+utente scadente.
+
+Di seguito si analizzano alcune strategie per garantire la massima qualità video possibile limitatamente alle prestazioni
+della rete, gestendo adeguatamente il tasso di codifica video.
+
+\subsubsection*{Compressione estrema}
+L'approccio più semplice è quello di comprimere il video al massimo, riducendo il bitrate al minimo possibile. In questo
+modo si garantisce un bitrate inferiore al throughput della rete, ma la qualità video sarà molto bassa anche quando la rete
+permette la trasmissione di video con qualità maggiore a bitrate più elevati. L'esperienza utente sarà quindi scadente.
+
+\subsubsection*{Transcodifica}
+L'approccio prevede che le macchine router o server effettuino una transcodifica del video in tempo reale per abbassare
+la qualità in caso di congestione della rete. Questo approccio ha alcune criticità fondamentali:
+\begin{itemize}
+	\item il costo computazionale è insostenibile per le macchine router o server
+	\item non è possibile accedere ai dati trasmessi in quanto cifrati end-to-end
+	\item un banale packet drop sistematico non può funzionare in quanto gli algoritmi sono altamente predittivi e poco
+	tolleranti ad errori sui frame
+\end{itemize}
+
+\subsubsection*{Scalable video coding - SVC}
+L'approccio consiste nell'utilizzare dal lato server una codifica video scalabile, ovvero composta da più flussi video
+di qualità sempre crescente. Si codifica inizialmente un video in un flusso base con alti tassi di compressione e quindi
+bassa qualità video e basso bitrate, in modo da garantire continuità su reti con throughput limitato. Successivamente si
+codificano altri flussi detti enhancement che aggiungono progressivamente sempre più informazioni di perfezionamento del
+flusso base per aumentare frame rate, risoluzione e qualità video.
+
+Il server trasmette contemporaneamente sia il flusso base che i flussi enhancement. Se si dovessero verificare fenomeni
+di congestione della rete, il server o i nodi intermedi possono decidere di interrompere la trasmissione di uno o più flussi
+enhancement. In questo modo si abbassa il bitrate e si mantiene la continuità di trasmissione del flusso base per garantire
+fluidità del video.
+
+\subsubsection*{Adaptive bitrate - ABR}
+La soluzione ad oggi più adottata è quella del client-driven adaptive bitrate (ABR). Consiste in un protocollo di
+``collaborazione'' a livello applicativo tra client e server senza richiedere requisiti all'infrastruttura di rete
+e ai livelli inferiori.
+
+In pratica il server suddivide il video in segmenti di durata fissa, tipicamente 2-10 secondi, e li codifica in più varianti
+con bitrate e qualità differenti e li offre al client. L'applicativo dal lato client si occupa di decidere quale versione
+scaricare in base alle prestazioni della rete e alla qualità video desiderata.
+
+Per permettere al client di effettuare la scelta del segmento migliore da scaricare, il server mette a disposizione
+un file detto Media Description Presentation (MDP) con le informazioni necessarie, come:
+\begin{itemize}
+	\item numero di segmenti disponibili e durata di ciascun segmento
+	\item numero di livelli di qualità disponibili per ciascun segmento
+	\item bitrate, risoluzione e frame rate di ciascun livello
+	\item l'url di ciascun segmento per ciascun livello
+\end{itemize}
+
+\subsection{Dynamic adaptive streaming over HTTP - DASH}
+\subsubsection*{Descrizione del protocollo}
+L'implementazione più diffusa dell'approccio ABR è il protocollo DASH, definito nello standard MPEG-DASH. Il protocollo
+descrive un modello pull, dove il client inizialmente richiede al server il file MDP e progressivamente scarica dal server
+i segmenti video che ritiene migliori uno alla volta. La scelta del segmento viene fatta lato client. I dati viaggiano
+su protocolli di trasporto HTTP/3 e QUIC, secondo il modello pull (il client richiede i segmenti al server).
+
+\subsubsection*{Vantaggi architetturali di HTTP/3 e QUIC rispetto a RTSP/RTMP e TCP}
+L'utilizzo di HTTP/3 e QUIC (basati su UDP) permette di superare le limitazioni dello streaming su protocolli legacy RTSP/RTMP
+e del trasporto basato su TCP, introducendo i seguenti miglioramenti:
+\begin{itemize}
+	\item \textbf{approccio web-centrico}: si abbandona il modello push e stateful su porte non standard web dei formati
+	RTSP/RTMP, in favore di un'architettura pull e stateless in cui la gestione del traffico è affidata al client; l'uso
+	di porte standard (80/443) garantisce l'attraversamento trasparente di NAT e firewall, e permette la simbiosi con le
+	CDN per il caching
+	\item \textbf{assenza di HOL blocking}: il multiplexing nativo di UDP permette di avere più flussi indipendenti e la
+	perdita di un pacchetto non blocca l'intera coda di trasmissione come nel TCP
+	\item \textbf{assenza di latenza di Setup}: vengono eliminati i multipli handshake sequenziali imposti da TCP,
+	consentendo l'avvio quasi istantaneo della trasmissione dati
+	\item \textbf{connection migration}: la connessione non è vincolata alla coppia IP/Porta, garantendo la continuità
+	dello streaming anche durante i cambi di rete (es. transizione da Wi-Fi a rete mobile).
+	\item \textbf{evoluzione rapida:} lo spostamento della logica di controllo della congestione dal kernel allo strato
+	applicativo facilita i futuri aggiornamenti del protocollo
+\end{itemize}
+
+\subsubsection*{Stato di salute del buffer e gestione del rebuffering}
+Si definisce lo stato di salute del buffer del client \(B(t)\) come la quantità di secondi di video presenti nel buffer
+all'istante \(t\). Quando \(B(t) = 0\) il buffer è vuoto ed è necessario effettuare un rebuffering, ovvero interrompere
+la riproduzione per riempire il buffer con un certo numero (\(L\) o \(M\)) di nuovi segmenti.
+\begin{itemize}
+	\item \(L\): \# segmenti da scaricare durante il primo rebuffering, prima di iniziare la riproduzione
+	\item \(M\): \# segmenti da scaricare durante un rebuffering intermedio, prima di riprendere la riproduzione
+\end{itemize}
+I parametri \(M\) e \(L\) vengono scelti dal servizio di streaming. Più grandi sono, maggiore è la durata del rebuffering,
+ma minore sarà la probabilità di un nuovo rebuffering successivo.
+
+In condizione di playout, ovvero durante la riproduzione del video, lo stato del buffer \(B(t)\) decresce al tasso di
+un secondo al secondo a cui viene sommata la quantità di video scaricato. In condizioni di rebuffering, invece, lo stato
+del buffer \(B(t)\) aumenta al tasso di video scaricato.
+\[\frac{d \, B_\text{playout}(t)}{d \, t} = \frac{S}{R_C} - 1 \quad \text{con} \; \begin{array}{c}
+	S < R_C \rightarrow \text{\small buffer in svuotamento} \\
+	S > R_C \rightarrow \text{\small buffer in riempimento}
+\end{array} \quad\;\;\Big|\;\;\quad \frac{d \, B_\text{rebuffering}(t)}{d \, t} = \frac{S}{R_C}\]
+
+\subsubsection*{Tempo di download di un segmento}
+Si definisce il tempo di download \(T_D(n,k)\) del segmento \(n\) al livello di qualità \(k\) come rapporto tra il tempo
+di download (prodotto tra la durata del segmento in secondi \(T_S\) e il tasso di codifica \(R_C(k)\)) e il throughput della
+rete \(S_n\) durante il download del segmento \(n\):
+\[T_D(n,k) = \frac{T_S \cdot R_C(k)}{S_n} \;\; \implies \;\; \frac{T_D(n,k)}{T_S} = \frac{R_C(k)}{S_n}\]
+
+\subsubsection*{Quality of Experience - QoE}
+La Quality of Experience (QoE) è una metrica che misura la qualità percepita dall'utente finale durante la fruizione
+di un contenuto multimediale ed è data dalla seguente formula:
+\[J = \underbrace{\; \sum_{n=1}^{N} q(n) \;}_\text{qualità del video} - \underbrace{\; \lambda \cdot \sum_{n=1}^{N} \left| q(n) - q(n-1) \right| \;}_\text{penalizzazione per cambio di qualità} - \underbrace{\; \mu \cdot \sum_{n=1}^{N} T_\text{stall}(n) \;}_\text{penalizzazione per gli stalli} \]
+\begin{itemize}
+	\item \(q(n)\): qualità del segmento \(n\) in base al livello di codifica scelto
+	\item \(\lambda\): peso della penalizzazione per il cambio di qualità tra due segmenti consecutivi
+	\item \(\mu\): peso della penalizzazione per gli stalli dovuti al rebuffering (solitamente molto alto)	
+\end{itemize}

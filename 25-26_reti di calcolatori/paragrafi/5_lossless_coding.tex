@@ -1,0 +1,268 @@
+\section{Codifica lossless}
+\subsection{Introduzione alle codifiche lossless}
+La codifica lossless consiste nel rappresentare una sequenza di simboli emessi da una sorgente tramite una stringa di bit
+in modo perfettamente invertibile, cioè senza perdita di informazione. L'obiettivo delle codifiche lossless è quello di
+rappresentare i simboli nel minor numero di bit possibile (preservando l'informazione) in modo da ridurre la quantità di
+dati da trasmettere o memorizzare.
+
+\subsubsection*{Definizioni di base}
+\[\begin{array}{c c}
+	\displaystyle \mathcal{X} = \left\{ x_1, x_2, \dots x_M \right\}
+	& \quad \begin{array}{c}
+		\text{alfabeto con } M \text{ simboli emessi da una sorgente } X, \\
+		\text{ciascuno con la sua probabilità } p_i = P(X=x_i)
+	\end{array}
+	\\[12pt]
+
+	\displaystyle C : x_i \in \mathcal{X} \to c_i \in \{0,1\}^*
+	& \quad \begin{array}{c}
+		\text{codice } C \text{ definito come funzione di codifica che associa} \\
+		\text{una stringa di bit (o codeword)} c_i \text{ a ciascun simbolo } x_i \\
+		\text{ogni codeword ha la sua lunghezza } l_i = |c_i|
+	\end{array}
+	\\[17pt]
+
+	\displaystyle \mathcal{L} = \sum_{i=1}^{M} p_i l_i
+	& \quad \begin{array}{c}
+		\text{lunghezza media del codice calcolata come media delle lunghezze} \\
+		\text{di ciascuna codeword pesate per le relative probabilità dei simboli}
+	\end{array}
+\end{array}\]
+
+\subsubsection*{Codici univocamente decodificabili}
+Per garantire assenza di perdita di informazione, il codice deve essere univocamente decodificabile, cioè ogni sequenza di
+codewords senza separatori deve essere decodificabile in un'unica sequenza di simboli. Di seguito alcuni esempi di codici
+univocamente decodificabili:
+\begin{itemize}
+	\item \textbf{fixed length coding - FLC}: ogni simbolo è associato ad una codeword di lunghezza fissa, la decodifica è
+	estremamente facile, ma non è ottimale in quanto non tiene conto della distribuzione di probabilità dei simboli
+	\item \textbf{prefix coding}: nessuna codeword è prefisso di un'altra codeword, quindi ogni volta che si legge una codeword,
+	la si può decodificare immediatamente essendo certi che la lettura dei successivi bit non porterà a una codeword più lunga,
+	permette di ottenere codici ottimi se si tiene conto della distribuzione di probabilità dei simboli
+	\item \textbf{unary coding}: codice in cui le codewords sono sequenze di 1 (o 0) delimitate all'inizio o alla fine da un bit 0
+	(o 1), la decodifica consiste nel contare il numero di bit uguali della sequenza prima di incontrare il bit delimitatore,
+	che indica la fine della codeword o l'inizio della successiva
+\end{itemize}
+
+\subsubsection*{Entropia di una variabile aleatoria}
+Data una variabile aleatoria \(X\) che assume valori discreti \(x_i\) di un alfabeto \(\mathcal{X}\), ciascuno con probabilità
+\(p_i = P(X=x_i)\), si definiscono:
+\[\begin{array}{c c}
+	\displaystyle I(x_i) = \log_2 \frac{1}{p_i} = - \log_2 p_i
+	& \quad \begin{array}{c}
+		\text{informazione associata all'evento } X=x_i
+	\end{array}
+	\\[12pt]
+	\displaystyle H(X) = E[I(X)] = \sum_{i=1}^{M} p_i \, I(x_i) = \sum_{i=1}^{M} p_i \log_2 \frac{1}{p_i}
+	& \quad \begin{array}{c}
+		\text{entropia della variabile aleatoria } X
+	\end{array}
+\end{array}\]
+L'entropia rappresenta la misura della quantità di informazione media contenuta in un simbolo emesso dalla sorgente e
+può essere interpretata come il grado di incertezza associato alla variabile aleatoria \(X\). L'entropia è massima quando
+gli \(M\) simboli sono equiprobabili, con \(p_i = 1/M\), e vale \(H(X) = \log_2 M\). Viceversa quando si hanno pochi simboli
+molto probabili e molti simboli poco probabili (distribuzioni sparse), l'entropia è molto bassa.
+
+\subsubsection*{Teorema di Shannon sulla codifica di sorgente}
+La lunghezza media \(\mathcal{L}^*\) di un codice decodificabile ottimo per una sorgente \(X\) è vincolata dalla relazione:
+\[H(X) \; \leq \; \mathcal{L}^* \, < \; H(X) + 1 \qquad\quad \text{con } \mathcal{L}^* = H(X) \; \Longleftrightarrow \; p_i = 2^{-l_i} \text{ (per distribuzioni diadiche)}\]
+
+\subsubsection*{Codifica a blocchi}
+Per sfruttare la correlazione tra simboli consecutivi emessi dalla sorgente, è possibile raggruppare \(K\) simboli
+consecutivi in un blocco e codificare ogni blocco come un simbolo unico.
+
+Analizzando la formula del teorema di Shannon, si osserva che la lunghezza media per simbolo \(\mathcal{L}_S^*\) del codice
+tende a convergere verso il limite teorico dettato dall'entropia all'aumentare di \(K\), siccome il bit di overhead \(+ 1\)
+viene distribuito sui \(K\) simboli di ogni blocco.
+\[H(X^K) \leq L^* < H(X^K) + 1 \;\; \implies \;\; \frac{H(X^K)}{K} \leq \mathcal{L}_S^* < \frac{H(X^K)}{K} + \frac{1}{K} \quad \text{con} \; \mathcal{L}_S^* = \frac{\mathcal{L}^*}{K}\]
+\[\lim_{K \to \infty} \frac{H(X^K)}{K} = \lim_{K \to \infty} \frac{H(X^K)}{K} + \frac{1}{K} = \lim_{K \to \infty} \mathcal{L}_S^*\]
+
+\subsubsection*{Tasso entropico come limite assoluto delle codifiche lossless}
+Si osserva inoltre che l'entropia per blocco \(H(X^K)\) decresce all'aumentare della lunghezza del blocco \(K\) o al più
+rimane costante se i simboli presi singolarmente sono indipendenti. Di conseguenza anche l'entropia per simbolo \(H(X^K)/K\)
+e la relativa lunghezza media per simbolo \(\mathcal{L}_S^*\) decrescono fino a raggiungere il limite teorico assoluto per
+le codifiche lossless detto tasso entropico \(\mathcal{H}(X)\) della sorgente \(X\).
+\[\mathcal{H}(X) := \lim_{K \to \infty} \frac{H(X^K)}{K} = \lim_{K \to \infty} \mathcal{L}_S^*\]
+
+Idealmente si vorrebbe utilizzare blocchi di lunghezza sempre maggiore, solo che aumentando \(K\) aumenta anche la complessità
+computazionale della codifica e lo spazio necessario per memorizzare le codewords associate a ciascun blocco. Nella pratica
+serve scegliere il giusto compromesso tra lunghezza del blocco \(K\) e complessità computazionale.
+
+\subsection{Codifica di Huffman}
+\subsubsection*{Processo di codifica}
+La codifica di Huffman è un algoritmo di compressione lossless che permette di ottenere uno dei codici ottimi per
+codificare i simboli emessi da una sorgente discreta. L'algoritmo costruisce un albero binario in cui i simboli
+compongono le foglie e le codewords sono ottenute unendo le etichette 0 e 1 degli archi che compongono i cammini
+dalla radice alle foglie.
+
+\subsubsection*{Criticità della codifica per simboli}
+La codifica di Huffman presenta due principali criticità:
+\begin{itemize}
+	\item la lunghezza minima delle codewords è 1, quindi la lunghezza media del codice non può essere inferiore a 1,
+	di conseguenza se l'entropia della sorgente è prossima allo zero (segnali molto sparsi e prevedibili), la codifica
+	di Huffman non è ottimale
+	\item la codifica di Huffman si basa solo sulla distribuzione di probabilità dei simboli, ma non tiene conto di
+	possibili correlazioni tra simboli consecutivi emessi dalla sorgente, quindi non è ottimale per sorgenti in cui
+	si hanno correlazioni tra simboli consecutivi (ad esempio pixel adiacenti di un'immagine)
+\end{itemize}
+
+\noindent
+Per risolvere tali criticità si possono utilizzare le codifiche a blocchi, al costo di un aumento della complessità
+esponenziale in funzione di \(K\). Per questo si utilizzano codifiche alternative per avvicinarsi al limite teorico
+del tasso entropico della sorgente, come la codifica aritmetica o la codifica basata su dizionari.
+
+\newpage
+
+
+\subsection{Codifica aritmetica}
+\subsubsection*{Processo di codifica per simboli}
+La codifica aritmetica consiste nel suddividere l'intervallo \([0,1)\) in sottointervalli proporzionali alle probabilità
+dei vari simboli emessi dalla sorgente. La codeword associata ad ogni simbolo è ottenuta convertendo in binario il numero
+reale che rappresenta il punto medio del sottointervallo corrispondente al simbolo.
+
+\subsubsection*{Estensione per codifica a blocchi}
+Tale sistema risulta molto vantaggioso per codifiche a blocchi, in quanto per estendere i blocchi di simboli consecutivi
+basta suddividere ricorsivamente il sottointervallo corrispondente al primo simbolo della sequenza con la distribuzione di
+probabilità dei possibili simboli successivi. Tale distribuzione di probabilità può essere uguale a quella dei simboli presi
+singolarmente (utile nel caso di simboli indipendenti) oppure è possibile usare le probabilità condizionate per avvicinarsi
+al limite teorico del tasso entropico della sorgente.
+
+\subsubsection*{Codifica adattiva}
+A differenza di Huffman che richiede di conoscere a priori la distribuzione di probabilità dei simboli, la codifica aritmetica
+permette di aggiornare dinamicamente il codice modificando le distribuzioni di probabilità e riadattando i sottointervalli
+in base alla frequenza con cui i simboli vengono emessi.
+
+\subsubsection*{Analisi delle prestazioni}
+Il codice aritmetico per simboli singoli non è ottimale in quanto il limite superiore è più largo rispetto al codice di
+Huffman, come indicato di seguito:
+\[\mathcal{L}_A < H(X) + 2\]
+Applicando la codifica aritmetica a blocchi di \(K\) simboli consecutivi, però, risulta più vantaggioso rispetto al codice
+di Huffman in quanto la complessità aumenta linearmente con \(K\), e la lunghezza media per simbolo converge sempre al
+tasso entropico della sorgente, come indicato di seguito:
+\[\mathcal{L}_{A,S}^K < \frac{H(X^K)}{K} + \frac{2}{K} \quad \text{con } \mathcal{L}_{A,S}^K = \frac{\mathcal{L}_A}{K} \qquad\qquad \lim_{K \to \infty} \mathcal{L}_{A,S}^K = \lim_{K \to \infty} \frac{H(X^K)}{K} = \mathcal{H}(X)\]
+Lo svantaggio principale è che la codifica aritmetica ha una complessità computazionale maggiore in quanto richiede di
+svolgere operazioni tra numeri floating point con precisione sempre maggiore all'aumentare di \(K\) e necessita di tecnologie
+proprietarie.
+
+\subsection{Codifiche basate su dizionari - Lempel-Ziv, DEFLATE e ASN}
+\subsubsection*{Funzionamento della codifica basata su dizionari (LZ77, LZ78, LZW)}
+La codifica basata su dizionari sviluppata dagli algoritmi Lempel-Ziv (LZ77, LZ78) e Lempel-Ziv-Welch (LZW) si basa sul
+riconoscimento di pattern e sequenze di simboli ripetute. In pratica le sequenze di simboli ricorrenti vengono sostituite
+con un puntatore ad un dizionario o ad un punto precedente del messaggio stesso in cui è presente tale stringa.
+
+\subsubsection*{Algoritmo DEFLATE}
+L'algoritmo DEFLATE, utilizzato nelle compressioni ZIP, GZIP e PNG, combina la codifica basata su dizionari di LZ77 con
+la codifica di Huffman per comprimere i puntatori delle stringhe ricorrenti. Lo svantaggio principale è che eredita tutti
+i limiti della codifica di Huffman (non ottimalità per entropie basse e per simboli correlati).
+Teoricamente sarebbe possibile sostituire la codifica di Huffman con la codifica aritmetica, ma si avrebbero notevoli
+costi computazionali e di licenze.
+
+\subsubsection*{Algoritmo ANS}
+L'algoritmo ANS (Asymmetric Numeral Systems) si basa sul principio di funzionamento della codifica aritmetica, ma al posto
+di suddividere l'intervallo \([0,1)\) in sottointervalli sempre più piccoli, si lavora con un insieme di numeri interi che
+man mano crescono in grandezza ogni volta che si espande la dimensione del blocco di simboli da codificare secondo la
+legge \(X' \approx X / P(s)\). In questo modo si evita di dover lavorare con numeri floating point ad altissima precisione.
+Inoltre Jaroslaw Duda (l'ideatore dell'algoritmo ANS) ha rilasciato l'algoritmo in pubblico dominio senza brevetti contribuendo
+ad una rapida diffusione e integrazione in molti software di compressione.
+
+Esistono due varianti dell'algoritmo ANS:
+\begin{itemize}
+	\item \textbf{rANS (range ANS)}: le operazioni di aggiornamento degli stati interni vengono eseguite attraverso
+	operazioni matematiche di moltiplicazioni e divisioni intere, risulta altamente parallelizzabile e permette di
+	elaborare flussi di dati multipli; è usato in JPEG-XL e in Unreal Engine
+	\item \textbf{tANS (table ANS)}: le operazioni di aggiornamento degli stati interni vengono eseguite attraverso
+	una matrice di transizione pre-calcolata, risulta più veloce di rANS in quanto non ci sono operazioni matematiche,
+	ma risulta meno parallelizzabile; è usato in Zstd di Meta, LZFSE di Apple
+\end{itemize}
+
+\subsection{Codifica Exp-Golomb}
+\subsubsection*{Struttura base}
+La codifica Exp-Golomb consiste nel codificare numeri interi con parole di codice di lunghezza crescente in funzione
+del modulo del numero da codificare. Siccome non tiene conto della distribuzione di probabilità dei simboli, non è ottimale,
+ma è molto semplice da implementare e risulta molto efficace per sorgenti in cui i simboli più probabili sono quelli
+a valori bassi (es. per dati sparsi come i coefficienti DCT di un'immagine o di un video).
+
+\subsubsection*{Exp-Golomb applicata a numeri naturali - Unsigned EGC}
+Per codificare un numero naturale \(n\) con la codifica Exp-Golomb, si rappresenta il numero \(n+1\) in binario utilizzando
+\(b = \lfloor \log_2(n+1) \rfloor + 1\) bit e si aggiunge un prefisso formato da una sequenza di 0 (leading zeros) di
+lunghezza \(b-1\). La codifica di \(n = 0\) è 1. Siccome la rappresentazione binaria di \(n+1\) inizia sempre con
+1, la sequenza di leading zeros non può venire confusa con la restante parte della codeword, inoltre suggerisce il
+valore \(b\) facilitando la decodifica della codeword.
+
+Ad esempio per il numero \(n = 8\), la codifica binaria di \(n+1=9\) è \(1001\), la lunghezza della sequenza di leading
+zeros è \(b-1 = 3\), per cui la codeword finale è \(0001001\).
+
+\subsubsection*{Exp-Golomb applicata a numeri interi - Signed EGC}
+Per codificare un numero intero \(n\) con la codifica Exp-Golomb, si utilizza una mappatura \(m(n)\) dei numeri interi sui
+numeri naturali per riutilizzare la codifica unsigned EGC.
+\[m(n) = \begin{cases}
+	2n -1 & \text{se } n > 0 \\
+	-2n & \text{se } n \leq 0
+\end{cases}\]
+
+Ad esempio per il numero \(n = 8\), la mappatura è \(m(8) = 15\), la codifica binaria di \(m(8)+1=16\) è \(10000\), la
+lunghezza della sequenza di leading zeros è \(b-1 = 4\), per cui la codeword finale è \(000010000\).
+
+\subsection{Codifica per categoria e ampiezza}
+La codifica per categoria e ampiezza è simile a Exp-Golomb, ma ha lunghezze di codeword più corte per numeri elevati al
+costo di codeword più lunghe per numeri bassi.
+
+Per codificare un numero intero \(n\) si utilizza un prefisso dato dal codice associato alla categoria \(k\) del numero
+calcolata come \(k = \lceil \log_2 (|n|+1) \rceil\) e un suffisso dato dalla rappresentazione binaria di \(|n|\) con \(k\)
+bit eventualmente in complemento a uno se \(n < 0\) (negazione bit-a-bit).
+
+Ad esempio per il numero \(n = 8\), la categoria è \(k = 4\) associata al codice \(101\), l'ampiezza è \(1000\), per cui
+la codeword finale è \(1011000\).
+
+\newpage
+
+\subsection{Codifica lossless predittiva}
+\subsubsection*{Processo di codifica}
+La codifica lossless predittiva consiste nell'utilizzare un predittore lineare per stimare il valore dei vari simboli
+e salvare/trasmettere solo i residui di predizione codificati con un codificatore lossless. Essendo i residui meno
+sparsi dei simboli originali, la codifica lossless dei residui risulta più efficiente (ha entropia più bassa) rispetto
+alla codifica diretta dei simboli originali. Inoltre il residuo è un segnale sparso con valori più probabili attorno
+allo zero, per cui la codifica Exp-Golomb risulta estremamente efficace e comparabile con la codifica ottima di Huffman.
+
+I parametri utilizzati dal predittore lineare possono essere costanti per tutto il file o flusso, possono essere aggiornati
+dinamicamente in base ai residui calcolati o possono essere calcolati per minimizzare l'errore quadratico medio dei residui
+dei blocchi di simboli successivi.
+
+\subsubsection*{Predittore semplice 1D}
+Il predittore semplice assume che il simbolo corrente \(x_i\) sia uguale al simbolo precedente \(x_{i-1}\). Risulta
+vantaggio per segnali semi-stazionari o con variazioni lente. Nelle immagini equivale ad una predizione lungo la direzione
+orizzontale, ovvero risulta efficace per predire strutture orizzontali, ma non è efficace per predire strutture verticali
+o diagonali.
+\[\hat{X}(n) = X(n-1)\]
+
+\subsubsection*{Predittore avanzato 2D}
+Il predittore 2D, applicato alle immagini, assume che il pixel corrente \(x_{i,j}\) sia uguale al pixel adiacente a sinistra
+\(x_{i,j-1}\) o al pixel adiacente sopra \(x_{i-1,j}\) in base a quale coppia di pixel adiacenti ha il valore più simile al
+pixel lungo la diagonale \(x_{i-1,j-1}\). È capace di predire sia strutture orizzontali che verticali.
+\[\hat{X}(i,j) = \begin{cases}
+	x_{i,j-1} & \text{se } |x_{i,j} - x_{i,j-1}| \leq |x_{i,j} - x_{i-1,j}| \\
+	x_{i-1,j} & \text{altrimenti}
+\end{cases}\]
+
+\subsubsection*{Applicazioni}
+Tale codifica è molto efficace per sorgenti in cui i simboli consecutivi sono fortemente correlati ad esempio per
+pixel adiacenti di un'immagine o per fotogrammi di un video.
+
+Ad esempio un'immagine in scala di grigi con pixel a 8 bit, generalmente ha un'entropia di intorno ai 7 bpp (bit per
+pixel) in quanto i livelli di grigio sono distribuiti abbastanza uniformemente. Un predittore 1D riesce a ridurre
+l'entropia del residuo a circa 3.3 bpp e con un predittore 2D si riesce a ridurre ulteriormente fino a  circa 2.8 bpp.
+
+\subsection{Codifica lossless tramite reti neurali}
+\subsubsection*{Processo di codifica}
+La codifica lossless tramite reti neurali si basa sull'addestramento di reti neurali (RNN, CNN, Transformers) come
+predittori dei simboli emessi dalla sorgente. In questo modo si riescono a catturare correlazioni più complesse su
+contesti di simboli più ampi e ottenere una distribuzione di probabilità altamente precisa per ogni blocco di simboli.
+Tale distribuzione viene poi codificata tramite codifica entropica (aritmetica o ANS) e salvata come residuo di predizione.
+
+\subsubsection*{Vantaggi e svantaggi}
+Attraverso la predizione tramite reti neurali si riescono a raggiungere tassi di compressione molto vicini al limite
+teorico del tasso entropico della sorgente, inoltre si riescono a catturare dipendenze non lineari e pattern a lungo
+raggio.
+Gli svantaggi principali sono l'elevata complessità computazionale data dalle operazioni in floating point per
+l'inferenza della rete neurale che richiedono hardware specializzato (GPU, TPU) e tempi di compressione e decompressione
+più lunghi rispetto alle codifiche tradizionali.
